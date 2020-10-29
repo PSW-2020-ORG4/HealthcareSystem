@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Enumerations;
+﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.MapObjectRelated;
 using System;
@@ -46,7 +47,7 @@ namespace GraphicalEditor
                 double width = 70;
                 // ako je prvi objekat na redu nacrtaj ga na startX, u suprotnom pomeri ga za sirinu okvira kako bi bili
                 // jedan drugog lepo poslagani
-                double x = i == 0 ? startX : startX + width * i - i * MapObject.RECTANGLE_STROKE_THICKNESS;
+                double x = i == 0 ? startX : startX + width * i - i * AllConstants.RECTANGLE_STROKE_THICKNESS;
 
                 MapObject mp2 = new MapObject(
                     new Room(

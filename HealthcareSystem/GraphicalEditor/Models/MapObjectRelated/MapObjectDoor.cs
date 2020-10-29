@@ -1,4 +1,6 @@
-﻿using GraphicalEditor.Enumerations;
+﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Enumerations;
+using GraphicalEditor.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +17,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private Rectangle _rectangle;
         private MapObjectMetrics _mapObjectMetrics;
         private MapObjectDoorOrientation _mapObjectDoorOrientation;
-        private double _XShift;
-        private double _YShift;
-
-        private readonly double DOOR_WIDTH = 45;
-        private readonly double DOOR_HEIGHT = 10;
+        private double _XShiftFromCenter;
+        private double _YShiftFromCenter;        
 
         public MapObjectDoor(MapObjectDoorOrientation mapObjectDoorOrientations, double XShift = 0, double YShift = 0)
         {
@@ -45,16 +44,16 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private double GetDoorWidth()
         {
             if (MapObjectDoorOrientation == MapObjectDoorOrientation.TOP || MapObjectDoorOrientation == MapObjectDoorOrientation.BOTTOM)
-                return DOOR_WIDTH;
-            else return DOOR_HEIGHT;
+                return AllConstants.DOOR_WIDTH;
+            else return AllConstants.DOOR_HEIGHT;
         }
 
         // Rotacija vrata - zameni sirinu i visinu ukoliko vrata trebaju da se postave vertikalno (horizontalno su po default)
         private double GetDoorHeight()
         {
             if (MapObjectDoorOrientation == MapObjectDoorOrientation.TOP || MapObjectDoorOrientation == MapObjectDoorOrientation.BOTTOM)
-                return DOOR_HEIGHT;
-            else return DOOR_WIDTH;
+                return AllConstants.DOOR_HEIGHT;
+            else return AllConstants.DOOR_WIDTH;
         }
 
         private double CalculateDoorX()
@@ -62,26 +61,39 @@ namespace GraphicalEditor.Models.MapObjectRelated
             switch (MapObjectDoorOrientation)
             {
                 case MapObjectDoorOrientation.LEFT:
-                    return MapObjectMetrics.X - GetDoorWidth() + MapObject.RECTANGLE_STROKE_THICKNESS;
+                    return CalculateXForLeft();
                 case MapObjectDoorOrientation.RIGHT:
-                    return MapObjectMetrics.X + MapObjectMetrics.Width - MapObject.RECTANGLE_STROKE_THICKNESS;
+                    return CalculateXForRight();
                 default:
                     return CalculateXShifted();
             }
         }
+
+        private double CalculateXForLeft()
+            => MapObjectMetrics.X - GetDoorWidth() + AllConstants.RECTANGLE_STROKE_THICKNESS;
+
+        private double CalculateXForRight()
+            => MapObjectMetrics.X + MapObjectMetrics.Width - AllConstants.RECTANGLE_STROKE_THICKNESS;
 
         private double CalculateDoorY()
         {
             switch (MapObjectDoorOrientation)
             {
                 case MapObjectDoorOrientation.TOP:
-                    return MapObjectMetrics.Y - GetDoorHeight() + MapObject.RECTANGLE_STROKE_THICKNESS;
+                    return CalculateYForTop();
                 case MapObjectDoorOrientation.BOTTOM:
-                    return MapObjectMetrics.Y + MapObjectMetrics.Height - MapObject.RECTANGLE_STROKE_THICKNESS;
+                    return CalculateYForBottom();
                 default:
                     return CalculateYShifted();
             }
-        }
+        }        
+
+        private double CalculateYForTop()
+            => MapObjectMetrics.Y - GetDoorHeight() + AllConstants.RECTANGLE_STROKE_THICKNESS;
+
+        private double CalculateYForBottom()
+            => MapObjectMetrics.Y + MapObjectMetrics.Height - AllConstants.RECTANGLE_STROKE_THICKNESS;
+
 
         // vrsi kalkulaciju X koje je pomereno i ogranicavanje da ne izadje iz granica objekta
         private double CalculateXShifted()
@@ -108,7 +120,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }
         public MapObjectMetrics MapObjectMetrics { get => _mapObjectMetrics; set => _mapObjectMetrics = value; }
         public MapObjectDoorOrientation MapObjectDoorOrientation { get => _mapObjectDoorOrientation; set => _mapObjectDoorOrientation = value; }
-        public double XShift { get => _XShift; set => _XShift = value; }
-        public double YShift { get => _YShift; set => _YShift = value; }
+        public double XShift { get => _XShiftFromCenter; set => _XShiftFromCenter = value; }
+        public double YShift { get => _YShiftFromCenter; set => _YShiftFromCenter = value; }
     }
 }

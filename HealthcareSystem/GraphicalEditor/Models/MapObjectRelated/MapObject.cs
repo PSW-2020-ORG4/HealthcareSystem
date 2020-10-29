@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Models.MapObjectRelated;
+﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Models.MapObjectRelated;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +17,6 @@ namespace GraphicalEditor.Models
         private MapObjectDoor _mapObjectDoor;
         private MapObjectEntity _mapObjectEntity;
         private MapObjectMetrics _mapObjectMetrics;
-
-        public readonly static double RECTANGLE_STROKE_THICKNESS = 3;
 
         public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
         {
@@ -38,7 +37,7 @@ namespace GraphicalEditor.Models
             Rectangle.Width = MapObjectMetrics.Width;
 
             Rectangle.Stroke = Brushes.Black;
-            Rectangle.StrokeThickness = RECTANGLE_STROKE_THICKNESS;
+            Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
 
             Rectangle.SetValue(Canvas.LeftProperty, MapObjectMetrics.X);
             Rectangle.SetValue(Canvas.TopProperty, MapObjectMetrics.Y);

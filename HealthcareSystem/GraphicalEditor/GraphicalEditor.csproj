@@ -63,6 +63,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Enumerations\MapObjectDepartment.cs" />
+    <Compile Include="Enumerations\MapObjectDoorOrientation.cs" />
     <Compile Include="Enumerations\MapObjectTypes.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -72,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Models\MapObjectRelated\MapObject.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectBasics.cs" />
+    <Compile Include="Models\MapObjectRelated\MapObjectDoor.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectMetrics.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

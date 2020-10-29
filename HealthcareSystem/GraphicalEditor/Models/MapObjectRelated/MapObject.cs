@@ -13,15 +13,19 @@ namespace GraphicalEditor.Models
     public class MapObject
     {
         private Rectangle _rectangle;
+        private MapObjectDoor _mapObjectDoor;
         private MapObjectBasics _mapObjectBasics;
         private MapObjectMetrics _mapObjectMetrics;
 
         public readonly static double RECTANGLE_STROKE_THICKNESS = 3;
 
-        public MapObject(MapObjectBasics mapObjectBasics, MapObjectMetrics mapObjectMetrics)
+        public MapObject(MapObjectBasics mapObjectBasics, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
         {
             this.MapObjectBasics = mapObjectBasics;
             this.MapObjectMetrics = mapObjectMetrics;
+
+            mapObjectDoor.MapObjectMetrics = this.MapObjectMetrics;
+            this.MapObjectDoor = mapObjectDoor;
 
             RectangleInitialization();
         }
@@ -43,10 +47,12 @@ namespace GraphicalEditor.Models
         public void AddToCanvas(Canvas canvas)
         {
             canvas.Children.Add(this.Rectangle);
+            canvas.Children.Add(this.MapObjectDoor.GetDoor());
         }
 
         public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }
         public MapObjectBasics MapObjectBasics { get => _mapObjectBasics; set => _mapObjectBasics = value; }
         public MapObjectMetrics MapObjectMetrics { get => _mapObjectMetrics; set => _mapObjectMetrics = value; }
+        public MapObjectDoor MapObjectDoor { get => _mapObjectDoor; set => _mapObjectDoor = value; }
     }
 }

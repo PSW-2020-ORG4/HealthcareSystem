@@ -13,14 +13,14 @@ namespace GraphicalEditor.Models
     public class MapObject
     {
         private Rectangle _rectangle;
-        private MapObjectBasics _mapObjectBasics;
+        private MapObjectEntity _mapObjectEntity;
         private MapObjectMetrics _mapObjectMetrics;
 
         public readonly static double RECTANGLE_STROKE_THICKNESS = 3;
 
-        public MapObject(MapObjectBasics mapObjectBasics, MapObjectMetrics mapObjectMetrics)
+        public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics)
         {
-            this.MapObjectBasics = mapObjectBasics;
+            this.MapObjectEntity = mapObjectEntity;
             this.MapObjectMetrics = mapObjectMetrics;
 
             RectangleInitialization();
@@ -29,7 +29,7 @@ namespace GraphicalEditor.Models
         private void RectangleInitialization()
         {
             Rectangle = new Rectangle();
-            Rectangle.Fill = MapObjectBasics.MapObjectType.getColor();
+            Rectangle.Fill = MapObjectEntity.getColor();
             Rectangle.Height = MapObjectMetrics.Height;
             Rectangle.Width = MapObjectMetrics.Width;
 
@@ -46,7 +46,7 @@ namespace GraphicalEditor.Models
         }
 
         public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }
-        public MapObjectBasics MapObjectBasics { get => _mapObjectBasics; set => _mapObjectBasics = value; }
+        public MapObjectEntity MapObjectEntity { get => _mapObjectEntity; set => _mapObjectEntity = value; }
         public MapObjectMetrics MapObjectMetrics { get => _mapObjectMetrics; set => _mapObjectMetrics = value; }
     }
 }

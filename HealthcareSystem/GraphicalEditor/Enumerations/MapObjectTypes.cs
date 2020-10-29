@@ -8,8 +8,10 @@ namespace GraphicalEditor.Enumerations
 {
     public enum MapObjectTypes
     {
+        BUILDING,
         EXAMINATION_ROOM,
         OPERATION_ROOM,
+        HOSPITALIZATION_ROOM,
         WAITING_ROOM,
         PARKING,
         RESTAURANT,

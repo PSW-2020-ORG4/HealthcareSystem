@@ -1,0 +1,78 @@
+﻿<Window x:Class="ProjekatZdravoKorporacija.FeedbackView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjekatZdravoKorporacija" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Height="500" Width="400"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="NoResize"
+        BorderBrush="DarkGray" BorderThickness="4">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="150"/>
+            <RowDefinition/>
+            <RowDefinition Height="70"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="0">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <TextBlock FontSize="28" 
+                            HorizontalAlignment="Center" FontWeight="Medium">Feedback</TextBlock>
+                <TextBlock FontSize="14" 
+                           Foreground="Gray" 
+                           HorizontalAlignment="Center" Margin="0,10,0,0">Kako možemo da se usavršimo?</TextBlock>
+            </StackPanel>
+        </Border>
+
+        <Viewbox Grid.Row="1" Width="300">
+            <materialDesign:RatingBar Value="3"
+                                  x:Name="BasicRatingBar"
+                                  Foreground="#FF0C66FF"/>
+        </Viewbox>
+
+        <StackPanel Orientation="Vertical" Grid.Row="2" Width="360">
+            <TextBlock FontSize="15">Komentar</TextBlock>
+            <Border BorderBrush="DarkGray" BorderThickness="2">
+                <TextBox Background="White" Height="133" Name="txtComment"></TextBox>
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" 
+                        VerticalAlignment="Center" Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+            <Button x:Name="quitBtn" Width="120" Background="#FF5D87CE" Click="quitBtn_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Icons/noBtn.png" Width="30" Margin="-6,0,0,0"></Image>
+                    <TextBlock VerticalAlignment="Center" FontSize="18" Margin="7,0,0,0">Odustani</TextBlock>
+                </StackPanel>
+            </Button>
+
+            <StackPanel Width="50"></StackPanel>
+
+            <Button Width="120" Focusable="True" Name="btnSend" Click="btnSend_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Resources/Icons/send.png" Width="30" Margin="-10,0,0,0"></Image>
+                    <TextBlock VerticalAlignment="Center" FontSize="18" Margin="7,0,0,0">Pošalji</TextBlock>
+                </StackPanel>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+
+</Window>

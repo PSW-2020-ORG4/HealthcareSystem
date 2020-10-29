@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{07719B07-7B98-4293-AE15-2DA5CCF135ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Backend</RootNamespace>
+    <AssemblyName>Backend</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.7.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.4.7.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controller\DrugAndTherapy\DrugController.cs" />
+    <Compile Include="Controller\DrugAndTherapy\DrugTypeAndIngridentController.cs" />
+    <Compile Include="Controller\DrugAndTherapy\TherapyController.cs" />
+    <Compile Include="Controller\ExaminationAndPatientCard\ExaminationController.cs" />
+    <Compile Include="Controller\ExaminationAndPatientCard\PatientCardController.cs" />
+    <Compile Include="Controller\NotificationSurveyAndFeedback\FeedbackController.cs" />
+    <Compile Include="Controller\NotificationSurveyAndFeedback\NotificationController.cs" />
+    <Compile Include="Controller\NotificationSurveyAndFeedback\SurveyController.cs" />
+    <Compile Include="Controller\PlacementInARoomAndRenovationPeriod\PlacementInSickRoomController.cs" />
+    <Compile Include="Controller\PlacementInARoomAndRenovationPeriod\RenovationPeriodController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\ConsumableEquipmentController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\EquipmentController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\EquipmentInRoomsController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\IEquipmentController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\NonConsumableEquipmentController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\RoomController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\CityController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\DoctorController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\IUserStrategy.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\ManagerController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\PatientController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
+    <Compile Include="Model\Doctor\Examination.cs" />
+    <Compile Include="Model\Doctor\PlacemetnInARoom.cs" />
+    <Compile Include="Model\Doctor\Therapy.cs" />
+    <Compile Include="Model\Doctor\TypeOfExamination.cs" />
+    <Compile Include="Model\Manager\ConsumableEquipment.cs" />
+    <Compile Include="Model\Manager\Drug.cs" />
+    <Compile Include="Model\Manager\DrugType.cs" />
+    <Compile Include="Model\Manager\Equipment.cs" />
+    <Compile Include="Model\Manager\EquipmentInRooms.cs" />
+    <Compile Include="Model\Manager\Ingredient.cs" />
+    <Compile Include="Model\Manager\NonConsumableEquipment.cs" />
+    <Compile Include="Model\Manager\RenovationPeriod.cs" />
+    <Compile Include="Model\Manager\Room.cs" />
+    <Compile Include="Model\Manager\TypeOfConsumable.cs" />
+    <Compile Include="Model\Manager\TypeOfEquipment.cs" />
+    <Compile Include="Model\Manager\TypeOfNonConsumable.cs" />
+    <Compile Include="Model\Manager\TypeOfUsage.cs" />
+    <Compile Include="Model\Manager\WorkingTime.cs" />
+    <Compile Include="Model\Manager\WorkShifts.cs" />
+    <Compile Include="Model\Patient\Grade.cs" />
+    <Compile Include="Model\Patient\Survey.cs" />
+    <Compile Include="Model\Secretary\BloodType.cs" />
+    <Compile Include="Model\Secretary\PatientCard.cs" />
+    <Compile Include="Model\Secretary\RhFactorType.cs" />
+    <Compile Include="Model\Users\City.cs" />
+    <Compile Include="Model\Users\Doctor.cs" />
+    <Compile Include="Model\Users\Feedback.cs" />
+    <Compile Include="Model\Users\GenderType.cs" />
+    <Compile Include="Model\Users\Languages.cs" />
+    <Compile Include="Model\Users\Manager.cs" />
+    <Compile Include="Model\Users\Notification.cs" />
+    <Compile Include="Model\Users\Patient.cs" />
+    <Compile Include="Model\Users\Secretary.cs" />
+    <Compile Include="Model\Users\Stars.cs" />
+    <Compile Include="Model\Users\TypeOfDoctor.cs" />
+    <Compile Include="Model\Users\TypeOfNotification.cs" />
+    <Compile Include="Model\Users\TypeOfQualifications.cs" />
+    <Compile Include="Model\Users\User.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ActivePatientCardRepository.cs" />
+    <Compile Include="Repository\ActivePatientRepository.cs" />
+    <Compile Include="Repository\CanceledExaminationRepository.cs" />
+    <Compile Include="Repository\CityRepository.cs" />
+    <Compile Include="Repository\ConfirmedDrugRepository.cs" />
+    <Compile Include="Repository\ConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\DeletedPatientCardRepository.cs" />
+    <Compile Include="Repository\DeletedPatientRepository.cs" />
+    <Compile Include="Repository\DoctorRepository.cs" />
+    <Compile Include="Repository\DrugTypeRepository.cs" />
+    <Compile Include="Repository\EquipmentInRoomsRepository.cs" />
+    <Compile Include="Repository\FeedbackRepository.cs" />
+    <Compile Include="Repository\IngridientRepository.cs" />
+    <Compile Include="Repository\ManagerRepository.cs" />
+    <Compile Include="Repository\NonConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\NotificationRepository.cs" />
+    <Compile Include="Repository\PlacementInSickRoomRepository.cs" />
+    <Compile Include="Repository\RenovationPeriodRepository.cs" />
+    <Compile Include="Repository\RoomRepository.cs" />
+    <Compile Include="Repository\ScheduledExaminationRepository.cs" />
+    <Compile Include="Repository\SecretaryRepository.cs" />
+    <Compile Include="Repository\SurveyRepository.cs" />
+    <Compile Include="Repository\TherapyRepository.cs" />
+    <Compile Include="Repository\UnconfirmedDrugRepository.cs" />
+    <Compile Include="Repository\WorkingTimeRepository.cs" />
+    <Compile Include="Service\DrugAndTherapy\DrugService.cs" />
+    <Compile Include="Service\DrugAndTherapy\DrugTypeAndIngridientService.cs" />
+    <Compile Include="Service\DrugAndTherapy\TherapyService.cs" />
+    <Compile Include="Service\ExaminationAndPatientCard\ExaminationService.cs" />
+    <Compile Include="Service\ExaminationAndPatientCard\PatientCardService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\FeedbackService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\NotificationService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\SurveyService.cs" />
+    <Compile Include="Service\PlacementInARoomAndRenovationPeriod\PlacementInSickRoomService.cs" />
+    <Compile Include="Service\PlacementInARoomAndRenovationPeriod\RenovationPeriodService.cs" />
+    <Compile Include="Service\RoomAndEquipment\ConsumableEquipmentService.cs" />
+    <Compile Include="Service\RoomAndEquipment\EquipmentInRoomsService.cs" />
+    <Compile Include="Service\RoomAndEquipment\NonConsumableEquipmentService.cs" />
+    <Compile Include="Service\RoomAndEquipment\RoomService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\CityService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\DoctorService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\ManagerService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\PatientService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\SecretaryService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\WorkingTimeService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

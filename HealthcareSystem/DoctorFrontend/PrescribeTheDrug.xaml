@@ -1,0 +1,19 @@
+﻿<Window x:Class="WpfApp1.PrescribeTheDrug"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Propisivanje lijeka" ResizeMode="CanMinimize" Height="145" Width="245" Background="AliceBlue" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="10,26,0,0" TextWrapping="Wrap" Text="Da li ste sigurni da želite porpisati lijek?" VerticalAlignment="Top"/>
+        <Button Content="Da" HorizontalAlignment="Left" Height="24" Margin="127,70,0,0" VerticalAlignment="Top" Width="37" Background="#FF92DCD2" RenderTransformOrigin="-0.275,0.458" Click="Button_Click">
+            <Button.ToolTip>Potvrdite propisivanje.</Button.ToolTip>
+        </Button>
+        <Button Content="Ne" HorizontalAlignment="Left" Height="24" Margin="178,70,0,0" VerticalAlignment="Top" Width="37" Background="#FF92DCD2" RenderTransformOrigin="-0.275,0.458" Click="Button_Click_1">
+            <Button.ToolTip>Odustanite od propisivanja.</Button.ToolTip>
+        </Button>
+
+    </Grid>
+</Window>

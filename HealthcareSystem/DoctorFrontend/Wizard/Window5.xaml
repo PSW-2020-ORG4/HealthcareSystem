@@ -1,0 +1,19 @@
+﻿<Window x:Class="WpfApp1.Wizard.Window5"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Wizard"
+        mc:Ignorable="d"
+        Title="Korporacija Zdravo Wizard" ResizeMode="CanMinimize" Height="350" Width="525" Background="AliceBlue" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Button Content="Kraj" Background="#FF92DCD2" HorizontalAlignment="Left" Height="23" Margin="443,279,0,0" VerticalAlignment="Top" Width="61" Click="Button_Click_2"/>
+        <Button Content="Dalje" Background="#FF92DCD2" HorizontalAlignment="Left" Height="23" Margin="367,279,0,0" VerticalAlignment="Top" Width="61" Click="Button_Click_1"/>
+        <Button Content="Nazad" Background="#FF92DCD2" HorizontalAlignment="Left" Height="23" Margin="289,279,0,0" VerticalAlignment="Top" Width="61" Click="Button_Click"/>
+        <TextBlock HorizontalAlignment="Left" Height="26" Margin="23,19,0,0" TextWrapping="Wrap" Text="Kako dodati podatke u karton?" VerticalAlignment="Top" Width="226" FontSize="15"/>
+        <Image HorizontalAlignment="Left" Height="52" Margin="428,11,0,0" VerticalAlignment="Top" Width="76" Source="hospital.png"/>
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Justify"  Height="198" Margin="23,50,0,0" TextWrapping="Wrap" Text="Karton pacijenta je podjeljen u tri segmenta. U prvom segmentu je upisan današnji datum, u drugi segment neophodno je upisati naziv bolesti od koje boluje pacijent, a u treći terapiju koja mu je pregledom propisana. Prilikom svake izmjene, tj. novog pregleda zabiljezenog u karton, neophodno je kliknuti na dugme Sačuvaj kako bi izmjena ostala sačuvana u kartonu. Sve prethodne informacije o istoriji bolesti, kao i trenutne, ukoliko su sačuvane, skladište se i moguće ih je pregledati klikom na dugme Karton." VerticalAlignment="Top" Width="240"/>
+        <TextBlock HorizontalAlignment="Left" Height="21" Margin="25,261,0,0" TextWrapping="Wrap" Text="Za nastavak, pritisnite Dalje." VerticalAlignment="Top" Width="205"/>
+
+    </Grid>
+</Window>

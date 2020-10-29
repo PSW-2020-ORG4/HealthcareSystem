@@ -1,0 +1,45 @@
+﻿<Window x:Class="WpfApp1.CheckingDrug"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:l="clr-namespace:WpfApp1.Help"
+        mc:Ignorable="d"
+        Title="Provjera lijekova" ResizeMode="CanMinimize" Height="350" Width="525" Background="AliceBlue" WindowStartupLocation="CenterScreen" l:HelpProvider.HelpKey="noviLijek" >
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+    </Window.CommandBindings>
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Height="24" Margin="131,42,0,0" TextWrapping="Wrap" Text="Provjera sastava novog lijeka" VerticalAlignment="Top" Width="229" FontSize="16" FontWeight="Bold"/>
+        <TextBlock Name="newDrug" HorizontalAlignment="Left" Margin="25,159,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="20" Width="119" FontWeight="Bold" FontSize="13"/>
+        <ListBox Name="listBox1" ItemsSource="{Binding}"  HorizontalAlignment="Left" Height="68" Margin="25,180,0,0" VerticalAlignment="Top" Width="196" SelectionChanged="listBox1_SelectionChanged">
+            
+        </ListBox>
+        <Button Content="Potvrdi sastav" HorizontalAlignment="Left" Height="24" Margin="25,263,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Click="Button_Click">
+            <Button.ToolTip>
+                Ispravan sastav
+            </Button.ToolTip>
+        </Button>
+        <Button Content="Odbij sastav" HorizontalAlignment="Left" Height="24" Margin="130,263,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Click="Button_Click_1">
+            <Button.ToolTip>
+                Neispravan sastav
+            </Button.ToolTip>
+        </Button>
+        <Button Content="Izmijeni" HorizontalAlignment="Left" Height="24" Margin="412,188,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Click="Button_Click_3">
+            <Button.ToolTip>
+                Sačuvajte napravljenu izmjenu u listi svih sastojaka.
+            </Button.ToolTip>
+        </Button>
+        <TextBlock HorizontalAlignment="Left" Margin="24,113,0,0" TextWrapping="Wrap" Text="Imamo novi lijek u bonici." VerticalAlignment="Top" Height="20" Width="233" FontSize="12"/>
+        <TextBlock HorizontalAlignment="Left" Margin="24,130,0,0" TextWrapping="Wrap" Text="Molimo Vas da provjerite njegov sastav." VerticalAlignment="Top" Height="20" Width="233" FontSize="12"/>
+
+        <Image HorizontalAlignment="Left" Height="79" Margin="25,10,0,0" VerticalAlignment="Top" Width="101" Source="Images/drug.jpg" Stretch="Fill"/>
+        <TextBlock HorizontalAlignment="Left" Margin="278,159,0,0" TextWrapping="Wrap" Text="Izmjena sastava lijeka" VerticalAlignment="Top" Width="139" FontSize="13"/>
+        <TextBox Name="txtBoxNewDrug" HorizontalAlignment="Left" Height="23" Margin="278,188,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.533,-1.609">
+            <TextBox.ToolTip>
+                Unesite naziv sastojka koji želite da dodate.
+            </TextBox.ToolTip>
+        </TextBox>
+    </Grid>
+</Window>

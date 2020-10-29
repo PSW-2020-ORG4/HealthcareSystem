@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A56D25A3-A081-4F9A-B3FB-FC23E70894C9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>WpfApp1</RootNamespace>
+    <AssemblyName>WpfApp1</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Compression.Base, Version=18.1460.0.55, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Compression.Base.18.1.0.55\lib\net46\Syncfusion.Compression.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing, Version=18.1460.0.55, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Licensing.18.1.0.55\lib\net46\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Pdf.Base, Version=18.1460.0.55, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Pdf.Wpf.18.1.0.55\lib\net46\Syncfusion.Pdf.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.PdfViewer.WPF, Version=18.1460.0.55, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.PdfViewer.WPF.18.1.0.55\lib\net46\Syncfusion.PdfViewer.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Shared.WPF, Version=18.1460.0.55, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Shared.WPF.18.1.0.55\lib\net46\Syncfusion.Shared.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.7.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.4.7.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AboutAplication.xaml.cs">
+      <DependentUpon>AboutAplication.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddFeedback.xaml.cs">
+      <DependentUpon>AddFeedback.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddNewDrug.xaml.cs">
+      <DependentUpon>AddNewDrug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CheckingDrug.xaml.cs">
+      <DependentUpon>CheckingDrug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DrugDTO.cs" />
+    <Compile Include="DrugFile.cs" />
+    <Compile Include="EditPatient.xaml.cs">
+      <DependentUpon>EditPatient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditProfile.xaml.cs">
+      <DependentUpon>EditProfile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExaminationDTO.cs" />
+    <Compile Include="ExaminationFile.cs" />
+    <Compile Include="GenerateReport.xaml.cs">
+      <DependentUpon>GenerateReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HelpProvider.cs" />
+    <Compile Include="HelpViewer.xaml.cs">
+      <DependentUpon>HelpViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Help\HelpProvider.cs" />
+    <Compile Include="Help\HelpViewer.xaml.cs">
+      <DependentUpon>HelpViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IngredientsOfDrug.xaml.cs">
+      <DependentUpon>IngredientsOfDrug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MedicalHistoryDTO.cs" />
+    <Compile Include="MessageAddFeedback.xaml.cs">
+      <DependentUpon>MessageAddFeedback.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageChangeDrug.xaml.cs">
+      <DependentUpon>MessageChangeDrug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageConfirmedDrug.xaml.cs">
+      <DependentUpon>MessageConfirmedDrug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageEditPassword.xaml.cs">
+      <DependentUpon>MessageEditPassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageEditProfile.xaml.cs">
+      <DependentUpon>MessageEditProfile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageUnconfirmedDrug.xaml.cs">
+      <DependentUpon>MessageUnconfirmedDrug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ModelDoctor.cs" />
+    <Compile Include="ModelPatient.cs" />
+    <Compile Include="ModelSpecialist.cs" />
+    <Compile Include="NotNewDrug.xaml.cs">
+      <DependentUpon>NotNewDrug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatientFile.cs" />
+    <Compile Include="PatientFileTab.xaml.cs">
+      <DependentUpon>PatientFileTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlaceInSickRoom.xaml.cs">
+      <DependentUpon>PlaceInSickRoom.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlacementDTO.cs" />
+    <Compile Include="PrescribeTheDrug.xaml.cs">
+      <DependentUpon>PrescribeTheDrug.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ReportPdf.cs" />
+    <Compile Include="ReportViewer.xaml.cs">
+      <DependentUpon>ReportViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SaveXml.cs" />
+    <Compile Include="ScheduleExaminaton.xaml.cs">
+      <DependentUpon>ScheduleExaminaton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\Valid.cs" />
+    <Compile Include="ViewPatientFile.xaml.cs">
+      <DependentUpon>ViewPatientFile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewPlacements.xaml.cs">
+      <DependentUpon>ViewPlacements.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Window2.xaml.cs">
+      <DependentUpon>Window2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Window3.xaml.cs">
+      <DependentUpon>Window3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Window4.xaml.cs">
+      <DependentUpon>Window4.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Window5.xaml.cs">
+      <DependentUpon>Window5.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Window6.xaml.cs">
+      <DependentUpon>Window6.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Window7.xaml.cs">
+      <DependentUpon>Window7.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Window8.xaml.cs">
+      <DependentUpon>Window8.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Window9.xaml.cs">
+      <DependentUpon>Window9.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AboutAplication.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddFeedback.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddNewDrug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CheckingDrug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditPatient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditProfile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GenerateReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HelpViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Help\HelpViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="IngredientsOfDrug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="MessageAddFeedback.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageChangeDrug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageConfirmedDrug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageEditPassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageEditProfile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MessageUnconfirmedDrug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NotNewDrug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PatientFileTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlaceInSickRoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PrescribeTheDrug.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReportViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScheduleExaminaton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewPatientFile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewPlacements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard\Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard\Window2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard\Window3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard\Window4.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard\Window5.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard\Window6.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard\Window7.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard\Window8.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Wizard\Window9.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="izvjestaj.pdf" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\hospital.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Help\soba.html" />
+    <Resource Include="Wizard\soba.png" />
+    <Resource Include="Wizard\izbor1.png" />
+    <Resource Include="Wizard\provjeraIzvjestaj.png" />
+    <Resource Include="Wizard\hospital.png" />
+    <Resource Include="Images\feed.png" />
+    <Resource Include="Images\exam.png" />
+    <Resource Include="Images\report.jpg" />
+    <Resource Include="Images\logout.png" />
+    <Resource Include="Images\edit.png" />
+    <Resource Include="Images\about.jpg" />
+    <Resource Include="Images\drug.jpg" />
+    <Resource Include="Images\card.jpg" />
+    <Resource Include="Images\editProfile.png" />
+    <Content Include="Help\index.html" />
+    <Content Include="Help\izborPacijenta.html" />
+    <Content Include="Help\izvjestaj.html" />
+    <Content Include="Help\karton.html" />
+    <Content Include="Help\lijek.html" />
+    <Content Include="Help\mojRaspored.html" />
+    <Content Include="Help\noviLijek.html" />
+    <Content Include="Help\ocjena.html" />
+    <Content Include="Help\operacija.html" />
+    <Content Include="Help\pregled.html" />
+    <Content Include="Help\prijava.html" />
+    <Resource Include="Wizard\doctors.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Help\Slike\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Backend\Backend.csproj">
+      <Project>{07719b07-7b98-4293-ae15-2da5ccf135ed}</Project>
+      <Name>Backend</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphicalEditor\GraphicalEditor.csproj">
+      <Project>{b1629766-3bec-4edd-9328-d1fb4530cbd1}</Project>
+      <Name>GraphicalEditor</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

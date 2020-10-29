@@ -1,0 +1,39 @@
+﻿using GraphicalEditor.Enumerations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Media;
+
+namespace GraphicalEditor.Models.MapObjectRelated
+{
+    public class MapObjectType
+    {
+        private MapObjectTypes _mapObjectType;
+
+        public MapObjectType(MapObjectTypes mapObjectType)
+        {
+            this._mapObjectType = mapObjectType;
+        }
+
+        public SolidColorBrush getColor()
+        {
+            switch (this._mapObjectType)
+            {
+                case MapObjectTypes.EXAMINATION_ROOM:
+                    return Brushes.Green;
+                case MapObjectTypes.OPERATION_ROOM:
+                    return Brushes.Red;
+                case MapObjectTypes.PARKING:
+                    return Brushes.LightBlue;
+                case MapObjectTypes.RESTAURANT:
+                    return Brushes.LightGray;
+                case MapObjectTypes.WAITING_ROOM:
+                    return Brushes.Purple;
+                default:
+                    return Brushes.Yellow;
+            }
+        }
+    }
+}

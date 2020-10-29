@@ -62,12 +62,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Enumerations\MapObjectDepartment.cs" />
+    <Compile Include="Enumerations\MapObjectTypes.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\MapObjectRelated\MapObject.cs" />
+    <Compile Include="Models\MapObjectRelated\MapObjectBasics.cs" />
+    <Compile Include="Models\MapObjectRelated\MapObjectMetrics.cs" />
+    <Compile Include="Models\MapObjectRelated\MapObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -93,5 +99,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

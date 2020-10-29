@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GraphicalEditor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        WindowState="Maximized"
+        Title="MainWindow" Height="800" Width="1500">
+    <DockPanel>
+        <Canvas Name="Test" Background="LightGray" 
+                Height="720" Width="1300">
+
+        </Canvas>
+        <TextBlock x:Name="TestText" Text="Test" FontSize="30" />
+    </DockPanel>
 </Window>

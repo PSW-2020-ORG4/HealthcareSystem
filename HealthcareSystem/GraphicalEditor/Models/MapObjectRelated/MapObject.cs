@@ -1,4 +1,5 @@
 ﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models.MapObjectRelated;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,8 @@ namespace GraphicalEditor.Models
         public void AddToCanvas(Canvas canvas)
         {
             canvas.Children.Add(Rectangle);
-            canvas.Children.Add(MapObjectDoor.GetDoor());
+            if (!_mapObjectEntity.GetMapObjectTypes.Equals(MapObjectTypes.PARKING))
+                canvas.Children.Add(MapObjectDoor.GetDoor());
         }
 
         public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }

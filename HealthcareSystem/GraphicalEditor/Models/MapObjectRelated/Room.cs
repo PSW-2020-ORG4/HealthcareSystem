@@ -13,6 +13,9 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private int _floor;
         private Building _building;
 
+        public Room(String description) : base(new MapObjectType(), "Room")
+        {
+        }
         public Room(MapObjectTypes mapObjectType, String description, MapObjectDepartment department, int floor,MapObject building)
             : base(new MapObjectType(mapObjectType), "Test")
         {

@@ -97,5 +97,11 @@ namespace ProjekatZdravoKorporacija
         {
             Main.Content = new CanceledExaminationsView();
         }
+
+        private void HospitalMap_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow();
+            graphicalEditorMainWindow.ShowDialog();
+        }
     }
 }

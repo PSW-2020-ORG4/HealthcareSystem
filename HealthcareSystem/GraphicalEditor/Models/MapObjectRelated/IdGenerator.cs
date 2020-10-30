@@ -12,12 +12,12 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         public IdGenerator()
         {
-            _id = GetNextID();
+            _id = 0;
         }
 
         public long GetNextID()
         {
-            MainWindow wnd = (MainWindow)App.Current.MainWindow;
+            MainWindow wnd = new MainWindow();
 
             return GetMaxId(wnd.ObjectsList) + 1;
         }

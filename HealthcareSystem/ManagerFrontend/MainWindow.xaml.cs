@@ -208,6 +208,12 @@ namespace Clinic_Health
 			MainFrame.Content = new DrugsView();
 		}
 
-		#endregion
-	}
+        #endregion
+
+        private void Navigation_Graphical_Editor_Click(object sender, RoutedEventArgs e)
+        {
+			GraphicalEditor.MainWindow mw = new GraphicalEditor.MainWindow();
+			mw.ShowDialog();
+        }
+    }
 }

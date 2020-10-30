@@ -25,20 +25,20 @@ namespace GraphicalEditor
     public partial class MainWindow : Window
     {
         private Canvas _canvas;
-
+        private List<MapObject> objectsList = new List<MapObject>();
         public MainWindow()
         {
             InitializeComponent();
             _canvas = this.Canvas;
 
             // Dodavanje jednog objekta na mapu
-            MapObject mp = new MapObject(
+            MapObject firstBuilding = new MapObject(
                     new Building("Building 1", 3),
                     new MapObjectMetrics(10, 20, 100, 200),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0)
                 );
-
-            mp.AddToCanvas(_canvas);
+            objectsList.Add(firstBuilding);
+            firstBuilding.AddToCanvas(_canvas);
 
             // Dodavanje vise objekata od jednom
             for (int i = 0; i <= 10; i++)
@@ -51,14 +51,15 @@ namespace GraphicalEditor
 
                 MapObject mp2 = new MapObject(
                     new Room(
-                        MapObjectTypes.PARKING, "Opis 1", MapObjectDepartment.CARDIOLOGY, 0
+                        MapObjectTypes.PARKING, "Opis 1", MapObjectDepartment.CARDIOLOGY, 0,firstBuilding
                     ),
                     new MapObjectMetrics(x, 300, width, 120),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 30)
                 );
-
+                objectsList.Add(mp2);
                 mp2.AddToCanvas(_canvas);
             }
         }
+        public List<MapObject> ObjectsList { get => objectsList; set => objectsList = value; }
     }
 }

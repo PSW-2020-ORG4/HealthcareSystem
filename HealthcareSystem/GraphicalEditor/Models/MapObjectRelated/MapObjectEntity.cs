@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-    public class MapObjectEntity
+    public class MapObjectEntity : IdGenerator
     {
         private MapObjectType _mapObjectType;
         private String _description;

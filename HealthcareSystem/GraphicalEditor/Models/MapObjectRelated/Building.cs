@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-    class Building : MapObjectEntity
+   public class Building : MapObjectEntity
     {
         private int _numOfFloors;
 

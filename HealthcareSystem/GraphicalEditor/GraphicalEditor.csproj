@@ -62,7 +62,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Constants\AllConstants.cs" />
     <Compile Include="Enumerations\MapObjectDepartment.cs" />
+    <Compile Include="Enumerations\MapObjectDoorOrientation.cs" />
     <Compile Include="Enumerations\MapObjectTypes.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -72,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Models\MapObjectRelated\Building.cs" />
     <Compile Include="Models\MapObjectRelated\MapObject.cs" />
+    <Compile Include="Models\MapObjectRelated\MapObjectDoor.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectEntity.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectMetrics.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectType.cs" />

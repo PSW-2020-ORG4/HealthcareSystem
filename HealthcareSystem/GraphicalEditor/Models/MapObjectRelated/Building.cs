@@ -14,7 +14,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public Building(String description, int numOfFloors)
             : base(new MapObjectType(MapObjectTypes.BUILDING), "Building 1")
         {
-            this.NumOfFloors = numOfFloors;
+            NumOfFloors = numOfFloors;
         }
 
         public int NumOfFloors { get => _numOfFloors; set => _numOfFloors = value; }

@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Models.MapObjectRelated;
+﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Models.MapObjectRelated;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +14,17 @@ namespace GraphicalEditor.Models
     public class MapObject
     {
         private Rectangle _rectangle;
+        private MapObjectDoor _mapObjectDoor;
         private MapObjectEntity _mapObjectEntity;
         private MapObjectMetrics _mapObjectMetrics;
 
-        public readonly static double RECTANGLE_STROKE_THICKNESS = 3;
-
-        public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics)
+        public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
         {
-            this.MapObjectEntity = mapObjectEntity;
-            this.MapObjectMetrics = mapObjectMetrics;
+            MapObjectEntity = mapObjectEntity;
+            MapObjectMetrics = mapObjectMetrics;
+
+            mapObjectDoor.MapObjectMetrics = this.MapObjectMetrics;
+            MapObjectDoor = mapObjectDoor;
 
             RectangleInitialization();
         }
@@ -34,7 +37,7 @@ namespace GraphicalEditor.Models
             Rectangle.Width = MapObjectMetrics.Width;
 
             Rectangle.Stroke = Brushes.Black;
-            Rectangle.StrokeThickness = RECTANGLE_STROKE_THICKNESS;
+            Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
 
             Rectangle.SetValue(Canvas.LeftProperty, MapObjectMetrics.X);
             Rectangle.SetValue(Canvas.TopProperty, MapObjectMetrics.Y);
@@ -42,11 +45,13 @@ namespace GraphicalEditor.Models
 
         public void AddToCanvas(Canvas canvas)
         {
-            canvas.Children.Add(this.Rectangle);
+            canvas.Children.Add(Rectangle);
+            canvas.Children.Add(MapObjectDoor.GetDoor());
         }
 
         public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }
         public MapObjectEntity MapObjectEntity { get => _mapObjectEntity; set => _mapObjectEntity = value; }
         public MapObjectMetrics MapObjectMetrics { get => _mapObjectMetrics; set => _mapObjectMetrics = value; }
+        public MapObjectDoor MapObjectDoor { get => _mapObjectDoor; set => _mapObjectDoor = value; }
     }
 }

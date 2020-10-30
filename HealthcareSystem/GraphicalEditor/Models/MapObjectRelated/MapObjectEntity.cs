@@ -14,13 +14,17 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         public MapObjectEntity(MapObjectType mapObjectType, string description)
         {
-            _mapObjectType = mapObjectType;
-            _description = description;
+            MapObjectType = mapObjectType;
+            Description = description;
         }
 
         public SolidColorBrush getColor()
         {
-            return _mapObjectType.getColor();
+            return MapObjectType.getColor();
         }
+
+        public MapObjectType MapObjectType { get => _mapObjectType; set => _mapObjectType = value; }
+        public string Description { get => _description; set => _description = value; }
+        
     }
 }

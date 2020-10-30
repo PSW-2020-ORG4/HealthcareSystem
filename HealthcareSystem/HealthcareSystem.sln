@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecretaryFrontend", "Secret
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerFrontend", "ManagerFrontend\ManagerFrontend.csproj", "{A2BF6279-35BF-4A51-B36D-B24E9B585F78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientWebApp", "PatientWebApp\PatientWebApp.csproj", "{1670634D-8127-47B2-ACE0-2B3AB7B760BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{A2BF6279-35BF-4A51-B36D-B24E9B585F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2BF6279-35BF-4A51-B36D-B24E9B585F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2BF6279-35BF-4A51-B36D-B24E9B585F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1670634D-8127-47B2-ACE0-2B3AB7B760BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1670634D-8127-47B2-ACE0-2B3AB7B760BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1670634D-8127-47B2-ACE0-2B3AB7B760BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1670634D-8127-47B2-ACE0-2B3AB7B760BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

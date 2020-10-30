@@ -25,41 +25,46 @@ namespace GraphicalEditor
     public partial class MainWindow : Window
     {
         private Canvas _canvas;
-        private List<MapObject> objectsList = new List<MapObject>();
+        private List<MapObject> mapObjects = new List<MapObject>();
         public MainWindow()
         {
             InitializeComponent();
             _canvas = this.Canvas;
 
-            // Dodavanje jednog objekta na mapu
+            loadMockupObjects();
+        }
+
+        public void loadMockupObjects()
+        {
             MapObject firstBuilding = new MapObject(
                     new Building("Building 1", 3),
                     new MapObjectMetrics(10, 20, 100, 200),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0)
                 );
-            objectsList.Add(firstBuilding);
+            mapObjects.Add(firstBuilding);
             firstBuilding.AddToCanvas(_canvas);
 
-            // Dodavanje vise objekata od jednom
+
             for (int i = 0; i <= 10; i++)
             {
                 double startX = 20;
                 double width = 70;
-                // ako je prvi objekat na redu nacrtaj ga na startX, u suprotnom pomeri ga za sirinu okvira kako bi bili
-                // jedan drugog lepo poslagani
+
                 double x = i == 0 ? startX : startX + width * i - i * AllConstants.RECTANGLE_STROKE_THICKNESS;
 
-                MapObject mp2 = new MapObject(
+                MapObject parkingSpace = new MapObject(
                     new Room(
-                        MapObjectTypes.PARKING, "Opis 1", MapObjectDepartment.CARDIOLOGY, 0,firstBuilding
+                        MapObjectTypes.PARKING, "Opis 1", MapObjectDepartment.CARDIOLOGY, 0, firstBuilding
                     ),
                     new MapObjectMetrics(x, 300, width, 120),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 30)
                 );
-                objectsList.Add(mp2);
-                mp2.AddToCanvas(_canvas);
+                mapObjects.Add(parkingSpace);
+                parkingSpace.AddToCanvas(_canvas);
             }
         }
-        public List<MapObject> ObjectsList { get => objectsList; set => objectsList = value; }
+
+
+        public List<MapObject> MapObjects { get => mapObjects; set => mapObjects = value; }
     }
 }

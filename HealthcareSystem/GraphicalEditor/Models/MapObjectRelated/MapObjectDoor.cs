@@ -79,7 +79,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
             => MapObjectMetrics.Y + MapObjectMetrics.Height - AllConstants.RECTANGLE_STROKE_THICKNESS;
 
 
-        // vrsi kalkulaciju X koje je pomereno i ogranicavanje da ne izadje iz granica objekta
+        
         private double CalculateXShifted()
         {
             double currentShiftedX = MapObjectMetrics.X + MapObjectMetrics.Width / 2 - DoorWidth / 2 + this.XShift;
@@ -90,7 +90,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
             else return currentShiftedX;
         }
 
-        // vrsi kalkulaciju Y koje je pomereno i ogranicavanje da ne izadje iz granica objekta
+        
         private double CalculateYShifted()
         {
             double currentShiftedY = MapObjectMetrics.Y + MapObjectMetrics.Height / 2 - DoorHeight / 2 + this.YShift;
@@ -107,7 +107,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public double XShift { get => _XShiftFromCenter; set => _XShiftFromCenter = value; }
         public double YShift { get => _YShiftFromCenter; set => _YShiftFromCenter = value; }
 
-        // Rotacija vrata - zameni sirinu i visinu ukoliko vrata trebaju da se postave vertikalno ( horizontalno su po default)
+        
         private double DoorWidth
         {
             get
@@ -118,7 +118,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
             }
         }
 
-        // Rotacija vrata - zameni sirinu i visinu ukoliko vrata trebaju da se postave vertikalno (horizontalno su po default)
+        
         private double DoorHeight
         {
             get

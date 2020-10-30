@@ -17,9 +17,9 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         public long GetNextID()
         {
-            MainWindow wnd = new MainWindow();
+            MainWindow mainWindow = new MainWindow();
 
-            return GetMaxId(wnd.ObjectsList) + 1;
+            return GetMaxId(mainWindow.MapObjects) + 1;
         }
         private long GetMaxId(List<MapObject> objects)
         {

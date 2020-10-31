@@ -30,7 +30,6 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }
 
         public MapObjectType MapObjectType { get => _mapObjectType; set => _mapObjectType = value; }
-        public MapObjectTypes GetMapObjectTypes { get => _mapObjectType.GetMapObjectTypes; }
 
         public string Description { get => _description; set => _description = value; }
         

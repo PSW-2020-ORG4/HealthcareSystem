@@ -15,16 +15,23 @@ namespace Controller.NotificationSurveyAndFeedback
    {
 
         private FeedbackService feedbackService = new FeedbackService();
-      public Model.Users.Feedback AddFeedback(Feedback feedback)
-      {
-            return feedbackService.AddFeedback(feedback);
-      }
-      
-      public List<Model.Users.Feedback> ViewFeedbackInformations()
-      {
-            return feedbackService.ViewFeedbackInformations();
-      }
-   
-   
-   }
+        public void NewFeedback(Feedback feedback)
+        {
+            feedbackService.NewFeedback(feedback);
+        }
+        public void PublishFeedback(int id)
+        {
+            feedbackService.PublishFeedback(id);
+        }
+        public List<Feedback> GetPublishedFeedbacks()
+        {
+            return feedbackService.GetPublishedFeedbacks();
+        }
+        public List<Feedback> GetUnpublishedFeedbacks()
+        {
+            return feedbackService.GetUnpublishedFeedbacks();
+        }
+
+
+    }
 }

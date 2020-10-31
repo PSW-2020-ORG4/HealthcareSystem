@@ -21,18 +21,55 @@ namespace Repository
             string fileName = "feedback.json";
             path = Path.GetFullPath(fileName);
         }
-        public Model.Users.Feedback NewFeedback(Model.Users.Feedback feedback)
+        public void NewFeedback(Feedback feedback)
         {
             List<Feedback> feedbacks = ReadFromFile();
             feedbacks.Add(feedback);
             WriteInFile(feedbacks);
-            return feedback;
         }
 
-        public List<Feedback> GetAllFeedbacks()
+        public void PublishFeedback(int id)
         {
             List<Feedback> feedbacks = ReadFromFile();
-            return feedbacks;
+            foreach (Feedback feedback in feedbacks)
+            {
+                if (feedback.Id == id)
+                {
+                    feedback.IsPublished = true;
+                    WriteInFile(feedbacks);
+                    return;
+                }
+            }
+        }
+
+        public List<Feedback> GetPublishedFeedbacks()
+        {
+            List<Feedback> feedbacks = ReadFromFile();
+            List<Feedback> publishedFeedbacks = new List<Feedback>();
+
+            foreach(Feedback feedback in feedbacks)
+            {
+                if(feedback.IsPublished)
+                {
+                    publishedFeedbacks.Add(feedback);
+                }
+            }
+            return publishedFeedbacks;
+        }
+
+        public List<Feedback> GetUnpublishedFeedbacks()
+        {
+            List<Feedback> feedbacks = ReadFromFile();
+            List<Feedback> unpublishedFeedbacks = new List<Feedback>();
+
+            foreach (Feedback feedback in feedbacks)
+            {
+                if (feedback.IsPublished)
+                {
+                    unpublishedFeedbacks.Add(feedback);
+                }
+            }
+            return unpublishedFeedbacks;
         }
         private List<Feedback> ReadFromFile()
         {

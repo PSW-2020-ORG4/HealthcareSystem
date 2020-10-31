@@ -112,6 +112,7 @@
     <Compile Include="Model\Secretary\BloodType.cs" />
     <Compile Include="Model\Secretary\PatientCard.cs" />
     <Compile Include="Model\Secretary\RhFactorType.cs" />
+    <Compile Include="Model\Users\Admin.cs" />
     <Compile Include="Model\Users\City.cs" />
     <Compile Include="Model\Users\Doctor.cs" />
     <Compile Include="Model\Users\Feedback.cs" />
@@ -121,7 +122,6 @@
     <Compile Include="Model\Users\Notification.cs" />
     <Compile Include="Model\Users\Patient.cs" />
     <Compile Include="Model\Users\Secretary.cs" />
-    <Compile Include="Model\Users\Stars.cs" />
     <Compile Include="Model\Users\TypeOfDoctor.cs" />
     <Compile Include="Model\Users\TypeOfNotification.cs" />
     <Compile Include="Model\Users\TypeOfQualifications.cs" />

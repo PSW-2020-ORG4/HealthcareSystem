@@ -28,35 +28,6 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Feedback f = new Feedback();
-            if (five.IsChecked == true) {
-                f.Grade = Stars.FIVE;
-            }
-            else if (four.IsChecked == true)
-            {
-                f.Grade = Stars.FOUR;
-            }
-            else if(three.IsChecked == true)
-            {
-                f.Grade = Stars.THREE;
-            }
-            else if (two.IsChecked == true)
-            {
-                f.Grade = Stars.TWO;
-            }
-            else
-            {
-                f.Grade = Stars.ONE;
-            }
-
-            f.Comment = txtComment.Text;
-
-            FeedbackController fc = new FeedbackController();
-            fc.AddFeedback(f);
-
-            var s = new MessageAddFeedback();
-            s.Show();
-            this.Close();
         }
 
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)

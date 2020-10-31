@@ -41,25 +41,6 @@ namespace ProjekatZdravoKorporacija
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
         {
-            string comment = txtComment.Text;
-            Stars grade = (Stars)BasicRatingBar.Value;
-            Feedback feedback = new Feedback(grade,comment);
-
-            if (feedbackController.AddFeedback(feedback) != null)
-            {
-                var okMb = new OKMessageBox(this, 0);
-                okMb.titleMsgBox.Text = "Obavještenje";
-                okMb.textMsgBox.Text = "Uspješno ste poslali povratnu informaciju.";
-                okMb.ShowDialog();
-                this.Close();
-            }
-            else
-            {
-                var okMbx = new OKMessageBox(this, 0);
-                okMbx.titleMsgBox.Text = "Greška";
-                okMbx.textMsgBox.Text = "Došlo je do greške, pokušajte ponovo!";
-                okMbx.ShowDialog();
-            }
         }
     }
 }

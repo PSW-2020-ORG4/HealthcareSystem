@@ -1,4 +1,5 @@
 ﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models.MapObjectRelated;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,10 @@ namespace GraphicalEditor.Models
 {
     public class MapObject
     {
-        private Rectangle _rectangle;
-        private MapObjectDoor _mapObjectDoor;
-        private MapObjectEntity _mapObjectEntity;
-        private MapObjectMetrics _mapObjectMetrics;
+        public Rectangle Rectangle { get; set; }
+        public MapObjectEntity MapObjectEntity { get; set; }
+        public MapObjectMetrics MapObjectMetrics { get; set; }
+        public MapObjectDoor MapObjectDoor { get; set; }
 
         public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
         {
@@ -46,12 +47,8 @@ namespace GraphicalEditor.Models
         public void AddToCanvas(Canvas canvas)
         {
             canvas.Children.Add(Rectangle);
-            canvas.Children.Add(MapObjectDoor.GetDoor());
+            if (!MapObjectEntity.MapObjectType.MapObjectTypes.Equals(MapObjectTypes.PARKING))
+                canvas.Children.Add(MapObjectDoor.GetDoor());
         }
-
-        public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }
-        public MapObjectEntity MapObjectEntity { get => _mapObjectEntity; set => _mapObjectEntity = value; }
-        public MapObjectMetrics MapObjectMetrics { get => _mapObjectMetrics; set => _mapObjectMetrics = value; }
-        public MapObjectDoor MapObjectDoor { get => _mapObjectDoor; set => _mapObjectDoor = value; }
     }
 }

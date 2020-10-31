@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GraphicalEditor.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private MapObjectType _mapObjectType;
         private String _description;
 
+       
         public MapObjectEntity(MapObjectType mapObjectType, string description)
         {
             MapObjectType = mapObjectType;
@@ -24,6 +26,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }
 
         public MapObjectType MapObjectType { get => _mapObjectType; set => _mapObjectType = value; }
+
         public string Description { get => _description; set => _description = value; }
         
     }

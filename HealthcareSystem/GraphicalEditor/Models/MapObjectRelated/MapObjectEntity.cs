@@ -13,11 +13,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private MapObjectType _mapObjectType;
         private String _description;
 
-        public MapObjectEntity(string description = "")
-        {
-            _mapObjectType = new MapObjectType(MapObjectTypes.PARKING);
-            _description = description;
-        }
+       
         public MapObjectEntity(MapObjectType mapObjectType, string description)
         {
             MapObjectType = mapObjectType;

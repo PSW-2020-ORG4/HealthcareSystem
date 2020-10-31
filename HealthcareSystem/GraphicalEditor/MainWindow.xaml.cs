@@ -38,7 +38,7 @@ namespace GraphicalEditor
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0)
                 );
             MapObject parking
-                = new MapObject(new MapObjectEntity(),
+                = new MapObject(new Parking(),
                    new MapObjectMetrics(130, 20, 100, 200),
                    new MapObjectDoor(MapObjectDoorOrientation.BOTTOM)
                );

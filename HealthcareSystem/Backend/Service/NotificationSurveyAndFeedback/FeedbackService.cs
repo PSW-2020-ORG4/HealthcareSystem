@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Service.Notification&Survey&dFeedbackService.FeedbackService
  ***********************************************************************/
 
+using Backend.Repository;
 using Model.Users;
 using Repository;
 using System;
@@ -13,22 +14,33 @@ namespace Service.NotificationSurveyAndFeedback
 {
    public class FeedbackService
    {
-        private FeedbackRepository feedbackRepository = new FeedbackRepository();
-        public void NewFeedback(Feedback feedback)
+        private IFeedbackRepository _feedbackRepository;
+
+        private ActivePatientRepository _activePatientRepository = new ActivePatientRepository();
+
+        public FeedbackService(IFeedbackRepository feedbackRepository)
         {
-            feedbackRepository.NewFeedback(feedback);
+            _feedbackRepository = feedbackRepository;
+        }
+        public void AddFeedback(Feedback feedback)
+        {
+            if (feedback == null)
+                return;
+            if (_activePatientRepository.GetPatientByJmbg(feedback.Commentator.Jmbg) == null)
+                return;
+            _feedbackRepository.AddFeedback(feedback);
         }
         public void PublishFeedback(int id)
         {
-            feedbackRepository.PublishFeedback(id);
+            _feedbackRepository.PublishFeedback(id);
         }
         public List<Feedback> GetPublishedFeedbacks()
         {
-            return feedbackRepository.GetPublishedFeedbacks();
+            return _feedbackRepository.GetPublishedFeedbacks();
         }
         public List<Feedback> GetUnpublishedFeedbacks()
         {
-            return feedbackRepository.GetUnpublishedFeedbacks();
+            return _feedbackRepository.GetUnpublishedFeedbacks();
         }
 
     }

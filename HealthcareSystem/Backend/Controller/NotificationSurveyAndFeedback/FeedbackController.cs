@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Controller.Notification&Survey&FeedbackController.FeedbackController
  ***********************************************************************/
 
+using Backend.Repository;
 using Model.Users;
 using Service.NotificationSurveyAndFeedback;
 using System;
@@ -14,22 +15,22 @@ namespace Controller.NotificationSurveyAndFeedback
    public class FeedbackController
    {
 
-        private FeedbackService feedbackService = new FeedbackService();
-        public void NewFeedback(Feedback feedback)
+        private FeedbackService _feedbackService = new FeedbackService(new MySqlFeedbackRepository());
+        public void AddFeedback(Feedback feedback)
         {
-            feedbackService.NewFeedback(feedback);
+            _feedbackService.AddFeedback(feedback);
         }
         public void PublishFeedback(int id)
         {
-            feedbackService.PublishFeedback(id);
+            _feedbackService.PublishFeedback(id);
         }
         public List<Feedback> GetPublishedFeedbacks()
         {
-            return feedbackService.GetPublishedFeedbacks();
+            return _feedbackService.GetPublishedFeedbacks();
         }
         public List<Feedback> GetUnpublishedFeedbacks()
         {
-            return feedbackService.GetUnpublishedFeedbacks();
+            return _feedbackService.GetUnpublishedFeedbacks();
         }
 
 

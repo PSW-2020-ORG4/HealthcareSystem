@@ -1,27 +1,20 @@
-/***********************************************************************
- * Module:  FeedbackRepository.cs
- * Author:  Sladjana Savkovic
- * Purpose: Definition of the Class Repository.FeedbackRepository
- ***********************************************************************/
-
-using Model.Users;
+﻿using Model.Users;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Repository
+namespace Backend.Repository
 {
-   public class FeedbackRepository
-   {
-        private string path;
-
-        public FeedbackRepository()
+    class FileFeedbackRepository
+    {
+        private string _path;
+        public FileFeedbackRepository()
         {
             string fileName = "feedback.json";
-            path = Path.GetFullPath(fileName);
+            _path = Path.GetFullPath(fileName);
         }
-        public void NewFeedback(Feedback feedback)
+        public void AddFeedback(Feedback feedback)
         {
             List<Feedback> feedbacks = ReadFromFile();
             feedbacks.Add(feedback);
@@ -47,9 +40,9 @@ namespace Repository
             List<Feedback> feedbacks = ReadFromFile();
             List<Feedback> publishedFeedbacks = new List<Feedback>();
 
-            foreach(Feedback feedback in feedbacks)
+            foreach (Feedback feedback in feedbacks)
             {
-                if(feedback.IsPublished)
+                if (feedback.IsPublished)
                 {
                     publishedFeedbacks.Add(feedback);
                 }
@@ -74,9 +67,9 @@ namespace Repository
         private List<Feedback> ReadFromFile()
         {
             List<Feedback> feedbacks;
-            if (File.Exists(path))
+            if (File.Exists(_path))
             {
-                string json = File.ReadAllText(path);
+                string json = File.ReadAllText(_path);
                 feedbacks = JsonConvert.DeserializeObject<List<Feedback>>(json);
             }
             else
@@ -90,8 +83,7 @@ namespace Repository
         private void WriteInFile(List<Feedback> feedbacks)
         {
             string json = JsonConvert.SerializeObject(feedbacks);
-            File.WriteAllText(path, json);
+            File.WriteAllText(_path, json);
         }
-
     }
 }

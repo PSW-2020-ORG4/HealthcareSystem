@@ -51,13 +51,6 @@ namespace ProjekatZdravoKorporacija
         {
             Main.Content = new ExaminationViewByDoctor("");
         }
-
-        private void addFeedbackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            var f = new FeedbackView();
-            f.ShowDialog();
-        }
-
         private void editProfileBtn_Click(object sender, RoutedEventArgs e)
         {
             Main.Content = new EditProfile();

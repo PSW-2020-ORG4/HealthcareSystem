@@ -8,22 +8,18 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     public class MapObjectMetrics
     {
-        private double _width;
-        private double _height;
-        private double _x;
-        private double _y;
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
 
         public MapObjectMetrics(double x, double y, double width, double height)
         {
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
         }
 
-        public double Width { get => _width; set => _width = value; }
-        public double Height { get => _height; set => _height = value; }
-        public double X { get => _x; set => _x = value; }
-        public double Y { get => _y; set => _y = value; }
     }
 }

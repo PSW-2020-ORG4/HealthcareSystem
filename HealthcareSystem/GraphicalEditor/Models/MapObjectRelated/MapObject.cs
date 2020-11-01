@@ -13,19 +13,20 @@ namespace GraphicalEditor.Models
 {
     public class MapObject
     {
-        private Rectangle _rectangle;
-        private MapObjectDoor _mapObjectDoor;
-        private MapObjectEntity _mapObjectEntity;
-        private MapObjectMetrics _mapObjectMetrics;
+        public Rectangle Rectangle { get; set; }
+        public MapObjectDoor MapObjectDoor { get; set; }
+        public MapObjectEntity MapObjectEntity { get; set; }
+        public MapObjectMetrics MapObjectMetrics { get; set; }
+        public long Id { get; set; }
 
-        public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
+        public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor,long id)
         {
             MapObjectEntity = mapObjectEntity;
             MapObjectMetrics = mapObjectMetrics;
 
-            mapObjectDoor.MapObjectMetrics = this.MapObjectMetrics;
             MapObjectDoor = mapObjectDoor;
-
+            MapObjectDoor.MapObjectMetrics = mapObjectMetrics;
+            Id = id;
             RectangleInitialization();
         }
 
@@ -48,10 +49,5 @@ namespace GraphicalEditor.Models
             canvas.Children.Add(Rectangle);
             canvas.Children.Add(MapObjectDoor.GetDoor());
         }
-
-        public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }
-        public MapObjectEntity MapObjectEntity { get => _mapObjectEntity; set => _mapObjectEntity = value; }
-        public MapObjectMetrics MapObjectMetrics { get => _mapObjectMetrics; set => _mapObjectMetrics = value; }
-        public MapObjectDoor MapObjectDoor { get => _mapObjectDoor; set => _mapObjectDoor = value; }
     }
 }

@@ -14,17 +14,17 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     public class MapObjectDoor
     {
-        private Rectangle _rectangle;
-        private MapObjectMetrics _mapObjectMetrics;
-        private MapObjectDoorOrientation _mapObjectDoorOrientation;
-        private double _XShiftFromCenter;
-        private double _YShiftFromCenter;        
+        public Rectangle Rectangle { get; set; }
+        public MapObjectMetrics MapObjectMetrics { get; set; }
+        public MapObjectDoorOrientation MapObjectDoorOrientation { get; set; }
+        public double XShiftFromCenter { get; set; }
+        public double YShiftFromCenter { get; set; }
 
         public MapObjectDoor(MapObjectDoorOrientation mapObjectDoorOrientations, double XShift = 0, double YShift = 0)
         {
             MapObjectDoorOrientation = mapObjectDoorOrientations;
-            this.XShift = XShift;
-            this.YShift = YShift;
+            XShiftFromCenter = XShift;
+            YShiftFromCenter = YShift;
         }
 
         public Rectangle GetDoor()
@@ -82,7 +82,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         
         private double CalculateXShifted()
         {
-            double currentShiftedX = MapObjectMetrics.X + MapObjectMetrics.Width / 2 - DoorWidth / 2 + this.XShift;
+            double currentShiftedX = MapObjectMetrics.X + MapObjectMetrics.Width / 2 - DoorWidth / 2 + this.XShiftFromCenter;
             if (currentShiftedX < MapObjectMetrics.X)
                 return MapObjectMetrics.X;
             else if (currentShiftedX + DoorWidth > MapObjectMetrics.X + MapObjectMetrics.Width)
@@ -93,19 +93,13 @@ namespace GraphicalEditor.Models.MapObjectRelated
         
         private double CalculateYShifted()
         {
-            double currentShiftedY = MapObjectMetrics.Y + MapObjectMetrics.Height / 2 - DoorHeight / 2 + this.YShift;
+            double currentShiftedY = MapObjectMetrics.Y + MapObjectMetrics.Height / 2 - DoorHeight / 2 + this.YShiftFromCenter;
             if (currentShiftedY < MapObjectMetrics.Y)
                 return MapObjectMetrics.Y;
             else if (currentShiftedY + DoorHeight > MapObjectMetrics.Y + MapObjectMetrics.Height)
                 return MapObjectMetrics.Y + MapObjectMetrics.Height - DoorHeight;
             else return currentShiftedY;
         }
-
-        public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }
-        public MapObjectMetrics MapObjectMetrics { get => _mapObjectMetrics; set => _mapObjectMetrics = value; }
-        public MapObjectDoorOrientation MapObjectDoorOrientation { get => _mapObjectDoorOrientation; set => _mapObjectDoorOrientation = value; }
-        public double XShift { get => _XShiftFromCenter; set => _XShiftFromCenter = value; }
-        public double YShift { get => _YShiftFromCenter; set => _YShiftFromCenter = value; }
 
         
         private double DoorWidth

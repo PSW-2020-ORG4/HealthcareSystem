@@ -7,10 +7,10 @@ using System.Windows.Media;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-    public class MapObjectEntity : IdGenerator
+    public class MapObjectEntity 
     {
-        private MapObjectType _mapObjectType;
-        private String _description;
+        public MapObjectType MapObjectType { get; set; }
+        public String Description { get; set; }
 
         public MapObjectEntity(MapObjectType mapObjectType, string description)
         {
@@ -22,9 +22,6 @@ namespace GraphicalEditor.Models.MapObjectRelated
         {
             return MapObjectType.getColor();
         }
-
-        public MapObjectType MapObjectType { get => _mapObjectType; set => _mapObjectType = value; }
-        public string Description { get => _description; set => _description = value; }
         
     }
 }

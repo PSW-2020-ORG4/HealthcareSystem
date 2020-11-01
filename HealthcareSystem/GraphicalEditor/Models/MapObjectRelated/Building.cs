@@ -9,7 +9,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
    public class Building : MapObjectEntity
     {
-        private int _numOfFloors;
+        public int NumOfFloors { get; set; }
 
         public Building(String description, int numOfFloors)
             : base(new MapObjectType(MapObjectTypes.BUILDING), "Building 1")
@@ -17,6 +17,5 @@ namespace GraphicalEditor.Models.MapObjectRelated
             NumOfFloors = numOfFloors;
         }
 
-        public int NumOfFloors { get => _numOfFloors; set => _numOfFloors = value; }
     }
 }

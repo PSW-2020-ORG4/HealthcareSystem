@@ -73,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\MapObjectRelated\Building.cs" />
-    <Compile Include="Models\MapObjectRelated\IdGenerator.cs" />
     <Compile Include="Models\MapObjectRelated\MapObject.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectDoor.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectEntity.cs" />

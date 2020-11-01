@@ -26,11 +26,14 @@ namespace GraphicalEditor
     {
         private Canvas _canvas;
         public List<MapObject> MapObjects { get; set; }
+
+        public long MapObjectsMaxId { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             _canvas = this.Canvas;
             MapObjects = new List<MapObject>();
+            MapObjectsMaxId = MapObjects.Count() == 0 ? 0 : MapObjects.Max(entity => entity.Id);
             loadMockupObjects();
         }
 
@@ -40,7 +43,7 @@ namespace GraphicalEditor
                     new Building("Building 1", 3),
                     new MapObjectMetrics(10, 20, 100, 200),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0),
-                    MapObjects
+                    ++MapObjectsMaxId
                 );
             MapObjects.Add(firstBuilding);
             Console.WriteLine(firstBuilding.Id);
@@ -60,7 +63,7 @@ namespace GraphicalEditor
                     ),
                     new MapObjectMetrics(x, 300, width, 120),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 30),
-                    MapObjects
+                    ++MapObjectsMaxId
                 );
                 MapObjects.Add(parkingSpace);
                 Console.WriteLine(parkingSpace.Id);

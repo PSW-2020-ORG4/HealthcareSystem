@@ -40,9 +40,10 @@ namespace GraphicalEditor
                     new Building("Building 1", 3),
                     new MapObjectMetrics(10, 20, 100, 200),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0),
-                    GetNextID()
+                    MapObjects
                 );
             MapObjects.Add(firstBuilding);
+            Console.WriteLine(firstBuilding.Id);
             firstBuilding.AddToCanvas(_canvas);
 
 
@@ -59,20 +60,12 @@ namespace GraphicalEditor
                     ),
                     new MapObjectMetrics(x, 300, width, 120),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 30),
-                    GetNextID()
+                    MapObjects
                 );
                 MapObjects.Add(parkingSpace);
                 Console.WriteLine(parkingSpace.Id);
                 parkingSpace.AddToCanvas(_canvas);
             }
-        }
-        public long GetNextID()
-        {
-            return GetMaxId(MapObjects) + 1;
-        }
-        private long GetMaxId(List<MapObject> objects)
-        {
-            return objects.Count() == 0 ? 0 : objects.Max(entity => entity.Id);
         }
 
     }

@@ -19,14 +19,14 @@ namespace GraphicalEditor.Models
         public MapObjectMetrics MapObjectMetrics { get; set; }
         public long Id { get; set; }
 
-        public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor,long id)
+        public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor,List<MapObject> mapObjects)
         {
             MapObjectEntity = mapObjectEntity;
             MapObjectMetrics = mapObjectMetrics;
 
             MapObjectDoor = mapObjectDoor;
             MapObjectDoor.MapObjectMetrics = mapObjectMetrics;
-            Id = id;
+            Id = mapObjects.Count() == 0 ? 0 : mapObjects.Max(entity => entity.Id) + 1;
             RectangleInitialization();
         }
 

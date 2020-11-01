@@ -1,12 +1,13 @@
-﻿using Model.Users;
+﻿using Backend.Repository;
+using Model.Users;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Backend.Repository
+namespace Repository
 {
-    class FileFeedbackRepository
+    class FileFeedbackRepository : IFeedbackRepository
     {
         private string _path;
         public FileFeedbackRepository()

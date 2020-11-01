@@ -6,6 +6,7 @@
 
 using Backend.Repository;
 using Model.Users;
+using Repository;
 using Service.NotificationSurveyAndFeedback;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,7 @@ namespace Controller.NotificationSurveyAndFeedback
 {
    public class FeedbackController
    {
-
-        private FeedbackService _feedbackService = new FeedbackService(new MySqlFeedbackRepository());
+        private FeedbackService _feedbackService = new FeedbackService(new FileFeedbackRepository(),new FileActivePatientRepository());
         public void AddFeedback(Feedback feedback)
         {
             _feedbackService.AddFeedback(feedback);

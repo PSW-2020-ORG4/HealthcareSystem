@@ -12,16 +12,14 @@ using System.IO;
 
 namespace Repository
 {
-   public class ActivePatientRepository
+   public class FileActivePatientRepository : IActivePatientRepository
    {
-
-      private string path;
-
-      public ActivePatientRepository()
+      private string _path;
+      public FileActivePatientRepository()
       {
             string fileName = "active_patients.json";
-            path = Path.GetFullPath(fileName);
-        }
+            _path = Path.GetFullPath(fileName);
+      }
       public Patient GetPatientByJmbg(string jmbg)
       {
             List<Patient> patients = ReadFromFile();
@@ -67,7 +65,7 @@ namespace Repository
             return patients;
       }
       
-      public Patient NewPatient(Patient patient)
+      public Patient AddPatient(Patient patient)
       {
             List<Patient> patients = ReadFromFile();
             Patient searchPatient = GetPatientByJmbg(patient.Jmbg);
@@ -114,9 +112,9 @@ namespace Repository
         private List<Patient> ReadFromFile()
         {
             List<Patient> patients;
-            if (File.Exists(path))
+            if (File.Exists(_path))
             {
-                string json = File.ReadAllText(path);
+                string json = File.ReadAllText(_path);
                 patients = JsonConvert.DeserializeObject<List<Patient>>(json);
             }
             else
@@ -130,7 +128,7 @@ namespace Repository
         private void WriteInFile(List<Patient> patients)
         {
             string json = JsonConvert.SerializeObject(patients);
-            File.WriteAllText(path, json);
+            File.WriteAllText(_path, json);
         }
 
     }

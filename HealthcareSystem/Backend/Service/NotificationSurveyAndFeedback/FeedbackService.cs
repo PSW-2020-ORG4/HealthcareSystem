@@ -15,12 +15,12 @@ namespace Service.NotificationSurveyAndFeedback
    public class FeedbackService
    {
         private IFeedbackRepository _feedbackRepository;
+        private IActivePatientRepository _activePatientRepository;
 
-        private ActivePatientRepository _activePatientRepository = new ActivePatientRepository();
-
-        public FeedbackService(IFeedbackRepository feedbackRepository)
+        public FeedbackService(IFeedbackRepository feedbackRepository, IActivePatientRepository activePatientRepository)
         {
             _feedbackRepository = feedbackRepository;
+            _activePatientRepository = activePatientRepository;
         }
         public void AddFeedback(Feedback feedback)
         {

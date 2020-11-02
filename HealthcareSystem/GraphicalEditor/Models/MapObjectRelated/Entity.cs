@@ -8,6 +8,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     public class Entity
     {
+        private static long TestId { get; set; } = 0;
         public long Id { get; set; }
 
         public Entity()
@@ -17,8 +18,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         private long GenerateId()
         {
-            MainWindow mainWindow = (MainWindow)App.Current.MainWindow;
-            return GetMaxId(mainWindow.AllMapObjects) + 1;
+            return TestId++;
         }
 
         private long GetMaxId(List<MapObject> allMapObjects)

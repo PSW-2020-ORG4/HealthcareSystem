@@ -65,6 +65,7 @@ namespace GraphicalEditor
 
                 examinationRoom.AddToCanvas(_canvas);
                 AllMapObjects.Add(examinationRoom);
+                Console.WriteLine(examinationRoom.MapObjectEntity.Id);
             }
 
 

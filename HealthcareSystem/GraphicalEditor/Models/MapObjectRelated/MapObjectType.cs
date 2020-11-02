@@ -10,16 +10,16 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     public class MapObjectType
     {
-        private MapObjectTypes _mapObjectType;
+        public MapObjectTypes TypeOfMapObject { get; set; }
 
         public MapObjectType(MapObjectTypes mapObjectType)
         {
-            this._mapObjectType = mapObjectType;
+            TypeOfMapObject = mapObjectType;
         }
-        public MapObjectTypes MapObjectTypes { get => _mapObjectType; set => _mapObjectType = value; }
+
         public SolidColorBrush getColor()
         {
-            switch (this._mapObjectType)
+            switch (TypeOfMapObject)
             {
                 case MapObjectTypes.BUILDING:
                     return Brushes.White;

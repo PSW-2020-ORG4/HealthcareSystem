@@ -51,7 +51,8 @@
                 <Button Grid.Column="5" BorderThickness="0" Foreground="White" Background="Transparent" Content="Lekovi"  Margin="10" Click="Navigation_Drugs_Click"/>
 
                 <Button Grid.Column="6" BorderThickness="0" Foreground="White" Background="Transparent" Content="Raspored" Margin="10" Click="Navigation_Schedule_Click"/>
-                <ToggleButton ToolTip="Promeni temu" Grid.Column="7" BorderThickness="0"  Margin="10,12,58,8" Click="ThemeButtonClick" IsChecked="True" Style="{StaticResource MaterialDesignSwitchToggleButton}" Background="{DynamicResource PrimaryHueLightBrush}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" />
+                <Button Grid.Column="7" BorderThickness="0" Foreground="White" Background="Transparent" Content="Mapa" Margin="10" Click="Navigation_Graphical_Editor_Click"/>
+                <ToggleButton ToolTip="Promeni temu" Grid.Column="8" BorderThickness="0"  Margin="10,12,58,8" Click="ThemeButtonClick" IsChecked="True" Style="{StaticResource MaterialDesignSwitchToggleButton}" Background="{DynamicResource PrimaryHueLightBrush}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" />
 
             </Grid>
 

@@ -384,6 +384,31 @@
 
                         </ListViewItem>
 
+                        <!--// Hospital Map - Graphic Editor //-->
+
+                        <ListViewItem HorizontalAlignment="Left"
+                                      Margin="0,0,0,15"
+                                      Name="HospitalMap"
+                                      PreviewMouseLeftButtonUp="HospitalMap_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/map.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Mapa bolnice"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+
+
+
 
                         <!--// Listview items style template //-->
 

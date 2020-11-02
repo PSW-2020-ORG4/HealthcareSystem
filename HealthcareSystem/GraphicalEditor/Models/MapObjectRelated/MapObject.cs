@@ -15,17 +15,17 @@ namespace GraphicalEditor.Models
     public class MapObject
     {
         public Rectangle Rectangle { get; set; }
+        public MapObjectDoor MapObjectDoor { get; set; }
         public MapObjectEntity MapObjectEntity { get; set; }
         public MapObjectMetrics MapObjectMetrics { get; set; }
-        public MapObjectDoor MapObjectDoor { get; set; }
 
         public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
         {
             MapObjectEntity = mapObjectEntity;
             MapObjectMetrics = mapObjectMetrics;
 
-            mapObjectDoor.MapObjectMetrics = this.MapObjectMetrics;
             MapObjectDoor = mapObjectDoor;
+            MapObjectDoor.MapObjectMetrics = mapObjectMetrics;
 
             RectangleInitialization();
         }
@@ -34,21 +34,20 @@ namespace GraphicalEditor.Models
         {
             Rectangle = new Rectangle();
             Rectangle.Fill = MapObjectEntity.getColor();
-            Rectangle.Height = MapObjectMetrics.Height;
-            Rectangle.Width = MapObjectMetrics.Width;
+            Rectangle.Height = MapObjectMetrics.HeightOfMapObject;
+            Rectangle.Width = MapObjectMetrics.WidthOfMapObject;
 
             Rectangle.Stroke = Brushes.Black;
             Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
 
-            Rectangle.SetValue(Canvas.LeftProperty, MapObjectMetrics.X);
-            Rectangle.SetValue(Canvas.TopProperty, MapObjectMetrics.Y);
+            Rectangle.SetValue(Canvas.LeftProperty, MapObjectMetrics.XOfCanvas);
+            Rectangle.SetValue(Canvas.TopProperty, MapObjectMetrics.YOfCanvas);
         }
 
         public void AddToCanvas(Canvas canvas)
         {
             canvas.Children.Add(Rectangle);
-            if (!MapObjectEntity.MapObjectType.MapObjectTypes.Equals(MapObjectTypes.PARKING))
-                canvas.Children.Add(MapObjectDoor.GetDoor());
+            canvas.Children.Add(MapObjectDoor.GetDoor());
         }
     }
 }

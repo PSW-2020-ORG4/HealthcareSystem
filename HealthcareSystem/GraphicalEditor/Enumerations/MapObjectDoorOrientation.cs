@@ -8,6 +8,6 @@ namespace GraphicalEditor.Enumerations
 {
     public enum MapObjectDoorOrientation
     {
-        LEFT, RIGHT, TOP, BOTTOM
+        LEFT, RIGHT, TOP, BOTTOM, NONE
     }
 }

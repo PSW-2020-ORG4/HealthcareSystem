@@ -1,4 +1,5 @@
 ﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models.MapObjectRelated;
 using System;
 using System.Collections.Generic;

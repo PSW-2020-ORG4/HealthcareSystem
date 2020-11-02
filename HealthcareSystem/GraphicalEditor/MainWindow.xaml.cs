@@ -25,13 +25,11 @@ namespace GraphicalEditor
     public partial class MainWindow : Window
     {
         private Canvas _canvas;
-        public List<MapObject> AllMapObjects { get; set; }
         public long MapObjectsMaxId { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             _canvas = this.Canvas;
-            AllMapObjects = new List<MapObject>();
 
             LoadMockupObjects();
         }
@@ -42,11 +40,17 @@ namespace GraphicalEditor
                     new Building("Building 1", 3),
                     new MapObjectMetrics(10, 20, 100, 200),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0)
-                );
+            );
 
             firstBuilding.AddToCanvas(_canvas);
-            AllMapObjects.Add(firstBuilding);
 
+            MapObject parking
+                = new MapObject(new Parking(),
+                   new MapObjectMetrics(130, 20, 100, 200),
+                   new MapObjectDoor(MapObjectDoorOrientation.NONE)
+            );
+
+            parking.AddToCanvas(_canvas);
 
             for (int i = 0; i <= 10; i++)
             {
@@ -64,8 +68,6 @@ namespace GraphicalEditor
                 );
 
                 examinationRoom.AddToCanvas(_canvas);
-                AllMapObjects.Add(examinationRoom);
-                Console.WriteLine(examinationRoom.MapObjectEntity.Id);
             }
 
 

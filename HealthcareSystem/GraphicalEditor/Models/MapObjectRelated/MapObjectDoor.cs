@@ -29,6 +29,15 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         public Rectangle GetDoor()
         {
+            if (MapObjectDoorOrientation == MapObjectDoorOrientation.NONE)
+                GetEmptyDoor();
+            else GetActualDoor();
+
+            return Rectangle;
+        }
+
+        private void GetActualDoor()
+        {
             Rectangle = new Rectangle();
             Rectangle.Fill = Brushes.DarkGreen;
             Rectangle.Width = DoorWidth;
@@ -36,8 +45,11 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             Rectangle.SetValue(Canvas.LeftProperty, CalculateDoorX());
             Rectangle.SetValue(Canvas.TopProperty, CalculateDoorY());
+        }
 
-            return Rectangle;
+        private void GetEmptyDoor()
+        {
+            Rectangle = new Rectangle();
         }
 
         private double CalculateDoorX()

@@ -212,8 +212,8 @@ namespace Clinic_Health
 
         private void Navigation_Graphical_Editor_Click(object sender, RoutedEventArgs e)
         {
-			GraphicalEditor.MainWindow mw = new GraphicalEditor.MainWindow();
-			mw.ShowDialog();
+			GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow();
+			graphicalEditorMainWindow.ShowDialog();
         }
     }
 }

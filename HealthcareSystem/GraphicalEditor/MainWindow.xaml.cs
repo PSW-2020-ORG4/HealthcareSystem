@@ -54,16 +54,16 @@ namespace GraphicalEditor
 
             for (int i = 0; i <= 10; i++)
             {
-                double startX = 20;
-                double width = 70;
+                double startXOfCanvas = 20;
+                double widthOfExamiantionRoom = 70;
 
-                double x = i == 0 ? startX : startX + width * i - i * AllConstants.RECTANGLE_STROKE_THICKNESS;
+                double xOfCanvas = i == 0 ? startXOfCanvas : startXOfCanvas + widthOfExamiantionRoom * i - i * AllConstants.RECTANGLE_STROKE_THICKNESS;
 
                 MapObject examinationRoom = new MapObject(
                     new Room(
                         MapObjectTypes.EXAMINATION_ROOM, "Opis 1", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                     ),
-                    new MapObjectMetrics(x, 300, width, 120),
+                    new MapObjectMetrics(xOfCanvas, 300, widthOfExamiantionRoom, 120),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 30)
                 );
 

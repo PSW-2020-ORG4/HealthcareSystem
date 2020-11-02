@@ -17,16 +17,15 @@ namespace GraphicalEditor.Models
         public MapObjectDoor MapObjectDoor { get; set; }
         public MapObjectEntity MapObjectEntity { get; set; }
         public MapObjectMetrics MapObjectMetrics { get; set; }
-        public long Id { get; set; }
 
-        public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor,long id)
+        public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
         {
             MapObjectEntity = mapObjectEntity;
             MapObjectMetrics = mapObjectMetrics;
 
             MapObjectDoor = mapObjectDoor;
             MapObjectDoor.MapObjectMetrics = mapObjectMetrics;
-            Id = id;
+
             RectangleInitialization();
         }
 

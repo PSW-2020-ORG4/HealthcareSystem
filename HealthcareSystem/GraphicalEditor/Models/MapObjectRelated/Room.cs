@@ -13,8 +13,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public int Floor { get; set; }
         public Building Building { get; set; }
 
-        public Room(MapObjectTypes mapObjectType, String description, MapObjectDepartment department, int floor,MapObject building)
-            : base(new MapObjectType(mapObjectType), "Test")
+        public Room(MapObjectTypes mapObjectType, String description, MapObjectDepartment department, MapObject building, int floor)
+            : base(new MapObjectType(mapObjectType), description)
         {
             Department = department;
             Floor = floor;

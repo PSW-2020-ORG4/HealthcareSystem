@@ -25,29 +25,27 @@ namespace GraphicalEditor
     public partial class MainWindow : Window
     {
         private Canvas _canvas;
-        public List<MapObject> MapObjects { get; set; }
-
+        public List<MapObject> AllMapObjects { get; set; }
         public long MapObjectsMaxId { get; set; }
         public MainWindow()
         {
             InitializeComponent();
             _canvas = this.Canvas;
-            MapObjects = new List<MapObject>();
-            MapObjectsMaxId = MapObjects.Count() == 0 ? 0 : MapObjects.Max(entity => entity.Id);
-            loadMockupObjects();
+            AllMapObjects = new List<MapObject>();
+
+            LoadMockupObjects();
         }
 
-        public void loadMockupObjects()
+        private void LoadMockupObjects()
         {
             MapObject firstBuilding = new MapObject(
                     new Building("Building 1", 3),
                     new MapObjectMetrics(10, 20, 100, 200),
-                    new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0),
-                    ++MapObjectsMaxId
+                    new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0)
                 );
-            MapObjects.Add(firstBuilding);
-            Console.WriteLine(firstBuilding.Id);
+
             firstBuilding.AddToCanvas(_canvas);
+            AllMapObjects.Add(firstBuilding);
 
 
             for (int i = 0; i <= 10; i++)
@@ -57,18 +55,19 @@ namespace GraphicalEditor
 
                 double x = i == 0 ? startX : startX + width * i - i * AllConstants.RECTANGLE_STROKE_THICKNESS;
 
-                MapObject parkingSpace = new MapObject(
+                MapObject examinationRoom = new MapObject(
                     new Room(
-                        MapObjectTypes.PARKING, "Opis 1", MapObjectDepartment.CARDIOLOGY, 0, firstBuilding
+                        MapObjectTypes.EXAMINATION_ROOM, "Opis 1", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                     ),
                     new MapObjectMetrics(x, 300, width, 120),
-                    new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 30),
-                    ++MapObjectsMaxId
+                    new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 30)
                 );
-                MapObjects.Add(parkingSpace);
-                Console.WriteLine(parkingSpace.Id);
-                parkingSpace.AddToCanvas(_canvas);
+
+                examinationRoom.AddToCanvas(_canvas);
+                AllMapObjects.Add(examinationRoom);
             }
+
+
         }
 
     }

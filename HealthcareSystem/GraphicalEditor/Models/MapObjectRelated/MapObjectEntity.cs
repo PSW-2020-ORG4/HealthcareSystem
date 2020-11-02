@@ -7,12 +7,13 @@ using System.Windows.Media;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-    public class MapObjectEntity 
+    public class MapObjectEntity : Entity
     {
         public MapObjectType MapObjectType { get; set; }
         public String Description { get; set; }
 
         public MapObjectEntity(MapObjectType mapObjectType, string description)
+            :base()
         {
             MapObjectType = mapObjectType;
             Description = description;

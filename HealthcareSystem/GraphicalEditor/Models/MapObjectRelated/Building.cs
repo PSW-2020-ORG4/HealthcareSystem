@@ -12,7 +12,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public int NumOfFloors { get; set; }
 
         public Building(String description, int numOfFloors)
-            : base(new MapObjectType(MapObjectTypes.BUILDING), "Building 1")
+            : base(new MapObjectType(MapObjectTypes.BUILDING), description)
         {
             NumOfFloors = numOfFloors;
         }

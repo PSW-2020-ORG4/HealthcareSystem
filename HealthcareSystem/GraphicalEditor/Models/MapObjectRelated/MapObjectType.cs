@@ -17,6 +17,14 @@ namespace GraphicalEditor.Models.MapObjectRelated
             this._mapObjectType = mapObjectType;
         }
 
+        public MapObjectType()
+        {
+            this._mapObjectType = MapObjectTypes.PARKING;
+        }
+
+        public MapObjectTypes GetMapObjectTypes { get => _mapObjectType; set => _mapObjectType = value; }
+
+
         public SolidColorBrush getColor()
         {
             switch (this._mapObjectType)

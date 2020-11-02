@@ -21,6 +21,11 @@ namespace GraphicalEditor.Models.MapObjectRelated
             Building = (Building)building.MapObjectEntity;
         }
 
+        public Room(String description)
+            : base(new MapObjectType(), "Room")
+        {
+        }
+
         public MapObjectDepartment Department { get => _department; set => _department = value; }
         public int Floor { get => _floor; set => _floor = value; }
         internal Building Building { get => _building; set => _building = value; }

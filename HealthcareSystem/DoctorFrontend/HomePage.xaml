@@ -61,6 +61,11 @@
                     Informacije o nalogu i odjava
                 </MenuItem.ToolTip>
             </MenuItem>
+            <MenuItem Header="Mapa" Click="Navigation_Graphical_Editor_Click">
+                <MenuItem.ToolTip>
+                    Mapa bolnice
+                </MenuItem.ToolTip>
+            </MenuItem>
         </Menu>
         <TextBlock HorizontalAlignment="Left" Height="25" Margin="122,68,0,0" TextWrapping="Wrap" Text="Korporacija Zdravo" VerticalAlignment="Top" Width="186" FontSize="19"/>
 

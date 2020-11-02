@@ -37,9 +37,17 @@ namespace GraphicalEditor
                     new MapObjectMetrics(10, 20, 100, 200),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0)
                 );
-            objectsList.Add(firstBuilding);
-            firstBuilding.AddToCanvas(_canvas);
+             MapObject parking
+                = new MapObject(new MapObjectEntity(),
+                   new MapObjectMetrics(130, 20, 100, 200),
+                   new MapObjectDoor(MapObjectDoorOrientation.BOTTOM)
+               );
 
+
+            objectsList.Add(firstBuilding);
+            objectsList.Add(parking);
+            firstBuilding.AddToCanvas(_canvas);
+            parking.AddToCanvas(_canvas);
             // Dodavanje vise objekata od jednom
             for (int i = 0; i <= 10; i++)
             {

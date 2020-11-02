@@ -46,7 +46,8 @@ namespace GraphicalEditor.Models
         public void AddToCanvas(Canvas canvas)
         {
             canvas.Children.Add(Rectangle);
-            canvas.Children.Add(MapObjectDoor.GetDoor());
+            if(!_mapObjectEntity.GetMapObjectTypes.Equals(MapObjectTypes.PARKING))
+              canvas.Children.Add(MapObjectDoor.GetDoor());
         }
 
         public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }

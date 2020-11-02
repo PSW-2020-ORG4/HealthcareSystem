@@ -92,7 +92,6 @@
                     <StackPanel Width="150" >
                         <Button Name="editProfileBtn" Content="Izmijeni profil" Foreground="#FF002F43" Click="editProfileBtn_Click">
                         </Button>
-                        <Button Name="addFeedbackBtn"  Content="Dodaj feedback" Foreground="#FF002F43" Click="addFeedbackBtn_Click"/>
                         <Separator/>
                         <Button Name="signOutBtn" Content="Odjavi se" Foreground="#FF002F43" Click="signOutBtn_Click"/>
                     </StackPanel>

@@ -193,12 +193,6 @@ namespace WpfApp1
             s.Show();
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
-        {
-            var s = new AddFeedback();
-            s.Show();
-        }
-
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
             HelpViewer help = new HelpViewer("index");

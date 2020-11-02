@@ -12,14 +12,13 @@ using System.IO;
 
 namespace Repository
 {
-   public class DeletedPatientRepository
+   public class FileDeletedPatientRepository : IDeletedPatientRepository
    {
-        private string path;
-
-        public DeletedPatientRepository()
+        private string _path;
+        public FileDeletedPatientRepository()
         {
             string fileName = "deleted_patients.json";
-            path = Path.GetFullPath(fileName);
+            _path = Path.GetFullPath(fileName);
         }
 
         public Patient GetPatientByJmbg(string jmbg)
@@ -34,7 +33,7 @@ namespace Repository
             }
             return null;
         }
-        public Model.Users.Patient NewPatient(Model.Users.Patient patient)
+        public Patient AddPatient(Patient patient)
         {
             List<Patient> patients = ReadFromFile();
             Patient searchPatient = GetPatientByJmbg(patient.Jmbg);
@@ -46,32 +45,12 @@ namespace Repository
             WriteInFile(patients);
             return patient;
         }
-      
-      public bool DeletePatient(string jmbg)
-      {
-            List<Patient> patients = ReadFromFile();
-            Patient patientForDelete = null;
-            foreach(Patient p in patients)
-            {
-                if (p.Jmbg.Equals(jmbg))
-                {
-                    patientForDelete = p;
-                    break;
-                }
-            }
-            if (patientForDelete == null)
-                return false;
-            patients.Remove(patientForDelete);
-            WriteInFile(patients);
-            return true;
-      }
-
         private List<Patient> ReadFromFile()
         {
             List<Patient> patients;
-            if (File.Exists(path))
+            if (File.Exists(_path))
             {
-                string json = File.ReadAllText(path);
+                string json = File.ReadAllText(_path);
                 patients = JsonConvert.DeserializeObject<List<Patient>>(json);
             }
             else
@@ -85,7 +64,7 @@ namespace Repository
         private void WriteInFile(List<Patient> patients)
         {
             string json = JsonConvert.SerializeObject(patients);
-            File.WriteAllText(path, json);
+            File.WriteAllText(_path, json);
         }
 
     }

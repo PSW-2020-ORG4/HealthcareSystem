@@ -34,14 +34,14 @@ namespace GraphicalEditor.Models
         {
             Rectangle = new Rectangle();
             Rectangle.Fill = MapObjectEntity.getColor();
-            Rectangle.Height = MapObjectMetrics.Height;
-            Rectangle.Width = MapObjectMetrics.Width;
+            Rectangle.Height = MapObjectMetrics.HeightOfMapObject;
+            Rectangle.Width = MapObjectMetrics.WidthOfMapObject;
 
             Rectangle.Stroke = Brushes.Black;
             Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
 
-            Rectangle.SetValue(Canvas.LeftProperty, MapObjectMetrics.X);
-            Rectangle.SetValue(Canvas.TopProperty, MapObjectMetrics.Y);
+            Rectangle.SetValue(Canvas.LeftProperty, MapObjectMetrics.XOfCanvas);
+            Rectangle.SetValue(Canvas.TopProperty, MapObjectMetrics.YOfCanvas);
         }
 
         public void AddToCanvas(Canvas canvas)

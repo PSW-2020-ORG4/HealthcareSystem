@@ -66,10 +66,10 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }
 
         private double CalculateXForLeft()
-            => MapObjectMetrics.X - DoorWidth + AllConstants.RECTANGLE_STROKE_THICKNESS;
+            => MapObjectMetrics.XOfCanvas - DoorWidth + AllConstants.RECTANGLE_STROKE_THICKNESS;
 
         private double CalculateXForRight()
-            => MapObjectMetrics.X + MapObjectMetrics.Width - AllConstants.RECTANGLE_STROKE_THICKNESS;
+            => MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject - AllConstants.RECTANGLE_STROKE_THICKNESS;
 
         private double CalculateDoorY()
         {
@@ -85,31 +85,31 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }        
 
         private double CalculateYForTop()
-            => MapObjectMetrics.Y - DoorHeight + AllConstants.RECTANGLE_STROKE_THICKNESS;
+            => MapObjectMetrics.YOfCanvas - DoorHeight + AllConstants.RECTANGLE_STROKE_THICKNESS;
 
         private double CalculateYForBottom()
-            => MapObjectMetrics.Y + MapObjectMetrics.Height - AllConstants.RECTANGLE_STROKE_THICKNESS;
+            => MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject - AllConstants.RECTANGLE_STROKE_THICKNESS;
 
 
         
         private double CalculateXShifted()
         {
-            double currentShiftedX = MapObjectMetrics.X + MapObjectMetrics.Width / 2 - DoorWidth / 2 + this.XShiftFromCenter;
-            if (currentShiftedX < MapObjectMetrics.X)
-                return MapObjectMetrics.X;
-            else if (currentShiftedX + DoorWidth > MapObjectMetrics.X + MapObjectMetrics.Width)
-                return MapObjectMetrics.X + MapObjectMetrics.Width - DoorWidth;
+            double currentShiftedX = MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject / 2 - DoorWidth / 2 + this.XShiftFromCenter;
+            if (currentShiftedX < MapObjectMetrics.XOfCanvas)
+                return MapObjectMetrics.XOfCanvas;
+            else if (currentShiftedX + DoorWidth > MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject)
+                return MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject - DoorWidth;
             else return currentShiftedX;
         }
 
         
         private double CalculateYShifted()
         {
-            double currentShiftedY = MapObjectMetrics.Y + MapObjectMetrics.Height / 2 - DoorHeight / 2 + this.YShiftFromCenter;
-            if (currentShiftedY < MapObjectMetrics.Y)
-                return MapObjectMetrics.Y;
-            else if (currentShiftedY + DoorHeight > MapObjectMetrics.Y + MapObjectMetrics.Height)
-                return MapObjectMetrics.Y + MapObjectMetrics.Height - DoorHeight;
+            double currentShiftedY = MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject / 2 - DoorHeight / 2 + this.YShiftFromCenter;
+            if (currentShiftedY < MapObjectMetrics.YOfCanvas)
+                return MapObjectMetrics.YOfCanvas;
+            else if (currentShiftedY + DoorHeight > MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject)
+                return MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject - DoorHeight;
             else return currentShiftedY;
         }
 

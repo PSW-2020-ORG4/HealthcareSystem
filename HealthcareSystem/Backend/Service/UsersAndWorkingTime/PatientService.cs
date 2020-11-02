@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Service.Users&WorkingTimeService.PatientService
  ***********************************************************************/
 
+using Backend.Model.Exceptions;
 using Model.Users;
 using Repository;
 using System;
@@ -26,7 +27,7 @@ namespace Service.UsersAndWorkingTime
         {
             if (!patient.IsGuest &&  (!IsUsernameValid(patient.Username) || !IsPasswordValid(patient.Password)))
             {
-                return null;
+                throw new BadRequestException("Your username or password is incorrect. Please try again.");
             }
             return _activePatientRepository.AddPatient(patient);
         }

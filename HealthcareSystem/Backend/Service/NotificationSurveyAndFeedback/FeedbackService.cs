@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Service.Notification&Survey&dFeedbackService.FeedbackService
  ***********************************************************************/
 
+using Backend.Model.Exceptions;
 using Backend.Repository;
 using Model.Users;
 using Repository;
@@ -25,9 +26,9 @@ namespace Service.NotificationSurveyAndFeedback
         public void AddFeedback(Feedback feedback)
         {
             if (feedback == null)
-                return;
+                throw new BadRequestException("Please, write a comment to send feedback.");
             if (_activePatientRepository.GetPatientByJmbg(feedback.Commentator.Jmbg) == null)
-                return;
+                throw new BadRequestException("An error occurred while loading your data. There is a possibility that your profile has been deleted.");
             _feedbackRepository.AddFeedback(feedback);
         }
         public void PublishFeedback(int id)

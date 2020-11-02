@@ -237,13 +237,13 @@
     <Compile Include="Repository\EquipmentInRoomsRepository.cs" />
     <Compile Include="Repository\PatientRepository\IActivePatientRepository.cs" />
     <Compile Include="Repository\PatientRepository\IDeletedPatientRepository.cs" />
-    <Compile Include="Repository\IFeedbackRepository.cs" />
-    <Compile Include="Repository\FileFeedbackRepository.cs" />
+    <Compile Include="Repository\FeedbackRepository\IFeedbackRepository.cs" />
+    <Compile Include="Repository\FeedbackRepository\FileFeedbackRepository\FileFeedbackRepository.cs" />
     <Compile Include="Repository\IngridientRepository.cs" />
     <Compile Include="Repository\ManagerRepository.cs" />
     <Compile Include="Repository\PatientRepository\MySqlPatientRepository\MySqlActivePatientRepository.cs" />
     <Compile Include="Repository\PatientRepository\MySqlPatientRepository\MySqlDeletedPatientRepository.cs" />
-    <Compile Include="Repository\MySqlFeedbackRepository.cs" />
+    <Compile Include="Repository\FeedbackRepository\MySqlFeedbackRepository\MySqlFeedbackRepository.cs" />
     <Compile Include="Repository\NonConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\NotificationRepository.cs" />
     <Compile Include="Repository\PlacementInSickRoomRepository.cs" />

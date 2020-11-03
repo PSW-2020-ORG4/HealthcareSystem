@@ -5,14 +5,17 @@
  ***********************************************************************/
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Users
 {
    public class Patient : User
    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateOfRegistration { get; set; }
         public bool IsGuest { get; set; }
-
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
         public Patient()
         {
             IsGuest = false;
@@ -28,6 +31,7 @@ namespace Model.Users
             Gender = gender;
             if (city != null) { City = new City(city); }
             else { City = new City(); }
+            CityZipCode = city.ZipCode;
             HomeAddress = homeAddress;
             Phone = phone;
             Email = email;
@@ -45,6 +49,7 @@ namespace Model.Users
             Gender = patient.Gender;
             if (patient.City != null) { City = new City(patient.City); }
             else { City = new City(); }
+            CityZipCode = patient.City.ZipCode;
             HomeAddress = patient.HomeAddress;
             Phone = patient.Phone;
             Email = patient.Email;

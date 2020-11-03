@@ -183,6 +183,11 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
+    <Compile Include="Migrations\20201103131218_FirstMigration.cs" />
+    <Compile Include="Migrations\20201103131218_FirstMigration.designer.cs">
+      <DependentUpon>20201103131218_FirstMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Doctor\Examination.cs" />
     <Compile Include="Model\Doctor\PlacemetnInARoom.cs" />
     <Compile Include="Model\Doctor\Therapy.cs" />
@@ -204,6 +209,7 @@
     <Compile Include="Model\Manager\TypeOfUsage.cs" />
     <Compile Include="Model\Manager\WorkingTime.cs" />
     <Compile Include="Model\Manager\WorkShifts.cs" />
+    <Compile Include="Model\MyDbContext.cs" />
     <Compile Include="Model\Patient\Grade.cs" />
     <Compile Include="Model\Patient\Survey.cs" />
     <Compile Include="Model\Secretary\BloodType.cs" />

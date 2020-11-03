@@ -27,7 +27,7 @@ namespace Service.NotificationSurveyAndFeedback
         {
             if (feedback == null)
                 throw new BadRequestException("Please, write a comment to send feedback.");
-            if (_activePatientRepository.GetPatientByJmbg(feedback.Commentator.Jmbg) == null)
+            if (_activePatientRepository.GetPatientByJmbg(feedback.CommentatorJmbg) == null)
                 throw new BadRequestException("An error occurred while loading your data. There is a possibility that your profile has been deleted.");
             _feedbackRepository.AddFeedback(feedback);
         }

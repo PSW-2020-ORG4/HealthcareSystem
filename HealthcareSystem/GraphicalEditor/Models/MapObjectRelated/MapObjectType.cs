@@ -32,7 +32,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 case MapObjectTypes.PARKING:
                     return Brushes.LightBlue;
                 case MapObjectTypes.RESTAURANT:
-                    return Brushes.LightGray;
+                    return Brushes.Brown;
                 case MapObjectTypes.HOSPITALIZATION_ROOM:
                     return Brushes.Orange;
                 default:

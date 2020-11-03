@@ -30,9 +30,17 @@ namespace Model.Users
             Id = id;
             Comment = comment;
             IsPublished = isPublished;
-            if(commentator != null) { Commentator = new Patient(commentator); }
-            else { Commentator = new Patient();  }
-            CommentatorJmbg = commentator.Jmbg;
+            if(commentator != null) 
+            {
+                Commentator = new Patient(commentator);
+                CommentatorJmbg = commentator.Jmbg;
+            }
+            else
+            { 
+                Commentator = new Patient();
+                CommentatorJmbg = null;
+            }
+            
         }
 
     }

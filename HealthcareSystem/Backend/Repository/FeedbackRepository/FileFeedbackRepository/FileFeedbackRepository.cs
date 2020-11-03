@@ -15,6 +15,19 @@ namespace Repository
             string fileName = "feedback.json";
             _path = Path.GetFullPath(fileName);
         }
+        public Feedback GetFeedbackById(int id)
+        {
+            List<Feedback> feedbacks = ReadFromFile();
+            foreach (Feedback feedback in feedbacks)
+            {
+                if (feedback.Id == id)
+                {
+                    return feedback;
+                }
+            }
+            return null;
+        }
+
         public void AddFeedback(Feedback feedback)
         {
             List<Feedback> feedbacks = ReadFromFile();
@@ -22,12 +35,12 @@ namespace Repository
             WriteInFile(feedbacks);
         }
 
-        public void PublishFeedback(int id)
+        public void PublishFeedback(Feedback feedback)
         {
             List<Feedback> feedbacks = ReadFromFile();
-            foreach (Feedback feedback in feedbacks)
+            foreach (Feedback f in feedbacks)
             {
-                if (feedback.Id == id)
+                if (f.Id == feedback.Id)
                 {
                     feedback.IsPublished = true;
                     WriteInFile(feedbacks);

@@ -15,14 +15,14 @@ namespace Controller.NotificationSurveyAndFeedback
 {
    public class FeedbackController
    {
-        private FeedbackService _feedbackService = new FeedbackService(new FileFeedbackRepository(),new FileActivePatientRepository());
+        private FeedbackService _feedbackService = new FeedbackService(new MySqlFeedbackRepository(),new MySqlActivePatientRepository());
         public void AddFeedback(Feedback feedback)
         {
             _feedbackService.AddFeedback(feedback);
         }
-        public void PublishFeedback(int id)
+        public void PublishFeedback(Feedback feedback)
         {
-            _feedbackService.PublishFeedback(id);
+            _feedbackService.PublishFeedback(feedback);
         }
         public List<Feedback> GetPublishedFeedbacks()
         {

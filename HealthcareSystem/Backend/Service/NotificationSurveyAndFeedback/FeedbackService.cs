@@ -31,9 +31,9 @@ namespace Service.NotificationSurveyAndFeedback
                 throw new BadRequestException("An error occurred while loading your data. There is a possibility that your profile has been deleted.");
             _feedbackRepository.AddFeedback(feedback);
         }
-        public void PublishFeedback(int id)
+        public void PublishFeedback(Feedback feedback)
         {
-            _feedbackRepository.PublishFeedback(id);
+            _feedbackRepository.PublishFeedback(feedback);
         }
         public List<Feedback> GetPublishedFeedbacks()
         {

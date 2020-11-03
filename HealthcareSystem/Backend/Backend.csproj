@@ -193,6 +193,7 @@
     <Compile Include="Model\Doctor\Therapy.cs" />
     <Compile Include="Model\Doctor\TypeOfExamination.cs" />
     <Compile Include="Model\Exceptions\BadRequestException.cs" />
+    <Compile Include="Model\Exceptions\DatabaseException.cs" />
     <Compile Include="Model\Exceptions\HealthClinicException.cs" />
     <Compile Include="Model\Manager\ConsumableEquipment.cs" />
     <Compile Include="Model\Manager\Drug.cs" />

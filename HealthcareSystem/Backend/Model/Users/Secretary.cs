@@ -28,12 +28,13 @@ namespace Model.Users
             if (city != null)
             {
                 City = new City(city);
+                CityZipCode = city.ZipCode;
             }
             else
             {
                 City = new City();
+                CityZipCode = 0;
             }
-            CityZipCode = city.ZipCode;
             HomeAddress = homeAddress;
             Phone = phone;
             Email = email;
@@ -52,12 +53,13 @@ namespace Model.Users
             if (secretary.City != null)
             {
                 City = new City(secretary.City);
+                CityZipCode = secretary.City.ZipCode;
             }
             else
             {
                 City = new City();
+                CityZipCode = 0;
             }
-            CityZipCode = secretary.CityZipCode;
             HomeAddress = secretary.HomeAddress;
             Phone = secretary.Phone;
             Email = secretary.Email;

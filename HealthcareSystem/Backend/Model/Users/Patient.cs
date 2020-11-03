@@ -29,9 +29,16 @@ namespace Model.Users
             Surname = surname;
             DateOfBirth = dateOfBirth;
             Gender = gender;
-            if (city != null) { City = new City(city); }
-            else { City = new City(); }
-            CityZipCode = city.ZipCode;
+            if (city != null) 
+            {
+                City = new City(city);
+                CityZipCode = city.ZipCode;
+            }
+            else
+            {
+                City = new City();
+                CityZipCode = 0;
+            }        
             HomeAddress = homeAddress;
             Phone = phone;
             Email = email;
@@ -47,9 +54,16 @@ namespace Model.Users
             Surname = patient.Surname;
             DateOfBirth = patient.DateOfBirth;
             Gender = patient.Gender;
-            if (patient.City != null) { City = new City(patient.City); }
-            else { City = new City(); }
-            CityZipCode = patient.City.ZipCode;
+            if (patient.City != null)
+            {
+                City = new City(patient.City);
+                CityZipCode = patient.City.ZipCode;
+            }
+            else
+            {
+                City = new City();
+                CityZipCode = 0;
+            }
             HomeAddress = patient.HomeAddress;
             Phone = patient.Phone;
             Email = patient.Email;

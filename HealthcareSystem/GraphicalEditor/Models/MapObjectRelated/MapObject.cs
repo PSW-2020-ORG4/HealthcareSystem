@@ -50,7 +50,7 @@ namespace GraphicalEditor.Models
         private void PositionObjectNameTextBlock()
         {
             MapObjectNameTextBlock = new TextBlock();
-            MapObjectNameTextBlock.Text = MapObjectEntity.MapObjectType.getObjectTypeNameAbbreviation();
+            MapObjectNameTextBlock.Text = MapObjectEntity.MapObjectType.ObjectTypeNameAbbreviation;
 
             MapObjectNameTextBlock.FontSize = 20;
             MapObjectNameTextBlock.HorizontalAlignment = HorizontalAlignment.Center;

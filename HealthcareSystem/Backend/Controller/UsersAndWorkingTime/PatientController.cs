@@ -5,6 +5,7 @@
  ***********************************************************************/
 
 using Model.Users;
+using Repository;
 using Service.UsersAndWorkingTime;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,7 @@ namespace Controller.UsersAndWorkingTime
 {
    public class PatientController : IUserStrategy
    {
-
-        private PatientService patientService = new PatientService();
-
+        private PatientService patientService = new PatientService(new FileActivePatientRepository(),new FileDeletedPatientRepository());
         public bool DeleteProfile(string jmbg)
         {
             return patientService.DeletePatient(jmbg);

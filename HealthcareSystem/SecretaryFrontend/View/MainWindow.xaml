@@ -92,7 +92,6 @@
                     <StackPanel Width="150" >
                         <Button Name="editProfileBtn" Content="Izmijeni profil" Foreground="#FF002F43" Click="editProfileBtn_Click">
                         </Button>
-                        <Button Name="addFeedbackBtn"  Content="Dodaj feedback" Foreground="#FF002F43" Click="addFeedbackBtn_Click"/>
                         <Separator/>
                         <Button Name="signOutBtn" Content="Odjavi se" Foreground="#FF002F43" Click="signOutBtn_Click"/>
                     </StackPanel>
@@ -384,6 +383,31 @@
                             </StackPanel>
 
                         </ListViewItem>
+
+                        <!--// Hospital Map - Graphic Editor //-->
+
+                        <ListViewItem HorizontalAlignment="Left"
+                                      Margin="0,0,0,15"
+                                      Name="HospitalMap"
+                                      PreviewMouseLeftButtonUp="HospitalMap_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/map.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Mapa bolnice"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+
+
 
 
                         <!--// Listview items style template //-->

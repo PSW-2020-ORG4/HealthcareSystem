@@ -73,12 +73,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\MapObjectRelated\Building.cs" />
-    <Compile Include="Models\MapObjectRelated\IdGenerator.cs" />
+    <Compile Include="Models\MapObjectRelated\Entity.cs" />
     <Compile Include="Models\MapObjectRelated\MapObject.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectDoor.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectEntity.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectMetrics.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectType.cs" />
+    <Compile Include="Models\MapObjectRelated\Parking.cs" />
+    <Compile Include="Models\MapObjectRelated\Restaurant.cs" />
     <Compile Include="Models\MapObjectRelated\Room.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

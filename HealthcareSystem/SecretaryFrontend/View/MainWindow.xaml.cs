@@ -51,13 +51,6 @@ namespace ProjekatZdravoKorporacija
         {
             Main.Content = new ExaminationViewByDoctor("");
         }
-
-        private void addFeedbackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            var f = new FeedbackView();
-            f.ShowDialog();
-        }
-
         private void editProfileBtn_Click(object sender, RoutedEventArgs e)
         {
             Main.Content = new EditProfile();
@@ -96,6 +89,12 @@ namespace ProjekatZdravoKorporacija
         private void CanceledExaminations_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Main.Content = new CanceledExaminationsView();
+        }
+
+        private void HospitalMap_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow();
+            graphicalEditorMainWindow.ShowDialog();
         }
     }
 }

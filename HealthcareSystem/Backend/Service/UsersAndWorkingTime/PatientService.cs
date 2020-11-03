@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Service.Users&WorkingTimeService.PatientService
  ***********************************************************************/
 
+using Backend.Model.Exceptions;
 using Model.Users;
 using Repository;
 using System;
@@ -14,16 +15,21 @@ namespace Service.UsersAndWorkingTime
 {
     public class PatientService
     {
+        private IActivePatientRepository _activePatientRepository;
+        private IDeletedPatientRepository _deletedPatientRepository;
 
-        private ActivePatientRepository activePatientRepository = new ActivePatientRepository();
-        private DeletedPatientRepository deletedPatientRepository = new DeletedPatientRepository();
+        public PatientService(IActivePatientRepository activePatientRepository,IDeletedPatientRepository deletedPatientRepository)
+        {
+            _activePatientRepository = activePatientRepository;
+            _deletedPatientRepository = deletedPatientRepository;
+        }
         public Patient RegisterPatient(Patient patient)
         {
             if (!patient.IsGuest &&  (!IsUsernameValid(patient.Username) || !IsPasswordValid(patient.Password)))
             {
-                return null;
+                throw new BadRequestException("Your username or password is incorrect. Please try again.");
             }
-            return activePatientRepository.NewPatient(patient);
+            return _activePatientRepository.AddPatient(patient);
         }
 
         public Patient EditPatient(Patient patient)
@@ -32,15 +38,15 @@ namespace Service.UsersAndWorkingTime
             {
                 return null;
             }
-            return activePatientRepository.SetPatient(patient);
+            return _activePatientRepository.SetPatient(patient);
         }
 
         public bool DeletePatient(string jmbg)
         {
-            Patient deletedPatient = activePatientRepository.DeletePatient(jmbg);
+            Patient deletedPatient = _activePatientRepository.DeletePatient(jmbg);
             if (deletedPatient != null)
             {
-                Patient newPatient = deletedPatientRepository.NewPatient(deletedPatient);
+                Patient newPatient = _deletedPatientRepository.AddPatient(deletedPatient);
                 if (newPatient != null)
                     return true;
             }
@@ -49,17 +55,17 @@ namespace Service.UsersAndWorkingTime
 
         public List<Patient> ViewPatients()
         {
-            return activePatientRepository.GetAllPatients();
+            return _activePatientRepository.GetAllPatients();
         }
 
         public Patient ViewProfile(string jmbg)
         {
-            return activePatientRepository.GetPatientByJmbg(jmbg);
+            return _activePatientRepository.GetPatientByJmbg(jmbg);
         }
 
         public Patient SignIn(string username, string password)
         {
-            return activePatientRepository.CheckUsernameAndPassword(username, password);
+            return _activePatientRepository.CheckUsernameAndPassword(username, password);
         }
 
         private bool IsUsernameValid(string username)

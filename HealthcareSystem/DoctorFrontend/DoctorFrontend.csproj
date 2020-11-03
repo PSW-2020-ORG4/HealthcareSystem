@@ -98,9 +98,6 @@
     <Compile Include="AboutAplication.xaml.cs">
       <DependentUpon>AboutAplication.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddFeedback.xaml.cs">
-      <DependentUpon>AddFeedback.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AddNewDrug.xaml.cs">
       <DependentUpon>AddNewDrug.xaml</DependentUpon>
     </Compile>
@@ -135,9 +132,6 @@
       <DependentUpon>IngredientsOfDrug.xaml</DependentUpon>
     </Compile>
     <Compile Include="MedicalHistoryDTO.cs" />
-    <Compile Include="MessageAddFeedback.xaml.cs">
-      <DependentUpon>MessageAddFeedback.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MessageChangeDrug.xaml.cs">
       <DependentUpon>MessageChangeDrug.xaml</DependentUpon>
     </Compile>
@@ -216,10 +210,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddFeedback.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AddNewDrug.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -268,10 +258,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MessageAddFeedback.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MessageChangeDrug.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

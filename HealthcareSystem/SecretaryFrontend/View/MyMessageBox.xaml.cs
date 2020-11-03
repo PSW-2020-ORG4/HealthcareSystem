@@ -53,10 +53,6 @@ namespace ProjekatZdravoKorporacija
                     (this.Owner as MainWindow).Main.Content = new Home();
                 }
             }
-            else if (this.Owner.GetType() == typeof(FeedbackView))
-            {
-                this.Owner.Close();
-            }
             else if(this.Owner.GetType() == typeof(EditExamination))
             {
                 this.Owner.Close();

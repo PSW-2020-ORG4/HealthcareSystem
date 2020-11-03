@@ -14,20 +14,29 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     public class MapObjectDoor
     {
-        private Rectangle _rectangle;
-        private MapObjectMetrics _mapObjectMetrics;
-        private MapObjectDoorOrientation _mapObjectDoorOrientation;
-        private double _XShiftFromCenter;
-        private double _YShiftFromCenter;        
+        public Rectangle Rectangle { get; set; }
+        public MapObjectMetrics MapObjectMetrics { get; set; }
+        public MapObjectDoorOrientation MapObjectDoorOrientation { get; set; }
+        public double XShiftFromCenter { get; set; }
+        public double YShiftFromCenter { get; set; }
 
         public MapObjectDoor(MapObjectDoorOrientation mapObjectDoorOrientations, double XShift = 0, double YShift = 0)
         {
             MapObjectDoorOrientation = mapObjectDoorOrientations;
-            this.XShift = XShift;
-            this.YShift = YShift;
+            XShiftFromCenter = XShift;
+            YShiftFromCenter = YShift;
         }
 
         public Rectangle GetDoor()
+        {
+            if (MapObjectDoorOrientation == MapObjectDoorOrientation.NONE)
+                GetEmptyDoor();
+            else GetActualDoor();
+
+            return Rectangle;
+        }
+
+        private void GetActualDoor()
         {
             Rectangle = new Rectangle();
             Rectangle.Fill = Brushes.DarkGreen;
@@ -36,8 +45,11 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             Rectangle.SetValue(Canvas.LeftProperty, CalculateDoorX());
             Rectangle.SetValue(Canvas.TopProperty, CalculateDoorY());
+        }
 
-            return Rectangle;
+        private void GetEmptyDoor()
+        {
+            Rectangle = new Rectangle();
         }
 
         private double CalculateDoorX()
@@ -54,10 +66,10 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }
 
         private double CalculateXForLeft()
-            => MapObjectMetrics.X - DoorWidth + AllConstants.RECTANGLE_STROKE_THICKNESS;
+            => MapObjectMetrics.XOfCanvas - DoorWidth + AllConstants.RECTANGLE_STROKE_THICKNESS;
 
         private double CalculateXForRight()
-            => MapObjectMetrics.X + MapObjectMetrics.Width - AllConstants.RECTANGLE_STROKE_THICKNESS;
+            => MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject - AllConstants.RECTANGLE_STROKE_THICKNESS;
 
         private double CalculateDoorY()
         {
@@ -73,41 +85,35 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }        
 
         private double CalculateYForTop()
-            => MapObjectMetrics.Y - DoorHeight + AllConstants.RECTANGLE_STROKE_THICKNESS;
+            => MapObjectMetrics.YOfCanvas - DoorHeight + AllConstants.RECTANGLE_STROKE_THICKNESS;
 
         private double CalculateYForBottom()
-            => MapObjectMetrics.Y + MapObjectMetrics.Height - AllConstants.RECTANGLE_STROKE_THICKNESS;
+            => MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject - AllConstants.RECTANGLE_STROKE_THICKNESS;
 
 
-        // vrsi kalkulaciju X koje je pomereno i ogranicavanje da ne izadje iz granica objekta
+        
         private double CalculateXShifted()
         {
-            double currentShiftedX = MapObjectMetrics.X + MapObjectMetrics.Width / 2 - DoorWidth / 2 + this.XShift;
-            if (currentShiftedX < MapObjectMetrics.X)
-                return MapObjectMetrics.X;
-            else if (currentShiftedX + DoorWidth > MapObjectMetrics.X + MapObjectMetrics.Width)
-                return MapObjectMetrics.X + MapObjectMetrics.Width - DoorWidth;
+            double currentShiftedX = MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject / 2 - DoorWidth / 2 + this.XShiftFromCenter;
+            if (currentShiftedX < MapObjectMetrics.XOfCanvas)
+                return MapObjectMetrics.XOfCanvas;
+            else if (currentShiftedX + DoorWidth > MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject)
+                return MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject - DoorWidth;
             else return currentShiftedX;
         }
 
-        // vrsi kalkulaciju Y koje je pomereno i ogranicavanje da ne izadje iz granica objekta
+        
         private double CalculateYShifted()
         {
-            double currentShiftedY = MapObjectMetrics.Y + MapObjectMetrics.Height / 2 - DoorHeight / 2 + this.YShift;
-            if (currentShiftedY < MapObjectMetrics.Y)
-                return MapObjectMetrics.Y;
-            else if (currentShiftedY + DoorHeight > MapObjectMetrics.Y + MapObjectMetrics.Height)
-                return MapObjectMetrics.Y + MapObjectMetrics.Height - DoorHeight;
+            double currentShiftedY = MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject / 2 - DoorHeight / 2 + this.YShiftFromCenter;
+            if (currentShiftedY < MapObjectMetrics.YOfCanvas)
+                return MapObjectMetrics.YOfCanvas;
+            else if (currentShiftedY + DoorHeight > MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject)
+                return MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject - DoorHeight;
             else return currentShiftedY;
         }
 
-        public Rectangle Rectangle { get => _rectangle; set => _rectangle = value; }
-        public MapObjectMetrics MapObjectMetrics { get => _mapObjectMetrics; set => _mapObjectMetrics = value; }
-        public MapObjectDoorOrientation MapObjectDoorOrientation { get => _mapObjectDoorOrientation; set => _mapObjectDoorOrientation = value; }
-        public double XShift { get => _XShiftFromCenter; set => _XShiftFromCenter = value; }
-        public double YShift { get => _YShiftFromCenter; set => _YShiftFromCenter = value; }
-
-        // Rotacija vrata - zameni sirinu i visinu ukoliko vrata trebaju da se postave vertikalno ( horizontalno su po default)
+        
         private double DoorWidth
         {
             get
@@ -118,7 +124,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
             }
         }
 
-        // Rotacija vrata - zameni sirinu i visinu ukoliko vrata trebaju da se postave vertikalno (horizontalno su po default)
+        
         private double DoorHeight
         {
             get

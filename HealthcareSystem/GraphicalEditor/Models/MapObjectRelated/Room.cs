@@ -9,25 +9,17 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     public class Room : MapObjectEntity
     {
-        private MapObjectDepartment _department;
-        private int _floor;
-        private Building _building;
+        public MapObjectDepartment Department { get; set; }
+        public int Floor { get; set; }
+        public Building Building { get; set; }
 
-        public Room(MapObjectTypes mapObjectType, String description, MapObjectDepartment department, int floor,MapObject building)
-            : base(new MapObjectType(mapObjectType), "Test")
+        public Room(MapObjectTypes mapObjectType, String description, MapObjectDepartment department, MapObject building, int floor)
+            : base(new MapObjectType(mapObjectType), description)
         {
             Department = department;
             Floor = floor;
             Building = (Building)building.MapObjectEntity;
         }
 
-        public Room(String description)
-            : base(new MapObjectType(), "Room")
-        {
-        }
-
-        public MapObjectDepartment Department { get => _department; set => _department = value; }
-        public int Floor { get => _floor; set => _floor = value; }
-        internal Building Building { get => _building; set => _building = value; }
     }
 }

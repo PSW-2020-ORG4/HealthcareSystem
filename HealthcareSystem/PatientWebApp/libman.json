@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery@3.5.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "jquery.min.js"
+      ]
+    },
+    {
+      "library": "mdbootstrap@4.1.1",
+      "destination": "wwwroot/lib/mdbootstrap/"
+    },
+    {
+      "library": "jquery-ui-bootstrap@0.5pre",
+      "destination": "wwwroot/lib/jquery-ui-bootstrap/"
+    }
+  ]
+}

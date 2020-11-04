@@ -10,7 +10,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
     class Parking : MapObjectEntity
     {
         public Parking(String description = "parking")
-            : base(new MapObjectType(MapObjectTypes.PARKING), description)
+            : base(MapObjectTypes.PARKING, description)
         {
         }
     }

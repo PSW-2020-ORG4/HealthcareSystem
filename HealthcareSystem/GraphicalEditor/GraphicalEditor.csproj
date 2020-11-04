@@ -80,6 +80,7 @@
     <Compile Include="Models\MapObjectRelated\MapObjectMetrics.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectType.cs" />
     <Compile Include="Models\MapObjectRelated\Parking.cs" />
+    <Compile Include="Models\MapObjectRelated\Restaurant.cs" />
     <Compile Include="Models\MapObjectRelated\Room.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

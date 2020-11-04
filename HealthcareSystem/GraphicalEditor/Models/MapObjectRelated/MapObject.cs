@@ -39,14 +39,14 @@ namespace GraphicalEditor.Models
 
             Rectangle.Stroke = Brushes.Black;
             Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
-
-            Rectangle.SetValue(Canvas.LeftProperty, MapObjectMetrics.XOfCanvas);
-            Rectangle.SetValue(Canvas.TopProperty, MapObjectMetrics.YOfCanvas);
         }
 
         public void AddToCanvas(Canvas canvas)
         {
             canvas.Children.Add(Rectangle);
+            Canvas.SetLeft(Rectangle, MapObjectMetrics.XOfCanvas);
+            Canvas.SetTop(Rectangle, MapObjectMetrics.YOfCanvas);
+
             canvas.Children.Add(MapObjectDoor.GetDoor());
         }
     }

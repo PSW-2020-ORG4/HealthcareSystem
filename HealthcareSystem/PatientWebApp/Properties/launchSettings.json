@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "html/patients_home_page.html",
+      "launchUrl": "html/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "PatientWebApp": {
         "commandName": "Project",
         "launchBrowser": true,
-        "launchUrl": "html/patients_home_page.html",
+        "launchUrl": "html/index.html",
         "applicationUrl": "http://localhost:5000",
         "environmentVariables": {
             "ASPNETCORE_ENVIRONMENT": "Development"

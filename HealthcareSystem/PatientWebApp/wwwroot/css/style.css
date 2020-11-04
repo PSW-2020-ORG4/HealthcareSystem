@@ -12,3 +12,13 @@
     margin-left: 36%;
     width: 30%;
 }
+
+div#comments_style {
+    border: 1px solid grey;
+    position: absolute;
+    background-color: #c1f0f0;
+    left: 50px;
+    width: 18%;
+    top: 60px;
+    margin-top: 180px;
+}

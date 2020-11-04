@@ -16,6 +16,10 @@
     {
       "library": "jquery-ui-bootstrap@0.5pre",
       "destination": "wwwroot/lib/jquery-ui-bootstrap/"
+    },
+    {
+      "library": "javascript.util@0.12.12",
+      "destination": "wwwroot/lib/javascript.util/"
     }
   ]
 }

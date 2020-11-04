@@ -183,9 +183,9 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
-    <Compile Include="Migrations\20201103131218_FirstMigration.cs" />
-    <Compile Include="Migrations\20201103131218_FirstMigration.designer.cs">
-      <DependentUpon>20201103131218_FirstMigration.cs</DependentUpon>
+    <Compile Include="Migrations\20201104164837_FirstMigration.cs" />
+    <Compile Include="Migrations\20201104164837_FirstMigration.designer.cs">
+      <DependentUpon>20201104164837_FirstMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Doctor\Examination.cs" />
@@ -268,6 +268,7 @@
     <Compile Include="Service\ExaminationAndPatientCard\ExaminationService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\PatientCardService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\FeedbackService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\IFeedbackService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\NotificationService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\SurveyService.cs" />
     <Compile Include="Service\PlacementInARoomAndRenovationPeriod\PlacementInSickRoomService.cs" />
@@ -278,6 +279,7 @@
     <Compile Include="Service\RoomAndEquipment\RoomService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\CityService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\DoctorService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\IPatientService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\ManagerService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\PatientService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\SecretaryService.cs" />

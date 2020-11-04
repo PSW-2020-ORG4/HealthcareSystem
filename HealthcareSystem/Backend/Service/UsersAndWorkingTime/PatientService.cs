@@ -5,6 +5,7 @@
  ***********************************************************************/
 
 using Backend.Model.Exceptions;
+using Backend.Service.UsersAndWorkingTime;
 using Model.Users;
 using Repository;
 using System;
@@ -13,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace Service.UsersAndWorkingTime
 {
-    public class PatientService
+    public class PatientService : IPatientService
     {
         private IActivePatientRepository _activePatientRepository;
         private IDeletedPatientRepository _deletedPatientRepository;
@@ -70,7 +71,7 @@ namespace Service.UsersAndWorkingTime
             return _activePatientRepository.CheckUsernameAndPassword(username, password);
         }
 
-        private bool IsUsernameValid(string username)
+        public bool IsUsernameValid(string username)
         {
             Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{5,13}$");
             Match match = regex.Match(username);
@@ -78,7 +79,7 @@ namespace Service.UsersAndWorkingTime
             return match.Success;
         }
       
-        private bool IsPasswordValid(string password)
+        public bool IsPasswordValid(string password)
         {
             Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{8,30}$");
             Match match = regex.Match(password);

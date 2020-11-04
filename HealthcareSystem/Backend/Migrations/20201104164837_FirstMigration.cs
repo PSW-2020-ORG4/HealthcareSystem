@@ -60,6 +60,7 @@ namespace Backend.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Comment = table.Column<string>(nullable: true),
                     IsPublished = table.Column<bool>(nullable: false),
+                    IsAllowedToPublish = table.Column<bool>(nullable: false),
                     CommentatorJmbg = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -86,12 +87,12 @@ namespace Backend.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Jmbg", "CityZipCode", "DateOfBirth", "Discriminator", "Email", "Gender", "HomeAddress", "Name", "Password", "Phone", "Surname", "Username", "DateOfRegistration", "IsGuest" },
-                values: new object[] { "2305992104895", 21000, new DateTime(1992, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Patient", "", 0, "", "Marko", "123", "", "Marković", "marko", new DateTime(2020, 11, 3, 14, 12, 18, 295, DateTimeKind.Local).AddTicks(2873), true });
+                values: new object[] { "2305992104895", 21000, new DateTime(1992, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Patient", "", 0, "", "Marko", "123", "", "Marković", "marko", new DateTime(2020, 11, 4, 17, 48, 36, 719, DateTimeKind.Local).AddTicks(2362), true });
 
             migrationBuilder.InsertData(
                 table: "Feedbacks",
-                columns: new[] { "Id", "Comment", "CommentatorJmbg", "IsPublished" },
-                values: new object[] { 1, "Zadovoljan sam uslugama bolnice.", "2305992104895", true });
+                columns: new[] { "Id", "Comment", "CommentatorJmbg", "IsAllowedToPublish", "IsPublished" },
+                values: new object[] { 1, "Zadovoljan sam uslugama bolnice.", "2305992104895", true, true });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Feedbacks_CommentatorJmbg",

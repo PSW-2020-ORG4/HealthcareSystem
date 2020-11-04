@@ -15,7 +15,7 @@ namespace Controller.NotificationSurveyAndFeedback
 {
    public class FeedbackController
    {
-        private FeedbackService _feedbackService = new FeedbackService(new MySqlFeedbackRepository(),new MySqlActivePatientRepository());
+        private FeedbackService _feedbackService;
         public void AddFeedback(Feedback feedback)
         {
             _feedbackService.AddFeedback(feedback);

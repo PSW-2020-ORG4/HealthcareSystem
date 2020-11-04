@@ -11,9 +11,13 @@ using System.Threading.Tasks;
 
 namespace Backend.Repository
 {
-    class MySqlFeedbackRepository : IFeedbackRepository
+    public class MySqlFeedbackRepository : IFeedbackRepository
     {
         private readonly MyDbContext _context;
+        public MySqlFeedbackRepository(MyDbContext context)
+        {
+            _context = context;
+        }
         public void AddFeedback(Feedback feedback)
         {
             _context.Feedbacks.Add(feedback);

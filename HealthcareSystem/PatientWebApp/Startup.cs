@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model;
+using Backend.Repository;
+using Backend.Service.NotificationSurveyAndFeedback;
+using Backend.Service.UsersAndWorkingTime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +14,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Repository;
+using Service.NotificationSurveyAndFeedback;
+using Service.UsersAndWorkingTime;
 
 namespace PatientWebApp
 {
@@ -30,6 +36,12 @@ namespace PatientWebApp
             services.AddDbContext<MyDbContext>(options =>
                                 options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());
 
+            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();       
+            services.AddScoped<IFeedbackService, FeedbackService>();
+
+            services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
+            services.AddScoped<IDeletedPatientRepository, MySqlDeletedPatientRepository>();
+            services.AddScoped<IPatientService, PatientService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

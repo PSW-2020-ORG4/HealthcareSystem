@@ -50,6 +50,9 @@ namespace Backend.Migrations
                     b.Property<string>("CommentatorJmbg")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
+                    b.Property<bool>("IsAllowedToPublish")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("IsPublished")
                         .HasColumnType("tinyint(1)");
 
@@ -65,6 +68,7 @@ namespace Backend.Migrations
                             Id = 1,
                             Comment = "Zadovoljan sam uslugama bolnice.",
                             CommentatorJmbg = "2305992104895",
+                            IsAllowedToPublish = true,
                             IsPublished = true
                         });
                 });
@@ -167,7 +171,7 @@ namespace Backend.Migrations
                             Phone = "",
                             Surname = "Marković",
                             Username = "marko",
-                            DateOfRegistration = new DateTime(2020, 11, 3, 14, 12, 18, 295, DateTimeKind.Local).AddTicks(2873),
+                            DateOfRegistration = new DateTime(2020, 11, 4, 17, 48, 36, 719, DateTimeKind.Local).AddTicks(2362),
                             IsGuest = true
                         });
                 });

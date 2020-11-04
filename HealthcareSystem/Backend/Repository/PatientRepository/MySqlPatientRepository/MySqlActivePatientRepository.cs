@@ -8,9 +8,13 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    class MySqlActivePatientRepository : IActivePatientRepository
+    public class MySqlActivePatientRepository : IActivePatientRepository
     {
         private readonly MyDbContext _context;
+        public MySqlActivePatientRepository(MyDbContext context)
+        {
+            _context = context;
+        }
         public void AddPatient(Patient patient)
         {
             _context.Patients.Add(patient);

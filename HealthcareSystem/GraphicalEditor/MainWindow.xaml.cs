@@ -52,7 +52,6 @@ namespace GraphicalEditor
 
         private void saveMap()
             => repository.SaveMap(allMapObjects);
-
     }
 
 }

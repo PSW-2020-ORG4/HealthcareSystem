@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -14,6 +15,7 @@ namespace GraphicalEditor.Models
 {
     public class MapObject
     {
+        public TextBlock MapObjectNameTextBlock { get; set; }
         public Rectangle Rectangle { get; set; }
         public MapObjectDoor MapObjectDoor { get; set; }
         public MapObjectEntity MapObjectEntity { get; set; }
@@ -28,6 +30,7 @@ namespace GraphicalEditor.Models
             MapObjectDoor.MapObjectMetrics = mapObjectMetrics;
 
             RectangleInitialization();
+            PositionObjectNameTextBlock();
         }
 
         private void RectangleInitialization()
@@ -41,6 +44,21 @@ namespace GraphicalEditor.Models
             Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
         }
 
+        private void PositionObjectNameTextBlock()
+        {
+            MapObjectNameTextBlock = new TextBlock();
+            MapObjectNameTextBlock.Text = MapObjectEntity.MapObjectType.ObjectTypeNameAbbreviation;
+
+            MapObjectNameTextBlock.FontSize = 20;
+            MapObjectNameTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            MapObjectNameTextBlock.SetValue(Canvas.LeftProperty, MapObjectMetrics.XOfCanvas);
+            MapObjectNameTextBlock.SetValue(Canvas.WidthProperty, Rectangle.Width);
+            MapObjectNameTextBlock.SetValue(Canvas.TopProperty, (MapObjectMetrics.YOfCanvas + (Rectangle.Height - MapObjectNameTextBlock.FontSize) / 2));
+            MapObjectNameTextBlock.TextWrapping = TextWrapping.Wrap;
+            MapObjectNameTextBlock.TextAlignment = TextAlignment.Center;
+        }
+
+
         public void AddToCanvas(Canvas canvas)
         {
             canvas.Children.Add(Rectangle);
@@ -48,6 +66,7 @@ namespace GraphicalEditor.Models
             Canvas.SetTop(Rectangle, MapObjectMetrics.YOfCanvas);
 
             canvas.Children.Add(MapObjectDoor.GetDoor());
+            canvas.Children.Add(MapObjectNameTextBlock);
         }
     }
 }

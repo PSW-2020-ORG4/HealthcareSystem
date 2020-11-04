@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Repository.PatientRepository
  ***********************************************************************/
 
+using Backend.Model.Exceptions;
 using Model.Users;
 using Newtonsoft.Json;
 using System;
@@ -14,14 +15,14 @@ namespace Repository
 {
    public class FileActivePatientRepository : IActivePatientRepository
    {
-      private string _path;
-      public FileActivePatientRepository()
-      {
+        private string _path;
+        public FileActivePatientRepository()
+        {
             string fileName = "active_patients.json";
             _path = Path.GetFullPath(fileName);
-      }
-      public Patient GetPatientByJmbg(string jmbg)
-      {
+        }
+        public Patient GetPatientByJmbg(string jmbg)
+        {
             List<Patient> patients = ReadFromFile();
             foreach (Patient p in patients)
             {
@@ -32,9 +33,9 @@ namespace Repository
             }
             return null;
         }
-      
-      public Patient SetPatient(Patient patient)
-      {
+
+        public void SetPatient(Patient patient)
+        {
             List<Patient> patients = ReadFromFile();
             foreach (Patient p in patients)
             {
@@ -56,30 +57,28 @@ namespace Repository
                 }
             }
             WriteInFile(patients);
-            return patient;
         }
-      
-      public List<Patient> GetAllPatients()
-      {
+
+        public List<Patient> GetAllPatients()
+        {
             List<Patient> patients = ReadFromFile();
             return patients;
-      }
-      
-      public Patient AddPatient(Patient patient)
-      {
+        }
+
+        public void AddPatient(Patient patient)
+        {
             List<Patient> patients = ReadFromFile();
             Patient searchPatient = GetPatientByJmbg(patient.Jmbg);
             if (searchPatient != null)
             {
-                return null;
+                throw new BadRequestException();
             }
             patients.Add(patient);
             WriteInFile(patients);
-            return patient;
         }
-      
-      public Patient DeletePatient(string jmbg)
-      {
+
+        public void DeletePatient(string jmbg)
+        {
             List<Patient> patients = ReadFromFile();
             Patient patientForDelete = null;
             foreach (Patient p in patients)
@@ -91,10 +90,9 @@ namespace Repository
                 }
             }
             if (patientForDelete == null)
-                return null;
+                throw new BadRequestException();
             patients.Remove(patientForDelete);
             WriteInFile(patients);
-            return patientForDelete;
         }
 
         public Patient CheckUsernameAndPassword(string username, string password)
@@ -130,6 +128,5 @@ namespace Repository
             string json = JsonConvert.SerializeObject(patients);
             File.WriteAllText(_path, json);
         }
-
     }
 }

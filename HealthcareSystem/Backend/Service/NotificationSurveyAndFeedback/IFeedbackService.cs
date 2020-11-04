@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Repository
+namespace Backend.Service.NotificationSurveyAndFeedback
 {
-    public interface IFeedbackRepository
+    public interface IFeedbackService
     {
-        Feedback GetFeedbackById(int id);
         void AddFeedback(Feedback feedback);
+        Feedback GetFeedbackById(int id);
         void PublishFeedback(Feedback feedback);
         List<Feedback> GetPublishedFeedbacks();
         List<Feedback> GetUnpublishedFeedbacks();

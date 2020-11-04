@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Model.Users
+namespace Model.Users
 {
-    class Admin : User
+    public class Admin : User
     {
         public Admin() { }
         public Admin(string jmbg, string name, string surname, DateTime dateOfBirth, GenderType gender, City city, string homeAddress, string phone, string email, string username,
@@ -18,8 +18,16 @@ namespace Backend.Model.Users
             Surname = surname;
             DateOfBirth = dateOfBirth;
             Gender = gender;
-            if (city != null) { City = new City(city); }
-            else { City = new City(); }
+            if (city != null)
+            {
+                City = new City(city);
+                CityZipCode = city.ZipCode;
+            }
+            else
+            {
+                City = new City();
+                CityZipCode = 0;
+            }
             HomeAddress = homeAddress;
             Phone = phone;
             Email = email;
@@ -34,8 +42,16 @@ namespace Backend.Model.Users
             Surname = admin.Surname;
             DateOfBirth = admin.DateOfBirth;
             Gender = admin.Gender;
-            if (admin.City != null) { City = new City(admin.City); }
-            else { City = new City(); }
+            if (admin.City != null)
+            {
+                City = new City(admin.City);
+                CityZipCode = admin.City.ZipCode;
+            }
+            else
+            {
+                City = new City();
+                CityZipCode = 0;
+            }
             HomeAddress = admin.HomeAddress;
             Phone = admin.Phone;
             Email = admin.Email;

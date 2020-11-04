@@ -5,6 +5,7 @@
  ***********************************************************************/
 
 using Backend.Model.Exceptions;
+using Backend.Service.UsersAndWorkingTime;
 using Model.Users;
 using Repository;
 using System;
@@ -13,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace Service.UsersAndWorkingTime
 {
-    public class PatientService
+    public class PatientService : IPatientService
     {
         private IActivePatientRepository _activePatientRepository;
         private IDeletedPatientRepository _deletedPatientRepository;
@@ -25,11 +26,12 @@ namespace Service.UsersAndWorkingTime
         }
         public Patient RegisterPatient(Patient patient)
         {
-            if (!patient.IsGuest &&  (!IsUsernameValid(patient.Username) || !IsPasswordValid(patient.Password)))
+            if (!patient.IsGuest && (!IsUsernameValid(patient.Username) || !IsPasswordValid(patient.Password)))
             {
                 throw new BadRequestException("Your username or password is incorrect. Please try again.");
             }
-            return _activePatientRepository.AddPatient(patient);
+            _activePatientRepository.AddPatient(patient);
+            return patient;
         }
 
         public Patient EditPatient(Patient patient)
@@ -38,19 +40,20 @@ namespace Service.UsersAndWorkingTime
             {
                 return null;
             }
-            return _activePatientRepository.SetPatient(patient);
+            _activePatientRepository.SetPatient(patient);
+            return patient;
         }
 
         public bool DeletePatient(string jmbg)
         {
-            Patient deletedPatient = _activePatientRepository.DeletePatient(jmbg);
-            if (deletedPatient != null)
+            Patient patient = _activePatientRepository.GetPatientByJmbg(jmbg);
+            if (patient == null)
             {
-                Patient newPatient = _deletedPatientRepository.AddPatient(deletedPatient);
-                if (newPatient != null)
-                    return true;
+                return false;
             }
-            return false;
+            _activePatientRepository.DeletePatient(jmbg);
+            _deletedPatientRepository.AddPatient(patient);
+            return true;
         }
 
         public List<Patient> ViewPatients()
@@ -68,7 +71,7 @@ namespace Service.UsersAndWorkingTime
             return _activePatientRepository.CheckUsernameAndPassword(username, password);
         }
 
-        private bool IsUsernameValid(string username)
+        public bool IsUsernameValid(string username)
         {
             Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{5,13}$");
             Match match = regex.Match(username);
@@ -76,7 +79,7 @@ namespace Service.UsersAndWorkingTime
             return match.Success;
         }
       
-        private bool IsPasswordValid(string password)
+        public bool IsPasswordValid(string password)
         {
             Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{8,30}$");
             Match match = regex.Match(password);

@@ -38,7 +38,7 @@ namespace GraphicalEditor
         {
             MapObject firstBuilding = new MapObject(
                     new Building("Building 1", 3),
-                    new MapObjectMetrics(70, 50, 400, 250),
+                    new MapObjectMetrics(40, 50, 400, 250),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0)
             );
 
@@ -48,7 +48,7 @@ namespace GraphicalEditor
                     new Room(
                         MapObjectTypes.OPERATION_ROOM, "Operation room 1", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                     ),
-                    new MapObjectMetrics(70, 50, 200, 70),
+                    new MapObjectMetrics(40, 50, 200, 70),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 30, 0)
                 );
 
@@ -58,7 +58,7 @@ namespace GraphicalEditor
                    new Room(
                        MapObjectTypes.OPERATION_ROOM, "Operation room 2", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                    ),
-                   new MapObjectMetrics(267, 50, 203, 70),
+                   new MapObjectMetrics(237, 50, 203, 70),
                    new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 30)
                );
 
@@ -68,7 +68,7 @@ namespace GraphicalEditor
                     new Room(
                         MapObjectTypes.EXAMINATION_ROOM, "Examiantion room 3", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                     ),
-                    new MapObjectMetrics(70, 117, 80, 118),
+                    new MapObjectMetrics(40, 117, 80, 118),
                     new MapObjectDoor(MapObjectDoorOrientation.RIGHT, 0, 0)
                 );
 
@@ -78,7 +78,7 @@ namespace GraphicalEditor
                    new Room(
                        MapObjectTypes.EXAMINATION_ROOM, "Room 4", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                    ),
-                   new MapObjectMetrics(70, 232, 100, 68),
+                   new MapObjectMetrics(40, 232, 100, 68),
                    new MapObjectDoor(MapObjectDoorOrientation.RIGHT, 0, 0)
                );
 
@@ -88,43 +88,45 @@ namespace GraphicalEditor
                   new Room(
                       MapObjectTypes.WAITING_ROOM, "Waiting room 1", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                   ),
-                  new MapObjectMetrics(215, 165, 140, 90),
+                  new MapObjectMetrics(185, 165, 140, 90),
                   new MapObjectDoor(MapObjectDoorOrientation.NONE)
               );
 
             waitingRoomBuilding1.AddToCanvas(_canvas);
 
-            MapObject wcForMan = new MapObject(
+            MapObject wcForManBuilding1 = new MapObject(
                   new Room(
                       MapObjectTypes.WC, "WC 1", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                   ),
-                  new MapObjectMetrics(400, 117, 70, 45),
+                  new MapObjectMetrics(370, 117, 70, 55),
                   new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
               );
 
-            wcForMan.AddToCanvas(_canvas);
+            wcForManBuilding1.AddToCanvas(_canvas);
 
-            MapObject wcForWoman = new MapObject(
+            MapObject wcForWomanBuilding1 = new MapObject(
                   new Room(
                       MapObjectTypes.WC, "WC 2", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                   ),
-                  new MapObjectMetrics(400, 159, 70, 45),
+                  new MapObjectMetrics(370, 164, 70, 55),
                   new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
               );
 
-            wcForWoman.AddToCanvas(_canvas);
+            wcForWomanBuilding1.AddToCanvas(_canvas);
 
             MapObject examiantionRoom3 = new MapObject(
                   new Room(
                       MapObjectTypes.EXAMINATION_ROOM, "Room 5", MapObjectDepartment.CARDIOLOGY, firstBuilding, 0
                   ),
-                  new MapObjectMetrics(400, 201, 70, 99),
+                  new MapObjectMetrics(370, 211, 70, 89),
                   new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
               );
 
+            examiantionRoom3.AddToCanvas(_canvas);
+
             MapObject restaurant = new MapObject(
                    new Restaurant(),
-                   new MapObjectMetrics(500, 50, 370, 200),
+                   new MapObjectMetrics(485, 50, 200, 130),
                    new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 0)
             );
 
@@ -133,7 +135,7 @@ namespace GraphicalEditor
 
             MapObject secondBuilding = new MapObject(
                     new Building("Building 2", 3),
-                    new MapObjectMetrics(900, 50, 330, 620),
+                    new MapObjectMetrics(730, 50, 330, 612),
                     new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
             );
 
@@ -144,7 +146,7 @@ namespace GraphicalEditor
                 new Room(
                     MapObjectTypes.WC, "WC 3", MapObjectDepartment.CARDIOLOGY, secondBuilding, 0
                 ),
-                new MapObjectMetrics(1015, 50, 45, 70),
+                new MapObjectMetrics(835, 50, 55, 70),
                 new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 0)
             );
 
@@ -154,7 +156,7 @@ namespace GraphicalEditor
                   new Room(
                       MapObjectTypes.WC, "WC 4", MapObjectDepartment.CARDIOLOGY, secondBuilding, 0
                   ),
-                  new MapObjectMetrics(1060 - Constants.AllConstants.RECTANGLE_STROKE_THICKNESS, 50, 45, 70),
+                  new MapObjectMetrics(890 - Constants.AllConstants.RECTANGLE_STROKE_THICKNESS, 50, 55, 70),
                   new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 0)
               );
 
@@ -165,7 +167,7 @@ namespace GraphicalEditor
                new Room(
                    MapObjectTypes.WC, "WC 5", MapObjectDepartment.CARDIOLOGY, secondBuilding, 0
                ),
-               new MapObjectMetrics(1015, 600, 45, 70),
+               new MapObjectMetrics(835, 592, 55, 70),
                new MapObjectDoor(MapObjectDoorOrientation.TOP, 0, 0)
            );
 
@@ -175,7 +177,7 @@ namespace GraphicalEditor
                   new Room(
                       MapObjectTypes.WC, "WC 6", MapObjectDepartment.CARDIOLOGY, secondBuilding, 0
                   ),
-                  new MapObjectMetrics(1060 - Constants.AllConstants.RECTANGLE_STROKE_THICKNESS, 600, 45, 70),
+                  new MapObjectMetrics(890 - Constants.AllConstants.RECTANGLE_STROKE_THICKNESS, 592, 55, 70),
                   new MapObjectDoor(MapObjectDoorOrientation.TOP, 0, 0)
               );
 
@@ -186,7 +188,7 @@ namespace GraphicalEditor
                   new Room(
                       MapObjectTypes.WAITING_ROOM, "Waiting room 2", MapObjectDepartment.CARDIOLOGY, secondBuilding, 0
                   ),
-                  new MapObjectMetrics(985, 140, 160, 170),
+                  new MapObjectMetrics(815, 140, 160, 170),
                   new MapObjectDoor(MapObjectDoorOrientation.NONE)
               );
 
@@ -197,7 +199,7 @@ namespace GraphicalEditor
                  new Room(
                      MapObjectTypes.WAITING_ROOM, "Waiting room 3", MapObjectDepartment.CARDIOLOGY, secondBuilding, 0
                  ),
-                 new MapObjectMetrics(985, 400, 160, 170),
+                 new MapObjectMetrics(815, 400, 160, 170),
                  new MapObjectDoor(MapObjectDoorOrientation.NONE)
              );
 
@@ -206,7 +208,7 @@ namespace GraphicalEditor
 
             for (int i = 0; i <= 6; i++)
             {
-                double startXOfDrawing = 900;
+                double startXOfDrawing = 730;
                 double startYOfDrawing = 50;
                 double widthOfObject = 70;
                 double heightOfObject = 90;
@@ -236,7 +238,7 @@ namespace GraphicalEditor
 
             for (int i = 0; i <= 6; i++)
             {
-                double startXOfDrawing = 970 + 190;
+                double startXOfDrawing = 800 + 190;
                 double startYOfDrawing = 50;
                 double widthOfObject = 70;
                 double heightOfObject = 90;
@@ -266,32 +268,32 @@ namespace GraphicalEditor
             }
 
 
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 11; i++)
             {
-                double startXOfDrawing = 70;
-                double widthOfObject = 45;
+                double startXOfDrawing = 50;
+                double widthOfObject = 40;
 
                 double xOfObject = i == 0 ? startXOfDrawing : startXOfDrawing + widthOfObject * i - i * Constants.AllConstants.RECTANGLE_STROKE_THICKNESS;
 
                 MapObject parking = new MapObject(
                     new Parking(),
-                    new MapObjectMetrics(xOfObject, 480, widthOfObject, 70),
+                    new MapObjectMetrics(xOfObject, 440, widthOfObject, 60),
                     new MapObjectDoor(MapObjectDoorOrientation.NONE)
                 );
 
                 parking.AddToCanvas(_canvas);
             }
 
-            for (int i = 0; i < 12; i++)
+            for (int i = 0; i < 11; i++)
             {
-                double startXOfDrawing = 70;
-                double widthOfParkingPlace = 45;
+                double startXOfDrawing = 50;
+                double widthOfParkingPlace = 40;
 
                 double xOfObject = i == 0 ? startXOfDrawing : startXOfDrawing + widthOfParkingPlace * i - i * Constants.AllConstants.RECTANGLE_STROKE_THICKNESS;
 
                 MapObject parking = new MapObject(
                     new Parking(),
-                    new MapObjectMetrics(xOfObject, 600, widthOfParkingPlace, 70),
+                    new MapObjectMetrics(xOfObject, 565, widthOfParkingPlace, 60),
                     new MapObjectDoor(MapObjectDoorOrientation.NONE)
                 );
 

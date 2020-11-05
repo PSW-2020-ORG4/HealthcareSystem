@@ -35,5 +35,22 @@ namespace PatientWebApp.Controllers
             }
 
         }
+
+        [HttpGet("published-feedbacks")]
+        public ActionResult getPublishedFeedbacks()
+        {
+            try
+            {
+                List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
+                _feedbackService.GetPublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackAdapter.FeedbackToFeedbackDTO(feedback)));
+                return Ok(feedbackDTOs);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+
     }
 }

@@ -21,11 +21,19 @@ namespace PatientWebApp.Controllers
             _feedbackService = feedbackService;
         }
 
-        [HttpPost("feedbacks")]
-        public void AddFeedback(FeedbackDTO feedbackDTO)
+       [HttpPost]
+        public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
         {
-            Feedback feedback = FeedbackAdapter.FeedbackDTOToFeedback(feedbackDTO);
-            _feedbackService.AddFeedback(feedback);
+            try
+            {
+                Feedback feedback = FeedbackAdapter.FeedbackDTOToFeedback(feedbackDTO);
+                _feedbackService.AddFeedback(feedback);
+                return Ok();
+            }catch(Exception)
+            {
+                return BadRequest();
+            }
+
         }
     }
 }

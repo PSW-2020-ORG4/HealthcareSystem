@@ -21,7 +21,7 @@ namespace PatientWebApp.Controllers
             _feedbackService = feedbackService;
         }
 
-        [HttpPost("addFeedback")]
+        [HttpPost("feedbacks")]
         public void AddFeedback(FeedbackDTO feedbackDTO)
         {
             Feedback feedback = FeedbackAdapter.FeedbackDTOToFeedback(feedbackDTO);

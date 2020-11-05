@@ -13,21 +13,38 @@
     <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href="../lib/mdbootstrap/css/mdb.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Home page</title>
 </head>
 <body style="background-image: url(../images/hospital.png)">
-
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <h4 class="navbar-brand" id="title" style="margin-right: 50px;">HOSPITAL</h4>
+        <a href="patients_home_page.html"><h4 class="navbar-brand" id="title" style="margin-right: 50px;">HOSPITAL</h4></a>
 
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="add_feedback.html">Give feedback</a>
             </li>
         </ul>
-
-
     </nav>
+
+    <a href="index.html"><h5>* Back to home page (Log out)</h5></a>
+
+    <div class="container container_colored" id="view_feedbacks">
+        <h4 style="font-weight:bolder; text-align: center;">Feedbacks</h4>
+        <hr />
+        <div class="testimonial">
+            <h5 class="font-weight-bold dark-grey-text mt-4">Ana Smith</h5>
+            <p class="font-weight-normal dark-grey-text">
+                <i class="fas fa-quote-left pr-2"></i>The hospital is amazing. The doctors are very kind and professional.
+            </p>
+        </div>
+        <div class="testimonial">
+            <h5 class="font-weight-bold dark-grey-text mt-4">Anonymous</h5>
+            <p class="font-weight-normal dark-grey-text">
+                <i class="fas fa-quote-left pr-2"></i>I am satisfied with the service. My health problem has been successfully resolved
+            </p>
+        </div>
+    </div>
 
 
 

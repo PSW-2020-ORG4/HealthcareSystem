@@ -11,7 +11,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
     class Restaurant : MapObjectEntity
     {
         public Restaurant(String description = "restaurant")
-          : base(new MapObjectType(MapObjectTypes.RESTAURANT), description)
+          : base(MapObjectTypes.RESTAURANT, description)
         {
         }
     }

@@ -5,13 +5,17 @@
  ***********************************************************************/
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Model.Users
 {
     public class City
     {
-        public string Name { get; set; }
+        [Key]
         public int ZipCode { get; set; }
+        public string Name { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
         public City() { }
         public City(string name,int zipCode)

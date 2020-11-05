@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    class MySqlDeletedPatientRepository : IDeletedPatientRepository
+    public class MySqlDeletedPatientRepository : IDeletedPatientRepository
     {
         public Patient AddPatient(Patient patient)
         {

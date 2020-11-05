@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Service.NotificationSurveyAndFeedback;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Model.Users;
 
 namespace PatientWebApp.Controllers
 {
@@ -16,24 +18,18 @@ namespace PatientWebApp.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private readonly IFeedbackService _feedbackService;
+        public WeatherForecastController(IFeedbackService feedbackService)
         {
-            _logger = logger;
+            _feedbackService = feedbackService;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public string Get()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            //GetFeedbackById(id) 
+            Feedback feedback = _feedbackService.GetFeedbackById(1);
+            return feedback.Comment; 
         }
     }
 }

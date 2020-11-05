@@ -9,8 +9,9 @@ namespace Backend.Repository
 {
     public interface IFeedbackRepository
     {
+        Feedback GetFeedbackById(int id);
         void AddFeedback(Feedback feedback);
-        void PublishFeedback(int id);
+        void PublishFeedback(Feedback feedback);
         List<Feedback> GetPublishedFeedbacks();
         List<Feedback> GetUnpublishedFeedbacks();
     }

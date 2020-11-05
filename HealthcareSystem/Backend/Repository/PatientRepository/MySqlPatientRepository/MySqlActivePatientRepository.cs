@@ -1,4 +1,5 @@
-﻿using Model.Users;
+﻿using Backend.Model;
+using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,36 +8,45 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    class MySqlActivePatientRepository : IActivePatientRepository
+    public class MySqlActivePatientRepository : IActivePatientRepository
     {
-        public Patient AddPatient(Patient patient)
+        private readonly MyDbContext _context;
+        public MySqlActivePatientRepository(MyDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
+        public void AddPatient(Patient patient)
+        {
+            _context.Patients.Add(patient);
+            _context.SaveChanges();
 
+        }
         public Patient CheckUsernameAndPassword(string username, string password)
         {
-            throw new NotImplementedException();
+            Patient _patient = _context.Patients.Find(username);
+            if (_patient == null || !_patient.Password.Equals(password))
+            {
+                return null;
+            }
+            return _patient;
         }
-
-        public Patient DeletePatient(string jmbg)
+        public void DeletePatient(string jmbg)
         {
-            throw new NotImplementedException();
+            Patient patient = GetPatientByJmbg(jmbg);
+            _context.Remove(patient);
         }
-
         public List<Patient> GetAllPatients()
         {
-            throw new NotImplementedException();
+            return _context.Patients.ToList();
         }
-
         public Patient GetPatientByJmbg(string jmbg)
         {
-            throw new NotImplementedException();
+            return _context.Patients.Find(jmbg);
         }
-
-        public Patient SetPatient(Patient patient)
+        public void SetPatient(Patient patient)
         {
-            throw new NotImplementedException();
+            _context.Patients.Update(patient);
+            _context.SaveChanges();
         }
     }
 }

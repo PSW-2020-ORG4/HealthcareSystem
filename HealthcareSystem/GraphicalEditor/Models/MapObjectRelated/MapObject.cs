@@ -40,7 +40,7 @@ namespace GraphicalEditor.Models
             Rectangle.Height = MapObjectMetrics.HeightOfMapObject;
             Rectangle.Width = MapObjectMetrics.WidthOfMapObject;
 
-            Rectangle.Stroke = Brushes.Black;
+            Rectangle.Stroke = Brushes.DarkSlateGray;
             Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
 
             Rectangle.SetValue(Canvas.LeftProperty, MapObjectMetrics.XOfCanvas);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphicalEditor.Enumerations
 {
-    public enum MapObjectDepartment
+    public enum MapObjectDepartments
     {
         GENERAL_MEDICINE,
         PULMOLOGY,

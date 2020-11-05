@@ -72,22 +72,25 @@ namespace GraphicalEditor.Models.MapObjectRelated
         {
             switch (TypeOfMapObject)
             {
+                
                 case MapObjectTypes.BUILDING:
                     return Brushes.White;
                 case MapObjectTypes.EXAMINATION_ROOM:
-                    return Brushes.Green;
+                    return Brushes.Lavender;
                 case MapObjectTypes.OPERATION_ROOM:
-                    return Brushes.Red;
+                    return Brushes.LightCyan;
                 case MapObjectTypes.WAITING_ROOM:
-                    return Brushes.Purple;
+                    return Brushes.Honeydew;
                 case MapObjectTypes.PARKING:
-                    return Brushes.LightBlue;
+                    return Brushes.CornflowerBlue;
                 case MapObjectTypes.RESTAURANT:
-                    return Brushes.Brown;
+                    return Brushes.BlanchedAlmond;
                 case MapObjectTypes.HOSPITALIZATION_ROOM:
-                    return Brushes.Orange;
+                    return Brushes.Aquamarine;
+                case MapObjectTypes.WC:
+                    return Brushes.LightYellow;
                 default:
-                    return Brushes.Yellow;
+                    return Brushes.Moccasin;
             }
         }
     }

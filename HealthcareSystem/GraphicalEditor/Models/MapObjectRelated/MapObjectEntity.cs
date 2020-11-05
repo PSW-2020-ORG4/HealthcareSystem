@@ -14,12 +14,17 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public String Description { get; set; }
 
        
-        public MapObjectEntity(MapObjectType mapObjectType, string description)
+        public MapObjectEntity(MapObjectType mapObjectType, string description = "")
             :base()
         {
             MapObjectType = mapObjectType;
             Description = description;
         }
+
+        public virtual void FormatObjectDescription(string description)
+        {
+        }
+
 
         public SolidColorBrush getColor()
         {

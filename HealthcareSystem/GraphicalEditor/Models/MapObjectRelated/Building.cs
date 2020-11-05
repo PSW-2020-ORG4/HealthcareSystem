@@ -1,13 +1,9 @@
 ﻿using GraphicalEditor.Enumerations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-   public class Building : MapObjectEntity
+    public class Building : MapObjectEntity
     {
         public int NumOfFloors { get; set; }
 
@@ -15,7 +11,24 @@ namespace GraphicalEditor.Models.MapObjectRelated
             : base(new MapObjectType(MapObjectTypes.BUILDING), description)
         {
             NumOfFloors = numOfFloors;
+
+            FormatObjectDescription(Description);
         }
 
+        public Building(int numOfFloors)
+           : base(new MapObjectType(MapObjectTypes.BUILDING), "")
+        {
+            NumOfFloors = numOfFloors;
+
+            FormatObjectDescription(Description);
+        }
+
+        public override void FormatObjectDescription(string description)
+        {
+            if (String.IsNullOrEmpty(description))
+            {
+                Description = MapObjectType.ObjectTypeFullName + " " + Id + " ima " + NumOfFloors + " spratova.";
+            }
+        }
     }
 }

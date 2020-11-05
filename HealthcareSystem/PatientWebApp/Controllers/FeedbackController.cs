@@ -51,6 +51,21 @@ namespace PatientWebApp.Controllers
             }
         }
 
+        [HttpPut]
+        public ActionResult PublishFeedback(FeedbackDTO feedbackDTO)
+        {
+            try
+            {
+                Feedback feedback = FeedbackAdapter.FeedbackDTOToFeedback(feedbackDTO);
+                _feedbackService.PublishFeedback(feedback);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
 
     }
 }

@@ -57,6 +57,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Models\MapObjectRelated\MocupObjects.cs" />
     <Compile Include="Repository\ContractResolver.cs" />
     <Compile Include="Repository\FileRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />

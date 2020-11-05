@@ -26,7 +26,7 @@ namespace GraphicalEditor
     public partial class MainWindow : Window
     {
         private Canvas _canvas;
-        public List<MapObject> allMapObjects { get; set; }
+        public List<MapObject> AllMapObjects { get; set; }
 
         private IRepository repository;
 
@@ -34,24 +34,26 @@ namespace GraphicalEditor
         {
             InitializeComponent();
             _canvas = this.Canvas;
-            repository = new FileRepository("map.json");
-            allMapObjects = new List<MapObject>();
+            repository = new FileRepository("test.json");
+            AllMapObjects = new List<MapObject>();
 
+            MocupObjects mockupObjects = new MocupObjects();
+            AllMapObjects = mockupObjects.getAllMapObjects();
             //saveMap();
             LoadMapOnCanvas();
         }
 
         private void LoadMapOnCanvas()
         {
-            allMapObjects = repository.LoadMap().ToList();
-            foreach (MapObject mapObject in allMapObjects)
+            AllMapObjects = repository.LoadMap().ToList();
+            foreach (MapObject mapObject in AllMapObjects)
             {
                 mapObject.AddToCanvas(_canvas);
             }
         }
 
         private void saveMap()
-            => repository.SaveMap(allMapObjects);
+            => repository.SaveMap(AllMapObjects);
     }
 
 }

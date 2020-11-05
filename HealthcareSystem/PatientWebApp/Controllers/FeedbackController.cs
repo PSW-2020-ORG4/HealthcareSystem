@@ -47,7 +47,7 @@ namespace PatientWebApp.Controllers
             }
             catch (Exception)
             {
-                return BadRequest();
+                return NotFound();
             }
         }
 

@@ -27,11 +27,13 @@ namespace Service.NotificationSurveyAndFeedback
                 throw new BadRequestException("Please, write a comment to send feedback.");
             _feedbackRepository.AddFeedback(feedback);
         }
-        public void PublishFeedback(Feedback feedback)
+        public void PublishFeedback(int id)
         {
+            Feedback feedback = GetFeedbackById(id);
             if (!feedback.IsAllowedToPublish)
                 throw new BadRequestException("Feedback is not allowed to publish.");
-            _feedbackRepository.PublishFeedback(feedback);
+            feedback.IsPublished = true;
+            _feedbackRepository.UpdateFeedback(feedback);
         }
         public List<Feedback> GetPublishedFeedbacks()
         {

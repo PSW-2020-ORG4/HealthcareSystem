@@ -40,8 +40,7 @@ namespace GraphicalEditor.Models
             Rectangle.Height = MapObjectMetrics.HeightOfMapObject;
             Rectangle.Width = MapObjectMetrics.WidthOfMapObject;
 
-            Rectangle.Stroke = Brushes.Black;
-            Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
+            MapObjectEntity.setStrokeAndStrokeThickness(Rectangle);
         }
         /* this function needs to be changed !!!
         private void PositionObjectNameTextBlock()

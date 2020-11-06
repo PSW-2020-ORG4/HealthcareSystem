@@ -68,14 +68,6 @@ namespace GraphicalEditor.Models.MapObjectRelated
             TypeOfMapObject = mapObjectType;
         }
 
-        public MapObjectType()
-        {
-            this._mapObjectType = MapObjectTypes.PARKING;
-        }
-
-        public MapObjectTypes GetMapObjectTypes { get => _mapObjectType; set => _mapObjectType = value; }
-
-
         public SolidColorBrush getColor()
         {
             switch (TypeOfMapObject)
@@ -94,6 +86,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
                     return Brushes.Brown;
                 case MapObjectTypes.HOSPITALIZATION_ROOM:
                     return Brushes.Orange;
+                case MapObjectTypes.ROAD:
+                    return Brushes.LightGray;
                 default:
                     return Brushes.Yellow;
             }

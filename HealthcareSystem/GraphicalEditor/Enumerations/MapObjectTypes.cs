@@ -16,5 +16,6 @@ namespace GraphicalEditor.Enumerations
         PARKING,
         RESTAURANT,
         WC,
+        ROAD,
     }
 }

@@ -39,6 +39,7 @@ namespace GraphicalEditor
 
             MocupObjects mockupObjects = new MocupObjects();
             AllMapObjects = mockupObjects.getAllMapObjects();
+           
             //saveMap();
             LoadMapOnCanvas();
         }

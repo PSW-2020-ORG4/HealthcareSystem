@@ -35,14 +35,13 @@ namespace Repository
             WriteInFile(feedbacks);
         }
 
-        public void PublishFeedback(Feedback feedback)
+        public void UpdateFeedback(Feedback feedback)
         {
             List<Feedback> feedbacks = ReadFromFile();
             foreach (Feedback f in feedbacks)
             {
                 if (f.Id == feedback.Id)
                 {
-                    feedback.IsPublished = true;
                     WriteInFile(feedbacks);
                     return;
                 }

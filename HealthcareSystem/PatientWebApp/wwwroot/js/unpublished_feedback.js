@@ -49,7 +49,7 @@ function approveComment(feedbackId) {
 
 	$.ajax({
 		type: "PUT",
-		url: "/api/feedback/",
+		url: "/api/feedback/" + feedbackId,
 		data: feedbackId,
 		success: function () {
 			$('#ap_success_msg').text('You have successfully approved a feedback!');

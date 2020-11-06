@@ -5,6 +5,7 @@ using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -24,12 +25,35 @@ namespace GraphicalEditor
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private Canvas _canvas;
         public List<MapObject> AllMapObjects { get; set; }
 
         private IRepository repository;
+
+        private Boolean _editMode = false;
+        public Boolean EditMode
+        {
+            get { return _editMode; }
+            set
+            {
+                _editMode = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
 
         public MainWindow()
         {
@@ -37,6 +61,7 @@ namespace GraphicalEditor
             _canvas = this.Canvas;
             repository = new FileRepository("test.json");
             AllMapObjects = new List<MapObject>();
+            DataContext = this;
 
             //MocupObjects mockupObjects = new MocupObjects();
             //AllMapObjects = mockupObjects.getAllMapObjects();
@@ -57,8 +82,16 @@ namespace GraphicalEditor
             => repository.SaveMap(AllMapObjects);
 
         private void Change_Display_Information(object sender, RoutedEventArgs e)
-        {           
-        }        
+        {
+
+            EditMode = !EditMode;
+        }
+
+        private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)
+        {
+
+            EditMode = false;
+        }
 
     }
 

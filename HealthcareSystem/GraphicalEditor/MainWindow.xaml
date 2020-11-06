@@ -15,86 +15,96 @@
                 Margin="0 50 0 0"
                 Padding="10 0 10 0">
             <StackPanel x:Name="InformationDisplay">
+
                 <StackPanel.Resources>
-                    
-                    <Style TargetType="TextBlock">
+
+                    <Style x:Key="NormalMode" TargetType="StackPanel">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=EditButton}" Value="True">
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                            <DataTrigger Binding="{Binding EditMode}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=EditButton}" Value="False">
-                                <Setter Property="Visibility" Value="Visible"/>
+                            <DataTrigger Binding="{Binding EditMode}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                    
-                    <Style TargetType="TextBox">
+
+                    <Style x:Key="EditingMode" TargetType="StackPanel">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=EditButton}" Value="True">
-                                <Setter Property="Visibility" Value="Visible"/>
+                            <DataTrigger Binding="{Binding EditMode}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding IsChecked, ElementName=EditButton}" Value="False">
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                            <DataTrigger Binding="{Binding EditMode}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                    
-                    <Style TargetType="ToggleButton">
-                        <Style.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Content" Value="Sačuvaj" />
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="False">
-                                <Setter Property="Content" Value="Izmeni" />
-                            </Trigger>
                         </Style.Triggers>
                     </Style>
                     
                 </StackPanel.Resources>
                 
-                <StackPanel>
+                <StackPanel x:Name="NormalPanel"
+                            Style="{StaticResource NormalMode}">
                     <TextBlock Text="Soba za pregled" 
                            FontSize="26" 
+                           TextWrapping="Wrap"
                            HorizontalAlignment="Center">
                     </TextBlock>
-                    <TextBox Text="Soba za pregled" 
-                           FontSize="26" 
-                           HorizontalAlignment="Center"/>
-                </StackPanel>
 
-                <StackPanel Margin="0 10">
                     <TextBlock Text="14" 
                            FontSize="20"
+                               Margin="0 5 0 0"
                            HorizontalAlignment="Center"/>
 
-                    <TextBox Text="14" 
-                           FontSize="20"
-                           HorizontalAlignment="Center"/>
-                </StackPanel>
-
-                <StackPanel>
                     <TextBlock Text="Ovo je jako dugacak opis samog objekta" 
                            TextWrapping="Wrap"
                            FontSize="16" 
-                           Margin="0 10 0 0">                        
+                           Margin="0 10 0 0">
                     </TextBlock>
+
+                    <Button Content="Izmeni"
+                        Padding="10"
+                        FontSize="18"
+                        Margin="0 10"
+                        Click="Change_Display_Information">
+                    </Button>
+
+                </StackPanel>
+
+                <StackPanel x:Name="EditPanel"
+                            Style="{StaticResource EditingMode}">
+                    <TextBox Text="Soba za pregled" 
+                           FontSize="26" 
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center">
+                    </TextBox>
+
+                    <TextBox Text="14" 
+                           FontSize="20"
+                           Margin="0 5 0 0"
+                           HorizontalAlignment="Center"/>
 
                     <TextBox Text="Ovo je jako dugacak opis samog objekta" 
                            TextWrapping="Wrap"
                            FontSize="16" 
                            Margin="0 10 0 0">
                     </TextBox>
-                </StackPanel>
 
-                <ToggleButton x:Name="EditButton"
+                    <Button Content="Sačuvaj"
                         Padding="10"
                         FontSize="18"
                         Margin="0 10"
-                        Visibility="Visible"
                         Click="Change_Display_Information">
+                    </Button>
 
-                </ToggleButton>
+                    <Button Content="Otkaži"
+                        Padding="10"
+                        FontSize="18"
+                        Margin="0 5"
+                        Click="Cancel_Editing_Mode">
+                    </Button>
 
+                </StackPanel>
+                
             </StackPanel>
         </Border>
     </DockPanel>

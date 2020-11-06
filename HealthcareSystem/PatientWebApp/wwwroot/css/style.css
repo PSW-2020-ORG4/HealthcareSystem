@@ -6,6 +6,8 @@
 #search_btn {
     width: 10%;
     margin-left: 45%;
+    background-color: #33adff;
+    color: white;
 }
 
 #text_area {
@@ -15,8 +17,8 @@
 
 div#view_feedbacks {
     border: 1px solid grey;
+    background-color: rgba(214, 245, 245, 0.3);
     position: absolute;
-    background-color: #c1f0f0;
     left: 50px;
     width: 18%;
     top: 60px;

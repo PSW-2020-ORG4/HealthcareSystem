@@ -27,10 +27,7 @@ namespace GraphicalEditor
     public partial class MainWindow : Window
     {
         private Canvas _canvas;
-        Point _mouseCurrentPosition;
-
         
-
         public List<MapObject> AllMapObjects { get; set; }
 
         private IRepository repository;
@@ -60,49 +57,63 @@ namespace GraphicalEditor
         private void saveMap()
             => repository.SaveMap(AllMapObjects);
 
-
-
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            _mouseCurrentPosition = e.GetPosition(this.Canvas);
-           
-            findSelectedMapObject();
+            MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
+
+            ApplyShadowEffectToObject(selectedMapObject);
         }
-        
-        private MapObject findSelectedMapObject()
+
+
+        private void ApplyShadowEffectToObject(MapObject selectedMapObject)
         {
-            List<MapObject> MapObjectsThatContainMouseCursor = findAllMapObjectsThatContainMouseCursor(AllMapObjects);
-
-            MapObject selectedMapObject = findMapObjectWithMinimumArea(MapObjectsThatContainMouseCursor);
-
             if (selectedMapObject != null)
             {
                 selectedMapObject.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple };
+                
+                foreach (MapObject mapObject in AllMapObjects)
+                {
+                    if (!mapObject.Equals(selectedMapObject))
+                    {
+                        mapObject.Rectangle.Effect = null;
+                    }
+                }
             }
+            else
+            {
+                foreach (MapObject mapObject in AllMapObjects)
+                {
+                        mapObject.Rectangle.Effect = null;
+                }
+            }
+           
+        }
+
+        private MapObject FindSelectedMapObject(Point mouseCursorCurrentPosition)
+        {
+            List<MapObject> MapObjectsThatContainMouseCursor = FindAllMapObjectsThatContainMouseCursor(mouseCursorCurrentPosition);
+
+            MapObject selectedMapObject = FindMapObjectWithMinimumArea(MapObjectsThatContainMouseCursor);
 
             return selectedMapObject;
         }
 
-        private List<MapObject> findAllMapObjectsThatContainMouseCursor(List<MapObject> AllMapObjects)
+        private List<MapObject> FindAllMapObjectsThatContainMouseCursor(Point mouseCursorCurrentPosition)
         {
             List<MapObject> MapObjectsThatContainMouseCursor = new List<MapObject>();
 
             foreach (MapObject mapObject in AllMapObjects)
             {
-                if (isMouseXCoordinateInsideRectangle(_mouseCurrentPosition.X, mapObject.Rectangle) && isMouseYCoordinateInsideRectangle(_mouseCurrentPosition.Y, mapObject.Rectangle))
+                if (IsMouseCursorInsideRectangle(mouseCursorCurrentPosition, mapObject.Rectangle))
                 {
                     MapObjectsThatContainMouseCursor.Add(mapObject);
-                }
-                else
-                {
-                    mapObject.Rectangle.Effect = null;
                 }
             }
 
             return MapObjectsThatContainMouseCursor;
         }
 
-        private MapObject findMapObjectWithMinimumArea(List<MapObject> MapObjects)
+        private MapObject FindMapObjectWithMinimumArea(List<MapObject> MapObjects)
         {
             if (MapObjects.Count != 0)
             {
@@ -113,11 +124,6 @@ namespace GraphicalEditor
                     if ((mapObject.MapObjectArea) < (mapObjectWithMinimumArea.MapObjectArea))
                     {
                         mapObjectWithMinimumArea = mapObject;
-                        mapObjectWithMinimumArea.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple };
-                    }
-                    else
-                    {
-                        mapObject.Rectangle.Effect = null;
                     }
                 }
 
@@ -127,17 +133,15 @@ namespace GraphicalEditor
             {
                 return null;
             }
-            
+
         }
 
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            _mouseCurrentPosition = e.GetPosition(this.Canvas);
+            MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
 
-            MapObject selectedMapObject = findSelectedMapObject();
-
-            if(selectedMapObject != null)
+            if (selectedMapObject != null)
             {
                 TestText.Text = selectedMapObject.MapObjectEntity.MapObjectType.ObjectTypeFullName;
             }
@@ -145,30 +149,12 @@ namespace GraphicalEditor
             {
                 TestText.Text = "";
             }
-            
-        }
-
-        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
-        {
 
         }
 
-
-        private bool isMouseXCoordinateInsideRectangle(double mouseXCoordinate, Rectangle objectRectangle)
+        private bool IsMouseCursorInsideRectangle(Point cursorPosition, Rectangle objectRectangle)
         {
-            if (mouseXCoordinate > Canvas.GetLeft(objectRectangle) && mouseXCoordinate < Canvas.GetLeft(objectRectangle) + objectRectangle.Width)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private bool isMouseYCoordinateInsideRectangle(double mouseYCoordinate, Rectangle objectRectangle)
-        {
-            if ((mouseYCoordinate > Canvas.GetTop(objectRectangle)) && (mouseYCoordinate < Canvas.GetTop(objectRectangle) + objectRectangle.Height))
+            if ((cursorPosition.X > Canvas.GetLeft(objectRectangle) && cursorPosition.X < Canvas.GetLeft(objectRectangle) + objectRectangle.Width) && ((cursorPosition.Y > Canvas.GetTop(objectRectangle) && cursorPosition.Y < Canvas.GetTop(objectRectangle) + objectRectangle.Height)))
             {
                 return true;
             }
@@ -178,5 +164,4 @@ namespace GraphicalEditor
             }
         }
     }
-
 }

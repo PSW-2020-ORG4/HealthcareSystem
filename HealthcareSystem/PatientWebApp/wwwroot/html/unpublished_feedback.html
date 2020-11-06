@@ -14,36 +14,29 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Your custom styles (optional) -->
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+    <link rel="stylesheet" href="../css/style_for_unpublished_feedbacks.css">
 
+    <script src="../lib/jquery/jquery.min.js"></script>
     <script src="../lib/jquery-ui-bootstrap/js/jquery-1.8.3.min.js"></script>
     <script src="../lib/javascript.util/javascript.util.min.js"></script>
     <script src="../js/unpublished_feedback.js"></script>
 
-    <link href="../css/style_for_unpublished_feedbacks.css" rel="stylesheet" />
-
     <title> Unpublished Feedbacks </title>
 </head>
-<body style="background-image: url(../images/hospital.png)">
+<body style="background-color: #e6fff7;">
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <h4 class="navbar-brand" id="title" style="margin-right: 50px;"> Hospital </h4>
+        <a class="nav-link" href="admins_home_page.html"><h4 class="navbar-brand" id="title" style="margin-right: 50px;"> HOSPITAL</h4></a>
 
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="admins_home_page.html"> Homepage </a>
-            </li>
-        </ul>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="unpublished_feedback.html"> Unpublished comments </a>
+                <a class="nav-link" href="unpublished_feedback.html"> Unpublished feedbacks </a>
             </li>
         </ul>
     </nav>
 
-    <h2 id="title-active">Unpublished comments</h2>
+    <h2 id="title-active">Unpublished feedbacks</h2>
 
-    <p style="color:green; float: inherit;" id="ap_success_msg" hidden></p>
-
-    <div class="container comments" id="div_comments" style="background-color: #f2f2f2 ">
+    <div class="container comments" id="div_comments">
     </div>
 
 </body>

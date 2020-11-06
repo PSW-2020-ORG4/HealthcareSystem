@@ -11,7 +11,7 @@ namespace Backend.Service.NotificationSurveyAndFeedback
     {
         void AddFeedback(Feedback feedback);
         Feedback GetFeedbackById(int id);
-        void PublishFeedback(Feedback feedback);
+        void PublishFeedback(int id);
         List<Feedback> GetPublishedFeedbacks();
         List<Feedback> GetUnpublishedFeedbacks();
     }

@@ -39,7 +39,7 @@ namespace Backend.Repository
 
         }
 
-        public void PublishFeedback(Feedback feedback)
+        public void UpdateFeedback(Feedback feedback)
         {
             _context.Update(feedback);
             _context.SaveChanges();

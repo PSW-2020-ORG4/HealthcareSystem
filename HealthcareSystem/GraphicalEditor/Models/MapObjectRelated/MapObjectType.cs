@@ -70,10 +70,10 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         public MapObjectType()
         {
-            this._mapObjectType = MapObjectTypes.PARKING;
+            this.TypeOfMapObject = MapObjectTypes.PARKING;
         }
 
-        public MapObjectTypes GetMapObjectTypes { get => _mapObjectType; set => _mapObjectType = value; }
+        public MapObjectTypes GetMapObjectTypes { get => TypeOfMapObject; set => TypeOfMapObject = value; }
 
 
         public SolidColorBrush getColor()

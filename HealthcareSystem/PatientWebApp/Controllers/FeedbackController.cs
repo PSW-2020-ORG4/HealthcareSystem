@@ -21,7 +21,20 @@ namespace PatientWebApp.Controllers
             _feedbackService = feedbackService;
         }
 
-       [HttpPost]
+        [HttpGet("{id}")]
+        public IActionResult GetFeedbackById(int id)
+        {
+            try
+            {
+                Feedback feedback = _feedbackService.GetFeedbackById(id);
+                return Ok(FeedbackAdapter.FeedbackToFeedbackDTO(feedback));
+            }
+            catch (Exception) {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
         public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
         {
             try
@@ -29,7 +42,7 @@ namespace PatientWebApp.Controllers
                 Feedback feedback = FeedbackAdapter.FeedbackDTOToFeedback(feedbackDTO);
                 _feedbackService.AddFeedback(feedback);
                 return Ok();
-            }catch(Exception)
+            } catch (Exception)
             {
                 return BadRequest();
             }
@@ -48,6 +61,20 @@ namespace PatientWebApp.Controllers
             catch (Exception)
             {
                 return NotFound();
+            }
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult PublishFeedback(int id)
+        {
+            try
+            {
+                _feedbackService.PublishFeedback(id);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
             }
         }
 

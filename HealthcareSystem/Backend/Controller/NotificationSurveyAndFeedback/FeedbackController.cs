@@ -20,9 +20,9 @@ namespace Controller.NotificationSurveyAndFeedback
         {
             _feedbackService.AddFeedback(feedback);
         }
-        public void PublishFeedback(Feedback feedback)
+        public void PublishFeedback(int id)
         {
-            _feedbackService.PublishFeedback(feedback);
+            _feedbackService.PublishFeedback(id);
         }
         public List<Feedback> GetPublishedFeedbacks()
         {

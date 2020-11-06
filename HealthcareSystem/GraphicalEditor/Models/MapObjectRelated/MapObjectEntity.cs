@@ -23,8 +23,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
          public MapObjectEntity(string description)
         {
-            _mapObjectType = new MapObjectType(MapObjectTypes.PARKING);
-            _description = description;
+            MapObjectType = new MapObjectType(MapObjectTypes.PARKING);
+            Description = description;
         }
 
         public SolidColorBrush getColor()

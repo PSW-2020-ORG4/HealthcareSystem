@@ -21,6 +21,14 @@ namespace GraphicalEditor.Models
         public MapObjectEntity MapObjectEntity { get; set; }
         public MapObjectMetrics MapObjectMetrics { get; set; }
 
+        public double MapObjectArea 
+        {
+            get
+            {
+                return Rectangle.Width * Rectangle.Height;
+            }
+        }
+
         public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
         {
             MapObjectEntity = mapObjectEntity;

@@ -11,7 +11,7 @@ namespace Backend.Repository
     {
         Feedback GetFeedbackById(int id);
         void AddFeedback(Feedback feedback);
-        void PublishFeedback(Feedback feedback);
+        void UpdateFeedback(Feedback feedback);
         List<Feedback> GetPublishedFeedbacks();
         List<Feedback> GetUnpublishedFeedbacks();
     }

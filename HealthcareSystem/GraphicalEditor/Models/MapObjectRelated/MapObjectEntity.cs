@@ -26,6 +26,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public SolidColorBrush getColor()
         {
             return MapObjectType.getColor();
+
         }
 
         public void setStrokeAndStrokeThickness(Rectangle reactangle)

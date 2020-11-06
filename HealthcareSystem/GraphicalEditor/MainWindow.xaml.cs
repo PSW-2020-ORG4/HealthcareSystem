@@ -64,6 +64,19 @@ namespace GraphicalEditor
             ApplyShadowEffectToObject(selectedMapObject);
         }
 
+        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
+
+            if (selectedMapObject != null)
+            {
+                TestText.Text = selectedMapObject.MapObjectEntity.MapObjectType.ObjectTypeFullName;
+            }
+            else
+            {
+                TestText.Text = "";
+            }
+        }
 
         private void ApplyShadowEffectToObject(MapObject selectedMapObject)
         {
@@ -86,7 +99,6 @@ namespace GraphicalEditor
                         mapObject.Rectangle.Effect = null;
                 }
             }
-           
         }
 
         private MapObject FindSelectedMapObject(Point mouseCursorCurrentPosition)
@@ -132,22 +144,6 @@ namespace GraphicalEditor
             else
             {
                 return null;
-            }
-
-        }
-
-
-        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-
-            if (selectedMapObject != null)
-            {
-                TestText.Text = selectedMapObject.MapObjectEntity.MapObjectType.ObjectTypeFullName;
-            }
-            else
-            {
-                TestText.Text = "";
             }
 
         }

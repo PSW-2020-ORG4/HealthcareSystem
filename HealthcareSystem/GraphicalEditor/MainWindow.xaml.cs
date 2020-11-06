@@ -33,6 +33,30 @@ namespace GraphicalEditor
         private IRepository repository;
 
         private Boolean _editMode = false;
+
+        private string objectName;
+        private string objectDescription;
+        private string objectSpecification;
+
+        public long Id
+        {
+            get { return 1; }
+        }
+        public string ObjectName
+        {
+            get { return "Examination room"; }
+            set { this.objectName = value; }
+        }
+        public string ObjectDescription
+        {
+            get { return "Main doctor is Dr Davison"; }
+            set { this.objectDescription = value; }
+        }
+        public string ObjectSpecification
+        {
+            get { return "215"; }
+            set { this.objectSpecification = value; }
+        }
         public Boolean EditMode
         {
             get { return _editMode; }
@@ -56,8 +80,9 @@ namespace GraphicalEditor
         }
 
         public MainWindow()
-        {
+        {            
             InitializeComponent();
+            this.DataContext = this;
             _canvas = this.Canvas;
             repository = new FileRepository("test.json");
             AllMapObjects = new List<MapObject>();
@@ -83,7 +108,15 @@ namespace GraphicalEditor
 
         private void Change_Display_Information(object sender, RoutedEventArgs e)
         {
+            string name = this.name.Text;
+            string specification = this.specification.Text;
+            string description = this.specification.Text;
 
+            MapObject mapObject = AllMapObjects.FirstOrDefault(x => x.MapObjectEntity.Id == Id);
+            if (mapObject != null)
+            {
+                //mapObject.Update(name, specification, description);
+            }
             EditMode = !EditMode;
         }
 

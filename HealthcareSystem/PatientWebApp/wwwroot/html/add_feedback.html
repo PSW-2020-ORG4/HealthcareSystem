@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../lib/jquery-ui-bootstrap/assets/css/bootstrap.min.css">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="../lib/mdbootstrap/css/mdb.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/add_feedback.js"></script>
+
+    <title>Give feedback</title>
+</head>
+<body style="        background-color: #e6fff7;">
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a href="patients_home_page.html"><h4 class="navbar-brand" id="title" style="margin-right: 50px;">HOSPITAL</h4></a>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="add_feedback.html">Give feedback</a>
+            </li>
+        </ul>
+
+
+    </nav>
+
+    <form id="add_feedback_form" class="text-center border border-light p-5" action="#!">
+
+        <p class="h4 mb-4">We care about your opinion!</p>
+        <p class="h5 mb-4">Leave your feedback and help us be even better!</p>
+        <i class="far fa-file-alt fa-5x mb-3 animated rotateIn"></i>
+
+        <!-- Message -->
+        <div class="form-group">
+            <textarea style="        background-color: #d6f5f5; margin-left: 36%; width: 30%;" class="form-control rounded-0" id="text_area_id" rows="3" placeholder="Message"></textarea>
+            <p style="color:red; float: inherit;" id="ap_error_msg" hidden></p>
+        </div>
+
+        <!-- Copy -->
+        <div class="custom-control custom-checkbox mb-4">
+
+            <p class="mb-4">You want to remain anonymous?</p>
+            <div class="col-75" style="margin-top: 15px;">
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="yes_anonymous" name="type" checked="checked">
+                    <label class="custom-control-label" for="yes_anonymous">Yes</label>
+                </div>
+
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="no_anonymous" name="type">
+                    <label class="custom-control-label" for="no_anonymous">No</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="is_allowed">
+            <label class="custom-control-label" for="is_allowed">I don't want my feedback to be published!</label>
+        </div>
+        <br />
+
+        <!-- Send button -->
+        <div class="row">
+            <input id="search_btn" type="submit" value="Send">
+        </div>
+        <br />
+        <p style="color:green; float: inherit;" id="ap_success_msg" hidden></p>
+    </form>
+
+</body>
+</html>

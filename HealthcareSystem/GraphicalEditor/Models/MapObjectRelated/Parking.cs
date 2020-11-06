@@ -10,13 +10,13 @@ namespace GraphicalEditor.Models.MapObjectRelated
     class Parking : MapObjectEntity
     {
         public Parking(String description)
-            : base(new MapObjectType(MapObjectTypes.PARKING), description)
+            : base(MapObjectTypes.PARKING, description)
         {
             FormatObjectDescription(Description);
         }
 
         public Parking()
-           : base(new MapObjectType(MapObjectTypes.PARKING), "")
+           : base(MapObjectTypes.PARKING, "")
         {
             FormatObjectDescription(Description);
         }

@@ -14,10 +14,10 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public String Description { get; set; }
 
        
-        public MapObjectEntity(MapObjectType mapObjectType, string description = "")
+        public MapObjectEntity(MapObjectTypes mapObjectType, string description = "")
             :base()
         {
-            MapObjectType = mapObjectType;
+            MapObjectType = new MapObjectType(mapObjectType);
             Description = description;
         }
 

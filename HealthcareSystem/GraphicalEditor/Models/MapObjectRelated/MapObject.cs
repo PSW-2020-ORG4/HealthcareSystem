@@ -30,7 +30,7 @@ namespace GraphicalEditor.Models
             MapObjectDoor.MapObjectMetrics = mapObjectMetrics;
 
             RectangleInitialization();
-            PositionObjectNameTextBlock();
+        //    PositionObjectNameTextBlock();
         }
 
         private void RectangleInitialization()
@@ -42,11 +42,8 @@ namespace GraphicalEditor.Models
 
             Rectangle.Stroke = Brushes.DarkSlateGray;
             Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
-
-            Rectangle.SetValue(Canvas.LeftProperty, MapObjectMetrics.XOfCanvas);
-            Rectangle.SetValue(Canvas.TopProperty, MapObjectMetrics.YOfCanvas);
         }
-
+        /* this function needs to be changed !!!
         private void PositionObjectNameTextBlock()
         {
             MapObjectNameTextBlock = new TextBlock();
@@ -59,14 +56,17 @@ namespace GraphicalEditor.Models
             MapObjectNameTextBlock.SetValue(Canvas.TopProperty, (MapObjectMetrics.YOfCanvas + (Rectangle.Height - MapObjectNameTextBlock.FontSize) / 2));
             MapObjectNameTextBlock.TextWrapping = TextWrapping.Wrap;
             MapObjectNameTextBlock.TextAlignment = TextAlignment.Center;
-        }
+        } */
 
 
         public void AddToCanvas(Canvas canvas)
         {
             canvas.Children.Add(Rectangle);
+            Canvas.SetLeft(Rectangle, MapObjectMetrics.XOfCanvas);
+            Canvas.SetTop(Rectangle, MapObjectMetrics.YOfCanvas);
+
             canvas.Children.Add(MapObjectDoor.GetDoor());
-            canvas.Children.Add(MapObjectNameTextBlock);
+        //    canvas.Children.Add(MapObjectNameTextBlock);
         }
     }
 }

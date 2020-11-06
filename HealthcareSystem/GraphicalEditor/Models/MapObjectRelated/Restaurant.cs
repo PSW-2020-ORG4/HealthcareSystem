@@ -11,13 +11,13 @@ namespace GraphicalEditor.Models.MapObjectRelated
     class Restaurant : MapObjectEntity
     {
         public Restaurant(String description)
-          : base(new MapObjectType(MapObjectTypes.RESTAURANT), description)
+          : base(MapObjectTypes.RESTAURANT, description)
         {
             FormatObjectDescription(Description);
         }
 
         public Restaurant()
-          : base(new MapObjectType(MapObjectTypes.RESTAURANT), "")
+          : base(MapObjectTypes.RESTAURANT, "")
         {
             FormatObjectDescription(Description);
         }

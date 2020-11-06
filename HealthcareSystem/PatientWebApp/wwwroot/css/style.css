@@ -1,0 +1,26 @@
+﻿body {
+    height: 100%;
+    width: 100%;
+}
+
+#search_btn {
+    width: 10%;
+    margin-left: 45%;
+    background-color: #33adff;
+    color: white;
+}
+
+#text_area {
+    margin-left: 36%;
+    width: 30%;
+}
+
+div#view_feedbacks {
+    border: 1px solid grey;
+    background-color: rgba(214, 245, 245, 0.3);
+    position: absolute;
+    left: 50px;
+    width: 18%;
+    top: 60px;
+    margin-top: 180px;
+}

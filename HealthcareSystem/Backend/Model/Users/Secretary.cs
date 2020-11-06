@@ -20,49 +20,53 @@ namespace Model.Users
         public Secretary(string jmbg,string name,string surname,DateTime dateOfBirth,GenderType gender,City city,string homeAddress,string phone,
                          string email,string username,string password,TypeOfQualifications qualifications,DateTime dateOfEmployment)
         {
-            this.Jmbg = jmbg;
-            this.Name = name;
-            this.Surname = surname;
-            this.DateOfBirth = dateOfBirth;
-            this.Gender = gender;
+            Jmbg = jmbg;
+            Name = name;
+            Surname = surname;
+            DateOfBirth = dateOfBirth;
+            Gender = gender;
             if (city != null)
             {
-                this.City = new City(city);
+                City = new City(city);
+                CityZipCode = city.ZipCode;
             }
             else
             {
-                this.City = new City();
+                City = new City();
+                CityZipCode = 0;
             }
-            this.HomeAddress = homeAddress;
-            this.Phone = phone;
-            this.Email = email;
-            this.Username = username;
-            this.Password = password;
-            this.Qualifications = qualifications;
-            this.DateOfEmployment = dateOfEmployment;
+            HomeAddress = homeAddress;
+            Phone = phone;
+            Email = email;
+            Username = username;
+            Password = password;
+            Qualifications = qualifications;
+            DateOfEmployment = dateOfEmployment;
         }
         public Secretary(Secretary secretary)
         {
-            this.Jmbg = secretary.Jmbg;
-            this.Name = secretary.Name;
-            this.Surname = secretary.Surname;
-            this.DateOfBirth = secretary.DateOfBirth;
-            this.Gender = secretary.Gender;
+            Jmbg = secretary.Jmbg;
+            Name = secretary.Name;
+            Surname = secretary.Surname;
+            DateOfBirth = secretary.DateOfBirth;
+            Gender = secretary.Gender;
             if (secretary.City != null)
             {
-                this.City = new City(secretary.City);
+                City = new City(secretary.City);
+                CityZipCode = secretary.City.ZipCode;
             }
             else
             {
-                this.City = new City();
+                City = new City();
+                CityZipCode = 0;
             }
-            this.HomeAddress = secretary.HomeAddress;
-            this.Phone = secretary.Phone;
-            this.Email = secretary.Email;
-            this.Username = secretary.Username;
-            this.Password = secretary.Password;
-            this.Qualifications = secretary.Qualifications;
-            this.DateOfEmployment = secretary.DateOfEmployment;
+            HomeAddress = secretary.HomeAddress;
+            Phone = secretary.Phone;
+            Email = secretary.Email;
+            Username = secretary.Username;
+            Password = secretary.Password;
+            Qualifications = secretary.Qualifications;
+            DateOfEmployment = secretary.DateOfEmployment;
         }
 
     }

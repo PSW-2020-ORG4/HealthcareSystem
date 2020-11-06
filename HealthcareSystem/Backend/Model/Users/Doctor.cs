@@ -21,67 +21,71 @@ namespace Model.Users
         public Doctor(string jmbg, string name, string surname, DateTime dateOfBirth, GenderType gender, City city, string homeAddress, string phone,
                          string email, string username, string password,string numberOfLicence,TypeOfDoctor typeOfDoctor,Room doctorsOffice,DateTime dateOfEmployment)
         {
-            this.Jmbg = jmbg;
-            this.Name = name;
-            this.Surname = surname;
-            this.DateOfBirth = dateOfBirth;
-            this.Gender = gender;
-            if(city != null)
+            Jmbg = jmbg;
+            Name = name;
+            Surname = surname;
+            DateOfBirth = dateOfBirth;
+            Gender = gender;
+            if (city != null)
             {
-                this.City = new City(city);
+                City = new City(city);
+                CityZipCode = city.ZipCode;
             }
             else
             {
-                this.City = new City();
+                City = new City();
+                CityZipCode = 0;
             }
-            this.HomeAddress = homeAddress;
-            this.Phone = phone;
-            this.Email = email;
-            this.Username = username;
-            this.Password = password;
-            this.NumberOfLicence = numberOfLicence;
-            this.Type = typeOfDoctor;
+            HomeAddress = homeAddress;
+            Phone = phone;
+            Email = email;
+            Username = username;
+            Password = password;
+            NumberOfLicence = numberOfLicence;
+            Type = typeOfDoctor;
             if (doctorsOffice != null)
             {
-                this.DoctorsOffice = new Room(doctorsOffice);
+                DoctorsOffice = new Room(doctorsOffice);
             }
             else
             {
-                this.DoctorsOffice = new Room();
+                DoctorsOffice = new Room();
             }
-            this.DateOfEmployment = dateOfEmployment;
+            DateOfEmployment = dateOfEmployment;
         }
         public Doctor(Doctor doctor)
         {
-            this.Jmbg = doctor.Jmbg;
-            this.Name = doctor.Name;
-            this.Surname = doctor.Surname;
-            this.DateOfBirth = doctor.DateOfBirth;
-            this.Gender = doctor.Gender;
+            Jmbg = doctor.Jmbg;
+            Name = doctor.Name;
+            Surname = doctor.Surname;
+            DateOfBirth = doctor.DateOfBirth;
+            Gender = doctor.Gender;
             if (doctor.City != null)
             {
-                this.City = new City(doctor.City);
+                City = new City(doctor.City);
+                CityZipCode = doctor.City.ZipCode;
             }
             else
             {
-                this.City = new City();
+                City = new City();
+                CityZipCode = 0;
             }
-            this.HomeAddress = doctor.HomeAddress;
-            this.Phone = doctor.Phone;
-            this.Email = doctor.Email;
-            this.Username = doctor.Username;
-            this.Password = doctor.Password;
-            this.NumberOfLicence = doctor.NumberOfLicence;
-            this.Type = doctor.Type;
+            HomeAddress = doctor.HomeAddress;
+            Phone = doctor.Phone;
+            Email = doctor.Email;
+            Username = doctor.Username;
+            Password = doctor.Password;
+            NumberOfLicence = doctor.NumberOfLicence;
+            Type = doctor.Type;
             if (doctor.DoctorsOffice != null)
             {
-                this.DoctorsOffice = new Room(doctor.DoctorsOffice);
+                DoctorsOffice = new Room(doctor.DoctorsOffice);
             }
             else
             {
-                this.DoctorsOffice = new Room();
+                DoctorsOffice = new Room();
             }
-            this.DateOfEmployment = doctor.DateOfEmployment;
+            DateOfEmployment = doctor.DateOfEmployment;
         } 
 
     }

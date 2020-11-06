@@ -6,6 +6,7 @@
 
 using Backend.Model.Exceptions;
 using Backend.Repository;
+using Backend.Service.NotificationSurveyAndFeedback;
 using Model.Users;
 using Repository;
 using System;
@@ -13,27 +14,24 @@ using System.Collections.Generic;
 
 namespace Service.NotificationSurveyAndFeedback
 {
-   public class FeedbackService
+   public class FeedbackService : IFeedbackService
    {
         private IFeedbackRepository _feedbackRepository;
-        private IActivePatientRepository _activePatientRepository;
-
-        public FeedbackService(IFeedbackRepository feedbackRepository, IActivePatientRepository activePatientRepository)
+        public FeedbackService(IFeedbackRepository feedbackRepository)
         {
             _feedbackRepository = feedbackRepository;
-            _activePatientRepository = activePatientRepository;
         }
         public void AddFeedback(Feedback feedback)
         {
             if (feedback == null)
                 throw new BadRequestException("Please, write a comment to send feedback.");
-            if (_activePatientRepository.GetPatientByJmbg(feedback.Commentator.Jmbg) == null)
-                throw new BadRequestException("An error occurred while loading your data. There is a possibility that your profile has been deleted.");
             _feedbackRepository.AddFeedback(feedback);
         }
-        public void PublishFeedback(int id)
+        public void PublishFeedback(Feedback feedback)
         {
-            _feedbackRepository.PublishFeedback(id);
+            if (!feedback.IsAllowedToPublish)
+                throw new BadRequestException("Feedback is not allowed to publish.");
+            _feedbackRepository.PublishFeedback(feedback);
         }
         public List<Feedback> GetPublishedFeedbacks()
         {
@@ -43,6 +41,9 @@ namespace Service.NotificationSurveyAndFeedback
         {
             return _feedbackRepository.GetUnpublishedFeedbacks();
         }
-
+        public Feedback GetFeedbackById(int id)
+        {
+            return _feedbackRepository.GetFeedbackById(id);
+        }
     }
 }

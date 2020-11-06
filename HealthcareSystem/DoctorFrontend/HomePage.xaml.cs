@@ -120,6 +120,11 @@ namespace WpfApp1
             help.ShowDialog();
         }
 
+        private void Navigation_Graphical_Editor_Click(object sender, RoutedEventArgs e)
+        {
+            GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow();
+            graphicalEditorMainWindow.ShowDialog();
+        }
         private void btn1_Click(object sender, RoutedEventArgs e)
         {
             

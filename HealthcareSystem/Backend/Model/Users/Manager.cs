@@ -18,50 +18,55 @@ namespace Model.Users
         public Manager(string jmbg, string name, string surname, DateTime dateOfBirth, GenderType gender, City city, string homeAddress, string phone,
                          string email, string username, string password, TypeOfQualifications qualifications, DateTime dateOfEmployment)
         {
-            this.Jmbg = jmbg;
-            this.Name = name;
-            this.Surname = surname;
-            this.DateOfBirth = dateOfBirth;
-            this.Gender = gender;
+            Jmbg = jmbg;
+            Name = name;
+            Surname = surname;
+            DateOfBirth = dateOfBirth;
+            Gender = gender;
             if (city != null)
             {
-                this.City = new City(city);
+                City = new City(city);
+                CityZipCode = city.ZipCode;
             }
             else
             {
-                this.City = new City();
+                City = new City();
+                CityZipCode = 0;
             }
-            this.HomeAddress = homeAddress;
-            this.Phone = phone;
-            this.Email = email;
-            this.Username = username;
-            this.Password = password;
-            this.Qualifications = qualifications;
-            this.DateOfEmployment = dateOfEmployment;
+            HomeAddress = homeAddress;
+            Phone = phone;
+            Email = email;
+            Username = username;
+            Password = password;
+            Qualifications = qualifications;
+            DateOfEmployment = dateOfEmployment;
         }
 
         public Manager(Manager manager)
         {
-            this.Jmbg = manager.Jmbg;
-            this.Name = manager.Name;
-            this.Surname = manager.Surname;
-            this.DateOfBirth = manager.DateOfBirth;
-            this.Gender = manager.Gender;
+
+            Jmbg = manager.Jmbg;
+            Name = manager.Name;
+            Surname = manager.Surname;
+            DateOfBirth = manager.DateOfBirth;
+            Gender = manager.Gender;
             if (manager.City != null)
             {
-                this.City = new City(manager.City);
+                City = new City(manager.City);
+                CityZipCode = manager.City.ZipCode;
             }
             else
             {
-                this.City = new City();
+                City = new City();
+                CityZipCode = 0;
             }
-            this.HomeAddress = manager.HomeAddress;
-            this.Phone = manager.Phone;
-            this.Email = manager.Email;
-            this.Username = manager.Username;
-            this.Password = manager.Password;
-            this.Qualifications = manager.Qualifications;
-            this.DateOfEmployment = manager.DateOfEmployment;
+            HomeAddress = manager.HomeAddress;
+            Phone = manager.Phone;
+            Email = manager.Email;
+            Username = manager.Username;
+            Password = manager.Password;
+            Qualifications = manager.Qualifications;
+            DateOfEmployment = manager.DateOfEmployment;
         }
    
    }

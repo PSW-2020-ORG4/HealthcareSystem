@@ -68,6 +68,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
             TypeOfMapObject = mapObjectType;
         }
 
+
+
         public SolidColorBrush getColor()
         {
             switch (TypeOfMapObject)

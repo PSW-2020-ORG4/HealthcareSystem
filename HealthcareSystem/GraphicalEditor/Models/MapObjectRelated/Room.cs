@@ -15,7 +15,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public long BuildingId { get; set; }
 
 
-        public Room(Enumerations.TypeOfMapObject mapObjectType, String description, Enumerations.DepartmentOfMapObject department, MapObject building, int floor)
+        public Room(TypeOfMapObject mapObjectType, String description, DepartmentOfMapObject department, MapObject building, int floor)
             : base(mapObjectType, description)
         {
             Department = new MapObjectDepartment(department);
@@ -25,7 +25,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
             FormatObjectDescription(Description);
         }
 
-        public Room(Enumerations.TypeOfMapObject mapObjectType, Enumerations.DepartmentOfMapObject department, MapObject building, int floor)
+        public Room(TypeOfMapObject mapObjectType, DepartmentOfMapObject department, MapObject building, int floor)
              : base(mapObjectType, "")
         {
             Department = new MapObjectDepartment(department);

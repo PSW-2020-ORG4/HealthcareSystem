@@ -14,7 +14,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public String Description { get; set; }
 
        
-        public MapObjectEntity(Enumerations.TypeOfMapObject mapObjectType, string description = "")
+        public MapObjectEntity(TypeOfMapObject mapObjectType, string description = "")
             :base()
         {
             MapObjectType = new MapObjectType(mapObjectType);

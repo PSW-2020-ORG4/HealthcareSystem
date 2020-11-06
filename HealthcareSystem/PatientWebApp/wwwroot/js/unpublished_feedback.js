@@ -47,21 +47,20 @@ function addCommentTable(c) {
 
 function approveComment(feedbackId) {
 
-	alert(feedbackId);
-	console.log(feedbackId);
-
 	$.ajax({
 		type: "PUT",
 		url: "/api/feedback/",
 		data: feedbackId,
 		success: function () {
-			alert("Success! Approved comment with id " + feedbackId);
+			$('#ap_success_msg').text('You have successfully approved a feedback!');
+			$('#ap_success_msg').attr("hidden", false);
+
 			setTimeout(function () {
 				location.reload();
 			}, 500);
 		},
 		error: function () {
-			alert("error approving comment");
+			console.log("error approving comment");
 		}
 	});
 

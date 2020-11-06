@@ -8,7 +8,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public int NumOfFloors { get; set; }
 
         public Building(String description, int numOfFloors)
-           : base(MapObjectTypes.BUILDING, description)
+           : base(Enumerations.TypeOfMapObject.BUILDING, description)
         {
             NumOfFloors = numOfFloors;
 
@@ -16,7 +16,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }
 
         public Building(int numOfFloors)
-           : base(MapObjectTypes.BUILDING, "")
+           : base(Enumerations.TypeOfMapObject.BUILDING, "")
         {
             NumOfFloors = numOfFloors;
 

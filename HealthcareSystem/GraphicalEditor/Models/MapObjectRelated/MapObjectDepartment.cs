@@ -9,7 +9,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     public class MapObjectDepartment
     {
-        public MapObjectDepartments DepartmentOfMapObject { get; set; }
+        public Enumerations.DepartmentOfMapObject DepartmentOfMapObject { get; set; }
 
         public string DepartmentFullName
         {
@@ -17,13 +17,13 @@ namespace GraphicalEditor.Models.MapObjectRelated
             {
                 switch (DepartmentOfMapObject)
                 {
-                    case MapObjectDepartments.GENERAL_MEDICINE:
+                    case Enumerations.DepartmentOfMapObject.GENERAL_MEDICINE:
                         return "Opšta medicina";
-                    case MapObjectDepartments.PULMOLOGY:
+                    case Enumerations.DepartmentOfMapObject.PULMOLOGY:
                         return "Pulmologija";
-                    case MapObjectDepartments.NEUROLOGY:
+                    case Enumerations.DepartmentOfMapObject.NEUROLOGY:
                         return "Neurologija";
-                    case MapObjectDepartments.CARDIOLOGY:
+                    case Enumerations.DepartmentOfMapObject.CARDIOLOGY:
                         return "Kardiologija";
                     default:
                         return "Opšta medicina";
@@ -32,7 +32,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }
 
 
-        public MapObjectDepartment(MapObjectDepartments mapObjectDepartment)
+        public MapObjectDepartment(Enumerations.DepartmentOfMapObject mapObjectDepartment)
         {
             DepartmentOfMapObject = mapObjectDepartment;
         }

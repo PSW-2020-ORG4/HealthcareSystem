@@ -6,6 +6,7 @@ using GraphicalEditor.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,8 +38,8 @@ namespace GraphicalEditor
             repository = new FileRepository("test.json");
             AllMapObjects = new List<MapObject>();
 
-            MocupObjects mockupObjects = new MocupObjects();
-            AllMapObjects = mockupObjects.getAllMapObjects();
+            //MocupObjects mockupObjects = new MocupObjects();
+            //AllMapObjects = mockupObjects.getAllMapObjects();
             //saveMap();
             LoadMapOnCanvas();
         }
@@ -54,6 +55,11 @@ namespace GraphicalEditor
 
         private void saveMap()
             => repository.SaveMap(AllMapObjects);
+
+        private void Change_Display_Information(object sender, RoutedEventArgs e)
+        {           
+        }        
+
     }
 
 }

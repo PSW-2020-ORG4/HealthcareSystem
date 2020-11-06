@@ -8,9 +8,94 @@
         WindowState="Maximized"
         Title="MainWindow" Height="800" Width="1500">
     <DockPanel>
-        <Canvas x:Name="Canvas" Height="700" Width="1086" Margin="20 0 50 20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#FFF7F7F7">
+        <Canvas x:Name="Canvas" Height="700" Width="1086" Margin="20 0 0 20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#FFF7F7F7">
 
         </Canvas>
-        <TextBlock x:Name="TestText" Text="Test" FontSize="30" />
+        <Border DockPanel.Dock="Right"
+                Margin="0 50 0 0"
+                Padding="10 0 10 0">
+            <StackPanel x:Name="InformationDisplay">
+                <StackPanel.Resources>
+                    
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=EditButton}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=EditButton}" Value="False">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    
+                    <Style TargetType="TextBox">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=EditButton}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=EditButton}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                    
+                    <Style TargetType="ToggleButton">
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content" Value="Sačuvaj" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter Property="Content" Value="Izmeni" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    
+                </StackPanel.Resources>
+                
+                <StackPanel>
+                    <TextBlock Text="Soba za pregled" 
+                           FontSize="26" 
+                           HorizontalAlignment="Center">
+                    </TextBlock>
+                    <TextBox Text="Soba za pregled" 
+                           FontSize="26" 
+                           HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Margin="0 10">
+                    <TextBlock Text="14" 
+                           FontSize="20"
+                           HorizontalAlignment="Center"/>
+
+                    <TextBox Text="14" 
+                           FontSize="20"
+                           HorizontalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel>
+                    <TextBlock Text="Ovo je jako dugacak opis samog objekta" 
+                           TextWrapping="Wrap"
+                           FontSize="16" 
+                           Margin="0 10 0 0">                        
+                    </TextBlock>
+
+                    <TextBox Text="Ovo je jako dugacak opis samog objekta" 
+                           TextWrapping="Wrap"
+                           FontSize="16" 
+                           Margin="0 10 0 0">
+                    </TextBox>
+                </StackPanel>
+
+                <ToggleButton x:Name="EditButton"
+                        Padding="10"
+                        FontSize="18"
+                        Margin="0 10"
+                        Visibility="Visible"
+                        Click="Change_Display_Information">
+
+                </ToggleButton>
+
+            </StackPanel>
+        </Border>
     </DockPanel>
 </Window>

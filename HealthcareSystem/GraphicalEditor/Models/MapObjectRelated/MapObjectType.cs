@@ -70,7 +70,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         public MapObjectType()
         {
-            TypeOfMapObject = MapObjectTypes.PARKING;
+            this.TypeOfMapObject = MapObjectTypes.PARKING;
         }
 
         public MapObjectTypes GetMapObjectTypes { get => TypeOfMapObject; set => TypeOfMapObject = value; }

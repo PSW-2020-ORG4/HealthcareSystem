@@ -25,7 +25,7 @@ namespace PatientWebApp.Validators
             if (feedbackDTO.CommentatorName == null)
                 throw new BadRequestException("Commentator name cannot be null.");
             if (feedbackDTO.CommentatorSurname == null)
-                throw new BadRequestException("Commentator surname cannot be null");
+                throw new BadRequestException("Commentator surname cannot be null.");
         }
 
         public void checkIfFeedbacksIsAllowedToPublish(int id)

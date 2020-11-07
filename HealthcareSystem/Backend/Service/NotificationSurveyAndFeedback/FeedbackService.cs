@@ -43,7 +43,7 @@ namespace Service.NotificationSurveyAndFeedback
         {
             Feedback _feedback = _feedbackRepository.GetFeedbackById(id);
             if (_feedback == null)
-                throw new NotFoundException("Feeback with id=" + id + "doesn't exist in database.");
+                throw new NotFoundException("Feeback with id=" + id + " doesn't exist in database.");
             return _feedback;
         }
     }

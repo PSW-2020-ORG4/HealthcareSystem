@@ -39,7 +39,7 @@ namespace GraphicalEditor
             repository = new FileRepository("test.json");
             AllMapObjects = new List<MapObject>();
 
-            MocupObjects mockupObjects = new MocupObjects();
+            MockupObjects mockupObjects = new MockupObjects();
             AllMapObjects = mockupObjects.getAllMapObjects();
             //saveMap();
             LoadMapOnCanvas();

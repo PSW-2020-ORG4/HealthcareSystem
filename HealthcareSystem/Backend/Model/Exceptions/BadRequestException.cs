@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Model.Exceptions
 {
-    class BadRequestException : HealthClinicException
+    public class BadRequestException : HealthClinicException
     {
         public BadRequestException() : base() { }
         public BadRequestException(string message) : base(message) { }

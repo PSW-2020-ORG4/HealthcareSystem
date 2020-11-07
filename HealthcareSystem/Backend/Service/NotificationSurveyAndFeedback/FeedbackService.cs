@@ -23,17 +23,13 @@ namespace Service.NotificationSurveyAndFeedback
         }
         public void AddFeedback(Feedback feedback)
         {
-            if (feedback == null)
-                throw new BadRequestException("Please, write a comment to send feedback.");
             _feedbackRepository.AddFeedback(feedback);
         }
         public void PublishFeedback(int id)
         {
-            Feedback feedback = GetFeedbackById(id);
-            if (!feedback.IsAllowedToPublish)
-                throw new BadRequestException("Feedback is not allowed to publish.");
-            feedback.IsPublished = true;
-            _feedbackRepository.UpdateFeedback(feedback);
+            Feedback _feedback = GetFeedbackById(id);
+            _feedback.IsPublished = true;
+            _feedbackRepository.UpdateFeedback(_feedback);
         }
         public List<Feedback> GetPublishedFeedbacks()
         {
@@ -45,7 +41,10 @@ namespace Service.NotificationSurveyAndFeedback
         }
         public Feedback GetFeedbackById(int id)
         {
-            return _feedbackRepository.GetFeedbackById(id);
+            Feedback _feedback = _feedbackRepository.GetFeedbackById(id);
+            if (_feedback == null)
+                throw new NotFoundException("Feeback with id=" + id + "doesn't exist in database.");
+            return _feedback;
         }
     }
 }

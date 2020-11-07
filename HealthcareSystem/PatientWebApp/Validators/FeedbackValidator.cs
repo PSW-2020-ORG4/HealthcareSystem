@@ -30,8 +30,8 @@ namespace PatientWebApp.Validators
 
         public void checkIfFeedbacksIsAllowedToPublish(int id)
         {
-            Feedback _feedback = _feedbackService.GetFeedbackById(id);
-            if (!_feedback.IsAllowedToPublish)
+            Feedback feedback = _feedbackService.GetFeedbackById(id);
+            if (!feedback.IsAllowedToPublish)
                 throw new BadRequestException("Feedback is not allowed to publish.");
         }
     }

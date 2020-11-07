@@ -57,7 +57,7 @@ namespace PatientWebApp.Controllers
         }
 
         [HttpGet("published-feedbacks")]
-        public ActionResult getPublishedFeedbacks()
+        public ActionResult GetPublishedFeedbacks()
         {
             List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
             _feedbackService.GetPublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackAdapter.FeedbackToFeedbackDTO(feedback)));
@@ -65,7 +65,7 @@ namespace PatientWebApp.Controllers
         }
 
         [HttpGet("unpublished-feedbacks")]
-        public ActionResult getUnpublishedFeedbacks()
+        public ActionResult GetUnpublishedFeedbacks()
         {
             List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
             _feedbackService.GetUnpublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackAdapter.FeedbackToFeedbackDTO(feedback)));

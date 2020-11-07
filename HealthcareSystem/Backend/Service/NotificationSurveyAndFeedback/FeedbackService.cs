@@ -27,9 +27,9 @@ namespace Service.NotificationSurveyAndFeedback
         }
         public void PublishFeedback(int id)
         {
-            Feedback _feedback = GetFeedbackById(id);
-            _feedback.IsPublished = true;
-            _feedbackRepository.UpdateFeedback(_feedback);
+            Feedback feedback = GetFeedbackById(id);
+            feedback.IsPublished = true;
+            _feedbackRepository.UpdateFeedback(feedback);
         }
         public List<Feedback> GetPublishedFeedbacks()
         {
@@ -41,10 +41,10 @@ namespace Service.NotificationSurveyAndFeedback
         }
         public Feedback GetFeedbackById(int id)
         {
-            Feedback _feedback = _feedbackRepository.GetFeedbackById(id);
-            if (_feedback == null)
+            Feedback feedback = _feedbackRepository.GetFeedbackById(id);
+            if (feedback == null)
                 throw new NotFoundException("Feeback with id=" + id + " doesn't exist in database.");
-            return _feedback;
+            return feedback;
         }
     }
 }

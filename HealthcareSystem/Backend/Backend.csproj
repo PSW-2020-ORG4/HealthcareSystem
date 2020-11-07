@@ -183,9 +183,9 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
-    <Compile Include="Migrations\20201104164837_FirstMigration.cs" />
-    <Compile Include="Migrations\20201104164837_FirstMigration.designer.cs">
-      <DependentUpon>20201104164837_FirstMigration.cs</DependentUpon>
+    <Compile Include="Migrations\20201107172143_FirstMigration.cs" />
+    <Compile Include="Migrations\20201107172143_FirstMigration.designer.cs">
+      <DependentUpon>20201107172143_FirstMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Doctor\Examination.cs" />

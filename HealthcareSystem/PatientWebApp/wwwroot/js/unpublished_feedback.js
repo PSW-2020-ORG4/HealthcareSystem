@@ -26,7 +26,8 @@ function addCommentTable(feedback) {
 
 	let divElement = $('<div class="border_comment"><table class="table_comment">'
 		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Patient:</p></th><td>' + nameAndSurname + '</td></tr > '
-		+ ' <tr><th><p  style="margin-left:50px;">Comment:</p></th><td>' + feedback.comment + '</td></tr> '
+		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Date:</p></th><td>' + feedback.sendingDate + '</td></tr > '
+		+ ' <tr> <th style="width:250px;"><p  style="margin-left:50px;">Comment:</p></th><td><p><i class="fas fa-quote-left pr-2"></i> ' + feedback.comment + '<p/></td></tr> '
 		+ ' </table ></div > ');
 
 	let trElement = $('<tr> <td style="width:250px;"><span></span></td> <td style = "width:250px;"><span></span></td> </tr>');
@@ -38,7 +39,6 @@ function addCommentTable(feedback) {
 
 	divElement.append(trElement);
 	$('div#div_comments').append(divElement);
-
 }
 
 function approveComment(feedbackId) {
@@ -58,5 +58,4 @@ function approveComment(feedbackId) {
 			alert(jqXHR.responseText);
 		}
 	});
-
 }

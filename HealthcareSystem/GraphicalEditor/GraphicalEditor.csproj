@@ -57,10 +57,15 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Controllers\MapObjectController.cs" />
     <Compile Include="Models\MapObjectRelated\MocupObjects.cs" />
     <Compile Include="Repository\ContractResolver.cs" />
     <Compile Include="Repository\FileRepository.cs" />
-    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\Intefrace\IMapObjectRepository.cs" />
+    <Compile Include="Repository\Intefrace\IRepository.cs" />
+    <Compile Include="Repository\MapObjectRepository.cs" />
+    <Compile Include="Services\Interface\IMapObjectServices.cs" />
+    <Compile Include="Services\MapObjectServices.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

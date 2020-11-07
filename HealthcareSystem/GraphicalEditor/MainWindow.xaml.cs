@@ -115,6 +115,7 @@ namespace GraphicalEditor
             MapObject mapObject = AllMapObjects.FirstOrDefault(x => x.MapObjectEntity.Id == Id);
             if (mapObject != null)
             {
+                
                 //mapObject.Update(name, specification, description);
             }
             EditMode = !EditMode;

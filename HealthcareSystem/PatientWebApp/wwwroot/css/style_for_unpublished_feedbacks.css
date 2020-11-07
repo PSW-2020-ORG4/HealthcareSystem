@@ -60,7 +60,6 @@ div.comments {
     background-color: transparent;
     position: absolute;
     top: 200px;
-    height: 800px;
     left: 0px;
 }
 
@@ -73,8 +72,6 @@ div.border_comment {
     border-style: solid;
     border-color: darkgray;
     border-width: 1px;
-    height: 155px;
-    width: 650px;
     margin-top: 20px;
     margin-left: 380px;
     background-color: white;

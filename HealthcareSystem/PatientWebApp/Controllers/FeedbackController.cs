@@ -46,7 +46,7 @@ namespace PatientWebApp.Controllers
             {
                 _feedbackValidator.validateFeedbacksFields(feedbackDTO);
             }
-            catch (BadRequestException exception)
+            catch (ValidationException exception)
             {
                 return BadRequest(exception.Message);
             }
@@ -83,7 +83,7 @@ namespace PatientWebApp.Controllers
             {
                 return NotFound(exception.Message);
             }
-            catch (BadRequestException exception)
+            catch (ValidationException exception)
             {
                 return BadRequest(exception.Message);
             }

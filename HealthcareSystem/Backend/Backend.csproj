@@ -192,7 +192,7 @@
     <Compile Include="Model\Doctor\PlacemetnInARoom.cs" />
     <Compile Include="Model\Doctor\Therapy.cs" />
     <Compile Include="Model\Doctor\TypeOfExamination.cs" />
-    <Compile Include="Model\Exceptions\BadRequestException.cs" />
+    <Compile Include="Model\Exceptions\ValidationException.cs" />
     <Compile Include="Model\Exceptions\HealthClinicException.cs" />
     <Compile Include="Model\Exceptions\NotFoundException.cs" />
     <Compile Include="Model\Manager\ConsumableEquipment.cs" />

@@ -3,11 +3,11 @@
     width: 100%;
 }
 
-#search_btn {
-    width: 10%;
-    margin-left: 45%;
-    background-color: #33adff;
+.my_btn {
     color: white;
+    background-color: rgb(43, 110, 138);
+    width: 110px;
+    height: 38px;
 }
 
 #text_area {

@@ -32,7 +32,7 @@ function addCommentTable(feedback) {
 	let trElement = $('<tr> <td style="width:250px;"><span></span></td> <td style = "width:250px;"><span></span></td> </tr>');
 
 	if (feedback.isAllowedToPublish) {
-		let tdElement = $('<td> <button style="color:white;background-color:#33adff;width:110px;margin-bottom:-60px;height:38px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Approve </button> </td>');
+		let tdElement = $('<td> <button class="my_btn" style="margin-bottom:-60px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Approve </button> </td>');
 		trElement.append(tdElement);
 	}
 
@@ -46,16 +46,16 @@ function approveComment(feedbackId) {
 	$.ajax({
 		type: "PUT",
 		url: "/api/feedback/" + feedbackId,
-		data: feedbackId,
 		success: function () {
-			console.log('You have successfully approved a feedback!');
 
+			console.log('You have successfully approved a feedback!');
 			setTimeout(function () {
 				location.reload();
 			}, 500);
 		},
-		error: function () {
-			console.log("error approving comment");
+		error: function (jqXHR) {
+
+			alert(jqXHR.responseText);
 		}
 	});
 

@@ -7,16 +7,9 @@ namespace GraphicalEditor.Models.MapObjectRelated
     {
         public int NumOfFloors { get; set; }
 
-        public Building(String description, int numOfFloors)
+        
+        public Building (int numOfFloors, String description = "")
            : base(TypeOfMapObject.BUILDING, description)
-        {
-            NumOfFloors = numOfFloors;
-
-            FormatObjectDescription(Description);
-        }
-
-        public Building(int numOfFloors)
-           : base(TypeOfMapObject.BUILDING, "")
         {
             NumOfFloors = numOfFloors;
 

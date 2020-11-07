@@ -20,7 +20,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public List<MapObject> getAllMapObjects()
         {
             MapObject firstBuilding = new MapObject(
-                   new Building("Building 1", 3),
+                   new Building(3, "Building 1"),
                    new MapObjectMetrics(40, 50, 400, 250),
                    new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0)
            );
@@ -29,7 +29,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject operationRoom1InBuilding1 = new MapObject(
                     new Room(
-                        TypeOfMapObject.OPERATION_ROOM, "Operation room 1", DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0
+                        TypeOfMapObject.OPERATION_ROOM, DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0, "Operation room 1"
                     ),
                     new MapObjectMetrics(40, 50, 200, 70),
                     new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 30, 0)
@@ -39,7 +39,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject operationRoom2InBuilding1 = new MapObject(
                    new Room(
-                       TypeOfMapObject.OPERATION_ROOM, "Operation room 2", DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0
+                       TypeOfMapObject.OPERATION_ROOM, DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0, "Operation room 2"
                    ),
                    new MapObjectMetrics(240 - AllConstants.RECTANGLE_STROKE_THICKNESS, 50, 200 + AllConstants.RECTANGLE_STROKE_THICKNESS, 70),
                    new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 30)
@@ -49,7 +49,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject examinationRoom1InBuilding1 = new MapObject(
                     new Room(
-                        TypeOfMapObject.EXAMINATION_ROOM, "Examiantion room 3", DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0
+                        TypeOfMapObject.EXAMINATION_ROOM, DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0, "Examiantion room 3"
                     ),
                     new MapObjectMetrics(40, 120 - AllConstants.RECTANGLE_STROKE_THICKNESS, 80, 120 + AllConstants.RECTANGLE_STROKE_THICKNESS),
                     new MapObjectDoor(MapObjectDoorOrientation.RIGHT, 0, 0)
@@ -59,7 +59,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject examinationRoom2InBuilding1 = new MapObject(
                    new Room(
-                       TypeOfMapObject.EXAMINATION_ROOM, "Room 4", DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0
+                       TypeOfMapObject.EXAMINATION_ROOM, DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0, "Room 4"
                    ),
                    new MapObjectMetrics(40, 240 - AllConstants.RECTANGLE_STROKE_THICKNESS, 100, 60 + AllConstants.RECTANGLE_STROKE_THICKNESS),
                    new MapObjectDoor(MapObjectDoorOrientation.RIGHT, 0, 0)
@@ -69,7 +69,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject waitingRoomBuilding1 = new MapObject(
                   new Room(
-                      TypeOfMapObject.WAITING_ROOM, "Waiting room 1", DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0
+                      TypeOfMapObject.WAITING_ROOM, DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0, "Waiting room 1"
                   ),
                   new MapObjectMetrics(185, 165, 140, 90),
                   new MapObjectDoor(MapObjectDoorOrientation.NONE)
@@ -79,7 +79,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject wcForManBuilding1 = new MapObject(
                   new Room(
-                      TypeOfMapObject.WC, "WC 1", DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0
+                      TypeOfMapObject.WC, DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0, "WC 1"
                   ),
                   new MapObjectMetrics(370, 120 - AllConstants.RECTANGLE_STROKE_THICKNESS, 70, 55 + AllConstants.RECTANGLE_STROKE_THICKNESS),
                   new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
@@ -89,7 +89,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject wcForWomanBuilding1 = new MapObject(
                   new Room(
-                      TypeOfMapObject.WC, "WC 2", DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0
+                      TypeOfMapObject.WC, DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0
                   ),
                   new MapObjectMetrics(370, 175 - AllConstants.RECTANGLE_STROKE_THICKNESS, 70, 55 + AllConstants.RECTANGLE_STROKE_THICKNESS),
                   new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
@@ -99,7 +99,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject examiantionRoom3InBuilding1 = new MapObject(
                   new Room(
-                      TypeOfMapObject.EXAMINATION_ROOM, "Room 5", DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0
+                      TypeOfMapObject.EXAMINATION_ROOM, DepartmentOfMapObject.CARDIOLOGY, firstBuilding, 0, "Room 5"
                   ),
                   new MapObjectMetrics(370, 230 - AllConstants.RECTANGLE_STROKE_THICKNESS, 70, 70 + AllConstants.RECTANGLE_STROKE_THICKNESS),
                   new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
@@ -117,17 +117,16 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
 
             MapObject secondBuilding = new MapObject(
-                    new Building("Building 2", 3),
+                    new Building(3),
                     new MapObjectMetrics(730, 50, 330, 612),
                     new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
             );
 
             AllMapObjects.Add(secondBuilding);
 
-
             MapObject wc1ForManBuilding2 = new MapObject(
                 new Room(
-                    TypeOfMapObject.WC, "WC 3", DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0
+                    TypeOfMapObject.WC, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0, "WC 3"
                 ),
                 new MapObjectMetrics(835, 50, 55, 70),
                 new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 0)
@@ -137,7 +136,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject wc1ForWomanBuilding2 = new MapObject(
                   new Room(
-                      TypeOfMapObject.WC, "WC 4", DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0
+                      TypeOfMapObject.WC, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0, "WC 4"
                   ),
                   new MapObjectMetrics(890 - AllConstants.RECTANGLE_STROKE_THICKNESS, 50, 55, 70),
                   new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 0)
@@ -147,7 +146,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject wc2ForManBuilding2 = new MapObject(
                new Room(
-                   TypeOfMapObject.WC, "WC 5", DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0
+                   TypeOfMapObject.WC, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0, "WC 5"
                ),
                new MapObjectMetrics(835, 592, 55, 70),
                new MapObjectDoor(MapObjectDoorOrientation.TOP, 0, 0)
@@ -157,7 +156,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject wc2ForWomanBuilding2 = new MapObject(
                   new Room(
-                      TypeOfMapObject.WC, "WC 6", DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0
+                      TypeOfMapObject.WC, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0, "WC 6"
                   ),
                   new MapObjectMetrics(890 - AllConstants.RECTANGLE_STROKE_THICKNESS, 592, 55, 70),
                   new MapObjectDoor(MapObjectDoorOrientation.TOP, 0, 0)
@@ -168,7 +167,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject waitingRoom1Building2 = new MapObject(
                   new Room(
-                      TypeOfMapObject.WAITING_ROOM, "Waiting room 2", DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0
+                      TypeOfMapObject.WAITING_ROOM, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0, "Waiting room 2"
                   ),
                   new MapObjectMetrics(815, 140, 160, 170),
                   new MapObjectDoor(MapObjectDoorOrientation.NONE)
@@ -179,7 +178,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             MapObject waitingRoom2Building2 = new MapObject(
                  new Room(
-                     TypeOfMapObject.WAITING_ROOM, "Waiting room 3", DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0
+                     TypeOfMapObject.WAITING_ROOM, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0, "Waiting room 3"
                  ),
                  new MapObjectMetrics(815, 400, 160, 170),
                  new MapObjectDoor(MapObjectDoorOrientation.NONE)
@@ -195,10 +194,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 double widthOfObject = 70;
                 double heightOfObject = 90;
 
-
-
                 double yOfObject = i == 0 ? startYOfDrawing : startYOfDrawing + heightOfObject * i - i * AllConstants.RECTANGLE_STROKE_THICKNESS;
-
 
                 if (i == 3)
                 {
@@ -208,7 +204,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
                MapObject examiantionRoomInBuilding2 = new MapObject(
                new Room(
-                   TypeOfMapObject.EXAMINATION_ROOM, "Examination room " + i, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0
+                   TypeOfMapObject.EXAMINATION_ROOM, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0, "Examination room " + i
                ),
                new MapObjectMetrics(startXOfDrawing, yOfObject, widthOfObject, heightOfObject),
                new MapObjectDoor(MapObjectDoorOrientation.RIGHT, 0, 0)
@@ -225,10 +221,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 double widthOfObject = 70;
                 double heightOfObject = 90;
 
-
-
                 double yOfObject = i == 0 ? startYOfDrawing : startYOfDrawing + heightOfObject * i - i * AllConstants.RECTANGLE_STROKE_THICKNESS;
-
 
                 if (i == 3)
                 {
@@ -238,15 +231,13 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
                 MapObject operationRoomInBuilding2 = new MapObject(
                new Room(
-                   Enumerations.TypeOfMapObject.OPERATION_ROOM, "Operation Room " + i, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0
+                   TypeOfMapObject.OPERATION_ROOM, DepartmentOfMapObject.CARDIOLOGY, secondBuilding, 0, "Operation Room " + i
                ),
                new MapObjectMetrics(startXOfDrawing, yOfObject, widthOfObject, heightOfObject),
                new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
             );
 
                 AllMapObjects.Add(operationRoomInBuilding2);
-
-
             }
 
 

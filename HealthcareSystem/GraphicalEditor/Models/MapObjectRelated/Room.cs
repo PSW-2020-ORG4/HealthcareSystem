@@ -15,18 +15,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public long BuildingId { get; set; }
 
 
-        public Room(TypeOfMapObject mapObjectType, String description, DepartmentOfMapObject department, MapObject building, int floor)
+        public Room(TypeOfMapObject mapObjectType, DepartmentOfMapObject department, MapObject building, int floor, String description = "")
             : base(mapObjectType, description)
-        {
-            Department = new MapObjectDepartment(department);
-            Floor = floor;
-            BuildingId = building.MapObjectEntity.Id;
-
-            FormatObjectDescription(Description);
-        }
-
-        public Room(TypeOfMapObject mapObjectType, DepartmentOfMapObject department, MapObject building, int floor)
-             : base(mapObjectType, "")
         {
             Department = new MapObjectDepartment(department);
             Floor = floor;
@@ -37,12 +27,14 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
 
         [JsonConstructor]
-        public Room(MapObjectType mapObjectType, String description, MapObjectDepartment department, long buildingId, int floor)
+        public Room(MapObjectType mapObjectType, MapObjectDepartment department, long buildingId, int floor, String description = "")
             : base(mapObjectType.TypeOfMapObject, description)
         {
             Department = department;
             Floor = floor;
             BuildingId = buildingId;
+
+            FormatObjectDescription(Description);
         }
 
         public override void FormatObjectDescription(string description)

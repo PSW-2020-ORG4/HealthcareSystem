@@ -9,6 +9,11 @@ namespace PatientWebApp.Adapters
 {
     public class FeedbackAdapter
     {
+        /// <summary>
+        /// /addapting object type FeedbackDTO to type Feedback 
+        /// </summary>
+        /// <param name="dto">object type FeedbackDTO</param>
+        /// <returns>object type Feedback</returns>
         public static Feedback FeedbackDTOToFeedback(FeedbackDTO dto)
         {
             Feedback feedback = new Feedback();
@@ -20,7 +25,11 @@ namespace PatientWebApp.Adapters
 
             return feedback;
         }
-
+        /// <summary>
+        /// /addapting object type Feedback to type FeedbackDTO
+        /// </summary>
+        /// <param name="feedback">object type Feedback</param>
+        /// <returns>object type FeedbackDTO</returns>
         public static FeedbackDTO FeedbackToFeedbackDTO(Feedback feedback)
         {
             FeedbackDTO dto = new FeedbackDTO();

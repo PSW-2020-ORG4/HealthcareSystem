@@ -20,7 +20,11 @@ namespace PatientWebApp.Controllers
         {
             _feedbackService = feedbackService;
         }
-
+        /// <summary>
+        /// /getting feedback by id
+        /// </summary>
+        /// <param name="id">id of the wanted object</param>
+        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
         [HttpGet("{id}")]
         public IActionResult GetFeedbackById(int id)
         {
@@ -33,7 +37,11 @@ namespace PatientWebApp.Controllers
                 return NotFound();
             }
         }
-
+        /// <summary>
+        /// /adding new feedback to database
+        /// </summary>
+        /// <param name="feedbackDTO">an object to be added to the database</param>
+        /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
         [HttpPost]
         public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
         {
@@ -48,7 +56,10 @@ namespace PatientWebApp.Controllers
             }
 
         }
-
+        /// <summary>
+        /// / getting all published feedbacks
+        /// </summary>
+        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
         [HttpGet("published-feedbacks")]
         public ActionResult getPublishedFeedbacks()
         {
@@ -63,8 +74,11 @@ namespace PatientWebApp.Controllers
                 return NotFound();
             }
         }
-		
-		[HttpGet("unpublished-feedbacks")]
+        /// <summary>
+        /// /getting all unpublished feedbacks
+        /// </summary>
+        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+        [HttpGet("unpublished-feedbacks")]
         public ActionResult getUnpublishedFeedbacks()
         {
             try
@@ -78,7 +92,11 @@ namespace PatientWebApp.Controllers
                 return NotFound();
             }
         }
-
+        /// <summary>
+        /// / updating feedbacks status (property: IsPublished) to published
+        /// </summary>
+        /// <param name="id">id of the object to be changed</param>
+        /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
         [HttpPut("{id}")]
         public ActionResult PublishFeedback(int id)
         {

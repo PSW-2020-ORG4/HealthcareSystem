@@ -1,4 +1,7 @@
 ﻿using GraphicalEditor.Enumerations;
+using System;
+using System.Collections.Generic;
+using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace GraphicalEditor.Models.MapObjectRelated
@@ -91,6 +94,22 @@ namespace GraphicalEditor.Models.MapObjectRelated
                     return Brushes.LightYellow;
                 default:
                     return Brushes.Moccasin;
+            }
+        }
+
+        public List<String> AllMapObjectTypes
+        {
+            get
+            {
+                List<String> allMapObjectTypes = new List<String>();
+                Array typesOfMapObjects = Enum.GetValues(typeof(TypeOfMapObject));
+                foreach (TypeOfMapObject enumValue in typesOfMapObjects)
+                {
+                    MapObjectType value = new MapObjectType(enumValue);
+                    allMapObjectTypes.Add(value.ObjectTypeFullName);
+                }
+
+                return allMapObjectTypes;
             }
         }
     }

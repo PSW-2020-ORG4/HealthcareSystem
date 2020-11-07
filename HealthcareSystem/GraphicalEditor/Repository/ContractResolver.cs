@@ -10,16 +10,20 @@ namespace GraphicalEditor.Repository
 {
     public class ContractResolver : DefaultContractResolver
     {
-        private String _propertyForElimination = "FocusVisualStyle";
+        private List<String> _propertiesForElimination;
 
-        public ContractResolver(){}
+        public ContractResolver(){
+            _propertiesForElimination = new List<String>();
+            _propertiesForElimination.Add("FocusVisualStyle");
+            _propertiesForElimination.Add("Dispatcher");
+        }
 
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
         {
             IList<JsonProperty> properties = base.CreateProperties(type, memberSerialization);
 
             properties =
-                properties.Where(p => !p.PropertyName.Equals(_propertyForElimination)).ToList();
+                properties.Where(p => !_propertiesForElimination.Contains(p.PropertyName)).ToList();
 
             return properties;
         }

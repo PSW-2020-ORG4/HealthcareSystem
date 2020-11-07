@@ -39,7 +39,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private void GetActualDoor()
         {
             Rectangle = new Rectangle();
-            Rectangle.Fill = Brushes.DarkGreen;
+            Rectangle.Fill = Brushes.DarkSlateGray;
             Rectangle.Width = DoorWidth;
             Rectangle.Height = DoorHeight;
 

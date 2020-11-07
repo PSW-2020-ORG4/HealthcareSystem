@@ -16,6 +16,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -28,6 +29,7 @@ namespace GraphicalEditor
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private Canvas _canvas;
+
         public List<MapObject> AllMapObjects { get; set; }
 
         private IRepository repository;
@@ -39,7 +41,7 @@ namespace GraphicalEditor
             set
             {
                 _editMode = value;
-                OnPropertyChanged();
+                OnPropertyChanged("EditMode");
             }
         }
 
@@ -55,6 +57,21 @@ namespace GraphicalEditor
             }
         }
 
+        private MapObjectEntity _displayMapObject;
+
+        public MapObjectEntity DisplayMapObject
+        {
+            get
+            {
+                return _displayMapObject;
+            }
+            set
+            {
+                _displayMapObject = value;
+                OnPropertyChanged("DisplayMapObject");
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -63,8 +80,8 @@ namespace GraphicalEditor
             AllMapObjects = new List<MapObject>();
             DataContext = this;
 
-            //MocupObjects mockupObjects = new MocupObjects();
-            //AllMapObjects = mockupObjects.getAllMapObjects();
+            MockupObjects mockupObjects = new MockupObjects();
+            AllMapObjects = mockupObjects.getAllMapObjects();
             //saveMap();
             LoadMapOnCanvas();
         }
@@ -93,6 +110,107 @@ namespace GraphicalEditor
             EditMode = false;
         }
 
-    }
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
 
+            ApplyShadowEffectToObject(selectedMapObject);
+        }
+
+        private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
+            if (selectedMapObject != null)
+            {
+                DisplayMapObject = selectedMapObject.MapObjectEntity;
+            }
+            else
+            {
+                DisplayMapObject = null;
+            }
+        }
+
+        private void ApplyShadowEffectToObject(MapObject selectedMapObject)
+        {
+            if (selectedMapObject != null)
+            {
+                selectedMapObject.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple };
+
+                foreach (MapObject mapObject in AllMapObjects)
+                {
+                    if (!mapObject.Equals(selectedMapObject))
+                    {
+                        mapObject.Rectangle.Effect = null;
+                    }
+                }
+            }
+            else
+            {
+                foreach (MapObject mapObject in AllMapObjects)
+                {
+                    mapObject.Rectangle.Effect = null;
+                }
+            }
+        }
+
+        private MapObject FindSelectedMapObject(Point mouseCursorCurrentPosition)
+        {
+            List<MapObject> MapObjectsThatContainMouseCursor = FindAllMapObjectsThatContainMouseCursor(mouseCursorCurrentPosition);
+
+            MapObject selectedMapObject = FindMapObjectWithMinimumArea(MapObjectsThatContainMouseCursor);
+
+            return selectedMapObject;
+        }
+
+        private List<MapObject> FindAllMapObjectsThatContainMouseCursor(Point mouseCursorCurrentPosition)
+        {
+            List<MapObject> MapObjectsThatContainMouseCursor = new List<MapObject>();
+
+            foreach (MapObject mapObject in AllMapObjects)
+            {
+                if (IsMouseCursorInsideRectangle(mouseCursorCurrentPosition, mapObject.Rectangle))
+                {
+                    MapObjectsThatContainMouseCursor.Add(mapObject);
+                }
+            }
+
+            return MapObjectsThatContainMouseCursor;
+        }
+
+        private MapObject FindMapObjectWithMinimumArea(List<MapObject> MapObjects)
+        {
+            if (MapObjects.Count != 0)
+            {
+                MapObject mapObjectWithMinimumArea = MapObjects[0];
+
+                foreach (MapObject mapObject in MapObjects)
+                {
+                    if ((mapObject.MapObjectArea) < (mapObjectWithMinimumArea.MapObjectArea))
+                    {
+                        mapObjectWithMinimumArea = mapObject;
+                    }
+                }
+
+                return mapObjectWithMinimumArea;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        private bool IsMouseCursorInsideRectangle(Point cursorPosition, Rectangle objectRectangle)
+        {
+            if ((cursorPosition.X > Canvas.GetLeft(objectRectangle) && cursorPosition.X < Canvas.GetLeft(objectRectangle) + objectRectangle.Width) && ((cursorPosition.Y > Canvas.GetTop(objectRectangle) && cursorPosition.Y < Canvas.GetTop(objectRectangle) + objectRectangle.Height)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }
+

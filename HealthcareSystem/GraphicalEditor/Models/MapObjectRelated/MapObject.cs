@@ -23,6 +23,14 @@ namespace GraphicalEditor.Models
         public MapObjectEntity MapObjectEntity { get; set; }
         public MapObjectMetrics MapObjectMetrics { get; set; }
 
+        public double MapObjectArea 
+        {
+            get
+            {
+                return Rectangle.Width * Rectangle.Height;
+            }
+        }
+
         public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
         {
             MapObjectEntity = mapObjectEntity;
@@ -42,7 +50,7 @@ namespace GraphicalEditor.Models
             Rectangle.Height = MapObjectMetrics.HeightOfMapObject;
             Rectangle.Width = MapObjectMetrics.WidthOfMapObject;
 
-            Rectangle.Stroke = Brushes.Black;
+            Rectangle.Stroke = Brushes.DarkSlateGray;
             Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
         }
 

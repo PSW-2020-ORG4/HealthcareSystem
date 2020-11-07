@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GraphicalEditor.Enumerations
 {
-    public enum MapObjectTypes
+    public enum TypeOfMapObject
     {
         BUILDING,
         EXAMINATION_ROOM,

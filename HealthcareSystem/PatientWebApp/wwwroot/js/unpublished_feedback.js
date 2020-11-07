@@ -32,7 +32,7 @@ function addCommentTable(feedback) {
 	let trElement = $('<tr> <td style="width:250px;"><span></span></td> <td style = "width:250px;"><span></span></td> </tr>');
 
 	if (feedback.isAllowedToPublish) {
-		let tdElement = $('<td> <button class="my_btn" style="margin-bottom:-60px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Approve </button> </td>');
+		let tdElement = $('<td> <button class="submit_btn" style="margin-bottom:-60px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Approve </button> </td>');
 		trElement.append(tdElement);
 	}
 

@@ -21,11 +21,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
             Description = description;
         }
 
-         public MapObjectEntity(string description)
-        {
-            MapObjectType = new MapObjectType(MapObjectTypes.PARKING);
-            Description = description;
-        }
+
 
         public SolidColorBrush getColor()
         {

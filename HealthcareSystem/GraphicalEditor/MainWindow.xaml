@@ -8,9 +8,9 @@
         WindowState="Maximized"
         Title="MainWindow" Height="800" Width="1500">
     <DockPanel>
-        <Canvas x:Name="Canvas" Height="700" Width="1086" Margin="20 0 50 20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#FFF7F7F7">
+        <Canvas x:Name="Canvas" Height="700" Width="1086" Margin="20 0 50 20" HorizontalAlignment="Center" VerticalAlignment="Bottom" Background="#FFF7F7F7" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove">
 
         </Canvas>
-        <TextBlock x:Name="TestText" Text="Test" FontSize="30" />
+        <TextBlock x:Name="TestText" FontSize="30" />
     </DockPanel>
 </Window>

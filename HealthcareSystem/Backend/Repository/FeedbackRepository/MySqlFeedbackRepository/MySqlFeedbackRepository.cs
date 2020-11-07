@@ -54,7 +54,7 @@ namespace Backend.Repository
 
         }
         /// <summary>
-        /// /updating feedbacks status (property: IsPublished) to published
+        /// /updating object feedback
         /// </summary>
         /// <param name="feedback">an object to be updated</param>
         public void UpdateFeedback(Feedback feedback)

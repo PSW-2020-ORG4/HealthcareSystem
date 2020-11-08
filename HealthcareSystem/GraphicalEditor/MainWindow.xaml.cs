@@ -33,12 +33,12 @@ namespace GraphicalEditor
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private Canvas _canvas;
-        private MapObjectController mapObjectController;
-        private IMapObjectServices mapObjectServices;
-        private IMapObjectRepository mapObjectRepository;
+        private MapObjectController _mapObjectController;
+        private IMapObjectServices _mapObjectServices;
+        private IMapObjectRepository _mapObjectRepository;
         public List<MapObject> AllMapObjects { get; set; }
 
-        private IRepository fileRepository;
+        private IRepository _fileRepository;
 
         private Boolean _editMode = false;
 
@@ -56,11 +56,11 @@ namespace GraphicalEditor
 
         protected void OnPropertyChanged(string propertyName = null)
         {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
-            if (handler != null)
+            PropertyChangedEventHandler _handler = this.PropertyChanged;
+            if (_handler != null)
             {
                 var e = new PropertyChangedEventArgs(propertyName);
-                handler(this, e);
+                _handler(this, e);
             }
         }
 
@@ -89,7 +89,7 @@ namespace GraphicalEditor
             }
             set
             {
-                _selectedMapObject = value;
+                _selectedMapObject = value; 
             }
         }
 
@@ -98,10 +98,10 @@ namespace GraphicalEditor
             InitializeComponent();
             this.DataContext = this;            
             _canvas = this.Canvas;
-            fileRepository = new FileRepository("test.json");
-            mapObjectRepository = new MapObjectRepository("test.json");
-            mapObjectServices = new MapObjectServices(mapObjectRepository);
-            mapObjectController = new MapObjectController(mapObjectServices);
+            _fileRepository = new FileRepository("test.json");
+            _mapObjectRepository = new MapObjectRepository("test.json");
+            _mapObjectServices = new MapObjectServices(_mapObjectRepository);
+            _mapObjectController = new MapObjectController(_mapObjectServices);
             AllMapObjects = new List<MapObject>();
             this.DataContext = this;
             MockupObjects mockupObjects = new MockupObjects();
@@ -113,7 +113,7 @@ namespace GraphicalEditor
 
         private void LoadMapOnCanvas()
         {
-            AllMapObjects = fileRepository.LoadMap().ToList();
+            AllMapObjects = _fileRepository.LoadMap().ToList();
             foreach (MapObject mapObject in AllMapObjects)
             {
                 mapObject.AddToCanvas(_canvas);
@@ -122,7 +122,7 @@ namespace GraphicalEditor
 
 
         private void saveMap()
-            => fileRepository.SaveMap(AllMapObjects);
+            => _fileRepository.SaveMap(AllMapObjects);
 
         private void Edit_Display_Information(object sender, RoutedEventArgs e)
         {
@@ -140,7 +140,7 @@ namespace GraphicalEditor
             MapObjectEntity newEntity = new MapObjectEntity(type.TypeOfMapObject, DisplayMapObject.Description);
             MapObject newObject = new MapObject(newEntity, SelectedMapObject.MapObjectMetrics, SelectedMapObject.MapObjectDoor);
             newObject.MapObjectEntity.Id = SelectedMapObject.MapObjectEntity.Id;
-            mapObjectController.UpdateMapObject(objectToEdit);                      
+            _mapObjectController.UpdateMapObject(objectToEdit);                      
             EditMode = !EditMode;
         }
 

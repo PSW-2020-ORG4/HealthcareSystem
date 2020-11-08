@@ -19,7 +19,7 @@ namespace Backend.Repository
             _context = context;
         }
         /// <summary>
-        /// adding new feedback to database
+        /// /adding new feedback to database
         /// </summary>
         /// <param name="feedback">an object to be added to the database</param>
         public void AddFeedback(Feedback feedback)

@@ -23,15 +23,16 @@ namespace GraphicalEditor.Repository
         public void UpdateMapObject(MapObject mapObject)
         {
             fileRepository = new FileRepository("test.json");
-            IEnumerable<MapObject> objects = fileRepository.LoadMap();
-            var mObject = objects.FirstOrDefault(e => e.MapObjectEntity.Id == mapObject.MapObjectEntity.Id);
-            if (mObject != null)
+            IEnumerable<MapObject> allMapObjects = fileRepository.LoadMap();
+            var singleMapObject = allMapObjects.FirstOrDefault(e => e.MapObjectEntity.Id == mapObject.MapObjectEntity.Id);
+            if (singleMapObject != null)
             {
                 List<MapObject> objectToSave = new List<MapObject>();
-                foreach (MapObject m in objects)
+                foreach (MapObject anObject in allMapObjects)
                 {
-                    objectToSave.Add(m);
+                    objectToSave.Add(anObject);
                 }
+
                 for (int i = 0; i < objectToSave.Count; i++)
                 {
 

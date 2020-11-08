@@ -48,7 +48,7 @@
 					"Comment": msg,
 					"CommentatorJmbg": jmbg,
 					"CommentatorName": name,
-					"CommentatorSurname": null,
+					"CommentatorSurname": surname,
 					"IsAllowedToPublish": allowed
 				};
 

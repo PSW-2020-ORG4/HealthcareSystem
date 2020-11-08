@@ -36,6 +36,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
                         return "HospitalizationRoom";
                     case TypeOfMapObject.WC:
                         return "WC";
+                    case TypeOfMapObject.ROAD:
+                        return "Put";
                     default:
                         return "Objekat";
                 }
@@ -64,8 +66,10 @@ namespace GraphicalEditor.Models.MapObjectRelated
                     case "HospitalizationRoom":
                         TypeOfMapObject = TypeOfMapObject.HOSPITALIZATION_ROOM;
                         break;
-                    default:
+                    case "WC":
                         TypeOfMapObject = TypeOfMapObject.WC;
+                        break;
+                    default:
                         break;                    
                 }
 
@@ -96,6 +100,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
                         return "SO";
                     case TypeOfMapObject.WC:
                         return "WC";
+                    case TypeOfMapObject.ROAD:
+                        return "";
                     default:
                         return "O";
                 }
@@ -107,30 +113,35 @@ namespace GraphicalEditor.Models.MapObjectRelated
             TypeOfMapObject = mapObjectType;
         }
 
-        public SolidColorBrush getColor()
-        {
-            switch (TypeOfMapObject)
+        public SolidColorBrush ObjectTypeColor
+        {   
+            get
             {
-                
-                case TypeOfMapObject.BUILDING:
-                    return Brushes.White;
-                case TypeOfMapObject.EXAMINATION_ROOM:
-                    return Brushes.Lavender;
-                case TypeOfMapObject.OPERATION_ROOM:
-                    return Brushes.LightCyan;
-                case TypeOfMapObject.WAITING_ROOM:
-                    return Brushes.Honeydew;
-                case TypeOfMapObject.PARKING:
-                    return Brushes.CornflowerBlue;
-                case TypeOfMapObject.RESTAURANT:
-                    return Brushes.BlanchedAlmond;
-                case TypeOfMapObject.HOSPITALIZATION_ROOM:
-                    return Brushes.Aquamarine;
-                case TypeOfMapObject.WC:
-                    return Brushes.LightYellow;
-                default:
-                    return Brushes.Moccasin;
+                switch (TypeOfMapObject)
+            	{
+                    case TypeOfMapObject.BUILDING:
+                        return Brushes.White;
+                    case TypeOfMapObject.EXAMINATION_ROOM:
+                        return Brushes.Lavender;
+                    case TypeOfMapObject.OPERATION_ROOM:
+                        return Brushes.LightCyan;
+                    case TypeOfMapObject.WAITING_ROOM:
+                        return Brushes.Honeydew;
+                    case TypeOfMapObject.PARKING:
+                        return Brushes.CornflowerBlue;
+                    case TypeOfMapObject.RESTAURANT:
+                        return Brushes.BlanchedAlmond;
+                    case TypeOfMapObject.HOSPITALIZATION_ROOM:
+                        return Brushes.Aquamarine;
+                    case TypeOfMapObject.WC:
+                        return Brushes.LightYellow;
+                    case TypeOfMapObject.ROAD:
+                        return Brushes.LightGray;
+                    default:
+                        return Brushes.Moccasin;
+                }
             }
+
         }
 
         public List<String> AllMapObjectTypes

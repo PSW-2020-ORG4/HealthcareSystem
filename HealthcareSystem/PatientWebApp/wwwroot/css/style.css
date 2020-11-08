@@ -1,3 +1,4 @@
+/* Style the body */
 body {
     height: 100%;
     width: 100%;
@@ -23,7 +24,7 @@ div#view_feedbacks {
     background-color: rgba(214, 245, 245, 0.3);
     position: absolute;
     left: 50px;
-    width: 50%;
+    width: 35%;
     top: 40px;
     margin-top: 180px;
 }

@@ -1,10 +1,12 @@
-﻿using GraphicalEditor.Enumerations;
+﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
@@ -25,10 +27,17 @@ namespace GraphicalEditor.Models.MapObjectRelated
         {
         }
 
-        public SolidColorBrush getColor()
-        {
-            return MapObjectType.getColor();
-        }
+        public SolidColorBrush ObjectEntityColor => MapObjectType.ObjectTypeColor;
         
+
+        public void SetStrokeAndStrokeThickness(Rectangle reactangle)
+        {
+            if (MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
+            {
+                reactangle.Stroke = Brushes.Black;
+                reactangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
+            }
+        }
+
     }
 }

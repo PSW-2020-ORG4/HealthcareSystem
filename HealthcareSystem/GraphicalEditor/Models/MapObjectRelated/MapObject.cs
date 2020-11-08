@@ -46,12 +46,12 @@ namespace GraphicalEditor.Models
         private void RectangleInitialization()
         {
             Rectangle = new Rectangle();
-            Rectangle.Fill = MapObjectEntity.getColor();
+            Rectangle.Fill = MapObjectEntity.ObjectEntityColor;
             Rectangle.Height = MapObjectMetrics.HeightOfMapObject;
             Rectangle.Width = MapObjectMetrics.WidthOfMapObject;
 
-            Rectangle.Stroke = Brushes.DarkSlateGray;
-            Rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
+            MapObjectEntity.SetStrokeAndStrokeThickness(Rectangle);
+
         }
 
         private void PositionObjectNameTextBlock()

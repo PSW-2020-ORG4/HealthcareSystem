@@ -9,9 +9,18 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     public class Road : MapObjectEntity
     {
-        public Road(String description = "road")
-                   : base(MapObjectTypes.ROAD, description)
+        public Road(String description = "")
+                   : base(TypeOfMapObject.ROAD, description)
         {
+            FormatObjectDescription(Description);
+        }
+
+        public override void FormatObjectDescription(string description)
+        {
+            if (String.IsNullOrEmpty(description))
+            {
+                Description = MapObjectType.ObjectTypeFullName;
+            }
         }
 
     }

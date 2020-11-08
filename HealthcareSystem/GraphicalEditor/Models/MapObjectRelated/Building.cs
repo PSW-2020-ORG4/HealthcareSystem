@@ -1,21 +1,27 @@
 ﻿using GraphicalEditor.Enumerations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-   public class Building : MapObjectEntity
+    public class Building : MapObjectEntity
     {
         public int NumOfFloors { get; set; }
 
-        public Building(String description, int numOfFloors)
-            : base(MapObjectTypes.BUILDING, description)
+        
+        public Building (int numOfFloors, String description = "")
+           : base(TypeOfMapObject.BUILDING, description)
         {
             NumOfFloors = numOfFloors;
+
+            FormatObjectDescription(Description);
         }
 
+        public override void FormatObjectDescription(string description)
+        {
+            if (String.IsNullOrEmpty(description))
+            {
+                Description = MapObjectType.ObjectTypeFullName + " " + Id + " ima " + NumOfFloors + " spratova.";
+            }
+        }
     }
 }

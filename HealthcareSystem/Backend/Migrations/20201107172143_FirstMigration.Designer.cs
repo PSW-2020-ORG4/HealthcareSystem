@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20201104164837_FirstMigration")]
+    [Migration("20201107172143_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,13 +31,6 @@ namespace Backend.Migrations
                     b.HasKey("ZipCode");
 
                     b.ToTable("Cities");
-
-                    b.HasData(
-                        new
-                        {
-                            ZipCode = 21000,
-                            Name = "Novi Sad"
-                        });
                 });
 
             modelBuilder.Entity("Model.Users.Feedback", b =>
@@ -58,21 +51,15 @@ namespace Backend.Migrations
                     b.Property<bool>("IsPublished")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateTime>("SendingDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime(6)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CommentatorJmbg");
 
                     b.ToTable("Feedbacks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Comment = "Zadovoljan sam uslugama bolnice.",
-                            CommentatorJmbg = "2305992104895",
-                            IsAllowedToPublish = true,
-                            IsPublished = true
-                        });
                 });
 
             modelBuilder.Entity("Model.Users.User", b =>
@@ -128,22 +115,6 @@ namespace Backend.Migrations
                     b.HasBaseType("Model.Users.User");
 
                     b.HasDiscriminator().HasValue("Admin");
-
-                    b.HasData(
-                        new
-                        {
-                            Jmbg = "0606960851265",
-                            CityZipCode = 21000,
-                            DateOfBirth = new DateTime(1960, 6, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "",
-                            Gender = 0,
-                            HomeAddress = "",
-                            Name = "Pera",
-                            Password = "123",
-                            Phone = "",
-                            Surname = "Perić",
-                            Username = "pera"
-                        });
                 });
 
             modelBuilder.Entity("Model.Users.Patient", b =>
@@ -158,24 +129,6 @@ namespace Backend.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.HasDiscriminator().HasValue("Patient");
-
-                    b.HasData(
-                        new
-                        {
-                            Jmbg = "2305992104895",
-                            CityZipCode = 21000,
-                            DateOfBirth = new DateTime(1992, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "",
-                            Gender = 0,
-                            HomeAddress = "",
-                            Name = "Marko",
-                            Password = "123",
-                            Phone = "",
-                            Surname = "Marković",
-                            Username = "marko",
-                            DateOfRegistration = new DateTime(2020, 11, 4, 17, 48, 36, 719, DateTimeKind.Local).AddTicks(2362),
-                            IsGuest = true
-                        });
                 });
 
             modelBuilder.Entity("Model.Users.Feedback", b =>

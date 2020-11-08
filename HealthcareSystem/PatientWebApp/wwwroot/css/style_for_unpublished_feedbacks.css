@@ -1,27 +1,4 @@
-﻿body#add-apart, body#guests-review, body#comments {
-    background-color: #f2f2f2;
-}
-
-li.nav-item {
-    margin-right: 30px;
-}
-
-.search {
-    width: 50%;
-    margin: auto;
-    margin-top: 50px;
-}
-
-.guests {
-    width: 80%;
-    margin: auto;
-    margin-top: 80px;
-    font-size: 22px;
-    text-align: center;
-    border: 1px solid gray;
-}
-
-/* Style inputs, select elements and textareas */
+﻿/* Style inputs, select elements and textareas */
 input[type=text], input[type=number], input[type=date], input[type=time], input[type=file], select, textarea {
     width: 100%;
     padding: 12px;
@@ -70,24 +47,7 @@ input[type=submit] {
     clear: both;
 }
 
-/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-    .col-25, .col-75, input[type=submit] {
-        width: 100%;
-        margin-top: 0;
-    }
-}
-
-#add {
-    margin: auto;
-    width: 150px;
-    margin-top: 15px;
-}
-
-.container_edit {
-    padding: 16px;
-}
-
+/* Style the titles */
 h2#title-active {
     margin: auto;
     width: 50%;
@@ -95,36 +55,27 @@ h2#title-active {
     text-align: center;
 }
 
-.yes {
-    color: green;
-}
-
-.no {
-    color: red;
-}
-
+/* Style the comments */
 div.comments {
-    background-color: white;
+    margin: auto;
+    width: 100%;
+    background-color: transparent;
     position: absolute;
     top: 200px;
-    height: 800px;
-    width: 100%;
-    margin: auto;
     left: 0px;
 }
 
+/* Style the table for comments*/
 table.table_comment {
-    width: 100%;
-    margin-top: 20px;
+    margin-top: 15px;
     margin-left: 10px;
 }
 
+/* Style the border around the table*/
 div.border_comment {
     border-style: solid;
     border-color: darkgray;
     border-width: 1px;
-    height: 190px;
-    width: 750px;
     margin-top: 20px;
     margin-left: 380px;
     background-color: white;

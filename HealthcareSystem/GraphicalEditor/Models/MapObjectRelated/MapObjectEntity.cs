@@ -16,22 +16,23 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public String Description { get; set; }
 
        
-        public MapObjectEntity(MapObjectTypes mapObjectType, string description)
+        public MapObjectEntity(TypeOfMapObject mapObjectType, string description = "")
             :base()
         {
             MapObjectType = new MapObjectType(mapObjectType);
             Description = description;
         }
 
-        public SolidColorBrush getColor()
+        public virtual void FormatObjectDescription(string description)
         {
-            return MapObjectType.getColor();
-
         }
 
-        public void setStrokeAndStrokeThickness(Rectangle reactangle)
+        public SolidColorBrush ObjectEntityColor => MapObjectType.ObjectTypeColor;
+        
+
+        public void SetStrokeAndStrokeThickness(Rectangle reactangle)
         {
-            if (MapObjectType.TypeOfMapObject != MapObjectTypes.ROAD)
+            if (MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
             {
                 reactangle.Stroke = Brushes.Black;
                 reactangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;

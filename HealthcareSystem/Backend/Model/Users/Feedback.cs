@@ -18,6 +18,8 @@ namespace Model.Users
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public DateTime SendingDate { get; set; }
         public string Comment { get; set; }
         public bool IsPublished { get; set; }
         public bool IsAllowedToPublish { get; set; }
@@ -27,23 +29,24 @@ namespace Model.Users
         public virtual Patient Commentator { get; set; }
 
         public Feedback() { }
-        public Feedback(int id,string comment,bool isPublished, bool isAllowedToPublish,Patient commentator)
+        public Feedback(int id, DateTime sendingDate, string comment, bool isPublished, bool isAllowedToPublish, Patient commentator)
         {
             Id = id;
+            SendingDate = sendingDate;
             Comment = comment;
             IsPublished = isPublished;
             IsAllowedToPublish = isAllowedToPublish;
-            if(commentator != null) 
+            if (commentator != null)
             {
                 Commentator = new Patient(commentator);
                 CommentatorJmbg = commentator.Jmbg;
             }
             else
-            { 
+            {
                 Commentator = new Patient();
                 CommentatorJmbg = null;
             }
-            
+
         }
 
     }

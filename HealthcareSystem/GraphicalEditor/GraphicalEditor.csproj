@@ -57,7 +57,7 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Compile Include="Models\MapObjectRelated\MocupObjects.cs" />
+    <Compile Include="Models\MapObjectRelated\MockupObjects.cs" />
     <Compile Include="Models\MapObjectRelated\Road.cs" />
     <Compile Include="Repository\ContractResolver.cs" />
     <Compile Include="Repository\FileRepository.cs" />
@@ -71,9 +71,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Constants\AllConstants.cs" />
-    <Compile Include="Enumerations\MapObjectDepartment.cs" />
+    <Compile Include="Enumerations\DepartmentOfMapObject.cs" />
     <Compile Include="Enumerations\MapObjectDoorOrientation.cs" />
-    <Compile Include="Enumerations\MapObjectTypes.cs" />
+    <Compile Include="Enumerations\TypeOfMapObject.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -83,6 +83,7 @@
     <Compile Include="Models\MapObjectRelated\Building.cs" />
     <Compile Include="Models\MapObjectRelated\Entity.cs" />
     <Compile Include="Models\MapObjectRelated\MapObject.cs" />
+    <Compile Include="Models\MapObjectRelated\MapObjectDepartment.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectDoor.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectEntity.cs" />
     <Compile Include="Models\MapObjectRelated\MapObjectMetrics.cs" />

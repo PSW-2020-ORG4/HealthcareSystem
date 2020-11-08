@@ -10,9 +10,18 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     class Restaurant : MapObjectEntity
     {
-        public Restaurant(String description = "restaurant")
-          : base(MapObjectTypes.RESTAURANT, description)
+        public Restaurant(String description = "")
+          : base(TypeOfMapObject.RESTAURANT, description)
         {
+            FormatObjectDescription(Description);
+        }
+
+        public override void FormatObjectDescription(string description)
+        {
+            if (String.IsNullOrEmpty(description))
+            {
+                Description = MapObjectType.ObjectTypeFullName;
+            }
         }
     }
 }

@@ -7,8 +7,14 @@
 		processData: false,
 		contentType: false,
 		success: function (data) {
-			for (let i = 0; i < data.length; i++) {
-				addCommentTable(data[i]);
+
+			if (data.length == 0) {
+				$('#title-active').text("There is no unpublished feedback");
+			}
+			else {
+				for (let i = 0; i < data.length; i++) {
+					addCommentTable(data[i]);
+				}
 			}
 		},
 		error: function () {
@@ -27,13 +33,13 @@ function addCommentTable(feedback) {
 	let divElement = $('<div class="border_comment"><table class="table_comment">'
 		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Patient:</p></th><td>' + nameAndSurname + '</td></tr > '
 		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Date:</p></th><td>' + feedback.sendingDate + '</td></tr > '
-		+ ' <tr> <th style="width:250px;"><p  style="margin-left:50px;">Comment:</p></th><td><p><i class="fas fa-quote-left pr-2"></i> ' + feedback.comment + '<p/></td></tr> '
+		+ ' <tr> <th style="width:250px;"><p  style="margin-left:50px;">Comment:</p></th><td><p style="margin-right:10px;"><i class="fas fa-quote-left pr-2"></i> ' + feedback.comment + '<p/></td></tr> '
 		+ ' </table ></div > ');
 
 	let trElement = $('<tr> <td style="width:250px;"><span></span></td> <td style = "width:250px;"><span></span></td> </tr>');
 
 	if (feedback.isAllowedToPublish) {
-		let tdElement = $('<td> <button class="submit_btn" style="margin-bottom:-60px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Approve </button> </td>');
+		let tdElement = $('<td> <button class="submit_btn" style="margin-bottom:10px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Publish </button> </td>');
 		trElement.append(tdElement);
 	}
 

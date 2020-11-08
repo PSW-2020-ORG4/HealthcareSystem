@@ -96,8 +96,7 @@ namespace GraphicalEditor
         public MainWindow()
         {            
             InitializeComponent();
-            this.DataContext = this;
-            
+            this.DataContext = this;            
             _canvas = this.Canvas;
             fileRepository = new FileRepository("test.json");
             mapObjectRepository = new MapObjectRepository("test.json");
@@ -105,7 +104,6 @@ namespace GraphicalEditor
             mapObjectController = new MapObjectController(mapObjectServices);
             AllMapObjects = new List<MapObject>();
             this.DataContext = this;
-
             MockupObjects mockupObjects = new MockupObjects();
             AllMapObjects = mockupObjects.getAllMapObjects();
             saveMap();
@@ -131,36 +129,22 @@ namespace GraphicalEditor
         }
 
         private void Change_Display_Information(object sender, RoutedEventArgs e)
-        {
-          
-
+        {          
             string selectedItem = (string)chooser.SelectedItem;
-
-
-
             DisplayMapObject.MapObjectType.ObjectTypeFullName = selectedItem;
-
             MapObject objectToEdit = SelectedMapObject;
             objectToEdit.MapObjectEntity = DisplayMapObject;
             MapObjectType type = new MapObjectType();
-            type.ObjectTypeFullName = DisplayMapObject.MapObjectType.ObjectTypeFullName;
-            
-
+            type.ObjectTypeFullName = DisplayMapObject.MapObjectType.ObjectTypeFullName;           
             MapObjectEntity newEntity = new MapObjectEntity(type.TypeOfMapObject, DisplayMapObject.Description);
-
             MapObject newObject = new MapObject(newEntity, SelectedMapObject.MapObjectMetrics, SelectedMapObject.MapObjectDoor);
             newObject.MapObjectEntity.Id = SelectedMapObject.MapObjectEntity.Id;
-
-            mapObjectController.Update(objectToEdit);
-
-            
-            
+            mapObjectController.UpdateMapObject(objectToEdit);                      
             EditMode = !EditMode;
         }
 
         private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)
         {
-
             EditMode = false;
         }
 

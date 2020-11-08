@@ -19,9 +19,9 @@ namespace GraphicalEditor.Controllers
             mapObjectService = _mapObjectServices;
         }
 
-        public bool Update(MapObject mapObject)
+        public void UpdateMapObject(MapObject mapObject)
         {
-            return mapObjectService.Update(mapObject);
+            mapObjectService.UpdateMapObject(mapObject);
         }
     }
 }

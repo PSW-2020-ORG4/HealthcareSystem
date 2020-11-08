@@ -9,6 +9,6 @@ namespace GraphicalEditor.Services.Interface
 {
     public interface IMapObjectServices
     {
-        bool Update(MapObject mapObject);
+        void UpdateMapObject(MapObject mapObject);
     }
 }

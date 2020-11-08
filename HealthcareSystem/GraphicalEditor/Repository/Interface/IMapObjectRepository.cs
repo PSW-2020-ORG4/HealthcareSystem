@@ -9,6 +9,6 @@ namespace GraphicalEditor.Repository.Intefrace
 {
     public interface IMapObjectRepository
     {
-        bool Update(MapObject mapObject);
+        void UpdateMapObject(MapObject mapObject);
     }
 }

@@ -27,6 +27,7 @@ namespace GraphicalEditor.Repository
             serializer.TypeNameHandling = TypeNameHandling.All;
             serializer.Formatting = Formatting.Indented;
             serializer.ContractResolver = new ContractResolver();
+            serializer.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             using (StreamWriter writer = new StreamWriter("test.json"))
             using (JsonWriter jwriter = new JsonTextWriter(writer))
             {

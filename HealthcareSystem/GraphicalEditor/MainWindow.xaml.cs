@@ -5,7 +5,9 @@ using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,13 +26,51 @@ namespace GraphicalEditor
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private Canvas _canvas;
-        
+
         public List<MapObject> AllMapObjects { get; set; }
 
         private IRepository repository;
+
+        private Boolean _editMode = false;
+        public Boolean EditMode
+        {
+            get { return _editMode; }
+            set
+            {
+                _editMode = value;
+                OnPropertyChanged("EditMode");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                handler(this, e);
+            }
+        }
+
+        private MapObjectEntity _displayMapObject;
+
+        public MapObjectEntity DisplayMapObject
+        {
+            get
+            {
+                return _displayMapObject;
+            }
+            set
+            {
+                _displayMapObject = value;
+                OnPropertyChanged("DisplayMapObject");
+            }
+        }
 
         public MainWindow()
         {
@@ -38,8 +78,9 @@ namespace GraphicalEditor
             _canvas = this.Canvas;
             repository = new FileRepository("test.json");
             AllMapObjects = new List<MapObject>();
+            DataContext = this;
 
-            MocupObjects mockupObjects = new MocupObjects();
+            MockupObjects mockupObjects = new MockupObjects();
             AllMapObjects = mockupObjects.getAllMapObjects();
             //saveMap();
             LoadMapOnCanvas();
@@ -57,6 +98,18 @@ namespace GraphicalEditor
         private void saveMap()
             => repository.SaveMap(AllMapObjects);
 
+        private void Change_Display_Information(object sender, RoutedEventArgs e)
+        {
+
+            EditMode = !EditMode;
+        }
+
+        private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)
+        {
+
+            EditMode = false;
+        }
+
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
@@ -67,14 +120,13 @@ namespace GraphicalEditor
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-
             if (selectedMapObject != null)
             {
-                TestText.Text = selectedMapObject.MapObjectEntity.MapObjectType.ObjectTypeFullName;
+                DisplayMapObject = selectedMapObject.MapObjectEntity;
             }
             else
             {
-                TestText.Text = "";
+                DisplayMapObject = null;
             }
         }
 
@@ -83,7 +135,7 @@ namespace GraphicalEditor
             if (selectedMapObject != null)
             {
                 selectedMapObject.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple };
-                
+
                 foreach (MapObject mapObject in AllMapObjects)
                 {
                     if (!mapObject.Equals(selectedMapObject))
@@ -96,7 +148,7 @@ namespace GraphicalEditor
             {
                 foreach (MapObject mapObject in AllMapObjects)
                 {
-                        mapObject.Rectangle.Effect = null;
+                    mapObject.Rectangle.Effect = null;
                 }
             }
         }
@@ -161,3 +213,4 @@ namespace GraphicalEditor
         }
     }
 }
+

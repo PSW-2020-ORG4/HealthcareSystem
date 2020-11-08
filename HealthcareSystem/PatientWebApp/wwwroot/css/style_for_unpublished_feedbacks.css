@@ -47,6 +47,7 @@ input[type=submit] {
     clear: both;
 }
 
+/* Style the titles */
 h2#title-active {
     margin: auto;
     width: 50%;
@@ -54,27 +55,27 @@ h2#title-active {
     text-align: center;
 }
 
+/* Style the comments */
 div.comments {
     margin: auto;
     width: 100%;
     background-color: transparent;
     position: absolute;
     top: 200px;
-    height: 800px;
     left: 0px;
 }
 
+/* Style the table for comments*/
 table.table_comment {
     margin-top: 15px;
     margin-left: 10px;
 }
 
+/* Style the border around the table*/
 div.border_comment {
     border-style: solid;
     border-color: darkgray;
     border-width: 1px;
-    height: 155px;
-    width: 650px;
     margin-top: 20px;
     margin-left: 380px;
     background-color: white;

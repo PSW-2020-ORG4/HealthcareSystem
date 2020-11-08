@@ -1,6 +1,5 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Enumerations;
-using GraphicalEditor.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;

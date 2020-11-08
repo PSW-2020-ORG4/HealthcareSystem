@@ -55,7 +55,10 @@ namespace Service.UsersAndWorkingTime
             _deletedPatientRepository.AddPatient(patient);
             return true;
         }
-
+        /// <summary>
+        /// /getting all patients
+        /// </summary>
+        /// <returns>list of active patients</returns>
         public List<Patient> ViewPatients()
         {
             return _activePatientRepository.GetAllPatients();

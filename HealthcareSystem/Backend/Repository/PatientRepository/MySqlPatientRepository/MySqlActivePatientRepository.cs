@@ -35,6 +35,10 @@ namespace Repository
             Patient patient = GetPatientByJmbg(jmbg);
             _context.Remove(patient);
         }
+        /// <summary>
+        /// /getting all patients from database
+        /// </summary>
+        /// <returns>list of active patient</returns>
         public List<Patient> GetAllPatients()
         {
             return _context.Patients.ToList();

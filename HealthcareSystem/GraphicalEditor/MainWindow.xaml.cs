@@ -81,7 +81,8 @@ namespace GraphicalEditor
             DataContext = this;
 
             MockupObjects mockupObjects = new MockupObjects();
-            AllMapObjects = mockupObjects.getAllMapObjects();
+            AllMapObjects = mockupObjects.AllMapObjects;
+           
             //saveMap();
             LoadMapOnCanvas();
         }
@@ -134,7 +135,11 @@ namespace GraphicalEditor
         {
             if (selectedMapObject != null)
             {
-                selectedMapObject.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple };
+                if (selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD) 
+                {
+                    selectedMapObject.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple }; 
+                }
+              
 
                 foreach (MapObject mapObject in AllMapObjects)
                 {

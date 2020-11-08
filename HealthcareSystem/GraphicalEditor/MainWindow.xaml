@@ -11,7 +11,7 @@
         <Canvas x:Name="Canvas" Height="700" Width="1086" Margin="20 0 0 20" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" 
-                Background="#FFF7F7F7"
+                Background="#D9FFBF"
                 MouseDown="Canvas_MouseDown" 
                 MouseMove="Canvas_MouseMove">
 

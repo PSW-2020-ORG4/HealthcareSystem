@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Models\MapObjectRelated\MockupObjects.cs" />
+    <Compile Include="Models\MapObjectRelated\Road.cs" />
     <Compile Include="Repository\ContractResolver.cs" />
     <Compile Include="Repository\FileRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />

@@ -28,7 +28,7 @@ namespace Service.UsersAndWorkingTime
         {
             if (!patient.IsGuest && (!IsUsernameValid(patient.Username) || !IsPasswordValid(patient.Password)))
             {
-                throw new BadRequestException("Your username or password is incorrect. Please try again.");
+                throw new ValidationException("Your username or password is incorrect. Please try again.");
             }
             _activePatientRepository.AddPatient(patient);
             return patient;

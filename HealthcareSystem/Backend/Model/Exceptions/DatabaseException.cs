@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Backend.Model.Exceptions
 {
-    class HealthClinicException : Exception
+    class DatabaseException : HealthClinicException
     {
-        public HealthClinicException() : base() { }
-        public HealthClinicException(String message) : base(message) { }
+        public DatabaseException() : base() { }
+        public DatabaseException(string message) : base(message) { }
     }
 }

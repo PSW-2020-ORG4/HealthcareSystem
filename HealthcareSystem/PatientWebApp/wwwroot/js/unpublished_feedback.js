@@ -26,19 +26,19 @@ function addCommentTable(feedback) {
 
 	let divElement = $('<div class="border_comment"><table class="table_comment">'
 		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Patient:</p></th><td>' + nameAndSurname + '</td></tr > '
-		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Date:</p></th><td>' + feedback.sendingDate + '</td></tr > '
-		+ ' <tr> <th style="width:250px;"><p  style="margin-left:50px;">Comment:</p></th><td><p><i class="fas fa-quote-left pr-2"></i> ' + feedback.comment + '<p/></td></tr> '
+		+ ' <tr><th><p  style="margin-left:50px;">Comment:</p></th><td>' + feedback.comment + '</td></tr> '
 		+ ' </table ></div > ');
 
 	let trElement = $('<tr> <td style="width:250px;"><span></span></td> <td style = "width:250px;"><span></span></td> </tr>');
 
 	if (feedback.isAllowedToPublish) {
-		let tdElement = $('<td> <button class="submit_btn" style="margin-bottom:-60px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Approve </button> </td>');
+		let tdElement = $('<td> <button style="color:white;background-color:#33adff;width:110px;margin-bottom:-60px;height:38px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Approve </button> </td>');
 		trElement.append(tdElement);
 	}
 
 	divElement.append(trElement);
 	$('div#div_comments').append(divElement);
+
 }
 
 function approveComment(feedbackId) {
@@ -46,16 +46,17 @@ function approveComment(feedbackId) {
 	$.ajax({
 		type: "PUT",
 		url: "/api/feedback/" + feedbackId,
+		data: feedbackId,
 		success: function () {
-
 			console.log('You have successfully approved a feedback!');
+
 			setTimeout(function () {
 				location.reload();
 			}, 500);
 		},
-		error: function (jqXHR) {
-
-			alert(jqXHR.responseText);
+		error: function () {
+			console.log("error approving comment");
 		}
 	});
+
 }

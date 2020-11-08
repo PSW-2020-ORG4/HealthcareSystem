@@ -71,7 +71,7 @@ namespace Repository
             Patient searchPatient = GetPatientByJmbg(patient.Jmbg);
             if (searchPatient != null)
             {
-                throw new ValidationException();
+                throw new BadRequestException();
             }
             patients.Add(patient);
             WriteInFile(patients);
@@ -90,7 +90,7 @@ namespace Repository
                 }
             }
             if (patientForDelete == null)
-                throw new ValidationException();
+                throw new BadRequestException();
             patients.Remove(patientForDelete);
             WriteInFile(patients);
         }

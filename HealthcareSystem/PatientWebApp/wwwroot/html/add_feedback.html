@@ -21,7 +21,7 @@
 
     <title>Give feedback</title>
 </head>
-<body style="background-color: rgb(125, 208, 230);">
+<body style="        background-color: #e6fff7;">
 
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <a href="patients_home_page.html"><h4 class="navbar-brand" id="title" style="margin-right: 50px;">HOSPITAL</h4></a>
@@ -31,6 +31,8 @@
                 <a class="nav-link" href="add_feedback.html">Give feedback</a>
             </li>
         </ul>
+
+
     </nav>
 
     <form id="add_feedback_form" class="text-center border border-light p-5" action="#!">
@@ -41,7 +43,7 @@
 
         <!-- Message -->
         <div class="form-group">
-            <textarea style="        background-color: #b3e6ff; margin-left: 36%; width: 30%;" class="form-control rounded-0" id="text_area_id" rows="3" placeholder="Message"></textarea>
+            <textarea style="        background-color: #d6f5f5; margin-left: 36%; width: 30%;" class="form-control rounded-0" id="text_area_id" rows="3" placeholder="Message"></textarea>
             <p style="color:red; float: inherit;" id="ap_error_msg" hidden></p>
         </div>
 
@@ -61,7 +63,7 @@
                 </div>
             </div>
         </div>
-       
+
         <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input" id="is_allowed">
             <label class="custom-control-label" for="is_allowed">I don't want my feedback to be published!</label>
@@ -70,7 +72,7 @@
 
         <!-- Send button -->
         <div class="row">
-            <input class="submit_btn" type="submit" value="Send" style="margin-left: 49%;">
+            <input id="search_btn" type="submit" value="Send">
         </div>
         <br />
         <p style="color:green; float: inherit;" id="ap_success_msg" hidden></p>

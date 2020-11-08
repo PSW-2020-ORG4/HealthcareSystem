@@ -92,7 +92,7 @@ namespace ProjekatZdravoKorporacija
         }
 
         private void HospitalMap_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
+        {   
             GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow();
             graphicalEditorMainWindow.ShowDialog();
         }

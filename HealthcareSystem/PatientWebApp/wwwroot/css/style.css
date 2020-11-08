@@ -1,29 +1,26 @@
-body {
+﻿body {
     height: 100%;
     width: 100%;
 }
 
-/* Style for all submit buttons on website */
-.submit_btn {
+#search_btn {
+    width: 10%;
+    margin-left: 45%;
+    background-color: #33adff;
     color: white;
-    background-color: rgb(43, 110, 138);
-    width: 110px;
-    height: 38px;
 }
 
-/* Style text area */
 #text_area {
     margin-left: 36%;
     width: 30%;
 }
 
-/* Style the preview feedbacks */
 div#view_feedbacks {
     border: 1px solid grey;
     background-color: rgba(214, 245, 245, 0.3);
     position: absolute;
     left: 50px;
-    width: 50%;
-    top: 40px;
+    width: 18%;
+    top: 60px;
     margin-top: 180px;
 }

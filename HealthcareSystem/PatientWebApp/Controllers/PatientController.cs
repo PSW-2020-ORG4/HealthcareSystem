@@ -19,10 +19,7 @@ namespace PatientWebApp.Controllers
         {
             _patientService = patientService;
         }
-        /// <summary>
-        /// /getting all patients
-        /// </summary>
-        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+
         [HttpGet]
         public ActionResult GetAllPatients()
         {

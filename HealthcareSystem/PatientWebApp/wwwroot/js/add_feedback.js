@@ -48,7 +48,7 @@
 					"Comment": msg,
 					"CommentatorJmbg": jmbg,
 					"CommentatorName": name,
-					"CommentatorSurname": null,
+					"CommentatorSurname": surname,
 					"IsAllowedToPublish": allowed
 				};
 
@@ -67,9 +67,9 @@
 						}, 2000);
 
 					},
-					error: function (jqXHR) {
+					error: function () {
 
-						alert(jqXHR.responseText);
+						console.log("Error adding feedback");
 					}
 				});
 

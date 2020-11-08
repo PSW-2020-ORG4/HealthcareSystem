@@ -47,6 +47,6 @@ namespace GraphicalEditor.Repository
             {
                 return new List<MapObject>();
             }
-        }
+        }        
     }
 }

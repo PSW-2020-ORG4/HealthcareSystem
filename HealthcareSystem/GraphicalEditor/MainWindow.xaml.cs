@@ -1,8 +1,12 @@
 ﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Controllers;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
+using GraphicalEditor.Repository.Intefrace;
+using GraphicalEditor.Services;
+using GraphicalEditor.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,12 +33,15 @@ namespace GraphicalEditor
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private Canvas _canvas;
-
+        private MapObjectController mapObjectController;
+        private IMapObjectServices mapObjectServices;
+        private IMapObjectRepository mapObjectRepository;
         public List<MapObject> AllMapObjects { get; set; }
 
-        private IRepository repository;
+        private IRepository fileRepository;
 
         private Boolean _editMode = false;
+
         public Boolean EditMode
         {
             get { return _editMode; }
@@ -72,13 +79,32 @@ namespace GraphicalEditor
             }
         }
 
-        public MainWindow()
+        private MapObject _selectedMapObject;
+
+        public MapObject SelectedMapObject
         {
+            get
+            {
+                return _selectedMapObject;
+            }
+            set
+            {
+                _selectedMapObject = value;
+            }
+        }
+
+        public MainWindow()
+        {            
             InitializeComponent();
+            this.DataContext = this;
+            
             _canvas = this.Canvas;
-            repository = new FileRepository("test.json");
+            fileRepository = new FileRepository("test.json");
+            mapObjectRepository = new MapObjectRepository("test.json");
+            mapObjectServices = new MapObjectServices(mapObjectRepository);
+            mapObjectController = new MapObjectController(mapObjectServices);
             AllMapObjects = new List<MapObject>();
-            DataContext = this;
+            this.DataContext = this;
 
             MockupObjects mockupObjects = new MockupObjects();
             AllMapObjects = mockupObjects.getAllMapObjects();
@@ -88,19 +114,44 @@ namespace GraphicalEditor
 
         private void LoadMapOnCanvas()
         {
-            AllMapObjects = repository.LoadMap().ToList();
+            AllMapObjects = fileRepository.LoadMap().ToList();
             foreach (MapObject mapObject in AllMapObjects)
             {
                 mapObject.AddToCanvas(_canvas);
             }
         }
 
+
         private void saveMap()
-            => repository.SaveMap(AllMapObjects);
+            => fileRepository.SaveMap(AllMapObjects);
+
+        private void Edit_Display_Information(object sender, RoutedEventArgs e)
+        {
+            EditMode = !EditMode;
+        }
 
         private void Change_Display_Information(object sender, RoutedEventArgs e)
         {
+          
 
+            string selectedItem = (string)chooser.SelectedItem;
+
+
+
+            DisplayMapObject.MapObjectType.ObjectTypeFullName = selectedItem;
+
+            MapObject objectToEdit = SelectedMapObject;
+            objectToEdit.MapObjectEntity = DisplayMapObject;
+
+            MapObjectType type = new MapObjectType();
+            type.ObjectTypeFullName = selectedItem;
+
+            
+            
+            mapObjectController.Update(objectToEdit);
+
+            
+            
             EditMode = !EditMode;
         }
 
@@ -123,6 +174,7 @@ namespace GraphicalEditor
             if (selectedMapObject != null)
             {
                 DisplayMapObject = selectedMapObject.MapObjectEntity;
+                SelectedMapObject = selectedMapObject;
             }
             else
             {

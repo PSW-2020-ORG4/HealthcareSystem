@@ -40,6 +40,10 @@ namespace GraphicalEditor.Repository
                     {
                         savingList[i].MapObjectEntity.MapObjectType = mapObject.MapObjectEntity.MapObjectType;
                         savingList[i].MapObjectEntity.Description = mapObject.MapObjectEntity.Description;
+                        savingList[i].MapObjectMetrics = mapObject.MapObjectMetrics;                        
+                        //savingList[i].Rectangle = mapObject.Rectangle;  
+                        //savingList[i].MapObjectDoor = mapObject.MapObjectDoor;                          
+                        savingList[i].MapObjectNameTextBlock = mapObject.MapObjectNameTextBlock;                        
                         break;
                     }
                 }

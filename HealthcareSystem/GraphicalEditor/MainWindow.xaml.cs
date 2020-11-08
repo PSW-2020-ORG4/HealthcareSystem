@@ -108,7 +108,7 @@ namespace GraphicalEditor
 
             MockupObjects mockupObjects = new MockupObjects();
             AllMapObjects = mockupObjects.getAllMapObjects();
-            //saveMap();
+            saveMap();
             LoadMapOnCanvas();
         }
 
@@ -142,12 +142,15 @@ namespace GraphicalEditor
 
             MapObject objectToEdit = SelectedMapObject;
             objectToEdit.MapObjectEntity = DisplayMapObject;
-
             MapObjectType type = new MapObjectType();
-            type.ObjectTypeFullName = selectedItem;
+            type.ObjectTypeFullName = DisplayMapObject.MapObjectType.ObjectTypeFullName;
+            
 
-            
-            
+            MapObjectEntity newEntity = new MapObjectEntity(type.TypeOfMapObject, DisplayMapObject.Description);
+
+            MapObject newObject = new MapObject(newEntity, SelectedMapObject.MapObjectMetrics, SelectedMapObject.MapObjectDoor);
+            newObject.MapObjectEntity.Id = SelectedMapObject.MapObjectEntity.Id;
+
             mapObjectController.Update(objectToEdit);
 
             

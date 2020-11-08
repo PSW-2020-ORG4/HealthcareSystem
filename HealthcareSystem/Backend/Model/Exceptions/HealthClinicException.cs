@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Model.Exceptions
 {
-    class HealthClinicException : Exception
+    public class HealthClinicException : Exception
     {
         public HealthClinicException() : base() { }
         public HealthClinicException(String message) : base(message) { }

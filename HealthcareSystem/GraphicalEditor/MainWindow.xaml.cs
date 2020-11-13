@@ -244,7 +244,7 @@ namespace GraphicalEditor
 
             foreach (MapObject mapObject in AllMapObjects)
             {
-                if (IsMouseCursorInsideRectangle(mouseCursorCurrentPosition, mapObject.Rectangle))
+                if (_canvas.Children.Contains(mapObject.Rectangle) && IsMouseCursorInsideRectangle(mouseCursorCurrentPosition, mapObject.Rectangle))
                 {
                     MapObjectsThatContainMouseCursor.Add(mapObject);
                 }

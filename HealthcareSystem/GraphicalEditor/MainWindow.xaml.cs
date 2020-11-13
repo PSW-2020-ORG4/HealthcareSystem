@@ -162,20 +162,23 @@ namespace GraphicalEditor
             _mapObjectController.UpdateMapObject(objectToEdit);                      
             EditMode = !EditMode;
             Canvas.Children.Clear();
+            SelectedMapObject.MapObjectEntity.MapObjectType = objectToEdit.MapObjectEntity.MapObjectType;
             LoadMapOnCanvas();
         }
 
         private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)
-        {
+        {            
             Canvas.Children.Clear();
             LoadMapOnCanvas();
             EditMode = false;
+            SelectedMapObject = null;
+            DisplayMapObject = null;
+            ChangeEditButtonVisibility();
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-
             ApplyShadowEffectToObject(selectedMapObject);
         }
 
@@ -226,9 +229,7 @@ namespace GraphicalEditor
         private MapObject FindSelectedMapObject(Point mouseCursorCurrentPosition)
         {
             List<MapObject> MapObjectsThatContainMouseCursor = FindAllMapObjectsThatContainMouseCursor(mouseCursorCurrentPosition);
-
             MapObject selectedMapObject = FindMapObjectWithMinimumArea(MapObjectsThatContainMouseCursor);
-
             return selectedMapObject;
         }
 

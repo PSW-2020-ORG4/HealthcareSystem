@@ -34,6 +34,12 @@ namespace GraphicalEditor.Models
         public MapObject(MapObjectEntity mapObjectEntity, MapObjectMetrics mapObjectMetrics, MapObjectDoor mapObjectDoor)
         {
             MapObjectEntity = mapObjectEntity;
+
+            if (MapObjectEntity.GetType() == typeof(Building))
+            {
+                ((Building)MapObjectEntity).BuildingLayersButtons.MapObjectMetrics = mapObjectMetrics;
+            }
+
             MapObjectMetrics = mapObjectMetrics;
 
             MapObjectDoor = mapObjectDoor;
@@ -50,7 +56,7 @@ namespace GraphicalEditor.Models
             Rectangle.Height = MapObjectMetrics.HeightOfMapObject;
             Rectangle.Width = MapObjectMetrics.WidthOfMapObject;
 
-            MapObjectEntity.SetStrokeAndStrokeThickness(Rectangle);
+            MapObjectEntity.MapObjectType.SetStrokeColorAndThickness(Rectangle);
 
         }
 
@@ -77,6 +83,19 @@ namespace GraphicalEditor.Models
 
             canvas.Children.Add(MapObjectDoor.GetDoor());
             canvas.Children.Add(MapObjectNameTextBlock);
+
+            if (MapObjectEntity.GetType() == typeof(Building))
+            {
+                ((Building)MapObjectEntity).AddBuildinLayersButtonsToCanvas(canvas);
+            }
         }
+
+        public void RemoveFromCanvas(Canvas canvas)
+        {
+            canvas.Children.Remove(MapObjectNameTextBlock);
+            canvas.Children.Remove(MapObjectDoor.Rectangle);
+            canvas.Children.Remove(Rectangle);
+        }
+
     }
 }

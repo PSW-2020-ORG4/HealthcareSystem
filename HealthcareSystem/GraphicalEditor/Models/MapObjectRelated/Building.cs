@@ -30,7 +30,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         public void AddBuildinLayersButtonsToCanvas(Canvas canvas)
         {
-            List<Button> floorButtons = BuildingLayersButtons.GetBuildingLayersButtons(NumOfFloors);
+            List<Button> floorButtons = BuildingLayersButtons.CreateBuildingLayersButtons(NumOfFloors);
             foreach (Button button in floorButtons)
             {
                 button.Click += ShowChoosenFloor;

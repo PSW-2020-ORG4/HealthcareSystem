@@ -26,7 +26,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
             YShiftFromCenter = YShift;
         }
 
-        public List<Button> GetBuildingLayersButtons(int numberOfFloors)
+        public List<Button> CreateBuildingLayersButtons(int numberOfFloors)
         {
             LayersSelectButtons = new List<Button>();
             for (int i = 0; i < numberOfFloors; i++)
@@ -36,14 +36,14 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 LayersSelectButtons[i].Width = AllConstants.LAYERS_BUTTON_WIDTH;
                 LayersSelectButtons[i].Height = AllConstants.LAYERS_BUTTON_HEIGHT;
                 LayersSelectButtons[i].Background = new SolidColorBrush(Colors.Plum);
-                LayersSelectButtons[i].SetValue(Canvas.LeftProperty, CalculateLayersBoxX(i, numberOfFloors));
-                LayersSelectButtons[i].SetValue(Canvas.TopProperty, CalculateLayersBoxY(i, numberOfFloors));
+                LayersSelectButtons[i].SetValue(Canvas.LeftProperty, CalculateLayersButtonsX(i, numberOfFloors));
+                LayersSelectButtons[i].SetValue(Canvas.TopProperty, CalculateLayersButtonsY(i, numberOfFloors));
             }
             LayersSelectButtons[0].IsEnabled = false;
             return LayersSelectButtons;
         }
 
-        private double CalculateLayersBoxX(int i, int numberOfFloors)
+        private double CalculateLayersButtonsX(int floorNumber, int numberOfFloors)
         {
             switch (BuildingLayersButtonsOrientation)
             {
@@ -52,7 +52,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 case BuildingLayersButtonsOrientation.RIGHT:
                     return CalculateXForRight();
                 default:
-                    return CalculateXShifted(i, numberOfFloors);
+                    return CalculateXShifted(floorNumber, numberOfFloors);
             }
         }
 
@@ -62,7 +62,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private double CalculateXForRight()
             => MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject + 35;
 
-        private double CalculateLayersBoxY(int i, int numberOfFloors)
+        private double CalculateLayersButtonsY(int floorNumber, int numberOfFloors)
         {
             switch (BuildingLayersButtonsOrientation)
             {
@@ -71,7 +71,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 case BuildingLayersButtonsOrientation.BOTTOM:
                     return CalculateYForBottom();
                 default:
-                    return CalculateYShifted(i, numberOfFloors);
+                    return CalculateYShifted(floorNumber, numberOfFloors);
             }
         }
 
@@ -81,9 +81,9 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private double CalculateYForBottom()
             => MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject + 5;
 
-        private double CalculateXShifted(int i, int numberOfFloors)
+        private double CalculateXShifted(int floorNumber, int numberOfFloors)
         {
-            double currentShiftedX = MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject / 2 - numberOfFloors * AllConstants.LAYERS_BUTTON_WIDTH / 2 + i * AllConstants.LAYERS_BUTTON_WIDTH + this.XShiftFromCenter;
+            double currentShiftedX = MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject / 2 - numberOfFloors * AllConstants.LAYERS_BUTTON_WIDTH / 2 + floorNumber * AllConstants.LAYERS_BUTTON_WIDTH + this.XShiftFromCenter;
             if (currentShiftedX < MapObjectMetrics.XOfCanvas)
                 return MapObjectMetrics.XOfCanvas;
             else if (currentShiftedX + AllConstants.LAYERS_BUTTON_WIDTH > MapObjectMetrics.XOfCanvas + MapObjectMetrics.WidthOfMapObject)
@@ -92,9 +92,9 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }
 
 
-        private double CalculateYShifted(int i, int numberOfFloors)
+        private double CalculateYShifted(int floorNumber, int numberOfFloors)
         {
-            double currentShiftedY = MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject / 2 - numberOfFloors * AllConstants.LAYERS_BUTTON_HEIGHT / 2 + i * AllConstants.LAYERS_BUTTON_HEIGHT + this.YShiftFromCenter;
+            double currentShiftedY = MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject / 2 - numberOfFloors * AllConstants.LAYERS_BUTTON_HEIGHT / 2 + floorNumber * AllConstants.LAYERS_BUTTON_HEIGHT + this.YShiftFromCenter;
             if (currentShiftedY < MapObjectMetrics.YOfCanvas)
                 return MapObjectMetrics.YOfCanvas;
             else if (currentShiftedY + AllConstants.LAYERS_BUTTON_HEIGHT > MapObjectMetrics.YOfCanvas + MapObjectMetrics.HeightOfMapObject)

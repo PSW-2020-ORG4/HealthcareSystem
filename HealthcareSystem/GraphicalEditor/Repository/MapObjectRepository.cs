@@ -41,9 +41,8 @@ namespace GraphicalEditor.Repository
                         objectToSave[i].MapObjectEntity.MapObjectType = mapObject.MapObjectEntity.MapObjectType;
                         objectToSave[i].MapObjectEntity.Description = mapObject.MapObjectEntity.Description;
                         objectToSave[i].MapObjectMetrics = mapObject.MapObjectMetrics;
-                        //Uncoment this if you want to improve editing of mapObjects
-                        //savingList[i].Rectangle = mapObject.Rectangle;  
-                        //savingList[i].MapObjectDoor = mapObject.MapObjectDoor;                          
+                        objectToSave[i].Rectangle.Fill = mapObject.Rectangle.Fill;
+                        objectToSave[i].MapObjectDoor = mapObject.MapObjectDoor;                          
                         objectToSave[i].MapObjectNameTextBlock = mapObject.MapObjectNameTextBlock;
                         break;
                     }

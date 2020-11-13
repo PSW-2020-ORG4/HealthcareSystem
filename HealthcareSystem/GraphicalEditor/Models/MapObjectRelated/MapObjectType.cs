@@ -1,19 +1,31 @@
 ﻿using GraphicalEditor.Enumerations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Documents;
 using System.Windows.Media;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-    public class MapObjectType
+    public class MapObjectType : INotifyPropertyChanged
     {
         public TypeOfMapObject TypeOfMapObject { get; set; }
 
         public MapObjectType()
         { 
         }
-   
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChangedEventHandler _handler = this.PropertyChanged;
+            if (_handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                _handler(this, e);
+            }
+        }
+
         public string ObjectTypeFullName
         {
             get
@@ -37,7 +49,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
                     case TypeOfMapObject.WC:
                         return "WC";
                     case TypeOfMapObject.ROAD:
-                        return "Put";
+                        return "Road";
                     default:
                         return "Objekat";
                 }
@@ -68,6 +80,9 @@ namespace GraphicalEditor.Models.MapObjectRelated
                         break;
                     case "WC":
                         TypeOfMapObject = TypeOfMapObject.WC;
+                        break;
+                    case "Road":
+                        TypeOfMapObject = TypeOfMapObject.ROAD;
                         break;
                     default:
                         break;                    
@@ -157,6 +172,25 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 }
 
                 return allMapObjectTypes;
+            }
+        }
+
+        public List<String> AllMapObjectTypesAvailableToChange
+        {
+            get
+            {
+                List<String> allMapObjectTypesAvailableToChange = new List<String>();
+                Array typesOfMapObjects = Enum.GetValues(typeof(TypeOfMapObject));
+                foreach (TypeOfMapObject enumValue in typesOfMapObjects)
+                {
+                    if (enumValue != TypeOfMapObject.BUILDING && enumValue != TypeOfMapObject.ROAD)
+                    {
+                        MapObjectType value = new MapObjectType(enumValue);
+                        allMapObjectTypesAvailableToChange.Add(value.ObjectTypeFullName);
+                    }
+                }
+
+                return allMapObjectTypesAvailableToChange;
             }
         }
     }

@@ -109,6 +109,7 @@ namespace GraphicalEditor
             //uncomment when you dont have anything in file
             saveMap();
             LoadMapOnCanvas();
+            ChangeEditButtonVisibility();
         }
 
         private void LoadMapOnCanvas()
@@ -129,6 +130,23 @@ namespace GraphicalEditor
             EditMode = !EditMode;
         }
 
+        public void ChangeEditButtonVisibility() {
+            if (_selectedMapObject == null)
+            {
+                EditObjectButton.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                if (_selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
+                {
+                    EditObjectButton.Visibility = Visibility.Visible;
+                }
+                else {
+                    EditObjectButton.Visibility = Visibility.Hidden;
+                }
+            }
+        }
+
         private void Change_Display_Information(object sender, RoutedEventArgs e)
         {          
             string selectedItem = (string)chooser.SelectedItem;
@@ -140,12 +158,17 @@ namespace GraphicalEditor
             MapObjectEntity newEntity = new MapObjectEntity(type.TypeOfMapObject, DisplayMapObject.Description);
             MapObject newObject = new MapObject(newEntity, SelectedMapObject.MapObjectMetrics, SelectedMapObject.MapObjectDoor);
             newObject.MapObjectEntity.Id = SelectedMapObject.MapObjectEntity.Id;
+            objectToEdit.Rectangle.Fill = newObject.Rectangle.Fill;
             _mapObjectController.UpdateMapObject(objectToEdit);                      
             EditMode = !EditMode;
+            Canvas.Children.Clear();
+            LoadMapOnCanvas();
         }
 
         private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)
         {
+            Canvas.Children.Clear();
+            LoadMapOnCanvas();
             EditMode = false;
         }
 
@@ -166,8 +189,11 @@ namespace GraphicalEditor
             }
             else
             {
+                SelectedMapObject = null;
                 DisplayMapObject = null;
             }
+
+            ChangeEditButtonVisibility();
         }
 
         private void ApplyShadowEffectToObject(MapObject selectedMapObject)

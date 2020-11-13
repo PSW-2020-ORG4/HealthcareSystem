@@ -2,6 +2,7 @@
 using GraphicalEditor.Enumerations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +11,32 @@ using System.Windows.Shapes;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-    public class MapObjectEntity : Entity
+    public class MapObjectEntity : Entity, INotifyPropertyChanged
     {
-        public MapObjectType MapObjectType { get; set; }
+        private MapObjectType _mapObjectType;
+        public MapObjectType MapObjectType
+        {
+            get { return _mapObjectType; }
+            set
+            {
+                _mapObjectType = value;
+                OnPropertyChanged();
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChangedEventHandler _handler = this.PropertyChanged;
+            if (_handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                _handler(this, e);
+            }
+        }
+
+
+       // public MapObjectType MapObjectType { get; set; }
         public String Description { get; set; }
 
        

@@ -1,5 +1,6 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Enumerations;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
 {
     public class MapObjectDoor
     {
+        [JsonIgnore]
         public Rectangle Rectangle { get; set; }
         public MapObjectMetrics MapObjectMetrics { get; set; }
         public MapObjectDoorOrientation MapObjectDoorOrientation { get; set; }

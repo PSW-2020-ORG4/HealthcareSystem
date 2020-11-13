@@ -51,7 +51,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
                     case TypeOfMapObject.ROAD:
                         return "Road";
                     default:
-                        return "Objekat";
+                        return "Object";
                 }
             }
             set {
@@ -175,18 +175,18 @@ namespace GraphicalEditor.Models.MapObjectRelated
             }
         }
 
-        public List<String> AllMapObjectTypesAvailableToChange
+        public List<MapObjectType> AllMapObjectTypesAvailableToChange
         {
             get
             {
-                List<String> allMapObjectTypesAvailableToChange = new List<String>();
+                List<MapObjectType> allMapObjectTypesAvailableToChange = new List<MapObjectType>();
                 Array typesOfMapObjects = Enum.GetValues(typeof(TypeOfMapObject));
-                foreach (TypeOfMapObject enumValue in typesOfMapObjects)
+                foreach (TypeOfMapObject mapObjectType in typesOfMapObjects)
                 {
-                    if (enumValue != TypeOfMapObject.BUILDING && enumValue != TypeOfMapObject.ROAD)
+                    if (mapObjectType != TypeOfMapObject.BUILDING && mapObjectType != TypeOfMapObject.ROAD)
                     {
-                        MapObjectType value = new MapObjectType(enumValue);
-                        allMapObjectTypesAvailableToChange.Add(value.ObjectTypeFullName);
+                        MapObjectType value = new MapObjectType(mapObjectType);
+                        allMapObjectTypesAvailableToChange.Add(value);
                     }
                 }
 

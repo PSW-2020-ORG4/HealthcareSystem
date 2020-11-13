@@ -30,7 +30,8 @@ namespace GraphicalEditor.Repository
                 List<MapObject> objectToSave = new List<MapObject>();
                 foreach (MapObject anObject in allMapObjects)
                 {
-                    objectToSave.Add(anObject);
+                        objectToSave.Add(anObject);
+                    
                 }
 
                 for (int i = 0; i < objectToSave.Count; i++)
@@ -42,7 +43,7 @@ namespace GraphicalEditor.Repository
                         objectToSave[i].MapObjectEntity.Description = mapObject.MapObjectEntity.Description;
                         objectToSave[i].MapObjectMetrics = mapObject.MapObjectMetrics;
                         objectToSave[i].Rectangle.Fill = mapObject.Rectangle.Fill;
-                        objectToSave[i].MapObjectDoor = mapObject.MapObjectDoor;                          
+                        objectToSave[i].MapObjectDoor = mapObject.MapObjectDoor;
                         objectToSave[i].MapObjectNameTextBlock = mapObject.MapObjectNameTextBlock;
                         break;
                     }

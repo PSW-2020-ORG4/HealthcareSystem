@@ -147,23 +147,28 @@ namespace GraphicalEditor
             }
         }
 
-        private void Change_Display_Information(object sender, RoutedEventArgs e)
-        {          
-            string selectedItem = (string)chooser.SelectedItem;
-            DisplayMapObject.MapObjectType.ObjectTypeFullName = selectedItem;
+
+        private MapObject CreateEditedObject() {
+            MapObjectType type = (MapObjectType)chooser.SelectedItem;
             MapObject objectToEdit = SelectedMapObject;
+            DisplayMapObject.MapObjectType = type;
             objectToEdit.MapObjectEntity = DisplayMapObject;
-            MapObjectType type = new MapObjectType();
-            type.ObjectTypeFullName = DisplayMapObject.MapObjectType.ObjectTypeFullName;           
-            MapObjectEntity newEntity = new MapObjectEntity(type.TypeOfMapObject, DisplayMapObject.Description);
-            MapObject newObject = new MapObject(newEntity, SelectedMapObject.MapObjectMetrics, SelectedMapObject.MapObjectDoor);
-            newObject.MapObjectEntity.Id = SelectedMapObject.MapObjectEntity.Id;
-            objectToEdit.Rectangle.Fill = newObject.Rectangle.Fill;
-            _mapObjectController.UpdateMapObject(objectToEdit);                      
+            objectToEdit.Rectangle.Fill = type.ObjectTypeColor;
+            _mapObjectController.UpdateMapObject(objectToEdit);
+            return objectToEdit;
+        }
+
+        private void ReloadMap(MapObject objectToEdit) {
             EditMode = !EditMode;
             Canvas.Children.Clear();
             SelectedMapObject.MapObjectEntity.MapObjectType = objectToEdit.MapObjectEntity.MapObjectType;
             LoadMapOnCanvas();
+        }
+
+        private void Change_Display_Information(object sender, RoutedEventArgs e)
+        {         
+            MapObject mapObjectToEdit = CreateEditedObject();
+            ReloadMap(mapObjectToEdit);
         }
 
         private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)

@@ -78,7 +78,12 @@
                     <StackPanel x:Name="EditPanel"
                             Style="{StaticResource EditingMode}">
                     <ComboBox Name="chooser" ItemsSource="{Binding DisplayMapObject.MapObjectType.AllMapObjectTypesAvailableToChange}"
-                              SelectedValue="{Binding DisplayMapObject.MapObjectType.ObjectTypeFullName, Mode=OneWay}">
+                              SelectedValue="{Binding DisplayMapObject.MapObjectType, Mode=OneWay}" >
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=ObjectTypeFullName}"></TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                     </ComboBox>
 
                     <TextBox IsReadOnly="True" Text="{Binding DisplayMapObject.Id}" 

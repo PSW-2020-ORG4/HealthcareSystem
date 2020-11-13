@@ -11,9 +11,29 @@ using System.Windows.Shapes;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-    public class MapObjectEntity : Entity
-    {   
-        public MapObjectType MapObjectType { get; set; }
+    public class MapObjectEntity : Entity, INotifyPropertyChanged
+    {
+        private MapObjectType _mapObjectType;
+        public MapObjectType MapObjectType
+        {
+            get { return _mapObjectType; }
+            set
+            {
+                _mapObjectType = value;
+                OnPropertyChanged();
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChangedEventHandler _handler = this.PropertyChanged;
+            if (_handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                _handler(this, e);
+            }
+        }
         public String Description { get; set; }
 
        

@@ -58,6 +58,8 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Controllers\MapObjectController\MapObjectController.cs" />
+    <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
+    <Compile Include="Models\MapObjectRelated\BuildingLayersButtons.cs" />
     <Compile Include="Models\MapObjectRelated\MockupObjects.cs" />
     <Compile Include="Models\MapObjectRelated\Road.cs" />
     <Compile Include="Repository\ContractResolver.cs" />

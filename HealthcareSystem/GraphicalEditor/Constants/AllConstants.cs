@@ -11,6 +11,8 @@ namespace GraphicalEditor.Constants
         public const double DOOR_WIDTH = 35;
         public const double DOOR_HEIGHT = 7;
 
+        public const double LAYERS_BUTTON_WIDTH = 26;
+        public const double LAYERS_BUTTON_HEIGHT = 26;
 
         public const double RECTANGLE_STROKE_THICKNESS = 3;
     }

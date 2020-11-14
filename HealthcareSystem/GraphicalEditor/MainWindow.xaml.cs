@@ -160,7 +160,7 @@ namespace GraphicalEditor
             return type;
         }
 
-        private MapObject SettingObjectForEdition(MapObjectType type) {
+        private MapObject SettingMapObject(MapObjectType type) {
             MapObject objectToEdit = SelectedMapObject;
             DisplayMapObject.MapObjectType = type;
             objectToEdit.MapObjectEntity = DisplayMapObject;
@@ -170,7 +170,7 @@ namespace GraphicalEditor
 
         private MapObject CreateEditedObject() {
             MapObjectType type = SettingTypeOfEditedMapObject();
-            MapObject objectToEdit = SettingObjectForEdition(type);
+            MapObject objectToEdit = SettingMapObject(type);
             _mapObjectController.UpdateMapObject(objectToEdit);
             return objectToEdit;
         }

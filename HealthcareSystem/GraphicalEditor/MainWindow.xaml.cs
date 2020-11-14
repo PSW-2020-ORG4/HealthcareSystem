@@ -4,7 +4,6 @@ using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
-using GraphicalEditor.Repository.Intefrace;
 using GraphicalEditor.Services;
 using GraphicalEditor.Services.Interface;
 using System;
@@ -34,8 +33,6 @@ namespace GraphicalEditor
     {
         private Canvas _canvas;
         private MapObjectController _mapObjectController;
-        private IMapObjectServices _mapObjectServices;
-        private IMapObjectRepository _mapObjectRepository;
         public List<MapObject> AllMapObjects { get; set; }
 
         private IRepository _fileRepository;
@@ -98,10 +95,8 @@ namespace GraphicalEditor
             InitializeComponent();
             this.DataContext = this;            
             _canvas = this.Canvas;
-            _fileRepository = new FileRepository("test.json");
-            _mapObjectRepository = new MapObjectRepository("test.json");
-            _mapObjectServices = new MapObjectServices(_mapObjectRepository);
-            _mapObjectController = new MapObjectController(_mapObjectServices);
+            _fileRepository = new FileRepository("test.json");            
+            _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
             AllMapObjects = new List<MapObject>();
             this.DataContext = this;
             MockupObjects mockupObjects = new MockupObjects();

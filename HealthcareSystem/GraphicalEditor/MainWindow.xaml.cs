@@ -107,7 +107,7 @@ namespace GraphicalEditor
             MockupObjects mockupObjects = new MockupObjects();
             AllMapObjects = mockupObjects.AllMapObjects;
             //uncomment when you dont have anything in file
-            saveMap();
+            //saveMap();
             LoadMapOnCanvas();
             ChangeEditButtonVisibility();
         }
@@ -127,6 +127,7 @@ namespace GraphicalEditor
 
         private void Edit_Display_Information(object sender, RoutedEventArgs e)
         {
+            this.chooser.SelectedItem = DisplayMapObject.MapObjectType.ObjectTypeFullName;
             EditMode = !EditMode;
         }
 
@@ -134,26 +135,47 @@ namespace GraphicalEditor
             if (_selectedMapObject == null)
             {
                 EditObjectButton.Visibility = Visibility.Hidden;
+                Save.Visibility = Visibility.Hidden;
+                EditMode = false ;
             }
             else
             {
                 if (_selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
                 {
                     EditObjectButton.Visibility = Visibility.Visible;
+                    Save.Visibility = Visibility.Visible;
                 }
                 else {
                     EditObjectButton.Visibility = Visibility.Hidden;
+                    Save.Visibility = Visibility.Hidden;
                 }
             }
         }
 
+        private MapObjectType SettingTypeOfEditedMapObject() {
+            MapObjectType type;
+            if (chooser.SelectedItem != null)
+            {
+                type = (MapObjectType)chooser.SelectedItem;
+            }
+            else
+            {
+                type = SelectedMapObject.MapObjectEntity.MapObjectType;
+            }
+            return type;
+        }
 
-        private MapObject CreateEditedObject() {
-            MapObjectType type = (MapObjectType)chooser.SelectedItem;
+        private MapObject SettingObjectForEdition(MapObjectType type) {
             MapObject objectToEdit = SelectedMapObject;
             DisplayMapObject.MapObjectType = type;
             objectToEdit.MapObjectEntity = DisplayMapObject;
             objectToEdit.Rectangle.Fill = type.ObjectTypeColor;
+            return objectToEdit;
+        }
+
+        private MapObject CreateEditedObject() {
+            MapObjectType type = SettingTypeOfEditedMapObject();
+            MapObject objectToEdit = SettingObjectForEdition(type);
             _mapObjectController.UpdateMapObject(objectToEdit);
             return objectToEdit;
         }
@@ -166,9 +188,8 @@ namespace GraphicalEditor
         }
 
         private void Change_Display_Information(object sender, RoutedEventArgs e)
-        {         
-            MapObject mapObjectToEdit = CreateEditedObject();
-            ReloadMap(mapObjectToEdit);
+        {
+            ReloadMap(CreateEditedObject());
         }
 
         private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)

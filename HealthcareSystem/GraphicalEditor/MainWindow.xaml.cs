@@ -127,7 +127,7 @@ namespace GraphicalEditor
 
         private void Edit_Display_Information(object sender, RoutedEventArgs e)
         {
-            this.chooser.SelectedItem = DisplayMapObject.MapObjectType.ObjectTypeFullName;
+            this.ObjectTypeChooserComboBox.SelectedItem = DisplayMapObject.MapObjectType.ObjectTypeFullName;
             EditMode = !EditMode;
         }
 
@@ -135,7 +135,7 @@ namespace GraphicalEditor
             if (_selectedMapObject == null)
             {
                 EditObjectButton.Visibility = Visibility.Hidden;
-                Save.Visibility = Visibility.Hidden;
+                SaveButton.Visibility = Visibility.Hidden;
                 EditMode = false ;
             }
             else
@@ -143,20 +143,20 @@ namespace GraphicalEditor
                 if (_selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
                 {
                     EditObjectButton.Visibility = Visibility.Visible;
-                    Save.Visibility = Visibility.Visible;
+                    SaveButton.Visibility = Visibility.Visible;
                 }
                 else {
                     EditObjectButton.Visibility = Visibility.Hidden;
-                    Save.Visibility = Visibility.Hidden;
+                    SaveButton.Visibility = Visibility.Hidden;
                 }
             }
         }
 
         private MapObjectType SettingTypeOfEditedMapObject() {
             MapObjectType type;
-            if (chooser.SelectedItem != null)
+            if (ObjectTypeChooserComboBox.SelectedItem != null)
             {
-                type = (MapObjectType)chooser.SelectedItem;
+                type = (MapObjectType)ObjectTypeChooserComboBox.SelectedItem;
             }
             else
             {

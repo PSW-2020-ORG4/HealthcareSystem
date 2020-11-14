@@ -185,8 +185,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 {
                     if (mapObjectType != TypeOfMapObject.BUILDING && mapObjectType != TypeOfMapObject.ROAD)
                     {
-                        MapObjectType value = new MapObjectType(mapObjectType);
-                        allMapObjectTypesAvailableToChange.Add(value);
+                        MapObjectType singleTypeOfMapObject = new MapObjectType(mapObjectType);
+                        allMapObjectTypesAvailableToChange.Add(singleTypeOfMapObject);
                     }
                 }
 

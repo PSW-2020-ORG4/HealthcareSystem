@@ -16,9 +16,6 @@ namespace GraphicalEditor.Models.MapObjectRelated
         {
             FormatObjectDescription(Description);
         }
-
-        public Line Line{get; set;}
-
         
         public override void FormatObjectDescription(string description)
         {

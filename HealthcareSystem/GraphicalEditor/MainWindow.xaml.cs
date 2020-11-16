@@ -31,9 +31,10 @@ namespace GraphicalEditor
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private Canvas _canvas;
+        public static Canvas _canvas;
         private MapObjectController _mapObjectController;
-        public List<MapObject> AllMapObjects { get; set; }
+        public static List<MapObject> _allMapObjects;
+
 
         private IRepository _fileRepository;
 
@@ -97,28 +98,46 @@ namespace GraphicalEditor
             _canvas = this.Canvas;
             _fileRepository = new FileRepository("test.json");            
             _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
-            AllMapObjects = new List<MapObject>();
+            _allMapObjects = new List<MapObject>();
             this.DataContext = this;
             MockupObjects mockupObjects = new MockupObjects();
-            AllMapObjects = mockupObjects.AllMapObjects;
+            _allMapObjects = mockupObjects.AllMapObjects;
             //uncomment when you dont have anything in file
-            //saveMap();
-            LoadMapOnCanvas();
+            saveMap();
+            LoadInitialMapOnCanvas();
             ChangeEditButtonVisibility();
         }
 
-        private void LoadMapOnCanvas()
+        private void LoadInitialMapOnCanvas()
         {
-            AllMapObjects = _fileRepository.LoadMap().ToList();
-            foreach (MapObject mapObject in AllMapObjects)
+            _allMapObjects = _fileRepository.LoadMap().ToList();
+
+            foreach (MapObject mapObject in _allMapObjects)
+            {
+                LoadAllMapObjectsExceptRooms(mapObject);
+                LoadGroundLevelFromBuildings(mapObject);
+            }
+
+        }
+
+        private void LoadAllMapObjectsExceptRooms(MapObject mapObject)
+        {
+            if (mapObject.MapObjectEntity.GetType() != typeof(Room))
             {
                 mapObject.AddToCanvas(_canvas);
             }
         }
 
+        private void LoadGroundLevelFromBuildings(MapObject mapObject)
+        {
+            if (mapObject.MapObjectEntity.GetType() == typeof(Room) && ((Room)mapObject.MapObjectEntity).Floor == 0)
+            {
+                mapObject.AddToCanvas(_canvas);
+            }
+        }
 
         private void saveMap()
-            => _fileRepository.SaveMap(AllMapObjects);
+            => _fileRepository.SaveMap(_allMapObjects);
 
         private void Edit_Display_Information(object sender, RoutedEventArgs e)
         {
@@ -179,7 +198,7 @@ namespace GraphicalEditor
             EditMode = !EditMode;
             Canvas.Children.Clear();
             SelectedMapObject.MapObjectEntity.MapObjectType = objectToEdit.MapObjectEntity.MapObjectType;
-            LoadMapOnCanvas();
+            LoadInitialMapOnCanvas();
         }
 
         private void Change_Display_Information(object sender, RoutedEventArgs e)
@@ -190,7 +209,7 @@ namespace GraphicalEditor
         private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)
         {            
             Canvas.Children.Clear();
-            LoadMapOnCanvas();
+            LoadInitialMapOnCanvas();
             EditMode = false;
             SelectedMapObject = null;
             DisplayMapObject = null;
@@ -230,7 +249,7 @@ namespace GraphicalEditor
                 }
               
 
-                foreach (MapObject mapObject in AllMapObjects)
+                foreach (MapObject mapObject in _allMapObjects)
                 {
                     if (!mapObject.Equals(selectedMapObject))
                     {
@@ -240,7 +259,7 @@ namespace GraphicalEditor
             }
             else
             {
-                foreach (MapObject mapObject in AllMapObjects)
+                foreach (MapObject mapObject in _allMapObjects)
                 {
                     mapObject.Rectangle.Effect = null;
                 }
@@ -258,7 +277,7 @@ namespace GraphicalEditor
         {
             List<MapObject> MapObjectsThatContainMouseCursor = new List<MapObject>();
 
-            foreach (MapObject mapObject in AllMapObjects)
+            foreach (MapObject mapObject in _allMapObjects)
             {
                 if (_canvas.Children.Contains(mapObject.Rectangle) && IsMouseCursorInsideRectangle(mouseCursorCurrentPosition, mapObject.Rectangle))
                 {

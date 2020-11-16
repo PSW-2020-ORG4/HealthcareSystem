@@ -24,10 +24,10 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
             AddRestaurantToMap();
 
-          //  AddObjectsOnFirstFloorBuilding1();
+            AddObjectsOnFirstFloorBuilding1();
             AddObjectsOnGroundLevelBuilding1();
 
-           // AddObjectsOnFirstFloorBuilding2();
+            AddObjectsOnFirstFloorBuilding2();
             AddObjectsOnGroundLevelBuilding2();
 
             AddParkingPlacesToMap();
@@ -37,7 +37,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private void AddFirstBuildingToMap()
         {
             FirstBuilding = new MapObject(
-                  new Building(2,"Building 1"),
+                  new Building(2, new BuildingLayersButtons(BuildingLayersButtonsOrientation.LEFT, 0, 0), "Building 1"),
                   new MapObjectMetrics(40, 50, 400, 250),
                   new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 20, 0)
           );
@@ -48,7 +48,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private void AddSecondBuildingToMap()
         {
              SecondBuilding = new MapObject(
-                           new Building(2,"Building 2"),
+                           new Building(2, new BuildingLayersButtons(BuildingLayersButtonsOrientation.BOTTOM, 0, 0), "Building 2"),
                            new MapObjectMetrics(730, 50, 330, 612),
                            new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
                    );

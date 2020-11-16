@@ -1,9 +1,11 @@
-﻿using GraphicalEditor.Enumerations;
+﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
@@ -191,6 +193,14 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 }
 
                 return allMapObjectTypesAvailableToChange;
+            }
+        }
+        public void SetStrokeColorAndThickness(Rectangle rectangle)
+        {
+            if (TypeOfMapObject != TypeOfMapObject.ROAD)
+            {
+                rectangle.Stroke = Brushes.Black;
+                rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
             }
         }
     }

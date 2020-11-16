@@ -49,16 +49,6 @@ namespace GraphicalEditor.Models.MapObjectRelated
         }
 
         public SolidColorBrush ObjectEntityColor => MapObjectType.ObjectTypeColor;
-        
-
-        public void SetStrokeAndStrokeThickness(Rectangle reactangle)
-        {
-            if (MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
-            {
-                reactangle.Stroke = Brushes.Black;
-                reactangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
-            }
-        }
 
     }
 }

@@ -2,20 +2,32 @@
 using GraphicalEditor.Enumerations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-    public class MapObjectType
+    public class MapObjectType : INotifyPropertyChanged
     {
         public TypeOfMapObject TypeOfMapObject { get; set; }
 
         public MapObjectType()
         { 
         }
-   
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChangedEventHandler _handler = this.PropertyChanged;
+            if (_handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                _handler(this, e);
+            }
+        }
+
         public string ObjectTypeFullName
         {
             get
@@ -39,9 +51,9 @@ namespace GraphicalEditor.Models.MapObjectRelated
                     case TypeOfMapObject.WC:
                         return "WC";
                     case TypeOfMapObject.ROAD:
-                        return "Put";
+                        return "Road";
                     default:
-                        return "Objekat";
+                        return "Object";
                 }
             }
             set {
@@ -70,6 +82,9 @@ namespace GraphicalEditor.Models.MapObjectRelated
                         break;
                     case "WC":
                         TypeOfMapObject = TypeOfMapObject.WC;
+                        break;
+                    case "Road":
+                        TypeOfMapObject = TypeOfMapObject.ROAD;
                         break;
                     default:
                         break;                    
@@ -162,6 +177,24 @@ namespace GraphicalEditor.Models.MapObjectRelated
             }
         }
 
+        public List<MapObjectType> AllMapObjectTypesAvailableToChange
+        {
+            get
+            {
+                List<MapObjectType> allMapObjectTypesAvailableToChange = new List<MapObjectType>();
+                Array typesOfMapObjects = Enum.GetValues(typeof(TypeOfMapObject));
+                foreach (TypeOfMapObject mapObjectType in typesOfMapObjects)
+                {
+                    if (mapObjectType != TypeOfMapObject.BUILDING && mapObjectType != TypeOfMapObject.ROAD)
+                    {
+                        MapObjectType singleTypeOfMapObject = new MapObjectType(mapObjectType);
+                        allMapObjectTypesAvailableToChange.Add(singleTypeOfMapObject);
+                    }
+                }
+
+                return allMapObjectTypesAvailableToChange;
+            }
+        }
         public void SetStrokeColorAndThickness(Rectangle rectangle)
         {
             if (TypeOfMapObject != TypeOfMapObject.ROAD)
@@ -170,6 +203,5 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 rectangle.StrokeThickness = AllConstants.RECTANGLE_STROKE_THICKNESS;
             }
         }
-
     }
 }

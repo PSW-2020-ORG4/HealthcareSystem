@@ -65,8 +65,6 @@
     <Compile Include="Repository\ContractResolver.cs" />
     <Compile Include="Repository\FileRepository.cs" />
     <Compile Include="Repository\Interface\IRepository.cs" />
-    <Compile Include="Repository\Interface\IMapObjectRepository.cs" />
-    <Compile Include="Repository\MapObjectRepository.cs" />
     <Compile Include="Service\Interface\IMapObjectServices.cs" />
     <Compile Include="Service\MapObjectServices.cs" />
     <Page Include="MainWindow.xaml">

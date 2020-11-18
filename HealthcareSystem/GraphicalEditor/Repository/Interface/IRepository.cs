@@ -10,6 +10,7 @@ namespace GraphicalEditor.Repository
     public interface IRepository
     {
         void SaveMap(List<MapObject> allMapObjects);
-        IEnumerable<MapObject> LoadMap();       
+        IEnumerable<MapObject> LoadMap();
+        void UpdateMapObject(MapObject mapObject);
     }
 }

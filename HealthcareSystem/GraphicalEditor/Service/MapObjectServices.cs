@@ -1,6 +1,5 @@
 ﻿using GraphicalEditor.Models;
 using GraphicalEditor.Repository;
-using GraphicalEditor.Repository.Intefrace;
 using GraphicalEditor.Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -12,15 +11,15 @@ namespace GraphicalEditor.Services
 {
     public class MapObjectServices : IMapObjectServices
     {
-        private IMapObjectRepository mapObjectRepository;
+        private IRepository _fileRepository;
 
-        public MapObjectServices(IMapObjectRepository _mapObjectRepository) {
-            mapObjectRepository = _mapObjectRepository;
+        public MapObjectServices(IRepository fileRepository) {
+            _fileRepository = fileRepository;
         }
 
         public void UpdateMapObject(MapObject mapObject)
         {
-           mapObjectRepository.UpdateMapObject(mapObject);
+            _fileRepository.UpdateMapObject(mapObject);
         }
     }
 }

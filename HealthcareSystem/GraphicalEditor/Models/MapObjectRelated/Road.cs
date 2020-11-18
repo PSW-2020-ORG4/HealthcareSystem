@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
@@ -15,8 +16,11 @@ namespace GraphicalEditor.Models.MapObjectRelated
             FormatObjectDescription(Description);
         }
 
+        public Line Line{get; set;}
+
         public override void FormatObjectDescription(string description)
         {
+
             if (String.IsNullOrEmpty(description))
             {
                 Description = MapObjectType.ObjectTypeFullName;

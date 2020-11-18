@@ -1,8 +1,11 @@
 ﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Controllers;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
+using GraphicalEditor.Services;
+using GraphicalEditor.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,13 +31,15 @@ namespace GraphicalEditor
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private Canvas _canvas;
+        public static Canvas _canvas;
+        private MapObjectController _mapObjectController;
+        public static List<MapObject> _allMapObjects;
 
-        public List<MapObject> AllMapObjects { get; set; }
 
-        private IRepository repository;
+        private IRepository _fileRepository;
 
         private Boolean _editMode = false;
+
         public Boolean EditMode
         {
             get { return _editMode; }
@@ -49,11 +54,11 @@ namespace GraphicalEditor
 
         protected void OnPropertyChanged(string propertyName = null)
         {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
-            if (handler != null)
+            PropertyChangedEventHandler _handler = this.PropertyChanged;
+            if (_handler != null)
             {
                 var e = new PropertyChangedEventArgs(propertyName);
-                handler(this, e);
+                _handler(this, e);
             }
         }
 
@@ -72,48 +77,148 @@ namespace GraphicalEditor
             }
         }
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            _canvas = this.Canvas;
-            repository = new FileRepository("test.json");
-            AllMapObjects = new List<MapObject>();
-            DataContext = this;
+        private MapObject _selectedMapObject;
 
-            MockupObjects mockupObjects = new MockupObjects();
-            AllMapObjects = mockupObjects.getAllMapObjects();
-            //saveMap();
-            LoadMapOnCanvas();
+        public MapObject SelectedMapObject
+        {
+            get
+            {
+                return _selectedMapObject;
+            }
+            set
+            {
+                _selectedMapObject = value; 
+            }
         }
 
-        private void LoadMapOnCanvas()
+        public MainWindow()
+        {            
+            InitializeComponent();
+            this.DataContext = this;            
+            _canvas = this.Canvas;
+            _fileRepository = new FileRepository("test.json");            
+            _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
+            _allMapObjects = new List<MapObject>();
+            this.DataContext = this;
+            MockupObjects mockupObjects = new MockupObjects();
+            _allMapObjects = mockupObjects.AllMapObjects;
+            //uncomment when you dont have anything in file
+            saveMap();
+            LoadInitialMapOnCanvas();
+            ChangeEditButtonVisibility();
+        }
+
+        private void LoadInitialMapOnCanvas()
         {
-            AllMapObjects = repository.LoadMap().ToList();
-            foreach (MapObject mapObject in AllMapObjects)
+            _allMapObjects = _fileRepository.LoadMap().ToList();
+
+            foreach (MapObject mapObject in _allMapObjects)
+            {
+                LoadAllMapObjectsExceptRooms(mapObject);
+                LoadGroundLevelFromBuildings(mapObject);
+            }
+
+        }
+
+        private void LoadAllMapObjectsExceptRooms(MapObject mapObject)
+        {
+            if (mapObject.MapObjectEntity.GetType() != typeof(Room))
+            {
+                mapObject.AddToCanvas(_canvas);
+            }
+        }
+
+        private void LoadGroundLevelFromBuildings(MapObject mapObject)
+        {
+            if (mapObject.MapObjectEntity.GetType() == typeof(Room) && ((Room)mapObject.MapObjectEntity).Floor == 0)
             {
                 mapObject.AddToCanvas(_canvas);
             }
         }
 
         private void saveMap()
-            => repository.SaveMap(AllMapObjects);
+            => _fileRepository.SaveMap(_allMapObjects);
 
-        private void Change_Display_Information(object sender, RoutedEventArgs e)
+        private void Edit_Display_Information(object sender, RoutedEventArgs e)
         {
-
+            this.ObjectTypeChooserComboBox.SelectedItem = DisplayMapObject.MapObjectType.ObjectTypeFullName;
             EditMode = !EditMode;
         }
 
-        private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)
-        {
+        public void ChangeEditButtonVisibility() {
+            if (_selectedMapObject == null)
+            {
+                EditObjectButton.Visibility = Visibility.Hidden;
+                SaveButton.Visibility = Visibility.Hidden;
+                EditMode = false ;
+            }
+            else
+            {
+                if (_selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
+                {
+                    EditObjectButton.Visibility = Visibility.Visible;
+                    SaveButton.Visibility = Visibility.Visible;
+                }
+                else {
+                    EditObjectButton.Visibility = Visibility.Hidden;
+                    SaveButton.Visibility = Visibility.Hidden;
+                }
+            }
+        }
 
+        private MapObjectType SettingTypeOfEditedMapObject() {
+            MapObjectType type;
+            if (ObjectTypeChooserComboBox.SelectedItem != null)
+            {
+                type = (MapObjectType)ObjectTypeChooserComboBox.SelectedItem;
+            }
+            else
+            {
+                type = SelectedMapObject.MapObjectEntity.MapObjectType;
+            }
+            return type;
+        }
+
+        private MapObject SettingMapObject(MapObjectType type) {
+            MapObject objectToEdit = SelectedMapObject;
+            DisplayMapObject.MapObjectType = type;
+            objectToEdit.MapObjectEntity = DisplayMapObject;
+            objectToEdit.Rectangle.Fill = type.ObjectTypeColor;
+            return objectToEdit;
+        }
+
+        private MapObject CreateEditedObject() {
+            MapObjectType type = SettingTypeOfEditedMapObject();
+            MapObject objectToEdit = SettingMapObject(type);
+            _mapObjectController.UpdateMapObject(objectToEdit);
+            return objectToEdit;
+        }
+
+        private void ReloadMap(MapObject objectToEdit) {
+            EditMode = !EditMode;
+            Canvas.Children.Clear();
+            SelectedMapObject.MapObjectEntity.MapObjectType = objectToEdit.MapObjectEntity.MapObjectType;
+            LoadInitialMapOnCanvas();
+        }
+
+        private void Change_Display_Information(object sender, RoutedEventArgs e)
+        {
+            ReloadMap(CreateEditedObject());
+        }
+
+        private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)
+        {            
+            Canvas.Children.Clear();
+            LoadInitialMapOnCanvas();
             EditMode = false;
+            SelectedMapObject = null;
+            DisplayMapObject = null;
+            ChangeEditButtonVisibility();
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-
             ApplyShadowEffectToObject(selectedMapObject);
         }
 
@@ -123,20 +228,28 @@ namespace GraphicalEditor
             if (selectedMapObject != null)
             {
                 DisplayMapObject = selectedMapObject.MapObjectEntity;
+                SelectedMapObject = selectedMapObject;
             }
             else
             {
+                SelectedMapObject = null;
                 DisplayMapObject = null;
             }
+
+            ChangeEditButtonVisibility();
         }
 
         private void ApplyShadowEffectToObject(MapObject selectedMapObject)
         {
             if (selectedMapObject != null)
             {
-                selectedMapObject.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple };
+                if (selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD) 
+                {
+                    selectedMapObject.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple }; 
+                }
+              
 
-                foreach (MapObject mapObject in AllMapObjects)
+                foreach (MapObject mapObject in _allMapObjects)
                 {
                     if (!mapObject.Equals(selectedMapObject))
                     {
@@ -146,7 +259,7 @@ namespace GraphicalEditor
             }
             else
             {
-                foreach (MapObject mapObject in AllMapObjects)
+                foreach (MapObject mapObject in _allMapObjects)
                 {
                     mapObject.Rectangle.Effect = null;
                 }
@@ -156,9 +269,7 @@ namespace GraphicalEditor
         private MapObject FindSelectedMapObject(Point mouseCursorCurrentPosition)
         {
             List<MapObject> MapObjectsThatContainMouseCursor = FindAllMapObjectsThatContainMouseCursor(mouseCursorCurrentPosition);
-
             MapObject selectedMapObject = FindMapObjectWithMinimumArea(MapObjectsThatContainMouseCursor);
-
             return selectedMapObject;
         }
 
@@ -166,9 +277,9 @@ namespace GraphicalEditor
         {
             List<MapObject> MapObjectsThatContainMouseCursor = new List<MapObject>();
 
-            foreach (MapObject mapObject in AllMapObjects)
+            foreach (MapObject mapObject in _allMapObjects)
             {
-                if (IsMouseCursorInsideRectangle(mouseCursorCurrentPosition, mapObject.Rectangle))
+                if (_canvas.Children.Contains(mapObject.Rectangle) && IsMouseCursorInsideRectangle(mouseCursorCurrentPosition, mapObject.Rectangle))
                 {
                     MapObjectsThatContainMouseCursor.Add(mapObject);
                 }

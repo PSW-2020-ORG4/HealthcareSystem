@@ -16,6 +16,8 @@ namespace GraphicalEditor.Repository
             _propertiesForElimination = new List<String>();
             _propertiesForElimination.Add("FocusVisualStyle");
             _propertiesForElimination.Add("Dispatcher");
+            _propertiesForElimination.Add("AllMapObjectTypes");
+            _propertiesForElimination.Add("AllMapObjectTypesAvailableToChange");
         }
 
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)

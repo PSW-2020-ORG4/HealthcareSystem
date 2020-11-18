@@ -1,16 +1,39 @@
-﻿using GraphicalEditor.Enumerations;
+﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Enumerations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace GraphicalEditor.Models.MapObjectRelated
 {
-    public class MapObjectEntity : Entity
+    public class MapObjectEntity : Entity, INotifyPropertyChanged
     {
-        public MapObjectType MapObjectType { get; set; }
+        private MapObjectType _mapObjectType;
+        public MapObjectType MapObjectType
+        {
+            get { return _mapObjectType; }
+            set
+            {
+                _mapObjectType = value;
+                OnPropertyChanged();
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChangedEventHandler _handler = this.PropertyChanged;
+            if (_handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                _handler(this, e);
+            }
+        }
         public String Description { get; set; }
 
        
@@ -25,10 +48,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         {
         }
 
-        public SolidColorBrush getColor()
-        {
-            return MapObjectType.getColor();
-        }
-        
+        public SolidColorBrush ObjectEntityColor => MapObjectType.ObjectTypeColor;
+
     }
 }

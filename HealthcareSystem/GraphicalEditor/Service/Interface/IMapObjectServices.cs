@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GraphicalEditor.Repository
+namespace GraphicalEditor.Services.Interface
 {
-    public interface IRepository
+    public interface IMapObjectServices
     {
-        void SaveMap(List<MapObject> allMapObjects);
-
-        IEnumerable<MapObject> LoadMap();
+        void UpdateMapObject(MapObject mapObject);
     }
 }

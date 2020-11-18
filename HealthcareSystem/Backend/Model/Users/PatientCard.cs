@@ -14,15 +14,18 @@ namespace Model.Users
 {
     public class PatientCard
     {
-        [ForeignKey("Patient")]
-        public string PatientJmbg { get; set; }
-        public virtual Patient Patient { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; }
         public BloodType BloodType { get; set; }
         public RhFactorType RhFactor { get; set; }
         public string Alergies { get; set; }
         public string MedicalHistory { get; set; }
         public bool HasInsurance { get; set; }
         public string Lbo { get; set; }
+
+        [ForeignKey("Patient")]
+        public string PatientJmbg { get; set; }
+        public virtual Patient Patient { get; set; }
         public ICollection<Examination> Examinations { get; set; }
 
         public PatientCard() { }

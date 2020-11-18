@@ -12,7 +12,6 @@ namespace Backend.Service
         PatientCard ViewPatientCard(string patientJmbg);
         void AddPatientCard(PatientCard patientCard);
         void EditPatientCard(PatientCard patientCard);
-        void DeletePatientCard(string patientJmbg);
 
     }
 }

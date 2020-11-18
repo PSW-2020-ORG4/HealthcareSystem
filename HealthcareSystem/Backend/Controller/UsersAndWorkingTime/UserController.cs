@@ -36,10 +36,6 @@ namespace Controller.UsersAndWorkingTime
         {
             return this.Strategy.ViewProfile(jmbg);
         }
-        public bool DeleteProfile(string jmbg)
-        {
-            return this.Strategy.DeleteProfile(jmbg);
-        }
         public List<User> ViewAllUsers()
         {
             return this.Strategy.ViewAllUsers();

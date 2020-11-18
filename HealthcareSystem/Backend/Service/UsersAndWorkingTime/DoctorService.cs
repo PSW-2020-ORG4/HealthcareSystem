@@ -33,13 +33,7 @@ namespace Service.UsersAndWorkingTime
                 return null;
             }
             return doctorRepository.SetDoctor(doctor);
-        }
-      
-        public bool DeleteDoctor(string jmbg)
-        {
-            return doctorRepository.DeleteDoctor(jmbg);
-        }
-      
+        }  
         public List<Doctor> ViewDoctors()
         {
             return doctorRepository.GetAllDoctors();

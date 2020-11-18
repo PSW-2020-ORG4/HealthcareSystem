@@ -11,7 +11,6 @@ namespace Backend.Service.UsersAndWorkingTime
     {
         Patient RegisterPatient(Patient patient);
         Patient EditPatient(Patient patient);
-        bool DeletePatient(string jmbg);
         List<Patient> ViewPatients();
         Patient ViewProfile(string jmbg);
         Patient SignIn(string username, string password);

@@ -15,11 +15,6 @@ namespace Controller.UsersAndWorkingTime
    {
         private ManagerService managerService = new ManagerService();
 
-        public bool DeleteProfile(string jmbg)
-        {
-            return managerService.DeleteProfile(jmbg);
-        }
-
         public User EditProfile(User user)
         {
             return managerService.EditProfile((Manager)user);

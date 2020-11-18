@@ -16,7 +16,6 @@ namespace Controller.UsersAndWorkingTime
       User Register(User user);
       User EditProfile(User user);
       User ViewProfile(string jmbg);
-      bool DeleteProfile(string jmbg);
       List<User> ViewAllUsers();
    }
 }

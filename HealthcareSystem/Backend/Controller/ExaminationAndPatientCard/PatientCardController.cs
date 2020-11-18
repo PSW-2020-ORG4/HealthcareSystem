@@ -13,10 +13,7 @@ namespace Controller.ExaminationAndPatientCard
    public class PatientCardController
    {
         private PatientCardService _patientCardService;
-        public void DeletePatientCard(string patientJmbg)
-        {
-            _patientCardService.DeletePatientCard(patientJmbg);
-        }
+  
         public PatientCard ViewPatientCard(string patientJmbg)
         {
             return _patientCardService.ViewPatientCard(patientJmbg);

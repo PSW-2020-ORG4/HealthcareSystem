@@ -72,25 +72,6 @@ namespace ProjekatZdravoKorporacija
             dgPatients.ItemsSource = filtered;
         }
 
-        private void btnDeletePatient_Click(object sender, RoutedEventArgs e)
-        {
-            Patient patientToDelete = (Patient)dgPatients.SelectedItem;
-            if (patientToDelete == null)
-            {
-                var okMb = new OKMessageBox(this,0);
-                okMb.titleMsgBox.Text = "Greška";
-                okMb.textMsgBox.Text = "Odaberite pacijenta koga želite obrisati!";
-                okMb.ShowDialog();
-            }
-            else
-            {
-                var mb = new MyMessageBoxDelete(patientToDelete,this);
-                mb.titleMsgBox.Text = "Brisanje pacijenta";
-                mb.textMsgBox.Text = "Da li ste sigurni da želite obrisati pacijenta?";
-                mb.ShowDialog();
-            }
-        }
-
         private void btnEditPatient_Click(object sender, RoutedEventArgs e)
         {
             Patient patientToEdit = (Patient)dgPatients.SelectedItem;

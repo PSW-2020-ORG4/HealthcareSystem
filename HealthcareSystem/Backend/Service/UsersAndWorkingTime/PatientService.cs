@@ -17,12 +17,10 @@ namespace Service.UsersAndWorkingTime
     public class PatientService : IPatientService
     {
         private IActivePatientRepository _activePatientRepository;
-        private IDeletedPatientRepository _deletedPatientRepository;
 
-        public PatientService(IActivePatientRepository activePatientRepository,IDeletedPatientRepository deletedPatientRepository)
+        public PatientService(IActivePatientRepository activePatientRepository)
         {
             _activePatientRepository = activePatientRepository;
-            _deletedPatientRepository = deletedPatientRepository;
         }
         public Patient RegisterPatient(Patient patient)
         {
@@ -43,22 +41,6 @@ namespace Service.UsersAndWorkingTime
             _activePatientRepository.SetPatient(patient);
             return patient;
         }
-
-        public bool DeletePatient(string jmbg)
-        {
-            Patient patient = _activePatientRepository.GetPatientByJmbg(jmbg);
-            if (patient == null)
-            {
-                return false;
-            }
-            _activePatientRepository.DeletePatient(jmbg);
-            _deletedPatientRepository.AddPatient(patient);
-            return true;
-        }
-        /// <summary>
-        /// /getting all patients
-        /// </summary>
-        /// <returns>list of active patients</returns>
         public List<Patient> ViewPatients()
         {
             return _activePatientRepository.GetAllPatients();

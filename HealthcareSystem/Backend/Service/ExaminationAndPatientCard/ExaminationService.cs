@@ -6,7 +6,6 @@
 
 using Model.Doctor;
 using Model.Manager;
-using Model.Secretary;
 using Model.Users;
 using Repository;
 using System;
@@ -17,7 +16,7 @@ namespace Service.ExaminationAndPatientCard
 {
    public class ExaminationService
    {
-        private ActivePatientCardRepository activePatientCardRepository = new ActivePatientCardRepository();
+        private FileActivePatientCardRepository activePatientCardRepository = new FileActivePatientCardRepository();
         private CanceledExaminationRepository canceledExaminationRepository = new CanceledExaminationRepository();
         private ScheduledExaminationRepository scheduledExaminationRepository = new ScheduledExaminationRepository();
 

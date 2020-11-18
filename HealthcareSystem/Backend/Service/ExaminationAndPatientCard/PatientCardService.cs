@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Service.UsersService.PatientCardService
  ***********************************************************************/
 
-using Model.Secretary;
+using Model.Users;
 using Repository;
 using System;
 
@@ -12,36 +12,26 @@ namespace Service.ExaminationAndPatientCard
 {
    public class PatientCardService
    {
-        private ActivePatientCardRepository activePatientCardRepository = new ActivePatientCardRepository();
-        private DeletedPatientCardRepository deletedPatientCardRepository = new DeletedPatientCardRepository();
-      public bool DeletePatientCard(string patientJmbg)
-      {
-            PatientCard deletedPatientCard = activePatientCardRepository.DeletePatientCard(patientJmbg);
-            if(deletedPatientCard != null)
-            {
-                PatientCard newPatientCard = deletedPatientCardRepository.NewPatientCard(deletedPatientCard);
-                if(newPatientCard != null)
-                {
-                    return true;
-                }
-            }
-            return false;
-      }
+        private IActivePatientCardRepository _activePatientCardRepository;
+
+        public PatientCardService(IActivePatientCardRepository activePatientCardRepository)
+        {
+            _activePatientCardRepository = activePatientCardRepository;
+        }      
+        public PatientCard ViewPatientCard(string patientJmbg)
+        {
+            return _activePatientCardRepository.GetPatientCard(patientJmbg);
+        }
       
-      public PatientCard ViewPatientCard(string patientJmbg)
-      {
-            return activePatientCardRepository.GetPatientCard(patientJmbg);
-      }
+        public void EditPatientCard(PatientCard patientCard)
+        {
+            _activePatientCardRepository.SetPatientCard(patientCard);
+        }
       
-      public PatientCard EditPatientCard(PatientCard patientCard)
-      {
-            return activePatientCardRepository.SetPatientCard(patientCard);
-      }
-      
-      public PatientCard CreatePatientCard(PatientCard patientCard)
-      {
-            return activePatientCardRepository.NewPatientCard(patientCard);
-      }
+        public void CreatePatientCard(PatientCard patientCard)
+        {
+            _activePatientCardRepository.AddPatientCard(patientCard);
+        }
    
    }
 }

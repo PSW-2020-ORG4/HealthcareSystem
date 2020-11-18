@@ -120,7 +120,7 @@ namespace Repository
             List<PlacemetnInARoom> placementsForDelete = new List<PlacemetnInARoom>();
             foreach (PlacemetnInARoom p in placementList)
             {
-                if (p.patientCard.patient.Jmbg.Equals(jmbg))
+                if (p.patientCard.Patient.Jmbg.Equals(jmbg))
                 {
                     placementsForDelete.Add(p);
                 }
@@ -183,7 +183,7 @@ namespace Repository
             List<PlacemetnInARoom> result = new List<PlacemetnInARoom>();
             foreach (PlacemetnInARoom p in placementList)
             {
-                if (p.patientCard.patient.Jmbg.Equals(patientJmbg))
+                if (p.patientCard.Patient.Jmbg.Equals(patientJmbg))
                 {
                     result.Add(p);
                 }

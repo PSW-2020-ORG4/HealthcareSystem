@@ -5,7 +5,7 @@
  ***********************************************************************/
 
 using Model.Manager;
-using Model.Secretary;
+using Model.Users;
 using System;
 
 namespace Model.Doctor
@@ -62,7 +62,7 @@ namespace Model.Doctor
             this.DateAndTime = examination.DateAndTime;
             this.doctor = new Users.Doctor(examination.doctor);
             this.room = new Room(examination.room);
-            this.patientCard = new Secretary.PatientCard(examination.patientCard);
+            this.patientCard = new PatientCard(examination.patientCard);
         }
    
    }

@@ -16,34 +16,29 @@ namespace Service.UsersAndWorkingTime
    {
 
         private ManagerRepository managerRepository = new ManagerRepository();
-      public Manager EditProfile(Manager manager)
-      {
+        public Manager EditProfile(Manager manager)
+        {
             if (!IsUsernameValid(manager.Username) || !IsPasswordValid(manager.Password))
             {
                 return null;
             }
             return managerRepository.SetManager(manager);
-      }
+        }
       
-      public Manager ViewProfile(string jmbg)
-      {
+        public Manager ViewProfile(string jmbg)
+        {
             return managerRepository.GetManager(jmbg);
-      }
+        }
 
         public List<Manager> ViewManagers()
         {
             return managerRepository.GetAllManagers();
         }
 
-        public bool DeleteProfile(string jmbg)
-      {
-            return false;
-      }
-
-      public Manager SignIn(string username, string password) 
-      {
-          return managerRepository.CheckUsernameAndPassword(username,password);
-      }
+        public Manager SignIn(string username, string password) 
+        {
+            return managerRepository.CheckUsernameAndPassword(username,password);
+        }
 
         private bool IsUsernameValid(string username)
         {

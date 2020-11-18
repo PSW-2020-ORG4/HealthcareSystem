@@ -190,7 +190,7 @@ namespace WpfApp1
                 e1.doctor = ee.doctor.Name + " " + ee.doctor.Surname;
                 e1.DateAndTime = ee.DateAndTime.ToShortTimeString();
                 e1.IdExamination = ee.IdExamination;
-                e1.patientCard = ee.patientCard.patient.Name + " " + ee.patientCard.patient.Surname + " " + ee.patientCard.patient.Jmbg;
+                e1.patientCard = ee.patientCard.Patient.Name + " " + ee.patientCard.Patient.Surname + " " + ee.patientCard.Patient.Jmbg;
                 e1.Type = ee.Type.ToString();
                 e1.room = ee.room.Number.ToString();
 

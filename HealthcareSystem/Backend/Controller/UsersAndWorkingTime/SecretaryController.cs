@@ -35,11 +35,6 @@ namespace Controller.UsersAndWorkingTime
             return secretaryService.ViewProfile(jmbg);
         }
       
-        public bool DeleteProfile(string jmbg)
-        {
-            return secretaryService.DeleteProfile(jmbg);
-        }
-      
         public List<User> ViewAllUsers()
         {
             List<Secretary> secretaries = secretaryService.ViewSecretaries();

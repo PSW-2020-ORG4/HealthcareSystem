@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Users.Manager
  ***********************************************************************/
 
+using Model.Enums;
 using System;
 
 namespace Model.Users

@@ -5,14 +5,14 @@
  ***********************************************************************/
 
 using Model.Manager;
-using Model.Secretary;
+using Model.Users;
 using System;
 
 namespace Model.Doctor
 {
    public class PlacemetnInARoom
    {
-      public Model.Secretary.PatientCard patientCard { get; set; }
+      public PatientCard patientCard { get; set; }
       public Model.Manager.Room room { get; set; }
       public int Id { get; set; }
       public DateTime DateOfPlacement { get; set; }

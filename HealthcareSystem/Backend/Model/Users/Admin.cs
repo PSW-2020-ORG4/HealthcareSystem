@@ -1,4 +1,5 @@
-﻿using Model.Users;
+﻿using Model.Enums;
+using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

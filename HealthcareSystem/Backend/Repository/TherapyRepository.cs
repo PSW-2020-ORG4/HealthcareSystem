@@ -117,7 +117,7 @@ namespace Repository
             List<Therapy> therapyListPatinet = new List<Therapy>();
             foreach (Therapy t in therapyList)
             {
-                if (t.patientCard.patient.Jmbg.Equals(patientJmbg))
+                if (t.patientCard.Patient.Jmbg.Equals(patientJmbg))
                 {
                     therapyListPatinet.Add(t);
                 }
@@ -148,7 +148,7 @@ namespace Repository
             List<Therapy> therapyListPatinet = new List<Therapy>();
             foreach (Therapy t in therapyList)
             {
-                if (t.patientCard.patient.Jmbg.Equals(patientJmbg))
+                if (t.patientCard.Patient.Jmbg.Equals(patientJmbg))
                 {
                     if (t.EndDate > DateTime.Now)
                     {
@@ -170,7 +170,7 @@ namespace Repository
 
             foreach (Therapy t in therapyList)
             {
-                if (t.patientCard.patient.Jmbg.Equals(patientJmbg))
+                if (t.patientCard.Patient.Jmbg.Equals(patientJmbg))
                 {
                     if (DateTime.Compare(t.StartDate, firstDay) >= 0 && DateTime.Compare(t.EndDate, seventhDay) <= 0)
                     {
@@ -188,7 +188,7 @@ namespace Repository
             List<Therapy> therapyListForDelete = new List<Therapy>();
             foreach (Therapy t in therapyList)
             {
-                if (t.patientCard.patient.Jmbg.Equals(jmbg))
+                if (t.patientCard.Patient.Jmbg.Equals(jmbg))
                 {
                     therapyListForDelete.Add(t);
                 }

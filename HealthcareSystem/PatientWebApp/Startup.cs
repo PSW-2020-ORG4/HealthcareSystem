@@ -40,7 +40,6 @@ namespace PatientWebApp
             services.AddScoped<IFeedbackService, FeedbackService>();
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
-            services.AddScoped<IDeletedPatientRepository, MySqlDeletedPatientRepository>();
             services.AddScoped<IPatientService, PatientService>();
         }
 

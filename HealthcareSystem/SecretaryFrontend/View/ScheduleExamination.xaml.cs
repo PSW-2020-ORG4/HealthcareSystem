@@ -4,7 +4,6 @@ using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
 using Model.Doctor;
 using Model.Manager;
-using Model.Secretary;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using System;
@@ -144,7 +143,7 @@ namespace ProjekatZdravoKorporacija.View
                 string message = "Zakazan pregled\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
                                  + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
 
-                notificationController.SendNotification(new Notification(++lastId,TypeOfNotification.Pregled,message, selectedPatientCard.patient.Jmbg));
+                notificationController.SendNotification(new Notification(++lastId,TypeOfNotification.Pregled,message, selectedPatientCard.Patient.Jmbg));
 
 
                 var okMb = new OKMessageBox(this, 0);

@@ -128,39 +128,6 @@ namespace Clinic_Health.Views.Employees
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-        private void buttonObrisiZaposlenog_Click(object sender, RoutedEventArgs e)
-        {
-            if (SelektovaniZaposleni == null || string.IsNullOrWhiteSpace(SelektovaniZaposleni.Jmbg))
-            {
-                return;
-            }
-            foreach (Zaposleni z in TempZaposlenici)
-            {
-                if (z.Jmbg == SelektovaniZaposleni.Jmbg)
-                {
-                    DoctorController doctorController = new DoctorController();
-                    SecretaryController secretaryController = new SecretaryController();
-                    UserController userController1 = new UserController(doctorController);
-                    UserController userController2 = new UserController(secretaryController);
-                    if (!userController2.DeleteProfile(z.Jmbg)) {
-                        userController1.DeleteProfile(z.Jmbg);
-                        ExaminationController ec = new ExaminationController();
-                        ec.DeleteDoctorExaminations(z.Jmbg);
-                        WorkingTimeController wtc=new WorkingTimeController();
-                        wtc.DeleteWorkingTime(z.Jmbg);
-                    }
-                   
-                    TempZaposlenici.Remove(z);
-                    Zaposlenici.Remove(z);
-                    SelektovaniZaposleni = null;
-                    
-                    break;
-                }
-            }
-
-        }
-
         private void buttonTraziZaposlene_Click(object sender, RoutedEventArgs e)
         {
             TempZaposlenici.Clear();

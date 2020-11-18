@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Users.Doctor
  ***********************************************************************/
 
+using Model.Enums;
 using Model.Manager;
 using System;
 

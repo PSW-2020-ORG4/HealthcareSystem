@@ -6,7 +6,7 @@
 
 using System;
 
-namespace Model.Secretary
+namespace Model.Enums
 {
    public enum RhFactorType
    {

@@ -14,12 +14,7 @@ namespace Controller.UsersAndWorkingTime
 {
    public class PatientController : IUserStrategy
    {
-        private PatientService patientService = new PatientService(new FileActivePatientRepository(),new FileDeletedPatientRepository());
-        public bool DeleteProfile(string jmbg)
-        {
-            return patientService.DeletePatient(jmbg);
-        }
-
+        private PatientService patientService = new PatientService(new FileActivePatientRepository());
         public User EditProfile(User user)
         {
             return patientService.EditPatient((Patient)user);

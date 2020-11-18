@@ -14,13 +14,7 @@ namespace Controller.UsersAndWorkingTime
 {
    public class DoctorController : IUserStrategy
    {
-
         private DoctorService doctorSevice = new DoctorService();
-
-        public bool DeleteProfile(string jmbg)
-        {
-            return doctorSevice.DeleteDoctor(jmbg);
-        }
 
         public User EditProfile(User user)
         {

@@ -6,7 +6,6 @@ using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
 using Model.Doctor;
 using Model.Manager;
-using Model.Secretary;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -67,7 +66,7 @@ namespace WpfApp1
             patientCard = pc;
 
             txtAlergije.Text = pc.Alergies;      
-            txtDatumRodjenja.Text = pc.patient.DateOfBirth.ToShortDateString();
+            txtDatumRodjenja.Text = pc.Patient.DateOfBirth.ToShortDateString();
             txtKrvnaGrupa.Text = pc.BloodType.ToString();
             txtRhFaktor.Text = pc.RhFactor.ToString();
             txtLbo.Text = pc.Lbo.ToString();       
@@ -397,7 +396,7 @@ namespace WpfApp1
             int idNotification = nc.getLastId();
             n.Id = ++idNotification;
             n.Type = TypeOfNotification.Terapija;
-            n.JmbgOfReceiver = patientCard.patient.Jmbg;
+            n.JmbgOfReceiver = patientCard.Patient.Jmbg;
             n.Message = "Nova terapija: " + drugSelected.Name;
 
             nc.SendNotification(n);
@@ -539,7 +538,7 @@ namespace WpfApp1
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = exm.IdExamination;
                 e1.doctor = exm.doctor.Name + " " + exm.doctor.Name;
-                e1.patientCard = exm.patientCard.patient.Name + " " + exm.patientCard.patient.Surname + " " + exm.patientCard.patient.Jmbg;
+                e1.patientCard = exm.patientCard.Patient.Name + " " + exm.patientCard.Patient.Surname + " " + exm.patientCard.Patient.Jmbg;
                 e1.DateAndTime = exm.DateAndTime.ToString();
                 e1.room = room;
                 e1.Type = type;
@@ -650,7 +649,7 @@ namespace WpfApp1
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = exm.IdExamination;
                 e1.doctor = exm.doctor.Name + " " + exm.doctor.Name;
-                e1.patientCard = exm.patientCard.patient.Name + " " + exm.patientCard.patient.Surname + " " + exm.patientCard.patient.Jmbg;
+                e1.patientCard = exm.patientCard.Patient.Name + " " + exm.patientCard.Patient.Surname + " " + exm.patientCard.Patient.Jmbg;
                 e1.DateAndTime = exm.DateAndTime.ToString();
                 e1.room = room;
                 e1.Type = type;
@@ -672,7 +671,7 @@ namespace WpfApp1
             n.Id = ++idNotification;
             n.Type = TypeOfNotification.Pregled;
             n.Message = "Novi termin zakazan " + dt.ToString() + " dr. " + selectedDoctor.Name + " " + selectedDoctor.Surname;
-            n.JmbgOfReceiver = patientCard.patient.Jmbg;
+            n.JmbgOfReceiver = patientCard.Patient.Jmbg;
             nc.SendNotification(n);
 
             appointment = -1;
@@ -874,7 +873,7 @@ namespace WpfApp1
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = exm.IdExamination;
                 e1.doctor = exm.doctor.Name + " " + exm.doctor.Name;
-                e1.patientCard = exm.patientCard.patient.Name + " " + exm.patientCard.patient.Surname + " " + exm.patientCard.patient.Jmbg;
+                e1.patientCard = exm.patientCard.Patient.Name + " " + exm.patientCard.Patient.Surname + " " + exm.patientCard.Patient.Jmbg;
                 e1.DateAndTime = exm.DateAndTime.ToString();
                 e1.room = room;
                 e1.Type = type;

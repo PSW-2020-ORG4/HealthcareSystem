@@ -44,11 +44,6 @@ namespace Service.UsersAndWorkingTime
         {
             return secretaryRepository.GetAllSecretaries();
         }
-
-        public bool DeleteProfile(string jmbg)
-        {
-            return secretaryRepository.DeleteSecretary(jmbg);
-        }
       
         public  Secretary SignIn(string username, string password)
         {

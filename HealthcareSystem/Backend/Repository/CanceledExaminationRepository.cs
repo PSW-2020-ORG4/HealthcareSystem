@@ -81,7 +81,7 @@ namespace Repository
             List<Examination> examinationsForDelete = new List<Examination>();
             foreach (Examination e in canceledExaminations)
             {
-                if (e.patientCard.patient.Jmbg.Equals(jmbg))
+                if (e.patientCard.Patient.Jmbg.Equals(jmbg))
                 {
                     examinationsForDelete.Add(e);
                 }

@@ -38,8 +38,6 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <Button ToolTip="Obrisi oznacenog zaposlenog" Grid.Row="1" x:Name="buttonObrisiZaposlenog" Content="Obriši"
-                    Background="White" Height="35" Width="90" Margin="392,316,289,55" Click="buttonObrisiZaposlenog_Click"/>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

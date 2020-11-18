@@ -8,16 +8,179 @@
         WindowState="Maximized"
         Title="MainWindow" Height="800" Width="1500">
     <DockPanel>
-        <Canvas x:Name="Canvas" Height="700" Width="1086" Margin="20 0 0 20" 
+        <StackPanel DockPanel.Dock="Left" Margin="20 20 0 0" >
+            <Canvas x:Name="Canvas" Height="700" Width="1086" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" 
                 Background="#D9FFBF"
                 MouseDown="Canvas_MouseDown" 
                 MouseMove="Canvas_MouseMove">
 
-        </Canvas>
+            </Canvas>
+
+            <Grid Margin="0 5 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <WrapPanel Grid.Row="0" Grid.Column="0"
+                           VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="White"
+                        Stroke="Gray"
+                        StrokeThickness="1"/>
+                    <TextBlock 
+                        Margin="5 -1 0 0"
+                        FontSize="16"
+                        VerticalAlignment="Center">
+                        Zgrada
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel Grid.Row="0" Grid.Column="1"
+                           VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="Lavender"
+                        Stroke="Gray"
+                        StrokeThickness="1"/>
+                    <TextBlock 
+                        Margin="5 -1 0 0"
+                        FontSize="16"
+                        VerticalAlignment="Center">
+                        Sala za pregled
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel Grid.Row="0" Grid.Column="2"
+                           VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="LightCyan"
+                        Stroke="Gray"
+                        StrokeThickness="1"/>
+                    <TextBlock 
+                        Margin="5 -1 0 0"
+                        FontSize="16"
+                        VerticalAlignment="Center">
+                        Operaciona sala
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel Grid.Row="0" Grid.Column="3"
+                           VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="Honeydew"
+                        Stroke="Gray"
+                        StrokeThickness="1"/>
+                    <TextBlock 
+                        Margin="5 -1 0 0"
+                        FontSize="16"
+                        VerticalAlignment="Center">
+                        Čekaonica
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel Grid.Row="0" Grid.Column="4"
+                           VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="CornflowerBlue"
+                        Stroke="Gray"
+                        StrokeThickness="1"/>
+                    <TextBlock 
+                        Margin="5 -1 0 0"
+                        FontSize="16"
+                        VerticalAlignment="Center">
+                        Parking
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel Grid.Row="1" Grid.Column="0"
+                           VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="BlanchedAlmond"
+                        Stroke="Gray"
+                        StrokeThickness="1"/>
+                    <TextBlock 
+                        Margin="5 -1 0 0"
+                        FontSize="16"
+                        VerticalAlignment="Center">
+                        Restoran
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel Grid.Row="1" Grid.Column="1"
+                           VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="Aquamarine"
+                        Stroke="Gray"
+                        StrokeThickness="1"/>
+                    <TextBlock 
+                        Margin="5 -1 0 0"
+                        FontSize="16"
+                        VerticalAlignment="Center">
+                        Soba za oporavak
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel Grid.Row="1" Grid.Column="2"
+                           VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="LightYellow"
+                        Stroke="Gray"
+                        StrokeThickness="1"/>
+                    <TextBlock 
+                        Margin="5 -1 0 0"
+                        FontSize="16"
+                        VerticalAlignment="Center">
+                        WC
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel Grid.Row="1" Grid.Column="3"
+                           VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="LightGray"
+                        Stroke="Gray"
+                        StrokeThickness="1"/>
+                    <TextBlock 
+                        Margin="5 -1 0 0"
+                        FontSize="16"
+                        VerticalAlignment="Center">
+                        Put
+                    </TextBlock>
+                </WrapPanel>
+
+            </Grid>
+        </StackPanel>
+
         <Border DockPanel.Dock="Right"
-                Margin="0 50 0 0"
+                Margin="0 20 0 50"
                 Padding="10 0 10 0">
                 <StackPanel x:Name="InformationDisplay">
 
@@ -47,7 +210,7 @@
 
                     </StackPanel.Resources>
     
-                    <StackPanel x:Name="NormalPanel"
+                    <StackPanel x:Name="NormalPanel" 
                             Style="{StaticResource NormalMode}">
                         <TextBlock Text="{Binding DisplayMapObject.MapObjectType.ObjectTypeFullName}" 
                            FontSize="26" 

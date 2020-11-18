@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Repository.DeletedPatientCardRepository
  ***********************************************************************/
 
-using Model.Secretary;
+using Model.Users;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,32 +12,32 @@ using System.IO;
 
 namespace Repository
 {
-   public class DeletedPatientCardRepository
+   public class FileDeletedPatientCardRepository : IDeletedPatientCardRepository
    {
-        private string path;
+        private string _path;
 
-        public DeletedPatientCardRepository()
+        public FileDeletedPatientCardRepository()
         {
             string fileName = "deleted_patient_card.json";
-            path = Path.GetFullPath(fileName);
+            _path = Path.GetFullPath(fileName);
         }
 
-        public Model.Secretary.PatientCard GetPatientCard(string jmbg)
+        public PatientCard GetPatientCard(string jmbg)
         {
             List<PatientCard> patientCards = ReadFromFile();
             foreach (PatientCard pc in patientCards)
             {
-                if (pc.patient.Jmbg.Equals(jmbg))
+                if (pc.Patient.Jmbg.Equals(jmbg))
                 {
                     return pc;
                 }
             }
             return null;
         }
-        public Model.Secretary.PatientCard NewPatientCard(Model.Secretary.PatientCard patientCard)
+        public PatientCard AddPatientCard(PatientCard patientCard)
         {
             List<PatientCard> patientCards = ReadFromFile();
-            PatientCard searchPatientCard = GetPatientCard(patientCard.patient.Jmbg);
+            PatientCard searchPatientCard = GetPatientCard(patientCard.Patient.Jmbg);
             if (searchPatientCard != null)
             {
                 return null;
@@ -47,31 +47,12 @@ namespace Repository
             return patientCard;
         }
       
-      public bool DeletePatientCard(string patientJmbg)
-      {
-            List<PatientCard> patientCards = ReadFromFile();
-            PatientCard patientCardForDelete = null;
-            foreach (PatientCard pc in patientCards)
-            {
-                if (pc.patient.Jmbg.Equals(patientJmbg))
-                {
-                    patientCardForDelete = pc;
-                    break;
-                }
-            }
-            if (patientCardForDelete == null)
-                return false;
-
-            patientCards.Remove(patientCardForDelete);
-            WriteInFile(patientCards);
-            return true;
-        }
         private List<PatientCard> ReadFromFile()
         {
             List<PatientCard> patientCards;
-            if (File.Exists(path))
+            if (File.Exists(_path))
             {
-                string json = File.ReadAllText(path);
+                string json = File.ReadAllText(_path);
                 patientCards = JsonConvert.DeserializeObject<List<PatientCard>>(json);
             }
             else
@@ -85,7 +66,7 @@ namespace Repository
         private void WriteInFile(List<PatientCard> patientCards)
         {
             string json = JsonConvert.SerializeObject(patientCards);
-            File.WriteAllText(path, json);
+            File.WriteAllText(_path, json);
         }
 
     }

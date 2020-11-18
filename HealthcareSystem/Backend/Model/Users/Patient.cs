@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Patient
  ***********************************************************************/
 
+using Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,7 +16,9 @@ namespace Model.Users
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateOfRegistration { get; set; }
         public bool IsGuest { get; set; }
+        public bool IsActive { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual PatientCard PatientCard { get; set; }
         public Patient()
         {
             IsGuest = false;
@@ -46,6 +49,7 @@ namespace Model.Users
             Password = password;
             DateOfRegistration = dateOfRegistration;
             IsGuest = isGuest;
+            IsActive = false;
         }
         public Patient(Patient patient)
         {
@@ -71,6 +75,7 @@ namespace Model.Users
             Password = patient.Password;
             DateOfRegistration = patient.DateOfRegistration;
             IsGuest = patient.IsGuest;
+            IsActive = false;
         }
     }
 }

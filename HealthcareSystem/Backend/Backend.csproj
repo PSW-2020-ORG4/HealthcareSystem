@@ -213,31 +213,34 @@
     <Compile Include="Model\MyDbContext.cs" />
     <Compile Include="Model\Patient\Grade.cs" />
     <Compile Include="Model\Patient\Survey.cs" />
-    <Compile Include="Model\Secretary\BloodType.cs" />
-    <Compile Include="Model\Secretary\PatientCard.cs" />
-    <Compile Include="Model\Secretary\RhFactorType.cs" />
+    <Compile Include="Model\Enums\BloodType.cs" />
+    <Compile Include="Model\Users\PatientCard.cs" />
+    <Compile Include="Model\Enums\RhFactorType.cs" />
     <Compile Include="Model\Users\Admin.cs" />
     <Compile Include="Model\Users\City.cs" />
     <Compile Include="Model\Users\Doctor.cs" />
     <Compile Include="Model\Users\Feedback.cs" />
-    <Compile Include="Model\Users\GenderType.cs" />
-    <Compile Include="Model\Users\Languages.cs" />
+    <Compile Include="Model\Enums\GenderType.cs" />
+    <Compile Include="Model\Enums\Languages.cs" />
     <Compile Include="Model\Users\Manager.cs" />
     <Compile Include="Model\Users\Notification.cs" />
     <Compile Include="Model\Users\Patient.cs" />
     <Compile Include="Model\Users\Secretary.cs" />
-    <Compile Include="Model\Users\TypeOfDoctor.cs" />
-    <Compile Include="Model\Users\TypeOfNotification.cs" />
-    <Compile Include="Model\Users\TypeOfQualifications.cs" />
+    <Compile Include="Model\Enums\TypeOfDoctor.cs" />
+    <Compile Include="Model\Enums\TypeOfNotification.cs" />
+    <Compile Include="Model\Enums\TypeOfQualifications.cs" />
     <Compile Include="Model\Users\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\ActivePatientCardRepository.cs" />
+    <Compile Include="Repository\PatientCardRepository\FilePatientCardRepository\FileActivePatientCardRepository.cs" />
+    <Compile Include="Repository\PatientCardRepository\IActivePatientCardRepository.cs" />
+    <Compile Include="Repository\PatientCardRepository\IDeletedPatientCardRepository.cs" />
+    <Compile Include="Repository\PatientCardRepository\MySqlPatientCardRepository\MySqlActivePatientCardRepository.cs" />
     <Compile Include="Repository\PatientRepository\FilePatientRepository\FileActivePatientRepository.cs" />
     <Compile Include="Repository\CanceledExaminationRepository.cs" />
     <Compile Include="Repository\CityRepository.cs" />
     <Compile Include="Repository\ConfirmedDrugRepository.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository.cs" />
-    <Compile Include="Repository\DeletedPatientCardRepository.cs" />
+    <Compile Include="Repository\PatientCardRepository\FilePatientCardRepository\FileDeletedPatientCardRepository.cs" />
     <Compile Include="Repository\PatientRepository\FilePatientRepository\FileDeletedPatientRepository.cs" />
     <Compile Include="Repository\DoctorRepository.cs" />
     <Compile Include="Repository\DrugTypeRepository.cs" />
@@ -266,6 +269,7 @@
     <Compile Include="Service\DrugAndTherapy\DrugTypeAndIngridientService.cs" />
     <Compile Include="Service\DrugAndTherapy\TherapyService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\ExaminationService.cs" />
+    <Compile Include="Service\ExaminationAndPatientCard\IPatientCardService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\PatientCardService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\FeedbackService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\IFeedbackService.cs" />
@@ -289,6 +293,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -287,7 +287,7 @@ namespace ProjekatZdravoKorporacija
                         }
                     }
                     examinationDTOs.Add(new ExaminationDTO(exm.IdExamination, exm.doctor.Name + " " + exm.doctor.Surname + " " + exm.doctor.Jmbg,
-                        exm.patientCard.patient.Name + " " + exm.patientCard.patient.Surname + " " + exm.patientCard.patient.Jmbg, room, type, exm.DateAndTime.ToShortDateString(), exm.DateAndTime.ToShortTimeString()));
+                        exm.patientCard.Patient.Name + " " + exm.patientCard.Patient.Surname + " " + exm.patientCard.Patient.Jmbg, room, type, exm.DateAndTime.ToShortDateString(), exm.DateAndTime.ToShortTimeString()));
                 }
                 dgExaminations.ItemsSource = examinationDTOs;
             }

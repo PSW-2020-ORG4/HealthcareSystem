@@ -5,7 +5,7 @@
  ***********************************************************************/
 
 using Model.Manager;
-using Model.Secretary;
+using Model.Users;
 using System;
 
 namespace Model.Doctor
@@ -13,7 +13,7 @@ namespace Model.Doctor
    public class Therapy
    {
       public Model.Manager.Drug drug { get; set; }
-      public Model.Secretary.PatientCard patientCard { get; set; }
+      public PatientCard patientCard { get; set; }
       public int Id { get; set; }
       public string Anamnesis { get; set; }
       public DateTime StartDate { get; set; }

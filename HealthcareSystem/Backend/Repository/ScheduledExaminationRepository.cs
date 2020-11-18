@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Configuration;
 using Model.Manager;
-using Model.Secretary;
 
 namespace Repository
 {
@@ -148,7 +147,7 @@ namespace Repository
             List<Examination> examinationsForDelete = new List<Examination>();
             foreach (Examination e in scheduledExaminations)
             {
-                if (e.patientCard.patient.Jmbg.Equals(patientJmbg))
+                if (e.patientCard.Patient.Jmbg.Equals(patientJmbg))
                 {
                     examinationsForDelete.Add(e);
                 }
@@ -209,7 +208,7 @@ namespace Repository
             List<Examination> scheduledExaminations = ReadFromFile();
             foreach (Examination e in scheduledExaminations)
             {
-                if (e.patientCard.patient.Jmbg.Equals(patientJmbg))
+                if (e.patientCard.Patient.Jmbg.Equals(patientJmbg))
                 {
                     result.Add(e);
                 }

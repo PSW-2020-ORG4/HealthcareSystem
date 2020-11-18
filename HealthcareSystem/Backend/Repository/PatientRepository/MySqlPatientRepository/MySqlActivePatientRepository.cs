@@ -34,6 +34,7 @@ namespace Repository
         {
             Patient patient = GetPatientByJmbg(jmbg);
             _context.Remove(patient);
+            _context.SaveChanges();
         }
         /// <summary>
         /// /getting all patients from database

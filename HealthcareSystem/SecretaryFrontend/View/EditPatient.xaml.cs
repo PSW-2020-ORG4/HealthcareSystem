@@ -3,7 +3,7 @@ using Controller.ExaminationAndPatientCard;
 using Controller.PlacementInARoomAndRenovationPeriod;
 using Controller.UsersAndWorkingTime;
 using Model.Doctor;
-using Model.Secretary;
+using Model.Enums;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using System;
@@ -321,7 +321,7 @@ namespace ProjekatZdravoKorporacija.View
 
                 PatientCard pc = new PatientCard(p, blood, rh, txtAllergy.Text, medicalHistory, hi, txtLbo.Text);
 
-                    if (patientController.EditProfile(p) != null && patientCardController.EditPatientCard(pc) != null)
+                    if (patientController.EditProfile(p) != null)
                     {
                         List<Examination> examinations = examinationController.ViewExaminationsByPatient(p.Jmbg);
                         foreach(Examination exm in examinations)

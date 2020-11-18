@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Korisnik.User
  ***********************************************************************/
 
+using Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

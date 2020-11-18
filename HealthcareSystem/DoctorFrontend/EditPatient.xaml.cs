@@ -3,7 +3,7 @@ using Controller.ExaminationAndPatientCard;
 using Controller.PlacementInARoomAndRenovationPeriod;
 using Controller.UsersAndWorkingTime;
 using Model.Doctor;
-using Model.Secretary;
+using Model.Enums;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace WpfApp1
         {
             InitializeComponent();
             p = patientCard;
-            txtPatient.Text = p.patient.Name + " " + p.patient.Surname + " " + p.patient.Jmbg;
+            txtPatient.Text = p.Patient.Name + " " + p.Patient.Surname + " " + p.Patient.Jmbg;
             txtLbo.Text = p.Lbo;
             txtAlergija.Text = p.Alergies;
             List<string> bloods = new List<string>();
@@ -89,7 +89,7 @@ namespace WpfApp1
 
             pc.EditPatientCard(patinetC);
            
-            List<Examination> examinations = ec.ViewExaminationsByPatient(patinetC.patient.Jmbg);
+            List<Examination> examinations = ec.ViewExaminationsByPatient(patinetC.Patient.Jmbg);
             foreach(Examination exm in examinations)
             {
                     exm.patientCard = patinetC;
@@ -97,7 +97,7 @@ namespace WpfApp1
 
             }
 
-            List<PlacemetnInARoom> placements = prc.ViewPatientPlacements(patinetC.patient.Jmbg);
+            List<PlacemetnInARoom> placements = prc.ViewPatientPlacements(patinetC.Patient.Jmbg);
             foreach (PlacemetnInARoom p in placements)
             {
                 p.patientCard = patinetC;
@@ -105,7 +105,7 @@ namespace WpfApp1
 
             }
 
-            List<Therapy> therapies = tc.ViewAllTherapyByPatient(patinetC.patient.Jmbg);
+            List<Therapy> therapies = tc.ViewAllTherapyByPatient(patinetC.Patient.Jmbg);
             foreach (Therapy t in therapies)
             {
                 t.patientCard = patinetC;

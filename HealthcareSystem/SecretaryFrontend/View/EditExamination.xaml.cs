@@ -4,7 +4,6 @@ using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
 using Model.Doctor;
 using Model.Manager;
-using Model.Secretary;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using Syncfusion.Windows.Shared;
@@ -188,7 +187,7 @@ namespace ProjekatZdravoKorporacija
                         int lastId = notificationController.getLastId();
                         string message = "Ponovo zakazan otkazani pregled\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
                                      + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
-                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.patient.Jmbg));
+                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.Patient.Jmbg));
 
                         var okMb = new OKMessageBox(this, 0);
                         okMb.titleMsgBox.Text = "Obavještenje";
@@ -220,7 +219,7 @@ namespace ProjekatZdravoKorporacija
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
                                     + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
-                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.patient.Jmbg));
+                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.Patient.Jmbg));
 
                         var okMb = new OKMessageBox(this, 0);
                         okMb.titleMsgBox.Text = "Obavještenje";
@@ -252,7 +251,7 @@ namespace ProjekatZdravoKorporacija
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
                                     + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
-                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.patient.Jmbg));
+                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.Patient.Jmbg));
 
                         var okMb = new OKMessageBox(this, 0);
                         okMb.titleMsgBox.Text = "Obavještenje";

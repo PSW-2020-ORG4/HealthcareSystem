@@ -1,10 +1,11 @@
 ﻿/***********************************************************************
  * Module:  PatientCard.cs
- * Author:  LukaRA252017
+ * Author:  Sladjana Savkovic
  * Purpose: Definition of the Class Repository.Patients.PatientCard
  ***********************************************************************/
 
-using Model.Secretary;
+using Backend.Model.Exceptions;
+using Model.Users;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,23 +14,23 @@ using System.Text;
 
 namespace Repository
 {
-    public class ActivePatientCardRepository
+    public class FileActivePatientCardRepository : IActivePatientCardRepository
     {
-        private string path;
+        private string _path;
 
-        public ActivePatientCardRepository()
+        public FileActivePatientCardRepository()
         {
             string fileName = "activepatientcards.json";
-            path = Path.GetFullPath(fileName);
+            _path = Path.GetFullPath(fileName);
         }
 
-        public Model.Secretary.PatientCard GetPatientCard(string jmbg)
+        public PatientCard GetPatientCard(string jmbg)
         {
             List<PatientCard> patientCards = ReadFromFile();
 
             foreach (PatientCard patientCard in patientCards)
             {
-                if (patientCard.patient.Jmbg.Equals(jmbg))
+                if (patientCard.Patient.Jmbg.Equals(jmbg))
                 {
                     return patientCard;
                 }
@@ -37,30 +38,28 @@ namespace Repository
             return null;
         }
 
-        public Model.Secretary.PatientCard NewPatientCard(Model.Secretary.PatientCard patientCard)
+        public void AddPatientCard(PatientCard patientCard)
         {
             List<PatientCard> patientCards = ReadFromFile();
-            PatientCard searchPatientCard = GetPatientCard(patientCard.patient.Jmbg);
+            PatientCard searchPatientCard = GetPatientCard(patientCard.Patient.Jmbg);
 
             if (searchPatientCard != null)
             {
-                return null;
+                throw new ValidationException();
             }
 
             patientCards.Add(patientCard);
             WriteInFile(patientCards);
-
-            return patientCard;
         }
 
-        public Model.Secretary.PatientCard DeletePatientCard(string patientJmbg)
+        public void DeletePatientCard(string patientJmbg)
         {
             List<PatientCard> patientCards = ReadFromFile();
             PatientCard patientCardForDelete = null;
 
             foreach (PatientCard patientCard in patientCards)
             {
-                if (patientCard.patient.Jmbg.Equals(patientJmbg))
+                if (patientCard.Patient.Jmbg.Equals(patientJmbg))
                 {
                     patientCardForDelete = patientCard;
                     break;
@@ -68,11 +67,10 @@ namespace Repository
             }
 
             if (patientCardForDelete == null)
-                return null;
+                throw new ValidationException();
 
             patientCards.Remove(patientCardForDelete);
             WriteInFile(patientCards);
-            return patientCardForDelete;
         }
 
         public void SaveExaminationInPatientCard(Model.Doctor.Examination examination)
@@ -82,45 +80,44 @@ namespace Repository
             
             foreach (PatientCard patientCard in patientCards)
             {
-                if (examination.patientCard.patient.Jmbg.Equals(patientCard.patient.Jmbg))
+                if (examination.patientCard.Patient.Jmbg.Equals(patientCard.Patient.Jmbg))
                 {
-                    patientCard.examinationList.Add(examination);
+                    patientCard.Examinations.Add(examination);
                     break;
                 }
             }
             WriteInFile(patientCards);
         }
 
-        public Model.Secretary.PatientCard SetPatientCard(Model.Secretary.PatientCard card)
+        public void SetPatientCard(PatientCard card)
         {
             List<PatientCard> patientCards = ReadFromFile();
 
             foreach (PatientCard patientCard in patientCards)
             {
-                if (patientCard.patient.Jmbg.Equals(card.patient.Jmbg))
+                if (patientCard.Patient.Jmbg.Equals(card.Patient.Jmbg))
                 {
-                    patientCard.patient = card.patient;
+                    patientCard.Patient = card.Patient;
                     patientCard.Alergies = card.Alergies;
                     patientCard.BloodType = card.BloodType;
                     patientCard.HasInsurance = card.HasInsurance;
                     patientCard.Lbo = card.Lbo;
-                    patientCard.examinationList = card.examinationList;
+                    patientCard.Examinations = card.Examinations;
                     patientCard.MedicalHistory = card.MedicalHistory;
                     patientCard.RhFactor = card.RhFactor;
                     break;
                 }
             }
             WriteInFile(patientCards);
-            return card;
         }
 
         private List<PatientCard> ReadFromFile()
         {
             List<PatientCard> patientCards;
 
-            if (File.Exists(path))
+            if (File.Exists(_path))
             {
-                string json = File.ReadAllText(path);
+                string json = File.ReadAllText(_path);
                 patientCards = JsonConvert.DeserializeObject<List<PatientCard>>(json);
             }
             else
@@ -134,7 +131,7 @@ namespace Repository
         private void WriteInFile(List<PatientCard> patientCards)
         {
             string json = JsonConvert.SerializeObject(patientCards);
-            File.WriteAllText(path, json);
+            File.WriteAllText(_path, json);
         }
 
     }

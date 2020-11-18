@@ -1,18 +1,17 @@
 /***********************************************************************
- * Module:  BloodType.cs
+ * Module:  GenderType.cs
  * Author:  Sladjana Savkovic
- * Purpose: Definition of the Class Model.Secretary.BloodType
+ * Purpose: Definition of the Class GenderType
  ***********************************************************************/
 
 using System;
 
-namespace Model.Secretary
+namespace Model.Enums
 {
-   public enum BloodType
+   public enum GenderType
    {
-      A = 0,
-      B = 1,
-      AB = 2,
-      O = 3
+      M = 0,
+      Z = 1
+   
    }
 }

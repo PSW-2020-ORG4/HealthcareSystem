@@ -6,6 +6,7 @@
 
 
 
+using Model.Enums;
 using System;
 
 namespace Model.Users

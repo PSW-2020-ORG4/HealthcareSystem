@@ -1,6 +1,5 @@
 ﻿using Controller.ExaminationAndPatientCard;
 using Controller.UsersAndWorkingTime;
-using Model.Secretary;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using ProjekatZdravoKorporacija.View;

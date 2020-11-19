@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Controller.NotificationController
  ***********************************************************************/
 
+using Model.NotificationSurveyAndFeedback;
 using Service.NotificationSurveyAnddFeedback;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,12 @@ namespace Controller.NotificationSurveyAndFeedback
    {
 
         private NotificationService notificationService = new NotificationService();
-      public void SendNotification(Model.Users.Notification notification)
+      public void SendNotification(Notification notification)
       {
             notificationService.SendNotification(notification);
       }
       
-      public List<Model.Users.Notification> ViewNotificationByJmbg(string jmbg)
+      public List<Notification> ViewNotificationByJmbg(string jmbg)
       {
             return notificationService.ViewNotificationByJmbg(jmbg); 
       }

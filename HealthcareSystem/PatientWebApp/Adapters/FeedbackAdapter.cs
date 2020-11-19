@@ -1,4 +1,5 @@
-﻿using Model.Users;
+﻿using Model.NotificationSurveyAndFeedback;
+using Model.Users;
 using PatientWebApp.DTOs;
 using System;
 using System.Collections.Generic;

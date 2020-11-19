@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Repository.NotificationRepository
  ***********************************************************************/
 
+using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using Newtonsoft.Json;
 using System;
@@ -62,7 +63,7 @@ namespace Repository
             return result;
       }
       
-      public Model.Users.Notification NewNotification(Model.Users.Notification notification)
+      public Notification NewNotification(Notification notification)
       {
             List<Notification> notifications = ReadFromFile();
             notifications.Add(notification);

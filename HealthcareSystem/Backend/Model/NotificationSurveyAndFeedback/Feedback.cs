@@ -5,6 +5,7 @@
  ***********************************************************************/
 
 using Castle.Components.DictionaryAdapter;
+using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +13,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Drawing.Printing;
 
-namespace Model.Users
+namespace Model.NotificationSurveyAndFeedback
 {
     public class Feedback
     {

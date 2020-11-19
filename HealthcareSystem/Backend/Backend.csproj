@@ -219,11 +219,11 @@
     <Compile Include="Model\Users\Admin.cs" />
     <Compile Include="Model\Users\City.cs" />
     <Compile Include="Model\Users\Doctor.cs" />
-    <Compile Include="Model\Users\Feedback.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\Feedback.cs" />
     <Compile Include="Model\Enums\GenderType.cs" />
     <Compile Include="Model\Enums\Languages.cs" />
     <Compile Include="Model\Users\Manager.cs" />
-    <Compile Include="Model\Users\Notification.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\Notification.cs" />
     <Compile Include="Model\Users\Patient.cs" />
     <Compile Include="Model\Users\Secretary.cs" />
     <Compile Include="Model\Enums\TypeOfDoctor.cs" />
@@ -294,9 +294,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Patient\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

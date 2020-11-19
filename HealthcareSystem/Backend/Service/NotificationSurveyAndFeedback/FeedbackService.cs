@@ -7,6 +7,8 @@
 using Backend.Model.Exceptions;
 using Backend.Repository;
 using Backend.Service.NotificationSurveyAndFeedback;
+using Model;
+using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using Repository;
 using System;

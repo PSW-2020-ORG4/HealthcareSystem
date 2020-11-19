@@ -6,6 +6,7 @@ using Backend.Model.Exceptions;
 using Backend.Service.NotificationSurveyAndFeedback;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using PatientWebApp.Adapters;
 using PatientWebApp.DTOs;

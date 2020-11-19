@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model;
 using Backend.Repository;
+using Backend.Service;
 using Backend.Service.NotificationSurveyAndFeedback;
 using Backend.Service.UsersAndWorkingTime;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +42,9 @@ namespace PatientWebApp
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IPatientService, PatientService>();
+
+            services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
+            services.AddScoped<IDoctorService, DoctorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

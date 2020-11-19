@@ -1,12 +1,13 @@
 /***********************************************************************
  * Module:  Doctor.cs
- * Author:  Sladjana Savkovic
+ * Author:  Jelena Zeljko
  * Purpose: Definition of the Class Users.Doctor
  ***********************************************************************/
 
 using Model.Enums;
 using Model.Manager;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Users
 {
@@ -14,8 +15,11 @@ namespace Model.Users
    {
         public string NumberOfLicence { get; set; }
         public TypeOfDoctor Type { get; set; }
-        public Room DoctorsOffice { get; set; }
         public DateTime DateOfEmployment { get; set; }
+
+        [ForeignKey("DoctorsOffice")]
+        public string DoctorsOfficeId { get; set; }
+        public virtual Room DoctorsOffice { get; set; }    
 
         public Doctor() { }
 

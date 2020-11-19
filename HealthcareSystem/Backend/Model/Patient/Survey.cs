@@ -1,9 +1,10 @@
 ﻿/***********************************************************************
  * Module:  Survey.cs
- * Author:  LukaRA252017
+ * Author:  Jelena Zeljko
  * Purpose: Definition of the Class Patient.Survey
  ***********************************************************************/
 
+using Backend.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;

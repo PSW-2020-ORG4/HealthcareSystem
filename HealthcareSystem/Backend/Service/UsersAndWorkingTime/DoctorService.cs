@@ -1,55 +1,67 @@
 /***********************************************************************
  * Module:  DoctorSevice.cs
- * Author:  Sladjana Savkovic
+ * Author:  Jelena Zeljko
  * Purpose: Definition of the Class Service.DoctorSevice
  ***********************************************************************/
 
+using Backend.Repository;
+using Backend.Service;
 using Model.Users;
 using Repository;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Service.UsersAndWorkingTime
 {
-   public class DoctorService
-   {
+    public class DoctorService : IDoctorService
+    {
+        private IDoctorRepository _doctorRepository;
 
-        private DoctorRepository doctorRepository = new DoctorRepository();
+        public DoctorService(IDoctorRepository doctorRepository)
+        {
+            _doctorRepository = doctorRepository;
+        }
+
         public Doctor RegisterDoctor(Doctor doctor)
         {
             if (!IsUsernameValid(doctor.Username) || !IsPasswordValid(doctor.Password))
             {
-                return null;
+                throw new ValidationException("Your username or password is incorrect. Please try again.");
             }
-            return doctorRepository.NewDoctor(doctor);
+            _doctorRepository.AddDoctor(doctor);
+            return doctor;
         }
-      
+
         public Doctor EditDoctor(Doctor doctor)
         {
-            if (!IsUsernameValid(doctor.Username) || !IsPasswordValid(doctor.Password))
+            if (!IsUsernameValid(doctor.Username) || !IsPasswordValid(doctor.Password))  return null;
+            _doctorRepository.SetDoctor(doctor);
+            return doctor;
+        }
+
+        public bool DeleteDoctor(string jmbg)
+        {
+            Doctor doctor = _doctorRepository.GetDoctorByJmbg(jmbg);
+            if (doctor == null)
             {
-                return null;
+                return false;
             }
-            return doctorRepository.SetDoctor(doctor);
-        }  
-        public List<Doctor> ViewDoctors()
-        {
-            return doctorRepository.GetAllDoctors();
-        }
-      
-        public Doctor ViewProfile(string jmbg)
-        {
-            return doctorRepository.GetDoctor(jmbg);
+            _doctorRepository.DeleteDoctor(jmbg);
+            return true;
         }
 
-        public Doctor SignIn(string username, string password) 
+        public bool IsPasswordValid(string password)
         {
-            return doctorRepository.CheckUsernameAndPassword(username,password);
+            Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{8,30}$");
+            Match match = regex.Match(password);
+
+            return match.Success;
         }
 
-        private bool IsUsernameValid(string username) 
+        public bool IsUsernameValid(string username)
         {
             Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{5,13}$");
             Match match = regex.Match(username);
@@ -57,14 +69,19 @@ namespace Service.UsersAndWorkingTime
             return match.Success;
         }
 
-        private bool IsPasswordValid(string password) 
+        public Doctor SignIn(string username, string password)
         {
-            Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{8,30}$");
-            Match match = regex.Match(password);
-
-            return match.Success;
+            return _doctorRepository.CheckUsernameAndPassword(username, password);
         }
-   
-   
-   }
+
+        public List<Doctor> ViewDoctors()
+        {
+            return _doctorRepository.GetAllDoctors();
+        }
+
+        public Doctor ViewProfile(string jmbg)
+        {
+            return _doctorRepository.GetDoctorByJmbg(jmbg);
+        }
+    }
 }

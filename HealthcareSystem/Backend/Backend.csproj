@@ -192,6 +192,7 @@
     <Compile Include="Model\Doctor\PlacemetnInARoom.cs" />
     <Compile Include="Model\Doctor\Therapy.cs" />
     <Compile Include="Model\Doctor\TypeOfExamination.cs" />
+    <Compile Include="Model\Enums\Grade.cs" />
     <Compile Include="Model\Exceptions\ValidationException.cs" />
     <Compile Include="Model\Exceptions\HealthClinicException.cs" />
     <Compile Include="Model\Exceptions\NotFoundException.cs" />
@@ -211,7 +212,6 @@
     <Compile Include="Model\Manager\WorkingTime.cs" />
     <Compile Include="Model\Manager\WorkShifts.cs" />
     <Compile Include="Model\MyDbContext.cs" />
-    <Compile Include="Model\Patient\Grade.cs" />
     <Compile Include="Model\Patient\Survey.cs" />
     <Compile Include="Model\Enums\BloodType.cs" />
     <Compile Include="Model\Users\PatientCard.cs" />
@@ -231,6 +231,9 @@
     <Compile Include="Model\Enums\TypeOfQualifications.cs" />
     <Compile Include="Model\Users\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\DoctorRepository\FileDoctorRepository\FileDoctorRepository.cs" />
+    <Compile Include="Repository\DoctorRepository\IDoctorRepository.cs" />
+    <Compile Include="Repository\DoctorRepository\MySqlDoctorRepository\MySqlDoctorRepository.cs" />
     <Compile Include="Repository\PatientCardRepository\FilePatientCardRepository\FileActivePatientCardRepository.cs" />
     <Compile Include="Repository\PatientCardRepository\IActivePatientCardRepository.cs" />
     <Compile Include="Repository\PatientCardRepository\MySqlPatientCardRepository\MySqlActivePatientCardRepository.cs" />
@@ -239,7 +242,6 @@
     <Compile Include="Repository\CityRepository.cs" />
     <Compile Include="Repository\ConfirmedDrugRepository.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository.cs" />
-    <Compile Include="Repository\DoctorRepository.cs" />
     <Compile Include="Repository\DrugTypeRepository.cs" />
     <Compile Include="Repository\EquipmentInRoomsRepository.cs" />
     <Compile Include="Repository\PatientRepository\IActivePatientRepository.cs" />
@@ -278,6 +280,7 @@
     <Compile Include="Service\RoomAndEquipment\RoomService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\CityService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\DoctorService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\IDoctorService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\IPatientService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\ManagerService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\PatientService.cs" />

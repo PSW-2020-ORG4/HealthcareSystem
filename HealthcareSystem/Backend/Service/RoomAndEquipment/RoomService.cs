@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Service.RoomService
  ***********************************************************************/
 
+using Model.Enums;
 using Model.Manager;
 using Repository;
 using System;

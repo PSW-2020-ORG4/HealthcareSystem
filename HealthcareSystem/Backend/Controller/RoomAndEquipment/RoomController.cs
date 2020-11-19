@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Controller.Room&EquipmentController.RoomController
  ***********************************************************************/
 
+using Model.Enums;
 using Model.Manager;
 using Service.RoomAndEquipment;
 using System;

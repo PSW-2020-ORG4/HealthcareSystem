@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Repository.RoomRepository
  ***********************************************************************/
 
+using Model.Enums;
 using Model.Manager;
 using Newtonsoft.Json;
 using System;

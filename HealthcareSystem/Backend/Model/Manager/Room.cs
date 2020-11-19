@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Manager.Room
  ***********************************************************************/
 
+using Model.Enums;
 using System;
 
 namespace Model.Manager

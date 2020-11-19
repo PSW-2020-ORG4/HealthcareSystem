@@ -1,6 +1,6 @@
 ﻿using Controller.ExaminationAndPatientCard;
 using Controller.UsersAndWorkingTime;
-using Model.Doctor;
+using Model.PerformingExamination;
 using Model.Manager;
 using Model.Users;
 using System;
@@ -168,11 +168,11 @@ namespace WpfApp1
 
             uc.EditProfile(d1);
 
-            List<Examination> examinations = ec.ViewExaminationsByDoctor(doc.Jmbg);
+            List<Examination> examinations = ec.GetExaminationsByDoctor(doc.Jmbg);
             foreach (Examination exm in examinations)
             {
-                exm.doctor = d1;
-                ec.EditExamination(exm);
+                exm.Doctor = d1;
+                ec.UpdateExamination(exm);
 
             }
 
@@ -201,11 +201,11 @@ namespace WpfApp1
             d1.Password = txtPass2.Password;
             uc.EditProfile(d1);
 
-            List<Examination> examinations = ec.ViewExaminationsByDoctor(doc.Jmbg);
+            List<Examination> examinations = ec.GetExaminationsByDoctor(doc.Jmbg);
             foreach (Examination exm in examinations)
             {
-                exm.doctor = d1;
-                ec.EditExamination(exm);
+                exm.Doctor = d1;
+                ec.UpdateExamination(exm);
 
             }
 

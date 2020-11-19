@@ -2,7 +2,7 @@
 using Controller.ExaminationAndPatientCard;
 using Controller.PlacementInARoomAndRenovationPeriod;
 using Controller.UsersAndWorkingTime;
-using Model.Doctor;
+using Model.PerformingExamination;
 using Model.Enums;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
@@ -323,17 +323,16 @@ namespace ProjekatZdravoKorporacija.View
 
                     if (patientController.EditProfile(p) != null)
                     {
-                        List<Examination> examinations = examinationController.ViewExaminationsByPatient(p.Jmbg);
+                        List<Examination> examinations = examinationController.GetExaminationsByPatient(p.Jmbg);
                         foreach(Examination exm in examinations)
                         {
-                            exm.patientCard = pc;
-                            examinationController.EditExamination(exm);
+                            exm.PatientCard = pc;
+                            examinationController.UpdateExamination(exm);
                         }
-                        List<Therapy> therapies = therapyController.ViewAllTherapyByPatient(p.Jmbg);
+                        List<Therapy> therapies = therapyController.GetTherapyByPatient(p.Jmbg);
                         foreach(Therapy t in therapies)
-                        {
-                            t.patientCard = pc;
-                            therapyController.EditTherapy(t);
+                        {                 
+                            therapyController.UpdateTherapy(t);
                         }
                          List<PlacemetnInARoom> placemetnInARooms = placementInSickRoomController.ViewPatientPlacements(p.Jmbg);
                         foreach(PlacemetnInARoom pr in placemetnInARooms)

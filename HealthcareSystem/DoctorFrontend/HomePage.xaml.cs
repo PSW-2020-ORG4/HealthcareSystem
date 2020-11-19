@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Model.PerformingExamination;
+using Model.Doctor;
 using Controller.ExaminationAndPatientCard;
 using Model.Users;
 using Controller.DrugAndTherapy;
@@ -171,7 +171,7 @@ namespace WpfApp1
             for (int i = 0; i < 16; i++)
             {
                 
-                exams = ser.GetExaminationsByDoctorAndDate(d, dt.AddHours(hours));
+                exams = ser.ViewExaminationsByDoctorAndDate(d, dt.AddHours(hours));
                 hours += 0.5;
                 if (exams.Count != 0)
                 {
@@ -187,12 +187,12 @@ namespace WpfApp1
             {
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = ee.IdExamination;
-                e1.doctor = ee.Doctor.Name + " " + ee.Doctor.Surname;
+                e1.doctor = ee.doctor.Name + " " + ee.doctor.Surname;
                 e1.DateAndTime = ee.DateAndTime.ToShortTimeString();
                 e1.IdExamination = ee.IdExamination;
-                e1.patientCard = ee.PatientCard.Patient.Name + " " + ee.PatientCard.Patient.Surname + " " + ee.PatientCard.Patient.Jmbg;
+                e1.patientCard = ee.patientCard.patient.Name + " " + ee.patientCard.patient.Surname + " " + ee.patientCard.patient.Jmbg;
                 e1.Type = ee.Type.ToString();
-                e1.room = ee.Room.Number.ToString();
+                e1.room = ee.room.Number.ToString();
 
                 examDTO.Add(e1);
 

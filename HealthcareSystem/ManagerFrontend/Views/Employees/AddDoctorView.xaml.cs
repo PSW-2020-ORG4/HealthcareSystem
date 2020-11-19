@@ -1,7 +1,6 @@
 ﻿using Controller.ExaminationAndPatientCard;
 using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
-using Model.Enums;
 using Model.Manager;
 using Model.Users;
 using System;

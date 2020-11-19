@@ -2,8 +2,9 @@
 using Controller.NotificationSurveyAndFeedback;
 using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
-using Model.PerformingExamination;
+using Model.Doctor;
 using Model.Manager;
+using Model.Secretary;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using System;
@@ -21,7 +22,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Model.Enums;
 
 namespace ProjekatZdravoKorporacija.View
 {
@@ -131,14 +131,20 @@ namespace ProjekatZdravoKorporacija.View
                 Doctor selectedDoctor = (Doctor)userDoctorController.ViewProfile(partsDoctor[partsDoctor.Length-1]);
                 PatientCard selectedPatientCard = patientCardController.ViewPatientCard(selectedPatient.Jmbg);
 
-            examinationController.ScheduleExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard));
-                
+                if(examinationController.ScheduleExamination(new Examination(examination.Id,type,date,selectedDoctor,selectedRoom, selectedPatientCard)) == null)
+                {
+                    var okMbx = new OKMessageBox(this, 4);
+                    okMbx.titleMsgBox.Text = "Greška";
+                    okMbx.textMsgBox.Text = "Došlo je do greške, doktor/soba su već zauzeti u izabranom terminu!";
+                    okMbx.ShowDialog();
+                    return;
+                }
 
                 int lastId = notificationController.getLastId();
                 string message = "Zakazan pregled\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
                                  + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
 
-                notificationController.SendNotification(new Notification(++lastId,TypeOfNotification.Pregled,message, selectedPatientCard.Patient.Jmbg));
+                notificationController.SendNotification(new Notification(++lastId,TypeOfNotification.Pregled,message, selectedPatientCard.patient.Jmbg));
 
 
                 var okMb = new OKMessageBox(this, 0);

@@ -1,5 +1,5 @@
 ﻿using Controller.PlacementInARoomAndRenovationPeriod;
-using Model.PerformingExamination;
+using Model.Doctor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +38,7 @@ namespace WpfApp1
             {
                 PlacementDTO pDTO = new PlacementDTO();
                 pDTO.Id = p.Id;
-                pDTO.patientCard = p.patientCard.Patient.Name;
+                pDTO.patientCard = p.patientCard.patient.Name;
                 pDTO.room = p.room.Number;
                 pDTO.DateOfPlacement = p.DateOfPlacement.ToShortDateString();
                 pDTO.DateOfDismison = p.DateOfDismison.ToShortDateString();

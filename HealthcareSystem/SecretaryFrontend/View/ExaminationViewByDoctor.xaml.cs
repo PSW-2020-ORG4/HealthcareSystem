@@ -1,7 +1,7 @@
 ﻿using Controller.ExaminationAndPatientCard;
 using Controller.NotificationSurveyAndFeedback;
 using Controller.UsersAndWorkingTime;
-using Model.PerformingExamination;
+using Model.Doctor;
 using Model.Manager;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
@@ -23,7 +23,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Configuration;
-using Model.Enums;
 
 namespace ProjekatZdravoKorporacija
 {
@@ -263,9 +262,9 @@ namespace ProjekatZdravoKorporacija
                 {
                     string room = "";
                     string type = "";
-                    if (exm.Room.Number != 0)
+                    if (exm.room.Number != 0)
                     {
-                        room = exm.Room.Number.ToString();
+                        room = exm.room.Number.ToString();
                     }
                     if (room.Equals(""))
                     {
@@ -287,8 +286,8 @@ namespace ProjekatZdravoKorporacija
 
                         }
                     }
-                    examinationDTOs.Add(new ExaminationDTO(exm.IdExamination, exm.Doctor.Name + " " + exm.Doctor.Surname + " " + exm.Doctor.Jmbg,
-                        exm.PatientCard.Patient.Name + " " + exm.PatientCard.Patient.Surname + " " + exm.PatientCard.Patient.Jmbg, room, type, exm.DateAndTime.ToShortDateString(), exm.DateAndTime.ToShortTimeString()));
+                    examinationDTOs.Add(new ExaminationDTO(exm.IdExamination, exm.doctor.Name + " " + exm.doctor.Surname + " " + exm.doctor.Jmbg,
+                        exm.patientCard.patient.Name + " " + exm.patientCard.patient.Surname + " " + exm.patientCard.patient.Jmbg, room, type, exm.DateAndTime.ToShortDateString(), exm.DateAndTime.ToShortTimeString()));
                 }
                 dgExaminations.ItemsSource = examinationDTOs;
             }

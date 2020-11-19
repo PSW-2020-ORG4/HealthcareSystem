@@ -8,7 +8,7 @@ using Model.Manager;
 using Model.Users;
 using System;
 
-namespace Model.Doctor
+namespace Model.PerformingExamination
 {
    public class PlacemetnInARoom
    {

@@ -6,7 +6,7 @@
 
 using System;
 
-namespace Model.Doctor
+namespace Model.Enums
 {
    public enum TypeOfExamination
    {

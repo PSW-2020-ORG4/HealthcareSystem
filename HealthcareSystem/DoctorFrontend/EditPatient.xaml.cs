@@ -2,8 +2,8 @@
 using Controller.ExaminationAndPatientCard;
 using Controller.PlacementInARoomAndRenovationPeriod;
 using Controller.UsersAndWorkingTime;
-using Model.Doctor;
 using Model.Enums;
+using Model.PerformingExamination;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -89,11 +89,11 @@ namespace WpfApp1
 
             pc.EditPatientCard(patinetC);
            
-            List<Examination> examinations = ec.ViewExaminationsByPatient(patinetC.Patient.Jmbg);
+            List<Examination> examinations = ec.GetExaminationsByPatient(patinetC.Patient.Jmbg);
             foreach(Examination exm in examinations)
             {
-                    exm.patientCard = patinetC;
-                    ec.EditExamination(exm);
+                    exm.PatientCard = patinetC;
+                    ec.UpdateExamination(exm);
 
             }
 
@@ -105,11 +105,11 @@ namespace WpfApp1
 
             }
 
-            List<Therapy> therapies = tc.ViewAllTherapyByPatient(patinetC.Patient.Jmbg);
+            List<Therapy> therapies = tc.GetTherapyByPatient(patinetC.Patient.Jmbg);
             foreach (Therapy t in therapies)
             {
-                t.patientCard = patinetC;
-                tc.EditTherapy(t);
+                
+                tc.UpdateTherapy(t);
 
             }
 

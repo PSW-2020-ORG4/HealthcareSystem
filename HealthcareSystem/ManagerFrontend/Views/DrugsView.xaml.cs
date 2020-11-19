@@ -17,7 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Clinic_Health.Model;
 using Controller.DrugAndTherapy;
-using Model.Doctor;
+using Model.PerformingExamination;
 using Model.Manager;
 
 namespace Clinic_Health.Views
@@ -479,10 +479,10 @@ namespace Clinic_Health.Views
 
 			dc.EditConfirmedDrug(newDrug);
 			List<Therapy> tt = new List<Therapy>();
-			tt= tc.ViewTherapyByDrug(newDrug.Id);
+			tt= tc.GetTherapyByDrug(newDrug.Id);
 			foreach (Therapy t in tt) {
-				t.drug = newDrug;
-				tc.EditTherapy(t);
+				t.Drug = newDrug;
+				tc.UpdateTherapy(t);
 			}
 			dc.EditUnconfirmedDrug(newDrug);
 

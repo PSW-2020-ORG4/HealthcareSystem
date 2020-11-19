@@ -45,6 +45,9 @@ namespace PatientWebApp
 
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
             services.AddScoped<IDoctorService, DoctorService>();
+
+            services.AddScoped<ISurveyRepository, MySqlSurveyRepository>();
+            services.AddScoped<ISurveyService, SurveyService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

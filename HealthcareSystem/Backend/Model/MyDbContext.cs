@@ -16,6 +16,7 @@ namespace Backend.Model
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<PatientCard> PatientCards { get; set; }
+        public DbSet<Survey> Surveys { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
     }

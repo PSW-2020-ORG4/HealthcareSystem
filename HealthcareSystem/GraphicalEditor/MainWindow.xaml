@@ -1,12 +1,20 @@
 ﻿<Window x:Class="GraphicalEditor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GraphicalEditor"
         mc:Ignorable="d"
         WindowState="Maximized"
-        Title="MainWindow" Height="800" Width="1500">
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Title="Grafički editor sa mapom bolnice" Height="800" Width="1500" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <StackPanel DockPanel.Dock="Left" Margin="20 20 0 0" >
             <Canvas x:Name="Canvas" Height="700" Width="1086" 
@@ -182,67 +190,75 @@
         <Border DockPanel.Dock="Right"
                 Margin="0 20 0 50"
                 Padding="10 0 10 0">
-                <StackPanel x:Name="InformationDisplay">
+            <StackPanel x:Name="InformationDisplay">
 
-                    <StackPanel.Resources>
+                <StackPanel.Resources>
 
-                        <Style x:Key="NormalMode" TargetType="StackPanel">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding EditMode}" Value="False">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding EditMode}" Value="True">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
+                    <Style x:Key="NormalMode" TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EditMode}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding EditMode}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
 
-                        <Style x:Key="EditingMode" TargetType="StackPanel">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding EditMode}" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding EditMode}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
+                    <Style x:Key="EditingMode" TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EditMode}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding EditMode}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
 
-                    </StackPanel.Resources>
-    
-                    <StackPanel x:Name="NormalPanel" 
+                </StackPanel.Resources>
+
+                <StackPanel x:Name="NormalPanel" 
                             Style="{StaticResource NormalMode}">
-                        <TextBlock Text="{Binding DisplayMapObject.MapObjectType.ObjectTypeFullName}" 
+                    <TextBlock Text="{Binding DisplayMapObject.MapObjectType.ObjectTypeFullName}" 
                            FontSize="26" 
                            TextWrapping="Wrap"
                            HorizontalAlignment="Center">
-                        </TextBlock>
+                    </TextBlock>
 
-                        <TextBlock Text="{Binding DisplayMapObject.Id}" 
+                    <TextBlock Text="{Binding DisplayMapObject.Id}" 
                             FontSize="20"
                             Margin="0 5 0 0"
                             HorizontalAlignment="Center"/>
 
-                        <TextBlock x:Name="Prop" Text="{Binding DisplayMapObject.Description}" 
+                    <TextBlock x:Name="Prop" Text="{Binding DisplayMapObject.Description}" 
                            TextWrapping="Wrap"
                            FontSize="16" 
                            Margin="0 10 0 0">
-                        </TextBlock>
+                    </TextBlock>
 
-                        <Button x:Name="EditObjectButton" Content="Izmeni"
-                            Padding="10"
+                    <Button
+                            x:Name="EditObjectButton"
+                            Height="Auto"
+                            Padding="5"
                             FontSize="18"
                             Margin="0 10"
+                            Background="#7D80DA"
+                            BorderBrush="{x:Null}"
                             Click="Edit_Display_Information">
-                        </Button>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="Edit" Foreground="White" Width="25" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock Text="Izmeni" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+                        </StackPanel>
+                    </Button>
 
-                        
-                    </StackPanel>
+                </StackPanel>
 
-                    <StackPanel x:Name="EditPanel"
+                <StackPanel x:Name="EditPanel"
                             Style="{StaticResource EditingMode}">
                     <ComboBox Name="ObjectTypeChooserComboBox" ItemsSource="{Binding DisplayMapObject.MapObjectType.AllMapObjectTypesAvailableToChange}"
-                             >
+                              FontSize="16"
+                              materialDesign:HintAssist.Hint="Izaberite tip objekta.">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Path=ObjectTypeFullName}"></TextBlock>
@@ -255,29 +271,44 @@
                            Margin="0 5 0 0"
                            HorizontalAlignment="Center"/>
 
-                        <TextBox Text="{Binding DisplayMapObject.Description}" 
+                    <TextBox Text="{Binding DisplayMapObject.Description}" 
                            TextWrapping="Wrap"
                            FontSize="16" 
-                           Margin="0 10 0 0">
-                        </TextBox>
+                           Margin="0 10 0 0"
+                           materialDesign:HintAssist.Hint="Unesite deskripciju objekta.">
+                    </TextBox>
 
-                        <Button x:Name="SaveButton" Content="Sačuvaj"
-                            Padding="10"
+                    <Button 
+                            x:Name="SaveButton"
+                            Height="Auto"
+                            Padding="5"
                             FontSize="18"
-                            Margin="0 10"
+                            Margin="0 15 0 0"
+                            Background="#7D80DA"
+                            BorderBrush="{x:Null}"
                             Click="Change_Display_Information">
-                        </Button>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="ContentSave" Foreground="White" Width="25" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock Text="Sačuvaj" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+                        </StackPanel>
+                    </Button>
 
-                        <Button Content="Otkaži"
-                            Padding="10"
+                    <Button 
+                            Height="Auto"
+                            Padding="5"
                             FontSize="18"
-                            Margin="0 5"
+                            Margin="0 10 0 0"
+                            Background="#F2404C"
+                            BorderBrush="{x:Null}"
                             Click="Cancel_Editing_Mode">
-                        </Button>
-
-                    </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="CloseBox" Foreground="White" Width="25" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock Text="Otkaži   " Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+                        </StackPanel>
+                    </Button>
 
                 </StackPanel>
-            </Border>
+            </StackPanel>
+        </Border>
     </DockPanel>
 </Window>

@@ -4,6 +4,23 @@
              xmlns:local="clr-namespace:WpfApp1"
              StartupUri="Wizard/Window1.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <Style TargetType="Button">
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+
+            <Style TargetType="MenuItem">
+                <Setter Property="Padding" Value="10 2 10 0"/>
+            </Style>
+            
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

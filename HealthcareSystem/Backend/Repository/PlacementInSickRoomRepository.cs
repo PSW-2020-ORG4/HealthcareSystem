@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Repository.PlacementInRoomRepository
  ***********************************************************************/
 
-using Model.Doctor;
+using Model.PerformingExamination;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -48,7 +48,7 @@ namespace Repository
             return null;
       }
       
-      public Model.Doctor.PlacemetnInARoom SetPlacement(Model.Doctor.PlacemetnInARoom placement)
+      public PlacemetnInARoom SetPlacement(PlacemetnInARoom placement)
       {
             // TODO: implement
             List<PlacemetnInARoom> placementList = ReadFromFile();
@@ -69,7 +69,7 @@ namespace Repository
 
         }
 
-        public Model.Doctor.PlacemetnInARoom NewPlacement(Model.Doctor.PlacemetnInARoom placement)
+        public PlacemetnInARoom NewPlacement(PlacemetnInARoom placement)
       {
             // TODO: implement
             List<PlacemetnInARoom> placementList = ReadFromFile();

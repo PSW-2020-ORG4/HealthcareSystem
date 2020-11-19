@@ -31,16 +31,6 @@ namespace Service.UsersAndWorkingTime
             _activePatientRepository.AddPatient(patient);
             return patient;
         }
-
-        public Patient EditPatient(Patient patient)
-        {
-            if ((!IsUsernameValid(patient.Username) || !IsPasswordValid(patient.Password)) && !patient.IsGuest)
-            {
-                return null;
-            }
-            _activePatientRepository.SetPatient(patient);
-            return patient;
-        }
         public List<Patient> ViewPatients()
         {
             return _activePatientRepository.GetAllPatients();
@@ -48,9 +38,29 @@ namespace Service.UsersAndWorkingTime
 
         public Patient ViewProfile(string jmbg)
         {
-            return _activePatientRepository.GetPatientByJmbg(jmbg);
+            Patient patient = _activePatientRepository.GetPatientByJmbg(jmbg);
+            if (patient == null)
+                throw new NotFoundException("Patient with jmbg=" + patient.Jmbg + " doesn't exist in database.");
+            return patient;
         }
 
+        public void ActivatePatientStatus(string jmbg)
+        {
+            Patient patient = ViewProfile(jmbg);
+            patient.IsActive = true;
+            _activePatientRepository.UpdatePatient(patient);
+        }
+
+        public Patient EditPatient(Patient patient)
+        {
+            if ((!IsUsernameValid(patient.Username) || !IsPasswordValid(patient.Password)) && !patient.IsGuest)
+            {
+                return null;
+            }
+            _activePatientRepository.UpdatePatient(patient);
+            return patient;
+        }
+        
         public Patient SignIn(string username, string password)
         {
             return _activePatientRepository.CheckUsernameAndPassword(username, password);
@@ -71,7 +81,6 @@ namespace Service.UsersAndWorkingTime
 
             return match.Success;
         }
-   
    
    }
 }

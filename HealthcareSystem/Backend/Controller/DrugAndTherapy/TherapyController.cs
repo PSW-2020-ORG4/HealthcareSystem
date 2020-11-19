@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Controller.Examination&Drug&PatientCard&TherapyController.TherapyController
  ***********************************************************************/
 
-using Model.Doctor;
+using Model.PerformingExamination;
 using Service.DrugAndTherapy;
 using System;
 using System.Collections.Generic;
@@ -13,56 +13,47 @@ namespace Controller.DrugAndTherapy
 {
     public class TherapyController
     {
-        private TherapyService therapyService = new TherapyService();
+        private TherapyService _therapyService;
 		
-		public int getLastId()
+        public void AddTherapy(Therapy therapy)
         {
-            return therapyService.getLastId();
-        }
-		
-        public Therapy AddTherapy(Therapy therapy)
-        {
-            return therapyService.AddTherapy(therapy);
+           _therapyService.AddTherapy(therapy);
         }
 
-        public List<Therapy> ViewAllTherapyByPatient(string patientJmbg)
+        public List<Therapy> GetTherapyByPatient(string patientJmbg)
         {
-            return therapyService.ViewAllTherapyByPatient(patientJmbg);
+            return _therapyService.GetTherapyByPatient(patientJmbg);
         }
 
-        public Therapy EditTherapy(Therapy therapy)
+        public void UpdateTherapy(Therapy therapy)
         {
-            return therapyService.EditTherapy(therapy);
+            _therapyService.UpdateTherapy(therapy);
         }
 
-        public List<Therapy> ViewActiveTherapyByPatient(string patientJmbg)
+        public List<Therapy> GetActiveTherapyByPatient(string patientJmbg)
         {
-            return therapyService.ViewActiveTherapyByPatient(patientJmbg);
+            return _therapyService.GetActiveTherapyByPatient(patientJmbg);
         }
 
-        public List<Therapy> ViewTherapyForNextSevenDays(string patientJmbg)
+        public List<Therapy> GetTherapyForNextSevenDaysByPatient(string patientJmbg)
         {
-            return therapyService.ViewTherapyForNextSevenDays(patientJmbg);
+            return _therapyService.GetTherapyForNextSevenDaysByPatient(patientJmbg);
         }
 
-        public bool DeleteTherapy(int id)
+        public void DeleteTherapy(int id)
         {
-            return therapyService.DeleteTherapy(id);
+            _therapyService.DeleteTherapy(id);
         }
 
-        public List<Therapy> ViewTherapyByDrug(int idDrug)
+        public List<Therapy> GetTherapyByDrug(int idDrug)
         {
-            return therapyService.ViewTherapyByDrug(idDrug);
+            return _therapyService.GetTherapyByDrug(idDrug);
         }
 
-        public bool DeletePatientTherapies(string jmbg)
-        {
-            return therapyService.DeletePatientTherapies(jmbg);
-        }
 
-        public bool DeleteDrugTherapies(int id)
+        public void DeleteDrugTherapies(int id)
         {
-            return therapyService.DeleteDrugTherapies(id);
+            _therapyService.DeleteDrugTherapies(id);
         }
 
     }

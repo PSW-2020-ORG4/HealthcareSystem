@@ -128,6 +128,7 @@ namespace Clinic_Health.Views.Employees
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+
         private void buttonTraziZaposlene_Click(object sender, RoutedEventArgs e)
         {
             TempZaposlenici.Clear();

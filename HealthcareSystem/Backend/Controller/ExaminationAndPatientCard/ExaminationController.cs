@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Controller.Examination&Drug&PatientCard&TherapyController.ExaminationController
  ***********************************************************************/
 
-using Model.Doctor;
+using Model.PerformingExamination;
 using Model.Manager;
 using Model.Users;
 using Service.ExaminationAndPatientCard;
@@ -15,109 +15,99 @@ namespace Controller.ExaminationAndPatientCard
 {
    public class ExaminationController
    {
-      private ExaminationService examinationService = new ExaminationService();
-      public Examination ScheduleExamination(Examination examination)
+        private ExaminationService _examinationService;
+      public void ScheduleExamination(Examination examination)
       {
-            return examinationService.ScheduleExamination(examination);
+            _examinationService.AddExamination(examination);
       }
       
-      public Examination EditExamination(Examination examination)
+      public void UpdateExamination(Examination examination)
       {
-            return examinationService.EditExamination(examination);
+            _examinationService.UpdateExamination(examination);
       }
       
       public bool CancelExamination(int id)
       {
-            return examinationService.CancelExamination(id);
-      }
-
-      public bool DeleteScheduledExamination(int id)
-      {
-            return examinationService.DeleteScheduledExamination(id);
-      }
-
-      public bool DeleteCanceledExamination(int id)
-        {
-            return examinationService.DeleteCanceledExamination(id);
+            throw new NotImplementedException();
         }
 
-       public bool DeletePatientExaminations(string patientJmbg)
+      public void DeleteScheduledExamination(int id)
       {
-            return examinationService.DeletePatientExaminations(patientJmbg);
+            _examinationService.DeleteExamination(id);
       }
 
-      public bool DeleteDoctorExaminations(string doctorJmbg)
+      public void DeleteCanceledExamination(int id)
         {
-            return examinationService.DeleteDoctorExaminations(doctorJmbg);
+            throw new NotImplementedException();
         }
 
-      public bool DeleteRoomExaminations(int numberOfRoom)
-        {
-            return examinationService.DeleteRoomExaminations(numberOfRoom);
-        }
-
-        public List<Examination> ViewScheduledExaminationsByDate(DateTime date)
+       public void DeletePatientExaminations(string patientJmbg)
       {
-            return examinationService.ViewScheduledExaminationsByDate(date);
+            _examinationService.DeletePatientScheduledExaminations(patientJmbg);
+      }
+
+      public void DeleteDoctorExaminations(string doctorJmbg)
+        {
+            _examinationService.DeleteDoctorScheduledExaminations(doctorJmbg);
+        }
+
+      public void DeleteRoomExaminations(int numberOfRoom)
+        {
+            _examinationService.DeleteRoomScheduledExaminations(numberOfRoom);
+        }
+
+        public List<Examination> GetScheduledExaminationsByDate(DateTime date)
+      {
+            return _examinationService.GetExaminationsByDate(date);
       }
       
-      public Examination ViewScheduledExaminationById(int id)
+      public Examination GetScheduledExaminationById(int id)
       {
-            return examinationService.ViewScheduledExaminationById(id);
+            return _examinationService.GetExaminationById(id);
       }
       
-      public List<Examination> ViewScheduledExaminations()
+      public List<Examination> GetScheduledExaminations()
       {
-            return examinationService.ViewScheduledExaminations();
+           return _examinationService.GetAllExaminations();
       }
 
-        public List<Examination> ViewCanceledExaminations()
+        public List<Examination> GetCanceledExaminations()
         {
-            return examinationService.ViewCanceledExaminations();
+            throw new NotImplementedException();
         }
 
-        public List<Examination> ViewExaminationsByDoctorAndDate(Doctor doctor, DateTime date)
+        public List<Examination> GetExaminationsByDoctorAndDate(Doctor doctor, DateTime date)
         {
-            return examinationService.ViewExaminationsByDoctorAndDate(doctor, date);
+            return _examinationService.GetExaminationsByDoctorAndDate(doctor, date);
         }
       
-      public List<Examination> ViewExaminationsByPatient(string patientJmbg)
+      public List<Examination> GetExaminationsByPatient(string patientJmbg)
       {
-            return examinationService.ViewExaminationsByPatient(patientJmbg);
+            return _examinationService.GetExaminationsByPatient(patientJmbg);
       }
 
-      public List<Examination> ViewExaminationsByDoctor(string doctorJmbg)
+      public List<Examination> GetExaminationsByDoctor(string doctorJmbg)
         {
-            return examinationService.ViewExaminationsByDoctor(doctorJmbg);
+            return _examinationService.GetExaminationsByDoctor(doctorJmbg);
         }
 
-        public int getLastId()
+        public List<Examination> GetExaminationsByRoom(int numberOfRoom)
         {
-            return examinationService.getLastId();
+            return _examinationService.GetExaminationsByRoom(numberOfRoom);
         }
-
-        public List<Examination> ViewExaminationsByRoom(int numberOfRoom)
-        {
-            return examinationService.ViewExaminationsByRoom(numberOfRoom);
-        }
-
-      public void SaveExaminationInPatientCard(Examination examination)
-      {
-            examinationService.SaveExaminationInPatientCard(examination);
-      }
       
-      public List<Examination> getAllAppointments(Doctor doctor,DateTime dateTime)
+        public List<Examination> getAllAppointments(Doctor doctor,DateTime dateTime)
         {
-            return examinationService.getAllAppointments(doctor,dateTime);
+            throw new NotImplementedException();
         }
         public Examination AppointmentRecommendationByDoctor(Doctor doctor, DateTime beginDate, DateTime endDate)
         {
-            return examinationService.AppointmentRecommendationByDoctor(doctor, beginDate, endDate);
+            return _examinationService.AppointmentRecommendationByDoctor(doctor, beginDate, endDate);
         }
 
         public Examination AppointmentRecommendationByDate(Doctor doctor, DateTime beginDate, DateTime endDate)
         {
-            return examinationService.AppointmentRecommendationByDate(doctor, beginDate, endDate);
+            return _examinationService.AppointmentRecommendationByDate(doctor, beginDate, endDate);
         }
     }
 }

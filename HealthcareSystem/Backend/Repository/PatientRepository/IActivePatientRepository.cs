@@ -10,7 +10,7 @@ namespace Repository
     public interface IActivePatientRepository
     {
         Patient GetPatientByJmbg(string jmbg);
-        void SetPatient(Patient patient);
+        void UpdatePatient(Patient patient);
         List<Patient> GetAllPatients();
         void AddPatient(Patient patient);
         void DeletePatient(string jmbg);

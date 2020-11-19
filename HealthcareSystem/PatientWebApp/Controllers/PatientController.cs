@@ -29,7 +29,7 @@ namespace PatientWebApp.Controllers
             try
             {
                 List<PatientDTO> patientDTOs = new List<PatientDTO>();
-                _patientService.ViewPatients().ForEach(patient => patientDTOs.Add(PatientAdapter.PatientToPatientDTO(patient)));
+                _patientService.ViewPatients().ForEach(patient => patientDTOs.Add(PatientMapper.PatientToPatientDTO(patient)));
                 return Ok(patientDTOs);
             }
             catch (Exception)

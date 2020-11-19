@@ -16,6 +16,6 @@ namespace Repository
 
         //this method will be moved to the IExaminationRepository when colleagues implement it
         void SaveExaminationInPatientCard(Examination examination);
-        void SetPatientCard(PatientCard card);
+        void UpdatePatientCard(PatientCard card);
     }
 }

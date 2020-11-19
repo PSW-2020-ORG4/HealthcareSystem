@@ -13,6 +13,6 @@ namespace Repository
         PatientCard GetPatientCard(string jmbg);
         void AddPatientCard(PatientCard patientCard);
         void DeletePatientCard(string patientJmbg);
-        void SetPatientCard(PatientCard card);
+        void UpdatePatientCard(PatientCard card);
     }
 }

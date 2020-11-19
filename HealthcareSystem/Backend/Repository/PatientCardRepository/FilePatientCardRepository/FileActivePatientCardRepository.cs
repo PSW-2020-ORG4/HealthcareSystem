@@ -74,7 +74,7 @@ namespace Repository
         }
 
 
-        public void SetPatientCard(PatientCard card)
+        public void UpdatePatientCard(PatientCard card)
         {
             List<PatientCard> patientCards = ReadFromFile();
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PatientWebApp.Adapters
 {
-    public class FeedbackAdapter
+    public class FeedbackMapper
     {
         /// <summary>
         /// /addapting object type FeedbackDTO to type Feedback 

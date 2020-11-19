@@ -33,8 +33,7 @@ namespace Repository
             _context.PatientCards.Add(patientCard);
             _context.SaveChanges();
         }
-
-        public void SetPatientCard(PatientCard patientCard)
+        public void UpdatePatientCard(PatientCard patientCard)
         {
             _context.PatientCards.Update(patientCard);
             _context.SaveChanges();

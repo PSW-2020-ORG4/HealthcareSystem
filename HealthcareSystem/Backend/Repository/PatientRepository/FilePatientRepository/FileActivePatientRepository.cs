@@ -34,7 +34,7 @@ namespace Repository
             return null;
         }
 
-        public void SetPatient(Patient patient)
+        public void UpdatePatient(Patient patient)
         {
             List<Patient> patients = ReadFromFile();
             foreach (Patient p in patients)

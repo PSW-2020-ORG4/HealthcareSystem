@@ -36,10 +36,6 @@ namespace Repository
             _context.Remove(patient);
             _context.SaveChanges();
         }
-        /// <summary>
-        /// /getting all patients from database
-        /// </summary>
-        /// <returns>list of active patient</returns>
         public List<Patient> GetAllPatients()
         {
             return _context.Patients.ToList();
@@ -48,7 +44,7 @@ namespace Repository
         {
             return _context.Patients.Find(jmbg);
         }
-        public void SetPatient(Patient patient)
+        public void UpdatePatient(Patient patient)
         {
             _context.Patients.Update(patient);
             _context.SaveChanges();

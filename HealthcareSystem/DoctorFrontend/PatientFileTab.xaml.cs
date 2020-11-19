@@ -4,7 +4,7 @@ using Controller.NotificationSurveyAndFeedback;
 using Controller.PlacementInARoomAndRenovationPeriod;
 using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
-using Model.Doctor;
+using Model.PerformingExamination;
 using Model.Manager;
 using Model.Users;
 using System;
@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Configuration;
+using Model.Enums;
 
 namespace WpfApp1
 {
@@ -109,8 +110,8 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {          
-            Examination exam = ec.ViewScheduledExaminationById(idExam);
-            ec.SaveExaminationInPatientCard(exam);
+            Examination exam = ec.GetScheduledExaminationById(idExam);
+            ec.ScheduleExamination(exam);
             ec.DeleteScheduledExamination(idExam);
 
             var s = new HomePage(d);
@@ -379,16 +380,14 @@ namespace WpfApp1
                 return;
             }
 
-            int idTherapy = tc.getLastId();
 
             Therapy therapy = new Therapy();
-            therapy.drug = drugSelected;
-            therapy.patientCard = patientCard;
+            therapy.Drug = drugSelected;
             therapy.StartDate = DateTime.Now;     
             therapy.EndDate = (DateTime)dateTherapy.SelectedDate;
             therapy.DailyDose = Int32.Parse(txtPrescribe.Text);
             therapy.Anamnesis = txtbox2.Text;
-            therapy.Id = ++idTherapy;
+            
        
             tc.AddTherapy(therapy);
 
@@ -523,9 +522,9 @@ namespace WpfApp1
             {
                 string room = "";
                 string type = "";
-                if (exm.room.Number != 0)
+                if (exm.Room.Number != 0)
                 {
-                    room = exm.room.Number.ToString();
+                    room = exm.Room.Number.ToString();
                 }
                 if (room.Equals(""))
                 {
@@ -537,8 +536,8 @@ namespace WpfApp1
                 }
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = exm.IdExamination;
-                e1.doctor = exm.doctor.Name + " " + exm.doctor.Name;
-                e1.patientCard = exm.patientCard.Patient.Name + " " + exm.patientCard.Patient.Surname + " " + exm.patientCard.Patient.Jmbg;
+                e1.doctor = exm.Doctor.Name + " " + exm.Doctor.Name;
+                e1.patientCard = exm.PatientCard.Patient.Name + " " + exm.PatientCard.Patient.Surname + " " + exm.PatientCard.Patient.Jmbg;
                 e1.DateAndTime = exm.DateAndTime.ToString();
                 e1.room = room;
                 e1.Type = type;
@@ -582,7 +581,7 @@ namespace WpfApp1
   
             exam.IdExamination = id;
             exam.DateAndTime = dt;
-            exam.doctor = (Doctor)textBoxDoctorExam.SelectedItem;
+            exam.Doctor = (Doctor)textBoxDoctorExam.SelectedItem;
             exam.Type = TypeOfExamination.Opsti;
           
 
@@ -607,11 +606,11 @@ namespace WpfApp1
             }
             string roomStr = txtSoba.SelectedValue.ToString();
             int roomId = Int32.Parse(roomStr);
-            exam.room = rc.ViewRoomByNumber(roomId);
+            exam.Room = rc.ViewRoomByNumber(roomId);
 
             string[] ss = showName.Text.Split(' ');
            
-            exam.patientCard = ap.ViewPatientCard(ss[ss.Length - 1]);
+            exam.PatientCard = ap.ViewPatientCard(ss[ss.Length - 1]);
 
             ec.ScheduleExamination(exam);
 
@@ -634,9 +633,9 @@ namespace WpfApp1
             {
                 string room = "";
                 string type = "";
-                if (exm.room.Number != 0)
+                if (exm.Room.Number != 0)
                 {
-                    room = exm.room.Number.ToString();
+                    room = exm.Room.Number.ToString();
                 }
                 if (room.Equals(""))
                 {
@@ -648,8 +647,8 @@ namespace WpfApp1
                 }
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = exm.IdExamination;
-                e1.doctor = exm.doctor.Name + " " + exm.doctor.Name;
-                e1.patientCard = exm.patientCard.Patient.Name + " " + exm.patientCard.Patient.Surname + " " + exm.patientCard.Patient.Jmbg;
+                e1.doctor = exm.Doctor.Name + " " + exm.Doctor.Name;
+                e1.patientCard = exm.PatientCard.Patient.Name + " " + exm.PatientCard.Patient.Surname + " " + exm.PatientCard.Patient.Jmbg;
                 e1.DateAndTime = exm.DateAndTime.ToString();
                 e1.room = room;
                 e1.Type = type;
@@ -768,11 +767,11 @@ namespace WpfApp1
             r.Occupation = r.Occupation + 1;
             rc.EditRoom(r);
 
-            List<Examination> examinations = ec.ViewExaminationsByRoom(r.Number);
+            List<Examination> examinations = ec.GetExaminationsByRoom(r.Number);
             foreach (Examination exm in examinations)
             {
-                exm.room = r;
-                ec.EditExamination(exm);
+                exm.Room = r;
+                ec.UpdateExamination(exm);
 
             }
 
@@ -858,9 +857,9 @@ namespace WpfApp1
             {
                 string room = "";
                 string type = "";
-                if (exm.room.Number != 0)
+                if (exm.Room.Number != 0)
                 {
-                    room = exm.room.Number.ToString();
+                    room = exm.Room.Number.ToString();
                 }
                 if (room.Equals(""))
                 {
@@ -872,8 +871,8 @@ namespace WpfApp1
                 }
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = exm.IdExamination;
-                e1.doctor = exm.doctor.Name + " " + exm.doctor.Name;
-                e1.patientCard = exm.patientCard.Patient.Name + " " + exm.patientCard.Patient.Surname + " " + exm.patientCard.Patient.Jmbg;
+                e1.doctor = exm.Doctor.Name + " " + exm.Doctor.Name;
+                e1.patientCard = exm.PatientCard.Patient.Name + " " + exm.PatientCard.Patient.Surname + " " + exm.PatientCard.Patient.Jmbg;
                 e1.DateAndTime = exm.DateAndTime.ToString();
                 e1.room = room;
                 e1.Type = type;

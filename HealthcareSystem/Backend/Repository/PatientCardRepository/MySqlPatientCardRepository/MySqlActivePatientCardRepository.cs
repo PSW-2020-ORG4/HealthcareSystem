@@ -1,5 +1,4 @@
 ﻿using Backend.Model;
-using Model.Doctor;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -33,11 +32,6 @@ namespace Repository
         {
             _context.PatientCards.Add(patientCard);
             _context.SaveChanges();
-        }
-
-        public void SaveExaminationInPatientCard(Examination examination)
-        {
-            throw new NotImplementedException();
         }
 
         public void SetPatientCard(PatientCard patientCard)

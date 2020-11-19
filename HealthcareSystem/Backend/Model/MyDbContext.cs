@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model.Manager;
+using Model.PerformingExamination;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,8 @@ namespace Backend.Model
         public DbSet<Ingredient> Ingridients { get; set; }
         public DbSet<Drug> Drugs { get; set; }
         public DbSet<DrugType> DrugTypes { get; set; }
-
+        public DbSet<Therapy> Therapies { get; set; }
+        public DbSet<Examination> Examinations { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
     }

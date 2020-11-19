@@ -5,9 +5,10 @@
  ***********************************************************************/
 
 
+using Backend.Repository.ExaminationRepository.FileExaminationRepository;
 using Controller.PlacementInARoomAndRenovationPeriod;
-using Model.Doctor;
 using Model.Manager;
+using Model.PerformingExamination;
 using Repository;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace Service.PlacementInARoomAndRenovationPeriod
     public class RenovationPeriodService
     {
         private RenovationPeriodRepository renovationPeriodRepository = new RenovationPeriodRepository();
-        private ScheduledExaminationRepository scheduledExaminationRepository = new ScheduledExaminationRepository();
+        private FileScheduledExaminationRepository scheduledExaminationRepository = new FileScheduledExaminationRepository();
         private PlacementInSickRoomRepository placementInSickRoomRepository = new PlacementInSickRoomRepository();
         public Model.Manager.RenovationPeriod ScheduleRenovation(Model.Manager.RenovationPeriod renovationPeriod)
         {

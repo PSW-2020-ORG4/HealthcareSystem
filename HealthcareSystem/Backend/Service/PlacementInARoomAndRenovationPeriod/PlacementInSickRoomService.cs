@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Service.Examination&DrugController.PlacementInRoomService
  ***********************************************************************/
 
-using Model.Doctor;
+using Model.PerformingExamination;
 using Repository;
 using System;
 using System.Collections.Generic;

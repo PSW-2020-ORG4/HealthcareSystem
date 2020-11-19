@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Backend.Model.Pharmacies;
+using Microsoft.EntityFrameworkCore;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace Backend.Model
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<PatientCard> PatientCards { get; set; }
+        public DbSet<Pharmacy> Pharmacies { get; set; }
+
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
     }

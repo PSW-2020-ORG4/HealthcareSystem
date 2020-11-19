@@ -11,7 +11,6 @@ namespace Backend.Service
     {
         Doctor RegisterDoctor(Doctor doctor);
         Doctor EditDoctor(Doctor doctor);
-        bool DeleteDoctor(string jmbg);
         List<Doctor> ViewDoctors();
         Doctor ViewProfile(string jmbg);
         Doctor SignIn(string username, string password);

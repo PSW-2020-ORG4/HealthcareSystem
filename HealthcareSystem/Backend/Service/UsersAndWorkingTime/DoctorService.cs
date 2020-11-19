@@ -42,17 +42,6 @@ namespace Service.UsersAndWorkingTime
             return doctor;
         }
 
-        public bool DeleteDoctor(string jmbg)
-        {
-            Doctor doctor = _doctorRepository.GetDoctorByJmbg(jmbg);
-            if (doctor == null)
-            {
-                return false;
-            }
-            _doctorRepository.DeleteDoctor(jmbg);
-            return true;
-        }
-
         public bool IsPasswordValid(string password)
         {
             Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{8,30}$");

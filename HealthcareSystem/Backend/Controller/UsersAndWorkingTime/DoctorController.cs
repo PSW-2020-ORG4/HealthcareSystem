@@ -17,11 +17,6 @@ namespace Controller.UsersAndWorkingTime
    {
         private DoctorService doctorSevice = new DoctorService(new FileDoctorRepository());
 
-        public bool DeleteProfile(string jmbg)
-        {
-            return doctorSevice.DeleteDoctor(jmbg);
-        }
-
         public User EditProfile(User user)
         {
             return doctorSevice.EditDoctor((Doctor)user);

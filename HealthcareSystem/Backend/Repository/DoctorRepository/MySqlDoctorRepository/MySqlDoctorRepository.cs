@@ -1,4 +1,5 @@
 ﻿using Backend.Model;
+using Backend.Model.Exceptions;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -26,14 +27,9 @@ namespace Backend.Repository
         public Doctor CheckUsernameAndPassword(string username, string password)
         {
             Doctor _doctor = _context.Doctors.Find(username);
-            if (_doctor == null || !_doctor.Password.Equals(password)) return null;
+            if (_doctor == null || !_doctor.Password.Equals(password))
+                throw new NotFoundException("Doctor with username=" + username + " doesn't exist in database.");
             return _doctor;
-        }
-
-        public void DeleteDoctor(string jmbg)
-        {
-            Doctor doctor = GetDoctorByJmbg(jmbg);
-            _context.Remove(doctor);
         }
 
         public List<Doctor> GetAllDoctors()

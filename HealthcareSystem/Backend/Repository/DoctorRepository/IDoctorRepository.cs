@@ -13,7 +13,6 @@ namespace Backend.Repository
         void SetDoctor(Doctor doctor);
         List<Doctor> GetAllDoctors();
         void AddDoctor(Doctor doctor);
-        void DeleteDoctor(string jmbg);
         Doctor CheckUsernameAndPassword(string username, string password);
     }
 }

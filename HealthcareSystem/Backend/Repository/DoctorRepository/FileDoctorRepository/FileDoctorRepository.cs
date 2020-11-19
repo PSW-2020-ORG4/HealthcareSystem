@@ -39,23 +39,6 @@ namespace Backend.Repository
             return null;
         }
 
-        public void DeleteDoctor(string jmbg)
-        {
-            List<Doctor> doctors = ReadFromFile();
-            Doctor doctorForDelete = null;
-            foreach (Doctor d in doctors)
-            {
-                if (d.Jmbg.Equals(jmbg))
-                {
-                    doctorForDelete = d;
-                    break;
-                }
-            }
-            if (doctorForDelete == null) throw new ValidationException();
-            doctors.Remove(doctorForDelete);
-            WriteInFile(doctors);
-        }
-
         public List<Doctor> GetAllDoctors()
         {
             List<Doctor> doctors = ReadFromFile();

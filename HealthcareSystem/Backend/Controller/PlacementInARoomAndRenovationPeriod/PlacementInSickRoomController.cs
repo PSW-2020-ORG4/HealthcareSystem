@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Controller.Examination&Placement&DrugController.PlacementInRoomController
  ***********************************************************************/
 
-using Model.Doctor;
+using Model.PerformingExamination;
 using Service.PlacementInARoomAndRenovationPeriod;
 using System;
 using System.Collections.Generic;

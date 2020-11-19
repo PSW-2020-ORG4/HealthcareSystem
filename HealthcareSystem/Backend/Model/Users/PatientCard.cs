@@ -7,8 +7,8 @@
 using Model.Enums;
 using System;
 using System.Collections.Generic;
-using Model.Doctor;
 using System.ComponentModel.DataAnnotations.Schema;
+using Model.PerformingExamination;
 
 namespace Model.Users
 {

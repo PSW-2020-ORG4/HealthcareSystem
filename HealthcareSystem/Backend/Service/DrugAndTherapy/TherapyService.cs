@@ -4,66 +4,76 @@
  * Purpose: Definition of the Class Service.Examination&Drug&PatientCard&TherapyService.TherapyService
  ***********************************************************************/
 
-using Model.Doctor;
+using Backend.Model.Exceptions;
+using Backend.Repository.TherapyRepository;
+using Backend.Service.DrugAndTherapy;
+using Model.PerformingExamination;
 using Repository;
 using System;
 using System.Collections.Generic;
 
 namespace Service.DrugAndTherapy
 {
-    public class TherapyService
+    public class TherapyService : ITherapyService
     {
-        private TherapyRepository therapyRepository = new TherapyRepository();
-		
-		public int getLastId()
+        private ITherapyRepository _therapyRepository;
+
+       public TherapyService(ITherapyRepository therapyRepository) {
+            _therapyRepository = therapyRepository;
+       }
+
+        public void UpdateTherapy(Therapy therapy)
         {
-            return therapyRepository.getLastId();
+            _therapyRepository.UpdateTherapy(therapy);
         }
 
-        public Therapy AddTherapy(Therapy therapy)
+        public Therapy GetTherapyById(int id)
         {
-            return therapyRepository.NewTherapy(therapy);
+            Therapy therapy = _therapyRepository.GetTherapyById(id);
+            
+            if (therapy == null)
+                throw new NotFoundException("Therapy with id=" + id + " doesn't exist in database.");
+            return therapy;
         }
 
-        public List<Therapy> ViewAllTherapyByPatient(string patientJmbg)
+        public void DeleteTherapy(int idTherapy)
         {
-            return therapyRepository.GetTherapyByPatient(patientJmbg);
+            _therapyRepository.DeleteTherapy(idTherapy);
         }
 
-        public Therapy EditTherapy(Therapy therapy)
+        public List<Therapy> GetTherapyByPatient(string patientJmbg)
         {
-            return therapyRepository.SetTherapy(therapy);
+            return _therapyRepository.GetTherapyByPatient(patientJmbg);
         }
 
-        public List<Therapy> ViewActiveTherapyByPatient(string patientJmbg)
+        public List<Therapy> GetTherapyByDrug(int idDrug)
         {
-            return therapyRepository.GetActiveTherapyByPatient(patientJmbg);
+            return _therapyRepository.GetTherapyByDrug(idDrug);
         }
 
-        public List<Therapy> ViewTherapyForNextSevenDays(string patientJmbg)
+        public List<Therapy> GetActiveTherapyByPatient(string patientJmbg)
         {
-            return therapyRepository.GetTherapyForNextSevenDays(patientJmbg);
+            return _therapyRepository.GetActiveTherapyByPatient(patientJmbg);
         }
 
-        public bool DeleteTherapy(int id)
+        public List<Therapy> GetTherapyForNextSevenDaysByPatient(string patientJmbg)
         {
-            return therapyRepository.DeleteTherapy(id);
+            return _therapyRepository.GetTherapyForNextSevenDaysByPatient(patientJmbg);
         }
 
-        public List<Therapy> ViewTherapyByDrug(int idDrug)
+        void ITherapyService.DeletePatientTherapies(string patientJmbg)
         {
-            return therapyRepository.GetTherapiesByDrug(idDrug);
+            _therapyRepository.DeletePatientTherapies(patientJmbg);
         }
 
-        public bool DeletePatientTherapies(string jmbg)
+        public void DeleteDrugTherapies(int id)
         {
-            return therapyRepository.DeletePatientTherapies(jmbg);
+            _therapyRepository.DeleteDrugTherapies(id);
         }
 
-        public bool DeleteDrugTherapies(int id)
+        public void AddTherapy(Therapy therapy)
         {
-           return therapyRepository.DeleteDrugTherapies(id);
+            _therapyRepository.AddTherapy(therapy);
         }
-
-        }
+    }
 }

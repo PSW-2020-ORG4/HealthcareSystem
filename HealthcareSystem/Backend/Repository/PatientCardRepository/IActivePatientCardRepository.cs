@@ -1,4 +1,4 @@
-﻿using Model.Doctor;
+﻿
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,6 @@ namespace Repository
         PatientCard GetPatientCard(string jmbg);
         void AddPatientCard(PatientCard patientCard);
         void DeletePatientCard(string patientJmbg);
-
-        //this method will be moved to the IExaminationRepository when colleagues implement it
-        void SaveExaminationInPatientCard(Examination examination);
         void UpdatePatientCard(PatientCard card);
     }
 }

@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Model.Doctor;
 using Model.Manager;
 using Newtonsoft.Json;
 

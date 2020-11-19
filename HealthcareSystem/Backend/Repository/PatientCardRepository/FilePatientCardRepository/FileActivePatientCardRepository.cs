@@ -73,21 +73,6 @@ namespace Repository
             WriteInFile(patientCards);
         }
 
-        public void SaveExaminationInPatientCard(Model.Doctor.Examination examination)
-        {
-
-            List<PatientCard> patientCards = ReadFromFile();
-            
-            foreach (PatientCard patientCard in patientCards)
-            {
-                if (examination.patientCard.Patient.Jmbg.Equals(patientCard.Patient.Jmbg))
-                {
-                    patientCard.Examinations.Add(examination);
-                    break;
-                }
-            }
-            WriteInFile(patientCards);
-        }
 
         public void UpdatePatientCard(PatientCard card)
         {

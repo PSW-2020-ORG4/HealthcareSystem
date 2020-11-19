@@ -6,13 +6,13 @@
 
 using System;
 
-namespace Model.Doctor
+namespace Model.Enums
 {
    public enum TypeOfExamination
    {
-      Opsti = 0,
-      Specijalisticki = 1,
-      Operacija = 2
+      General = 0,
+      Specialist = 1,
+      Surgery = 2
    
    }
 }

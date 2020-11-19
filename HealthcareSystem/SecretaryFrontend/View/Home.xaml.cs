@@ -33,9 +33,9 @@ namespace ProjekatZdravoKorporacija
             InitializeComponent();
 
             regPatients.Text = userController.ViewAllUsers().Count.ToString();
-            allExm.Text = examinationController.ViewScheduledExaminations().Count.ToString();
-            cancExm.Text = examinationController.ViewCanceledExaminations().Count.ToString();
-            todayExm.Text = examinationController.ViewScheduledExaminationsByDate(DateTime.Today).Count.ToString();
+            allExm.Text = examinationController.GetScheduledExaminations().Count.ToString();
+            cancExm.Text = examinationController.GetCanceledExaminations().Count.ToString();
+            todayExm.Text = examinationController.GetScheduledExaminationsByDate(DateTime.Today).Count.ToString();
 
             DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 1),
                 DispatcherPriority.Normal,delegate

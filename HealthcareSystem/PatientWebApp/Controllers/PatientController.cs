@@ -19,23 +19,7 @@ namespace PatientWebApp.Controllers
         {
             _patientService = patientService;
         }
-        /// <summary>
-        /// /getting all patients
-        /// </summary>
-        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet]
-        public ActionResult GetAllPatients()
-        {
-            try
-            {
-                List<PatientDTO> patientDTOs = new List<PatientDTO>();
-                _patientService.ViewPatients().ForEach(patient => patientDTOs.Add(PatientMapper.PatientToPatientDTO(patient)));
-                return Ok(patientDTOs);
-            }
-            catch (Exception)
-            {
-                return NotFound();
-            }
+  
         }
     }
 }

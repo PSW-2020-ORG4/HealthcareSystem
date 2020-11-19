@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -35,7 +36,10 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 LayersSelectButtons[i].Content = i;
                 LayersSelectButtons[i].Width = AllConstants.LAYERS_BUTTON_WIDTH;
                 LayersSelectButtons[i].Height = AllConstants.LAYERS_BUTTON_HEIGHT;
-                LayersSelectButtons[i].Background = new SolidColorBrush(Colors.Plum);
+                LayersSelectButtons[i].Padding = new Thickness(0, 0, 0, 0);
+                LayersSelectButtons[i].FontSize = 18;
+                LayersSelectButtons[i].Foreground = new SolidColorBrush(Colors.White);
+                LayersSelectButtons[i].Background = new SolidColorBrush(Colors.MediumPurple);
                 LayersSelectButtons[i].SetValue(Canvas.LeftProperty, CalculateLayersButtonsX(i, numberOfFloors));
                 LayersSelectButtons[i].SetValue(Canvas.TopProperty, CalculateLayersButtonsY(i, numberOfFloors));
             }

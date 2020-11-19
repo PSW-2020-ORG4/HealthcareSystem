@@ -188,11 +188,10 @@
       <DependentUpon>20201107172143_FirstMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
-    <Compile Include="Model\Doctor\Examination.cs" />
-    <Compile Include="Model\Doctor\PlacemetnInARoom.cs" />
-    <Compile Include="Model\Doctor\Therapy.cs" />
-    <Compile Include="Model\Doctor\TypeOfExamination.cs" />
     <Compile Include="Model\Enums\Grade.cs" />
+    <Compile Include="Model\PerformingExamination\Examination.cs" />
+    <Compile Include="Model\PerformingExamination\PlacemetnInARoom.cs" />
+    <Compile Include="Model\Enums\TypeOfExamination.cs" />
     <Compile Include="Model\Exceptions\ValidationException.cs" />
     <Compile Include="Model\Exceptions\HealthClinicException.cs" />
     <Compile Include="Model\Exceptions\NotFoundException.cs" />
@@ -214,6 +213,8 @@
     <Compile Include="Model\MyDbContext.cs" />
     <Compile Include="Model\Enums\BloodType.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\Survey.cs" />
+    <Compile Include="Model\PerformingExamination\Therapy.cs" />
+    <Compile Include="Model\Users\Country.cs" />
     <Compile Include="Model\Users\PatientCard.cs" />
     <Compile Include="Model\Enums\RhFactorType.cs" />
     <Compile Include="Model\Users\Admin.cs" />
@@ -234,11 +235,15 @@
     <Compile Include="Repository\DoctorRepository\FileDoctorRepository\FileDoctorRepository.cs" />
     <Compile Include="Repository\DoctorRepository\IDoctorRepository.cs" />
     <Compile Include="Repository\DoctorRepository\MySqlDoctorRepository\MySqlDoctorRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\FileExaminationRepository\FileCanceledExaminationRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\FileExaminationRepository\FileScheduledExaminationRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\ICanceledExaminationRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\IScheduledExaminationRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\MySqlExaminationRepository\MySqlScheduledExaminationRepository.cs" />
     <Compile Include="Repository\PatientCardRepository\FilePatientCardRepository\FileActivePatientCardRepository.cs" />
     <Compile Include="Repository\PatientCardRepository\IActivePatientCardRepository.cs" />
     <Compile Include="Repository\PatientCardRepository\MySqlPatientCardRepository\MySqlActivePatientCardRepository.cs" />
     <Compile Include="Repository\PatientRepository\FilePatientRepository\FileActivePatientRepository.cs" />
-    <Compile Include="Repository\CanceledExaminationRepository.cs" />
     <Compile Include="Repository\CityRepository.cs" />
     <Compile Include="Repository\ConfirmedDrugRepository.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository.cs" />
@@ -256,18 +261,23 @@
     <Compile Include="Repository\PlacementInSickRoomRepository.cs" />
     <Compile Include="Repository\RenovationPeriodRepository.cs" />
     <Compile Include="Repository\RoomRepository.cs" />
-    <Compile Include="Repository\ScheduledExaminationRepository.cs" />
     <Compile Include="Repository\SecretaryRepository.cs" />
     <Compile Include="Repository\SurveyRepository\FileSurveyRepository\FileSurveyRepository.cs" />
     <Compile Include="Repository\SurveyRepository\ISurveyRepository.cs" />
     <Compile Include="Repository\SurveyRepository\MySqlSurveyRepository\MySqlSurveyRepository.cs" />
     <Compile Include="Repository\TherapyRepository.cs" />
+    <Compile Include="Repository\SurveyRepository.cs" />
+    <Compile Include="Repository\TherapyRepository\FileTherapyRepository\FileTherapyRepository.cs" />
+    <Compile Include="Repository\TherapyRepository\ITherapyRepository.cs" />
+    <Compile Include="Repository\TherapyRepository\MySqlTherapyRepository\MySqlTherapyRepository.cs" />
     <Compile Include="Repository\UnconfirmedDrugRepository.cs" />
     <Compile Include="Repository\WorkingTimeRepository.cs" />
     <Compile Include="Service\DrugAndTherapy\DrugService.cs" />
     <Compile Include="Service\DrugAndTherapy\DrugTypeAndIngridientService.cs" />
+    <Compile Include="Service\DrugAndTherapy\ITherapyService.cs" />
     <Compile Include="Service\DrugAndTherapy\TherapyService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\ExaminationService.cs" />
+    <Compile Include="Service\ExaminationAndPatientCard\IExaminationService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\IPatientCardService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\PatientCardService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\FeedbackService.cs" />

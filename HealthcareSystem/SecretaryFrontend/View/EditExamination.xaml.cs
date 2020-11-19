@@ -2,7 +2,7 @@
 using Controller.NotificationSurveyAndFeedback;
 using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
-using Model.Doctor;
+using Model.PerformingExamination;
 using Model.Manager;
 using Model.NotificationSurveyAndFeedback;
 using Model.Users;
@@ -22,6 +22,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Model.Enums;
 
 namespace ProjekatZdravoKorporacija
 {
@@ -174,17 +175,8 @@ namespace ProjekatZdravoKorporacija
 
                 if (parent.GetType() == typeof(CanceledExaminationsView))
                 {
-                    if(examinationController.ScheduleExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard)) == null)
-                    {
-                        var okMbx = new OKMessageBox(this, 4);
-                        okMbx.titleMsgBox.Text = "Greška";
-                        okMbx.textMsgBox.Text = "Došlo je do greške, doktor ili soba su zauzeti u odabranom terminu!";
-                        okMbx.ShowDialog();
-                        return;
-                    }
-
-                    else
-                    {
+                examinationController.ScheduleExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard));
+                   
                         int lastId = notificationController.getLastId();
                         string message = "Ponovo zakazan otkazani pregled\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
                                      + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
@@ -195,7 +187,7 @@ namespace ProjekatZdravoKorporacija
                         okMb.textMsgBox.Text = "Uspješno ste zakazali pregled koji je bio otkazan. Pacijent je obaviješten o izmjeni.";
                         okMb.ShowDialog();
                         this.Close();
-                    }            
+                              
 
                     foreach (Window window in Application.Current.Windows)
                     {
@@ -207,16 +199,8 @@ namespace ProjekatZdravoKorporacija
                 }
                 else if (parent.GetType() == typeof(ExaminationViewByDoctor))
                 {
-                    if(examinationController.EditExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard)) == null)
-                    {
-                        var okMbx = new OKMessageBox(this, 4);
-                        okMbx.titleMsgBox.Text = "Greška";
-                        okMbx.textMsgBox.Text = "Došlo je do greške, doktor ili soba su zauzeti u odabranom terminu!";
-                        okMbx.ShowDialog();
-                        return;
-                    }
-                    else
-                    {
+                examinationController.UpdateExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard));
+                   
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
                                     + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
@@ -227,7 +211,7 @@ namespace ProjekatZdravoKorporacija
                         okMb.textMsgBox.Text = "Uspješno ste izmijenili pregled. Pacijent je obaviješten o izmjeni.";
                         okMb.ShowDialog();
                         this.Close();
-                    }
+                    
                    
                     foreach (Window window in Application.Current.Windows)
                     {
@@ -239,16 +223,8 @@ namespace ProjekatZdravoKorporacija
                 }
                 else if (parent.GetType() == typeof(SearchExaminations))
                 {
-                    if(examinationController.EditExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard)) == null)
-                    {
-                        var okMbx = new OKMessageBox(this, 4);
-                        okMbx.titleMsgBox.Text = "Greška";
-                        okMbx.textMsgBox.Text = "Došlo je do greške, doktor ili soba su zauzeti u odabranom terminu!";
-                        okMbx.ShowDialog();
-                        return;
-                    }
-                    else
-                    {
+                examinationController.UpdateExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard));
+               
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
                                     + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
@@ -259,7 +235,7 @@ namespace ProjekatZdravoKorporacija
                         okMb.textMsgBox.Text = "Uspješno ste izmijenili pregled. Pacijent je obaviješten o izmjeni.";
                         okMb.ShowDialog();
                         this.Close();
-                    }                 
+                                    
 
                     foreach (Window window in Application.Current.Windows)
                     {
@@ -357,7 +333,7 @@ namespace ProjekatZdravoKorporacija
             tpTime.DataContext = null;
             foreach (Examination exm in allAppointments)
             {
-                if (exm.room.Number == 0) //ovo je slobodan termin
+                if (exm.Room.Number == 0) //ovo je slobodan termin
                 {
                     freeAppointments.Add(new TimeDTO(exm.DateAndTime.ToShortTimeString()));
                 }

@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+<<<<<<< HEAD
 using Model.NotificationSurveyAndFeedback;
+=======
+using Model.PerformingExamination;
+>>>>>>> develop
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -11,6 +15,7 @@ namespace Backend.Model
 {
     public class MyDbContext : DbContext
     {
+        public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
@@ -18,6 +23,8 @@ namespace Backend.Model
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<PatientCard> PatientCards { get; set; }
         public DbSet<Survey> Surveys { get; set; }
+        public DbSet<Therapy> Therapies { get; set; }
+        public DbSet<Examination> Examinations { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
     }

@@ -283,6 +283,7 @@
     <Compile Include="Repository\TherapyRepository\ITherapyRepository.cs" />
     <Compile Include="Repository\TherapyRepository\MySqlTherapyRepository\MySqlTherapyRepository.cs" />
     <Compile Include="Repository\WorkingTimeRepository.cs" />
+	<Compile Include="Repository\PharmacyRepository\IPharmacyRepo.cs" />
 	<Compile Include="Repository\PharmacyRepository\MySqlPharmacyRepo\MySqlPharmacyRepo.cs" />
     <Compile Include="Service\DrugAndTherapy\ITherapyService.cs" />
     <Compile Include="Service\DrugAndTherapy\TherapyService.cs" />

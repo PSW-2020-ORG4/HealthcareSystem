@@ -28,7 +28,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
         public void AddExamination(Examination examination)
         {
             List<Examination> scheduledExaminations = ReadFromFile();
-            Examination searchExamination = GetExaminationById(examination.IdExamination);
+            Examination searchExamination = GetExaminationById(examination.Id);
             if (searchExamination != null)
             {
                 throw new ValidationException();
@@ -134,7 +134,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             Examination examinationForDelete = null;
             foreach (Examination e in scheduledExaminations)
             {
-                if (e.IdExamination == id)
+                if (e.Id == id)
                 {
                     examinationForDelete = e;
                     break;
@@ -196,7 +196,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
                 Examination searchExamination = GetExaminationByDoctorDateAndTime(doctor, e.DateAndTime);
                 if (searchExamination != null)
                 {
-                    e.IdExamination = searchExamination.IdExamination;
+                    e.Id = searchExamination.Id;
                     e.Type = searchExamination.Type;
                     e.PatientCard = searchExamination.PatientCard;
                     e.Room = searchExamination.Room;
@@ -229,7 +229,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             List<Examination> scheduledExaminations = ReadFromFile();
             foreach (Examination e in scheduledExaminations)
             {
-                if (e.IdExamination == id)
+                if (e.Id == id)
                 {
                     return e;
                 }
@@ -347,7 +347,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
 
             foreach (Examination e in scheduledExaminations)
             {
-                if (e.IdExamination == examination.IdExamination)
+                if (e.Id == examination.Id)
                 {
                     e.Type = examination.Type;
                     e.DateAndTime = examination.DateAndTime;

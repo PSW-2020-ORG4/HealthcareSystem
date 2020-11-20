@@ -21,7 +21,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
         public void AddExamination(Examination examination)
         {
             List<Examination> canceledExaminations = ReadFromFile();
-            Examination searchExamination = GetExaminationById(examination.IdExamination);
+            Examination searchExamination = GetExaminationById(examination.Id);
             if (searchExamination != null)
             {
                 throw new ValidationException();
@@ -56,7 +56,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             Examination examinationForDelete = null;
             foreach (Examination e in canceledExaminations)
             {
-                if (e.IdExamination == id)
+                if (e.Id == id)
                 {
                     examinationForDelete = e;
                     break;
@@ -121,7 +121,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             List<Examination> canceledExaminations = ReadFromFile();
             foreach (Examination e in canceledExaminations)
             {
-                if (e.IdExamination == id)
+                if (e.Id == id)
                 {
                     return e;
                 }

@@ -41,24 +41,24 @@
     <h3 style="margin-top: 30px; margin-left:20px;">Search documentation</h3>
 
     <!-- Serch form -->
-    <div style="margin-top: 40px; margin-right: 20px; margin-left: 20px; border-style: solid; border-color: black; border-width: 1px; height: 170px; background-color: #cce6ff;">
+    <div style="margin-top: 40px; margin-right: 20px; margin-left: 20px; border-style: solid; border-color: black; border-width: 1px; height: 150px; background-color: #cce6ff;">
         <form id="search_prescription">
             <table>
+                <br/>
+                <br/>
                 <tr>
+                    <!-- Combo box -->
                     <td>
-                        <select class="form-control" id="doc_type" style="background-color: #cce6ff; width: 180px; height: 45px; margin-left: 130px; margin-top: 10px;">
+                        <select class="form-control" id="doc_type" style="background-color: #cce6ff; width: 230px; height: 45px; margin-left: 80px; margin-top: 10px;">
                             <option value="" disabled selected id="no_type">Type of document</option>
                             <option value="prescription" id="recipe_search">Prescription</option>
                             <option value="report" id="examination_search">Examination report</option>
                         </select>
                     </td>
-                </tr>
-
-                <tr>
 
                     <!-- Input date -->
                     <td width="25%">
-                        <input id="start_date" class="textbox-n form-control" type="text" placeholder="Start date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 180px; height: 35px; margin-left: 130px; margin-top: 10px;" />
+                        <input id="start_date" class="textbox-n form-control" type="text" placeholder="Start date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 180px; height: 35px; margin-left: 40px; margin-top: 10px;" />
                     </td>
 
                     <!-- Input date -->
@@ -78,7 +78,7 @@
 
                     <!-- Serch button -->
                     <td width="25%">
-                        <button style=" width:120px; margin-right:60px;" class="btn btn-primary mb-2" id="search_btn" type="submit">Search</button>
+                        <button style=" width:120px; margin-right:30px;" class="btn btn-primary mb-2" id="search_btn" type="submit">Search</button>
                     </td>
                 </tr>
 

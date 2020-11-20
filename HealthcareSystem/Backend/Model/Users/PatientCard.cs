@@ -15,7 +15,7 @@ namespace Model.Users
     public class PatientCard
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        public int Id { get; set; }
         public BloodType BloodType { get; set; }
         public RhFactorType RhFactor { get; set; }
         public string Alergies { get; set; }

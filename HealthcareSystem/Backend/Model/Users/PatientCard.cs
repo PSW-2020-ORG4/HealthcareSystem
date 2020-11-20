@@ -30,55 +30,29 @@ namespace Model.Users
 
         public PatientCard() { }
 
-        public PatientCard(Patient patient, BloodType bloodType, RhFactorType rhFactor, string alergies, string medicalHistory, bool hasInsurance, string lbo)
+        public PatientCard(int id,BloodType bloodType, RhFactorType rhFactor, string alergies, 
+                            string medicalHistory, bool hasInsurance, string lbo, string patientJmbg)
         {
-            if (patient == null)
-            {
-                Patient = new Patient();
-            }
-            else
-            {
-                Patient = new Patient(patient);
-            }
+            Id = id;
             BloodType = bloodType;
             RhFactor = rhFactor;
             Alergies = alergies;
             MedicalHistory = medicalHistory;
             HasInsurance = hasInsurance;
             Lbo = lbo;
-            Examinations = new List<Examination>();
-        }
-
-        public PatientCard(Patient patient)
-        {
-            if (patient == null)
-            {
-                Patient = new Patient();
-            }
-            else
-            {
-                Patient = new Patient(patient);
-            }
-            Examinations = new List<Examination>();
+            PatientJmbg = patientJmbg;
         }
 
         public PatientCard(PatientCard patientCard)
         {
-            if (patientCard.Patient == null)
-            {
-                Patient = new Patient();
-            }
-            else
-            {
-                Patient = new Patient(patientCard.Patient);
-            }
+            Id = patientCard.Id;
             BloodType = patientCard.BloodType;
             RhFactor = patientCard.RhFactor;
             Alergies = patientCard.Alergies;
             MedicalHistory = patientCard.MedicalHistory;
             HasInsurance = patientCard.HasInsurance;
             Lbo = patientCard.Lbo;
-            Examinations = patientCard.Examinations;
+            PatientJmbg = patientCard.PatientJmbg;
         }
     }
 }

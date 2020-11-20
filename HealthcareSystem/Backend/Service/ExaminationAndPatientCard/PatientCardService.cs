@@ -10,7 +10,7 @@ using Model.Users;
 using Repository;
 using System;
 
-namespace Service.ExaminationAndPatientCard
+namespace Backend.Service
 {
    public class PatientCardService : IPatientCardService
    {

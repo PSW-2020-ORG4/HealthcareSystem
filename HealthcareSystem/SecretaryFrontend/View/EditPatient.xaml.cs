@@ -2,8 +2,8 @@
 using Controller.ExaminationAndPatientCard;
 using Controller.PlacementInARoomAndRenovationPeriod;
 using Controller.UsersAndWorkingTime;
-using Model.PerformingExamination;
-using Model.Enums;
+using Model.Doctor;
+using Model.Secretary;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using System;
@@ -321,18 +321,19 @@ namespace ProjekatZdravoKorporacija.View
 
                 PatientCard pc = new PatientCard(p, blood, rh, txtAllergy.Text, medicalHistory, hi, txtLbo.Text);
 
-                    if (patientController.EditProfile(p) != null)
+                    if (patientController.EditProfile(p) != null && patientCardController.EditPatientCard(pc) != null)
                     {
-                        List<Examination> examinations = examinationController.GetExaminationsByPatient(p.Jmbg);
+                        List<Examination> examinations = examinationController.ViewExaminationsByPatient(p.Jmbg);
                         foreach(Examination exm in examinations)
                         {
-                            exm.PatientCard = pc;
-                            examinationController.UpdateExamination(exm);
+                            exm.patientCard = pc;
+                            examinationController.EditExamination(exm);
                         }
-                        List<Therapy> therapies = therapyController.GetTherapyByPatient(p.Jmbg);
+                        List<Therapy> therapies = therapyController.ViewAllTherapyByPatient(p.Jmbg);
                         foreach(Therapy t in therapies)
-                        {                 
-                            therapyController.UpdateTherapy(t);
+                        {
+                            t.patientCard = pc;
+                            therapyController.EditTherapy(t);
                         }
                          List<PlacemetnInARoom> placemetnInARooms = placementInSickRoomController.ViewPatientPlacements(p.Jmbg);
                         foreach(PlacemetnInARoom pr in placemetnInARooms)

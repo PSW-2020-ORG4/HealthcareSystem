@@ -66,6 +66,17 @@
 
                         <StackPanel Orientation="Vertical" Margin="60,0,0,0">
                             <Button BorderBrush="{x:Null}" Width="55" Height="55" 
+                                    Style="{StaticResource myButton}" Name="btnDeletePatient"
+                                    Click="btnDeletePatient_Click">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="/Resources/Icons/trashcan.png"></ImageBrush>
+                                </Button.Background>
+                            </Button>
+                            <Label HorizontalAlignment="Center" FontSize="16" FontWeight="Medium" Margin="0,-8,0,0" FontStyle="Italic">Izbriši</Label>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Margin="60,0,0,0">
+                            <Button BorderBrush="{x:Null}" Width="55" Height="55" 
                                     Style="{StaticResource myButton}"
                                     Name="btnDetail" Click="btnDetail_Click">
                                 <Button.Background>

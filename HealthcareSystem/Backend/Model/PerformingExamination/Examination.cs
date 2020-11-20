@@ -16,7 +16,7 @@ namespace Model.PerformingExamination
    public class Examination
    {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int IdExamination { get; set; }
+        public int Id { get; set; }
         public TypeOfExamination Type  { get; set; }
         public DateTime DateAndTime { get; set; }
         
@@ -39,7 +39,7 @@ namespace Model.PerformingExamination
 
         public Examination(int id, TypeOfExamination typeOfExamination, DateTime dateAndTime, Doctor doctor, Room room, PatientCard patientCard)
         {
-            IdExamination = id;
+            Id = id;
             Type = typeOfExamination;
             DateAndTime = dateAndTime;
             if (doctor == null)
@@ -70,7 +70,7 @@ namespace Model.PerformingExamination
         }
         public Examination(Examination examination)
         {
-            IdExamination = examination.IdExamination;
+            Id = examination.Id;
             Type = examination.Type;
             DateAndTime = examination.DateAndTime;
             if (examination.Doctor == null)

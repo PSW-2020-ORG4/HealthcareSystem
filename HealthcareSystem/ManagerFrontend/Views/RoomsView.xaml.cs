@@ -192,15 +192,15 @@ namespace Clinic_Health.Views
 					{
 						foreach (RenovationPeriod p in periods)
 						{
-							if (r.Id == p.room.Number)
+							if (r.Number == p.room.Number)
 							{
-								Sobe.Add(new Soba() { Sifra = r.Id, Kapacitet = r.Capacity, Zauzetost = r.Occupation, Tip = r.Usage, Pocetak = p.BeginDate, Kraj = p.EndDate });
+								Sobe.Add(new Soba() { Sifra = r.Number, Kapacitet = r.Capacity, Zauzetost = r.Occupation, Tip = r.Usage, Pocetak = p.BeginDate, Kraj = p.EndDate });
 								r.Renovation = true;
 							}
 						}
 					}
 					if(r.Renovation==false)
-						Sobe.Add(new Soba() { Sifra = r.Id, Kapacitet = r.Capacity, Zauzetost = r.Occupation, Tip = r.Usage});
+						Sobe.Add(new Soba() { Sifra = r.Number, Kapacitet = r.Capacity, Zauzetost = r.Occupation, Tip = r.Usage});
 
 				}
 			}
@@ -342,7 +342,7 @@ namespace Clinic_Health.Views
 			RenovationPeriod p = new RenovationPeriod();
 			Room room = new Room();
 			room.Capacity = novaSoba.Kapacitet;
-			room.Id = novaSoba.Sifra;
+			room.Number = novaSoba.Sifra;
 			room.Occupation = novaSoba.Zauzetost;
 			room.Usage = novaSoba.Tip;
 			if (novaSoba.Pocetak!= DateTime.Today && novaSoba.Kraj != DateTime.Today) {
@@ -374,20 +374,20 @@ namespace Clinic_Health.Views
 			RenovationPeriod p = new RenovationPeriod();
 			Room room = new Room();
 			room.Capacity = SelektovanaSoba.Kapacitet;
-			room.Id = SelektovanaSoba.Sifra;
+			room.Number = SelektovanaSoba.Sifra;
 			room.Occupation = SelektovanaSoba.Zauzetost;
 			if (SelektovanaSoba.Pocetak == DateTime.Today && SelektovanaSoba.Kraj == DateTime.Today)
 			{
 				room.Renovation = false;
-				renovationPeriodController.CancelRenovation(room.Id);
+				renovationPeriodController.CancelRenovation(room.Number);
 
 			}
 			else if (SelektovanaSoba.Pocetak == DateTime.MinValue && SelektovanaSoba.Kraj == DateTime.MinValue) {
 				room.Renovation = false;
-				renovationPeriodController.CancelRenovation(room.Id);
+				renovationPeriodController.CancelRenovation(room.Number);
 			}
 			else {
-				if (renovationPeriodController.ViewRenovationByRoomNumber(room.Id) != null)
+				if (renovationPeriodController.ViewRenovationByRoomNumber(room.Number) != null)
 				{
 					room.Renovation = true;
 					p.room = room;
@@ -433,15 +433,15 @@ namespace Clinic_Health.Views
 					{
 						foreach (RenovationPeriod p in periods)
 						{
-							if (r.Id == p.room.Number)
+							if (r.Number == p.room.Number)
 							{
-								Sobe.Add(new Soba() { Sifra = r.Id, Kapacitet = r.Capacity, Zauzetost = r.Occupation, Tip = r.Usage, Pocetak = p.BeginDate, Kraj = p.EndDate });
+								Sobe.Add(new Soba() { Sifra = r.Number, Kapacitet = r.Capacity, Zauzetost = r.Occupation, Tip = r.Usage, Pocetak = p.BeginDate, Kraj = p.EndDate });
 								r.Renovation = true;
 							}
 						}
 					}
 					if (r.Renovation == false)
-						Sobe.Add(new Soba() { Sifra = r.Id, Kapacitet = r.Capacity, Zauzetost = r.Occupation, Tip = r.Usage });
+						Sobe.Add(new Soba() { Sifra = r.Number, Kapacitet = r.Capacity, Zauzetost = r.Occupation, Tip = r.Usage });
 
 				}
 			}

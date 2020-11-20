@@ -4,26 +4,29 @@
  * Purpose: Definition of the Class Repository.UnconfirmedDrugRepository
  ***********************************************************************/
 
+using Backend.Repository.DrugRepository;
 using Model.Manager;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 
 namespace Repository
 {
-   public class UnconfirmedDrugRepository
-   {
+    public class UnconfirmedDrugRepository : IUnconfirmedDrugRepository
+    {
         private string path;
 
-        public UnconfirmedDrugRepository() {
+        public UnconfirmedDrugRepository()
+        {
 
             string fileName = "unconfirmedDrug.json";
             path = Path.GetFullPath(fileName);
 
         }
-		
-		 public int getLastId()
+
+        public int getLastId()
         {
             List<Drug> drugs = ReadFromFile();
             if (drugs.Count == 0)
@@ -32,9 +35,9 @@ namespace Repository
             }
             return drugs[drugs.Count - 1].Id;
         }
-		
-      public Drug GetDrug(int id)
-      {
+
+        public Drug GetDrug(int id)
+        {
             // TODO: implement
             List<Drug> drugList = ReadFromFile();
             foreach (Drug d in drugList)
@@ -49,14 +52,14 @@ namespace Repository
         }
 
         public List<Drug> GetAllDrugs()
-      {
+        {
             // TODO: implement
             List<Drug> drugList = ReadFromFile();
             return drugList;
-      }
-      
-      public Drug SetDrug(Drug drug)
-      {
+        }
+
+        public void UpdateDrug(Drug drug)
+        {
             // TODO: implement
             List<Drug> drugList = ReadFromFile();
 
@@ -64,8 +67,8 @@ namespace Repository
             {
                 if (d.Id == drug.Id)
                 {
-                    d.ingredient = drug.ingredient;
-                    d.drugType = drug.drugType;
+                    d.Ingredient = drug.Ingredient;
+                    d.DrugType = drug.DrugType;
                     d.Name = drug.Name;
                     d.Id = drug.Id;
                     d.Quantity = drug.Quantity;
@@ -75,12 +78,10 @@ namespace Repository
                 }
             }
             WriteInFile(drugList);
-            return drug;
-
         }
 
-        public bool DeleteDrug(int id)
-      {
+        public void DeleteDrug(int id)
+        {
             // TODO: implement
             List<Drug> drugList = ReadFromFile();
             Drug drugForDelete = null;
@@ -93,28 +94,23 @@ namespace Repository
                 }
             }
             if (drugForDelete == null)
-            {
-                return false;
-            }
-
+                throw new ValidationException();
             drugList.Remove(drugForDelete);
             WriteInFile(drugList);
-            return true;
 
         }
 
-        public Drug NewDrug(Drug drug)
-      {
+        public void AddDrug(Drug drug)
+        {
             // TODO: implement
             List<Drug> drugList = ReadFromFile();
             Drug searchDrug = GetDrug(drug.Id);
             if (searchDrug != null)
             {
-                return null;
+                throw new ValidationException();
             }
             drugList.Add(drug);
             WriteInFile(drugList);
-            return drug;
         }
 
         private List<Drug> ReadFromFile()

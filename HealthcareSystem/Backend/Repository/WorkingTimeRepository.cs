@@ -29,7 +29,7 @@ namespace Repository
             List<WorkingTime> workingTimes = ReadFromFile();
             foreach (WorkingTime w in workingTimes)
             {
-                if (w.doctor.Jmbg.Equals(doctorJmbg))
+                if (w.DoctorJmbg.Equals(doctorJmbg))
                 {
                     return w;
                 }
@@ -52,9 +52,9 @@ namespace Repository
 
             foreach (WorkingTime w in workingTimes)
             {
-                if ( w.doctor.Jmbg.Equals(workingTime.doctor.Jmbg))
+                if ( w.DoctorJmbg.Equals(workingTime.DoctorJmbg))
                 {
-                    w.doctor = new Doctor(workingTime.doctor);
+                    w.Doctor = new Doctor(workingTime.Doctor);
                     w.WorkShift = workingTime.WorkShift;
                     w.StartDate = workingTime.StartDate;
                     w.EndDate = workingTime.EndDate;
@@ -72,7 +72,7 @@ namespace Repository
             WorkingTime workingTimeForDelete = null;
             foreach (WorkingTime w in workingTimes)
             {
-                if (w.doctor.Jmbg.Equals(doctorJmbg))
+                if (w.DoctorJmbg.Equals(doctorJmbg))
                 {
                     workingTimeForDelete = w;
                     break;
@@ -91,7 +91,7 @@ namespace Repository
         public Model.Manager.WorkingTime NewWorkingTime(Model.Manager.WorkingTime workingTime)
         {
              List<WorkingTime> workingTimes = ReadFromFile();
-             WorkingTime searchWorkingTime = GetWorkingTime(workingTime.doctor.Jmbg);
+             WorkingTime searchWorkingTime = GetWorkingTime(workingTime.DoctorJmbg);
              if (searchWorkingTime != null)
              {
                  return null;
@@ -116,7 +116,7 @@ namespace Repository
                     int res2 = DateTime.Compare(d2, date);
                     if (res1 <= 0 && res2 >= 0)
                     {
-                        results.Add(w.doctor);
+                        results.Add(w.Doctor);
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace Repository
             List<WorkingTime> workingTimes = ReadFromFile();
             foreach(WorkingTime w in workingTimes)
             {
-                if (w.doctor.Jmbg.Equals(doctorJmbg))
+                if (w.DoctorJmbg.Equals(doctorJmbg))
                 {
                     return w.WorkShift;
                 }
@@ -142,7 +142,7 @@ namespace Repository
             List<WorkingTime> workingTimesForDelete = new List<WorkingTime>();
             foreach (WorkingTime w in workingTimes)
             {
-                if (w.doctor.Jmbg.Equals(jmbg))
+                if (w.DoctorJmbg.Equals(jmbg))
                 {
                     workingTimesForDelete.Add(w);
                 }

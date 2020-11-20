@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Repository.IngridientRepository
  ***********************************************************************/
 
+using Backend.Repository.IngridientRepository;
 using Model.Manager;
 using Newtonsoft.Json;
 using System;
@@ -12,22 +13,23 @@ using System.IO;
 
 namespace Repository
 {
-   public class IngridientRepository
-   {
-      private string path;
+    public class IngridientRepository : IIngridientRepository
+    {
+        private string path;
 
-        public IngridientRepository() {
+        public IngridientRepository()
+        {
 
             string fileName = "ingridient.json";
             path = Path.GetFullPath(fileName);
 
         }
         public List<Ingredient> GetAllIngridients()
-      {
+        {
             // TODO: implement
             List<Ingredient> ingredientList = ReadFromFile();
             return ingredientList;
-      }
+        }
 
         private List<Ingredient> ReadFromFile()
         {

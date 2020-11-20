@@ -1,20 +1,25 @@
 /***********************************************************************
  * Module:  Drug.cs
- * Author:  Dragana Carapic
+ * Author:  Jelena Budisa
  * Purpose: Definition of the Class Drug
  ***********************************************************************/
 
+using Castle.Components.DictionaryAdapter;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
+using System.Drawing.Printing;
 
 namespace Model.Manager
 {
-   public class Drug
-   {
-        public List<Ingredient> ingredient { get; set; }
-        public DrugType drugType { get; set; }
+    public class Drug
+    {
+        public virtual List<Ingredient> Ingredient { get; set; }
+        public virtual DrugType DrugType { get; set; }
         public string Name { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Quantity { get; set; }
         public DateTime ExpirationDate { get; set; }
@@ -26,19 +31,19 @@ namespace Model.Manager
         {
             if (ingredients == null)
             {
-                this.ingredient = new List<Ingredient>();
+                this.Ingredient = new List<Ingredient>();
             }
             else
             {
-                this.ingredient = ingredients;
+                this.Ingredient = ingredients;
             }
             if (drugType == null)
             {
-                this.drugType = new DrugType();
+                this.DrugType = new DrugType();
             }
             else
             {
-                this.drugType = new DrugType(drugType);
+                this.DrugType = new DrugType(drugType);
             }
             this.Name = name;
             this.Id = id;
@@ -49,21 +54,21 @@ namespace Model.Manager
 
         public Drug(Drug drug)
         {
-            if (drug.ingredient == null)
+            if (drug.Ingredient == null)
             {
-                this.ingredient = new List<Ingredient>();
+                this.Ingredient = new List<Ingredient>();
             }
             else
             {
-                this.ingredient = drug.ingredient;
+                this.Ingredient = drug.Ingredient;
             }
-            if (drug.drugType == null)
+            if (drug.DrugType == null)
             {
-                this.drugType = new DrugType();
+                this.DrugType = new DrugType();
             }
             else
             {
-                this.drugType = new DrugType(drug.drugType);
+                this.DrugType = new DrugType(drug.DrugType);
             }
             this.Name = drug.Name;
             this.Id = drug.Id;

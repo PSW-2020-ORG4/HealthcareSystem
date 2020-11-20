@@ -5,8 +5,12 @@
  ***********************************************************************/
 
 
-using Backend.Repository.ExaminationRepository.FileExaminationRepository;
+using Backend.Repository.ExaminationRepository;
+using Backend.Repository.RenovationPeriodRepository;
+using Backend.Service;
+using Backend.Service.PlacementInARoomAndRenovationPeriod;
 using Controller.PlacementInARoomAndRenovationPeriod;
+using Model;
 using Model.Manager;
 using Model.PerformingExamination;
 using Repository;
@@ -16,38 +20,44 @@ using System.Text;
 
 namespace Service.PlacementInARoomAndRenovationPeriod
 {
-    public class RenovationPeriodService
+    public class RenovationPeriodService : IRenovationPeriodService
     {
-        private RenovationPeriodRepository renovationPeriodRepository = new RenovationPeriodRepository();
-        private FileScheduledExaminationRepository scheduledExaminationRepository = new FileScheduledExaminationRepository();
-        private PlacementInSickRoomRepository placementInSickRoomRepository = new PlacementInSickRoomRepository();
-        public Model.Manager.RenovationPeriod ScheduleRenovation(Model.Manager.RenovationPeriod renovationPeriod)
+        private IRenovationPeriodRepository _renovationPeriodRepository;
+        private IScheduledExaminationRepository _scheduledExaminationRepository;
+        public RenovationPeriodService(IRenovationPeriodRepository renovationPeriodRepository, IScheduledExaminationRepository scheduledExaminationRepository)
         {
-            List <Examination>  examinations = scheduledExaminationRepository.GetExaminationsByRoomAndDates(renovationPeriod.room.Number, renovationPeriod.BeginDate, renovationPeriod.EndDate);
-            List<PlacemetnInARoom> placemetnInARooms = placementInSickRoomRepository.GetPlacementsByRoom(renovationPeriod.room.Number,renovationPeriod.BeginDate,renovationPeriod.EndDate);
-            if (examinations.Count == 0 && placemetnInARooms.Count == 0)
-                return renovationPeriodRepository.NewRenovationPeriod(renovationPeriod);
-            return null;
+            _renovationPeriodRepository = renovationPeriodRepository;
+            _scheduledExaminationRepository = scheduledExaminationRepository;
         }
 
-        public bool CancelRenovation(int roomNumber)
+        //ovaj  ispod dodati
+        private PlacementInSickRoomRepository placementInSickRoomRepository = new PlacementInSickRoomRepository();
+        public void AddRenovationPeriod(Model.Manager.RenovationPeriod renovationPeriod)
         {
-            return renovationPeriodRepository.DeleteRenovationPeriod(roomNumber);
+            List<Examination> examinations = _scheduledExaminationRepository.GetExaminationsByRoomAndDates(renovationPeriod.RoomNumber, renovationPeriod.BeginDate, renovationPeriod.EndDate);
+            List<PlacemetnInARoom> placemetnInARooms = placementInSickRoomRepository.GetPlacementsByRoom(renovationPeriod.RoomNumber, renovationPeriod.BeginDate, renovationPeriod.EndDate);
+            if (examinations.Count == 0 && placemetnInARooms.Count == 0)
+                _renovationPeriodRepository.AddRenovationPeriod(renovationPeriod);
+        }
+
+        public void CancelRenovationPeriod(int roomNumber)
+        {
+            _renovationPeriodRepository.DeleteRenovationPeriod(roomNumber);
         }
 
         public List<RenovationPeriod> ViewRenovations()
         {
-            return renovationPeriodRepository.GetAllRenovationPeriod();
+            return _renovationPeriodRepository.GetAllRenovationPeriod();
         }
 
         public Model.Manager.RenovationPeriod ViewRenovationByRoomNumber(int roomNumber)
         {
-            return renovationPeriodRepository.GetRenovationPeriodByRoomNumber(roomNumber);
+            return _renovationPeriodRepository.GetRenovationPeriodByRoomNumber(roomNumber);
         }
 
-        public Model.Manager.RenovationPeriod EditRenovation(Model.Manager.RenovationPeriod renovationPeriod)
+        public void UpdateRenovationPeriod(Model.Manager.RenovationPeriod renovationPeriod)
         {
-            return renovationPeriodRepository.SetRenovationPeriod(renovationPeriod);
+            _renovationPeriodRepository.UpdateRenovationPeriod(renovationPeriod);
         }
     }
 }

@@ -13,9 +13,22 @@ namespace Backend.Model
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public Grade PolitenessGrade { get; set; }
-        public Grade ProfessionalismGrade { get; set; }
-        public Grade StaffGrade { get; set; }
+
+        public int BehaviorOfDoctor { get; set; }
+        public int DoctorProfessionalism { get; set; }
+        public int GettingAdviceByDoctor { get; set; }
+        public int AvailabilityOfDoctor { get; set; }
+
+        public int BehaviorOfMedicalStaff { get; set; }
+        public int MedicalStaffProfessionalism { get; set; }
+        public int GettingAdviceByMedicalStaff { get; set; }
+        public int EaseInObtainingFollowupInformationAndCare { get; set; }
+
+        public int Nursing { get; set; }
+        public int Cleanliness { get; set; }
+        public int OverallRating { get; set; }
+        public int SatisfiedWithDrugAndInstrument { get; set; }
+
 
         [ForeignKey("Doctor")]
         public string DoctorJmbg { get; set; }
@@ -23,22 +36,5 @@ namespace Backend.Model
 
         public Survey() { }
 
-        public Survey(int id, Grade politenessGrade, Grade professionalismGrade, Grade staffGrade, Doctor doctor)
-        {
-            Id = id;
-            PolitenessGrade = politenessGrade;
-            ProfessionalismGrade = professionalismGrade;
-            StaffGrade = staffGrade;
-            if (doctor != null)
-            {
-                Doctor = new Doctor(doctor);
-                DoctorJmbg = doctor.Jmbg;
-            }
-            else
-            {
-                Doctor = new Doctor();
-                DoctorJmbg = null;
-            }
-        }
     }
 }

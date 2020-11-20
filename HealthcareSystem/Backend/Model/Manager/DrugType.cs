@@ -5,11 +5,14 @@
  ***********************************************************************/
 
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Manager
 {
     public class DrugType
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         public string Type { get; set; }
         public string Purpose { get; set; }
 

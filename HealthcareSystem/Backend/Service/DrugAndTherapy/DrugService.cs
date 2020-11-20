@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Service.DrugService
  ***********************************************************************/
 
+using Backend.Model.Exceptions;
 using Backend.Repository.DrugRepository;
 using Backend.Service.DrugAndTherapy;
 using Model.Manager;
@@ -26,12 +27,18 @@ namespace Service.DrugAndTherapy
 
         public int getLastIdConfirmed()
         {
-            return _confirmedDrugRepository.getLastId();
+            int id = _confirmedDrugRepository.getLastId();
+            if (id == 0)
+                throw new NotFoundException("Confirmed drugs do not exist in database.");
+            return id;
         }
 
         public int getLastIdUnconfirmed()
         {
-            return _unconfirmedDrugRepository.getLastId();
+            int id = _unconfirmedDrugRepository.getLastId();
+            if (id == 0)
+                throw new NotFoundException("Unconfirmed drugs do not exist in database.");
+            return id;
         }
 
         public void UpdateConfirmedDrug(Drug drug)

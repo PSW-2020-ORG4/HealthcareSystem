@@ -6,11 +6,13 @@
 
 using Model.Enums;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Manager
 {
-   public class Room
-   {
+    public class Room
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Number { get; set; }
         public TypeOfUsage Usage { get; set; }
         public int Capacity { get; set; }
@@ -19,7 +21,7 @@ namespace Model.Manager
 
         public Room() { }
 
-        public Room(int number,TypeOfUsage typeOfUsage,int capacity,int occupation,bool renovation)
+        public Room(int number, TypeOfUsage typeOfUsage, int capacity, int occupation, bool renovation)
         {
             Number = number;
             Usage = typeOfUsage;

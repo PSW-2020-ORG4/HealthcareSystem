@@ -7,17 +7,20 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Text;
+using Backend.Repository.RenovationPeriodRepository;
+using Model;
 using Model.Manager;
 using Newtonsoft.Json;
 
 namespace Repository
 {
-    public class RenovationPeriodRepository
+    public class RenovationPeriodRepository : IRenovationPeriodRepository
     {
         private string path;
-        
+
         public RenovationPeriodRepository()
         {
             string fileName = "renovationperiods.json";
@@ -35,7 +38,7 @@ namespace Repository
 
             foreach (RenovationPeriod renovationPeriod in renovationPeriods)
             {
-                if (renovationPeriod.room.Number == roomNumber)
+                if (renovationPeriod.RoomNumber == roomNumber)
                 {
                     return renovationPeriod;
                 }
@@ -43,15 +46,15 @@ namespace Repository
 
             return null;
         }
-        public Model.Manager.RenovationPeriod SetRenovationPeriod(Model.Manager.RenovationPeriod renovationPeriod)
+        public void UpdateRenovationPeriod(Model.Manager.RenovationPeriod renovationPeriod)
         {
             List<RenovationPeriod> renovationPeriods = ReadFromFile();
 
             foreach (RenovationPeriod rp in renovationPeriods)
             {
-                if (rp.room.Number == renovationPeriod.room.Number)
+                if (rp.RoomNumber == renovationPeriod.RoomNumber)
                 {
-                    rp.room = renovationPeriod.room;
+                    rp.RoomNumber = renovationPeriod.RoomNumber;
                     rp.BeginDate = renovationPeriod.BeginDate;
                     rp.EndDate = renovationPeriod.EndDate;
                     break;
@@ -59,41 +62,37 @@ namespace Repository
             }
 
             WriteInFile(renovationPeriods);
-            return renovationPeriod;
         }
 
-        public bool DeleteRenovationPeriod(int roomNumber)
+        public void DeleteRenovationPeriod(int roomNumber)
         {
             List<RenovationPeriod> renovationPeriods = ReadFromFile();
             RenovationPeriod renovationPeriodForDelete = null;
-            
+
             foreach (RenovationPeriod renovationPeriod in renovationPeriods)
             {
-                if (renovationPeriod.room.Number == roomNumber)
+                if (renovationPeriod.RoomNumber == roomNumber)
                 {
                     renovationPeriodForDelete = renovationPeriod;
                     break;
                 }
             }
             if (renovationPeriodForDelete == null)
-                return false;
-
+                throw new ValidationException();
             renovationPeriods.Remove(renovationPeriodForDelete);
             WriteInFile(renovationPeriods);
-            return true;
         }
 
-        public Model.Manager.RenovationPeriod NewRenovationPeriod(Model.Manager.RenovationPeriod renovationPeriod)
+        public void AddRenovationPeriod(Model.Manager.RenovationPeriod renovationPeriod)
         {
             List<RenovationPeriod> renovationPeriods = ReadFromFile();
-            RenovationPeriod searchRenovationPeriod = GetRenovationPeriodByRoomNumber(renovationPeriod.room.Number);
-
+            RenovationPeriod searchRenovationPeriod = GetRenovationPeriodByRoomNumber(renovationPeriod.RoomNumber);
             if (searchRenovationPeriod != null)
-                return null;
-
+            {
+                throw new ValidationException();
+            }
             renovationPeriods.Add(renovationPeriod);
             WriteInFile(renovationPeriods);
-            return renovationPeriod;
         }
 
         private List<RenovationPeriod> ReadFromFile()

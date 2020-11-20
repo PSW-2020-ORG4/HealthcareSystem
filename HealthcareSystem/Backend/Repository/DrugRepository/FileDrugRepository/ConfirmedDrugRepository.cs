@@ -9,6 +9,7 @@ using Model.Manager;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 
 namespace Repository
@@ -90,6 +91,8 @@ namespace Repository
                     break;
                 }
             }
+            if (drugForDelete == null)
+                throw new ValidationException();
             drugList.Remove(drugForDelete);
             WriteInFile(drugList);
         }
@@ -99,6 +102,10 @@ namespace Repository
             // TODO: implement
             List<Drug> drugList = ReadFromFile();
             Drug searchDrug = GetDrug(drug.Id);
+            if (searchDrug != null)
+            {
+                throw new ValidationException();
+            }
             drugList.Add(drug);
             WriteInFile(drugList);
         }

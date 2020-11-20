@@ -23,6 +23,8 @@ namespace Backend.Model
         public DbSet<DrugType> DrugTypes { get; set; }
         public DbSet<Therapy> Therapies { get; set; }
         public DbSet<Examination> Examinations { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<RenovationPeriod> RenovationPeriods { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
     }

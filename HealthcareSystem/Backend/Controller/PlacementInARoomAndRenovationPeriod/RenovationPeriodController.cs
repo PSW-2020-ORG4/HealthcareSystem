@@ -6,33 +6,34 @@ using System.Text;
 
 namespace Controller.PlacementInARoomAndRenovationPeriod
 {
-    public class RenovationPeriodController
-    {
-        private RenovationPeriodService renovationPeriodService = new RenovationPeriodService();
-
-        public Model.Manager.RenovationPeriod ScheduleRenovation(Model.Manager.RenovationPeriod renovationPeriod)
+     public class RenovationPeriodController
         {
-            return renovationPeriodService.ScheduleRenovation(renovationPeriod);
-        }
+            private RenovationPeriodService _renovationPeriodService;
 
-        public bool CancelRenovation(int roomNumber)
-        {
-            return renovationPeriodService.CancelRenovation(roomNumber);
-        }
+            public void AddRenovationPeriod(Model.Manager.RenovationPeriod renovationPeriod)
+            {
+                _renovationPeriodService.AddRenovationPeriod(renovationPeriod);
+            }
 
-        public List<RenovationPeriod> ViewRenovations()
-        {
-            return renovationPeriodService.ViewRenovations();
-        }
+            public void DeleteRenovationPeriod(int roomNumber)
+            {
+                _renovationPeriodService.DeleteRenovationPeriod(roomNumber);
+            }
 
-        public Model.Manager.RenovationPeriod ViewRenovationByRoomNumber(int roomNumber)
-        {
-            return renovationPeriodService.ViewRenovationByRoomNumber(roomNumber);
-        }
+            public List<RenovationPeriod> ViewRenovations()
+            {
+                return _renovationPeriodService.ViewRenovations();
+            }
 
-        public Model.Manager.RenovationPeriod EditRenovation(Model.Manager.RenovationPeriod renovationPeriod)
-        {
-            return renovationPeriodService.EditRenovation(renovationPeriod);
-        }
-    }
+            public Model.Manager.RenovationPeriod ViewRenovationByRoomNumber(int roomNumber)
+            {
+                return _renovationPeriodService.ViewRenovationByRoomNumber(roomNumber);
+            }
+
+            public void UpdateRenovationPeriod(Model.Manager.RenovationPeriod renovationPeriod)
+            {
+                _renovationPeriodService.UpdateRenovationPeriod(renovationPeriod);
+            }
+     }
 }
+

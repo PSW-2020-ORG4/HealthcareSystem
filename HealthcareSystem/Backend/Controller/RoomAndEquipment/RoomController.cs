@@ -12,49 +12,48 @@ using System.Collections.Generic;
 
 namespace Controller.RoomAndEquipment
 {
-   public class RoomController
-   {
-        private RoomService roomService = new RoomService();
-		
-		public int getLastId()
+    public class RoomController
+    {
+        private RoomService _roomService;
+        public int getLastId()
         {
-            return roomService.getLastId();
+            return _roomService.getLastId();
         }
-		
-      public Room AddRoom(Room room)
-      {
+
+        public void AddRoom(Room room)
+        {
             // TODO: implement
-            return roomService.AddRoom(room);
-      }
-      
-      public Room EditRoom(Room room)
-      {
+            _roomService.AddRoom(room);
+        }
+
+        public void UpdateRoom(Room room)
+        {
             // TODO: implement
-            return roomService.EditRoom(room);
-      }
-      
-      public bool DeleteRoom(int number)
-      {
+            _roomService.UpdateRoom(room);
+        }
+
+        public void DeleteRoom(int number)
+        {
             // TODO: implement
-            return roomService.DeleteRoom(number);
-      }
-      
-      public List<Room> ViewRooms()
-      {
+            _roomService.DeleteRoom(number);
+        }
+
+        public List<Room> ViewRooms()
+        {
             // TODO: implement
-            return roomService.ViewRooms();
-      }
-      
-      public Room ViewRoomByNumber(int number)
-      {
+            return _roomService.ViewRooms();
+        }
+
+        public Room ViewRoomByNumber(int number)
+        {
             // TODO: implement
-            return roomService.ViewRoomByNumber(number);
-      }
-	  
-	  public List<Room> ViewRoomByUsage(TypeOfUsage usage, DateTime beginDate, DateTime endDate)
-      {
-            return roomService.ViewRoomByUsage(usage, beginDate, endDate);
-      }
-   
-   }
+            return _roomService.ViewRoomByNumber(number);
+        }
+
+        public List<Room> ViewRoomByUsage(TypeOfUsage usage, DateTime beginDate, DateTime endDate)
+        {
+            return _roomService.ViewRoomByUsage(usage, beginDate, endDate);
+        }
+
+    }
 }

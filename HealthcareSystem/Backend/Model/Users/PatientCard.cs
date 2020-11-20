@@ -26,7 +26,7 @@ namespace Model.Users
         [ForeignKey("Patient")]
         public string PatientJmbg { get; set; }
         public virtual Patient Patient { get; set; }
-        public ICollection<Examination> Examinations { get; set; }
+        public virtual ICollection<Examination> Examinations { get; set; }
 
         public PatientCard() { }
 

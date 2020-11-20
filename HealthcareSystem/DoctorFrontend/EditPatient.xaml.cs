@@ -2,8 +2,8 @@
 using Controller.ExaminationAndPatientCard;
 using Controller.PlacementInARoomAndRenovationPeriod;
 using Controller.UsersAndWorkingTime;
-using Model.Enums;
-using Model.PerformingExamination;
+using Model.Doctor;
+using Model.Secretary;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace WpfApp1
         {
             InitializeComponent();
             p = patientCard;
-            txtPatient.Text = p.Patient.Name + " " + p.Patient.Surname + " " + p.Patient.Jmbg;
+            txtPatient.Text = p.patient.Name + " " + p.patient.Surname + " " + p.patient.Jmbg;
             txtLbo.Text = p.Lbo;
             txtAlergija.Text = p.Alergies;
             List<string> bloods = new List<string>();
@@ -89,15 +89,15 @@ namespace WpfApp1
 
             pc.EditPatientCard(patinetC);
            
-            List<Examination> examinations = ec.GetExaminationsByPatient(patinetC.Patient.Jmbg);
+            List<Examination> examinations = ec.ViewExaminationsByPatient(patinetC.patient.Jmbg);
             foreach(Examination exm in examinations)
             {
-                    exm.PatientCard = patinetC;
-                    ec.UpdateExamination(exm);
+                    exm.patientCard = patinetC;
+                    ec.EditExamination(exm);
 
             }
 
-            List<PlacemetnInARoom> placements = prc.ViewPatientPlacements(patinetC.Patient.Jmbg);
+            List<PlacemetnInARoom> placements = prc.ViewPatientPlacements(patinetC.patient.Jmbg);
             foreach (PlacemetnInARoom p in placements)
             {
                 p.patientCard = patinetC;
@@ -105,11 +105,11 @@ namespace WpfApp1
 
             }
 
-            List<Therapy> therapies = tc.GetTherapyByPatient(patinetC.Patient.Jmbg);
+            List<Therapy> therapies = tc.ViewAllTherapyByPatient(patinetC.patient.Jmbg);
             foreach (Therapy t in therapies)
             {
-                
-                tc.UpdateTherapy(t);
+                t.patientCard = patinetC;
+                tc.EditTherapy(t);
 
             }
 

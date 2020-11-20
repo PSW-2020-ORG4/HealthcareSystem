@@ -51,6 +51,7 @@ namespace ProjekatZdravoKorporacija
                 }
                 canceledExaminations.Add(new ExaminationDTO(e.IdExamination,e.doctor.Name + " " + e.doctor.Surname + " " + e.doctor.Jmbg,e.patientCard.patient.Name + " " + 
                                                             e.patientCard.patient.Surname + " " + e.patientCard.patient.Jmbg,e.room.Number.ToString(),type,e.DateAndTime.ToShortDateString(),e.DateAndTime.ToShortTimeString()));
+
             }
 
             dgCanceledExaminations.ItemsSource = canceledExaminations;

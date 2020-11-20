@@ -187,8 +187,10 @@ namespace ProjekatZdravoKorporacija
                     {
                         int lastId = notificationController.getLastId();
                         string message = "Ponovo zakazan otkazani pregled\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
+
                                      + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
                         notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.patient.Jmbg));
+
 
                         var okMb = new OKMessageBox(this, 0);
                         okMb.titleMsgBox.Text = "Obavještenje";
@@ -219,8 +221,10 @@ namespace ProjekatZdravoKorporacija
                     {
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
+
                                     + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
                         notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.patient.Jmbg));
+
 
                         var okMb = new OKMessageBox(this, 0);
                         okMb.titleMsgBox.Text = "Obavještenje";
@@ -251,8 +255,10 @@ namespace ProjekatZdravoKorporacija
                     {
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
+
                                     + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
                         notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.patient.Jmbg));
+
 
                         var okMb = new OKMessageBox(this, 0);
                         okMb.titleMsgBox.Text = "Obavještenje";
@@ -358,6 +364,7 @@ namespace ProjekatZdravoKorporacija
             foreach (Examination exm in allAppointments)
             {
                 if (exm.room.Number == 0) //ovo je slobodan termin
+
                 {
                     freeAppointments.Add(new TimeDTO(exm.DateAndTime.ToShortTimeString()));
                 }

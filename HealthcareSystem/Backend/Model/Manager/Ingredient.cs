@@ -5,11 +5,14 @@
  ***********************************************************************/
 
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Manager
 {
    public class Ingredient
    {
+      [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+      public int Id { get; set; }
       public string Name { get; set; }
       public bool Alergen { get; set; }
 

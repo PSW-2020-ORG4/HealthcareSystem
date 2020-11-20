@@ -183,11 +183,6 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
-    <Compile Include="Migrations\20201107172143_FirstMigration.cs" />
-    <Compile Include="Migrations\20201107172143_FirstMigration.designer.cs">
-      <DependentUpon>20201107172143_FirstMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Enums\Grade.cs" />
     <Compile Include="Model\Exceptions\DatabaseException.cs" />
     <Compile Include="Model\PerformingExamination\Examination.cs" />
@@ -232,7 +227,7 @@
     <Compile Include="Model\Enums\TypeOfNotification.cs" />
     <Compile Include="Model\Enums\TypeOfQualifications.cs" />
     <Compile Include="Model\Users\User.cs" />
-	<Compile Include="Model\Pharmacies\Pharmacy.cs" />
+    <Compile Include="Model\Pharmacies\Pharmacy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\DoctorRepository\FileDoctorRepository\FileDoctorRepository.cs" />
     <Compile Include="Repository\DoctorRepository\IDoctorRepository.cs" />
@@ -288,8 +283,8 @@
     <Compile Include="Repository\TherapyRepository\ITherapyRepository.cs" />
     <Compile Include="Repository\TherapyRepository\MySqlTherapyRepository\MySqlTherapyRepository.cs" />
     <Compile Include="Repository\WorkingTimeRepository.cs" />
-	<Compile Include="Repository\PharmacyRepository\IPharmacyRepo.cs" />
-	<Compile Include="Repository\PharmacyRepository\MySqlPharmacyRepo\MySqlPharmacyRepo.cs" />
+    <Compile Include="Repository\PharmacyRepository\IPharmacyRepo.cs" />
+    <Compile Include="Repository\PharmacyRepository\MySqlPharmacyRepo\MySqlPharmacyRepo.cs" />
     <Compile Include="Service\DrugAndTherapy\ITherapyService.cs" />
     <Compile Include="Service\DrugAndTherapy\TherapyService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\ExaminationService.cs" />
@@ -317,15 +312,17 @@
     <Compile Include="Service\UsersAndWorkingTime\PatientService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\SecretaryService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\WorkingTimeService.cs" />
-	<Compile Include="Service\Pharmacies\IPharmacyService.cs" />
-	<Compile Include="Service\Pharmacies\MockPharmacyService.cs" />
-	<Compile Include="Service\Pharmacies\PharmacyService.cs" />
+    <Compile Include="Service\Pharmacies\IPharmacyService.cs" />
+    <Compile Include="Service\Pharmacies\MockPharmacyService.cs" />
+    <Compile Include="Service\Pharmacies\PharmacyService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

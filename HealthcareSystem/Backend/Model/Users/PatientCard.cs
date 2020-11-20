@@ -15,7 +15,7 @@ namespace Model.Users
     public class PatientCard
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        public int Id { get; set; }
         public BloodType BloodType { get; set; }
         public RhFactorType RhFactor { get; set; }
         public string Alergies { get; set; }
@@ -26,7 +26,7 @@ namespace Model.Users
         [ForeignKey("Patient")]
         public string PatientJmbg { get; set; }
         public virtual Patient Patient { get; set; }
-        public ICollection<Examination> Examinations { get; set; }
+        public virtual ICollection<Examination> Examinations { get; set; }
 
         public PatientCard() { }
 

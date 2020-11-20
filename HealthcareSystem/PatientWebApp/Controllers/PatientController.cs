@@ -20,6 +20,5 @@ namespace PatientWebApp.Controllers
             _patientService = patientService;
         }
   
-        }
     }
 }

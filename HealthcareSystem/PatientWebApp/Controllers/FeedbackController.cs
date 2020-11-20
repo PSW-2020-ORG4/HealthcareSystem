@@ -72,8 +72,15 @@ namespace PatientWebApp.Controllers
         public ActionResult GetPublishedFeedbacks()
         {
             List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            _feedbackService.GetPublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-            return Ok(feedbackDTOs);
+            try
+            {
+                _feedbackService.GetPublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
+                return Ok(feedbackDTOs);
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
         }
         /// <summary>
         /// /getting all unpublished feedbacks
@@ -83,8 +90,15 @@ namespace PatientWebApp.Controllers
         public ActionResult GetUnpublishedFeedbacks()
         {
             List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            _feedbackService.GetUnpublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-            return Ok(feedbackDTOs);
+            try
+            {      
+                _feedbackService.GetUnpublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
+                return Ok(feedbackDTOs);
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }         
         }
         /// <summary>
         /// / updating feedbacks status (property: IsPublished) to published

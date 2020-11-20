@@ -189,6 +189,7 @@
     </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Enums\Grade.cs" />
+    <Compile Include="Model\Exceptions\DatabaseException.cs" />
     <Compile Include="Model\PerformingExamination\Examination.cs" />
     <Compile Include="Model\PerformingExamination\PlacemetnInARoom.cs" />
     <Compile Include="Model\Enums\TypeOfExamination.cs" />
@@ -255,7 +256,6 @@
     <Compile Include="Repository\CityRepository.cs" />
     <Compile Include="Repository\DrugRepository\FileDrugRepository\ConfirmedDrugRepository.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository.cs" />
-    <Compile Include="Repository\DoctorRepository.cs" />
     <Compile Include="Repository\DrugTypeRepository\FileDrugTypeRepository\DrugTypeRepository.cs" />
     <Compile Include="Repository\EquipmentInRoomsRepository.cs" />
     <Compile Include="Repository\PatientRepository\IActivePatientRepository.cs" />

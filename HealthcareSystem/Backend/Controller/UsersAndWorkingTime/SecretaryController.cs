@@ -20,14 +20,14 @@ namespace Controller.UsersAndWorkingTime
             return secretaryService.SignIn(username,password);
         }
       
-        public User Register(User user)
+        public void Register(User user)
         {
-            return secretaryService.RegisterSecretary((Secretary)user);
+            secretaryService.RegisterSecretary((Secretary)user);
         }
       
-        public User EditProfile(User user)
+        public void EditProfile(User user)
         {
-            return secretaryService.EditProfile((Secretary)user);
+            secretaryService.EditProfile((Secretary)user);
         }
       
         public User ViewProfile(string jmbg)

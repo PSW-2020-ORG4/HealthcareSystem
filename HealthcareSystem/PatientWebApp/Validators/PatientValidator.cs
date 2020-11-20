@@ -1,6 +1,5 @@
 ﻿using Backend.Model.Exceptions;
 using Backend.Service;
-using Backend.Service.UsersAndWorkingTime;
 using PatientWebApp.DTOs;
 using System;
 using System.Collections.Generic;

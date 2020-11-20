@@ -12,10 +12,10 @@ namespace Controller.UsersAndWorkingTime
 {
    public interface IUserStrategy
    {
-      User SignIn(string username, string password);
-      User Register(User user);
-      User EditProfile(User user);
-      User ViewProfile(string jmbg);
-      List<User> ViewAllUsers();
-   }
+        User SignIn(string username, string password);
+        void Register(User user);
+        void EditProfile(User user);
+        User ViewProfile(string jmbg);
+        List<User> ViewAllUsers();
+    }
 }

@@ -243,29 +243,19 @@ namespace GraphicalEditor
 
         private void ApplyHoverEffectToObject(MapObject hoverMapObject)
         {
-            if (hoverMapObject != null)
+            foreach (MapObject mapObject in _allMapObjects)
             {
-                if (hoverMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD) 
+                if (!mapObject.Equals(_selectedMapObject))
                 {
-                    ApplyShadowToObjectAndIncreaseZIndex(hoverMapObject);
-                }
-              
-                foreach (MapObject mapObject in _allMapObjects)
-                {
-                    if (!mapObject.Equals(hoverMapObject) && !mapObject.Equals(_selectedMapObject))
-                    {
-                        RemoveShadowFromObjectAndDecreaseZIndex(mapObject);
-                    }
+                    RemoveShadowFromObjectAndDecreaseZIndex(mapObject);
                 }
             }
-            else
+
+            if (hoverMapObject != null)
             {
-                foreach (MapObject mapObject in _allMapObjects)
+                if (hoverMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
                 {
-                    if (!mapObject.Equals(_selectedMapObject))
-                    {
-                        RemoveShadowFromObjectAndDecreaseZIndex(mapObject);
-                    }
+                    ApplyShadowToObjectAndIncreaseZIndex(hoverMapObject);
                 }
             }
         }
@@ -273,6 +263,14 @@ namespace GraphicalEditor
 
         private void ApplySelectionEffectToObject(MapObject selectedMapObject)
         {
+            foreach (MapObject mapObject in _allMapObjects)
+            {
+                RemoveShadowFromObjectAndDecreaseZIndex(mapObject);
+
+                mapObject.Rectangle.Fill = mapObject.MapObjectEntity.MapObjectType.ObjectTypeColor;
+                mapObject.MapObjectNameTextBlock.Foreground = Brushes.Black;
+            }
+
             if (selectedMapObject != null)
             {
                 if (selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
@@ -281,28 +279,6 @@ namespace GraphicalEditor
 
                     selectedMapObject.Rectangle.Fill = Brushes.MediumPurple;
                     selectedMapObject.MapObjectNameTextBlock.Foreground = Brushes.White;
-                }
-
-                foreach (MapObject mapObject in _allMapObjects)
-                {
-                    if (!mapObject.Equals(selectedMapObject))
-                    {
-                        RemoveShadowFromObjectAndDecreaseZIndex(mapObject);
-
-                        mapObject.Rectangle.Fill = mapObject.MapObjectEntity.MapObjectType.ObjectTypeColor;
-                        mapObject.MapObjectNameTextBlock.Foreground = Brushes.Black;
-                        
-                    }
-                }
-            }
-            else
-            {
-                foreach (MapObject mapObject in _allMapObjects)
-                {
-                    RemoveShadowFromObjectAndDecreaseZIndex(mapObject);
-
-                    mapObject.Rectangle.Fill = mapObject.MapObjectEntity.MapObjectType.ObjectTypeColor;
-                    mapObject.MapObjectNameTextBlock.Foreground = Brushes.Black;
                 }
             }
         }

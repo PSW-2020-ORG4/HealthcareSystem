@@ -192,7 +192,7 @@ namespace WpfApp1
                 e1.IdExamination = ee.IdExamination;
                 e1.patientCard = ee.PatientCard.Patient.Name + " " + ee.PatientCard.Patient.Surname + " " + ee.PatientCard.Patient.Jmbg;
                 e1.Type = ee.Type.ToString();
-                e1.room = ee.Room.Number.ToString();
+                e1.room = ee.Room.Id.ToString();
 
                 examDTO.Add(e1);
 

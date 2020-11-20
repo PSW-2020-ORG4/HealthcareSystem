@@ -43,7 +43,7 @@ namespace ProjekatZdravoKorporacija
                 {
                     RoomDTO roomDTO = new RoomDTO();
 
-                    roomDTO.NumberOfRoom = r.Number.ToString();
+                    roomDTO.NumberOfRoom = r.Id.ToString();
 
                     roomDTO.isRenovate = r.Renovation;
 
@@ -56,7 +56,7 @@ namespace ProjekatZdravoKorporacija
                         roomDTO.Purpose = "Operaciona sala";
                     }
 
-                    renovationPeriod = periodController.ViewRenovationByRoomNumber(r.Number);           
+                    renovationPeriod = periodController.ViewRenovationByRoomNumber(r.Id);           
 
                     if (renovationPeriod != null)
                     {

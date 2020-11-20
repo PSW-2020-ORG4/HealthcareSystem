@@ -43,7 +43,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             bool hasFreeAppointment = false;
             foreach (Examination e in appointmentsForRecommendation)
             {
-                if (e.Room.Number == 0)
+                if (e.Room.Id == 0)
                 {
                     hasFreeAppointment = true;
                     return e;
@@ -58,7 +58,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
                     appointmentsForRecommendation = fillAppointments(doctor, beginDate, endDate);
                     foreach (Examination e in appointmentsForRecommendation)
                     {
-                        if (e.Room.Number == 0)
+                        if (e.Room.Id == 0)
                         {
                             return e;
                         }
@@ -74,7 +74,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             List<Examination> appointmentsForRecommendation = fillAppointments(doctor, beginDate, endDate);
             foreach (Examination e in appointmentsForRecommendation)
             {
-                if (e.Room.Number == 0)
+                if (e.Room.Id == 0)
                 {
                     return e;
                 }
@@ -100,7 +100,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             List<Examination> scheduledExaminations = ReadFromFile();
             foreach (Examination e in scheduledExaminations)
             {
-                if (DateTime.Compare(e.DateAndTime, dateAndTime) == 0 && e.Room.Number == room.Number)
+                if (DateTime.Compare(e.DateAndTime, dateAndTime) == 0 && e.Room.Id == room.Id)
                 {
                     return false;
                 }
@@ -173,7 +173,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             List<Examination> examinationsForDelete = new List<Examination>();
             foreach (Examination e in scheduledExaminations)
             {
-                if (e.Room.Number == numberOfRoom)
+                if (e.Room.Id == numberOfRoom)
                 {
                     examinationsForDelete.Add(e);
                 }
@@ -299,7 +299,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             List<Examination> scheduledExaminations = ReadFromFile();
             foreach (Examination e in scheduledExaminations)
             {
-                if (e.Room.Number == numberOfRoom)
+                if (e.Room.Id == numberOfRoom)
                 {
                     result.Add(e);
                 }
@@ -315,7 +315,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             {
                 int compareBeginDate = DateTime.Compare(beginDate, e.DateAndTime);
                 int compareEndDate = DateTime.Compare(endDate, e.DateAndTime);
-                if (e.Room.Number == numberOfRoom && compareBeginDate <= 0 && compareEndDate >= 0)
+                if (e.Room.Id == numberOfRoom && compareBeginDate <= 0 && compareEndDate >= 0)
                 {
                     result.Add(e);
                 }

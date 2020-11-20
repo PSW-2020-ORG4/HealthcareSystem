@@ -523,9 +523,9 @@ namespace WpfApp1
             {
                 string room = "";
                 string type = "";
-                if (exm.Room.Number != 0)
+                if (exm.Room.Id != 0)
                 {
-                    room = exm.Room.Number.ToString();
+                    room = exm.Room.Id.ToString();
                 }
                 if (room.Equals(""))
                 {
@@ -634,9 +634,9 @@ namespace WpfApp1
             {
                 string room = "";
                 string type = "";
-                if (exm.Room.Number != 0)
+                if (exm.Room.Id != 0)
                 {
-                    room = exm.Room.Number.ToString();
+                    room = exm.Room.Id.ToString();
                 }
                 if (room.Equals(""))
                 {
@@ -768,7 +768,7 @@ namespace WpfApp1
             r.Occupation = r.Occupation + 1;
             rc.EditRoom(r);
 
-            List<Examination> examinations = ec.GetExaminationsByRoom(r.Number);
+            List<Examination> examinations = ec.GetExaminationsByRoom(r.Id);
             foreach (Examination exm in examinations)
             {
                 exm.Room = r;
@@ -776,7 +776,7 @@ namespace WpfApp1
 
             }
 
-            RenovationPeriod period = rpc.ViewRenovationByRoomNumber(r.Number);
+            RenovationPeriod period = rpc.ViewRenovationByRoomNumber(r.Id);
 
             period.room = r;
             rpc.EditRenovation(period);
@@ -858,9 +858,9 @@ namespace WpfApp1
             {
                 string room = "";
                 string type = "";
-                if (exm.Room.Number != 0)
+                if (exm.Room.Id != 0)
                 {
-                    room = exm.Room.Number.ToString();
+                    room = exm.Room.Id.ToString();
                 }
                 if (room.Equals(""))
                 {
@@ -1071,7 +1071,7 @@ namespace WpfApp1
             foreach (Room r in rooms)
             {
 
-                roomNumbers.Add(r.Number);
+                roomNumbers.Add(r.Id);
             }
             comboSoba.DataContext = roomNumbers;
         }
@@ -1096,7 +1096,7 @@ namespace WpfApp1
             foreach (Room r in rooms)
             {
 
-                roomNumbers.Add(r.Number);
+                roomNumbers.Add(r.Id);
             }
             txtSoba.DataContext = roomNumbers;
         }

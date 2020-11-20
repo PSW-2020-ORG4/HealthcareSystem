@@ -264,9 +264,9 @@ namespace ProjekatZdravoKorporacija
                 {
                     string room = "";
                     string type = "";
-                    if (exm.Room.Number != 0)
+                    if (exm.Room.Id != 0)
                     {
-                        room = exm.Room.Number.ToString();
+                        room = exm.Room.Id.ToString();
                     }
                     if (room.Equals(""))
                     {

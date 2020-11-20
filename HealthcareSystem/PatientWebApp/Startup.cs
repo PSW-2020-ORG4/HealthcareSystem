@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model;
 using Backend.Repository;
+using Backend.Service;
 using Backend.Repository.DrugRepository;
 using Backend.Repository.DrugRepository.MySQLDrugRepository;
 using Backend.Repository.DrugTypeRepository;
@@ -18,9 +19,9 @@ using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.NotificationSurveyAndFeedback;
+using Backend.Service;
 using Backend.Service.PlacementInARoomAndRenovationPeriod;
 using Backend.Service.RoomAndEquipment;
-using Backend.Service.UsersAndWorkingTime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,7 @@ using Service.NotificationSurveyAndFeedback;
 using Service.PlacementInARoomAndRenovationPeriod;
 using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
+using Service.ExaminationAndPatientCard;
 
 namespace PatientWebApp
 {
@@ -60,6 +62,15 @@ namespace PatientWebApp
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IPatientService, PatientService>();
 
+            services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
+            services.AddScoped<IDoctorService, DoctorService>();
+
+            services.AddScoped<ISurveyRepository, MySqlSurveyRepository>();
+            services.AddScoped<ISurveyService, SurveyService>();
+
+            services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
+            services.AddScoped<IPatientCardService, PatientCardService>();
+
             services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
             services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
             services.AddScoped<IDrugService, DrugService>();
@@ -76,6 +87,7 @@ namespace PatientWebApp
             services.AddScoped<IScheduledExaminationRepository, MySqlScheduledExaminationRepository>();
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

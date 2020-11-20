@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Service.NotificationService
  ***********************************************************************/
 
+using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using Repository;
 using System;
@@ -14,12 +15,12 @@ namespace Service.NotificationSurveyAnddFeedback
    public class NotificationService
    {
         private NotificationRepository notificationRepository = new NotificationRepository();
-      public void SendNotification(Model.Users.Notification notification)
+      public void SendNotification(Notification notification)
       {
             notificationRepository.NewNotification(notification);
       }
       
-      public List<Model.Users.Notification> ViewNotificationByJmbg(string jmbg)
+      public List<Notification> ViewNotificationByJmbg(string jmbg)
       {
             return notificationRepository.GetNotificationsByJmbg(jmbg);
       }

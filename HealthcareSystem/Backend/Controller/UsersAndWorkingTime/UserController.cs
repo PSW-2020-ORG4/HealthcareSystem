@@ -24,13 +24,13 @@ namespace Controller.UsersAndWorkingTime
             return this.Strategy.SignIn(username,password);
          }
 
-        public User Register(User user)
+        public void Register(User user)
         {
-            return this.Strategy.Register(user);
+            Strategy.Register(user);
         }
-        public User EditProfile(User user)
+        public void EditProfile(User user)
         {
-            return this.Strategy.EditProfile(user);
+            Strategy.EditProfile(user);
         }
         public User ViewProfile(string jmbg)
         {

@@ -188,6 +188,8 @@
       <DependentUpon>20201107172143_FirstMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
+    <Compile Include="Model\Enums\Grade.cs" />
+    <Compile Include="Model\Exceptions\DatabaseException.cs" />
     <Compile Include="Model\PerformingExamination\Examination.cs" />
     <Compile Include="Model\PerformingExamination\PlacemetnInARoom.cs" />
     <Compile Include="Model\Enums\TypeOfExamination.cs" />
@@ -210,9 +212,8 @@
     <Compile Include="Model\Manager\WorkingTime.cs" />
     <Compile Include="Model\Manager\WorkShifts.cs" />
     <Compile Include="Model\MyDbContext.cs" />
-    <Compile Include="Model\Patient\Grade.cs" />
-    <Compile Include="Model\Patient\Survey.cs" />
     <Compile Include="Model\Enums\BloodType.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\Survey.cs" />
     <Compile Include="Model\PerformingExamination\Therapy.cs" />
     <Compile Include="Model\Users\Country.cs" />
     <Compile Include="Model\Users\PatientCard.cs" />
@@ -220,11 +221,11 @@
     <Compile Include="Model\Users\Admin.cs" />
     <Compile Include="Model\Users\City.cs" />
     <Compile Include="Model\Users\Doctor.cs" />
-    <Compile Include="Model\Users\Feedback.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\Feedback.cs" />
     <Compile Include="Model\Enums\GenderType.cs" />
     <Compile Include="Model\Enums\Languages.cs" />
     <Compile Include="Model\Users\Manager.cs" />
-    <Compile Include="Model\Users\Notification.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\Notification.cs" />
     <Compile Include="Model\Users\Patient.cs" />
     <Compile Include="Model\Users\Secretary.cs" />
     <Compile Include="Model\Enums\TypeOfDoctor.cs" />
@@ -233,6 +234,9 @@
     <Compile Include="Model\Users\User.cs" />
 	<Compile Include="Model\Pharmacies\Pharmacy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\DoctorRepository\FileDoctorRepository\FileDoctorRepository.cs" />
+    <Compile Include="Repository\DoctorRepository\IDoctorRepository.cs" />
+    <Compile Include="Repository\DoctorRepository\MySqlDoctorRepository\MySqlDoctorRepository.cs" />
     <Compile Include="Repository\DrugRepository\IConfirmedDrugRepository.cs" />
     <Compile Include="Repository\DrugRepository\IUnconfirmedDrugRepository.cs" />
     <Compile Include="Repository\DrugRepository\MySqlDrugRepository\MySqlConfirmedDrugRepository.cs" />
@@ -253,7 +257,6 @@
     <Compile Include="Repository\CityRepository.cs" />
     <Compile Include="Repository\DrugRepository\FileDrugRepository\ConfirmedDrugRepository.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository.cs" />
-    <Compile Include="Repository\DoctorRepository.cs" />
     <Compile Include="Repository\DrugTypeRepository\FileDrugTypeRepository\DrugTypeRepository.cs" />
     <Compile Include="Repository\EquipmentInRoomsRepository.cs" />
     <Compile Include="Repository\PatientRepository\IActivePatientRepository.cs" />
@@ -273,7 +276,9 @@
     <Compile Include="Repository\RoomRepository\IRoomRepository.cs" />
     <Compile Include="Repository\RoomRepository\MySqlRoomRepository\MySqlRoomRepository.cs" />
     <Compile Include="Repository\SecretaryRepository.cs" />
-    <Compile Include="Repository\SurveyRepository.cs" />
+    <Compile Include="Repository\SurveyRepository\FileSurveyRepository\FileSurveyRepository.cs" />
+    <Compile Include="Repository\SurveyRepository\ISurveyRepository.cs" />
+    <Compile Include="Repository\SurveyRepository\MySqlSurveyRepository\MySqlSurveyRepository.cs" />
     <Compile Include="Repository\DrugRepository\FileDrugRepository\UnconfirmedDrugRepository.cs" />
     <Compile Include="Service\DrugAndTherapy\DrugService.cs" />
     <Compile Include="Service\DrugAndTherapy\DrugTypeAndIngridientService.cs" />
@@ -293,6 +298,7 @@
     <Compile Include="Service\ExaminationAndPatientCard\PatientCardService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\FeedbackService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\IFeedbackService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\ISurveyService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\NotificationService.cs" />
     <Compile Include="Service\NotificationSurveyAndFeedback\SurveyService.cs" />
     <Compile Include="Service\PlacementInARoomAndRenovationPeriod\IRenovationPeriodService.cs" />
@@ -305,6 +311,7 @@
     <Compile Include="Service\RoomAndEquipment\RoomService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\CityService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\DoctorService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\IDoctorService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\IPatientService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\ManagerService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\PatientService.cs" />

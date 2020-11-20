@@ -1,11 +1,12 @@
 ﻿/***********************************************************************
  * Module:  SurveyController.cs
- * Author:  LukaRA252017
+ * Author:  Jelena Zeljko
  * Purpose: Definition of the Class Controller.SurveyController
  ***********************************************************************/
 
 
-using Model.Patient;
+using Backend.Model;
+using Model;
 using Service.NotificationSurveyAndFeedback;
 using System;
 using System.Collections.Generic;
@@ -15,21 +16,21 @@ namespace Controller.NotificationSurveyAndFeedback
 {
     public class SurveyController
     {
-        private SurveyService surveyService = new SurveyService();
+        private SurveyService _surveyService;
 
-        public Survey AddSurvey(Survey survey)
+        public void AddSurvey(Survey survey)
         {
-            return surveyService.AddSurvey(survey);
+            _surveyService.AddSurvey(survey);
         }
 
-        public Survey ViewSurveyByJmbg(string jmbg)
+        public List<Survey> ViewSurveyByJmbg(string jmbg)
         {
-            return surveyService.ViewSurveyByJmbg(jmbg);
+            return _surveyService.GetSurveysByJmbg(jmbg);
         }
 
-        public Survey EditSurvey(Survey survey)
+        public void EditSurvey(Survey survey)
         {
-            return surveyService.EditSurvey(survey);
+            _surveyService.UpdateSurvey(survey);
         }
 
     }

@@ -18,14 +18,14 @@ namespace Repository
         }
         public void DeletePatientCard(string patientJmbg)
         {
-            PatientCard patientCard = GetPatientCard(patientJmbg);
+            PatientCard patientCard = GetPatientCardByJmbg(patientJmbg);
             _context.Remove(patientCard);
             _context.SaveChanges();
         }
 
-        public PatientCard GetPatientCard(string jmbg)
+        public PatientCard GetPatientCardByJmbg(string jmbg)
         {
-            return _context.PatientCards.Find(jmbg);
+            return _context.PatientCards.Where(patientCard => patientCard.PatientJmbg == jmbg).FirstOrDefault();
         }
 
         public void AddPatientCard(PatientCard patientCard)

@@ -23,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Configuration;
+using Model.NotificationSurveyAndFeedback;
 using Model.Enums;
 
 namespace ProjekatZdravoKorporacija

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model;
 using Backend.Repository;
+using Backend.Service;
 using Backend.Repository.DrugRepository;
 using Backend.Repository.DrugRepository.MySQLDrugRepository;
 using Backend.Repository.DrugTypeRepository;
@@ -60,6 +61,12 @@ namespace PatientWebApp
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IPatientService, PatientService>();
+
+            services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
+            services.AddScoped<IDoctorService, DoctorService>();
+
+            services.AddScoped<ISurveyRepository, MySqlSurveyRepository>();
+            services.AddScoped<ISurveyService, SurveyService>();
 
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
             services.AddScoped<IPatientCardService, PatientCardService>();

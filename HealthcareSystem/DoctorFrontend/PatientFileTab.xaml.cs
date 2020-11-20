@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Configuration;
+using Model.NotificationSurveyAndFeedback;
 using Model.Enums;
 
 namespace WpfApp1

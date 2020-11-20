@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Controller.Users&WorkingTimeController.DoctorController
  ***********************************************************************/
 
+using Backend.Repository;
 using Model.Users;
 using Service.UsersAndWorkingTime;
 using System;
@@ -14,7 +15,7 @@ namespace Controller.UsersAndWorkingTime
 {
    public class DoctorController : IUserStrategy
    {
-        private DoctorService doctorSevice = new DoctorService();
+        private DoctorService doctorSevice = new DoctorService(new FileDoctorRepository());
 
         public void EditProfile(User user)
         {
@@ -28,7 +29,7 @@ namespace Controller.UsersAndWorkingTime
 
         public User SignIn(string username, string password)
         {
-            return doctorSevice.SignIn(username,password);
+            return doctorSevice.SignIn(username, password);
         }
 
         public List<User> ViewAllUsers()

@@ -265,8 +265,6 @@
     <Compile Include="Repository\SurveyRepository\FileSurveyRepository\FileSurveyRepository.cs" />
     <Compile Include="Repository\SurveyRepository\ISurveyRepository.cs" />
     <Compile Include="Repository\SurveyRepository\MySqlSurveyRepository\MySqlSurveyRepository.cs" />
-    <Compile Include="Repository\TherapyRepository.cs" />
-    <Compile Include="Repository\SurveyRepository.cs" />
     <Compile Include="Repository\TherapyRepository\FileTherapyRepository\FileTherapyRepository.cs" />
     <Compile Include="Repository\TherapyRepository\ITherapyRepository.cs" />
     <Compile Include="Repository\TherapyRepository\MySqlTherapyRepository\MySqlTherapyRepository.cs" />

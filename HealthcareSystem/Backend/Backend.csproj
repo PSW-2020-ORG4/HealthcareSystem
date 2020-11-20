@@ -188,6 +188,7 @@
       <DependentUpon>20201107172143_FirstMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
+    <Compile Include="Model\Exceptions\DatabaseException.cs" />
     <Compile Include="Model\PerformingExamination\Examination.cs" />
     <Compile Include="Model\PerformingExamination\PlacemetnInARoom.cs" />
     <Compile Include="Model\Enums\TypeOfExamination.cs" />

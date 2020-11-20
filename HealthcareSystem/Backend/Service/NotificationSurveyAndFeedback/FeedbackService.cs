@@ -45,7 +45,14 @@ namespace Service.NotificationSurveyAndFeedback
         /// <returns>list of published feedbacks</returns>
         public List<Feedback> GetPublishedFeedbacks()
         {
-            return _feedbackRepository.GetPublishedFeedbacks();
+            try
+            {
+                return _feedbackRepository.GetPublishedFeedbacks();
+            }
+            catch (Exception)
+            {
+                throw new NotFoundException("There is no published feedback in database.");
+            }
         }
         /// <summary>
         /// /getting all unpublished feedbacks
@@ -53,7 +60,14 @@ namespace Service.NotificationSurveyAndFeedback
         /// <returns>list of unpublished feedbacks</returns>
         public List<Feedback> GetUnpublishedFeedbacks()
         {
-            return _feedbackRepository.GetUnpublishedFeedbacks();
+            try
+            {
+                return _feedbackRepository.GetUnpublishedFeedbacks();
+            }
+            catch (Exception)
+            {
+                throw new NotFoundException("There is no unpublished feedback in database.");
+            }          
         }
         /// <summary>
         /// /getting feedback by id

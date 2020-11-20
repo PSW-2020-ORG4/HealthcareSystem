@@ -15,14 +15,14 @@ namespace Controller.UsersAndWorkingTime
    {
         private ManagerService managerService = new ManagerService();
 
-        public User EditProfile(User user)
+        public void EditProfile(User user)
         {
-            return managerService.EditProfile((Manager)user);
+            managerService.EditProfile((Manager)user);
         }
 
-        public User Register(User user)
+        public void Register(User user)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public User SignIn(string username, string password)

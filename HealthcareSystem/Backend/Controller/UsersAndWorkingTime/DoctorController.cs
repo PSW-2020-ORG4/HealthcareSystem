@@ -16,14 +16,14 @@ namespace Controller.UsersAndWorkingTime
    {
         private DoctorService doctorSevice = new DoctorService();
 
-        public User EditProfile(User user)
+        public void EditProfile(User user)
         {
-            return doctorSevice.EditDoctor((Doctor)user);
+            doctorSevice.EditDoctor((Doctor)user);
         }
 
-        public User Register(User user)
+        public void Register(User user)
         {
-            return doctorSevice.RegisterDoctor((Doctor)user);
+            doctorSevice.RegisterDoctor((Doctor)user);
         }
 
         public User SignIn(string username, string password)

@@ -18,7 +18,8 @@ namespace Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRep
 
         public void DeleteRenovationPeriod(int roomNumber)
         {
-            _context.RenovationPeriods.Remove((RenovationPeriod)_context.RenovationPeriods.Where(d => d.RoomNumber == roomNumber));
+            RenovationPeriod renovationPeriod = GetRenovationPeriodByRoomNumber(roomNumber);
+            _context.Remove(renovationPeriod);
             _context.SaveChanges();
         }
 

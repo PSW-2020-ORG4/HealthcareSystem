@@ -19,7 +19,8 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
 
         public void DeleteRoom(int number)
         {
-            _context.Rooms.Remove((Room)_context.Drugs.Where(d => d.Id == number));
+            Room room = GetRoomByNumber(number);
+            _context.Remove(room);
             _context.SaveChanges();
         }
 

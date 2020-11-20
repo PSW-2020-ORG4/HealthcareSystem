@@ -25,6 +25,7 @@ namespace Backend.Model
         public DbSet<Examination> Examinations { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RenovationPeriod> RenovationPeriods { get; set; }
+        public DbSet<WorkingTime> WorkingTimes { get; set; }
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
     }

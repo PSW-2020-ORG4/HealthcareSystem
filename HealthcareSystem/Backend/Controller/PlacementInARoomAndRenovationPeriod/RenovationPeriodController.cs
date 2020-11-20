@@ -15,9 +15,9 @@ namespace Controller.PlacementInARoomAndRenovationPeriod
                 _renovationPeriodService.AddRenovationPeriod(renovationPeriod);
             }
 
-            public void DeleteRenovationPeriod(int roomNumber)
+            public void CancelRenovationPeriod(int roomNumber)
             {
-                _renovationPeriodService.DeleteRenovationPeriod(roomNumber);
+                _renovationPeriodService.CancelRenovationPeriod(roomNumber);
             }
 
             public List<RenovationPeriod> ViewRenovations()

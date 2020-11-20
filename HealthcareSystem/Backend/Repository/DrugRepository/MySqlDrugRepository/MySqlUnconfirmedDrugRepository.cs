@@ -17,7 +17,8 @@ namespace Backend.Repository.DrugRepository.MySQLDrugRepository
         }
         public void DeleteDrug(int id)
         {
-            _context.Drugs.Remove((Drug)_context.Drugs.Where(d => d.Id == id));
+            Drug drug = GetDrug(id);
+            _context.Remove(drug);
             _context.SaveChanges();
         }
 

@@ -40,7 +40,7 @@ namespace Service.PlacementInARoomAndRenovationPeriod
                 _renovationPeriodRepository.AddRenovationPeriod(renovationPeriod);
         }
 
-        public void DeleteRenovationPeriod(int roomNumber)
+        public void CancelRenovationPeriod(int roomNumber)
         {
             _renovationPeriodRepository.DeleteRenovationPeriod(roomNumber);
         }

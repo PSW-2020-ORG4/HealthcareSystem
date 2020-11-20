@@ -81,7 +81,7 @@ namespace Service.RoomAndEquipment
                 }
                 else
                 {
-                    RenovationPeriod renovationPeriod = _renovationPeriodRepository.GetRenovationPeriodByRoomNumber(r.Number);
+                    RenovationPeriod renovationPeriod = _renovationPeriodRepository.GetRenovationPeriodByRoomNumber(r.Id);
                     int beginDateCompare = DateTime.Compare(beginDate, renovationPeriod.BeginDate);
                     int endDateCompare = DateTime.Compare(endDate, renovationPeriod.EndDate);
                     if (renovationPeriod != null && ((beginDateCompare <= 0 && endDateCompare <= 0) || (beginDateCompare >= 0 && endDateCompare >= 0)))

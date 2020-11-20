@@ -10,7 +10,7 @@ namespace Backend.Service.PlacementInARoomAndRenovationPeriod
     public interface IRenovationPeriodService
     {
         void AddRenovationPeriod(RenovationPeriod renovationPeriod);
-        void DeleteRenovationPeriod(int roomNumber);
+        void CancelRenovationPeriod(int roomNumber);
         List<RenovationPeriod> ViewRenovations();
         RenovationPeriod ViewRenovationByRoomNumber(int roomNumber);
         void UpdateRenovationPeriod(RenovationPeriod renovationPeriod);

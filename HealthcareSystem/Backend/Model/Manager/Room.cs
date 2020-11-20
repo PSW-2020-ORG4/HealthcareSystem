@@ -13,7 +13,7 @@ namespace Model.Manager
     public class Room
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Number { get; set; }
+        public int Id { get; set; }
         public TypeOfUsage Usage { get; set; }
         public int Capacity { get; set; }
         public int Occupation { get; set; }
@@ -23,7 +23,7 @@ namespace Model.Manager
 
         public Room(int number, TypeOfUsage typeOfUsage, int capacity, int occupation, bool renovation)
         {
-            Number = number;
+            Id = number;
             Usage = typeOfUsage;
             Capacity = capacity;
             Occupation = occupation;
@@ -31,7 +31,7 @@ namespace Model.Manager
         }
         public Room(Room room)
         {
-            Number = room.Number;
+            Id = room.Id;
             Usage = room.Usage;
             Capacity = room.Capacity;
             Occupation = room.Occupation;

@@ -33,7 +33,7 @@ namespace Repository
             {
                 return 0;
             }
-            return rooms[rooms.Count - 1].Number;
+            return rooms[rooms.Count - 1].Id;
         }
 
         public Room GetRoomByNumber(int number)
@@ -42,7 +42,7 @@ namespace Repository
             List<Room> roomList = ReadFromFile();
             foreach (Room r in roomList)
             {
-                if (r.Number == number)
+                if (r.Id == number)
                 {
                     return r;
                 }
@@ -81,9 +81,9 @@ namespace Repository
             List<Room> roomList = ReadFromFile();
             foreach (Room r in roomList)
             {
-                if (r.Number == room.Number)
+                if (r.Id == room.Id)
                 {
-                    r.Number = room.Number;
+                    r.Id = room.Id;
                     r.Usage = room.Usage;
                     r.Capacity = room.Capacity;
                     r.Occupation = room.Occupation;
@@ -102,7 +102,7 @@ namespace Repository
             Room roomForDelete = null;
             foreach (Room r in roomList)
             {
-                if (r.Number == number)
+                if (r.Id == number)
                 {
                     roomForDelete = r;
                     break;
@@ -119,7 +119,7 @@ namespace Repository
         {
             // TODO: implement
             List<Room> roomList = ReadFromFile();
-            Room searchRoom = GetRoomByNumber(room.Number);
+            Room searchRoom = GetRoomByNumber(room.Id);
             if (searchRoom != null)
             {
                 throw new ValidationException();

@@ -11,6 +11,9 @@ namespace Model.Manager
 {
     public class RenovationPeriod
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         [ForeignKey("Room")]
         public int RoomNumber { get; set; }
         public virtual Room Room { get; set; }

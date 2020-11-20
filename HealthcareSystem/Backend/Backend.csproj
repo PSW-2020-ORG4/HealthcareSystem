@@ -232,6 +232,7 @@
     <Compile Include="Model\Enums\TypeOfNotification.cs" />
     <Compile Include="Model\Enums\TypeOfQualifications.cs" />
     <Compile Include="Model\Users\User.cs" />
+	<Compile Include="Model\Pharmacies\Pharmacy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\DoctorRepository\FileDoctorRepository\FileDoctorRepository.cs" />
     <Compile Include="Repository\DoctorRepository\IDoctorRepository.cs" />
@@ -287,6 +288,8 @@
     <Compile Include="Repository\TherapyRepository\ITherapyRepository.cs" />
     <Compile Include="Repository\TherapyRepository\MySqlTherapyRepository\MySqlTherapyRepository.cs" />
     <Compile Include="Repository\WorkingTimeRepository.cs" />
+	<Compile Include="Repository\PharmacyRepository\IPharmacyRepo.cs" />
+	<Compile Include="Repository\PharmacyRepository\MySqlPharmacyRepo\MySqlPharmacyRepo.cs" />
     <Compile Include="Service\DrugAndTherapy\ITherapyService.cs" />
     <Compile Include="Service\DrugAndTherapy\TherapyService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\ExaminationService.cs" />
@@ -314,6 +317,9 @@
     <Compile Include="Service\UsersAndWorkingTime\PatientService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\SecretaryService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\WorkingTimeService.cs" />
+	<Compile Include="Service\Pharmacies\IPharmacyService.cs" />
+	<Compile Include="Service\Pharmacies\MockPharmacyService.cs" />
+	<Compile Include="Service\Pharmacies\PharmacyService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

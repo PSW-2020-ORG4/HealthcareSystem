@@ -1,3 +1,4 @@
+using Backend.Model.Pharmacies;
 ﻿using Microsoft.EntityFrameworkCore;
 using Model.NotificationSurveyAndFeedback;
 using Model.Manager;
@@ -29,6 +30,8 @@ namespace Backend.Model
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RenovationPeriod> RenovationPeriods { get; set; }
         public DbSet<WorkingTime> WorkingTimes { get; set; }
+        public DbSet<Pharmacy> Pharmacies { get; set; }
+
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
     }

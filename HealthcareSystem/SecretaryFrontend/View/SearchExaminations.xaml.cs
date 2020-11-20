@@ -4,6 +4,7 @@ using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
 using Model.PerformingExamination;
 using Model.Manager;
+using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using Syncfusion.Windows.Shared;
@@ -81,7 +82,7 @@ namespace ProjekatZdravoKorporacija
                     type = "Specijalistički pregled";
                 }
                 scheduledExaminations.Add(new ExaminationDTO(e.IdExamination, e.Doctor.Name + " " + e.Doctor.Surname + " " + e.Doctor.Jmbg, 
-                                    e.PatientCard.Patient.Name + " " + e.PatientCard.Patient.Surname + " " + e.PatientCard.Patient.Jmbg, e.Room.Number.ToString(), 
+                                    e.PatientCard.Patient.Name + " " + e.PatientCard.Patient.Surname + " " + e.PatientCard.Patient.Jmbg, e.Room.Id.ToString(), 
                                     type, e.DateAndTime.ToShortDateString(), e.DateAndTime.ToShortTimeString()));
             }
 
@@ -211,7 +212,7 @@ namespace ProjekatZdravoKorporacija
             }
             if(selectedRoom != null)
             {
-                filteredExaminations = filteredExaminations.Where(exm => exm.Room.Contains(selectedRoom.Number.ToString())).ToList();
+                filteredExaminations = filteredExaminations.Where(exm => exm.Room.Contains(selectedRoom.Id.ToString())).ToList();
             }
             if (datePicker.SelectedDate != null)
             {

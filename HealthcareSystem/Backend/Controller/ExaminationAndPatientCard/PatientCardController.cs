@@ -24,7 +24,7 @@ namespace Controller.ExaminationAndPatientCard
         }  
         public void CreatePatientCard(PatientCard patientCard)
         {
-            _patientCardService.CreatePatientCard(patientCard);
+            _patientCardService.AddPatientCard(patientCard);
         }  
    
    }

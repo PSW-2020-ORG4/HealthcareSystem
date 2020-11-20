@@ -6,12 +6,18 @@
 
 using Model.Users;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Manager
 {
     public class WorkingTime
     {
-        public Model.Users.Doctor doctor { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [ForeignKey("Doctor")]
+        public string DoctorJmbg { get; set; }
+        public virtual Doctor Doctor { get; set; }
         public WorkShifts WorkShift { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -22,11 +28,11 @@ namespace Model.Manager
         {
             if (doctor == null)
             {
-                this.doctor = new Users.Doctor();
+                this.Doctor = new Users.Doctor();
             }
             else
             {
-                this.doctor = new Users.Doctor(doctor);
+                this.Doctor = new Users.Doctor(doctor);
             }
             this.WorkShift = workShift;
             this.StartDate = start;
@@ -34,13 +40,13 @@ namespace Model.Manager
         }
         public WorkingTime(WorkingTime workingTime)
         {
-            if (workingTime.doctor == null)
+            if (workingTime.Doctor == null)
             {
-                this.doctor = new Users.Doctor();
+                this.Doctor = new Users.Doctor();
             }
             else
             {
-                this.doctor = new Users.Doctor(workingTime.doctor);
+                this.Doctor = new Users.Doctor(workingTime.Doctor);
             }
             this.WorkShift = workingTime.WorkShift;
             this.StartDate = workingTime.StartDate;

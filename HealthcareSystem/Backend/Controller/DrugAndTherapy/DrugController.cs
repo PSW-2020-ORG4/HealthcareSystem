@@ -1,6 +1,6 @@
 /***********************************************************************
  * Module:  DrugController.cs
- * Author:  Dragana Carapic
+ * Author:  Jelena Budisa
  * Purpose: Definition of the Class Controller.DrugController
  ***********************************************************************/
 
@@ -11,73 +11,73 @@ using System.Collections.Generic;
 
 namespace Controller.DrugAndTherapy
 {
-   public class DrugController
-   {
-        private DrugService drugService = new DrugService();
-		
-		 public int getLastIdConfirmed()
+    public class DrugController
+    {
+        private DrugService _drugService;
+
+        public int getLastIdConfirmed()
         {
-            return drugService.getLastIdConfirmed();
+            return _drugService.getLastIdConfirmed();
         }
 
         public int getLastIdUnconfirmed()
         {
-            return drugService.getLastIdUnconfirmed();
+            return _drugService.getLastIdUnconfirmed();
         }
-		
-      public Drug AddDrug(Drug drug)
-      {
+
+        public void AddDrug(Drug drug)
+        {
             // TODO: implement
-            return drugService.AddDrug(drug);
-      }
-      
-      public Drug EditConfirmedDrug(Drug drug)
-      {
+            _drugService.AddDrug(drug);
+        }
+
+        public void UpdateConfirmedDrug(Drug drug)
+        {
             // TODO: implement
-            return drugService.EditConfirmedDrug(drug);
-      }
-      
-      public bool DeleteConfirmedDrug(int id)
-      {
+            _drugService.UpdateConfirmedDrug(drug);
+        }
+
+        public void DeleteConfirmedDrug(int id)
+        {
             // TODO: implement
-            return drugService.DeleteConfirmedDrug(id);
-      }
-      
-      public List<Drug> ViewConfirmedDrugs()
-      {
+            _drugService.DeleteConfirmedDrug(id);
+        }
+
+        public List<Drug> ViewConfirmedDrugs()
+        {
             // TODO: implement
-            return drugService.ViewConfirmedDrugs();
-      }
-      
-      public void ConfirmDrug(Drug drug)
-      {
+            return _drugService.ViewConfirmedDrugs();
+        }
+
+        public void ConfirmDrug(Drug drug)
+        {
             // TODO: implement
-            drugService.ConfirmDrug(drug);
-      }
-      
-      public Drug EditUnconfirmedDrug(Drug drug)
-      {
+            _drugService.ConfirmDrug(drug);
+        }
+
+        public void UpdateUnconfirmedDrug(Drug drug)
+        {
             // TODO: implement
-            return drugService.EditUnconfirmedDrug(drug);
-      }
-      
-      public bool DeleteUnconfirmedDrug(int id)
-      {
+            _drugService.UpdateUnconfirmedDrug(drug);
+        }
+
+        public void DeleteUnconfirmedDrug(int id)
+        {
             // TODO: implement
-            return drugService.DeleteUnconfirmedDrug(id);
-      }
-      
-      public List<Drug> ViewUnconfirmedDrugs()
-      {
+            _drugService.DeleteUnconfirmedDrug(id);
+        }
+
+        public List<Drug> ViewUnconfirmedDrugs()
+        {
             // TODO: implement
-            return drugService.ViewUnconfirmedDrugs();
-      }
-      
-      public Drug TransferUnconfirmedDrug(Drug drug)
-      {
+            return _drugService.ViewUnconfirmedDrugs();
+        }
+
+        public Drug TransferUnconfirmedDrug(Drug drug)
+        {
             // TODO: implement
-            return drugService.TransferUnconfirmedDrug(drug);
-      }     
-   
-   }
+            return _drugService.TransferUnconfirmedDrug(drug);
+        }
+
+    }
 }

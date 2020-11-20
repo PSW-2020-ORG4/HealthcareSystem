@@ -6,6 +6,7 @@ using Backend.Model.Exceptions;
 using Backend.Service.NotificationSurveyAndFeedback;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using PatientWebApp.Adapters;
 using PatientWebApp.DTOs;
@@ -71,8 +72,15 @@ namespace PatientWebApp.Controllers
         public ActionResult GetPublishedFeedbacks()
         {
             List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            _feedbackService.GetPublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-            return Ok(feedbackDTOs);
+            try
+            {
+                _feedbackService.GetPublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
+                return Ok(feedbackDTOs);
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
         }
         /// <summary>
         /// /getting all unpublished feedbacks
@@ -82,8 +90,15 @@ namespace PatientWebApp.Controllers
         public ActionResult GetUnpublishedFeedbacks()
         {
             List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            _feedbackService.GetUnpublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-            return Ok(feedbackDTOs);
+            try
+            {      
+                _feedbackService.GetUnpublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
+                return Ok(feedbackDTOs);
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }         
         }
         /// <summary>
         /// / updating feedbacks status (property: IsPublished) to published

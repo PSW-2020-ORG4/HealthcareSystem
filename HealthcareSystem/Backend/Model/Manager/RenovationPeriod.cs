@@ -5,12 +5,18 @@
  ***********************************************************************/
 
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Manager
 {
     public class RenovationPeriod
     {
-        public Room room { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [ForeignKey("Room")]
+        public int RoomNumber { get; set; }
+        public virtual Room Room { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
 
@@ -18,30 +24,30 @@ namespace Model.Manager
         {
 
         }
-		public RenovationPeriod(Room room,DateTime begin,DateTime end)
+        public RenovationPeriod(Room room, DateTime begin, DateTime end)
         {
             if (room == null)
             {
-                this.room = new Room();
+                this.Room = new Room();
             }
             else
             {
-                this.room = new Room(room);
+                this.Room = new Room(room);
             }
             BeginDate = begin;
             EndDate = end;
         }
         public RenovationPeriod(RenovationPeriod renovationPeriod)
         {
-            if (renovationPeriod.room == null)
+            if (renovationPeriod.Room == null)
             {
-                room = new Room();
+                Room = new Room();
             }
             else
             {
-                room = new Room(renovationPeriod.room);
+                Room = new Room(renovationPeriod.Room);
             }
-            room = new Room(renovationPeriod.room);
+            Room = new Room(renovationPeriod.Room);
             BeginDate = renovationPeriod.BeginDate;
             EndDate = renovationPeriod.EndDate;
         }

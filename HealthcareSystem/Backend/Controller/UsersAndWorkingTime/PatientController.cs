@@ -15,14 +15,14 @@ namespace Controller.UsersAndWorkingTime
    public class PatientController : IUserStrategy
    {
         private PatientService patientService = new PatientService(new FileActivePatientRepository());
-        public User EditProfile(User user)
+        public void EditProfile(User user)
         {
-            return patientService.EditPatient((Patient)user);
+            patientService.EditPatient((Patient)user);
         }
 
-        public User Register(User user)
+        public void Register(User user)
         {
-            return patientService.RegisterPatient((Patient)user);
+            patientService.RegisterPatient((Patient)user);
         }
 
         public User SignIn(string username, string password)

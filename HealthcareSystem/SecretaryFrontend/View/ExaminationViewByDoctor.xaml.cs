@@ -23,6 +23,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Configuration;
+using Model.NotificationSurveyAndFeedback;
 using Model.Enums;
 
 namespace ProjekatZdravoKorporacija
@@ -263,9 +264,9 @@ namespace ProjekatZdravoKorporacija
                 {
                     string room = "";
                     string type = "";
-                    if (exm.Room.Number != 0)
+                    if (exm.Room.Id != 0)
                     {
-                        room = exm.Room.Number.ToString();
+                        room = exm.Room.Id.ToString();
                     }
                     if (room.Equals(""))
                     {

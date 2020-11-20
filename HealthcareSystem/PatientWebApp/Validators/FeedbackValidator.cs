@@ -1,5 +1,6 @@
 ﻿using Backend.Model.Exceptions;
 using Backend.Service.NotificationSurveyAndFeedback;
+using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using PatientWebApp.DTOs;
 using System;

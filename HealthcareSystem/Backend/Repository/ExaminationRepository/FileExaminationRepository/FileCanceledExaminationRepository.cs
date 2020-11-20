@@ -96,7 +96,7 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             List<Examination> examinationsForDelete = new List<Examination>();
             foreach (Examination e in canceledExaminations)
             {
-                if (e.Room.Number == numberOfRoom)
+                if (e.Room.Id == numberOfRoom)
                 {
                     examinationsForDelete.Add(e);
                 }

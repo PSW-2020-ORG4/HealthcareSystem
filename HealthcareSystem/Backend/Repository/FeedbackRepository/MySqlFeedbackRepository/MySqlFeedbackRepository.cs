@@ -1,5 +1,6 @@
 ﻿using Backend.Model;
 using Backend.Model.Exceptions;
+using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using MySql.Data.MySqlClient;
 using Repository;

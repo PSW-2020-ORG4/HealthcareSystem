@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ZdravoKorporacija.Properties
+namespace PatientFrontend.Properties
 {
 
 

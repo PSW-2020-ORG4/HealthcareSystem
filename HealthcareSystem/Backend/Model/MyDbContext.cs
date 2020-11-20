@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
 using Model.NotificationSurveyAndFeedback;
-=======
 using Model.PerformingExamination;
->>>>>>> develop
 using Model.Users;
 using System;
 using System.Collections.Generic;

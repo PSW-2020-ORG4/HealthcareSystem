@@ -143,7 +143,7 @@ namespace Repository
             List<PlacemetnInARoom> placementsForDelete = new List<PlacemetnInARoom>();
             foreach (PlacemetnInARoom p in placementList)
             {
-                if (p.room.Number == number)
+                if (p.room.Id == number)
                 {
                     placementsForDelete.Add(p);
                 }
@@ -169,7 +169,7 @@ namespace Repository
             {
                 int compareBeginDate = DateTime.Compare(beginDate, p.DateOfPlacement);
                 int compareEndDate = DateTime.Compare(endDate, p.DateOfDismison);
-                if (p.room.Number == roomNumber && compareBeginDate <=0 && compareEndDate >=0 )
+                if (p.room.Id == roomNumber && compareBeginDate <=0 && compareEndDate >=0 )
                 {
                     placementListRoom.Add(p);
                 }

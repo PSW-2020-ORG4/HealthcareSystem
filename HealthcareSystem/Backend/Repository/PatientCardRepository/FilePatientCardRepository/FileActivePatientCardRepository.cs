@@ -24,7 +24,7 @@ namespace Repository
             _path = Path.GetFullPath(fileName);
         }
 
-        public PatientCard GetPatientCard(string jmbg)
+        public PatientCard GetPatientCardByJmbg(string jmbg)
         {
             List<PatientCard> patientCards = ReadFromFile();
 
@@ -41,7 +41,7 @@ namespace Repository
         public void AddPatientCard(PatientCard patientCard)
         {
             List<PatientCard> patientCards = ReadFromFile();
-            PatientCard searchPatientCard = GetPatientCard(patientCard.Patient.Jmbg);
+            PatientCard searchPatientCard = GetPatientCardByJmbg(patientCard.Patient.Jmbg);
 
             if (searchPatientCard != null)
             {

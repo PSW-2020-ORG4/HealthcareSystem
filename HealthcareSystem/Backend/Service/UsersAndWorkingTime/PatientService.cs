@@ -5,7 +5,7 @@
  ***********************************************************************/
 
 using Backend.Model.Exceptions;
-using Backend.Service.UsersAndWorkingTime;
+using Backend.Service;
 using Model.Users;
 using Repository;
 using System;
@@ -22,14 +22,16 @@ namespace Service.UsersAndWorkingTime
         {
             _activePatientRepository = activePatientRepository;
         }
-        public Patient RegisterPatient(Patient patient)
+        public void RegisterPatient(Patient patient)
         {
-            if (!patient.IsGuest && (!IsUsernameValid(patient.Username) || !IsPasswordValid(patient.Password)))
+            try
             {
-                throw new ValidationException("Your username or password is incorrect. Please try again.");
+                _activePatientRepository.AddPatient(patient);
             }
-            _activePatientRepository.AddPatient(patient);
-            return patient;
+            catch (Exception)
+            {
+                throw new DatabaseException("Patient with jmbg=" + patient.Jmbg + " already exists in database.");
+            }
         }
         public List<Patient> ViewPatients()
         {
@@ -40,7 +42,7 @@ namespace Service.UsersAndWorkingTime
         {
             Patient patient = _activePatientRepository.GetPatientByJmbg(jmbg);
             if (patient == null)
-                throw new NotFoundException("Patient with jmbg=" + patient.Jmbg + " doesn't exist in database.");
+                throw new NotFoundException("Patient with jmbg=" + jmbg + " doesn't exist in database.");
             return patient;
         }
 
@@ -51,36 +53,14 @@ namespace Service.UsersAndWorkingTime
             _activePatientRepository.UpdatePatient(patient);
         }
 
-        public Patient EditPatient(Patient patient)
+        public void EditPatient(Patient patient)
         {
-            if ((!IsUsernameValid(patient.Username) || !IsPasswordValid(patient.Password)) && !patient.IsGuest)
-            {
-                return null;
-            }
             _activePatientRepository.UpdatePatient(patient);
-            return patient;
         }
         
         public Patient SignIn(string username, string password)
         {
             return _activePatientRepository.CheckUsernameAndPassword(username, password);
-        }
-
-        public bool IsUsernameValid(string username)
-        {
-            Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{5,13}$");
-            Match match = regex.Match(username);
-
-            return match.Success;
-        }
-      
-        public bool IsPasswordValid(string password)
-        {
-            Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{8,30}$");
-            Match match = regex.Match(password);
-
-            return match.Success;
-        }
-   
+        }   
    }
 }

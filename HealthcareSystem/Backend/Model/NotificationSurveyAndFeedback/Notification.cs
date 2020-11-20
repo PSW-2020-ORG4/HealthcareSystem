@@ -4,9 +4,10 @@
  * Purpose: Definition of the Class Model.Users.Notification
  ***********************************************************************/
 
+using Model.Users;
 using System;
 
-namespace Model.Users
+namespace Model.NotificationSurveyAndFeedback
 {
    public class Notification
    {

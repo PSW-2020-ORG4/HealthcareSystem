@@ -5,13 +5,14 @@
  ***********************************************************************/
 
 using Backend.Model.Exceptions;
+using Backend.Service;
 using Model.Users;
 using Repository;
 using System;
 
 namespace Service.ExaminationAndPatientCard
 {
-   public class PatientCardService
+   public class PatientCardService : IPatientCardService
    {
         private IActivePatientCardRepository _activePatientCardRepository;
 
@@ -19,15 +20,15 @@ namespace Service.ExaminationAndPatientCard
         {
             _activePatientCardRepository = activePatientCardRepository;
         }
-        public void CreatePatientCard(PatientCard patientCard)
+        public void AddPatientCard(PatientCard patientCard)
         {
             _activePatientCardRepository.AddPatientCard(patientCard);
         }
         public PatientCard ViewPatientCard(string patientJmbg)
         {
-            PatientCard patientCard = _activePatientCardRepository.GetPatientCard(patientJmbg);
+            PatientCard patientCard = _activePatientCardRepository.GetPatientCardByJmbg(patientJmbg);
             if (patientCard == null)
-                throw new NotFoundException("Patient card with jmbg=" + patientCard.PatientJmbg + " doesn't exist in database.");
+                throw new NotFoundException("Patient card with jmbg=" + patientJmbg + " doesn't exist in database.");
             return patientCard;
         }
         public void EditPatientCard(PatientCard patientCard)

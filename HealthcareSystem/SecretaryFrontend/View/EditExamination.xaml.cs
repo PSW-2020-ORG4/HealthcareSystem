@@ -178,7 +178,7 @@ namespace ProjekatZdravoKorporacija
                    
                         int lastId = notificationController.getLastId();
                         string message = "Ponovo zakazan otkazani pregled\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
-                                     + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
+                                     + "\nBroj sobe: " + selectedRoom.Id + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
                         notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.Patient.Jmbg));
 
                         var okMb = new OKMessageBox(this, 0);
@@ -202,7 +202,7 @@ namespace ProjekatZdravoKorporacija
                    
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
-                                    + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
+                                    + "\nBroj sobe: " + selectedRoom.Id + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
                         notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.Patient.Jmbg));
 
                         var okMb = new OKMessageBox(this, 0);
@@ -226,7 +226,7 @@ namespace ProjekatZdravoKorporacija
                
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
-                                    + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
+                                    + "\nBroj sobe: " + selectedRoom.Id + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
                         notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.Patient.Jmbg));
 
                         var okMb = new OKMessageBox(this, 0);
@@ -267,7 +267,7 @@ namespace ProjekatZdravoKorporacija
             {
                 for (int i = 0; i < rooms.Count; i++)
                 {
-                    if (rooms[i].Number == roomForSelection.Number)
+                    if (rooms[i].Id == roomForSelection.Id)
                     {
                         cmbNumberOfRoom.SelectedIndex = i;
                         break;
@@ -332,7 +332,7 @@ namespace ProjekatZdravoKorporacija
             tpTime.DataContext = null;
             foreach (Examination exm in allAppointments)
             {
-                if (exm.Room.Number == 0) //ovo je slobodan termin
+                if (exm.Room.Id == 0) //ovo je slobodan termin
                 {
                     freeAppointments.Add(new TimeDTO(exm.DateAndTime.ToShortTimeString()));
                 }

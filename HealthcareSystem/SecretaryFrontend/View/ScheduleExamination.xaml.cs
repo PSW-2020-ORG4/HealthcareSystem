@@ -136,7 +136,7 @@ namespace ProjekatZdravoKorporacija.View
 
                 int lastId = notificationController.getLastId();
                 string message = "Zakazan pregled\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
-                                 + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
+                                 + "\nBroj sobe: " + selectedRoom.Id + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
 
                 notificationController.SendNotification(new Notification(++lastId,TypeOfNotification.Pregled,message, selectedPatientCard.Patient.Jmbg));
 

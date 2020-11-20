@@ -1,18 +1,18 @@
 /***********************************************************************
  * Module:  TypeOfUsage.cs
- * Author:  Dragana Carapic
+ * Author:  Jelena Budisa
  * Purpose: Definition of the Class TypeOfUsage
  ***********************************************************************/
 
 using System;
 
-namespace Model.Manager
+namespace Model.Enums
 {
    public enum TypeOfUsage
    {
-      Soba_za_pregled = 0,
-      Soba_za_lezanje = 1,
-      Operaciona_sala = 2
-   
-   }
+        CONSULTING_ROOM = 0,
+        SICKROOM = 1,
+        OPERATION_ROOM = 2
+
+    }
 }

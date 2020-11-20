@@ -4,6 +4,9 @@
  * Purpose: Definition of the Class Service.Examination&Drug&PatientCard&TherapyService.DrugTypeAndIngridientService
  ***********************************************************************/
 
+using Backend.Repository.DrugTypeRepository;
+using Backend.Repository.IngridientRepository;
+using Backend.Service.DrugAndTherapy;
 using Model.Manager;
 using Repository;
 using System;
@@ -11,22 +14,28 @@ using System.Collections.Generic;
 
 namespace Service.DrugAndTherapy
 {
-    public class DrugTypeAndIngridientService
-   {
-        private IngridientRepository ingridientRepository = new IngridientRepository();
-        private DrugTypeRepository drugTypeRepository = new DrugTypeRepository();
+    public class DrugTypeAndIngridientService : IDrugTypeAndIngridientService
+    {
+        private IDrugTypeRepository _drugTypeRepository;
+        private IIngridientRepository _ingridientRepository;
+
+        public DrugTypeAndIngridientService(IDrugTypeRepository drugTypeRepository, IIngridientRepository ingridientRepository)
+        {
+            _drugTypeRepository = drugTypeRepository;
+            _ingridientRepository = ingridientRepository;
+        }
         public List<Ingredient> ViewIngridients()
-      {
+        {
             // TODO: implement
-            return ingridientRepository.GetAllIngridients();
-      }
-      
-      public List<DrugType> ViewDrugTypes()
-      {
+            return _ingridientRepository.GetAllIngridients();
+        }
+
+        public List<DrugType> ViewDrugTypes()
+        {
             // TODO: implement
-            return drugTypeRepository.GetAllDrugTypes();
-      }
-   
-   
-   }
+            return _drugTypeRepository.GetAllDrugTypes();
+        }
+
+
+    }
 }

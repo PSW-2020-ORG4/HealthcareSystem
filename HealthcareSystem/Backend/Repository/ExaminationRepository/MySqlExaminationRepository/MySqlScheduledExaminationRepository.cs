@@ -10,7 +10,7 @@ using Model.Users;
 
 namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
 {
-    class MySqlScheduledExaminationRepository : IScheduledExaminationRepository
+    public class MySqlScheduledExaminationRepository : IScheduledExaminationRepository
     {
         private readonly MyDbContext _context;
 

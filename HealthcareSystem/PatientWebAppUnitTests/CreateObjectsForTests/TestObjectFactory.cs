@@ -4,9 +4,9 @@ using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public class ObjectFactory
+    public class TestObjectFactory
     {
-        public ICreateObject GetObject(string objectType)
+        public ICreateTestObject GetObject(string objectType)
         {
             if (objectType.Equals("PatientDTO"))
             {

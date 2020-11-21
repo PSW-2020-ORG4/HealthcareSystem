@@ -10,9 +10,9 @@ namespace Model.Enums
 {
    public enum TypeOfExamination
    {
-      General = 0,
-      Specialist = 1,
-      Surgery = 2
+      GENERAL = 0,
+      SPECIALIST = 1,
+      SURGERY = 2
    
    }
 }

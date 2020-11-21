@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Backend.Model;
 using Backend.Repository;
 using Backend.Service;
@@ -19,17 +15,14 @@ using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.NotificationSurveyAndFeedback;
-using Backend.Service;
 using Backend.Service.PlacementInARoomAndRenovationPeriod;
 using Backend.Service.RoomAndEquipment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Repository;
 using Service.DrugAndTherapy;
 using Service.NotificationSurveyAndFeedback;
@@ -55,6 +48,12 @@ namespace PatientWebApp
             services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
                                 options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());
+
+            services.AddScoped<ICountryRepository, MySqlCountryRepository>();
+            services.AddScoped<ICountryService, CountryService>();
+
+            services.AddScoped<ICityRepository, MySqlCityRepository>();
+            services.AddScoped<ICityService, CityService>();
 
             services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();       
             services.AddScoped<IFeedbackService, FeedbackService>();

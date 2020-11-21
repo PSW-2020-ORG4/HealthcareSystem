@@ -23,7 +23,7 @@ namespace PatientWebApp.DTOs
         public RhFactorType RhFactor { get; set; }
         public bool HasInsurance { get; set; }
         public string Lbo { get; set; }
-        public string Alergies { get; set; }
+        public string Allergies { get; set; }
         public string MedicalHistory { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }

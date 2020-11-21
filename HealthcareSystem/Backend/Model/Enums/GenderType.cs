@@ -11,7 +11,7 @@ namespace Model.Enums
    public enum GenderType
    {
       M = 0,
-      Z = 1
+      F = 1
    
    }
 }

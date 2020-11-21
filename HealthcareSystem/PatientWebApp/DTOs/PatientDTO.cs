@@ -50,7 +50,7 @@ namespace PatientWebApp.DTOs
             RhFactor = rhFactor;
             HasInsurance = hasInsurance;
             Lbo = lbo;
-            Alergies = alergies;
+            Allergies = alergies;
             MedicalHistory = medicalHistory;
             Email = email;
             Password = password;

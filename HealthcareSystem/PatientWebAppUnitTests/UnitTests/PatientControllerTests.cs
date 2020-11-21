@@ -27,7 +27,7 @@ namespace PatientWebAppTests.UnitTests
             var patientStubRepository = new Mock<IActivePatientRepository>();
             ICreateObject newValidObject = _objectFactory.GetObject("Patient");
             var patients = new List<Patient>();
-            patients.Add((Patient)newValidObject.createValidObject());
+            patients.Add((Patient)newValidObject.CreateValidObject());
 
             patientStubRepository.Setup(m => m.GetPatientByJmbg("1234567891234")).Returns(patients[0]);
             patientStubRepository.Setup(m => m.AddPatient(new Patient()));
@@ -40,7 +40,7 @@ namespace PatientWebAppTests.UnitTests
             var patientCardStubRepository = new Mock<IActivePatientCardRepository>();
             ICreateObject newValidObject = _objectFactory.GetObject("PatientCard");
             var patientCards = new List<PatientCard>();
-            patientCards.Add((PatientCard)newValidObject.createValidObject());
+            patientCards.Add((PatientCard)newValidObject.CreateValidObject());
 
             patientCardStubRepository.Setup(m => m.GetPatientCardByJmbg("1234567891234")).Returns(patientCards[0]);
             patientCardStubRepository.Setup(m => m.AddPatientCard(new PatientCard()));
@@ -81,7 +81,7 @@ namespace PatientWebAppTests.UnitTests
             PatientController patientController = new PatientController(patientService, patientCardService);
             ICreateObject newValidObject = _objectFactory.GetObject("PatientDTO");
 
-            var result = patientController.AddPatient((PatientDTO)newValidObject.createValidObject());
+            var result = patientController.AddPatient((PatientDTO)newValidObject.CreateValidObject());
 
             Assert.True(result is OkResult);
         }
@@ -94,7 +94,7 @@ namespace PatientWebAppTests.UnitTests
             PatientController patientController = new PatientController(patientService, patientCardService);
             ICreateObject newInvalidObject = _objectFactory.GetObject("PatientDTO");
 
-            var result = patientController.AddPatient((PatientDTO)newInvalidObject.createInvalidObject());
+            var result = patientController.AddPatient((PatientDTO)newInvalidObject.CreateInvalidObject());
 
             Assert.True(result is BadRequestObjectResult);
         }

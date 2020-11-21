@@ -8,14 +8,14 @@ namespace PatientWebAppTests.CreateObjectsForTests
 {
     public class CreatePatientCard : ICreateObject
     {
-        public object createValidObject()
+        public object CreateValidObject()
         {
-            return new PatientCard(id: 1, bloodType: BloodType.A, rhFactor: RhFactorType.Negativna, alergies: "",
+            return new PatientCard(id: 1, bloodType: BloodType.A, rhFactor: RhFactorType.NEGATIVE, alergies: "",
                                    medicalHistory: "", hasInsurance: false, lbo: null, patientJmbg: "1234567891234");
         }
-        public object createInvalidObject()
+        public object CreateInvalidObject()
         {
-            return new PatientCard(id: 1, bloodType: BloodType.AB, rhFactor: RhFactorType.Negativna, alergies: null,
+            return new PatientCard(id: 1, bloodType: BloodType.AB, rhFactor: RhFactorType.NEGATIVE, alergies: null,
                                    medicalHistory: null, hasInsurance: false, lbo: null, patientJmbg: null);
         }
         

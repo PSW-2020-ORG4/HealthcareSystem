@@ -105,6 +105,12 @@ namespace ZdravoKorporacija
             this.Close();
         }
 
+        private void buttonShowGraphicalEditor_Click(object sender, RoutedEventArgs e)
+        {
+            GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow();
+            graphicalEditorMainWindow.ShowDialog();
+        }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.M)
@@ -166,6 +172,11 @@ namespace ZdravoKorporacija
                 SurveyWindow surveyWindow = new SurveyWindow();
                 surveyWindow.Show();
                 this.Close();
+            }
+            else if (e.Key == Key.E)
+            {
+                GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow();
+                graphicalEditorMainWindow.ShowDialog();
             }
         }
     }

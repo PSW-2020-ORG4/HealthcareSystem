@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegacyBackend", "LegacyBack
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientFrontend", "PatientFrontend\PatientFrontend.csproj", "{94E5CD35-E7A2-42F2-9850-6286DC1C71D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientWebAppUnitTests", "PatientWebAppUnitTests\PatientWebAppUnitTests.csproj", "{B8C74BF5-C602-4D47-B81C-ED84ECEEBB43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientWebAppTests", "PatientWebAppUnitTests\PatientWebAppTests.csproj", "{B8C74BF5-C602-4D47-B81C-ED84ECEEBB43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

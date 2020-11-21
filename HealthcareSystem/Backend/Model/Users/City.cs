@@ -28,26 +28,22 @@ namespace Model.Users
         {
             ZipCode = zipCode;
             Name = name;
-            if (country != null)
-            {
-                Country = new Country(country);
-                CountryId = country.Id;
-            }
-            else
-            {
-                Country = new Country();
-                CountryId = 0;
-            }
-            
+            InitCountry(country);
+
         }
         public City(City city)
         {
             ZipCode = city.ZipCode;
             Name = city.Name;
-            if (city.Country != null)
+            InitCountry(city.Country);
+        }
+
+        private void InitCountry(Country country)
+        {
+            if (country != null)
             {
-                Country = new Country(city.Country);
-                CountryId = city.Country.Id;
+                Country = new Country(country);
+                CountryId = country.Id;
             }
             else
             {

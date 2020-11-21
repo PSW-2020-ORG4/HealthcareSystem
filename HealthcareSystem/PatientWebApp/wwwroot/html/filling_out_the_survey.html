@@ -16,9 +16,9 @@
 
     <link rel="stylesheet" href="../css/style.css">
     <script src="../lib/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/filling_out_the_survey.js"></script>
     <title></title>
 </head>
+
 <body style="background-color: rgb(125, 208, 230)">
 
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -44,52 +44,209 @@
     <form id="survey_form" action="#!">
 
         <div style="background-color: rgb(0, 204, 212)" class="container p-3 my-3 border">
-            <p class="text-center h4 mb-4">Opinion about the doctor</p>
-
-            <p class=" h6 mb-4">Behavior of doctor</p>
-            <p class=" h6 mb-4">Professionalism</p>
-            <p class=" h6 mb-4">Getting advice or help when needed</p>
-            <p class=" h6 mb-4">Availability of doctor</p>
-        </div>
-
-        <div style="background-color: rgb(0, 204, 212)" class="container p-3 my-3 border">
             <p class="text-center h4 mb-4">Opinion about the medical staff</p>
-
             <table>
                 <tr>
-                    <td><p class=" h6 mb-4" style="width:250px">Behavior of medical staff</p></td>
+                    <td style="width:380px;"><p class=" h6 mb-4">Behavior of medical staff</p></td>
                     <td>
-                        <input style="margin-left:50px;" type="radio" id="1" name="gradeBehaviorOfMedicalStaff" value="verydissatisfied">
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeBehaviorOfMedicalStaff" value="1">
                         <label for="verydissatisfied">Very dissatisfied</label>
-                        <input style="margin-left:50px;" type="radio" id="2" name="gradeBehaviorOfMedicalStaff" value="dissatisfied">
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeBehaviorOfMedicalStaff" value="2">
                         <label for="dissatisfied">Dissatisfied</label>
-                        <input style="margin-left:50px;" type="radio" id="3" name="gradeBehaviorOfMedicalStaff" value="ok">
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeBehaviorOfMedicalStaff" value="3">
                         <label for="ok">OK</label>
-                        <input style="margin-left:50px;" type="radio" id="4" name="gradeBehaviorOfMedicalStaff" value="satisfied">
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeBehaviorOfMedicalStaff" value="4">
                         <label for="satisfied">Satisfied</label>
-                        <input style="margin-left:50px;" type="radio" id="5" name="gradeBehaviorOfMedicalStaff" value="verysatisfied" checked="checked">
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeBehaviorOfMedicalStaff" value="5" checked="checked">
                         <label for="verysatisfied">Very Satisfied</label>
                     </td>
                 </tr>
-                <tr> <td><p class=" h6 mb-4">Professionalism</p></td> </tr>
-                <tr> <td><p class=" h6 mb-4">Getting advice or help when needed</p></td> </tr>
-                <tr> <td><p class=" h6 mb-4">Ease in obtaining follow up information and care<br> (test results, medicines, and care instructions)</p></td> </tr>
+                <tr>
+                    <td><p class=" h6 mb-4">Professionalism</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeProfessionalismMedicalStaff" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeProfessionalismMedicalStaff" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeProfessionalismMedicalStaff" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeProfessionalismMedicalStaff" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeProfessionalismMedicalStaff" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class=" h6 mb-4">Getting advice or help when needed</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeGettingAdviceMedicalStaff" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeGettingAdviceMedicalStaff" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeGettingAdviceMedicalStaff" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeGettingAdviceMedicalStaff" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeGettingAdviceMedicalStaff" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class=" h6 mb-4">Ease in obtaining follow up information and care<br> (test results, medicines, and care instructions)</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeFollowUpInformationFromMedicalStaff" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeFollowUpInformationFromMedicalStaff" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeFollowUpInformationFromMedicalStaff" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeFollowUpInformationFromMedicalStaff" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeFollowUpInformationFromMedicalStaff" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div style="background-color: rgb(0, 204, 212)" class="container p-3 my-3 border">
+            <p class="text-center h4 mb-4">Opinion about the doctor</p>
+            <table>
+                <tr>
+                    <td style="width:380px;"><p class=" h6 mb-4">Behavior of doctor</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeBehaviorOfDoctor" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeBehaviorOfDoctor" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeBehaviorOfDoctor" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeBehaviorOfDoctor" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeBehaviorOfDoctor" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class=" h6 mb-4">Professionalism</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeProfessionalismDoctor" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeProfessionalismDoctor" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeProfessionalismDoctor" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeProfessionalismDoctor" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeProfessionalismDoctor" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class=" h6 mb-4">Getting advice or help when needed</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeGettingAdviceDoctor" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeGettingAdviceDoctor" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeGettingAdviceDoctor" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeGettingAdviceDoctor" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeGettingAdviceDoctor" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class=" h6 mb-4">Availability of doctor</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeAvailabilityOfDoctor" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeAvailabilityOfDoctor" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeAvailabilityOfDoctor" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeAvailabilityOfDoctor" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeAvailabilityOfDoctor" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
             </table>
         </div>
 
         <div style="background-color: rgb(0, 204, 212)" class="container p-3 my-3 border">
             <p class="text-center h4 mb-4">Opinion about the hospital</p>
-
-            <p class=" h6 mb-4">Nursing</p>
-            <p class=" h6 mb-4">Cleanliness</p>
-            <p class=" h6 mb-4">Overall rating</p>
-            <p class=" h6 mb-4">Satisfied with drug and instrument</p>
+            <table>
+                <tr>
+                    <td style="width:380px;"><p class=" h6 mb-4">Nursing</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeNursing" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeNursing" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeNursing" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeNursing" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeNursing" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class=" h6 mb-4">Cleanliness</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeCleanliness" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeCleanliness" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeCleanliness" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeCleanliness" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeCleanliness" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class=" h6 mb-4">Satisfied with drug and instrument</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeSatisfiedWithDrugAndInstrument" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeSatisfiedWithDrugAndInstrument" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeSatisfiedWithDrugAndInstrument" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeSatisfiedWithDrugAndInstrument" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeSatisfiedWithDrugAndInstrument" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><p class=" h6 mb-4">Overall rating</p></td>
+                    <td>
+                        <input style="margin-left:50px;" type="radio" id="1" name="gradeOverallRating" value="1">
+                        <label for="verydissatisfied">Very dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="2" name="gradeOverallRating" value="2">
+                        <label for="dissatisfied">Dissatisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="3" name="gradeOverallRating" value="3">
+                        <label for="ok">OK</label>
+                        <input style="margin-left:50px;" type="radio" id="4" name="gradeOverallRating" value="4">
+                        <label for="satisfied">Satisfied</label>
+                        <input style="margin-left:50px;" type="radio" id="5" name="gradeOverallRating" value="5" checked="checked">
+                        <label for="verysatisfied">Very Satisfied</label>
+                    </td>
+                </tr>
+            </table>
         </div>
 
+        <!-- Send button -->
         <div class="row">
-            <input class="submit_btn btn-info text-center " type="submit" value="Send" style="margin-left: 49%;">
+            <input class="submit_btn btn-light text-center text-light" type="submit" value="    Send    " style="margin-left: 49%;">
         </div>
-
+        <br />
+        <p style="color:green; float: inherit;" id="ap_success_msg" hidden></p>
     </form>
 
 </body>

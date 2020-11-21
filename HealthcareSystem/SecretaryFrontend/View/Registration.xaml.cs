@@ -1,7 +1,7 @@
 ﻿using Controller.ExaminationAndPatientCard;
 using Controller.UsersAndWorkingTime;
 using MaterialDesignColors;
-using Model.Enums;
+using Model.Secretary;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using System;
@@ -268,7 +268,7 @@ namespace ProjekatZdravoKorporacija
                 patient = new Patient(txtJmbg.Text,txtName.Text,txtSurname.Text,sd,gender,city,txtStreet.Text,txtPhone.Text,txtEmail.Text,txtUsername.Text,txtPassword.Password,DateTime.Today,isGuest);
                 patientCard = new PatientCard(patient,bloodType,rhFactorType,txtAllergy.Text, medicalHistory, hi,lboTextInput.Text);
 
-                if(userController.Register(patient) != null)
+                if(userController.Register(patient) != null && patientCardController.CreatePatientCard(patientCard) != null)
                 {
                     var okMb = new OKMessageBox(this, 3);
                     okMb.titleMsgBox.Text = "Obavještenje";

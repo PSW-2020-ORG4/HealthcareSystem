@@ -2,9 +2,9 @@
 using Controller.NotificationSurveyAndFeedback;
 using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
-using Model.PerformingExamination;
+using Model.Doctor;
 using Model.Manager;
-using Model.NotificationSurveyAndFeedback;
+using Model.Secretary;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using Syncfusion.Windows.Shared;
@@ -22,7 +22,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Model.Enums;
 
 namespace ProjekatZdravoKorporacija
 {
@@ -175,19 +174,30 @@ namespace ProjekatZdravoKorporacija
 
                 if (parent.GetType() == typeof(CanceledExaminationsView))
                 {
-                examinationController.ScheduleExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard));
-                   
+                    if(examinationController.ScheduleExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard)) == null)
+                    {
+                        var okMbx = new OKMessageBox(this, 4);
+                        okMbx.titleMsgBox.Text = "Greška";
+                        okMbx.textMsgBox.Text = "Došlo je do greške, doktor ili soba su zauzeti u odabranom terminu!";
+                        okMbx.ShowDialog();
+                        return;
+                    }
+
+                    else
+                    {
                         int lastId = notificationController.getLastId();
                         string message = "Ponovo zakazan otkazani pregled\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
-                                     + "\nBroj sobe: " + selectedRoom.Id + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
-                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.Patient.Jmbg));
+
+                                     + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
+                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.patient.Jmbg));
+
 
                         var okMb = new OKMessageBox(this, 0);
                         okMb.titleMsgBox.Text = "Obavještenje";
                         okMb.textMsgBox.Text = "Uspješno ste zakazali pregled koji je bio otkazan. Pacijent je obaviješten o izmjeni.";
                         okMb.ShowDialog();
                         this.Close();
-                              
+                    }            
 
                     foreach (Window window in Application.Current.Windows)
                     {
@@ -199,19 +209,29 @@ namespace ProjekatZdravoKorporacija
                 }
                 else if (parent.GetType() == typeof(ExaminationViewByDoctor))
                 {
-                examinationController.UpdateExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard));
-                   
+                    if(examinationController.EditExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard)) == null)
+                    {
+                        var okMbx = new OKMessageBox(this, 4);
+                        okMbx.titleMsgBox.Text = "Greška";
+                        okMbx.textMsgBox.Text = "Došlo je do greške, doktor ili soba su zauzeti u odabranom terminu!";
+                        okMbx.ShowDialog();
+                        return;
+                    }
+                    else
+                    {
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
-                                    + "\nBroj sobe: " + selectedRoom.Id + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
-                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.Patient.Jmbg));
+
+                                    + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
+                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.patient.Jmbg));
+
 
                         var okMb = new OKMessageBox(this, 0);
                         okMb.titleMsgBox.Text = "Obavještenje";
                         okMb.textMsgBox.Text = "Uspješno ste izmijenili pregled. Pacijent je obaviješten o izmjeni.";
                         okMb.ShowDialog();
                         this.Close();
-                    
+                    }
                    
                     foreach (Window window in Application.Current.Windows)
                     {
@@ -223,19 +243,29 @@ namespace ProjekatZdravoKorporacija
                 }
                 else if (parent.GetType() == typeof(SearchExaminations))
                 {
-                examinationController.UpdateExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard));
-               
+                    if(examinationController.EditExamination(new Examination(examination.Id, type, date, selectedDoctor, selectedRoom, selectedPatientCard)) == null)
+                    {
+                        var okMbx = new OKMessageBox(this, 4);
+                        okMbx.titleMsgBox.Text = "Greška";
+                        okMbx.textMsgBox.Text = "Došlo je do greške, doktor ili soba su zauzeti u odabranom terminu!";
+                        okMbx.ShowDialog();
+                        return;
+                    }
+                    else
+                    {
                         int lastId = notificationController.getLastId();
                         string message = "Pregled izmijenjen\n" + "Doktor: " + selectedDoctor.Name + " " + selectedDoctor.Surname
-                                    + "\nBroj sobe: " + selectedRoom.Id + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
-                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.Patient.Jmbg));
+
+                                    + "\nBroj sobe: " + selectedRoom.Number + "\nDatum:" + date.ToShortDateString() + "\nVrijeme: " + date.ToShortTimeString();
+                        notificationController.SendNotification(new Notification(++lastId, TypeOfNotification.Pregled, message, selectedPatientCard.patient.Jmbg));
+
 
                         var okMb = new OKMessageBox(this, 0);
                         okMb.titleMsgBox.Text = "Obavještenje";
                         okMb.textMsgBox.Text = "Uspješno ste izmijenili pregled. Pacijent je obaviješten o izmjeni.";
                         okMb.ShowDialog();
                         this.Close();
-                                    
+                    }                 
 
                     foreach (Window window in Application.Current.Windows)
                     {
@@ -268,7 +298,7 @@ namespace ProjekatZdravoKorporacija
             {
                 for (int i = 0; i < rooms.Count; i++)
                 {
-                    if (rooms[i].Id == roomForSelection.Id)
+                    if (rooms[i].Number == roomForSelection.Number)
                     {
                         cmbNumberOfRoom.SelectedIndex = i;
                         break;
@@ -333,7 +363,8 @@ namespace ProjekatZdravoKorporacija
             tpTime.DataContext = null;
             foreach (Examination exm in allAppointments)
             {
-                if (exm.Room.Id == 0) //ovo je slobodan termin
+                if (exm.room.Number == 0) //ovo je slobodan termin
+
                 {
                     freeAppointments.Add(new TimeDTO(exm.DateAndTime.ToShortTimeString()));
                 }

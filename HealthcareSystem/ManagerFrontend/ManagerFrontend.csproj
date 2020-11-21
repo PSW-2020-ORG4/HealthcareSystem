@@ -226,13 +226,13 @@
     <Resource Include="profil.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Backend\Backend.csproj">
-      <Project>{07719b07-7b98-4293-ae15-2da5ccf135ed}</Project>
-      <Name>Backend</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GraphicalEditor\GraphicalEditor.csproj">
       <Project>{b1629766-3bec-4edd-9328-d1fb4530cbd1}</Project>
       <Name>GraphicalEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LegacyBackend\LegacyBackend.csproj">
+      <Project>{8ce622af-b72c-4bb6-a5c3-bfd83d683384}</Project>
+      <Name>LegacyBackend</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

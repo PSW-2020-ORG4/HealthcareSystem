@@ -1,4 +1,4 @@
-﻿using Model.PerformingExamination;
+﻿using Model.Doctor;
 using System;
 using System.Collections.Generic;
 using System.Linq;

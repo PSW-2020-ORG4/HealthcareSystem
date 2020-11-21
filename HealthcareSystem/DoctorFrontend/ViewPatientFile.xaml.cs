@@ -1,5 +1,5 @@
 ﻿using Controller.ExaminationAndPatientCard;
-using Model.Users;
+using Model.Secretary;
 using System;
 using System.Collections.Generic;
 using System.Windows;

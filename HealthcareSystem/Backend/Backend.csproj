@@ -175,7 +175,6 @@
     <Compile Include="Controller\RoomAndEquipment\IEquipmentController.cs" />
     <Compile Include="Controller\RoomAndEquipment\NonConsumableEquipmentController.cs" />
     <Compile Include="Controller\RoomAndEquipment\RoomController.cs" />
-    <Compile Include="Controller\UsersAndWorkingTime\CityController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\DoctorController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\IUserStrategy.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\ManagerController.cs" />
@@ -183,6 +182,11 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
+    <Compile Include="Migrations\20201121132047_FirstMigration.cs" />
+    <Compile Include="Migrations\20201121132047_FirstMigration.designer.cs">
+      <DependentUpon>20201121132047_FirstMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Enums\Grade.cs" />
     <Compile Include="Model\Exceptions\DatabaseException.cs" />
     <Compile Include="Model\PerformingExamination\Examination.cs" />
@@ -229,6 +233,10 @@
     <Compile Include="Model\Users\User.cs" />
     <Compile Include="Model\Pharmacies\Pharmacy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\CityRepository\ICityRepository.cs" />
+    <Compile Include="Repository\CityRepository\MySqlCityRepository\MySqlCityRepository.cs" />
+    <Compile Include="Repository\CountryRepository\ICountryRepository.cs" />
+    <Compile Include="Repository\CountryRepository\MySqlCountryRepository\MySqlCountryRepository.cs" />
     <Compile Include="Repository\DoctorRepository\FileDoctorRepository\FileDoctorRepository.cs" />
     <Compile Include="Repository\DoctorRepository\IDoctorRepository.cs" />
     <Compile Include="Repository\DoctorRepository\MySqlDoctorRepository\MySqlDoctorRepository.cs" />
@@ -275,6 +283,10 @@
     <Compile Include="Repository\SurveyRepository\ISurveyRepository.cs" />
     <Compile Include="Repository\SurveyRepository\MySqlSurveyRepository\MySqlSurveyRepository.cs" />
     <Compile Include="Repository\DrugRepository\FileDrugRepository\UnconfirmedDrugRepository.cs" />
+    <Compile Include="Service\CityAndCountry\CityService.cs" />
+    <Compile Include="Service\CityAndCountry\CountryService.cs" />
+    <Compile Include="Service\CityAndCountry\ICityService.cs" />
+    <Compile Include="Service\CityAndCountry\ICountryService.cs" />
     <Compile Include="Service\DrugAndTherapy\DrugService.cs" />
     <Compile Include="Service\DrugAndTherapy\DrugTypeAndIngridientService.cs" />
     <Compile Include="Service\DrugAndTherapy\IDrugService.cs" />
@@ -304,7 +316,6 @@
     <Compile Include="Service\RoomAndEquipment\IRoomService.cs" />
     <Compile Include="Service\RoomAndEquipment\NonConsumableEquipmentService.cs" />
     <Compile Include="Service\RoomAndEquipment\RoomService.cs" />
-    <Compile Include="Service\UsersAndWorkingTime\CityService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\DoctorService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\IDoctorService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\IPatientService.cs" />
@@ -320,9 +331,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

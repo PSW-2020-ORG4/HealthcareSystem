@@ -1,0 +1,110 @@
+﻿<Window x:Class="ZdravoKorporacija.RecommendationAppointmentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZdravoKorporacija"
+        mc:Ignorable="d"
+        Title="Zdravo Korporacija"  
+        Height="665" Width="960"
+        Background="Azure"
+        Foreground="DarkBlue"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid AllowDrop="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <!--#region #NavigationButtons -->
+        <Button x:Name="buttonViewProfile" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="35,10,10,10" Width="260" Height="60" Click="buttonViewProfile_Click">
+            <StackPanel>
+                <Image Source="..\Resources\Images\user.png" Grid.Column="1" Grid.Row="1" Width="100" Height="10"/>
+                <TextBlock>Moj profil</TextBlock>
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="buttonHomePage" Content="Početna strana" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="10" Width="280" Height="60" Click="buttonHomePage_Click"/>
+
+        <Button x:Name="buttonLogOut" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" Margin="10" Width="260" Height="60" Click="buttonLogOut_Click">
+            <StackPanel>
+                <Image Source="..\Resources\Images\logout_icon.png" Width="100" Height="10"/>
+                <TextBlock>Izlogujte se</TextBlock>
+            </StackPanel>
+        </Button>
+        <!--#endregion-->
+        <Label x:Name="caption" Content="Preporučivanje termina pregleda" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="6" Grid.RowSpan="2" FontSize="32" Width ="600" Margin="120,10,10,10" HorizontalContentAlignment="Center" FontWeight="SemiBold"/>
+
+        <!--#region #Labels -->
+        <Label Content="Izaberite doktora :" Grid.Column="1" Grid.Row="5" Style="{StaticResource ResourceKey=labeleAppointmentStyle}"/>
+
+        <Label Content="Od datuma :" Grid.Column="1" Grid.Row="6" Style="{StaticResource ResourceKey=labeleAppointmentStyle}"/>
+
+        <Label Content="Do datuma :" Grid.Column="1" Grid.Row="7" Style="{StaticResource ResourceKey=labeleAppointmentStyle}"/>
+
+        <Label Content="Izaberite prioritet :" Grid.Column="1" Grid.Row="8" Style="{StaticResource ResourceKey=labeleAppointmentStyle}"/>
+
+        <Label Content="Preporučeni datum :" Grid.Column="1" Grid.Row="10" Style="{StaticResource ResourceKey=labeleAppointmentStyle}"/>
+
+        <Label Content="Preporučeno vreme :" Grid.Column="1" Grid.Row="11" Style="{StaticResource ResourceKey=labeleAppointmentStyle}"/>
+
+        <!--#endregion-->
+        <ComboBox x:Name="comboBoxDoctor" Grid.Column="3" Grid.Row="5" Style="{StaticResource ResourceKey=comboBoxAppointmentStyle}" KeyUp="doctor_KeyUp" ToolTip="Izbor doktora se otvara pritiskom na dugme F1" ItemsSource="{Binding}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="2" Foreground="DarkBlue" FontSize="18" Text="{Binding Name}"/>
+                        <TextBlock Margin="2" Foreground="DarkBlue" FontSize="18" Text="{Binding Surname}"/>
+                        <TextBlock Margin="2" Foreground="DarkBlue" FontSize="18" Text="{Binding Jmbg}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        
+        <DatePicker x:Name="startDatePicker" Grid.Column="3" Grid.Row="6" Style="{StaticResource ResourceKey=dataPickerStyle}" KeyUp="startDate_KeyUp" SelectedDate="6/15/2020" ToolTip="Kalendar se otvara pritiskom na dugme F1"/>
+
+        <DatePicker x:Name="endDatePicker" Grid.Column="3" Grid.Row="7" Style="{StaticResource ResourceKey=dataPickerStyle}" KeyUp="endDate_KeyUp" SelectedDate="6/15/2020" ToolTip="Kalendar se otvara pritiskom na dugme F1"/>
+
+        <TextBox x:Name="recommendedDate" Grid.Column="3" Grid.Row="10" Style="{StaticResource ResourceKey=textBoxAppointmentStyle}" IsEnabled="False"/>
+
+        <TextBox x:Name="recommendedTime" Grid.Column="3" Grid.Row="11" Style="{StaticResource ResourceKey=textBoxAppointmentStyle}" IsEnabled="False"/>
+
+        <GroupBox x:Name="DoctorDate" Grid.Column="3"  Grid.Row="8"  Style="{StaticResource ResourceKey=groupBoxStyle}">
+            <StackPanel>
+                <RadioButton x:Name="priorityDoctor"  GroupName="Priority" Content="Doktor" Grid.Column="3" HorizontalAlignment="Left"  KeyDown="Doctor_KeyDown" IsChecked="True"/>
+                <RadioButton x:Name="priorityDate"  GroupName="Priority" Content="Datum" Grid.Column="3" HorizontalAlignment="Left" KeyDown="Date_KeyDown"/>
+            </StackPanel>
+        </GroupBox>
+
+        <Button x:Name="buttonRecommendAppointment" Content="Preporučite termin" Grid.Column="3" Grid.Row="9" Style="{StaticResource ResourceKey=buttonAppointmentStyle}" Click="buttonRecommendAppointment_Click" ToolTip="Preporučite termin"/>
+
+        <Button x:Name="buttonMakeAppointment" Content="Zakažite pregled" Grid.Column="3" Grid.Row="12" Style="{StaticResource ResourceKey=buttonAppointmentStyle}" Click="buttonMakeAppointment_Click" ToolTip="Zakažite pregled" IsEnabled="False"/>
+        
+    </Grid>
+</Window>

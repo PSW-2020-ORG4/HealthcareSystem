@@ -1,6 +1,5 @@
 ﻿using Controller.ExaminationAndPatientCard;
-using Model.Enums;
-using Model.PerformingExamination;
+using Model.Doctor;
 using ProjekatZdravoKorporacija.ModelDTO;
 using ProjekatZdravoKorporacija.View;
 using System;
@@ -34,7 +33,7 @@ namespace ProjekatZdravoKorporacija
 
             txtSearchExaminations.Focus();
 
-            examinations = examinationController.GetCanceledExaminations();
+            examinations = examinationController.ViewCanceledExaminations();
             string type;
             foreach(Examination e in examinations)
             {
@@ -50,8 +49,9 @@ namespace ProjekatZdravoKorporacija
                 {
                     type = "Operacija";
                 }
-                canceledExaminations.Add(new ExaminationDTO(e.IdExamination,e.Doctor.Name + " " + e.Doctor.Surname + " " + e.Doctor.Jmbg,e.PatientCard.Patient.Name + " " + 
-                                                            e.PatientCard.Patient.Surname + " " + e.PatientCard.Patient.Jmbg,e.Room.Id.ToString(),type,e.DateAndTime.ToShortDateString(),e.DateAndTime.ToShortTimeString()));
+                canceledExaminations.Add(new ExaminationDTO(e.IdExamination,e.doctor.Name + " " + e.doctor.Surname + " " + e.doctor.Jmbg,e.patientCard.patient.Name + " " + 
+                                                            e.patientCard.patient.Surname + " " + e.patientCard.patient.Jmbg,e.room.Number.ToString(),type,e.DateAndTime.ToShortDateString(),e.DateAndTime.ToShortTimeString()));
+
             }
 
             dgCanceledExaminations.ItemsSource = canceledExaminations;
@@ -100,13 +100,14 @@ namespace ProjekatZdravoKorporacija
             }
             else
             {
-                    examinationController.DeleteCanceledExamination(examinationDelete.Id);
+                if (examinationController.DeleteCanceledExamination(examinationDelete.Id) == false)
+                {
                     var okMb = new OKMessageBox(this, 0);
                     okMb.titleMsgBox.Text = "Greška";
                     okMb.textMsgBox.Text = "Došlo je do greške prilikom otkazivanja pregleda!";
                     okMb.ShowDialog();
                     return;
-                
+                }
 
                 var okMb1 = new OKMessageBox(this, 0);
                 okMb1.titleMsgBox.Text = "Obavještenje";

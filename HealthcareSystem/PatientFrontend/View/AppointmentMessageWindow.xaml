@@ -1,0 +1,42 @@
+﻿<Window x:Class="ZdravoKorporacija.View.AppointmentMessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZdravoKorporacija.View"
+        mc:Ignorable="d"
+        Title="Zdravo Korporacija"  
+        Height="330" Width="560"
+        Background="Azure"
+        Foreground="DarkBlue"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="caption" Text="Nismo pronašli doktore za zadat datum!" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,0,0,0" FontSize="28" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+
+        <Label Content="Promenite datum i pokušajte ponovo!" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"  FontSize="20" HorizontalAlignment="Center"/>
+
+        <Button x:Name="button" Content="Uredu" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Width="260" Height="50" HorizontalAlignment="Center" Focusable="True" Click="button_Click"/>
+
+    </Grid>
+</Window>

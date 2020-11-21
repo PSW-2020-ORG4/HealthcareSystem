@@ -4,8 +4,9 @@ using Controller.NotificationSurveyAndFeedback;
 using Controller.PlacementInARoomAndRenovationPeriod;
 using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
-using Model.PerformingExamination;
+using Model.Doctor;
 using Model.Manager;
+using Model.Secretary;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Configuration;
-using Model.NotificationSurveyAndFeedback;
-using Model.Enums;
 
 namespace WpfApp1
 {
@@ -68,7 +67,7 @@ namespace WpfApp1
             patientCard = pc;
 
             txtAlergije.Text = pc.Alergies;      
-            txtDatumRodjenja.Text = pc.Patient.DateOfBirth.ToShortDateString();
+            txtDatumRodjenja.Text = pc.patient.DateOfBirth.ToShortDateString();
             txtKrvnaGrupa.Text = pc.BloodType.ToString();
             txtRhFaktor.Text = pc.RhFactor.ToString();
             txtLbo.Text = pc.Lbo.ToString();       
@@ -111,8 +110,8 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {          
-            Examination exam = ec.GetScheduledExaminationById(idExam);
-            ec.ScheduleExamination(exam);
+            Examination exam = ec.ViewScheduledExaminationById(idExam);
+            ec.SaveExaminationInPatientCard(exam);
             ec.DeleteScheduledExamination(idExam);
 
             var s = new HomePage(d);
@@ -381,14 +380,16 @@ namespace WpfApp1
                 return;
             }
 
+            int idTherapy = tc.getLastId();
 
             Therapy therapy = new Therapy();
-            therapy.Drug = drugSelected;
+            therapy.drug = drugSelected;
+            therapy.patientCard = patientCard;
             therapy.StartDate = DateTime.Now;     
             therapy.EndDate = (DateTime)dateTherapy.SelectedDate;
             therapy.DailyDose = Int32.Parse(txtPrescribe.Text);
             therapy.Anamnesis = txtbox2.Text;
-            
+            therapy.Id = ++idTherapy;
        
             tc.AddTherapy(therapy);
 
@@ -396,7 +397,7 @@ namespace WpfApp1
             int idNotification = nc.getLastId();
             n.Id = ++idNotification;
             n.Type = TypeOfNotification.Terapija;
-            n.JmbgOfReceiver = patientCard.Patient.Jmbg;
+            n.JmbgOfReceiver = patientCard.patient.Jmbg;
             n.Message = "Nova terapija: " + drugSelected.Name;
 
             nc.SendNotification(n);
@@ -523,9 +524,9 @@ namespace WpfApp1
             {
                 string room = "";
                 string type = "";
-                if (exm.Room.Id != 0)
+                if (exm.room.Number != 0)
                 {
-                    room = exm.Room.Id.ToString();
+                    room = exm.room.Number.ToString();
                 }
                 if (room.Equals(""))
                 {
@@ -537,8 +538,8 @@ namespace WpfApp1
                 }
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = exm.IdExamination;
-                e1.doctor = exm.Doctor.Name + " " + exm.Doctor.Name;
-                e1.patientCard = exm.PatientCard.Patient.Name + " " + exm.PatientCard.Patient.Surname + " " + exm.PatientCard.Patient.Jmbg;
+                e1.doctor = exm.doctor.Name + " " + exm.doctor.Name;
+                e1.patientCard = exm.patientCard.patient.Name + " " + exm.patientCard.patient.Surname + " " + exm.patientCard.patient.Jmbg;
                 e1.DateAndTime = exm.DateAndTime.ToString();
                 e1.room = room;
                 e1.Type = type;
@@ -582,7 +583,7 @@ namespace WpfApp1
   
             exam.IdExamination = id;
             exam.DateAndTime = dt;
-            exam.Doctor = (Doctor)textBoxDoctorExam.SelectedItem;
+            exam.doctor = (Doctor)textBoxDoctorExam.SelectedItem;
             exam.Type = TypeOfExamination.Opsti;
           
 
@@ -607,11 +608,11 @@ namespace WpfApp1
             }
             string roomStr = txtSoba.SelectedValue.ToString();
             int roomId = Int32.Parse(roomStr);
-            exam.Room = rc.ViewRoomByNumber(roomId);
+            exam.room = rc.ViewRoomByNumber(roomId);
 
             string[] ss = showName.Text.Split(' ');
            
-            exam.PatientCard = ap.ViewPatientCard(ss[ss.Length - 1]);
+            exam.patientCard = ap.ViewPatientCard(ss[ss.Length - 1]);
 
             ec.ScheduleExamination(exam);
 
@@ -634,9 +635,9 @@ namespace WpfApp1
             {
                 string room = "";
                 string type = "";
-                if (exm.Room.Id != 0)
+                if (exm.room.Number != 0)
                 {
-                    room = exm.Room.Id.ToString();
+                    room = exm.room.Number.ToString();
                 }
                 if (room.Equals(""))
                 {
@@ -648,8 +649,8 @@ namespace WpfApp1
                 }
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = exm.IdExamination;
-                e1.doctor = exm.Doctor.Name + " " + exm.Doctor.Name;
-                e1.patientCard = exm.PatientCard.Patient.Name + " " + exm.PatientCard.Patient.Surname + " " + exm.PatientCard.Patient.Jmbg;
+                e1.doctor = exm.doctor.Name + " " + exm.doctor.Name;
+                e1.patientCard = exm.patientCard.patient.Name + " " + exm.patientCard.patient.Surname + " " + exm.patientCard.patient.Jmbg;
                 e1.DateAndTime = exm.DateAndTime.ToString();
                 e1.room = room;
                 e1.Type = type;
@@ -671,7 +672,7 @@ namespace WpfApp1
             n.Id = ++idNotification;
             n.Type = TypeOfNotification.Pregled;
             n.Message = "Novi termin zakazan " + dt.ToString() + " dr. " + selectedDoctor.Name + " " + selectedDoctor.Surname;
-            n.JmbgOfReceiver = patientCard.Patient.Jmbg;
+            n.JmbgOfReceiver = patientCard.patient.Jmbg;
             nc.SendNotification(n);
 
             appointment = -1;
@@ -768,15 +769,15 @@ namespace WpfApp1
             r.Occupation = r.Occupation + 1;
             rc.EditRoom(r);
 
-            List<Examination> examinations = ec.GetExaminationsByRoom(r.Id);
+            List<Examination> examinations = ec.ViewExaminationsByRoom(r.Number);
             foreach (Examination exm in examinations)
             {
-                exm.Room = r;
-                ec.UpdateExamination(exm);
+                exm.room = r;
+                ec.EditExamination(exm);
 
             }
 
-            RenovationPeriod period = rpc.ViewRenovationByRoomNumber(r.Id);
+            RenovationPeriod period = rpc.ViewRenovationByRoomNumber(r.Number);
 
             period.room = r;
             rpc.EditRenovation(period);
@@ -858,9 +859,9 @@ namespace WpfApp1
             {
                 string room = "";
                 string type = "";
-                if (exm.Room.Id != 0)
+                if (exm.room.Number != 0)
                 {
-                    room = exm.Room.Id.ToString();
+                    room = exm.room.Number.ToString();
                 }
                 if (room.Equals(""))
                 {
@@ -872,8 +873,8 @@ namespace WpfApp1
                 }
                 ExaminationDTO e1 = new ExaminationDTO();
                 e1.IdExamination = exm.IdExamination;
-                e1.doctor = exm.Doctor.Name + " " + exm.Doctor.Name;
-                e1.patientCard = exm.PatientCard.Patient.Name + " " + exm.PatientCard.Patient.Surname + " " + exm.PatientCard.Patient.Jmbg;
+                e1.doctor = exm.doctor.Name + " " + exm.doctor.Name;
+                e1.patientCard = exm.patientCard.patient.Name + " " + exm.patientCard.patient.Surname + " " + exm.patientCard.patient.Jmbg;
                 e1.DateAndTime = exm.DateAndTime.ToString();
                 e1.room = room;
                 e1.Type = type;
@@ -1071,7 +1072,7 @@ namespace WpfApp1
             foreach (Room r in rooms)
             {
 
-                roomNumbers.Add(r.Id);
+                roomNumbers.Add(r.Number);
             }
             comboSoba.DataContext = roomNumbers;
         }
@@ -1096,7 +1097,7 @@ namespace WpfApp1
             foreach (Room r in rooms)
             {
 
-                roomNumbers.Add(r.Id);
+                roomNumbers.Add(r.Number);
             }
             txtSoba.DataContext = roomNumbers;
         }

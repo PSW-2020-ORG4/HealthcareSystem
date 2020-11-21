@@ -330,18 +330,18 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 {
                     yOfObject += 80 + i * Constants.AllConstants.RECTANGLE_STROKE_THICKNESS;
                 }
+                else
+                {
+                    MapObject examiantionRoomInBuilding2GroundLevel = new MapObject(
+                        new Room(
+                            TypeOfMapObject.EXAMINATION_ROOM, DepartmentOfMapObject.PULMOLOGY, SecondBuilding, 0, "Examination room " + i
+                        ),
+                        new MapObjectMetrics(startXOfDrawing, yOfObject, widthOfObject, heightOfObject),
+                        new MapObjectDoor(MapObjectDoorOrientation.RIGHT, 0, 0)
+                    );
 
-
-                MapObject examiantionRoomInBuilding2GroundLevel = new MapObject(
-               new Room(
-                   TypeOfMapObject.EXAMINATION_ROOM, DepartmentOfMapObject.PULMOLOGY, SecondBuilding, 0, "Examination room " + i
-               ),
-               new MapObjectMetrics(startXOfDrawing, yOfObject, widthOfObject, heightOfObject),
-               new MapObjectDoor(MapObjectDoorOrientation.RIGHT, 0, 0)
-            );
-
-                AllMapObjects.Add(examiantionRoomInBuilding2GroundLevel);
-
+                    AllMapObjects.Add(examiantionRoomInBuilding2GroundLevel);
+                }
             }
 
             for (int i = 0; i <= 6; i++)
@@ -360,18 +360,18 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 {
                     yOfObject += 80 + i * Constants.AllConstants.RECTANGLE_STROKE_THICKNESS;
                 }
+                else
+                {
+                    MapObject operationRoomInBuilding2GroundLevel = new MapObject(
+                        new Room(
+                            TypeOfMapObject.OPERATION_ROOM, DepartmentOfMapObject.PULMOLOGY, SecondBuilding, 0, "Operation Room " + i
+                        ),
+                        new MapObjectMetrics(startXOfDrawing, yOfObject, widthOfObject, heightOfObject),
+                        new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
+                    );
 
-
-                MapObject operationRoomInBuilding2GroundLevel = new MapObject(
-               new Room(
-                   TypeOfMapObject.OPERATION_ROOM, DepartmentOfMapObject.PULMOLOGY, SecondBuilding, 0, "Operation Room " + i
-               ),
-               new MapObjectMetrics(startXOfDrawing, yOfObject, widthOfObject, heightOfObject),
-               new MapObjectDoor(MapObjectDoorOrientation.LEFT, 0, 0)
-            );
-
-                AllMapObjects.Add(operationRoomInBuilding2GroundLevel);
-
+                    AllMapObjects.Add(operationRoomInBuilding2GroundLevel);
+                }
             }
         }
 

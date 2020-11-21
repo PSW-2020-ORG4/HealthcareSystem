@@ -2,9 +2,8 @@
 using Controller.NotificationSurveyAndFeedback;
 using Controller.RoomAndEquipment;
 using Controller.UsersAndWorkingTime;
-using Model.PerformingExamination;
+using Model.Doctor;
 using Model.Manager;
-using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using ProjekatZdravoKorporacija.ModelDTO;
 using Syncfusion.Windows.Shared;
@@ -22,7 +21,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Model.Enums;
 
 namespace ProjekatZdravoKorporacija
 {
@@ -56,7 +54,7 @@ namespace ProjekatZdravoKorporacija
             datePicker.DisplayDateStart = DateTime.Today;
             datePicker.DisplayDateEnd = (new DateTime(2020, 12, 31));
 
-            examinations = examinationController.GetScheduledExaminations();
+            examinations = examinationController.ViewScheduledExaminations();
 
             List<Room> allRooms = roomController.ViewRooms();
             foreach(Room r in allRooms)
@@ -81,8 +79,9 @@ namespace ProjekatZdravoKorporacija
                 {
                     type = "Specijalistički pregled";
                 }
-                scheduledExaminations.Add(new ExaminationDTO(e.IdExamination, e.Doctor.Name + " " + e.Doctor.Surname + " " + e.Doctor.Jmbg, 
-                                    e.PatientCard.Patient.Name + " " + e.PatientCard.Patient.Surname + " " + e.PatientCard.Patient.Jmbg, e.Room.Id.ToString(), 
+                scheduledExaminations.Add(new ExaminationDTO(e.IdExamination, e.doctor.Name + " " + e.doctor.Surname + " " + e.doctor.Jmbg, 
+                                    e.patientCard.patient.Name + " " + e.patientCard.patient.Surname + " " + e.patientCard.patient.Jmbg, e.room.Number.ToString(), 
+
                                     type, e.DateAndTime.ToShortDateString(), e.DateAndTime.ToShortTimeString()));
             }
 
@@ -212,7 +211,7 @@ namespace ProjekatZdravoKorporacija
             }
             if(selectedRoom != null)
             {
-                filteredExaminations = filteredExaminations.Where(exm => exm.Room.Contains(selectedRoom.Id.ToString())).ToList();
+                filteredExaminations = filteredExaminations.Where(exm => exm.Room.Contains(selectedRoom.Number.ToString())).ToList();
             }
             if (datePicker.SelectedDate != null)
             {

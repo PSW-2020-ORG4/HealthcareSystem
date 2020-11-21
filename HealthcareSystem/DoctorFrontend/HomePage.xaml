@@ -56,9 +56,9 @@
                     Informacije o nalogu i odjava
                 </MenuItem.ToolTip>
             </MenuItem>
-            <MenuItem Header="Mapa" Click="Navigation_Graphical_Editor_Click">
+            <MenuItem Header="Mapa bolnice" Click="Navigation_Graphical_Editor_Click">
                 <MenuItem.ToolTip>
-                    Mapa bolnice
+                    Grafički editor sa mapom bolnice
                 </MenuItem.ToolTip>
             </MenuItem>
         </Menu>

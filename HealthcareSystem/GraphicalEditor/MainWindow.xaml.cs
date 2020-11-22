@@ -34,6 +34,7 @@ namespace GraphicalEditor
         public static Canvas _canvas;
         private MapObjectController _mapObjectController;
         public static List<MapObject> _allMapObjects;
+        private string _currentUserRole;
 
 
         private IRepository _fileRepository;
@@ -108,6 +109,25 @@ namespace GraphicalEditor
             ChangeEditButtonVisibility();
         }
 
+        public MainWindow(string currentUserRole)
+        {
+            InitializeComponent();
+            this.DataContext = this;
+            _currentUserRole = currentUserRole;
+            _canvas = this.Canvas;
+            _fileRepository = new FileRepository("test.json");
+            _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
+            _allMapObjects = new List<MapObject>();
+            this.DataContext = this;
+            MockupObjects mockupObjects = new MockupObjects();
+            _allMapObjects = mockupObjects.AllMapObjects;
+            //uncomment when you dont have anything in file
+            saveMap();
+            LoadInitialMapOnCanvas();
+            ChangeEditButtonVisibility();
+        }
+
+
         private void LoadInitialMapOnCanvas()
         {
             _allMapObjects = _fileRepository.LoadMap().ToList();
@@ -145,23 +165,16 @@ namespace GraphicalEditor
             EditMode = !EditMode;
         }
 
-        public void ChangeEditButtonVisibility() {
-            if (_selectedMapObject == null)
-            {
-                EditObjectButton.Visibility = Visibility.Hidden;
-                SaveButton.Visibility = Visibility.Hidden;
-                EditMode = false ;
-            }
-            else
+        public void ChangeEditButtonVisibility()
+        {
+            EditObjectButton.Visibility = Visibility.Hidden;
+            EditMode = false;
+
+            if (!String.IsNullOrEmpty(_currentUserRole) && _currentUserRole.Equals("Manager") && (_selectedMapObject != null))
             {
                 if (_selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
                 {
                     EditObjectButton.Visibility = Visibility.Visible;
-                    SaveButton.Visibility = Visibility.Visible;
-                }
-                else {
-                    EditObjectButton.Visibility = Visibility.Hidden;
-                    SaveButton.Visibility = Visibility.Hidden;
                 }
             }
         }

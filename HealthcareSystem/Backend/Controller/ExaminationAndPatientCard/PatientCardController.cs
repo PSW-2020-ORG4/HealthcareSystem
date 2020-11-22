@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Controller.Examination&Drug&PatientCard&TherapyController.PatientCardController
  ***********************************************************************/
 
+using Backend.Service;
 using Model.Users;
 using Service.ExaminationAndPatientCard;
 using System;

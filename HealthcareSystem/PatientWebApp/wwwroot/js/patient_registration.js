@@ -1,7 +1,5 @@
 ﻿$(document).ready(function () {
 
-	$('#image_row').empty();
-
 	/*Get all countries from database*/
 	$.ajax({
 		url: "/api/country",
@@ -44,30 +42,7 @@
 			}
 		});
 
-
 	});
-
-	/* Display the image on the html page */
-	var chosen_image = [];
-	if (window.File && window.FileList && window.FileReader) {
-
-		$("#add_image").on("change", function (e) {
-
-			var images = e.target.files, filesLength = images.length;
-			var image = images[0];
-			chosen_image.push(image);
-			var fileReader = new FileReader();
-			fileReader.onload = (function (event) {
-				var image_div = $("<div class=\"col-md-3\"><span class=\"pip\">" +
-					"<img class=\"imageThumb\" style='width:100%; height:90%; margin-top:10px;' src=\"" + event.target.result + "\" title=\"" + image.name + "\"/>"
-					+ "</span></div>");
-				$('#image_row').append(image_div);
-			});
-			fileReader.readAsDataURL(image);
-		});
-	} else {
-		alert("Your browser doesn't support chosen file")
-	}
 
 	/*Registrate patient on submit*/
 	$('form#registration').submit(function (event) {
@@ -146,10 +121,8 @@
 			data: JSON.stringify(newPatient),
 			success: function () {
 
-				alert('You registrate successfully! Check Your email inbox and activate profile.');
-
 				setTimeout(function () {
-					window.location.href = 'patients_home_page.html';
+					window.location.href = 'upload_image.html';
 				}, 2000);
 
 			},
@@ -171,3 +144,4 @@ function addCityInComboBox(city) {
 	let city_option = $('<option id="' + city.zipCode + '" value = "' + city.name +'">' + city.name + '</option>');
 	$('select#cities').append(city_option);
 };
+

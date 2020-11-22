@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../lib/jquery-ui-bootstrap/assets/css/bootstrap.min.css">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="../lib/mdbootstrap/css/mdb.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_for_upload_image.css">
+    <script src="../lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/upload_image.js"></script>
+    <title>Upload profile picture</title>
+</head>
+
+<body style="background-color: rgb(125, 208, 230);">
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a href="index.html"><h4 class="navbar-brand" id="title" style="margin-right: 50px;">HOSPITAL</h4></a>
+    </nav>
+
+    <h2 class="message">You registrate successfully!</h2>
+    <h5 class="message">Check Your email inbox and activate profile.</h5>
+
+    <section id="corners" style="margin-top:80px;">
+        <form id="form" method="post" action="http://localhost:65117/api/file?jmbg=1" enctype="multipart/form-data">
+            <div>
+                <label><b>Upload profile picture</b></label><br />
+                <input name="file" id="file" type="file" />
+                <div class="row" id="image_row"></div>
+                <output id="result"></output>
+            </div>
+            <div>
+                <input type="submit" value="Upload image" id="send"/>
+            </div>
+        </form>
+    </section>
+</body>
+</html>

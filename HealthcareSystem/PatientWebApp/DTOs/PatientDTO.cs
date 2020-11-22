@@ -19,6 +19,7 @@ namespace PatientWebApp.DTOs
         public int CityZipCode { get; set; }
         public string CityName { get; set; }
         public string HomeAddress { get; set; }
+        public int PatientCardId { get; set; }
         public BloodType BloodType { get; set; }
         public RhFactorType RhFactor { get; set; }
         public bool HasInsurance { get; set; }
@@ -27,6 +28,7 @@ namespace PatientWebApp.DTOs
         public string MedicalHistory { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string ImageName { get; set; }
 
         public PatientDTO() { }
 

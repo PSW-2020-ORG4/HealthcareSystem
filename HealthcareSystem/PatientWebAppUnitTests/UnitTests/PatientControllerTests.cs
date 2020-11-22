@@ -30,7 +30,7 @@ namespace PatientWebAppTests.UnitTests
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            PatientController patientController = new PatientController(patientService, patientCardService);
+            PatientController patientController = new PatientController(patientService, patientCardService,null);
 
             var result = patientController.GetPatientByJmbg("1234567891234") as ObjectResult;
 
@@ -42,7 +42,7 @@ namespace PatientWebAppTests.UnitTests
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            PatientController patientController = new PatientController(patientService, patientCardService);
+            PatientController patientController = new PatientController(patientService, patientCardService,null);
 
             var result = patientController.GetPatientByJmbg("1054789652001") as ObjectResult;
 
@@ -54,7 +54,7 @@ namespace PatientWebAppTests.UnitTests
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            PatientController patientController = new PatientController(patientService, patientCardService);
+            PatientController patientController = new PatientController(patientService, patientCardService,null);
             var patientDTOValidObject = _objectFactory.GetPatientDTO().CreateValidTestObject();
 
             var result = patientController.AddPatient(patientDTOValidObject);
@@ -67,7 +67,7 @@ namespace PatientWebAppTests.UnitTests
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            PatientController patientController = new PatientController(patientService, patientCardService);
+            PatientController patientController = new PatientController(patientService, patientCardService,null);
             var patientDTOInvalidObject = _objectFactory.GetPatientDTO().CreateInvalidTestObject();
 
             var result = patientController.AddPatient(patientDTOInvalidObject);

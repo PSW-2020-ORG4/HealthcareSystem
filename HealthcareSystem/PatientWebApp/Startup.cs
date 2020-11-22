@@ -30,6 +30,8 @@ using Service.PlacementInARoomAndRenovationPeriod;
 using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using Service.ExaminationAndPatientCard;
+using Backend.Service.SendingMail;
+using Backend.Settings;
 
 namespace PatientWebApp
 {
@@ -87,6 +89,9 @@ namespace PatientWebApp
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
 
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+
+            services.AddTransient<IMailService, MailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

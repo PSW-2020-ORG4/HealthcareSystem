@@ -71,5 +71,25 @@ namespace PatientWebApp.Controllers
             }
             return Ok();
         }
+
+        /// <summary>
+        /// /activate patient (property: IsActive) to true
+        /// </summary>
+        /// <param name="id">id of the object to be changed</param>
+        /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
+        [HttpPut("{jmbg}")]
+        public ActionResult ActivatePatient(string jmbg)
+        {
+            try
+            {
+                _patientService.ActivatePatientStatus(jmbg);
+                return Ok();
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
+
+        }
     }
 }

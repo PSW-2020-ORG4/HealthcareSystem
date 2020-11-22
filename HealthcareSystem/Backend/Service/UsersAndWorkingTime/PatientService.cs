@@ -48,6 +48,9 @@ namespace Backend.Service
         public void ActivatePatientStatus(string jmbg)
         {
             Patient patient = ViewProfile(jmbg);
+            if (patient == null)
+                throw new NotFoundException("Patient with jmbg=" + jmbg + "doesn't exist in database.");
+
             patient.IsActive = true;
             _activePatientRepository.UpdatePatient(patient);
         }

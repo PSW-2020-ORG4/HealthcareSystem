@@ -74,5 +74,17 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is BadRequestObjectResult);
         }
+
+        [Fact]
+        public void Update_activation_patient()
+        {
+            PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
+            PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
+            PatientController patientController = new PatientController(patientService, patientCardService);
+
+            var result = patientController.ActivatePatient("1234567891234");
+           
+            Assert.True(result is OkResult);
+        }
     }
 }

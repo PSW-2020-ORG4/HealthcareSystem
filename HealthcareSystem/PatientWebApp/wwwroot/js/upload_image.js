@@ -1,6 +1,10 @@
 ﻿$(document).ready(function () {
 
 	$('#image_row').empty();
+	var jmbg = window.location.href.split("=")[1];
+	var actionPath = 'http://localhost:65117/api/patient/upload?patientJmbg=' + jmbg;
+
+	$('#form').attr('action', actionPath)
 
 	/* Display the image on the html page */
 	var chosen_image = [];

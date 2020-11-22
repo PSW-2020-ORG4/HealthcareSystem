@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Backend.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class NewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -152,7 +152,8 @@ namespace Backend.Migrations
                     DateOfRegistration = table.Column<DateTime>(nullable: true)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsGuest = table.Column<bool>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: true)
+                    IsActive = table.Column<bool>(nullable: true),
+                    ImageName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

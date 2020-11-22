@@ -44,12 +44,19 @@
 					allowed = false;
 				}
 
+				var newData = {
+					"Comment": msg,
+					"CommentatorJmbg": jmbg,
+					"CommentatorName": name,
+					"CommentatorSurname": surname,
+					"IsAllowedToPublish": allowed
+				};
 
 				$.ajax({
 					url: "/api/feedback",
 					type: 'POST',
 					contentType: 'application/json',
-					data: JSON.stringify(new IFormFile(file)),
+					data: JSON.stringify(newData),
 					success: function () {
 
 						$('#ap_success_msg').text('You have successfully left a feedback!');

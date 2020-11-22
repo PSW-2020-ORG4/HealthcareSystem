@@ -50,7 +50,7 @@
 		event.preventDefault();
 
 		let name = $('#name').val();
-		let surname = $('#name').val();
+		let surname = $('#surname').val();
 		let jmbg = $('#jmbg').val();
 		let dateOfBirth = $('#dateOfBirth').val();
 		let gender = $("#gender option:selected").val();
@@ -122,7 +122,7 @@
 			success: function () {
 
 				setTimeout(function () {
-					window.location.href = 'upload_image.html';
+					window.location.href = 'upload_image.html?jmbg=' + jmbg;
 				}, 2000);
 
 			},

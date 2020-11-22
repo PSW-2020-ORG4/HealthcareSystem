@@ -14,6 +14,7 @@ namespace Backend.Service
         Patient ViewProfile(string jmbg);
         void ActivatePatientStatus(string jmbg);
         void EditPatient(Patient patient);
+        void SavePatientImageName(string jmbg, string imageName);
         Patient SignIn(string username, string password);
     }
 }

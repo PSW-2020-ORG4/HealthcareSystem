@@ -5,48 +5,60 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Model.Exceptions;
+using ValidationException = Backend.Model.Exceptions.ValidationException;
 
 namespace PatientWebApp.Validators
 {
     public class SurveyValidator
     {
         private readonly ISurveyService _surveyService;
+        private readonly DoctorValidator _doctorValidator;
 
         public SurveyValidator(ISurveyService surveyService)
         {
             _surveyService = surveyService;
+            _doctorValidator = new DoctorValidator();
         }
 
         public void ValidateSurveyFields(SurveyDTO surveyDTO)
         {
-            if (surveyDTO == null)
+            
+            if (EmptyCheck(surveyDTO))
                 throw new ValidationException("Survey cannot be null.");
-            if (surveyDTO.DoctorJmbg == null || surveyDTO.DoctorJmbg == "")
+            if (!_doctorValidator.IsValidDoctorJmbg(surveyDTO.DoctorJmbg))
                 throw new ValidationException("The doctor does not exist!");
+            if (!IsValidateGrades(surveyDTO))
+                throw new ValidationException("The rating is out of range.");
+        }
+
+        private bool IsValidateGrades(SurveyDTO surveyDTO)
+        {
             if (!IsValidGrade(surveyDTO.BehaviorOfDoctor))
-                throw new ValidationException("The rating is out of range.");
+                return false;
             if (!IsValidGrade(surveyDTO.DoctorProfessionalism))
-                throw new ValidationException("The rating is out of range.");
+                return false;
             if (!IsValidGrade(surveyDTO.GettingAdviceByDoctor))
-                throw new ValidationException("The rating is out of range.");
+                return false;
             if (!IsValidGrade(surveyDTO.AvailabilityOfDoctor))
-                throw new ValidationException("The rating is out of range."); 
+                return false;
             if (!IsValidGrade(surveyDTO.BehaviorOfMedicalStaff))
-                throw new ValidationException("The rating is out of range."); 
+                return false;
             if (!IsValidGrade(surveyDTO.MedicalStaffProfessionalism))
-                throw new ValidationException("The rating is out of range."); 
+                return false;
             if (!IsValidGrade(surveyDTO.GettingAdviceByMedicalStaff))
-                throw new ValidationException("The rating is out of range."); 
+                return false;
             if (!IsValidGrade(surveyDTO.EaseInObtainingFollowupInformationAndCare))
-                throw new ValidationException("The rating is out of range."); 
+                return false;
             if (!IsValidGrade(surveyDTO.Nursing))
-                throw new ValidationException("The rating is out of range."); 
+                return false;
             if (!IsValidGrade(surveyDTO.Cleanliness))
-                throw new ValidationException("The rating is out of range."); 
+                return false;
             if (!IsValidGrade(surveyDTO.OverallRating))
-                throw new ValidationException("The rating is out of range.");
+                return false;
             if (!IsValidGrade(surveyDTO.SatisfiedWithDrugAndInstrument))
-                throw new ValidationException("The rating is out of range.");
+                return false;
+            return true;
         }
 
         private bool IsValidGrade(int grade)
@@ -55,5 +67,11 @@ namespace PatientWebApp.Validators
             return false;
         }
 
+        private bool EmptyCheck(SurveyDTO surveyDTO)
+        {
+            if (surveyDTO == null) return true;
+            return false;
+        }
+        
     }
 }

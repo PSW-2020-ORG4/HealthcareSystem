@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Model.Users;
+using PatientWebApp.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,22 +8,20 @@ namespace PatientWebAppTests.CreateObjectsForTests
 {
     public class TestObjectFactory
     {
-        public ICreateTestObject GetObject(string objectType)
+        public ICreateTestObject<PatientDTO> GetPatientDTO()
         {
-            if (objectType.Equals("PatientDTO"))
-            {
-                return new CreatePatientDTO();
-            }
-            if (objectType.Equals("Patient"))
-            {
-                return new CreatePatient();
-            }
-            if (objectType.Equals("PatientCard"))
-            {
-                return new CreatePatientCard();
-            }
-
-            return null;
+            return new CreatePatientDTO();
         }
+
+        public ICreateTestObject<Patient> GetPatient()
+        {
+            return new CreatePatient();
+        }
+
+        public ICreateTestObject<PatientCard> GetPatientCard()
+        {
+            return new CreatePatientCard();
+        }
+
     }
 }

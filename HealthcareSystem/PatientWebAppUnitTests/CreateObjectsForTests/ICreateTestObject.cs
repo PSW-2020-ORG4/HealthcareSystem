@@ -4,9 +4,9 @@ using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public interface ICreateTestObject
+    public interface ICreateTestObject<out R>
     {
-        object CreateValidTestObject();
-        object CreateInvalidTestObject();
+        R CreateValidTestObject();
+        R CreateInvalidTestObject();
     }
 }

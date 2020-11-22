@@ -7,16 +7,16 @@ using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public class CreatePatient : ICreateTestObject
+    public class CreatePatient : ICreateTestObject<Patient>
     {
-        public object CreateValidTestObject()
+        public Patient CreateValidTestObject()
         {
             return new Patient(jmbg: "1234567891234", name: "Pera", surname: "Peric", dateOfBirth: DateTime.Now, gender: GenderType.M,
                             city: new City(zipCode: 21000, name: "Novi Sad", country: new Country(id: 1, name: "Serbia")),
                             homeAddress: "Zmaj Jovina 10", phone: "065452102", email: "pera@gmail.com", username: "pera",
                             password: "pera", dateOfRegistration: DateTime.Now, isGuest: false);
         }
-        public object CreateInvalidTestObject()
+        public Patient CreateInvalidTestObject()
         {
             return new Patient(jmbg: null, name: "Mika", surname: "Mikic", dateOfBirth: DateTime.Now, gender: GenderType.M,
                             city: new City(zipCode: 21000, name: "Novi Sad", country: new Country(id: 1, name: "Serbia")),

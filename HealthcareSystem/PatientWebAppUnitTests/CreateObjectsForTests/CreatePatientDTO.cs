@@ -6,9 +6,9 @@ using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public class CreatePatientDTO : ICreateTestObject
+    public class CreatePatientDTO : ICreateTestObject<PatientDTO>
     {
-        public object CreateValidTestObject()
+        public PatientDTO CreateValidTestObject()
         {
             return new PatientDTO(name: "Ana", surname: "Anic", jmbg: "1206988452102", gender: GenderType.F,
                                                     dateOfBirth: DateTime.Now, phone: "065432485", countryId: 1, countryName: "Srbija",
@@ -16,7 +16,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
                                                     bloodType: BloodType.A, rhFactor: RhFactorType.NEGATIVE, hasInsurance: false, lbo: "",
                                                     alergies: "", medicalHistory: "", email: "ana@gmail.com", password: "ana");
         }
-        public object CreateInvalidTestObject()
+        public PatientDTO CreateInvalidTestObject()
         {
             return new PatientDTO(name: "Ana", surname: "Anic", jmbg: null, gender: GenderType.F,
                                                     dateOfBirth: DateTime.Now, phone: "", countryId: 1, countryName: "Srbija",

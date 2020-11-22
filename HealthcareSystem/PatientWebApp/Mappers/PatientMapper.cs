@@ -37,7 +37,7 @@ namespace PatientWebApp.Adapters
             patientDto.RhFactor = patientCard.RhFactor;
             patientDto.HasInsurance = patientCard.HasInsurance;
             patientDto.Lbo = patientCard.Lbo;
-            patientDto.Alergies = patientCard.Alergies;
+            patientDto.Allergies = patientCard.Alergies;
             patientDto.MedicalHistory = patientCard.MedicalHistory;
 
             return patientDto;
@@ -80,7 +80,7 @@ namespace PatientWebApp.Adapters
 
             patientCard.BloodType = patientDTO.BloodType;
             patientCard.RhFactor = patientDTO.RhFactor;
-            patientCard.Alergies = patientDTO.Alergies;
+            patientCard.Alergies = patientDTO.Allergies;
             patientCard.MedicalHistory = patientDTO.MedicalHistory;
             patientCard.HasInsurance = patientDTO.HasInsurance;
             patientCard.Lbo = patientDTO.Lbo;

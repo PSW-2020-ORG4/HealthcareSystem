@@ -22,7 +22,6 @@ namespace Backend
             Id = id;
             Name = name;
         }
-
         public Country(Country country)
         {
             Id = country.Id;

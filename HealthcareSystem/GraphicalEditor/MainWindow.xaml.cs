@@ -34,6 +34,7 @@ namespace GraphicalEditor
         public static Canvas _canvas;
         private MapObjectController _mapObjectController;
         public static List<MapObject> _allMapObjects;
+        private string _currentUserRole;
 
 
         private IRepository _fileRepository;
@@ -108,6 +109,25 @@ namespace GraphicalEditor
             ChangeEditButtonVisibility();
         }
 
+        public MainWindow(string currentUserRole)
+        {
+            InitializeComponent();
+            this.DataContext = this;
+            _currentUserRole = currentUserRole;
+            _canvas = this.Canvas;
+            _fileRepository = new FileRepository("test.json");
+            _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
+            _allMapObjects = new List<MapObject>();
+            this.DataContext = this;
+            MockupObjects mockupObjects = new MockupObjects();
+            _allMapObjects = mockupObjects.AllMapObjects;
+            //uncomment when you dont have anything in file
+            saveMap();
+            LoadInitialMapOnCanvas();
+            ChangeEditButtonVisibility();
+        }
+
+
         private void LoadInitialMapOnCanvas()
         {
             _allMapObjects = _fileRepository.LoadMap().ToList();
@@ -145,23 +165,16 @@ namespace GraphicalEditor
             EditMode = !EditMode;
         }
 
-        public void ChangeEditButtonVisibility() {
-            if (_selectedMapObject == null)
-            {
-                EditObjectButton.Visibility = Visibility.Hidden;
-                SaveButton.Visibility = Visibility.Hidden;
-                EditMode = false ;
-            }
-            else
+        public void ChangeEditButtonVisibility()
+        {
+            EditObjectButton.Visibility = Visibility.Hidden;
+            EditMode = false;
+
+            if (!String.IsNullOrEmpty(_currentUserRole) && _currentUserRole.Equals("Manager") && (_selectedMapObject != null))
             {
                 if (_selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
                 {
                     EditObjectButton.Visibility = Visibility.Visible;
-                    SaveButton.Visibility = Visibility.Visible;
-                }
-                else {
-                    EditObjectButton.Visibility = Visibility.Hidden;
-                    SaveButton.Visibility = Visibility.Hidden;
                 }
             }
         }
@@ -218,17 +231,19 @@ namespace GraphicalEditor
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
-            MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-            ApplyShadowEffectToObject(selectedMapObject);
+            MapObject hoverMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
+            ApplyHoverEffectToObject(hoverMapObject);
         }
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            MapObject selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-            if (selectedMapObject != null)
+            _selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
+            ApplySelectionEffectToObject(_selectedMapObject);
+
+            if (_selectedMapObject != null)
             {
-                DisplayMapObject = selectedMapObject.MapObjectEntity;
-                SelectedMapObject = selectedMapObject;
+                DisplayMapObject = _selectedMapObject.MapObjectEntity;
+                SelectedMapObject = _selectedMapObject;
             }
             else
             {
@@ -239,32 +254,68 @@ namespace GraphicalEditor
             ChangeEditButtonVisibility();
         }
 
-        private void ApplyShadowEffectToObject(MapObject selectedMapObject)
+        private void ApplyHoverEffectToObject(MapObject hoverMapObject)
         {
-            if (selectedMapObject != null)
+            foreach (MapObject mapObject in _allMapObjects)
             {
-                if (selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD) 
+                if (!mapObject.Equals(_selectedMapObject))
                 {
-                    selectedMapObject.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple }; 
-                }
-              
-
-                foreach (MapObject mapObject in _allMapObjects)
-                {
-                    if (!mapObject.Equals(selectedMapObject))
-                    {
-                        mapObject.Rectangle.Effect = null;
-                    }
+                    RemoveShadowFromObjectAndDecreaseZIndex(mapObject);
                 }
             }
-            else
+
+            if (hoverMapObject != null)
             {
-                foreach (MapObject mapObject in _allMapObjects)
+                if (hoverMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
                 {
-                    mapObject.Rectangle.Effect = null;
+                    ApplyShadowToObjectAndIncreaseZIndex(hoverMapObject);
                 }
             }
         }
+
+
+        private void ApplySelectionEffectToObject(MapObject selectedMapObject)
+        {
+            foreach (MapObject mapObject in _allMapObjects)
+            {
+                RemoveShadowFromObjectAndDecreaseZIndex(mapObject);
+
+                mapObject.Rectangle.Fill = mapObject.MapObjectEntity.MapObjectType.ObjectTypeColor;
+                mapObject.MapObjectNameTextBlock.Foreground = Brushes.Black;
+            }
+
+            if (selectedMapObject != null)
+            {
+                if (selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.ROAD)
+                {
+                    ApplyShadowToObjectAndIncreaseZIndex(selectedMapObject);
+
+                    selectedMapObject.Rectangle.Fill = Brushes.MediumPurple;
+                    selectedMapObject.MapObjectNameTextBlock.Foreground = Brushes.White;
+                }
+            }
+        }
+
+
+        private void ApplyShadowToObjectAndIncreaseZIndex(MapObject mapObject)
+        {
+            if (mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject != TypeOfMapObject.BUILDING)
+            {
+                Panel.SetZIndex(mapObject.Rectangle, 1);
+                Panel.SetZIndex(mapObject.MapObjectNameTextBlock, 1);
+            }
+
+            mapObject.Rectangle.Effect = new DropShadowEffect { Direction = 0, ShadowDepth = 0, BlurRadius = 14, Opacity = 1, Color = Colors.MediumPurple };
+        }
+
+        private void RemoveShadowFromObjectAndDecreaseZIndex(MapObject mapObject)
+        {
+            Panel.SetZIndex(mapObject.Rectangle, 0);
+            Panel.SetZIndex(mapObject.MapObjectNameTextBlock, 0);
+
+            mapObject.Rectangle.Effect = null;
+        }
+
 
         private MapObject FindSelectedMapObject(Point mouseCursorCurrentPosition)
         {

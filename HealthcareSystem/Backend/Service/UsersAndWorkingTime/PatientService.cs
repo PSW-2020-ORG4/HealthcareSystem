@@ -12,12 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Service.UsersAndWorkingTime
+namespace Backend.Service
 {
     public class PatientService : IPatientService
     {
         private IActivePatientRepository _activePatientRepository;
-
         public PatientService(IActivePatientRepository activePatientRepository)
         {
             _activePatientRepository = activePatientRepository;

@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Controller.Users&WorkingTimeController.PatientController
  ***********************************************************************/
 
+using Backend.Service;
 using Model.Users;
 using Repository;
 using Service.UsersAndWorkingTime;

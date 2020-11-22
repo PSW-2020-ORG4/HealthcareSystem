@@ -182,9 +182,9 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
-    <Compile Include="Migrations\20201121132047_FirstMigration.cs" />
-    <Compile Include="Migrations\20201121132047_FirstMigration.designer.cs">
-      <DependentUpon>20201121132047_FirstMigration.cs</DependentUpon>
+    <Compile Include="Migrations\20201120232549_FirstMigration.cs" />
+    <Compile Include="Migrations\20201120232549_FirstMigration.designer.cs">
+      <DependentUpon>20201120232549_FirstMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Enums\Grade.cs" />

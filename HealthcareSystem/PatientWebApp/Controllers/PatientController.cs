@@ -71,6 +71,5 @@ namespace PatientWebApp.Controllers
             }
             return Ok();
         }
-
     }
 }

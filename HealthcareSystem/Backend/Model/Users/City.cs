@@ -24,15 +24,32 @@ namespace Model.Users
         public virtual ICollection<User> Users { get; set; }
 
         public City() { }
-        public City(string name,int zipCode)
+        public City(int zipCode,string name,Country country)
         {
-            Name = name;
             ZipCode = zipCode;
+            Name = name;
+            InitCountry(country);
+
         }
         public City(City city)
         {
-            Name = city.Name;
             ZipCode = city.ZipCode;
+            Name = city.Name;
+            InitCountry(city.Country);
+        }
+
+        private void InitCountry(Country country)
+        {
+            if (country != null)
+            {
+                Country = new Country(country);
+                CountryId = country.Id;
+            }
+            else
+            {
+                Country = new Country();
+                CountryId = 0;
+            }
         }
     }
 }

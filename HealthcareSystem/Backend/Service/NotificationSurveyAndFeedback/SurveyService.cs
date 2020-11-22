@@ -27,7 +27,14 @@ namespace Service.NotificationSurveyAndFeedback
 
         public void AddSurvey(Survey survey)
         {
-            _surveyRepository.AddSurvey(survey);
+            try
+            {
+                _surveyRepository.AddSurvey(survey);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("error adding survey to database");
+            }
         }
 
         public Survey GetSurveyById(int id)

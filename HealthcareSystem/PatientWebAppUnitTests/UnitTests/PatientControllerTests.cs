@@ -93,10 +93,9 @@ namespace PatientWebAppTests.UnitTests
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
             var mailMockService = new Mock<IMailService>();
             IMailService mailService = mailMockService.Object;
-
             PatientController patientController = new PatientController(patientService, patientCardService, null, mailService);
+            
             var patientDTOValidObject = _objectFactory.GetPatientDTO().CreateValidTestObject();
-
             var result = await patientController.AddPatient(patientDTOValidObject);
 
             mailMockService.Verify(mock => mock.SendWelcomeEmailAsync(It.IsAny<WelcomeRequest>()), Times.Once());
@@ -110,10 +109,9 @@ namespace PatientWebAppTests.UnitTests
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
             var mailMockService = new Mock<IMailService>();
             IMailService mailService = mailMockService.Object;
-
             PatientController patientController = new PatientController(patientService, patientCardService, null, mailService);
+            
             var patientDTOInvalidObject = _objectFactory.GetPatientDTO().CreateInvalidTestObject();
-
             var result = await patientController.AddPatient(patientDTOInvalidObject);
 
             mailMockService.Verify(mock => mock.SendWelcomeEmailAsync(It.IsAny<WelcomeRequest>()), Times.Never());
@@ -127,7 +125,6 @@ namespace PatientWebAppTests.UnitTests
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
             var mailMockService = new Mock<IMailService>();
             IMailService mailService = mailMockService.Object;
-
             PatientController patientController = new PatientController(patientService, patientCardService, null, mailService);
 
             var result = patientController.ActivatePatient("1234567891234");
@@ -142,7 +139,6 @@ namespace PatientWebAppTests.UnitTests
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
             var mailMockService = new Mock<IMailService>();
             IMailService mailService = mailMockService.Object;
-
             PatientController patientController = new PatientController(patientService, patientCardService, null, mailService);
 
             var result = patientController.ActivatePatient("1054789652001");

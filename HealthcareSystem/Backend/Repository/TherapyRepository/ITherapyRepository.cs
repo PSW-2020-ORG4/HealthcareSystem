@@ -19,5 +19,8 @@ namespace Backend.Repository.TherapyRepository
         List<Therapy> GetTherapyForNextSevenDaysByPatient(string patientJmbg);
         void DeletePatientTherapies(string patientJmbg);
         void DeleteDrugTherapies(int idDrug);
+        List<Therapy> GetTherapyByPatientSearch(Therapy therapy);
+
+
     }
 }

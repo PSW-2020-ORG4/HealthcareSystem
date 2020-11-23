@@ -22,6 +22,7 @@ namespace PatientWebApp.Adapters
             patientDto.Jmbg = patient.Jmbg;
             patientDto.Name = patient.Name;
             patientDto.Surname = patient.Surname;
+            patientDto.PatientCardId = patientCard.Id; 
             patientDto.Gender = patient.Gender;
             patientDto.DateOfBirth = patient.DateOfBirth;
             patientDto.Phone = patient.Phone;

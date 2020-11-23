@@ -75,5 +75,13 @@ namespace Service.DrugAndTherapy
         {
             _therapyRepository.AddTherapy(therapy);
         }
+
+        public List<Therapy> GetTherapyByPatientSearch(Therapy therapy)
+        {
+            return _therapyRepository.GetTherapyByPatientSearch(therapy);
+        }
+        
+
+       
     }
 }

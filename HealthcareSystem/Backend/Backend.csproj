@@ -183,6 +183,11 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
+    <Compile Include="Migrations\20201121180134_ThirdMigration.cs" />
+    <Compile Include="Migrations\20201121180134_ThirdMigration.designer.cs">
+      <DependentUpon>20201121180134_ThirdMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Enums\Grade.cs" />
     <Compile Include="Model\Exceptions\DatabaseException.cs" />
     <Compile Include="Model\PerformingExamination\Examination.cs" />
@@ -320,9 +325,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

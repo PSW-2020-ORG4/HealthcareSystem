@@ -146,6 +146,11 @@ namespace Backend.Repository.TherapyRepository.FileTherapyRepository
             return therapyListPatinet;
         }
 
+        public List<Therapy> GetTherapyByPatientSearch(string patientJmbg, DateTime start, DateTime end, string doctorSurname, string drug)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Therapy> GetTherapyForNextSevenDaysByPatient(string patientJmbg)
         {
             List<Therapy> therapyList = ReadFromFile();
@@ -180,6 +185,11 @@ namespace Backend.Repository.TherapyRepository.FileTherapyRepository
                     return;
                 }
             }
+        }
+
+        List<Therapy> ITherapyRepository.GetTherapyByPatientSearch(Therapy therapy)
+        {
+            throw new NotImplementedException();
         }
 
         private List<Therapy> ReadFromFile()

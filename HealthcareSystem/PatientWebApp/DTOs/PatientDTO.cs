@@ -8,6 +8,7 @@ namespace PatientWebApp.DTOs
 {
     public class PatientDTO
     {
+        public int PatientCardId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Jmbg { get; set; }

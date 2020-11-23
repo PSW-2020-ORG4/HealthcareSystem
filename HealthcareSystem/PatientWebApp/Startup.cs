@@ -19,7 +19,6 @@ using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.NotificationSurveyAndFeedback;
-using Backend.Service;
 using Backend.Service.PlacementInARoomAndRenovationPeriod;
 using Backend.Service.RoomAndEquipment;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +36,9 @@ using Service.PlacementInARoomAndRenovationPeriod;
 using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using Service.ExaminationAndPatientCard;
+using Backend.Service.ExaminationAndPatientCard;
+using Backend.Repository.TherapyRepository;
+using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
 
 namespace PatientWebApp
 {
@@ -83,8 +85,13 @@ namespace PatientWebApp
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRoomService, RoomService>();
 
-            //placement dodati
             services.AddScoped<IScheduledExaminationRepository, MySqlScheduledExaminationRepository>();
+            services.AddScoped<IExaminationService, ExaminationService>();
+
+            services.AddScoped<ITherapyRepository, MySqlTherapyRepository>();
+            services.AddScoped<ITherapyService, TherapyService>();
+
+            //placement dodati
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
 

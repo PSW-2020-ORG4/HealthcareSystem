@@ -1,19 +1,13 @@
-﻿using Backend.Model.Enums;
-using Model.Users;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Model
+namespace PatientWebApp.DTOs
 {
-    public class Survey
+    public class SurveyDTO
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
         public int BehaviorOfDoctor { get; set; }
         public int DoctorProfessionalism { get; set; }
         public int GettingAdviceByDoctor { get; set; }
@@ -26,17 +20,16 @@ namespace Backend.Model
         public int Cleanliness { get; set; }
         public int OverallRating { get; set; }
         public int SatisfiedWithDrugAndInstrument { get; set; }
-
-
-        [ForeignKey("Doctor")]
         public string DoctorJmbg { get; set; }
-        public virtual Doctor Doctor { get; set; }
 
 
-        public Survey(int behaviorOfDoctor, int doctorProfessionalism, int gettingAdviceByDoctor, int availabilityOfDoctor, 
-            int behaviorOfMedicalStaff, int medicalStaffProfessionalism, int gettingAdviceByMedicalStaff, int easeInObtainingFollowupInformationAndCare,
+        public SurveyDTO() { }
+
+        public SurveyDTO(int id, int behaviorOfDoctor, int doctorProfessionalism, int gettingAdviceByDoctor, int availabilityOfDoctor, 
+            int behaviorOfMedicalStaff, int medicalStaffProfessionalism, int gettingAdviceByMedicalStaff, int easeInObtainingFollowupInformationAndCare, 
             int nursing, int cleanliness, int overallRating, int satisfiedWithDrugAndInstrument, string doctorJmbg)
         {
+            Id = id;
             BehaviorOfDoctor = behaviorOfDoctor;
             DoctorProfessionalism = doctorProfessionalism;
             GettingAdviceByDoctor = gettingAdviceByDoctor;
@@ -51,9 +44,5 @@ namespace Backend.Model
             SatisfiedWithDrugAndInstrument = satisfiedWithDrugAndInstrument;
             DoctorJmbg = doctorJmbg;
         }
-
-        public Survey() { }
-
     }
-
 }

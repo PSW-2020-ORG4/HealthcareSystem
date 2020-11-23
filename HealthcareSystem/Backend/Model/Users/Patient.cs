@@ -12,12 +12,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Users
 {
-   public class Patient : User
-   {
+    public class Patient : User
+    {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateOfRegistration { get; set; }
         public bool IsGuest { get; set; }
         public bool IsActive { get; set; }
+        public string ImageName { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual PatientCard PatientCard { get; set; }
         public Patient()
@@ -25,8 +26,9 @@ namespace Model.Users
             IsGuest = false;
         }
 
-        public Patient(string jmbg,string name,string surname,DateTime dateOfBirth,GenderType gender,City city,string homeAddress,string phone,string email,string username,
-                        string password,DateTime dateOfRegistration,bool isGuest)
+        public Patient(string jmbg,string name,string surname,DateTime dateOfBirth,GenderType gender,City city,string homeAddress,
+                        string phone,string email,string username,string password,
+                        DateTime dateOfRegistration,bool isGuest,string imagePath)
         {
             Jmbg = jmbg;
             Name = name;
@@ -51,6 +53,7 @@ namespace Model.Users
             DateOfRegistration = dateOfRegistration;
             IsGuest = isGuest;
             IsActive = false;
+            ImageName = imagePath;
         }
         public Patient(Patient patient)
         {
@@ -77,6 +80,7 @@ namespace Model.Users
             DateOfRegistration = patient.DateOfRegistration;
             IsGuest = patient.IsGuest;
             IsActive = false;
+            ImageName = patient.ImageName;
         }
     }
 }

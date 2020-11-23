@@ -63,6 +63,15 @@ namespace Backend.Service
         public Patient SignIn(string username, string password)
         {
             return _activePatientRepository.CheckUsernameAndPassword(username, password);
-        }   
-   }
+        }
+
+        public void SavePatientImageName(string jmbg, string imageName)
+        {
+            Patient patient = ViewProfile(jmbg);
+            if (patient == null)
+                throw new NotFoundException("Patient with jmbg=" + jmbg + " doesn't exist in database.");
+            patient.ImageName = imageName;
+            _activePatientRepository.UpdatePatient(patient);
+        }
+    }
 }

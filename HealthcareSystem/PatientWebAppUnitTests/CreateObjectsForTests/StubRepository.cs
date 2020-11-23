@@ -1,4 +1,6 @@
-﻿using Model.Users;
+﻿using Backend.Model.Users;
+using Backend.Service.SendingMail;
+using Model.Users;
 using Moq;
 using Repository;
 using System;

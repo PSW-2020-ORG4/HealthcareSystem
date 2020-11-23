@@ -1,4 +1,5 @@
-﻿using Model.Users;
+﻿using Backend.Model.Users;
+using Model.Users;
 using PatientWebApp.DTOs;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,5 @@ namespace PatientWebAppTests.CreateObjectsForTests
         {
             return new CreatePatientCard();
         }
-
     }
 }

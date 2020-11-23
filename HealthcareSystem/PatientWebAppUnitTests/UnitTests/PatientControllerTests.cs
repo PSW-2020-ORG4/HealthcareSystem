@@ -11,6 +11,9 @@ using Backend;
 using System.Collections.Generic;
 using PatientWebApp.DTOs;
 using PatientWebAppTests.CreateObjectsForTests;
+using Backend.Service.SendingMail;
+using System.Threading.Tasks;
+using Backend.Model.Users;
 
 namespace PatientWebAppTests.UnitTests
 {
@@ -30,9 +33,12 @@ namespace PatientWebAppTests.UnitTests
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            PatientController patientController = new PatientController(patientService, patientCardService);
+            var mailMockService = new Mock<IMailService>();
+            IMailService mailService = mailMockService.Object;
 
-            var result = patientController.GetPatientByJmbg("1234567891234") as ObjectResult;
+            PatientController patientController = new PatientController(patientService, patientCardService, mailService);
+
+            var result = patientController.GetPatientByJmbg("1234567891234");
 
             Assert.True(result is OkObjectResult);
         }
@@ -42,37 +48,80 @@ namespace PatientWebAppTests.UnitTests
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            PatientController patientController = new PatientController(patientService, patientCardService);
+            var mailMockService = new Mock<IMailService>();
+            IMailService mailService = mailMockService.Object;
 
-            var result = patientController.GetPatientByJmbg("1054789652001") as ObjectResult;
+            PatientController patientController = new PatientController(patientService, patientCardService, mailService);
+
+            var result = patientController.GetPatientByJmbg("1054789652001");
 
             Assert.True(result is NotFoundObjectResult);
         }
 
         [Fact]
-        public void Add_valid_patient()
+        public async Task Add_valid_patient_async()
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            PatientController patientController = new PatientController(patientService, patientCardService);
+            var mailMockService = new Mock<IMailService>();
+            IMailService mailService = mailMockService.Object;
+
+            PatientController patientController = new PatientController(patientService, patientCardService, mailService);
             var patientDTOValidObject = _objectFactory.GetPatientDTO().CreateValidTestObject();
 
-            var result = patientController.AddPatient(patientDTOValidObject);
+            var result = await patientController.AddPatient(patientDTOValidObject);
 
             Assert.True(result is OkResult);
         }
 
         [Fact]
-        public void Add_invalid_patient()
+        public async Task Add_invalid_patient_async()
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            PatientController patientController = new PatientController(patientService, patientCardService);
+            var mailMockService = new Mock<IMailService>();
+            IMailService mailService = mailMockService.Object;
+
+            PatientController patientController = new PatientController(patientService, patientCardService, mailService);
             var patientDTOInvalidObject = _objectFactory.GetPatientDTO().CreateInvalidTestObject();
 
-            var result = patientController.AddPatient(patientDTOInvalidObject);
+            var result = await patientController.AddPatient(patientDTOInvalidObject);
 
             Assert.True(result is BadRequestObjectResult);
+        }
+
+        [Fact]
+        public async Task Successfully_sending_mail_for_a_validly_added_patient_async()
+        {
+            PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
+            PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
+            var mailMockService = new Mock<IMailService>();
+            IMailService mailService = mailMockService.Object;
+
+            PatientController patientController = new PatientController(patientService, patientCardService, mailService);
+            var patientDTOValidObject = _objectFactory.GetPatientDTO().CreateValidTestObject();
+
+            var result = await patientController.AddPatient(patientDTOValidObject);
+
+            mailMockService.Verify(mock => mock.SendWelcomeEmailAsync(It.IsAny<WelcomeRequest>()), Times.Once());
+
+        }
+
+        [Fact]
+        public async Task Unsuccessfully_sending_mail_for_a_invalidly_added_patient_async()
+        {
+            PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
+            PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
+            var mailMockService = new Mock<IMailService>();
+            IMailService mailService = mailMockService.Object;
+
+            PatientController patientController = new PatientController(patientService, patientCardService, mailService);
+            var patientDTOInvalidObject = _objectFactory.GetPatientDTO().CreateInvalidTestObject();
+
+            var result = await patientController.AddPatient(patientDTOInvalidObject);
+
+            mailMockService.Verify(mock => mock.SendWelcomeEmailAsync(It.IsAny<WelcomeRequest>()), Times.Never());
+
         }
 
         [Fact]
@@ -80,11 +129,29 @@ namespace PatientWebAppTests.UnitTests
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            PatientController patientController = new PatientController(patientService, patientCardService);
+            var mailMockService = new Mock<IMailService>();
+            IMailService mailService = mailMockService.Object;
+
+            PatientController patientController = new PatientController(patientService, patientCardService, mailService);
 
             var result = patientController.ActivatePatient("1234567891234");
            
             Assert.True(result is OkResult);
+        }
+
+        [Fact]
+        public void Update_activation_non_existent_patient()
+        {
+            PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
+            PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
+            var mailMockService = new Mock<IMailService>();
+            IMailService mailService = mailMockService.Object;
+
+            PatientController patientController = new PatientController(patientService, patientCardService, mailService);
+
+            var result = patientController.ActivatePatient("1054789652001");
+
+            Assert.True(result is NotFoundObjectResult);
         }
     }
 }

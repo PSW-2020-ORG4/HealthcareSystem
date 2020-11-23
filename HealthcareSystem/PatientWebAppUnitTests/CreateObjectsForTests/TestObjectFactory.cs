@@ -1,4 +1,5 @@
-﻿using Model.Users;
+﻿using Backend.Model;
+using Model.Users;
 using PatientWebApp.DTOs;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,16 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public ICreateTestObject<PatientCard> GetPatientCard()
         {
             return new CreatePatientCard();
+        }
+
+        internal ICreateTestObject<SurveyDTO> GetSurveyDTO()
+        {
+            return new CreateSurveyDTO();
+        }
+
+        public ICreateTestObject<Survey> GetSurvey()
+        {
+            return new CreateSurvey();
         }
 
     }

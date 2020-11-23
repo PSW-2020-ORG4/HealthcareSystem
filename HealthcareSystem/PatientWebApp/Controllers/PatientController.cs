@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.Exceptions;
+using Backend.Model.Users;
 using Backend.Service;
+using Backend.Service.SendingMail;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Users;
@@ -19,11 +21,13 @@ namespace PatientWebApp.Controllers
     {
         private readonly IPatientService _patientService;
         private readonly IPatientCardService _patientCardService;
+        private readonly IMailService _mailService;
         private readonly PatientValidator _patientValidator;
-        public PatientController(IPatientService patientService, IPatientCardService patientCardService)
+        public PatientController(IPatientService patientService, IPatientCardService patientCardService, IMailService mailService)
         {
             _patientService = patientService;
             _patientCardService = patientCardService;
+            _mailService = mailService;
             _patientValidator = new PatientValidator();
         }
 
@@ -53,13 +57,16 @@ namespace PatientWebApp.Controllers
         /// <param name="patientDTO">an object to be added to the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bad request)</returns>
         [HttpPost]
-        public ActionResult AddPatient(PatientDTO patientDTO)
+        public async Task<IActionResult> AddPatient(PatientDTO patientDTO)
         {
             try
             {
+                WelcomeRequest request = new WelcomeRequest(patientDTO.Email, patientDTO.Name, patientDTO.Jmbg);
                 _patientValidator.validatePatientFields(patientDTO);
                 _patientService.RegisterPatient(PatientMapper.PatientDTOToPatient(patientDTO));
+                await _mailService.SendWelcomeEmailAsync(request);
                 _patientCardService.AddPatientCard(PatientMapper.PatientDTOToPatientCard(patientDTO));
+
             }
             catch (ValidationException exception)
             {
@@ -77,12 +84,12 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
-        [HttpPut("{jmbg}")]
-        public ActionResult ActivatePatient(string jmbg)
+        [HttpPut("activate/{id}")]
+        public ActionResult ActivatePatient(string id)
         {
             try
             {
-                _patientService.ActivatePatientStatus(jmbg);
+                _patientService.ActivatePatientStatus(id);
                 return Ok();
             }
             catch (NotFoundException exception)

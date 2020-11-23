@@ -8,7 +8,7 @@
 
         $.ajax({
             type: "PUT",
-            url: "/api/patient/" + jmbg,
+            url: "/api/patient/activate/" + jmbg,
             success: function () {
 
                 setTimeout(function () {

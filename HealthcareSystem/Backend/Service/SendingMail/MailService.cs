@@ -10,36 +10,65 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using Microsoft.AspNetCore.Http;
 
 namespace Backend.Service.SendingMail
 {
     public class MailService : IMailService
     {
         private readonly MailSettings _mailSettings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public MailService(IOptions<MailSettings> mailSettings)
+        public MailService(IOptions<MailSettings> mailSettings, IHttpContextAccessor httpContextAccessor)
         {
             _mailSettings = mailSettings.Value;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task SendWelcomeEmailAsync(WelcomeRequest request)
         {
-            string FilePath = Directory.GetCurrentDirectory() + "\\Templates\\WelcomeTemplate.html";
-            StreamReader str = new StreamReader(FilePath);
-            string MailText = str.ReadToEnd();
-            str.Close();
-            MailText = MailText.Replace("[username]", request.UserName).Replace("[email]", request.ToEmail).Replace("[jmbg]", request.Jmbg);
-            var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
-            email.To.Add(MailboxAddress.Parse(request.ToEmail));
-            email.Subject = $"Welcome {request.UserName}";
-            var builder = new BodyBuilder();
-            builder.HtmlBody = MailText;
-            email.Body = builder.ToMessageBody();
+            var MailText = ParseMailText(request, ReadMailText());
+            var email = ConfigureEmail(request, MailText);
+            await SendEmail(email);
+        }
+
+        private async Task SendEmail(MimeMessage email)
+        {
             using var smtp = new SmtpClient();
             smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
             await smtp.SendAsync(email);
             smtp.Disconnect(true);
+        }
+
+        private MimeMessage ConfigureEmail(WelcomeRequest request, string MailText)
+        {
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+            email.To.Add(MailboxAddress.Parse(request.ToEmail));
+            email.Subject = $"Welcome {request.UserName}";
+
+            var builder = new BodyBuilder();
+            builder.HtmlBody = MailText;
+            email.Body = builder.ToMessageBody();
+            return email;
+        }
+
+        private string ParseMailText(WelcomeRequest request, string MailText)
+        {
+            string host = _httpContextAccessor.HttpContext.Request.Host.Value;
+            var parsedMailText = MailText.Replace("[username]", request.UserName).Replace("[email]", request.ToEmail)
+                .Replace("[jmbg]", request.Jmbg).Replace("[host]", host);
+            return parsedMailText; ;
+        }
+
+        private string ReadMailText()
+        {
+            var pathToHtmlPage = "\\Templates\\WelcomeTemplate.html";
+            string FilePath = Directory.GetCurrentDirectory() + pathToHtmlPage;
+            StreamReader reader = new StreamReader(FilePath);
+            string MailText = reader.ReadToEnd();
+            reader.Close();
+            return MailText;
         }
     }
 }

@@ -32,6 +32,7 @@ using Service.UsersAndWorkingTime;
 using Service.ExaminationAndPatientCard;
 using Backend.Service.SendingMail;
 using Backend.Settings;
+using Microsoft.AspNetCore.Http;
 
 namespace PatientWebApp
 {
@@ -92,6 +93,8 @@ namespace PatientWebApp
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.AddTransient<IMailService, MailService>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

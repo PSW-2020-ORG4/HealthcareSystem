@@ -139,11 +139,6 @@
 			"MedicalHistory": medHistory
 		};
 
-		var welcomeRequest = {
-			"ToEmail": email,
-			"UserName": name,
-			"Jmbg": jmbg,
-		};
 
 		$.ajax({
 			url: "/api/patient",
@@ -163,16 +158,6 @@
 				alert(jqXHR.responseText);
 			}
 		});
-
-		var formData = new FormData();
-
-		formData.append("UserName", name);
-		formData.append("ToEmail", email);
-		formData.append("Jmbg", jmbg); 
-
-		var request = new XMLHttpRequest();
-		request.open("POST", "http://localhost:65117/api/mail/welcome");
-		request.send(formData);
 
 	});
 

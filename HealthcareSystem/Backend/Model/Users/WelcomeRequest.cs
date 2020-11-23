@@ -12,6 +12,10 @@ namespace Backend.Model.Users
         public string UserName { get; set; }
         public string Jmbg { get; set; }
 
-        public WelcomeRequest() { }
+        public WelcomeRequest(string toEmail, string userName, string jmbg) {
+            ToEmail = toEmail;
+            UserName = userName;
+            Jmbg = jmbg;
+        }
     }
 }

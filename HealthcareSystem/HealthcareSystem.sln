@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientFrontend", "PatientF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientWebAppTests", "PatientWebAppUnitTests\PatientWebAppTests.csproj", "{B8C74BF5-C602-4D47-B81C-ED84ECEEBB43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationAdaptersTests", "IntegrationAdaptersTests\IntegrationAdaptersTests.csproj", "{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{B8C74BF5-C602-4D47-B81C-ED84ECEEBB43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8C74BF5-C602-4D47-B81C-ED84ECEEBB43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8C74BF5-C602-4D47-B81C-ED84ECEEBB43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

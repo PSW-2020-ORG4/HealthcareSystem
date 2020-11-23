@@ -1,3 +1,5 @@
+using Backend.Model.Users;
+using Backend.Service.SendingMail;
 ﻿using Backend.Model;
 using Backend.Repository;
 using Model.Users;

@@ -114,6 +114,7 @@
 			"MedicalHistory": medHistory
 		};
 
+
 		$.ajax({
 			url: "/api/patient",
 			type: 'POST',

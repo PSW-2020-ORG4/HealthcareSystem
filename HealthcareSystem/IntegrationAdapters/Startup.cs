@@ -31,7 +31,7 @@ namespace IntegrationAdapters
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
-            services.AddScoped<IPharmacyService, MockPharmacyService>();
+            services.AddScoped<IPharmacyService, PharmacyService>();
             services.AddRazorPages();
         }
 

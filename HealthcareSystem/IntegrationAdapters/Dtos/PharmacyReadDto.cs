@@ -10,5 +10,11 @@ namespace IntegrationAdapters.Dtos
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public string ApiKey { get; set; }
+
+        public String ActionsBenefitsExchangeName { get; set; }
+
+        public bool ActionsBenefitsSubscribed { get; set; }
     }
 }

@@ -34,6 +34,7 @@ namespace Backend.Service.SendingMail
         private async Task SendEmail(MimeMessage email)
         {
             using var smtp = new SmtpClient();
+            smtp.CheckCertificateRevocation = false;
             smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
             smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
             await smtp.SendAsync(email);

@@ -21,18 +21,18 @@
 			return;
 		}
 
-		//I take the first patient from the database, otherwise the currently logged in patient will be taken
+		//I take the certain patient from the database, otherwise the currently logged in patient will be taken
 		$.ajax({
-			url: "/api/patient",
+			url: "/api/patient/7865201452301",
 			type: 'GET',
 			dataType: 'json',
 			processData: false,
 			contentType: false,
-			success: function (data) {
+			success: function (patient) {
 
-				jmbg = data[0].jmbg;
-				name = data[0].name;
-				surname = data[0].surname;
+				jmbg = patient.jmbg;
+				name = patient.name;
+				surname = patient.surname;
 
 				if ($('#yes_anonymous').is(":checked")) {
 					jmbg = null;

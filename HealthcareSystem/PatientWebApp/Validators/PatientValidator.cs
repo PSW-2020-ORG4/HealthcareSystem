@@ -55,7 +55,7 @@ namespace PatientWebApp.Validators
             }
         }
 
-        public void checkIfEmailValid(string email)
+        public void CheckIfEmailValid(string email)
         {
             Regex emailRegex = new Regex(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
             Match emailMatch = emailRegex.Match(email);
@@ -66,7 +66,7 @@ namespace PatientWebApp.Validators
             }
         }
 
-        public void checkIfPasswordValid(string password)
+        public void CheckIfPasswordValid(string password)
         {
             Regex passwordRegex = new Regex(@"^[a-zA-Z0-9\.\-_]{8,20}$");
             Match passwordMatch = passwordRegex.Match(password);

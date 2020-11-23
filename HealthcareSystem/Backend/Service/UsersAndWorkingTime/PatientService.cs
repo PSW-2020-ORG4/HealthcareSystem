@@ -12,12 +12,11 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Service.UsersAndWorkingTime
+namespace Backend.Service
 {
     public class PatientService : IPatientService
     {
         private IActivePatientRepository _activePatientRepository;
-
         public PatientService(IActivePatientRepository activePatientRepository)
         {
             _activePatientRepository = activePatientRepository;
@@ -49,6 +48,9 @@ namespace Service.UsersAndWorkingTime
         public void ActivatePatientStatus(string jmbg)
         {
             Patient patient = ViewProfile(jmbg);
+            if (patient == null)
+                throw new NotFoundException("Patient with jmbg=" + jmbg + "doesn't exist in database.");
+
             patient.IsActive = true;
             _activePatientRepository.UpdatePatient(patient);
         }
@@ -61,6 +63,15 @@ namespace Service.UsersAndWorkingTime
         public Patient SignIn(string username, string password)
         {
             return _activePatientRepository.CheckUsernameAndPassword(username, password);
-        }   
-   }
+        }
+
+        public void SavePatientImageName(string jmbg, string imageName)
+        {
+            Patient patient = ViewProfile(jmbg);
+            if (patient == null)
+                throw new NotFoundException("Patient with jmbg=" + jmbg + " doesn't exist in database.");
+            patient.ImageName = imageName;
+            _activePatientRepository.UpdatePatient(patient);
+        }
+    }
 }

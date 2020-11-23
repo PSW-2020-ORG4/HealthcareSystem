@@ -10,7 +10,8 @@ namespace Model.Enums
 {
    public enum RhFactorType
    {
-      Pozitivna = 0,
-      Negativna = 1 
+        UNKNOWN = -1,
+        POSITIVE = 0,
+        NEGATIVE = 1 
    }
 }

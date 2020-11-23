@@ -10,9 +10,9 @@ namespace Model.Users
 {
    public enum TypeOfNotification
    {
-      Terapija = 0,
-      Pregled = 1,
-      Lek = 2
+      THERAPY = 0,
+      EXAMINATION = 1,
+      DRUG = 2
    
    }
 }

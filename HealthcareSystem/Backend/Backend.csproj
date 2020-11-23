@@ -11,6 +11,7 @@
     <RootNamespace>Backend</RootNamespace>
     <AssemblyName>Backend</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
@@ -34,8 +35,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.8.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.8\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=2.10.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.2.10.0\lib\net47\MailKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -90,6 +103,9 @@
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Primitives.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit, Version=2.10.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.2.10.0\lib\net47\MimeKit.dll</HintPath>
     </Reference>
     <Reference Include="MySqlConnector, Version=0.69.9.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
       <HintPath>..\packages\MySqlConnector.0.69.9\lib\net471\MySqlConnector.dll</HintPath>
@@ -146,6 +162,9 @@
       <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
     </Reference>
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -175,7 +194,6 @@
     <Compile Include="Controller\RoomAndEquipment\IEquipmentController.cs" />
     <Compile Include="Controller\RoomAndEquipment\NonConsumableEquipmentController.cs" />
     <Compile Include="Controller\RoomAndEquipment\RoomController.cs" />
-    <Compile Include="Controller\UsersAndWorkingTime\CityController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\DoctorController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\IUserStrategy.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\ManagerController.cs" />
@@ -186,6 +204,11 @@
     <Compile Include="Migrations\20201121180134_ThirdMigration.cs" />
     <Compile Include="Migrations\20201121180134_ThirdMigration.designer.cs">
       <DependentUpon>20201121180134_ThirdMigration.cs</DependentUpon>
+     </Compile>
+    <Compile Include="Migrations\20201122221302_NewMigration.cs" />
+    <Compile Include="Migrations\20201122221302_NewMigration.designer.cs">
+      <DependentUpon>20201122221302_NewMigration.cs</DependentUpon>
+
     </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Enums\Grade.cs" />
@@ -233,7 +256,12 @@
     <Compile Include="Model\Enums\TypeOfQualifications.cs" />
     <Compile Include="Model\Users\User.cs" />
     <Compile Include="Model\Pharmacies\Pharmacy.cs" />
+    <Compile Include="Model\Users\WelcomeRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\CityRepository\ICityRepository.cs" />
+    <Compile Include="Repository\CityRepository\MySqlCityRepository\MySqlCityRepository.cs" />
+    <Compile Include="Repository\CountryRepository\ICountryRepository.cs" />
+    <Compile Include="Repository\CountryRepository\MySqlCountryRepository\MySqlCountryRepository.cs" />
     <Compile Include="Repository\DoctorRepository\FileDoctorRepository\FileDoctorRepository.cs" />
     <Compile Include="Repository\DoctorRepository\IDoctorRepository.cs" />
     <Compile Include="Repository\DoctorRepository\MySqlDoctorRepository\MySqlDoctorRepository.cs" />
@@ -280,6 +308,10 @@
     <Compile Include="Repository\SurveyRepository\ISurveyRepository.cs" />
     <Compile Include="Repository\SurveyRepository\MySqlSurveyRepository\MySqlSurveyRepository.cs" />
     <Compile Include="Repository\DrugRepository\FileDrugRepository\UnconfirmedDrugRepository.cs" />
+    <Compile Include="Service\CityAndCountry\CityService.cs" />
+    <Compile Include="Service\CityAndCountry\CountryService.cs" />
+    <Compile Include="Service\CityAndCountry\ICityService.cs" />
+    <Compile Include="Service\CityAndCountry\ICountryService.cs" />
     <Compile Include="Service\DrugAndTherapy\DrugService.cs" />
     <Compile Include="Service\DrugAndTherapy\DrugTypeAndIngridientService.cs" />
     <Compile Include="Service\DrugAndTherapy\IDrugService.cs" />
@@ -309,7 +341,8 @@
     <Compile Include="Service\RoomAndEquipment\IRoomService.cs" />
     <Compile Include="Service\RoomAndEquipment\NonConsumableEquipmentService.cs" />
     <Compile Include="Service\RoomAndEquipment\RoomService.cs" />
-    <Compile Include="Service\UsersAndWorkingTime\CityService.cs" />
+    <Compile Include="Service\SendingMail\IMailService.cs" />
+    <Compile Include="Service\SendingMail\MailService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\DoctorService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\IDoctorService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\IPatientService.cs" />
@@ -320,6 +353,7 @@
     <Compile Include="Service\Pharmacies\IPharmacyService.cs" />
     <Compile Include="Service\Pharmacies\MockPharmacyService.cs" />
     <Compile Include="Service\Pharmacies\PharmacyService.cs" />
+    <Compile Include="Settings\MailSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Backend.Model;
 using Backend.Repository;
 using Backend.Service;
@@ -23,12 +19,10 @@ using Backend.Service.PlacementInARoomAndRenovationPeriod;
 using Backend.Service.RoomAndEquipment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Repository;
 using Service.DrugAndTherapy;
 using Service.NotificationSurveyAndFeedback;
@@ -39,6 +33,10 @@ using Service.ExaminationAndPatientCard;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Repository.TherapyRepository;
 using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
+using Backend.Service.SendingMail;
+using Backend.Settings;
+using Microsoft.AspNetCore.Http;
+
 
 namespace PatientWebApp
 {
@@ -57,6 +55,12 @@ namespace PatientWebApp
             services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
                                 options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());
+
+            services.AddScoped<ICountryRepository, MySqlCountryRepository>();
+            services.AddScoped<ICountryService, CountryService>();
+
+            services.AddScoped<ICityRepository, MySqlCityRepository>();
+            services.AddScoped<ICityService, CityService>();
 
             services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();       
             services.AddScoped<IFeedbackService, FeedbackService>();
@@ -95,6 +99,11 @@ namespace PatientWebApp
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
 
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+
+            services.AddTransient<IMailService, MailService>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

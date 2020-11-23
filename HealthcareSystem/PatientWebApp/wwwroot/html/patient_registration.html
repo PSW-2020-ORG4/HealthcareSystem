@@ -65,10 +65,10 @@
             <div class="row d-flex justify-content-center" style="margin-top:30px;">
                 <div class="col-md-6">
                     <label><b>Gender</b></label>
-                    <select style="height:43px;width:103%;border-radius:0px;" required>
-                        <option value="" disabled selected>Choose gender</option>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
+                    <select id="gender" style="height:43px;width:103%;border-radius:0px;" required>
+                        <option value="" disabled selected hidden>Choose gender</option>
+                        <option value="0">Male</option>
+                        <option value="1">Female</option>
                     </select>
                 </div>
 
@@ -81,14 +81,14 @@
             <div class="row d-flex justify-content-center" style="margin-top:30px;">
                 <div class="col-md-6">
                     <label><b>Country</b></label>
-                    <select style="height:43px;width:103%;border-radius:0px;" required>
-                        <option value="" disabled selected>Choose country</option>
+                    <select id="countries" style="height:43px;width:103%;border-radius:0px;" required>
+                        <option value="" disabled selected hidden>Choose country</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label><b>City</b></label>
-                    <select style="height:43px;width:103%;border-radius:0px;" required>
-                        <option value="" disabled selected>Choose city</option>
+                    <select id="cities" style="height:43px;width:103%;border-radius:0px;" required>
+                        <option value="" disabled selected hidden>Choose city</option>
                     </select>
                 </div>
             </div>
@@ -99,15 +99,6 @@
                     <input type="text" placeholder="Enter Your home address" name="address" id="address" class="register" required>
                 </div>
             </div>
-
-            <div class="row d-flex justify-content-center" style="margin-top:30px;">
-                <div class="col-md-12">
-                    <label><b>Profile picture</b></label><br />
-                    <input id="add_image" type="file" name="image" />
-                    <div class="row" id="image_row"></div>
-                    <output id="result"></output>
-                </div>
-            </div>
         </section>
 
         <label class="corner_info" style="margin-top:40px;">Patient card information</label>
@@ -115,20 +106,20 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-6">
                     <label><b>Blood type</b></label>
-                    <select style="height:43px;width:103%;border-radius:0px;" required>
-                        <option value="" disabled selected>Choose blood type</option>
-                        <option value="1">A</option>
-                        <option value="2">B</option>
-                        <option value="3">AB</option>
-                        <option value="4">0</option>
+                    <select id="blood" style="height:43px;width:103%;border-radius:0px;">
+                        <option value="-1" disabled selected hidden>Choose blood type</option>
+                        <option value="0">A</option>
+                        <option value="1">B</option>
+                        <option value="2">AB</option>
+                        <option value="3">0</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label><b>Rh factor</b></label>
-                    <select style="height:43px;width:103%;border-radius:0px;" required>
-                        <option value="" disabled selected>Choose rh factor</option>
-                        <option value="1">+</option>
-                        <option value="2">-</option>
+                    <select id="rh" style="height:43px;width:103%;border-radius:0px;">
+                        <option value="-1" disabled selected hidden>Choose rh factor</option>
+                        <option value="0">+</option>
+                        <option value="1">-</option>
                     </select>
                 </div>
             </div>
@@ -136,10 +127,10 @@
             <div class="row d-flex justify-content-center" style="margin-top:30px;">
                 <div class="col-md-6">
                     <label><b>Do You have medical insurance?</b></label>
-                    <select style="height:43px;width:103%;border-radius:0px;" required>
-                        <option value="" disabled selected>Choose option</option>
+                    <select id="insurance" style="height:43px;width:103%;border-radius:0px;" required>
+                        <option value="" disabled selected hidden>Choose option</option>
+                        <option value="0">No</option>
                         <option value="1">Yes</option>
-                        <option value="2">No</option>
                     </select>
                 </div>
                 <div class="col-md-6">

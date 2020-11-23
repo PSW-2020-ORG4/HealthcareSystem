@@ -4,7 +4,7 @@
 
 		event.preventDefault();
 
-		var jmbgDoctor = "111";
+		var jmbgDoctor = "1308987105625";
 
 		var behaviorOfDoctor = parseInt($('input[name=gradeBehaviorOfDoctor]:checked').val());
 		var doctorProfessionalism = parseInt($('input[name=gradeProfessionalismDoctor]:checked').val());

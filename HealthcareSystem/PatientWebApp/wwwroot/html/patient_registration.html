@@ -36,7 +36,21 @@
     <h2 style="margin-top:30px;" class="register_title">Patient Registration Form</h2>
     <p style="margin-top:10px;color: rgb(43, 110, 138);" class="register_title">Fill out the form carefully for registration</p>
 
-    <form id="registration" class="register">
+    <form id="form_image" method="post" action="" enctype="multipart/form-data" class="register">
+        <label class="corner_info">Upload profile picture</label>
+        <section id="corners">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12">
+                    <input name="file" id="file" type="file" />
+                    <div class="row" id="image_row"></div>
+                    <output id="result"></output>
+                    <input type="submit" value="Upload image" id="send" hidden />
+                </div>
+            </div>
+        </section>
+    </form>
+
+    <form id="registration" class="register" style="margin-top:40px;">
         <label class="corner_info">Basic information</label>
         <section id="corners">
             <div class="row d-flex justify-content-center">

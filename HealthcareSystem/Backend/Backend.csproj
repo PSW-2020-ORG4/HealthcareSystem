@@ -346,7 +346,6 @@
     <Compile Include="Service\UsersAndWorkingTime\SecretaryService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\WorkingTimeService.cs" />
     <Compile Include="Service\Pharmacies\IPharmacyService.cs" />
-    <Compile Include="Service\Pharmacies\MockPharmacyService.cs" />
     <Compile Include="Service\Pharmacies\PharmacyService.cs" />
     <Compile Include="Settings\MailSettings.cs" />
   </ItemGroup>

@@ -14,15 +14,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagerFrontend", "ManagerF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientWebApp", "PatientWebApp\PatientWebApp.csproj", "{1670634D-8127-47B2-ACE0-2B3AB7B760BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationAdapters", "IntegrationAdapters\IntegrationAdapters.csproj", "{88869F3C-C67E-47A2-9527-2232C90FC5D5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LegacyBackend", "LegacyBackend\LegacyBackend.csproj", "{8CE622AF-B72C-4BB6-A5C3-BFD83D683384}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientFrontend", "PatientFrontend\PatientFrontend.csproj", "{94E5CD35-E7A2-42F2-9850-6286DC1C71D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientWebAppTests", "PatientWebAppUnitTests\PatientWebAppTests.csproj", "{B8C74BF5-C602-4D47-B81C-ED84ECEEBB43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationAdaptersTests", "IntegrationAdaptersTests\IntegrationAdaptersTests.csproj", "{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationAdaptersTests", "IntegrationAdaptersTests\IntegrationAdaptersTests.csproj", "{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationAdapters", "IntegrationAdapters\IntegrationAdapters.csproj", "{7966F780-C8E5-43C5-ABE0-73EC80249C09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,10 +54,6 @@ Global
 		{1670634D-8127-47B2-ACE0-2B3AB7B760BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1670634D-8127-47B2-ACE0-2B3AB7B760BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1670634D-8127-47B2-ACE0-2B3AB7B760BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88869F3C-C67E-47A2-9527-2232C90FC5D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88869F3C-C67E-47A2-9527-2232C90FC5D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88869F3C-C67E-47A2-9527-2232C90FC5D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88869F3C-C67E-47A2-9527-2232C90FC5D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8CE622AF-B72C-4BB6-A5C3-BFD83D683384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8CE622AF-B72C-4BB6-A5C3-BFD83D683384}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CE622AF-B72C-4BB6-A5C3-BFD83D683384}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -74,6 +70,10 @@ Global
 		{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E9FCC88-8C47-4B2B-8FB7-B3617792305E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7966F780-C8E5-43C5-ABE0-73EC80249C09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7966F780-C8E5-43C5-ABE0-73EC80249C09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7966F780-C8E5-43C5-ABE0-73EC80249C09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7966F780-C8E5-43C5-ABE0-73EC80249C09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

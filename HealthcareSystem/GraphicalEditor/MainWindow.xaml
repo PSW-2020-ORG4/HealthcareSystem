@@ -15,6 +15,13 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Grafički editor sa mapom bolnice" Height="800" Width="1500" WindowStartupLocation="CenterScreen">
+
+   
+
+
+
+
+
     <DockPanel>
         <StackPanel DockPanel.Dock="Left" Margin="20 20 0 0" >
             <Canvas x:Name="Canvas" Height="700" Width="1086" 
@@ -216,28 +223,144 @@
                         </Style.Triggers>
                     </Style>
 
+                    <Style x:Key="EditingModeMenuButton" TargetType="Button" 
+                            BasedOn="{StaticResource MaterialDesignRaisedButton}" >
+                    <Style.Triggers>
+                            <DataTrigger Binding="{Binding EditMode}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding EditMode}" Value="True">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="MenuOpened" TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMenuOpened}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsMenuOpened}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="MenuClosed" TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMenuOpened}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsMenuOpened}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
                 </StackPanel.Resources>
 
-                <StackPanel x:Name="NormalPanel" 
+
+                <StackPanel>
+                    <!--MENU-->
+                    <StackPanel x:Name="MenuPanel" VerticalAlignment="Top" Style="{StaticResource MenuOpened}">
+                        <Grid>
+                            <Button x:Name="CloseMenuButton" Width="Auto" Height="Auto" Background="{x:Null}" BorderBrush="{x:Null}"  VerticalAlignment="Top" HorizontalAlignment="Right" Click="CloseMenuButton_Click">
+                                <materialDesign:PackIcon Kind ="Close" Foreground="MediumPurple" Width="50" Height="50"  />
+                            </Button>
+                        </Grid>
+                        <StackPanel>
+                            <ListView x:Name="ListViewExtendMenu" Foreground="#FF313131" ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Roboto" FontSize="18" SelectionChanged="ListViewExtendMenu_SelectionChanged">
+
+                                <ListViewItem Height="60" Padding="0">
+                                    <StackPanel Orientation="Horizontal" Margin="10 0">
+                                        <materialDesign:PackIcon Kind="FileDocumentEdit" Foreground="MediumPurple" Width="30" Height="30" Margin="5" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Prikaz i izmena informacija" Foreground="MediumPurple" VerticalAlignment="Center" Margin="10"/>
+                                    </StackPanel>
+                                </ListViewItem>
+
+                                <ListViewItem Height="60" Padding="0">
+                                    <StackPanel Orientation="Horizontal" Margin="10 0">
+                                        <materialDesign:PackIcon Kind="MapSearchOutline" Foreground="MediumPurple" Width="30" Height="30" Margin="5" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Pretraga objekata" Foreground="MediumPurple" VerticalAlignment="Center"  Margin="10"/>
+                                    </StackPanel>
+                                </ListViewItem>
+
+                                <ListViewItem Height="60" Padding="0">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0">
+                                        <materialDesign:PackIcon Kind="SearchPlus" Foreground="MediumPurple" Width="30" Height="30" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text=" Pretraga lekova i opreme" FontSize="18" Foreground="MediumPurple" VerticalAlignment="Center" Margin="10"/>
+                                    </StackPanel>
+                                </ListViewItem>
+
+                                <ListViewItem Height="60" Padding="0">
+                                    <StackPanel Orientation="Horizontal" Margin="10 0">
+                                        <materialDesign:PackIcon Kind="CalendarClock" Foreground="MediumPurple" Width="30" Height="30" Margin="5" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Pretraga termina" Foreground="MediumPurple" VerticalAlignment="Center" Margin="10"/>
+                                    </StackPanel>
+                                </ListViewItem>
+
+                                <ListViewItem Height="60" Padding="0">
+                                    <StackPanel Orientation="Horizontal" Margin="10 0">
+                                        <materialDesign:PackIcon Kind="InfoCircle" Foreground="MediumPurple" Width="30" Height="30" Margin="5" VerticalAlignment="Center"/>
+                                        <TextBlock Text="O aplikaciji" Foreground="MediumPurple" VerticalAlignment="Center" Margin="10"/>
+                                    </StackPanel>
+                                </ListViewItem>
+
+                            </ListView>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel x:Name="InfoAndEditingPanel" Style="{StaticResource MenuClosed}">
+                        <!--OBJECT INFO DISPLAY PANEL-->
+                        <StackPanel x:Name="NormalPanel" VerticalAlignment="Top"
                             Style="{StaticResource NormalMode}">
-                    <TextBlock Text="{Binding DisplayMapObject.MapObjectType.ObjectTypeFullName}" 
-                           FontSize="26" 
-                           TextWrapping="Wrap"
-                           HorizontalAlignment="Center">
-                    </TextBlock>
 
-                    <TextBlock Text="{Binding DisplayMapObject.Id}" 
-                            FontSize="20"
-                            Margin="0 5 0 0"
-                            HorizontalAlignment="Center"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
 
-                    <TextBlock x:Name="Prop" Text="{Binding DisplayMapObject.Description}" 
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--OBJECT TYPE-->
+                            <TextBlock Text="{Binding DisplayMapObject.MapObjectType.ObjectTypeFullName}" 
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                FontSize="26" 
+                                TextWrapping="Wrap"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                            </TextBlock>
+
+
+                            <Button x:Name="OpenMenuButton"  Style="{StaticResource EditingModeMenuButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="0"  Grid.Column="2" Height="Auto" Width="Auto" Background="{x:Null}" BorderBrush="{x:Null}" Click="OpenMenuButton_Click">
+                                <materialDesign:PackIcon Kind="Menu" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="MediumPurple"/>
+                            </Button>
+
+                            <!--OBJECT ID-->
+                            <TextBlock Text="{Binding DisplayMapObject.Id}" 
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontSize="20"
+                                Margin="0 -5 0 0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"/>
+                        </Grid>
+
+                        <!--OBJECT DESCRIPTION-->
+                        <TextBlock x:Name="Prop" Text="{Binding DisplayMapObject.Description}" 
                            TextWrapping="Wrap"
                            FontSize="16" 
                            Margin="0 10 0 0">
-                    </TextBlock>
+                        </TextBlock>
 
-                    <Button
+                        <!--OBJECT EDITING BUTTON-->
+                        <Button
                             x:Name="EditObjectButton"
                             Height="Auto"
                             Padding="5"
@@ -246,39 +369,40 @@
                             Background="#7D80DA"
                             BorderBrush="{x:Null}"
                             Click="Edit_Display_Information">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <materialDesign:PackIcon Kind="Edit" Foreground="White" Width="25" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBlock Text="Izmeni" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
-                        </StackPanel>
-                    </Button>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon Kind="Edit" Foreground="White" Width="25" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock Text="Izmeni" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+                            </StackPanel>
+                        </Button>
 
-                </StackPanel>
+                    </StackPanel>
 
-                <StackPanel x:Name="EditPanel"
+                    <!--OBJECT INFO EDITING INPUT PANEL-->
+                    <StackPanel x:Name="EditPanel"
                             Style="{StaticResource EditingMode}">
-                    <ComboBox Name="ObjectTypeChooserComboBox" ItemsSource="{Binding DisplayMapObject.MapObjectType.AllMapObjectTypesAvailableToChange}"
+                        <ComboBox Name="ObjectTypeChooserComboBox" ItemsSource="{Binding DisplayMapObject.MapObjectType.AllMapObjectTypesAvailableToChange}"
                               FontSize="16"
                               materialDesign:HintAssist.Hint="Izaberite tip objekta.">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Path=ObjectTypeFullName}"></TextBlock>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=ObjectTypeFullName}"></TextBlock>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
-                    <TextBox IsReadOnly="True" Text="{Binding DisplayMapObject.Id}" 
+                        <TextBox IsReadOnly="True" Text="{Binding DisplayMapObject.Id}" 
                            FontSize="20"
                            Margin="0 5 0 0"
                            HorizontalAlignment="Center"/>
 
-                    <TextBox Text="{Binding DisplayMapObject.Description}" 
+                        <TextBox Text="{Binding DisplayMapObject.Description}" 
                            TextWrapping="Wrap"
                            FontSize="16" 
                            Margin="0 10 0 0"
                            materialDesign:HintAssist.Hint="Unesite deskripciju objekta.">
-                    </TextBox>
+                        </TextBox>
 
-                    <Button 
+                        <Button 
                             x:Name="SaveButton"
                             Height="Auto"
                             Padding="5"
@@ -287,13 +411,13 @@
                             Background="#7D80DA"
                             BorderBrush="{x:Null}"
                             Click="Change_Display_Information">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <materialDesign:PackIcon Kind="ContentSave" Foreground="White" Width="25" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBlock Text="Sačuvaj" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
-                        </StackPanel>
-                    </Button>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon Kind="ContentSave" Foreground="White" Width="25" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock Text="Sačuvaj" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+                            </StackPanel>
+                        </Button>
 
-                    <Button 
+                        <Button 
                             Height="Auto"
                             Padding="5"
                             FontSize="18"
@@ -301,12 +425,14 @@
                             Background="#F2404C"
                             BorderBrush="{x:Null}"
                             Click="Cancel_Editing_Mode">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <materialDesign:PackIcon Kind="CloseBox" Foreground="White" Width="25" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                            <TextBlock Text="Otkaži   " Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
-                        </StackPanel>
-                    </Button>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <materialDesign:PackIcon Kind="CloseBox" Foreground="White" Width="25" Height="25"  HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <TextBlock Text="Otkaži   " Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+                            </StackPanel>
+                        </Button>
 
+                       </StackPanel>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Border>

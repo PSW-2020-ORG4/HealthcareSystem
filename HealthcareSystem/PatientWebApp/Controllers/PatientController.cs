@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Backend.Model.Exceptions;
 using Backend.Model.Users;
 using Backend.Service;
@@ -115,9 +116,8 @@ namespace PatientWebApp.Controllers
         {
             if (file == null || file.Length == 0)
             {
-                return RedirectPermanent("http://localhost:65117/html/upload_image.html");
+                return RedirectPermanent("http://localhost:65117/html/patient_registration.html");
             }
-
             string directoryPath = _webHostEnvironment.WebRootPath + "\\Uploads\\";
             string imagePath = directoryPath + file.FileName;
             if (!Directory.Exists(directoryPath))
@@ -150,7 +150,6 @@ namespace PatientWebApp.Controllers
             {
                 return NotFound(exception.Message);
             }
-			
             return RedirectPermanent("http://localhost:65117/html/patients_home_page.html");
         }
     }

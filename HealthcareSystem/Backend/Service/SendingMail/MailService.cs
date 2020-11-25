@@ -57,8 +57,9 @@ namespace Backend.Service.SendingMail
         private string ParseMailText(WelcomeRequest request, string MailText)
         {
             string host = _httpContextAccessor.HttpContext.Request.Host.Value;
+            string encryptedJmbg = EncryptString(request.Jmbg);
             var parsedMailText = MailText.Replace("[username]", request.UserName).Replace("[email]", request.ToEmail)
-                .Replace("[jmbg]", request.Jmbg).Replace("[host]", host);
+                .Replace("[jmbg]", encryptedJmbg).Replace("[host]", host);
             return parsedMailText; ;
         }
 
@@ -71,5 +72,58 @@ namespace Backend.Service.SendingMail
             reader.Close();
             return MailText;
         }
+
+        private string EncryptString(string jmbg)
+        {
+            char[] arr;
+            string result = "";
+            arr = jmbg.ToCharArray(0, 13);
+
+            foreach (char c in arr)
+            {
+                if (c.ToString() == "0")
+                {
+                    result += "A";
+                }
+                else if (c.ToString() == "1")
+                {
+                    result += "p";
+                }
+                else if (c.ToString() == "2")
+                {
+                    result += "t";
+                }
+                else if (c.ToString() == "3")
+                {
+                    result += "o";
+                }
+                else if (c.ToString() == "4")
+                {
+                    result += "g";
+                }
+                else if (c.ToString() == "5")
+                {
+                    result += "e";
+                }
+                else if (c.ToString() == "6")
+                {
+                    result += "x";
+                }
+                else if (c.ToString() == "7")
+                {
+                    result += "w";
+                }
+                else if (c.ToString() == "8")
+                {
+                    result += "y";
+                }
+                else if (c.ToString() == "9")
+                {
+                    result += "K";
+                }
+            }
+            return result;
+        }
+
     }
 }

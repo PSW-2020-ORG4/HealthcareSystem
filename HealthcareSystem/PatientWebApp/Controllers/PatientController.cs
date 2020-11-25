@@ -90,12 +90,12 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
-        [HttpPut("activate/{id}")]
-        public ActionResult ActivatePatient(string id)
+        [HttpPut("activate/{jmbg}")]
+        public ActionResult ActivatePatient(string jmbg)
         {
             try
             {
-                _patientService.ActivatePatientStatus(id);
+                _patientService.ActivatePatientStatus(jmbg);
                 return Ok();
             }
             catch (NotFoundException exception)

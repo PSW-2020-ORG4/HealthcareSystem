@@ -4,8 +4,6 @@ using Backend.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Service
 {
@@ -22,37 +20,46 @@ namespace Backend.Service
 
         public void CreateActionBenefit(ActionBenefit ab)
         {
-            throw new NotImplementedException();
+            _actionBenefitRepository.CreateActionBenefit(ab);
         }
 
         public void CreateActionBenefit(string exchangeName, string message)
         {
-            throw new NotImplementedException();
+            Pharmacy p = _pharmacyRepo.GetPharmacyByExchangeName(exchangeName);
+            if (p == null)
+                return;
+            ActionBenefit ab = new ActionBenefit(p.Id, message);
+
+            CreateActionBenefit(ab);
         }
 
         public void DeleteActionBenefit(int id)
         {
-            throw new NotImplementedException();
+            ActionBenefit ab = _actionBenefitRepository.GetActionBenefitById(id);
+            if (ab == null)
+                throw new ArgumentNullException(nameof(ab));
+
+            _actionBenefitRepository.DeleteActionBenefit(ab);
         }
 
         public ActionBenefit GetActionBenefitById(int id)
         {
-            throw new NotImplementedException();
+            return _actionBenefitRepository.GetActionBenefitById(id);
         }
 
         public List<ActionBenefit> GetAllActionsBenefits()
         {
-            throw new NotImplementedException();
+            return _actionBenefitRepository.GetAllActionsBenefits().ToList();
         }
 
         public List<ActionBenefit> GetPublicActionsBenefits()
         {
-            throw new NotImplementedException();
+            return _actionBenefitRepository.GetPublicActionsBenefits().ToList();
         }
 
         public void UpdateActionBenefit(ActionBenefit ab)
         {
-            throw new NotImplementedException();
+            _actionBenefitRepository.UpdateActionBenefit(ab);
         }
     }
 }

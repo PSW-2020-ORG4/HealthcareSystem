@@ -233,6 +233,7 @@
     <Compile Include="Model\Enums\BloodType.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\Survey.cs" />
     <Compile Include="Model\PerformingExamination\Therapy.cs" />
+    <Compile Include="Model\Pharmacies\ActionBenefit.cs" />
     <Compile Include="Model\Users\Country.cs" />
     <Compile Include="Model\Users\PatientCard.cs" />
     <Compile Include="Model\Enums\RhFactorType.cs" />
@@ -253,6 +254,8 @@
     <Compile Include="Model\Pharmacies\Pharmacy.cs" />
     <Compile Include="Model\Users\WelcomeRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ActionBenefitRepository\IActionBenefitRepository.cs" />
+    <Compile Include="Repository\ActionBenefitRepository\MySqlActionBenefitRepository\MySqlActionBenefitRepository.cs" />
     <Compile Include="Repository\CityRepository\ICityRepository.cs" />
     <Compile Include="Repository\CityRepository\MySqlCityRepository\MySqlCityRepository.cs" />
     <Compile Include="Repository\CountryRepository\ICountryRepository.cs" />
@@ -303,6 +306,8 @@
     <Compile Include="Repository\SurveyRepository\ISurveyRepository.cs" />
     <Compile Include="Repository\SurveyRepository\MySqlSurveyRepository\MySqlSurveyRepository.cs" />
     <Compile Include="Repository\DrugRepository\FileDrugRepository\UnconfirmedDrugRepository.cs" />
+    <Compile Include="Service\ActionBenefitService\ActionBenefitService.cs" />
+    <Compile Include="Service\ActionBenefitService\IActionBenefitService.cs" />
     <Compile Include="Service\CityAndCountry\CityService.cs" />
     <Compile Include="Service\CityAndCountry\CountryService.cs" />
     <Compile Include="Service\CityAndCountry\ICityService.cs" />

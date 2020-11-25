@@ -24,7 +24,7 @@ namespace IntegrationAdaptersTests.UnitTests
                 var pharmacies = new List<Pharmacy>
                 {
                     new Pharmacy { Name="apoteka1", ApiKey="api1", ActionsBenefitsExchangeName="ex1", ActionsBenefitsSubscribed=true },
-                    new Pharmacy { Name="apoteka1", ApiKey="api1", ActionsBenefitsExchangeName="ex2", ActionsBenefitsSubscribed=true }
+                    new Pharmacy { Name="apoteka2", ApiKey="api2", ActionsBenefitsExchangeName="ex2", ActionsBenefitsSubscribed=true }
                 };
                 context.AddRange(pharmacies);
                 context.SaveChanges();

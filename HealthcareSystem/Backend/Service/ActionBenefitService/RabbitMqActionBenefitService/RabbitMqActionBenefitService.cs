@@ -97,7 +97,7 @@ namespace Backend.Service
 
         private void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
         {
-
+            Dispose();
         }
 
         private void OnConsumerReceived(object sender, BasicDeliverEventArgs e)

@@ -5,9 +5,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using RabbitMQ.Client.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,41 +35,48 @@ namespace Backend.Service
 
         private void InitializeRabbitMqListener()
         {
-            var factory = new ConnectionFactory() { HostName = _hostname, UserName = _username, Password = _password };
-            _connection = factory.CreateConnection();
-            _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
-            _channel = _connection.CreateModel();
-            _channel.QueueDeclare(queue: _queueName,
-                                  durable: true,
-                                  exclusive: false,
-                                  autoDelete: false,
-                                  arguments: null);
-
-            using (var scope = _service.CreateScope())
+            try
             {
-                IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
+                var factory = new ConnectionFactory() { HostName = _hostname, UserName = _username, Password = _password };
+                _connection = factory.CreateConnection();
+                _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+                _channel = _connection.CreateModel();
+                _channel.QueueDeclare(queue: _queueName,
+                                      durable: true,
+                                      exclusive: false,
+                                      autoDelete: false,
+                                      arguments: null);
 
-                foreach (Pharmacy p in pharmacyService.GetPharmaciesBySubscribed(true))
+                using (var scope = _service.CreateScope())
                 {
-                    _channel.ExchangeDeclare(exchange: p.ActionsBenefitsExchangeName, type: ExchangeType.Fanout);
-                    _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");
+                    IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
+
+                    foreach (Pharmacy p in pharmacyService.GetPharmaciesBySubscribed(true))
+                    {
+                        _channel.ExchangeDeclare(exchange: p.ActionsBenefitsExchangeName, type: ExchangeType.Fanout);
+                        _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");
+                    }
                 }
+            }catch(BrokerUnreachableException bue)
+            {
+                Dispose();
             }
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            stoppingToken.ThrowIfCancellationRequested();
+            if (!stoppingToken.IsCancellationRequested)
+            {
+                var consumer = new EventingBasicConsumer(_channel);
+                consumer.Received += OnConsumerReceived;
+                consumer.Shutdown += OnConsumerShutdown;
+                consumer.Registered += OnConsumerRegistered;
+                consumer.Unregistered += OnConsumerUnregistered;
+                consumer.ConsumerCancelled += OnConsumerCancelled;
 
-            var consumer = new EventingBasicConsumer(_channel);
-            consumer.Received += OnConsumerReceived;
-            consumer.Shutdown += OnConsumerShutdown;
-            consumer.Registered += OnConsumerRegistered;
-            consumer.Unregistered += OnConsumerUnregistered;
-            consumer.ConsumerCancelled += OnConsumerCancelled;
+                _channel.BasicConsume(queue: _queueName, autoAck: false, consumer: consumer);
 
-            _channel.BasicConsume(queue: _queueName, autoAck: false, consumer: consumer);
-
+            }
             return Task.CompletedTask;
         }
 
@@ -127,10 +133,10 @@ namespace Backend.Service
         public override void Dispose()
         {
             if (_channel != null)
-                _channel.Close();
+                _channel.Dispose();
 
             if (_connection != null)
-                _connection.Close();
+                _connection.Dispose();
 
             base.Dispose();
         }

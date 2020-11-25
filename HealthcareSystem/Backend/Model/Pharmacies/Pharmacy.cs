@@ -19,9 +19,12 @@ namespace Backend.Model.Pharmacies
         public string ApiKey { get; set; }
 
         [Required]
-        public string ActionsBenefitsExchangeName { get; set; }
+        public string Url { get; set; }
 
-        [Required]
-        public bool ActionsBenefitsSubscribed { get; set; }
+        //[Required]
+        //public string ActionsBenefitsExchangeName { get; set; }
+
+        //[Required]
+        //public bool ActionsBenefitsSubscribed { get; set; }
     }
 }

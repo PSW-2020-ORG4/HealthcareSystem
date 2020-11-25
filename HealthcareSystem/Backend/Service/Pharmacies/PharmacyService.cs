@@ -10,36 +10,36 @@ namespace Backend.Service.Pharmacies
 {
     public class PharmacyService : IPharmacyService
     {
-        private IPharmacyRepo _pharamcyRepo;
+        private IPharmacyRepo _pharmacyRepo;
 
         public PharmacyService(IPharmacyRepo pharmacyRepo)
         {
-            _pharamcyRepo = pharmacyRepo;
+            _pharmacyRepo = pharmacyRepo;
         }
 
         public void CreatePharmacy(Pharmacy p)
         {
-            _pharamcyRepo.CreatePharmacy(p);
+            _pharmacyRepo.CreatePharmacy(p);
         }
 
         public void DeletePharmacy(Pharmacy p)
         {
-            _pharamcyRepo.DeletePharmacy(p);
+            _pharmacyRepo.DeletePharmacy(p);
         }
 
         public IEnumerable<Pharmacy> GetAllPharmacies()
         {
-            return _pharamcyRepo.GetAllPharmacies();
+            return _pharmacyRepo.GetAllPharmacies();
         }
 
         public Pharmacy GetPharmacyById(int id)
         {
-            return _pharamcyRepo.GetPharmacyById(id);
+            return _pharmacyRepo.GetPharmacyById(id);
         }
 
         public void UpdatePharmacy(Pharmacy p)
         {
-            _pharamcyRepo.UpdatePharmacy(p);
+            _pharmacyRepo.UpdatePharmacy(p);
         }
     }
 }

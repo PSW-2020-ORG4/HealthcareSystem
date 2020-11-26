@@ -1,4 +1,4 @@
-﻿using Backend.Model;
+using Backend.Model;
 using Backend.Model.Pharmacies;
 using Backend.Service.Pharmacies;
 using Microsoft.Extensions.DependencyInjection;

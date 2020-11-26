@@ -27,7 +27,16 @@ namespace Backend.Service
         {
             Pharmacy p = _pharmacyRepo.GetPharmacyByExchangeName(exchangeName);
             if (p == null)
-                return;
+                throw new ArgumentNullException("There is no pharmacy with that exchange!");
+            if (message == null)
+                throw new ArgumentNullException("Message can not be null!");
+            if (message.Subject == null || message.Message == null)
+                throw new ArgumentException("Invalid message");
+            message.Subject = message.Subject.Trim();
+            message.Message = message.Message.Trim();
+            if (message.Subject == "" || message.Message == "")
+                throw new ArgumentException("Invalid message");
+
             ActionBenefit ab = new ActionBenefit(p.Id, message);
 
             CreateActionBenefit(ab);

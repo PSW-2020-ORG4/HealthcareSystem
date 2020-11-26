@@ -109,13 +109,23 @@ namespace Backend.Service
 
         private void OnConsumerReceived(object sender, BasicDeliverEventArgs e)
         {
-            var body = e.Body.ToArray();
-            var messageJson = Encoding.UTF8.GetString(body);
-            ActionBenefitMessage message = JsonConvert.DeserializeObject<ActionBenefitMessage>(messageJson);
-            var exchangeName = e.Exchange;
-
-            HandleMessage(message, exchangeName);
-            _channel.BasicAck(e.DeliveryTag, false);
+            Byte[] body = null;
+            string messageJson = null;
+            ActionBenefitMessage message = null;
+            string exchangeName = null;
+            try
+            {
+                body = e.Body.ToArray();
+                messageJson = Encoding.UTF8.GetString(body);
+                message = JsonConvert.DeserializeObject<ActionBenefitMessage>(messageJson);
+                exchangeName = e.Exchange;
+                HandleMessage(message, exchangeName);
+                _channel.BasicAck(e.DeliveryTag, false);
+            }
+            catch(Exception ex) 
+            {
+                _channel.BasicReject(e.DeliveryTag, false);
+            }
         }
 
         private void OnConsumerShutdown(object sender, ShutdownEventArgs e)

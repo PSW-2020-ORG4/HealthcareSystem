@@ -1,5 +1,6 @@
 ﻿using Backend.Model.Pharmacies;
 using Backend.Repository;
+using Backend.Service.Pharmacies;
 using IntegrationAdapters.Controllers;
 using IntegrationAdaptersTests.DataFactory;
 using Microsoft.AspNetCore.Http;
@@ -37,12 +38,12 @@ namespace IntegrationAdaptersTests.UnitTests
 
         public PharmacyController GetPharmacyController()
         {
-            var stubRepository = new Mock<IPharmacyRepo>();
+            var mockService = new Mock<IPharmacyService>();
             var tempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>())
             {
                 ["Success"] = "Registration successful!"
             };
-            var controller = new PharmacyController(stubRepository.Object)
+            var controller = new PharmacyController(mockService.Object)
             {
                 TempData = tempData
             };

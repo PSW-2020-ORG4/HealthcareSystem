@@ -8,11 +8,11 @@ namespace IntegrationAdapters.Controllers
 {
     public class PharmacyController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly PharmacyService _pharmacyService;
+        private readonly IPharmacyService _pharmacyService;
 
-        public PharmacyController(IPharmacyRepo iPharmacyRepo)
+        public PharmacyController(IPharmacyService iPharmacyService)
         {
-            _pharmacyService = new PharmacyService(iPharmacyRepo);
+            _pharmacyService = iPharmacyService;
         }
 
         public IActionResult ApiRegister()

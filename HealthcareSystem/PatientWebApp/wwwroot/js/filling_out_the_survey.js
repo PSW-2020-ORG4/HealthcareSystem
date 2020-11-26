@@ -14,7 +14,7 @@
 		var behaviorOfMedicalStaff = parseInt($('input[name=gradeBehaviorOfMedicalStaff]:checked').val());
 		var medicalStaffProfessionalism = parseInt($('input[name=gradeProfessionalismMedicalStaff]:checked').val());
 		var gettingAdviceByMedicalStaff = parseInt($('input[name=gradeGettingAdviceMedicalStaff]:checked').val());
-		var easeInObtainingFollowupInformationAndCare = parseInt($('input[name=gradeFollowUpInformationFromMedicalStaff]:checked').val());
+		var easeInObtainingFollowUpInformation = parseInt($('input[name=gradeFollowUpInformationFromMedicalStaff]:checked').val());
 
 		var nursing = parseInt($('input[name=gradeNursing]:checked').val());
 		var cleanliness = parseInt($('input[name=gradeCleanliness]:checked').val());
@@ -30,7 +30,7 @@
 			"BehaviorOfMedicalStaff": behaviorOfMedicalStaff,
 			"MedicalStaffProfessionalism": medicalStaffProfessionalism,
 			"GettingAdviceByMedicalStaff": gettingAdviceByMedicalStaff,
-			"EaseInObtainingFollowupInformationAndCare": easeInObtainingFollowupInformationAndCare,
+			"EaseInObtainingFollowUpInformation": easeInObtainingFollowUpInformation,
 			"Nursing": nursing,
 			"Cleanliness": cleanliness,
 			"OverallRating": overallRating,

@@ -1,4 +1,5 @@
-﻿using Backend.Repository;
+﻿using Backend.Model.Pharmacies;
+using Backend.Repository;
 using IntegrationAdapters.Controllers;
 using IntegrationAdaptersTests.DataFactory;
 using Microsoft.AspNetCore.Http;
@@ -15,15 +16,7 @@ namespace IntegrationAdaptersTests.UnitTests
         public void Successfully_registers_api()
         {
             var pharmacy = CreatePharmacy.CreateValidTestObject();
-            var stubRepository = new Mock<IPharmacyRepo>();
-            var tempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>())
-            {
-                ["Success"] = "Registration successful!"
-            };
-            var controller = new PharmacyController(stubRepository.Object)
-            {
-                TempData = tempData
-            };
+            var controller = GetPharmacyController();
 
             var result = controller.ApiRegister(pharmacy);
 
@@ -34,6 +27,16 @@ namespace IntegrationAdaptersTests.UnitTests
         public void Does_not_successfully_register_api()
         {
             var pharmacy = CreatePharmacy.CreateInvalidTestObject();
+            var controller = GetPharmacyController();
+            controller.ModelState.AddModelError("Url", "Required");
+
+            var result = controller.ApiRegister(pharmacy);
+
+            Assert.IsType<BadRequestObjectResult>(result);
+        }
+
+        public PharmacyController GetPharmacyController()
+        {
             var stubRepository = new Mock<IPharmacyRepo>();
             var tempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>())
             {
@@ -43,11 +46,8 @@ namespace IntegrationAdaptersTests.UnitTests
             {
                 TempData = tempData
             };
-            controller.ModelState.AddModelError("Url", "Required");
 
-            var result = controller.ApiRegister(pharmacy);
-
-            Assert.IsType<BadRequestObjectResult>(result);
+            return controller;
         }
     }
 }

@@ -11,6 +11,7 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Microsoft.AspNetCore.Http;
+using Backend.Service.Encryption;
 
 namespace Backend.Service.SendingMail
 {
@@ -18,11 +19,13 @@ namespace Backend.Service.SendingMail
     {
         private readonly MailSettings _mailSettings;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly EncryptionService _encryptionService;
 
         public MailService(IOptions<MailSettings> mailSettings, IHttpContextAccessor httpContextAccessor)
         {
             _mailSettings = mailSettings.Value;
             _httpContextAccessor = httpContextAccessor;
+            _encryptionService = new EncryptionService();
         }
         public async Task SendWelcomeEmailAsync(WelcomeRequest request)
         {
@@ -57,8 +60,9 @@ namespace Backend.Service.SendingMail
         private string ParseMailText(WelcomeRequest request, string MailText)
         {
             string host = _httpContextAccessor.HttpContext.Request.Host.Value;
+            string encryptedJmbg = _encryptionService.EncryptString(request.Jmbg);
             var parsedMailText = MailText.Replace("[username]", request.UserName).Replace("[email]", request.ToEmail)
-                .Replace("[jmbg]", request.Jmbg).Replace("[host]", host);
+                .Replace("[jmbg]", encryptedJmbg).Replace("[host]", host);
             return parsedMailText; ;
         }
 
@@ -71,5 +75,6 @@ namespace Backend.Service.SendingMail
             reader.Close();
             return MailText;
         }
+
     }
 }

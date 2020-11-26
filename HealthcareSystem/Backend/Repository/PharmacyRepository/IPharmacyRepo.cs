@@ -13,6 +13,9 @@ namespace Backend.Repository
 
         IEnumerable<Pharmacy> GetAllPharmacies();
         Pharmacy GetPharmacyById(int id);
+        Pharmacy GetPharmacyByExchangeName(string exchangeName);
+        IEnumerable<Pharmacy> GetPharmaciesBySubscribed(bool subscribed);
+
         void CreatePharmacy(Pharmacy p);
         void UpdatePharmacy(Pharmacy p);
         void DeletePharmacy(Pharmacy p);

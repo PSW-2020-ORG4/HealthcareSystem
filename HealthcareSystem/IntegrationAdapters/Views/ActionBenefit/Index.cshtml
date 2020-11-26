@@ -1,0 +1,39 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model List<Backend.Model.ActionBenefit>
+@{
+    ViewBag.ItemName = "ActionBenefit";
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        <h2 class="text-center">Actions&Benefits</h2>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><h5 class="card-title">Pharmacy</h5></th>
+                    <th><h5 class="card-title">Subject</h5></th>
+                    <th><h5 class="card-title">Made public</h5></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <a href="@item.Pharmacy.Url">
+                                @item.Pharmacy.Name
+                            </a>
+                        </td>
+                        <td class="text-center">
+                            <a asp-controller="@ViewBag.ItemName" asp-action="Details" asp-route-id="@item.Id">
+                                @item.Subject
+                            </a>
+                        </td>
+                        <td class="text-center">@((item.IsPublic) ? "Yes" : "No")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

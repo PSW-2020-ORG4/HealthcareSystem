@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using Backend.Model.Pharmacies;
-using Backend.Repository;
 using Backend.Service.Pharmacies;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,14 +24,10 @@ namespace IntegrationAdapters.Controllers
         public IActionResult ApiRegister(Pharmacy pharmacy)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             if (pharmacy.ActionsBenefitsExchangeName != null)
-            {
                 pharmacy.ActionsBenefitsSubscribed = true;
-            }
 
             try
             {
@@ -44,6 +40,32 @@ namespace IntegrationAdapters.Controllers
 
             TempData["Success"] = "Registration successful!";
             return RedirectToAction("ApiRegister");
+        }
+
+        public IActionResult Index()
+        {
+            return View(_pharmacyService.GetAllPharmacies().ToList());
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var pharmacy = _pharmacyService.GetPharmacyById(id);
+
+            if (pharmacy == null)
+                return NotFound("Pharmacy does not exist.");
+
+            return View(pharmacy);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Pharmacy pharmacy)
+        {
+            if (pharmacy.ActionsBenefitsExchangeName == null)
+                pharmacy.ActionsBenefitsSubscribed = false;
+
+            _pharmacyService.UpdatePharmacy(pharmacy);
+
+            return RedirectToAction("Index");
         }
     }
 }

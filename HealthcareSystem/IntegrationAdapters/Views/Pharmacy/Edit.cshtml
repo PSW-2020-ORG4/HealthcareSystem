@@ -1,8 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
 @model Backend.Model.Pharmacies.Pharmacy
 @{
-    ViewData["Title"] = "Api";
+    ViewData["Title"] = "Edit";
     Layout = "_Layout";
+}
+
+@{
+    const string message = "Exchange name is required if you wish to subscribe.";
 }
 
 @using (Html.BeginForm())
@@ -10,16 +14,9 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Pharmacy API Registration</h4>
+        <h4>Edit a pharmacy</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-        <div class="form-group">
-            @if (TempData["Success"] != null)
-            {
-                <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
-            }
-        </div>
 
         <div class="form-group">
             <label class="control-label col-md-2">Name</label>
@@ -49,14 +46,56 @@
             <label class="control-label col-md-5">Actions & Benefits Exchange Name</label>
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.ActionsBenefitsExchangeName, new { @class = "form-control" })
+            <div><p id="message" class="alert alert-info">@message</p></div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-5">Subscribe?</label>
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.ActionsBenefitsSubscribed)
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-10"></div>
-            <input type="submit" value="Submit" class="btn-blue-grey" />
+            <input id="submitButton" type="submit" value="Save" class="btn-blue-grey" />
         </div>
 
 
     </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 }
+
+<script>
+    $(document).ready(function () {
+
+        $("#message").hide();
+
+        $("#ActionsBenefitsSubscribed").on("change", function () {
+            exchangeNameMessage();
+        });   
+
+        $("#ActionsBenefitsExchangeName").on("change", function () {
+            exchangeNameMessage();
+        });   
+
+        function exchangeNameMessage() {
+            if (!$("#ActionsBenefitsExchangeName").val()) {
+                $("#message").show();
+                $("#ActionsBenefitsSubscribed").prop('checked', false);
+                $("#submitButton").prop("disabled", true);
+            }
+            else {
+                $("#message").hide();
+            }
+
+            setTimeout(function () {
+                $("#submitButton").prop("disabled", false);
+            }, 2000);
+        }
+    });
+</script>

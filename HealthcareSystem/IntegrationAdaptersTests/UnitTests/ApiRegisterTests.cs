@@ -1,6 +1,4 @@
-﻿using Backend.Model.Pharmacies;
-using Backend.Repository;
-using Backend.Service.Pharmacies;
+﻿using Backend.Service.Pharmacies;
 using IntegrationAdapters.Controllers;
 using IntegrationAdaptersTests.DataFactory;
 using Microsoft.AspNetCore.Http;
@@ -36,19 +34,17 @@ namespace IntegrationAdaptersTests.UnitTests
             Assert.IsType<BadRequestObjectResult>(result);
         }
 
-        public PharmacyController GetPharmacyController()
+        private PharmacyController GetPharmacyController()
         {
             var mockService = new Mock<IPharmacyService>();
             var tempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>())
             {
                 ["Success"] = "Registration successful!"
             };
-            var controller = new PharmacyController(mockService.Object)
+            return new PharmacyController(mockService.Object)
             {
                 TempData = tempData
             };
-
-            return controller;
         }
     }
 }

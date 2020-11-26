@@ -36,7 +36,7 @@ namespace IntegrationAdaptersTests.UnitTests
                 var actionBenefitRepo = new MySqlActionBenefitRepository(context);
                 var actionBenefitService = new ActionBenefitService(actionBenefitRepo, pharmacyRepo);
 
-                actionBenefitService.CreateActionBenefit("ex1", "message");
+                actionBenefitService.CreateActionBenefit("ex1", new ActionBenefitMessage { Subject="akcija1", Message="blablabla"});
 
                 Assert.Contains(context.ActionsBenefits, a => a.Pharmacy.ActionsBenefitsExchangeName == "ex1");
             }

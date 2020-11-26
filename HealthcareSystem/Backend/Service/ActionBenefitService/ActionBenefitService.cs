@@ -23,7 +23,7 @@ namespace Backend.Service
             _actionBenefitRepository.CreateActionBenefit(ab);
         }
 
-        public void CreateActionBenefit(string exchangeName, string message)
+        public void CreateActionBenefit(string exchangeName, ActionBenefitMessage message)
         {
             Pharmacy p = _pharmacyRepo.GetPharmacyByExchangeName(exchangeName);
             if (p == null)

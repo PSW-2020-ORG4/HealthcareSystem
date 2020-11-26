@@ -246,6 +246,7 @@
     <Compile Include="Model\NotificationSurveyAndFeedback\Survey.cs" />
     <Compile Include="Model\PerformingExamination\Therapy.cs" />
     <Compile Include="Model\Pharmacies\ActionBenefit.cs" />
+    <Compile Include="Model\Pharmacies\ActionBenefitMessage.cs" />
     <Compile Include="Model\Users\Country.cs" />
     <Compile Include="Model\Users\PatientCard.cs" />
     <Compile Include="Model\Enums\RhFactorType.cs" />
@@ -320,6 +321,7 @@
     <Compile Include="Repository\DrugRepository\FileDrugRepository\UnconfirmedDrugRepository.cs" />
     <Compile Include="Service\ActionBenefitService\ActionBenefitService.cs" />
     <Compile Include="Service\ActionBenefitService\IActionBenefitService.cs" />
+    <Compile Include="Service\ActionBenefitService\RabbitMqActionBenefitService\IActionBenefitMessageingService.cs" />
     <Compile Include="Service\ActionBenefitService\RabbitMqActionBenefitService\RabbitMqActionBenefitService.cs" />
     <Compile Include="Service\ActionBenefitService\RabbitMqActionBenefitService\RabbitMqConfiguration.cs" />
     <Compile Include="Service\CityAndCountry\CityService.cs" />

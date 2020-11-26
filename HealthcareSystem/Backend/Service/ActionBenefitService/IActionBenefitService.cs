@@ -10,7 +10,7 @@ namespace Backend.Service
         List<ActionBenefit> GetPublicActionsBenefits();
 
         void CreateActionBenefit(ActionBenefit ab);
-        void CreateActionBenefit(string exchangeName, string message);
+        void CreateActionBenefit(string exchangeName, ActionBenefitMessage message);
         void UpdateActionBenefit(ActionBenefit ab);
         void DeleteActionBenefit(int id);
     }

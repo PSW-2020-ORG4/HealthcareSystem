@@ -1,8 +1,10 @@
-﻿using Backend.Model.Pharmacies;
+﻿using Backend.Model;
+using Backend.Model.Pharmacies;
 using Backend.Service.Pharmacies;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
@@ -13,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Service
 {
-    public class RabbitMqActionBenefitMessageingService : BackgroundService
+    public class RabbitMqActionBenefitMessageingService : BackgroundService, IActionBenefitMessageingService
     {
         private IModel _channel;
         private IConnection _connection;
@@ -80,12 +82,17 @@ namespace Backend.Service
             return Task.CompletedTask;
         }
 
+        public void Subscribe(string exchangeName)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Unsubscribe(String exchangeName)
         {
             _channel.QueueUnbind(queue: _queueName, exchange: exchangeName, "", null);
         }
 
-        private void HandleMessage(string message, string exchangeName)
+        private void HandleMessage(ActionBenefitMessage message, string exchangeName)
         {
             using (var scope = _service.CreateScope())
             {
@@ -103,7 +110,8 @@ namespace Backend.Service
         private void OnConsumerReceived(object sender, BasicDeliverEventArgs e)
         {
             var body = e.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
+            var messageJson = Encoding.UTF8.GetString(body);
+            ActionBenefitMessage message = JsonConvert.DeserializeObject<ActionBenefitMessage>(messageJson);
             var exchangeName = e.Exchange;
 
             HandleMessage(message, exchangeName);

@@ -11,10 +11,11 @@ namespace Backend.Model
             IsPublic = false;
         }
 
-        public ActionBenefit(int pharmacyId, string message)
+        public ActionBenefit(int pharmacyId, ActionBenefitMessage message)
         {
             PharmacyId = pharmacyId;
-            Message = message;
+            Subject = message.Subject;
+            Message = message.Message;
             IsPublic = false;
         }
 
@@ -24,6 +25,9 @@ namespace Backend.Model
         [ForeignKey("Pharmacy")]
         public int PharmacyId { get; set; }
         public virtual Pharmacy Pharmacy { get; set; }
+
+        [Required]
+        public string Subject { get; set; }
 
         [Required]
         public string Message { get; set; }

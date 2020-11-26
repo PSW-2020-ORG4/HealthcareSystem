@@ -11,7 +11,7 @@ namespace IntegrationAdaptersTests.IntegrationTests
     public class ActionBenefitServiceTest
     {
         [Fact]
-        public void Create_valid_action_benefit()
+        public void CreateActionBenefit_Valid_VerifyCreateActionBenefit()
         {
             var builder = new DbContextOptionsBuilder<MyDbContext>();
             builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
@@ -40,7 +40,7 @@ namespace IntegrationAdaptersTests.IntegrationTests
         }
 
         [Fact]
-        public void Create_invalid_action_benefit()
+        public void CreateActionBenefit_InvalidMessage_ThrowsException()
         {
             var builder = new DbContextOptionsBuilder<MyDbContext>();
             builder.UseInMemoryDatabase(Guid.NewGuid().ToString());

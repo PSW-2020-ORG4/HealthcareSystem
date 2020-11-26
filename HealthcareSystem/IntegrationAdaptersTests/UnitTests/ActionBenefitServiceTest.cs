@@ -11,7 +11,7 @@ namespace IntegrationAdaptersTests.UnitTests
     public class ActionBenefitServiceTest
     {
         [Fact]
-        public void Create_valid_action_benefit()
+        public void CreateActionBenefit_Valid_VerifyCreateActionBenefit()
         {
             var mockPharmacyRepo = new Mock<IPharmacyRepo>();
             var mockActionBenefitRepo = new Mock<IActionBenefitRepository>();
@@ -29,7 +29,7 @@ namespace IntegrationAdaptersTests.UnitTests
         }
 
         [Fact]
-        public void Create_invalid_action_benefit()
+        public void CreateActionBenefit_InvalidMessage_ThrowsException()
         {
             var mockPharmacyRepo = new Mock<IPharmacyRepo>();
             var mockActionBenefitRepo = new Mock<IActionBenefitRepository>();

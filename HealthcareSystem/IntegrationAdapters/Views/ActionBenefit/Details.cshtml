@@ -1,0 +1,13 @@
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model Backend.Model.ActionBenefit
+
+<div class="card text-center">
+    <div class="card-header">
+        <a href="@Model.Pharmacy.Url"><h2 class="text-center">@Model.Pharmacy.Name</h2></a>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Subject</h5>
+        <p class="card-text">@Model.Message</p>
+    </div>
+</div>
+

@@ -31,8 +31,14 @@ namespace Backend.Model
         public DbSet<RenovationPeriod> RenovationPeriods { get; set; }
         public DbSet<WorkingTime> WorkingTimes { get; set; }
         public DbSet<Pharmacy> Pharmacies { get; set; }
+        public DbSet<ActionBenefit> ActionsBenefits { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Pharmacy>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
+
+        }
     }
 }

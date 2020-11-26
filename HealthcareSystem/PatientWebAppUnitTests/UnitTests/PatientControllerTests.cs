@@ -14,6 +14,7 @@ using PatientWebAppTests.CreateObjectsForTests;
 using Backend.Service.SendingMail;
 using System.Threading.Tasks;
 using Backend.Model.Users;
+using Backend.Service.Encryption;
 
 namespace PatientWebAppTests.UnitTests
 {
@@ -21,18 +22,21 @@ namespace PatientWebAppTests.UnitTests
     {
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
+        private readonly EncryptionService _encryptionService;
 
         public PatientControllerTests()
         {
             _objectFactory = new TestObjectFactory();
             _stubRepository = new StubRepository();
+            _encryptionService = new EncryptionService();
         }
 
-        private PatientController SetupPatientController(Mock<IMailService> mockService)
+        private PatientController SetupPatientController(Mock<IMailService> mailMockService)
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
-            IMailService mailService = mockService.Object;
+            IMailService mailService = mailMockService.Object;
+        
             PatientController patientController = new PatientController(patientService, patientCardService, null, mailService);
 
             return patientController;
@@ -111,7 +115,8 @@ namespace PatientWebAppTests.UnitTests
         {
             PatientController patientController = SetupPatientController(new Mock<IMailService>());
 
-            var result = patientController.ActivatePatient("1234567891234");
+            string encryptedJmbg = _encryptionService.EncryptString("1234567891234");
+            var result = patientController.ActivatePatient(encryptedJmbg);
            
             Assert.True(result is OkResult);
         }

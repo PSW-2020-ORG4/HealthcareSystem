@@ -11,6 +11,7 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Microsoft.AspNetCore.Http;
+using Backend.Service.Encryption;
 
 namespace Backend.Service.SendingMail
 {
@@ -18,11 +19,13 @@ namespace Backend.Service.SendingMail
     {
         private readonly MailSettings _mailSettings;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly EncryptionService _encryptionService;
 
         public MailService(IOptions<MailSettings> mailSettings, IHttpContextAccessor httpContextAccessor)
         {
             _mailSettings = mailSettings.Value;
             _httpContextAccessor = httpContextAccessor;
+            _encryptionService = new EncryptionService();
         }
         public async Task SendWelcomeEmailAsync(WelcomeRequest request)
         {
@@ -57,7 +60,7 @@ namespace Backend.Service.SendingMail
         private string ParseMailText(WelcomeRequest request, string MailText)
         {
             string host = _httpContextAccessor.HttpContext.Request.Host.Value;
-            string encryptedJmbg = EncryptString(request.Jmbg);
+            string encryptedJmbg = _encryptionService.EncryptString(request.Jmbg);
             var parsedMailText = MailText.Replace("[username]", request.UserName).Replace("[email]", request.ToEmail)
                 .Replace("[jmbg]", encryptedJmbg).Replace("[host]", host);
             return parsedMailText; ;
@@ -71,58 +74,6 @@ namespace Backend.Service.SendingMail
             string MailText = reader.ReadToEnd();
             reader.Close();
             return MailText;
-        }
-
-        private string EncryptString(string jmbg)
-        {
-            char[] arr;
-            string result = "";
-            arr = jmbg.ToCharArray(0, 13);
-
-            foreach (char c in arr)
-            {
-                if (c.ToString() == "0")
-                {
-                    result += "A";
-                }
-                else if (c.ToString() == "1")
-                {
-                    result += "p";
-                }
-                else if (c.ToString() == "2")
-                {
-                    result += "t";
-                }
-                else if (c.ToString() == "3")
-                {
-                    result += "o";
-                }
-                else if (c.ToString() == "4")
-                {
-                    result += "g";
-                }
-                else if (c.ToString() == "5")
-                {
-                    result += "e";
-                }
-                else if (c.ToString() == "6")
-                {
-                    result += "x";
-                }
-                else if (c.ToString() == "7")
-                {
-                    result += "w";
-                }
-                else if (c.ToString() == "8")
-                {
-                    result += "y";
-                }
-                else if (c.ToString() == "9")
-                {
-                    result += "K";
-                }
-            }
-            return result;
         }
 
     }

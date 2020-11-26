@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20201122221302_NewMigration")]
-    partial class NewMigration
+    [Migration("20201126181413_MyMigration")]
+    partial class MyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,21 +33,66 @@ namespace Backend.Migrations
                     b.ToTable("Countries");
                 });
 
+            modelBuilder.Entity("Backend.Model.ActionBenefit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("PharmacyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PharmacyId");
+
+                    b.ToTable("ActionsBenefits");
+                });
+
             modelBuilder.Entity("Backend.Model.Pharmacies.Pharmacy", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("ActionsBenefitsExchangeName")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.Property<bool>("ActionsBenefitsSubscribed")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("ApiKey")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ActionsBenefitsExchangeName")
+                        .IsUnique();
 
                     b.ToTable("Pharmacies");
                 });
@@ -276,6 +321,9 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Anamnesis")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime(6)");
 
@@ -308,11 +356,11 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Anamnesis")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<int>("DailyDose")
                         .HasColumnType("int");
+
+                    b.Property<string>("Diagnosis")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
@@ -483,6 +531,15 @@ namespace Backend.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.HasDiscriminator().HasValue("Patient");
+                });
+
+            modelBuilder.Entity("Backend.Model.ActionBenefit", b =>
+                {
+                    b.HasOne("Backend.Model.Pharmacies.Pharmacy", "Pharmacy")
+                        .WithMany()
+                        .HasForeignKey("PharmacyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Backend.Model.Survey", b =>

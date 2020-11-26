@@ -19,7 +19,8 @@ namespace Model.PerformingExamination
         public int Id { get; set; }
         public TypeOfExamination Type  { get; set; }
         public DateTime DateAndTime { get; set; }
-        
+        public string Anamnesis { get; set; }
+
         [ForeignKey("Doctor")]
         public string DoctorJmbg { get; set; }
         public virtual Doctor Doctor { get; set; }
@@ -37,11 +38,12 @@ namespace Model.PerformingExamination
         {
         }
 
-        public Examination(int id, TypeOfExamination typeOfExamination, DateTime dateAndTime, Doctor doctor, Room room, PatientCard patientCard)
+        public Examination(int id, TypeOfExamination typeOfExamination, DateTime dateAndTime, string anamnesis, Doctor doctor, Room room, PatientCard patientCard)
         {
             Id = id;
             Type = typeOfExamination;
             DateAndTime = dateAndTime;
+            Anamnesis = anamnesis;
             if (doctor == null)
             {
                 Doctor = new Doctor();
@@ -73,6 +75,7 @@ namespace Model.PerformingExamination
             Id = examination.Id;
             Type = examination.Type;
             DateAndTime = examination.DateAndTime;
+            Anamnesis = examination.Anamnesis;
             if (examination.Doctor == null)
             {
                 Doctor = new Doctor();

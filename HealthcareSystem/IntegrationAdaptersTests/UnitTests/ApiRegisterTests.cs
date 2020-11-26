@@ -16,12 +16,11 @@ namespace IntegrationAdaptersTests.UnitTests
         {
             var pharmacy = CreatePharmacy.CreateValidTestObject();
             var stubRepository = new Mock<IPharmacyRepo>();
-            stubRepository.Setup(m => m.CreatePharmacy(pharmacy));
             var tempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>())
             {
                 ["Success"] = "Registration successful!"
             };
-            var controller = new HomeController(stubRepository.Object)
+            var controller = new PharmacyController(stubRepository.Object)
             {
                 TempData = tempData
             };
@@ -36,12 +35,11 @@ namespace IntegrationAdaptersTests.UnitTests
         {
             var pharmacy = CreatePharmacy.CreateInvalidTestObject();
             var stubRepository = new Mock<IPharmacyRepo>();
-            stubRepository.Setup(m => m.CreatePharmacy(pharmacy));
             var tempData = new TempDataDictionary(new DefaultHttpContext(), Mock.Of<ITempDataProvider>())
             {
                 ["Success"] = "Registration successful!"
             };
-            var controller = new HomeController(stubRepository.Object)
+            var controller = new PharmacyController(stubRepository.Object)
             {
                 TempData = tempData
             };

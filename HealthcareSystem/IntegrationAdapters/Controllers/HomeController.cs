@@ -10,42 +10,9 @@ namespace IntegrationAdapters.Controllers
 {
     public class HomeController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly PharmacyService _pharmacyService;
-       
-        public HomeController(IPharmacyRepo iPharmacyRepo)
-        {
-            _pharmacyService = new PharmacyService(iPharmacyRepo);
-        }
-
         public IActionResult Index()
         {
             return View();
-        }
-
-        public IActionResult ApiRegister()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult ApiRegister(Pharmacy pharmacy)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                _pharmacyService.CreatePharmacy(pharmacy);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ModelState);
-            }
-
-            TempData["Success"] = "Registration successful!";
-            return RedirectToAction("ApiRegister");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

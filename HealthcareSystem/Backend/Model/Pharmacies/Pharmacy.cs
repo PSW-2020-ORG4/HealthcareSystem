@@ -25,10 +25,9 @@ namespace Backend.Model.Pharmacies
         public string Url { get; set; }
 
         [StringLength(255)]
-        [Required]
         public string ActionsBenefitsExchangeName { get; set; }
 
-        [Required]
-        public bool ActionsBenefitsSubscribed { get; set; }
+        [Required] 
+        public bool ActionsBenefitsSubscribed { get; set; } = false;
     }
 }

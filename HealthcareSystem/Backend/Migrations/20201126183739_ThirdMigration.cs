@@ -302,6 +302,7 @@ namespace Backend.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Type = table.Column<int>(nullable: false),
                     DateAndTime = table.Column<DateTime>(nullable: false),
+                    Anamnesis = table.Column<string>(nullable: true),
                     DoctorJmbg = table.Column<string>(nullable: true),
                     IdRoom = table.Column<int>(nullable: false),
                     IdPatientCard = table.Column<int>(nullable: false)
@@ -335,7 +336,7 @@ namespace Backend.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Anamnesis = table.Column<string>(nullable: true),
+                    Diagnosis = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     DailyDose = table.Column<int>(nullable: false),

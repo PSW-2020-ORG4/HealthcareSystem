@@ -22,8 +22,8 @@ namespace PatientWebApp.Controllers
             _examinationService = examinationService;
 
         }
-        /*
-        [HttpGet("{id}")]
+        
+        [HttpGet]
         public IActionResult GetExaminationById(int id)
         {
             try
@@ -35,7 +35,7 @@ namespace PatientWebApp.Controllers
             {
                 return NotFound(exception.Message);
             }
-        }*/
+        }
         /// <summary>
         /// /getting examinations linked to a certain patient
         /// </summary>
@@ -55,6 +55,31 @@ namespace PatientWebApp.Controllers
                 return NotFound();
             }
         }
-      
+
+        /// <summary>
+        /// /getting examinations linked to a certain patient for basic search
+        /// </summary>
+        /// <param name="patientJmbg"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="doctorSurname"></param>
+        /// <param name="anamesis"></param>
+        /// <returns> list od Examination DTOs</returns>
+        [HttpGet("{patientJmbg}/{startDate}/{endDate}/{doctorSurname}/{anamesis}")]
+        public ActionResult GetExaminationsByPatientSearch(string patientJmbg, string startDate, string endDate, string doctorSurname, string anamesis)
+        {
+            try
+            {
+                List<Examination> examinations = new List<Examination>();
+                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
+                examinations = _examinationService.GetExaminationsByPatient(patientJmbg);
+               _examinationService.GetExaminationsByPatientSearch(examinations, startDate, endDate, doctorSurname, anamesis).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
+                return Ok(examinationDTOs);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
     }
 }

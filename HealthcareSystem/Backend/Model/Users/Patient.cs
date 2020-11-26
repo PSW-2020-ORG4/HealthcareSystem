@@ -18,7 +18,7 @@ namespace Model.Users
         public DateTime DateOfRegistration { get; set; }
         public bool IsGuest { get; set; }
         public bool IsActive { get; set; }
-        public string ImageName { get; set; }
+       // public string ImageName { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual PatientCard PatientCard { get; set; }
         public Patient()
@@ -53,7 +53,7 @@ namespace Model.Users
             DateOfRegistration = dateOfRegistration;
             IsGuest = isGuest;
             IsActive = false;
-            ImageName = imagePath;
+          //  ImageName = imagePath;
         }
         public Patient(Patient patient)
         {
@@ -80,7 +80,7 @@ namespace Model.Users
             DateOfRegistration = patient.DateOfRegistration;
             IsGuest = patient.IsGuest;
             IsActive = false;
-            ImageName = patient.ImageName;
+         //   ImageName = patient.ImageName;
         }
     }
 }

@@ -32,5 +32,6 @@ namespace Backend.Service.ExaminationAndPatientCard
         Examination AppointmentRecommendationByDoctor(Doctor doctor, DateTime beginDate, DateTime endDate);
         Examination AppointmentRecommendationByDate(Doctor doctor, DateTime beginDate, DateTime endDate);
         List<Examination> GetExaminationsByDoctorAndDate(Doctor doctor, DateTime dateAndTime);
+        List<Examination> GetExaminationsByPatientSearch(List<Examination> examinations, string startDate, string endDate, string doctorSurname, string anamesis);
     }
 }

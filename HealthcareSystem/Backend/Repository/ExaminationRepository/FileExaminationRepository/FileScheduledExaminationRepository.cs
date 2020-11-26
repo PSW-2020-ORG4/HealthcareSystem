@@ -328,13 +328,14 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
             List<Examination> result = new List<Examination>();
             int lastId = 0;
             double hours;
+            string anamnesis = "";
 
             for (DateTime date = beginDate; DateTime.Compare(date, endDate) <= 0; date = date.AddDays(1))
             {
                 hours = 0;
                 for (int i = 0; i < 16; i++)
                 {
-                    result.Add(new Examination(++lastId, new TypeOfExamination(), date.AddHours(hours), new Doctor(doctor), new Room(), new PatientCard()));
+                    result.Add(new Examination(++lastId, new TypeOfExamination(), date.AddHours(hours), anamnesis, new Doctor(doctor), new Room(), new PatientCard()));
                     hours += DURATION_OF_EXAMINATION;
                 }
             }

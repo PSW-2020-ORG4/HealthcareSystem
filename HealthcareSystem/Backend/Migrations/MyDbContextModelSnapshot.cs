@@ -274,6 +274,9 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Anamnesis")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime(6)");
 
@@ -306,11 +309,11 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Anamnesis")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<int>("DailyDose")
                         .HasColumnType("int");
+
+                    b.Property<string>("Diagnosis")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
@@ -470,9 +473,6 @@ namespace Backend.Migrations
                     b.Property<DateTime>("DateOfRegistration")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)");
-
-                    b.Property<string>("ImageName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");

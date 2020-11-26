@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
-    $('#no_type').prop("selected", true);
+    $('#examination_search').prop("selected", true);
+    $("#drug_exam_name").attr("placeholder", "Anamnesis").blur();
 
     var dtToday = new Date();
 
@@ -26,158 +27,105 @@
             $("#drug_exam_name").attr("placeholder", "Anamnesis").blur();
         }
     });
+
     $('form#search_prescription').submit(function (event) {
         event.preventDefault()
-        let start_date = "2000-1-1 00:00"
-        let end_date = "2000-1-1 00:00"
-        let doctor = "Peric"
-        let drug = "brufen"
-        let id = 1
-        let anamnesis = "anamnaza"
-        let dose = 2
-        let idDrug = 2
-        let idExamination = 1
-        let doctorName = "Ime"
-        if ($('#end_date').val() != "") {
-            start_date = $('#end_date').val()
-        }
-        if ($('#start_date').val() != "") {
-            end_date = $('#start_date').val()
-        }
-        if ($('#doctor').val() != "") {
-            doctor = $('#doctor').val()
-        }
-        if ($('#drug').val() != "") {
-            drug = $('#drug').val()
-        }
+        $("#border_prescriptions").empty();
 
-        let idPatientCard = 1;
+        var j = 0;
         let jmbg = "1";
-        $.ajax({
-            url: "/api/patient/" + jmbg,
-            type: 'GET',
-            dataType: 'json',
-            processData: false,
-            contentType: false,
-            success: function (patientDto) {
-                jmbg = patientDto.jmbg;
-                idPatientCard = patientDto.patientCardId;
-                alert(idPatientCard);
+        let start_date = $('#start_date').val();
+        let end_date = $('#end_date').val();
+        let doctor = $('#doctor_surname').val();
+        let anamnesis_or_drug = $('#drug_exam_name').val();
 
-                $.ajax({
-                    url: "/api/examination/" + jmbg,
-                    type: 'GET',
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    success: function (examinations) {
-                        $('#border_prescriptions').empty();
-                        for (let i = 0; i < examinations.length; i++) {
-                            let examination = examinations[i].id;
-                           
-                            $.ajax({
-                                type: "POST",
-                                url: "/api/therapy/" + parseInt(examination),
-                                contentType: "application/json",
-                                data: JSON.stringify({
-                                    StartDate: start_date,
-                                    EndDate: end_date,
-                                    DoctorSurname: doctor,
-                                    DrugName: drug,
-                                    PatientJmbg: jmbg,
-                                    Id: id,
-                                    Anamnesis: anamnesis,
-                                    DailyDose: dose,
-                                    IdDrug: idDrug,
-                                    IdExamination: examination,
-                                    DoctorName: doctorName
-                                }),
-                                success: function (therapies) {
-                                    $('#border_prescriptions').empty();
-                                    for (let i = 0; i < therapies.length; i++) {
+        if (!start_date) {
+            start_date = "null";
+        }
+        if (!end_date) {
+            end_date = "null";
+        }
+        if (!doctor) {
+            doctor = "null";
+        }
+        if (!anamnesis_or_drug) {
+            anamnesis_or_drug = "null";
+        }
 
-                                        let divElement = $('<div class="border_perscription"><table class="table_perscription">'
-                                            + ' <tr> <th> <p>Therapy  number  </p></th><td><p><b>' + i + '</b> :</p></td></tr > '
-                                            + ' <tr> <th> <p>Start date:</p></th><td>' + therapies[i].id + '</td></tr > '
-                                           // + ' <tr> <th> <p>End date:</p></th><td>' + therapies[i].jmbg + '</td></tr > '
-                                            // + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">End date:</p></th><td>' + therapies[i].EndDate + '</td></tr > '
-                                            //  + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Daily dose:</p></th><td>' + therapies[i].DailyDose + '</td></tr > '
-                                            //  + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Doctor:</p></th><td>' + therapies[i].Examination.DoctorJmbg + '</td></tr > '
-                                            //  + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Drug:</p></th><td>' + therapies[i].Drug.Name + '</td></tr > '
-                                            + ' </table ></div > ');
-                                        $('div#border_prescriptions').append(divElement);
+        let doc_type = $('#doc_type option:selected').val();
+        if (doc_type == "report") {
+            $.ajax({
+                url: '/api/examination/' + jmbg + '/' + start_date + '/' + end_date + '/' + doctor + '/' + anamnesis_or_drug,
+                type: 'GET',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    for (let i = 0; i < data.length; i++) {
+                        addExaminationTable(data[i], i);
+                    }
+                },
+                error: function (error) {
+                    alert("Error getting examinations")
+                }
+            }); 
 
-                                    }
-                                },
-                                error: function (error) {
-                                    alert("Error getting therapies")
+        } else {
+            $.ajax({
+                url: "/api/examination/" + jmbg,
+                type: 'GET',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (examinations) {
+                    for (let i = 0; i < examinations.length; i++) {
+                        let examination_id = examinations[i].id;
+                        $.ajax({
+                            url: "/api/therapy/" + parseInt(examination_id) + '/' + start_date + '/' + end_date + '/' + doctor + '/' + anamnesis_or_drug,
+                            type: 'GET',
+                            dataType: 'json',
+                            processData: false,
+                            contentType: false,
+                            success: function (therapies) {
+                                for (let i = 0; i < therapies.length; i++) {
+                                    j = j + 1;
+                                    addPrescriptionTable(therapies[i], j);
                                 }
-                            }); 
+                            },
+                            error: function (error) {
+                                alert("Error getting therapies")
+                            }
+                        });
 
-
-
-
-                           /* let divElement = $('<div class="border_perscription"><table class="table_perscription">'
-                                + ' <tr> <th> <p>Therapy  number  </p></th><td><p><b>' + i + '</b> :</p></td></tr > '
-                                + ' <tr> <th> <p>Start date:</p></th><td>' + examinations[i].id + '</td></tr > '
-                                //  + ' <tr> <th> <p>End date:</p></th><td>' + exeminations[i].doctorSurname + '</td></tr > '
-                                // + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">End date:</p></th><td>' + therapies[i].EndDate + '</td></tr > '
-                                //  + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Daily dose:</p></th><td>' + therapies[i].DailyDose + '</td></tr > '
-                                //  + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Doctor:</p></th><td>' + therapies[i].Examination.DoctorJmbg + '</td></tr > '
-                                //  + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Drug:</p></th><td>' + therapies[i].Drug.Name + '</td></tr > '
-                                + ' </table ></div > ');
-                            $('div#border_prescriptions').append(divElement); */
-
-                         }
-                    },
-                    error: function (error) {
-                        alert("Error getting examinations")
-                    }
-                });
-            },
-            error: function () {
-
-                alert("Error getting patient");
-            }
-        });
+                    } 
+                },
+                error: function (error) {
+                     alert("Error getting examinations")
+                }
+            });
+        }
     });
-               /* $.ajax({
-                    type: "POST",
-                    url: "/api/therapy",
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                        StartDate: start_date,
-                        EndDate: end_date,
-                        DoctorSurname: doctor,
-                        DrugName: drug,
-                        PatientJmbg: jmbg,
-                        Id: id,
-                        Anamnesis: anamnesis,
-                        DailyDose: dose,
-                        IdDrug: idDrug,
-                        IdExamination: idExamination,
-                        DoctorName: doctorName
-                    }),
-                    success: function (therapies) {
-                        $('#border_prescriptions').empty();
-                        for (let i = 0; i < therapies.length; i++) {
+});
+function addPrescriptionTable(therapy, j) {
+    let divElement = $('<div class="border_perscription"><table class="table_perscription">'
+        + ' <tr> <th> <p>Therapy  number  </p></th><td><p><b>' + j + '</b> :</p></td></tr > '
+        + ' <tr> <th>Start date:</th><td>' + therapy.startDate + '</td></tr > '
+        + ' <tr> <th>End date:</th><td>' + therapy.endDate + '</td></tr > '
+        + ' <tr> <th>Daily dose:</th><td>' + therapy.dailyDose + '</td></tr > '
+        + '<tr><th >Doctor:</th><td>' + therapy.doctorName + ' ' + therapy.doctorSurname + '</td></tr>'
+        + ' <tr> <th>Drug:</th><td>' + therapy.drugName + '</td></tr></br> '
+        + ' </table ></div > ');
+    $('div#border_prescriptions').append(divElement);
 
-                            let divElement = $('<div class="border_perscription"><table class="table_perscription">'
-                                + ' <tr> <th> <p>Therapy  number  </p></th><td><p><b>' + i + '</b> :</p></td></tr > '
-                                + ' <tr> <th> <p>Start date:</p></th><td>' + therapies[i].start_date + '</td></tr > '
-                                + ' <tr> <th> <p>End date:</p></th><td>' + therapies[i].jmbg + '</td></tr > '
-                                // + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">End date:</p></th><td>' + therapies[i].EndDate + '</td></tr > '
-                                //  + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Daily dose:</p></th><td>' + therapies[i].DailyDose + '</td></tr > '
-                                //  + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Doctor:</p></th><td>' + therapies[i].Examination.DoctorJmbg + '</td></tr > '
-                                //  + ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Drug:</p></th><td>' + therapies[i].Drug.Name + '</td></tr > '
-                                + ' </table ></div > ');
-                            $('div#border_prescriptions').append(divElement);
-
-                        }
-                    },
-                    error: function (error) {
-                        alert("Error getting therapies")
-                    }
-                });  */
-
- });
+}
+function addExaminationTable(examiantion, i) {
+    i = i + 1;
+    let divElement = $('<div class="border_perscription"><table class="table_perscription">'
+        + ' <tr> <th> <p>Examination  number  </p></th><td><p><b>' + i + '</b> :</p></td></tr > '
+        + '<tr><th>Date:</th><td>' + examiantion.dateAndTime + '</td></tr>'
+        + '<tr><th>Doctor:</th><td>' + examiantion.doctorName + ' ' + examiantion.doctorSurname + '</td></tr>'
+        + '<tr><th>Type:</th><td>' + examiantion.type + '</td></tr>'
+        + '<tr><th>Anamnesis:</th><td>' + examiantion.anamnesis + '</td></tr></br>'+ ' </table ></div > ');
+    $('div#border_prescriptions').append(divElement);
+    
+}

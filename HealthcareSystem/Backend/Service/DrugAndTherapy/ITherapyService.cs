@@ -19,7 +19,7 @@ namespace Backend.Service.DrugAndTherapy
         List<Therapy> GetTherapyForNextSevenDaysByPatient(string patientJmbg);
         void DeletePatientTherapies(string patientJmbg);
         void DeleteDrugTherapies(int id);
-        List<Therapy> GetTherapyByPatientSearch(Therapy therapy);
+        List<Therapy> GetTherapiesByExaminationSearch(List<Therapy> therapies, string startDate, string endDate, string doctorSurname, string drugName);
         
 
     }

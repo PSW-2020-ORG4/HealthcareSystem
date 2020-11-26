@@ -16,9 +16,23 @@ namespace PatientWebApp.DTOs
         public string DoctorSurname { get; set; }
         public int IdRoom { get; set; }
         public string Anamnesis { get; set; }
+        public string PatientJmbg { get; set; }
 
         public ExaminationDTO()
         {
+        }
+        public ExaminationDTO(int id,string type,string dateAndTime,string doctorJmbg,string doctorName,string doctorSurname,
+            int idRoom,string anamnesis,string patientJmbg) {
+
+            Id = id;
+            Type = type;
+            DateAndTime = dateAndTime;
+            DoctorJmbg = doctorJmbg;
+            DoctorName = doctorName;
+            DoctorSurname = doctorSurname;
+            IdRoom = idRoom;
+            Anamnesis = anamnesis;
+            PatientJmbg = patientJmbg;
         }
 
     }

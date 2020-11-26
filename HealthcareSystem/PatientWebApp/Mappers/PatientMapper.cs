@@ -33,7 +33,7 @@ namespace PatientWebApp.Adapters
             patientDto.HomeAddress = patient.HomeAddress;
             patientDto.Email = patient.Email;
             patientDto.Password = patient.Password;
-            patientDto.ImageName = patient.ImageName;
+         //   patientDto.ImageName = patient.ImageName;
 
             patientDto.PatientCardId = patientCard.Id;
             patientDto.BloodType = patientCard.BloodType;
@@ -68,7 +68,7 @@ namespace PatientWebApp.Adapters
             patient.Password = patientDTO.Password;
             patient.IsGuest = false;
             patient.IsActive = false;
-            patient.ImageName = patientDTO.ImageName;
+          //  patient.ImageName = patientDTO.ImageName;
 
             return patient;
         }

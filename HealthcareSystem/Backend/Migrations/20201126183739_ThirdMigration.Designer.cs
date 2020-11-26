@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20201121180134_ThirdMigration")]
+    [Migration("20201126183739_ThirdMigration")]
     partial class ThirdMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -276,6 +276,9 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("Anamnesis")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
                     b.Property<DateTime>("DateAndTime")
                         .HasColumnType("datetime(6)");
 
@@ -308,11 +311,11 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("Anamnesis")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
                     b.Property<int>("DailyDose")
                         .HasColumnType("int");
+
+                    b.Property<string>("Diagnosis")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");

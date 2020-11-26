@@ -8,7 +8,7 @@ namespace PatientWebApp.DTOs
     public class TherapyDTO
     {
         public int Id { get; set; }
-        public string Anamnesis { get; set; }
+        public string Diagnosis { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
         public int DailyDose { get; set; }

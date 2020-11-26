@@ -76,12 +76,125 @@ namespace Service.DrugAndTherapy
             _therapyRepository.AddTherapy(therapy);
         }
 
-        public List<Therapy> GetTherapyByPatientSearch(Therapy therapy)
+        public List<Therapy> GetTherapiesByExaminationSearch(List<Therapy> therapies, string startDate, string endDate, string doctorSurname, string drugName)
         {
-            return _therapyRepository.GetTherapyByPatientSearch(therapy);
-        }
-        
+            List<Therapy> filteredTherapies = new List<Therapy>();
+            if (startDate.Equals("null") && endDate.Equals("null") && doctorSurname.Equals("null") && drugName.Equals("null"))
+            {
+                return therapies;
+            }
 
-       
+            foreach (Therapy t in therapies)
+            {
+                if (endDate.Equals("null") && doctorSurname.Equals("null") && drugName.Equals("null"))
+                {
+                    if (DateTime.Compare(t.StartDate, DateTime.Parse(startDate)) >= 0)
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (startDate.Equals("null") && doctorSurname.Equals("null") && drugName.Equals("null"))
+                {
+                    if (DateTime.Compare(t.EndDate, DateTime.Parse(endDate)) <= 0)
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (startDate.Equals("null") && endDate.Equals("null") && drugName.Equals("null"))
+                {
+                    if (t.Examination.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower()))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (startDate.Equals("null") && endDate.Equals("null") && doctorSurname.Equals("null"))
+                {
+                    if (t.Drug.Name.ToLower().Contains(drugName.ToLower()))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (drugName.Equals("null") && doctorSurname.Equals("null"))
+                {
+                    if ((DateTime.Compare(t.StartDate, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(t.EndDate, DateTime.Parse(endDate)) <= 0))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (drugName.Equals("null") && endDate.Equals("null"))
+                {
+
+                    if ((DateTime.Compare(t.StartDate, DateTime.Parse(startDate)) >= 0) && (t.Examination.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (doctorSurname.Equals("null") && endDate.Equals("null"))
+                {
+                    if ((DateTime.Compare(t.StartDate, DateTime.Parse(startDate)) >= 0) && (t.Drug.Name.ToLower().Contains(drugName.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (drugName.Equals("null") && startDate.Equals("null"))
+                {
+                    if ((DateTime.Compare(t.EndDate, DateTime.Parse(endDate)) <= 0) && (t.Examination.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (doctorSurname.Equals("null") && startDate.Equals("null"))
+                {
+                    if ((DateTime.Compare(t.EndDate, DateTime.Parse(endDate)) <= 0) && (t.Drug.Name.ToLower().Contains(drugName.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (startDate.Equals("null") && endDate.Equals("null"))
+                {
+                    if ((t.Drug.Name.ToLower().Contains(drugName.ToLower())) && (t.Examination.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (startDate.Equals("null"))
+                {
+                    if ((DateTime.Compare(t.EndDate, DateTime.Parse(endDate)) <= 0) && (t.Examination.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (t.Drug.Name.ToLower().Contains(drugName.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (endDate.Equals("null"))
+                {
+                    if ((DateTime.Compare(t.StartDate, DateTime.Parse(startDate)) >= 0) && (t.Examination.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (t.Drug.Name.ToLower().Contains(drugName.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (doctorSurname.Equals("null"))
+                {
+                    if ((DateTime.Compare(t.StartDate, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(t.EndDate, DateTime.Parse(endDate)) <= 0) && (t.Drug.Name.ToLower().Contains(drugName.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else if (drugName.Equals("null"))
+                {
+                    if ((DateTime.Compare(t.StartDate, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(t.EndDate, DateTime.Parse(endDate)) <= 0) && (t.Examination.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+                }
+                else
+                {
+                    if ((DateTime.Compare(t.StartDate, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(t.EndDate, DateTime.Parse(endDate)) <= 0) && (t.Examination.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (t.Drug.Name.ToLower().Contains(drugName.ToLower())))
+                    {
+                        filteredTherapies.Add(t);
+                    }
+
+                }
+            }
+            return filteredTherapies;
+        }
     }
 }

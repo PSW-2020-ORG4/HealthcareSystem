@@ -5,6 +5,7 @@ using PatientWebApp.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Model.PerformingExamination;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
@@ -35,5 +36,14 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return new CreateSurvey();
         }
 
+        public ICreateTestObject<ExaminationDTO> GetExaminationDTO()
+        {
+            return new CreateExaminationDTO();
+        }
+
+        public ICreateTestObject<Examination> GetExamination()
+        {
+            return new CreateExamination();
+        }
     }
 }

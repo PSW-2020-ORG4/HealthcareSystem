@@ -22,7 +22,7 @@ namespace PatientWebApp.Mappers
             examination.Type = (TypeOfExamination)Enum.Parse(typeof(TypeOfExamination), dto.Type, true);
             examination.DoctorJmbg = dto.DoctorJmbg;
             examination.IdRoom = dto.IdRoom;
-
+            examination.PatientCard.PatientJmbg = dto.PatientJmbg;
             return examination;
         }
 
@@ -35,9 +35,10 @@ namespace PatientWebApp.Mappers
         {
             ExaminationDTO dto = new ExaminationDTO();
             dto.Id = examination.Id;
-            dto.Type = "a";//examination.Type.ToString();
-            dto.DateAndTime = "a";//examination.DateAndTime.ToString();
+            dto.Type = examination.Type.ToString();
+            dto.DateAndTime = examination.DateAndTime.ToString();
             dto.DoctorJmbg = examination.DoctorJmbg;
+            dto.PatientJmbg = examination.PatientCard.PatientJmbg;
             if (dto.DoctorJmbg == null)
             {
                 dto.DoctorName = "";
@@ -51,13 +52,7 @@ namespace PatientWebApp.Mappers
 
             dto.IdRoom = examination.IdRoom;
 
-            String anamnesis = "";
-            foreach (Therapy therapy in examination.Therapies)
-            {
-                anamnesis += therapy.Anamnesis + "; ";
-            }
-
-            dto.Anamnesis = anamnesis;
+            dto.Anamnesis = examination.Anamnesis;
 
             return dto;
         }

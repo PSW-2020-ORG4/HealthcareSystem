@@ -18,7 +18,7 @@ namespace PatientWebApp.Mappers
         {
             Therapy therapy = new Therapy();
             therapy.Id = dto.Id;
-            therapy.Anamnesis = dto.Anamnesis;
+            therapy.Diagnosis = dto.Diagnosis;
             therapy.DailyDose = dto.DailyDose;
             therapy.IdDrug = dto.IdDrug;
             therapy.IdExamination = dto.IdExamination;
@@ -36,7 +36,7 @@ namespace PatientWebApp.Mappers
         {
             TherapyDTO dto = new TherapyDTO();
             dto.Id = therapy.Id;
-            dto.Anamnesis = therapy.Anamnesis;
+            dto.Diagnosis = therapy.Diagnosis;
             dto.StartDate = therapy.StartDate.ToString("dd/MM/yyyy");
             dto.EndDate = therapy.EndDate.ToString("dd/MM/yyyy");
             dto.DailyDose = therapy.DailyDose;

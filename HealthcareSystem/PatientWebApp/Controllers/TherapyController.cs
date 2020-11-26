@@ -24,27 +24,25 @@ namespace PatientWebApp.Controllers
             _therapyService = therapyService;
             _examinationService = examinationService;
         }
+
         /// <summary>
-        /// /getting examinations linked to a certain patient
+        /// /getting therapies linked to a certain examination for basic search
         /// </summary>
-       
-        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpPost("{idExamination}")]
-        public ActionResult GetTherapyByPatientSearch(int idExamination, TherapyDTO therapyDTO)
+        /// <param name="idExamination"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="doctorSurname"></param>
+        /// <param name="drugName"></param>
+        /// <returns>list od Therapy DTOs</returns>
+        [HttpGet("{idExamination}/{startDate}/{endDate}/{doctorSurname}/{drugName}")]
+        public ActionResult GetTherapiesByExaminationSearch(int idExamination, string startDate, string endDate, string doctorSurname, string drugName)
         {
             try
             {
-                Therapy therapy = TherapyMapper.TherapyDTOToTherapy(therapyDTO);
-                Examination examination = _examinationService.GetExaminationById(idExamination);
+               Examination examination = _examinationService.GetExaminationById(idExamination);
                 List<Therapy> therapies = examination.Therapies.ToList();
-                List <TherapyDTO> therapyDTOs = new List<TherapyDTO>();
-                foreach (Therapy t in therapies)
-                {
-                    //_therapyService.GetTherapyByPatientSearch(therapy).ForEach(t => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(t)));
-                    therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(t));
-                }
-                //Therapy t=_therapyService.GetTherapyByPatientSearch(therapy);
-                //TherapyDTO dto = TherapyMapper.TherapyToTherapyDTO(t);
+                List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
+                _therapyService.GetTherapiesByExaminationSearch(therapies, startDate, endDate, doctorSurname, drugName).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
                 return Ok(therapyDTOs);
                 
              }

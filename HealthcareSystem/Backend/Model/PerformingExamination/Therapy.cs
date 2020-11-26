@@ -14,7 +14,7 @@ namespace Model.PerformingExamination
    {
       [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
       public int Id { get; set; }
-      public string Anamnesis { get; set; }
+      public string Diagnosis { get; set; }
       public DateTime StartDate { get; set; }
       public DateTime EndDate { get; set; }
       public int DailyDose { get; set; }
@@ -29,7 +29,7 @@ namespace Model.PerformingExamination
 
         public Therapy() { }
 
-        public Therapy(Drug drug, Examination examination, int id, string anamnesis, DateTime startDate, DateTime endDate, int dailyDose)
+        public Therapy(Drug drug, Examination examination, int id, string diagnosis, DateTime startDate, DateTime endDate, int dailyDose)
         {
             if (drug == null)
             {
@@ -48,7 +48,7 @@ namespace Model.PerformingExamination
                 Examination = new Examination(examination);
             }
             Id = id;
-            Anamnesis = anamnesis;
+            Diagnosis = diagnosis;
             StartDate = startDate;
             EndDate = endDate;
             DailyDose = dailyDose;
@@ -73,7 +73,7 @@ namespace Model.PerformingExamination
                 Examination = new Examination(therapy.Examination);
             }
             Id = therapy.Id;
-            Anamnesis = therapy.Anamnesis;
+            Diagnosis = therapy.Diagnosis;
             StartDate = therapy.StartDate;
             EndDate = therapy.EndDate;
             DailyDose = therapy.DailyDose;

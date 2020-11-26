@@ -70,7 +70,7 @@ namespace Backend.Service
             Patient patient = ViewProfile(jmbg);
             if (patient == null)
                 throw new NotFoundException("Patient with jmbg=" + jmbg + " doesn't exist in database.");
-            patient.ImageName = imageName;
+          //  patient.ImageName = imageName;
             _activePatientRepository.UpdatePatient(patient);
         }
     }

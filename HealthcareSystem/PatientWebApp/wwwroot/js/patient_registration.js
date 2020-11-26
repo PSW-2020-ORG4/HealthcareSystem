@@ -1,5 +1,43 @@
 ﻿$(document).ready(function () {
 
+	var dtToday = new Date();
+
+	var month = dtToday.getMonth() + 1;
+	var day = dtToday.getDate();
+	var year = dtToday.getFullYear();
+	if (month < 10)
+		month = '0' + month.toString();
+	if (day < 10)
+		day = '0' + day.toString();
+
+	var maxDate = year + '-' + month + '-' + day;
+
+	$('#dateOfBirth').attr('max', maxDate);
+
+	$('#image_row').empty();
+
+	/* Display the image on the html page */
+	var chosen_image = [];
+	if (window.File && window.FileList && window.FileReader) {
+
+		$("#file").on("change", function (e) {
+
+			var images = e.target.files;
+			var image = images[0];
+			chosen_image.push(image);
+			var fileReader = new FileReader();
+			fileReader.onload = (function (event) {
+				var image_div = $("<div class=\"col-md-3\"><span class=\"pip\">" +
+					"<img class=\"imageThumb\" style='width:100%; height:90%; margin-top:10px;' src=\"" + event.target.result + "\" title=\"" + image.name + "\"/>"
+					+ "</span></div>");
+				$('#image_row').append(image_div);
+			});
+			fileReader.readAsDataURL(image);
+		});
+	} else {
+		alert("Your browser doesn't support chosen file")
+	}
+
 	/*Get all countries from database*/
 	$.ajax({
 		url: "/api/country",
@@ -122,9 +160,9 @@
 			data: JSON.stringify(newPatient),
 			success: function () {
 
-				setTimeout(function () {
-					window.location.href = 'upload_image.html?jmbg=' + jmbg;
-				}, 2000);
+				var actionPath = 'http://localhost:65117/api/patient/upload?patientJmbg=' + jmbg;
+				$('#form_image').attr('action', actionPath)
+				$('#form_image').submit();
 
 			},
 			error: function (jqXHR) {

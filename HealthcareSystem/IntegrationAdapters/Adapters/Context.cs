@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace IntegrationAdapters.Adapters
+﻿namespace IntegrationAdapters.Adapters
 {
     public class Context
     {
-        public IPharmacyAdapter _iPharmacyAdapter { get; set; }
+        public IPharmacyAdapter PharmacyAdapter { get; set; }
 
         public Context(IPharmacyAdapter iPharmacy)
         {
-            _iPharmacyAdapter = iPharmacy;
+            PharmacyAdapter = iPharmacy;
         }
 
         public void CheckMedicine()
         {
-            _iPharmacyAdapter.CheckMedicine();
+            PharmacyAdapter.CheckMedicine();
         }
 
         public void Tender()
         {
-            _iPharmacyAdapter.Tender();
+            PharmacyAdapter.Tender();
         }
     }
 }

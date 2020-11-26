@@ -14,7 +14,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
                                                     dateOfBirth: DateTime.Now, phone: "065432485", countryId: 1, countryName: "Srbija",
                                                     cityZipCode: 21000, cityName: "Novi Sad", homeAddress: "Bulevar Oslobodjenja 10",
                                                     bloodType: BloodType.A, rhFactor: RhFactorType.NEGATIVE, hasInsurance: false, lbo: "",
-                                                    alergies: "", medicalHistory: "", email: "ana@gmail.com", password: "ana");
+                                                    alergies: "", medicalHistory: "", email: "ana@gmail.com", password: "12345678");
         }
         public PatientDTO CreateInvalidTestObject()
         {

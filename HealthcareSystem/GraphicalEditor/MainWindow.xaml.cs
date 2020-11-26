@@ -40,7 +40,6 @@ namespace GraphicalEditor
         private IRepository _fileRepository;
 
         private Boolean _editMode = false;
-
         public Boolean EditMode
         {
             get { return _editMode; }
@@ -48,6 +47,17 @@ namespace GraphicalEditor
             {
                 _editMode = value;
                 OnPropertyChanged("EditMode");
+            }
+        }
+
+        private Boolean _isMenuOpened = false;
+        public Boolean IsMenuOpened
+        {
+            get { return _isMenuOpened; }
+            set
+            {
+                _isMenuOpened = value;
+                OnPropertyChanged("IsMenuOpened");
             }
         }
 
@@ -88,16 +98,16 @@ namespace GraphicalEditor
             }
             set
             {
-                _selectedMapObject = value; 
+                _selectedMapObject = value;
             }
         }
 
         public MainWindow()
-        {            
+        {
             InitializeComponent();
-            this.DataContext = this;            
+            this.DataContext = this;
             _canvas = this.Canvas;
-            _fileRepository = new FileRepository("test.json");            
+            _fileRepository = new FileRepository("test.json");
             _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
             _allMapObjects = new List<MapObject>();
             this.DataContext = this;
@@ -179,7 +189,8 @@ namespace GraphicalEditor
             }
         }
 
-        private MapObjectType SettingTypeOfEditedMapObject() {
+        private MapObjectType SettingTypeOfEditedMapObject()
+        {
             MapObjectType type;
             if (ObjectTypeChooserComboBox.SelectedItem != null)
             {
@@ -192,7 +203,8 @@ namespace GraphicalEditor
             return type;
         }
 
-        private MapObject SettingMapObject(MapObjectType type) {
+        private MapObject SettingMapObject(MapObjectType type)
+        {
             MapObject objectToEdit = SelectedMapObject;
             DisplayMapObject.MapObjectType = type;
             objectToEdit.MapObjectEntity = DisplayMapObject;
@@ -200,14 +212,16 @@ namespace GraphicalEditor
             return objectToEdit;
         }
 
-        private MapObject CreateEditedObject() {
+        private MapObject CreateEditedObject()
+        {
             MapObjectType type = SettingTypeOfEditedMapObject();
             MapObject objectToEdit = SettingMapObject(type);
             _mapObjectController.UpdateMapObject(objectToEdit);
             return objectToEdit;
         }
 
-        private void ReloadMap(MapObject objectToEdit) {
+        private void ReloadMap(MapObject objectToEdit)
+        {
             EditMode = !EditMode;
             Canvas.Children.Clear();
             SelectedMapObject.MapObjectEntity.MapObjectType = objectToEdit.MapObjectEntity.MapObjectType;
@@ -220,7 +234,7 @@ namespace GraphicalEditor
         }
 
         private void Cancel_Editing_Mode(object sender, RoutedEventArgs e)
-        {            
+        {
             Canvas.Children.Clear();
             LoadInitialMapOnCanvas();
             EditMode = false;
@@ -371,6 +385,35 @@ namespace GraphicalEditor
             else
             {
                 return false;
+            }
+        }
+
+        private void CloseMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsMenuOpened = false;
+        }
+
+        private void OpenMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsMenuOpened = true;
+        }
+
+        private void ListViewExtendMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int selectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
+
+            switch (selectedMenuOptionIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
             }
         }
     }

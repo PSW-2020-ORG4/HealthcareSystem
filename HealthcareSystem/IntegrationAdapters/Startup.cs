@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
 using Backend.Model;
 using Backend.Repository;
+using Backend.Service;
 using Backend.Service.Pharmacies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,12 +23,18 @@ namespace IntegrationAdapters
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("PharmacyCooperationConnection")));
-            services.AddControllers();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddDbContext<MyDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("PharmacyCooperationConnection")).UseLazyLoadingProxies());
+            services.AddControllersWithViews();
+
+            services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
+            services.AddSingleton<RabbitMqActionBenefitMessageingService>();
+            services.AddSingleton<IHostedService, RabbitMqActionBenefitMessageingService>(ServiceProvider => ServiceProvider.GetService<RabbitMqActionBenefitMessageingService>());
+
             services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
-            services.AddScoped<IPharmacyService, MockPharmacyService>();
-            services.AddRazorPages();
+            services.AddScoped<IPharmacyService, PharmacyService>();
+            services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
+            services.AddScoped<IActionBenefitService, ActionBenefitService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,9 +46,8 @@ namespace IntegrationAdapters
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -55,8 +56,9 @@ namespace IntegrationAdapters
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

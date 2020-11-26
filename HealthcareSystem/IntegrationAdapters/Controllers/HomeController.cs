@@ -1,7 +1,6 @@
-﻿using System.Diagnostics;
-using Backend.Model;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using IntegrationAdapters.Dtos;
 using Backend.Service.Pharmacies;
 using Backend.Model.Pharmacies;
@@ -11,13 +10,11 @@ namespace IntegrationAdapters.Controllers
 {
     public class HomeController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly PharmacyService _pharmacyService;
-        
-        public HomeController(ILogger<HomeController> logger, MyDbContext ctx)
+       
+        public HomeController(IPharmacyRepo iPharmacyRepo)
         {
-            _logger = logger;
-            _pharmacyService = new PharmacyService(new MySqlPharmacyRepo(ctx));
+            _pharmacyService = new PharmacyService(iPharmacyRepo);
         }
 
         public IActionResult Index()
@@ -28,6 +25,27 @@ namespace IntegrationAdapters.Controllers
         public IActionResult ApiRegister()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult ApiRegister(Pharmacy pharmacy)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                _pharmacyService.CreatePharmacy(pharmacy);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ModelState);
+            }
+
+            TempData["Success"] = "Registration successful!";
+            return RedirectToAction("ApiRegister");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

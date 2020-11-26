@@ -12,13 +12,16 @@ namespace Backend.Model.Pharmacies
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [StringLength(255)]
+        [Required(ErrorMessage = "Please enter a name.")]
         public string Name { get; set; }
 
-        [Required]
+        [StringLength(255)] 
+        [Required(ErrorMessage = "Please enter the API key.")]
         public string ApiKey { get; set; }
 
-        [Required]
+        [StringLength(255)]
+        [Required(ErrorMessage = "Please enter the URL.")]
         public string Url { get; set; }
 
         //[Required]

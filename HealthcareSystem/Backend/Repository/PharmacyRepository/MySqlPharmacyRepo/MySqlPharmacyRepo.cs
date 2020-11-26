@@ -3,8 +3,6 @@ using Backend.Model.Pharmacies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Repository
 {
@@ -56,6 +54,16 @@ namespace Backend.Repository
                 throw new ArgumentNullException(nameof(p));
             }
             _context.Pharmacies.Remove(p);
+        }
+
+        public Pharmacy GetPharmacyByExchangeName(string exchangeName)
+        {
+            return _context.Pharmacies.SingleOrDefault(p => p.ActionsBenefitsExchangeName == exchangeName);
+        }
+
+        public IEnumerable<Pharmacy> GetPharmaciesBySubscribed(bool subscribed)
+        {
+            return _context.Pharmacies.Where(p => p.ActionsBenefitsSubscribed == subscribed);
         }
     }
 }

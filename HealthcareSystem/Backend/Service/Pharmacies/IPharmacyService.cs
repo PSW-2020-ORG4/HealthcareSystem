@@ -11,6 +11,10 @@ namespace Backend.Service.Pharmacies
     {
         IEnumerable<Pharmacy> GetAllPharmacies();
         Pharmacy GetPharmacyById(int id);
+        Pharmacy GetPharmacyByExchangeName(string exchangeName);
+        List<Pharmacy> GetPharmaciesBySubscribed(bool subscribed);
+
+        void SubscribeUnsubscibe(int id, bool subscribe);
         void CreatePharmacy(Pharmacy p);
         void UpdatePharmacy(Pharmacy p);
         void DeletePharmacy(Pharmacy p);

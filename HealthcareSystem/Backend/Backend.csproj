@@ -92,6 +92,12 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Logging, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Logging.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
     </Reference>
@@ -118,6 +124,9 @@
     </Reference>
     <Reference Include="Pomelo.JsonObject, Version=2.2.1.0, Culture=neutral, PublicKeyToken=2cc498582444921b, processorArchitecture=MSIL">
       <HintPath>..\packages\Pomelo.JsonObject.2.2.1\lib\netstandard2.0\Pomelo.JsonObject.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=6.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.6.2.1\lib\net461\RabbitMQ.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -165,6 +174,9 @@
     <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
+    <Reference Include="System.Threading.Channels, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Channels.4.7.1\lib\net461\System.Threading.Channels.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -201,6 +213,7 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
+    <Compile Include="Service\Encryption\EncryptionService.cs" />
     <Compile Include="Migrations\20201122221302_NewMigration.cs" />
     <Compile Include="Migrations\20201122221302_NewMigration.designer.cs">
       <DependentUpon>20201122221302_NewMigration.cs</DependentUpon>
@@ -233,6 +246,8 @@
     <Compile Include="Model\Enums\BloodType.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\Survey.cs" />
     <Compile Include="Model\PerformingExamination\Therapy.cs" />
+    <Compile Include="Model\Pharmacies\ActionBenefit.cs" />
+    <Compile Include="Model\Pharmacies\ActionBenefitMessage.cs" />
     <Compile Include="Model\Users\Country.cs" />
     <Compile Include="Model\Users\PatientCard.cs" />
     <Compile Include="Model\Enums\RhFactorType.cs" />
@@ -253,6 +268,8 @@
     <Compile Include="Model\Pharmacies\Pharmacy.cs" />
     <Compile Include="Model\Users\WelcomeRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ActionBenefitRepository\IActionBenefitRepository.cs" />
+    <Compile Include="Repository\ActionBenefitRepository\MySqlActionBenefitRepository\MySqlActionBenefitRepository.cs" />
     <Compile Include="Repository\CityRepository\ICityRepository.cs" />
     <Compile Include="Repository\CityRepository\MySqlCityRepository\MySqlCityRepository.cs" />
     <Compile Include="Repository\CountryRepository\ICountryRepository.cs" />
@@ -303,6 +320,11 @@
     <Compile Include="Repository\SurveyRepository\ISurveyRepository.cs" />
     <Compile Include="Repository\SurveyRepository\MySqlSurveyRepository\MySqlSurveyRepository.cs" />
     <Compile Include="Repository\DrugRepository\FileDrugRepository\UnconfirmedDrugRepository.cs" />
+    <Compile Include="Service\ActionBenefitService\ActionBenefitService.cs" />
+    <Compile Include="Service\ActionBenefitService\IActionBenefitService.cs" />
+    <Compile Include="Service\ActionBenefitService\RabbitMqActionBenefitService\IActionBenefitMessageingService.cs" />
+    <Compile Include="Service\ActionBenefitService\RabbitMqActionBenefitService\RabbitMqActionBenefitService.cs" />
+    <Compile Include="Service\ActionBenefitService\RabbitMqActionBenefitService\RabbitMqConfiguration.cs" />
     <Compile Include="Service\CityAndCountry\CityService.cs" />
     <Compile Include="Service\CityAndCountry\CountryService.cs" />
     <Compile Include="Service\CityAndCountry\ICityService.cs" />
@@ -319,7 +341,6 @@
     <Compile Include="Repository\PharmacyRepository\MySqlPharmacyRepo\MySqlPharmacyRepo.cs" />
     <Compile Include="Service\DrugAndTherapy\ITherapyService.cs" />
     <Compile Include="Service\DrugAndTherapy\TherapyService.cs" />
-    <Compile Include="Service\Encryption\EncryptionService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\ExaminationService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\IExaminationService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\IPatientCardService.cs" />
@@ -347,7 +368,6 @@
     <Compile Include="Service\UsersAndWorkingTime\SecretaryService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\WorkingTimeService.cs" />
     <Compile Include="Service\Pharmacies\IPharmacyService.cs" />
-    <Compile Include="Service\Pharmacies\MockPharmacyService.cs" />
     <Compile Include="Service\Pharmacies\PharmacyService.cs" />
     <Compile Include="Settings\MailSettings.cs" />
   </ItemGroup>

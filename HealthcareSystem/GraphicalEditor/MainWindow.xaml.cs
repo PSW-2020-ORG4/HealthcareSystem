@@ -114,17 +114,18 @@ namespace GraphicalEditor
             this.DataContext = this;
             MockupObjects mockupObjects = new MockupObjects();
             _allMapObjects = mockupObjects.AllMapObjects;
-
-            //uncomment when you dont have anything in file
-            saveMap();
-            LoadInitialMapOnCanvas();
             ChangeEditButtonVisibility();
 
-            //uncomment if your database is empty to fill database tables
-            ServerService server = new ServerService();
-            server.AddAllRooms();
-            server.AddEquipment();
-            server.AddEquipmentInRooms();
+            // uncomment only when you want to save the map for the first time
+            //saveMap();
+
+            LoadInitialMapOnCanvas();
+
+            // uncomment only the first time you start the project in order
+            // to populate DB with start data
+            InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
+            initializeDatabaseData.InitiliazeData();
+
         }
 
         public MainWindow(string currentUserRole)
@@ -139,15 +140,12 @@ namespace GraphicalEditor
             this.DataContext = this;
             MockupObjects mockupObjects = new MockupObjects();
             _allMapObjects = mockupObjects.AllMapObjects;
-            //uncomment when you dont have anything in file
-            saveMap();
-            LoadInitialMapOnCanvas();
             ChangeEditButtonVisibility();
-            // uncomment if your database is empty to fill database tables
-            /*ServerService server = new ServerService();
-            server.AddAllRooms();
-            server.AddEquipment();
-            server.AddEquipmentInRooms();*/
+
+            // uncomment only when you want to save the map for the first time
+            //saveMap();
+
+            LoadInitialMapOnCanvas();
         }
 
 
@@ -271,8 +269,8 @@ namespace GraphicalEditor
             {
                 DisplayMapObject = _selectedMapObject.MapObjectEntity;
                 SelectedMapObject = _selectedMapObject;
-                var s = SelectedMapObject.GetConsumableEquipmentByRoomNumber();
-                var k = SelectedMapObject.GetNonConsumableEquipmentByRoomNumber();
+                //var s = SelectedMapObject.GetConsumableEquipmentByRoomNumber();
+                //var k = SelectedMapObject.GetNonConsumableEquipmentByRoomNumber();
             }
             else
             {

@@ -4,20 +4,19 @@
  * Purpose: Definition of the Class EquipmentController
  ***********************************************************************/
 
-using System;
-using Service.RoomAndEquipment;
 using Model.Manager;
+using Service.RoomAndEquipment;
+using System;
 using System.Collections.Generic;
-using Controller.RoomAndEquipment;
 
 namespace Controller.RoomAndEquipment
 {
-   public class EquipmentController
-{
+    public class EquipmentController
+    {
         private NonConsumableEquipmentService _nonConsumableEquipmentService;
         private ConsumableEquipmentService _consumableEquipmentService;
 
-        public Equipment NewEquipment(TypeOfEquipment type,Equipment equipment)
+        public Equipment NewEquipment(TypeOfEquipment type, Equipment equipment)
         {
             switch (type)
             {
@@ -50,35 +49,35 @@ namespace Controller.RoomAndEquipment
             return equipmentInRoom;
         }
         public List<NonConsumableEquipment> ViewNonConsumableEquipment()
-    {
+        {
             return _nonConsumableEquipmentService.ViewNonConsumableEquipment();
-    }
+        }
 
-    public Model.Manager.NonConsumableEquipment EditNonConsumableEquipment(Model.Manager.NonConsumableEquipment equipment)
-    {
+        public Model.Manager.NonConsumableEquipment EditNonConsumableEquipment(Model.Manager.NonConsumableEquipment equipment)
+        {
             return _nonConsumableEquipmentService.EditNonConsumableEquipment(equipment);
-    }
+        }
 
-    public bool DeleteNonConsumableEquipment(int id)
-    {
+        public bool DeleteNonConsumableEquipment(int id)
+        {
             return _nonConsumableEquipmentService.DeleteNonConsumableEquipment(id);
-    }
+        }
 
-    public List<ConsumableEquipment> ViewConsumableEquipment()
-    {
+        public List<ConsumableEquipment> ViewConsumableEquipment()
+        {
             return _consumableEquipmentService.ViewConsumableEquipment();
-    }
-    public Model.Manager.ConsumableEquipment EditConsumableEquipment(Model.Manager.ConsumableEquipment equipment)
-    {
+        }
+        public Model.Manager.ConsumableEquipment EditConsumableEquipment(Model.Manager.ConsumableEquipment equipment)
+        {
             return _consumableEquipmentService.EditConsumableEquipment(equipment);
-    }
+        }
 
-    public bool DeleteConsumableEquipment(int id)
-    {
+        public bool DeleteConsumableEquipment(int id)
+        {
             return _consumableEquipmentService.DeleteConsumableEquipment(id);
+        }
+
+
+
     }
-
-    
-
-}
 }

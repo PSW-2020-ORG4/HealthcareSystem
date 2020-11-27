@@ -4,10 +4,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Backend.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class RoomsAndEquipment : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ConsumableEquipments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Quantity = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ConsumableEquipments", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
@@ -36,13 +50,42 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EquipmentsInRooms",
+                columns: table => new
+                {
+                    IdEquipment = table.Column<int>(nullable: false),
+                    RoomNumber = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EquipmentsInRooms", x => new { x.RoomNumber, x.IdEquipment });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NonConsumableEquipments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NonConsumableEquipments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pharmacies",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false),
-                    ApiKey = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    ApiKey = table.Column<string>(maxLength: 255, nullable: false),
+                    Url = table.Column<string>(maxLength: 255, nullable: false),
+                    ActionsBenefitsExchangeName = table.Column<string>(maxLength: 255, nullable: true),
+                    ActionsBenefitsSubscribed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -109,6 +152,28 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ActionsBenefits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PharmacyId = table.Column<int>(nullable: false),
+                    Subject = table.Column<string>(nullable: false),
+                    Message = table.Column<string>(nullable: false),
+                    IsPublic = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActionsBenefits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ActionsBenefits_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
+                        principalTable: "Pharmacies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RenovationPeriods",
                 columns: table => new
                 {
@@ -152,7 +217,8 @@ namespace Backend.Migrations
                     DateOfRegistration = table.Column<DateTime>(nullable: true)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsGuest = table.Column<bool>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: true)
+                    IsActive = table.Column<bool>(nullable: true),
+                    ImageName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -360,6 +426,11 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ActionsBenefits_PharmacyId",
+                table: "ActionsBenefits",
+                column: "PharmacyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
                 table: "Cities",
                 column: "CountryId");
@@ -401,6 +472,12 @@ namespace Backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pharmacies_ActionsBenefitsExchangeName",
+                table: "Pharmacies",
+                column: "ActionsBenefitsExchangeName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RenovationPeriods_RoomNumber",
                 table: "RenovationPeriods",
                 column: "RoomNumber");
@@ -439,13 +516,22 @@ namespace Backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActionsBenefits");
+
+            migrationBuilder.DropTable(
+                name: "ConsumableEquipments");
+
+            migrationBuilder.DropTable(
+                name: "EquipmentsInRooms");
+
+            migrationBuilder.DropTable(
                 name: "Feedbacks");
 
             migrationBuilder.DropTable(
                 name: "Ingridients");
 
             migrationBuilder.DropTable(
-                name: "Pharmacies");
+                name: "NonConsumableEquipments");
 
             migrationBuilder.DropTable(
                 name: "RenovationPeriods");
@@ -458,6 +544,9 @@ namespace Backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "WorkingTimes");
+
+            migrationBuilder.DropTable(
+                name: "Pharmacies");
 
             migrationBuilder.DropTable(
                 name: "Drugs");

@@ -78,8 +78,12 @@
     <Compile Include="Repository\ContractResolver.cs" />
     <Compile Include="Repository\FileRepository.cs" />
     <Compile Include="Repository\Interface\IRepository.cs" />
+    <Compile Include="Service\InitializeDatabaseData.cs" />
+    <Compile Include="Service\EquipementService.cs" />
+    <Compile Include="Service\GenericHTTPService.cs" />
     <Compile Include="Service\Interface\IMapObjectServices.cs" />
     <Compile Include="Service\MapObjectServices.cs" />
+    <Compile Include="Service\RoomService.cs" />
     <Compile Include="Service\ServerService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

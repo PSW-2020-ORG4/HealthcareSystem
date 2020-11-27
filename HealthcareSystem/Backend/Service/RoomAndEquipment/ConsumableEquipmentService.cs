@@ -4,19 +4,16 @@
  * Purpose: Definition of the Class Service.ConsumableEquipmentService
  ***********************************************************************/
 
-using System;
-using Model.Manager;
-using Model.Users;
-using Repository;
-using System.Collections.Generic;
-using Backend.Service.RoomAndEquipment;
 using Backend.Repository;
 using Backend.Repository.EquipmentInRoomsRepository;
+using Backend.Service.RoomAndEquipment;
+using Model.Manager;
+using System.Collections.Generic;
 
 namespace Service.RoomAndEquipment
 {
-   public class ConsumableEquipmentService :IConsumableEquipmentService
-{
+    public class ConsumableEquipmentService : IConsumableEquipmentService
+    {
         private IConsumableEquipmentRepository _consumableEquipmentRepository;
         private IEquipmentInRoomsRepository _equipmentInRoomRepository;
         public ConsumableEquipmentService(IConsumableEquipmentRepository consumableEquipmentRepository, IEquipmentInRoomsRepository equipmentInRoomRepository)
@@ -28,20 +25,20 @@ namespace Service.RoomAndEquipment
         {
             return _consumableEquipmentRepository.NewEquipment(equipment);
         }
-    public List<ConsumableEquipment> ViewConsumableEquipment()
-    {
+        public List<ConsumableEquipment> ViewConsumableEquipment()
+        {
             return _consumableEquipmentRepository.GetAllEquipment();
-     }
+        }
 
-    public Model.Manager.ConsumableEquipment EditConsumableEquipment(Model.Manager.ConsumableEquipment equipment)
-    {
+        public Model.Manager.ConsumableEquipment EditConsumableEquipment(Model.Manager.ConsumableEquipment equipment)
+        {
             return _consumableEquipmentRepository.SetEquipment(equipment);
-     }
+        }
 
-    public bool DeleteConsumableEquipment(int id)
-    {
+        public bool DeleteConsumableEquipment(int id)
+        {
             return _consumableEquipmentRepository.DeleteEquipment(id);
-     }
+        }
 
         public List<ConsumableEquipment> GetConsumableEquipmentByRoomNumber(int roomNumber)
         {

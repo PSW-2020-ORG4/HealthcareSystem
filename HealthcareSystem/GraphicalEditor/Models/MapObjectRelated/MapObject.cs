@@ -108,7 +108,7 @@ namespace GraphicalEditor.Models
             canvas.Children.Remove(MapObjectDoor.Rectangle);
             canvas.Children.Remove(Rectangle);
         }
-        public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber()
+        /*public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber()
         {
             ServerService service = new ServerService();
             List<NonConsumableEquipment> nonConsumableEquipment = service.GetNonConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
@@ -120,7 +120,12 @@ namespace GraphicalEditor.Models
             ServerService service = new ServerService();
             List<ConsumableEquipment> consumableEquipment = service.GetConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
             return consumableEquipment;
-        }
+        }*/
+
+        public Boolean CheckIfDBAddableRoom()
+            => MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.EXAMINATION_ROOM
+                || MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.HOSPITALIZATION_ROOM
+                || MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.OPERATION_ROOM;
 
     }
 }

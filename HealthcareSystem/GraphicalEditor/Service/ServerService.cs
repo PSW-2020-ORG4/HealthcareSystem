@@ -1,51 +1,17 @@
-﻿using GraphicalEditor.Constants;
-using GraphicalEditor.Enumerations;
-using GraphicalEditor.Models;
-using GraphicalEditor.Models.MapObjectRelated;
-using Model.Manager;
+﻿using Model.Manager;
 using RestSharp;
-using System;
 using System.Collections.Generic;
 
 namespace GraphicalEditor.Service
 {
     public class ServerService
     {
-        private RestClient GetClient()
-        {
-            var client = new RestSharp.RestClient("http://localhost:" + ServerConstants.PORT);
-            return client;
-        }
-        public void AddAllRooms()
+        /*public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber(int roomNumber)
         {
             var client = GetClient();
-            List<MapObject> allMapObjects = MainWindow._allMapObjects;
-
-            foreach(MapObject mapObject in allMapObjects)
-            {
-                if (mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.EXAMINATION_ROOM ||
-                    mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.HOSPITALIZATION_ROOM ||
-                    mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.OPERATION_ROOM)
-                {
-                    string content = "'Id':";
-                    content += mapObject.MapObjectEntity.Id + ",'Usage':";
-                    content += (int)mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject;
-
-                    var request = new RestRequest("api/room");
-
-                    request.AddJsonBody(content);
-                    IRestResponse response = client.Post(request);
-                }
-
-            }
-        }
-
-        public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber(int roomNumber)
-        {
-            var client = GetClient();
-            var request = new RestRequest("api/nonConsumableEquipment/byRoomNumber/"+roomNumber, Method.GET);
+            var request = new RestRequest("api/nonConsumableEquipment/byRoomNumber/" + roomNumber, Method.GET);
             var response = client.Get<List<NonConsumableEquipment>>(request);
-            List<NonConsumableEquipment> nonConsumableEquipment =(List<NonConsumableEquipment>) response.Data;
+            List<NonConsumableEquipment> nonConsumableEquipment = (List<NonConsumableEquipment>)response.Data;
             return nonConsumableEquipment;
         }
 
@@ -56,70 +22,7 @@ namespace GraphicalEditor.Service
             var response = client.Get<List<ConsumableEquipment>>(request);
             List<ConsumableEquipment> consumableEquipment = (List<ConsumableEquipment>)response.Data;
             return consumableEquipment;
-        }
-
-        public void AddEquipment()
-        {
-            var client = GetClient();
-            List<MapObject> allMapObjects = MainWindow._allMapObjects;
-
-            int typeOfNonConsumable = 0;
-            int equipmentID = 0;
-            bool isConsumeable = false;
-            foreach (MapObject mapObject in allMapObjects)
-            {
-                if (mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.EXAMINATION_ROOM ||
-                       mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.HOSPITALIZATION_ROOM ||
-                       mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.OPERATION_ROOM)
-                {
-                    if (!isConsumeable)
-                    {
-                        Random randomNumber = new Random();
-                        string content = "'Id': " + ++equipmentID;
-                        content += ",'Type': " + (randomNumber.Next(5));
-                        var request = new RestRequest("api/equipment");
-                        request.AddJsonBody(content);
-                        IRestResponse response = client.Post(request);
-                        isConsumeable = true;
-                    }
-                    else
-                    {
-                        string content = "'Id': " + ++equipmentID;
-                        Random randomNumber = new Random();
-                        content += ",'Type': " + (randomNumber.Next(4));
-                        content += ",'Quantity': " + (equipmentID + mapObject.MapObjectEntity.Id) * 2;
-                        var request = new RestRequest("api/equipment");
-                        request.AddJsonBody(content);
-                        IRestResponse response = client.Post(request);
-                        isConsumeable = false;
-
-                    }
-                }
-            }
-        }
-
-        public void AddEquipmentInRooms()
-        {
-            var client = GetClient();
-            List<MapObject> allMapObjects = MainWindow._allMapObjects;
-            int equipmentId = 0;
-
-
-            foreach (MapObject mapObject in allMapObjects)
-            {
-                if (mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.EXAMINATION_ROOM ||
-                       mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.HOSPITALIZATION_ROOM ||
-                       mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.OPERATION_ROOM)
-                {
-                    string content = "'IdEquipment': " + ++equipmentId;
-                    content += ",'RoomNumber': " + mapObject.MapObjectEntity.Id;
-                    content += ",'Quantity': " + (equipmentId + mapObject.MapObjectEntity.Id) * 2;
-                    var request = new RestRequest("api/equipmentInRooms");
-                    request.AddJsonBody(content);
-                    IRestResponse response = client.Post(request);
-                }
-            }          
-        }       
+        }*/
 
     }
 }

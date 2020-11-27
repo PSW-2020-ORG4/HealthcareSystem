@@ -1,0 +1,17 @@
+/***********************************************************************
+ * Module:  RhFactorType.cs
+ * Author:  Sladjana Savkovic
+ * Purpose: Definition of the Class Model.Secretary.RhFactorType
+ ***********************************************************************/
+
+using System;
+
+namespace Model.Enums
+{
+   public enum RhFactorType
+   {
+        UNKNOWN = -1,
+        POSITIVE = 0,
+        NEGATIVE = 1 
+   }
+}

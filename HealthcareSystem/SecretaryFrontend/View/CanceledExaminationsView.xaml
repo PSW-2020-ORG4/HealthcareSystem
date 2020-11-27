@@ -1,0 +1,150 @@
+﻿<Page x:Class="ProjekatZdravoKorporacija.CanceledExaminationsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:ProjekatZdravoKorporacija"
+      mc:Ignorable="d" 
+      Height="708" Width="959"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="13"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      Background="#FFE5EBFF"
+      FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Page.Resources>
+        <Style x:Key="myButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" Background="{TemplateBinding Background}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="395*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" >
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="250">
+
+                        <StackPanel Orientation="Vertical" Margin="40,0,0,0">
+                            <Button BorderBrush="{x:Null}" Width="55" Height="55" 
+                                    Style="{StaticResource myButton}" Name="btnEditExm"
+                                    Click="btnEditExm_Click">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="/Resources/Icons/edit.png"></ImageBrush>
+                                </Button.Background>
+                            </Button>
+                            <Label HorizontalAlignment="Center" FontSize="16" FontWeight="Medium" Margin="0,-8,0,0" FontStyle="Italic">Izmijeni</Label>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Margin="60,0,0,0">
+                            <Button BorderBrush="{x:Null}" Width="55" Height="55" 
+                                    Style="{StaticResource myButton}" Name="btnDeleteExm"
+                                    Click="btnDeleteExm_Click">
+                                <Button.Background>
+                                    <ImageBrush ImageSource="/Resources/Icons/trashcan.png"></ImageBrush>
+                                </Button.Background>
+                            </Button>
+                            <Label HorizontalAlignment="Center" FontSize="16" FontWeight="Medium" Margin="0,-8,0,0" FontStyle="Italic">Izbriši</Label>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+
+                <Border BorderBrush="Black"
+                            BorderThickness="1"
+                            VerticalAlignment="Center"
+                            CornerRadius="5"
+                            Width="310" Height="40" 
+                            Background="White"
+                            HorizontalAlignment="Right" Margin="0,0,40,0" Focusable="True">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox HorizontalAlignment="Right"                             
+                             Name="txtSearchExaminations" VerticalAlignment="Center"
+                             Width="270" 
+                             CaretBrush="{x:Null}" Foreground="#DD000000" BorderBrush="{x:Null}" 
+                             SelectionBrush="#FFB0B8BD"
+                             Focusable="True" 
+                             materialDesign:HintAssist.Hint="  Pretraži preglede"
+                             FontSize="18"
+                             KeyUp="txtSearchExaminations_KeyUp" Margin="5,0,0,0">
+                        </TextBox>
+                        <Image Source="/Resources/Icons/search.png" 
+                               HorizontalAlignment="Right" 
+                               Width="30"></Image>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <TextBlock Grid.Row="1" 
+                   VerticalAlignment="Top"
+                   Margin="5,15,10,5"
+                   FontSize="20"
+                   FontWeight="Medium"
+                   FontStyle="Italic"
+                   HorizontalAlignment="Left">Otkazani pregledi</TextBlock>
+
+        <Border Grid.Row="1">
+
+            <DataGrid Margin="0,45"
+                      CanUserSortColumns="True"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
+                      Background="White"
+                      SelectionUnit="FullRow"
+                      SelectionMode="Single"
+                      BorderBrush="#FF1D5F7C"
+                      BorderThickness="1"
+                      Name="dgCanceledExaminations">
+
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="FontSize" Value="20"/>
+                        <Setter Property="FontWeight"  Value="SemiBold" />
+                        <Setter Property="Height" Value="40"/>
+                        <Setter Property="Background" Value="#FF1D5F7C"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="BorderThickness" Value="2,0,0,2"></Setter>
+                        <Setter Property="BorderBrush" Value="White"/>
+                    </Style>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                        <Setter Property="Height" Value="30"/>
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="Datum" Width="120" Binding="{Binding Date}"/>
+                    <DataGridTextColumn Header="Vrijeme" Width="90" Binding="{Binding Time}"/>
+                    <DataGridTextColumn Header="Pacijent" Width="200*" Binding="{Binding Patient}"/>
+                    <DataGridTextColumn Header="Doktor" Width="200*" Binding="{Binding Doctor}"/>
+                    <DataGridTextColumn Header="Soba" Width="100" Binding="{Binding Room}"/>
+                    <DataGridTextColumn Header="Vrsta pregleda" Width="170" Binding="{Binding TypeOfExamination}"/>
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Border>
+
+    </Grid>
+    
+</Page>

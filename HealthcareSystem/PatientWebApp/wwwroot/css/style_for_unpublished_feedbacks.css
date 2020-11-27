@@ -1,0 +1,82 @@
+﻿/* Style inputs, select elements and textareas */
+input[type=text], input[type=number], input[type=date], input[type=time], input[type=file], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+/* Style the label to display next to the inputs */
+label.form {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+/* Style the submit button */
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+
+
+/* Floating column for labels: 25% width */
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+/* Floating column for inputs: 75% width */
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Style the titles */
+h2#title-active {
+    margin: auto;
+    width: 50%;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Style the comments */
+div.comments {
+    margin: auto;
+    width: 100%;
+    background-color: transparent;
+    position: absolute;
+    top: 200px;
+    left: 0px;
+}
+
+/* Style the table for comments*/
+table.table_comment {
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+/* Style the border around the table*/
+div.border_comment {
+    border-style: solid;
+    border-color: darkgray;
+    border-width: 1px;
+    margin-top: 20px;
+    margin-left: 380px;
+    background-color: #b3e6ff;
+}

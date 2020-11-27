@@ -5,40 +5,64 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
+  shouldBuild: 'False'
   solution: 'HealthcareSystem/temp.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
+jobs:
+- job: Check
+  steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        # 
+        $files=$(git diff HEAD HEAD~ --name-only)
+        $paths = "**/LegacyBackend/*", "**/GraphicalEditor/*", "**/PatientFrontend/*", "**/ManagerFrontend/*", "**/SecretaryFrontend/*", "**/DoctorFrontend/*"
+        
+        foreach ($path in $paths) 
+        { 
+          if( $files -like $path) 
+          {
+            Write-Host "##vso[task.setvariable variable=shouldBuild]True"
+          } 
+        }
+      pwsh: true
+
+- job: Build
+  dependsOn: Check
+  condition: and(succeeded(), eq(variables['shouldBuild'], 'True'))
+  steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Write your PowerShell commands here.
+        
+        Set-Location "./HealthcareSystem"
+        dotnet new sln --name temp
+        dotnet sln temp.sln add "DoctorFrontend/DoctorFrontend.csproj"
+        dotnet sln temp.sln add "ManagerFrontend/ManagerFrontend.csproj"
+        dotnet sln temp.sln add "SecretaryFrontend/SecretaryFrontend.csproj"
+        dotnet sln temp.sln add "PatientFrontend/PatientFrontend.csproj"
+        dotnet sln temp.sln add "GraphicalEditor/GraphicalEditor.csproj"
+        dotnet sln temp.sln add "LegacyBackend/LegacyBackend.csproj"
+        Set-Location ".."
+      pwsh: true
+
+  - task: NuGetToolInstaller@1
+
+  - task: NuGetCommand@2
+    displayName: 'NuGet package restore'
+    inputs:
+      restoreSolution: '$(solution)'
       
-      Set-Location "./HealthcareSystem"
-      dotnet new sln --name temp
-      dotnet sln temp.sln add "DoctorFrontend/DoctorFrontend.csproj"
-      dotnet sln temp.sln add "ManagerFrontend/ManagerFrontend.csproj"
-      dotnet sln temp.sln add "SecretaryFrontend/SecretaryFrontend.csproj"
-      dotnet sln temp.sln add "PatientFrontend/PatientFrontend.csproj"
-      dotnet sln temp.sln add "GraphicalEditor/GraphicalEditor.csproj"
-      dotnet sln temp.sln add "LegacyBackend/LegacyBackend.csproj"
-      Set-Location ".."
-    pwsh: true
 
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  displayName: 'NuGet package restore'
-  inputs:
-    restoreSolution: '$(solution)'
-    
-
-- task: VSBuild@1
-  displayName: 'Build WPFs'
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+  - task: VSBuild@1
+    displayName: 'Build WPFs'
+    inputs:
+      solution: '$(solution)'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
 

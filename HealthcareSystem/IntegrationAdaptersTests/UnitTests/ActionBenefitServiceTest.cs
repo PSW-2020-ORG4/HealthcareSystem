@@ -1,11 +1,9 @@
-﻿using Backend.Model;
+using Backend.Model;
 using Backend.Model.Pharmacies;
 using Backend.Repository;
 using Backend.Service;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
-using System.Collections.Generic;
 using Xunit;
 
 namespace IntegrationAdaptersTests.UnitTests
@@ -13,35 +11,36 @@ namespace IntegrationAdaptersTests.UnitTests
     public class ActionBenefitServiceTest
     {
         [Fact]
-        public void Save_action_benefit_to_db()
+        public void CreateActionBenefit_Valid_VerifyCreateActionBenefit()
         {
-            var builder = new DbContextOptionsBuilder<MyDbContext>();
-            builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
-            var options = builder.Options;
+            var mockPharmacyRepo = new Mock<IPharmacyRepo>();
+            var mockActionBenefitRepo = new Mock<IActionBenefitRepository>();
+            var exchange = "ex1";
+            var pharmacy = new Pharmacy { Id = 1, Name = "apoteka1", ApiKey = "api1", Url = "url1", ActionsBenefitsExchangeName = exchange, ActionsBenefitsSubscribed = true };
+            var message = new ActionBenefitMessage { Subject = "akcija1", Message = "blablabla" };
 
-            using (var context = new MyDbContext(options))
-            {
-                var pharmacies = new List<Pharmacy>
-                {
-                    new Pharmacy { Name="apoteka1", ApiKey="api1", ActionsBenefitsExchangeName="ex1", ActionsBenefitsSubscribed=true },
-                    new Pharmacy { Name="apoteka2", ApiKey="api2", ActionsBenefitsExchangeName="ex2", ActionsBenefitsSubscribed=true }
-                };
-                context.AddRange(pharmacies);
-                context.SaveChanges();
-            }
+            mockPharmacyRepo.Setup(r => r.GetPharmacyByExchangeName(exchange)).Returns(pharmacy);
+            mockActionBenefitRepo.Setup(r => r.CreateActionBenefit(It.Is<ActionBenefit>(ab => ab.PharmacyId == pharmacy.Id && ab.Message == message.Message && ab.Subject == message.Subject))).Verifiable();
+            ActionBenefitService actionBenefitService = new ActionBenefitService(mockActionBenefitRepo.Object, mockPharmacyRepo.Object);
 
-            using (var context = new MyDbContext(options))
-            {
-                var pharmacyRepo = new MySqlPharmacyRepo(context);
-                var actionBenefitRepo = new MySqlActionBenefitRepository(context);
-                var actionBenefitService = new ActionBenefitService(actionBenefitRepo, pharmacyRepo);
+            actionBenefitService.CreateActionBenefit(exchange, message);
 
-                actionBenefitService.CreateActionBenefit("ex1", new ActionBenefitMessage { Subject="akcija1", Message="blablabla"});
-
-                Assert.Contains(context.ActionsBenefits, a => a.Pharmacy.ActionsBenefitsExchangeName == "ex1");
-            }
-
+            mockActionBenefitRepo.Verify();
         }
 
+        [Fact]
+        public void CreateActionBenefit_InvalidMessage_ThrowsException()
+        {
+            var mockPharmacyRepo = new Mock<IPharmacyRepo>();
+            var mockActionBenefitRepo = new Mock<IActionBenefitRepository>();
+            var exchange = "ex1";
+            var pharmacy = new Pharmacy { Id = 1, Name = "apoteka1", ApiKey = "api1", Url = "url1", ActionsBenefitsExchangeName = exchange, ActionsBenefitsSubscribed = true };
+            var message = new ActionBenefitMessage { Subject = null, Message = null };
+
+            mockPharmacyRepo.Setup(r => r.GetPharmacyByExchangeName(exchange)).Returns(pharmacy);
+            ActionBenefitService actionBenefitService = new ActionBenefitService(mockActionBenefitRepo.Object, mockPharmacyRepo.Object);
+
+            Assert.Throws<ArgumentException>(() => actionBenefitService.CreateActionBenefit(exchange, message));
+        }
     }
 }

@@ -344,6 +344,7 @@
     <Compile Include="Repository\PharmacyRepository\MySqlPharmacyRepo\MySqlPharmacyRepo.cs" />
     <Compile Include="Service\DrugAndTherapy\ITherapyService.cs" />
     <Compile Include="Service\DrugAndTherapy\TherapyService.cs" />
+    <Compile Include="Service\Encryption\EncryptionService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\ExaminationService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\IExaminationService.cs" />
     <Compile Include="Service\ExaminationAndPatientCard\IPatientCardService.cs" />

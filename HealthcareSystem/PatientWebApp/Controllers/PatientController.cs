@@ -7,6 +7,7 @@ using System.Web;
 using Backend.Model.Exceptions;
 using Backend.Model.Users;
 using Backend.Service;
+using Backend.Service.Encryption;
 using Backend.Service.SendingMail;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,6 +28,7 @@ namespace PatientWebApp.Controllers
         private readonly IMailService _mailService;
         private readonly PatientValidator _patientValidator;
 		public static IWebHostEnvironment _webHostEnvironment;
+        private readonly EncryptionService _encryptionService;
 
         public PatientController(IPatientService patientService, IPatientCardService patientCardService, IWebHostEnvironment webHostEnvironment, IMailService mailService)
         {
@@ -35,6 +37,7 @@ namespace PatientWebApp.Controllers
             _mailService = mailService;
             _patientValidator = new PatientValidator();
             _webHostEnvironment = webHostEnvironment;
+            _encryptionService = new EncryptionService();
         }
 
         /// <summary>
@@ -90,12 +93,13 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
-        [HttpPut("activate/{id}")]
-        public ActionResult ActivatePatient(string id)
+        [HttpPut("activate/{jmbg}")]
+        public ActionResult ActivatePatient(string jmbg)
         {
             try
             {
-                _patientService.ActivatePatientStatus(id);
+                string decryptedJmbg = _encryptionService.DecryptString(jmbg);
+                _patientService.ActivatePatientStatus(decryptedJmbg);
                 return Ok();
             }
             catch (NotFoundException exception)

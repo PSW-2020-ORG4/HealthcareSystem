@@ -33,26 +33,33 @@ namespace Service.NotificationSurveyAndFeedback
             }
             catch (Exception)
             {
-                throw new DatabaseException("error adding survey to database");
+                throw new DatabaseException("Error adding survey to database");
             }
         }
 
-        public Survey GetSurveyById(int id)
+        public List<SurveyResult> GetSurveyResultsAboutDoctor(string jmbg)
         {
-            Survey survey = _surveyRepository.GetSurveyById(id);
-            if (survey == null)
-                throw new NotFoundException("Survey with id=" + id + " doesn't exist in database.");
-            return survey;
+            List<SurveyResult> surveyResults = _surveyRepository.GetSurveyResultsAboutDoctor(jmbg);
+            if (surveyResults == null)
+                throw new NotFoundException("Survey results about doctor doesn't exist in database.");
+            return surveyResults;
         }
 
-        public List<Survey> GetSurveysByJmbg(string jmbg)
+        public List<SurveyResult> GetSurveyResultsAboutHospital()
         {
-            return _surveyRepository.GetSurveysByJmbg(jmbg);
+            List<SurveyResult> surveyResults = _surveyRepository.GetSurveyResultsAboutHospital();
+            if (surveyResults == null)
+                throw new NotFoundException("Survey results about hospital doesn't exist in database.");
+            return surveyResults;
         }
 
-        public void UpdateSurvey(Survey survey)
+        public List<SurveyResult> GetSurveyResultsAboutMedicalStaff()
         {
-            _surveyRepository.UpdateSurvey(survey);
+            List<SurveyResult> surveyResults = _surveyRepository.GetSurveyResultsAboutMedicalStaff();
+            if (surveyResults == null)
+                throw new NotFoundException("Survey results doesn't exist in database.");
+            return surveyResults;
         }
+
     }
 }

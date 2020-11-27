@@ -25,5 +25,12 @@ namespace IntegrationAdapters.Controllers
         {
             return View(_actionBenefitService.GetActionBenefitById(id));
         }
+
+        [Route("ActionBenefit/MakePublic/{id}/{isPublic}")]
+        public IActionResult MakePublic(int id, bool isPublic)
+        {
+            _actionBenefitService.MakePublic(id, isPublic);
+            return RedirectToAction("Details", new { id = id });
+        }
     }
 }

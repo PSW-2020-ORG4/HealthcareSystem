@@ -11,10 +11,7 @@ namespace Backend.Repository
     {
         private readonly MyDbContext _context;
 
-        public MySqlSurveyRepository(MyDbContext context)
-        {
-            _context = context;
-        }
+        public MySqlSurveyRepository(MyDbContext context) {  _context = context; }
 
         public void AddSurvey(Survey survey)
         {
@@ -227,6 +224,5 @@ namespace Backend.Repository
             easeInObtainingFollowupInformation.NumberOfGradesFive = _context.SurveysAboutMedicalStaff.Count(x => x.EaseInObtainingFollowUpInformation == 5);
             return easeInObtainingFollowupInformation;
         }
-
     }
 }

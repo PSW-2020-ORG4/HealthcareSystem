@@ -1,9 +1,3 @@
-/***********************************************************************
- * Module:  Doctor.cs
- * Author:  Jelena Zeljko
- * Purpose: Definition of the Class Users.Doctor
- ***********************************************************************/
-
 using Backend.Model;
 using Model.Enums;
 using Model.Manager;

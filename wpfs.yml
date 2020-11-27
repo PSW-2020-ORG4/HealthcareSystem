@@ -15,13 +15,14 @@ steps:
     script: |
       # Write your PowerShell commands here.
       
+      Set-Location "./HealthcareSystem"
       dotnet new sln --name temp
-      dotnet sln add "HealthcareSystem/DoctorFrontend/DoctorFrontend.csproj"
-      dotnet sln add "HealthcareSystem/ManagerFrontend/ManagerFrontend.csproj"
-      dotnet sln add "HealthcareSystem/SecretaryFrontend/SecretaryFrontend.csproj"
-      dotnet sln add "HealthcareSystem/PatientFrontend/PatientFrontend.csproj"
-      dotnet sln add "HealthcareSystem/GraphicalEditor/GraphicalEditor.csproj"
-      dotnet sln add "HealthcareSystem/LegacyBackend/LegacyBackend.csproj"
+      dotnet sln temp.sln add "HealthcareSystem/DoctorFrontend/DoctorFrontend.csproj"
+      dotnet sln temp.sln add "HealthcareSystem/ManagerFrontend/ManagerFrontend.csproj"
+      dotnet sln temp.sln add "HealthcareSystem/SecretaryFrontend/SecretaryFrontend.csproj"
+      dotnet sln temp.sln add "HealthcareSystem/PatientFrontend/PatientFrontend.csproj"
+      dotnet sln temp.sln add "HealthcareSystem/GraphicalEditor/GraphicalEditor.csproj"
+      dotnet sln temp.sln add "HealthcareSystem/LegacyBackend/LegacyBackend.csproj"
     pwsh: true
 
 - task: NuGetToolInstaller@1
@@ -30,6 +31,7 @@ steps:
   displayName: 'NuGet package restore'
   inputs:
     restoreSolution: 'temp.sln'
+    
 
 - task: VSBuild@1
   displayName: 'Build WPFs'

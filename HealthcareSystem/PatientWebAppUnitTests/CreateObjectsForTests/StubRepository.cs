@@ -8,6 +8,9 @@ using Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Backend.Repository.ExaminationRepository;
+using Model.PerformingExamination;
+using Backend.Repository.TherapyRepository;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
@@ -57,5 +60,28 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return surveyStubRepository.Object;
         }
 
+        public IScheduledExaminationRepository CreateExaminationStubRepository()
+        {
+            var examinationStubRepository = new Mock<IScheduledExaminationRepository>();
+            var examinationValidObject = _objectFactory.GetExamination().CreateValidTestObject();
+            var examinations = new List<Examination>();
+            examinations.Add(examinationValidObject);
+
+            examinationStubRepository.Setup(m => m.GetExaminationsByPatient("1309998775018")).Returns(examinations);
+
+            return examinationStubRepository.Object;
+        }
+
+        public ITherapyRepository CreateTherapyStubRepository()
+        {
+            var therapyStubRepository = new Mock<ITherapyRepository>();
+            var therapyValidObject = _objectFactory.GetTherapy().CreateValidTestObject();
+            var therapies = new List<Therapy>();
+            therapies.Add(therapyValidObject);
+
+            therapyStubRepository.Setup(m => m.GetTherapyByPatient("1309998775018")).Returns(therapies);
+
+            return therapyStubRepository.Object;
+        }
     }
 }

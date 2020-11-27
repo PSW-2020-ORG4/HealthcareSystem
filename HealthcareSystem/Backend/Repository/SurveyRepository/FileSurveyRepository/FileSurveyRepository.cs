@@ -19,29 +19,12 @@ namespace Backend.Repository
             _path = Path.GetFullPath(fileName);
         }
 
-        public void AddSurvey(Survey survey)
-        {
-            List<Survey> surveys = ReadFromFile();
-            surveys.Add(survey);
-            WriteInFile(surveys);
-        }
-
         private void WriteInFile(List<Survey> surveys)
         {
             string json = JsonConvert.SerializeObject(surveys);
             File.WriteAllText(_path, json);
         }
-
-        public Survey GetSurveyById(int id)
-        {
-            List<Survey> surveys = ReadFromFile();
-            foreach (Survey survey in surveys)
-            {
-                if (survey.Id == id) { return survey; }
-            }
-            return null;
-        }
-
+       
         private List<Survey> ReadFromFile()
         {
             List<Survey> surveys;
@@ -58,32 +41,29 @@ namespace Backend.Repository
             return surveys;
         }
 
-        public List<Survey> GetSurveysByJmbg(string jmbg)
+        public void AddSurvey(Survey survey)
         {
-            List<Survey> surveys = ReadFromFile();
-            List<Survey> surveysAboutDoctor = new List<Survey>();
-
-            foreach (Survey survey in surveys)
-            {
-                if (survey.DoctorJmbg.Equals(jmbg))
-                {
-                    surveysAboutDoctor.Add(survey);
-                }
-            }
-            return surveysAboutDoctor;
+            throw new NotImplementedException();
         }
 
-        public void UpdateSurvey(Survey survey)
+        public List<SurveyAboutDoctor> GetSurveysByDoctor(string jmbg)
         {
-            List<Survey> surveys = ReadFromFile();
-            foreach (Survey s in surveys)
-            {
-                if (s.Id == survey.Id)
-                {
-                    WriteInFile(surveys);
-                    return;
-                }
-            }
+            throw new NotImplementedException();
+        }
+
+        public List<SurveyResult> GetSurveyResultsAboutMedicalStaff()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SurveyResult> GetSurveyResultsAboutHospital()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<SurveyResult> GetSurveyResultsAboutDoctor(string jmbg)
+        {
+            throw new NotImplementedException();
         }
     }
 }

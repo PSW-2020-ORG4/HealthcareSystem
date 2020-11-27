@@ -1,4 +1,4 @@
-﻿using Backend.Model;
+using Backend.Model;
 using System.Collections.Generic;
 
 namespace Backend.Service

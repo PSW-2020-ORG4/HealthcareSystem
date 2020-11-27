@@ -1,9 +1,4 @@
-/***********************************************************************
- * Module:  DoctorSevice.cs
- * Author:  Jelena Zeljko
- * Purpose: Definition of the Class Service.DoctorSevice
- ***********************************************************************/
-
+using Backend.Model.Exceptions;
 using Backend.Repository;
 using Backend.Service;
 using Model.Users;
@@ -13,6 +8,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ValidationException = Backend.Model.Exceptions.ValidationException;
+
 
 namespace Service.UsersAndWorkingTime
 {
@@ -65,7 +62,10 @@ namespace Service.UsersAndWorkingTime
 
         public List<Doctor> ViewDoctors()
         {
-            return _doctorRepository.GetAllDoctors();
+            List<Doctor> doctors = _doctorRepository.GetAllDoctors();
+            if (doctors == null)
+                throw new NotFoundException("Doctors doesn't exist in database.");
+            return doctors;
         }
 
         public Doctor ViewProfile(string jmbg)

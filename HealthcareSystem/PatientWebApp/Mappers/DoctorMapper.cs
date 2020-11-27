@@ -9,7 +9,7 @@ namespace PatientWebApp.Mappers
 {
     public class DoctorMapper
     {
-        public static DoctorDTO DoctorToDoctorTDO(Doctor doctor)
+        public static DoctorDTO DoctorToDoctorDTO(Doctor doctor)
         {
             DoctorDTO doctorDTO = new DoctorDTO();
             doctorDTO.Name = doctor.Name;

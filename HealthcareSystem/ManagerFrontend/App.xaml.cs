@@ -13,6 +13,6 @@ namespace Clinic_Health
 	/// </summary>
 	public partial class App : Application
 	{
-
+		// this change should trigger pipeline
 	}
 }

@@ -5,6 +5,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
+  solution: 'HealthcareSystem/temp.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -17,12 +18,13 @@ steps:
       
       Set-Location "./HealthcareSystem"
       dotnet new sln --name temp
-      dotnet sln temp.sln add "HealthcareSystem/DoctorFrontend/DoctorFrontend.csproj"
-      dotnet sln temp.sln add "HealthcareSystem/ManagerFrontend/ManagerFrontend.csproj"
-      dotnet sln temp.sln add "HealthcareSystem/SecretaryFrontend/SecretaryFrontend.csproj"
-      dotnet sln temp.sln add "HealthcareSystem/PatientFrontend/PatientFrontend.csproj"
-      dotnet sln temp.sln add "HealthcareSystem/GraphicalEditor/GraphicalEditor.csproj"
-      dotnet sln temp.sln add "HealthcareSystem/LegacyBackend/LegacyBackend.csproj"
+      dotnet sln temp.sln add "DoctorFrontend/DoctorFrontend.csproj"
+      dotnet sln temp.sln add "ManagerFrontend/ManagerFrontend.csproj"
+      dotnet sln temp.sln add "SecretaryFrontend/SecretaryFrontend.csproj"
+      dotnet sln temp.sln add "PatientFrontend/PatientFrontend.csproj"
+      dotnet sln temp.sln add "GraphicalEditor/GraphicalEditor.csproj"
+      dotnet sln temp.sln add "LegacyBackend/LegacyBackend.csproj"
+      Set-Location ".."
     pwsh: true
 
 - task: NuGetToolInstaller@1
@@ -30,13 +32,13 @@ steps:
 - task: NuGetCommand@2
   displayName: 'NuGet package restore'
   inputs:
-    restoreSolution: 'temp.sln'
+    restoreSolution: '$(solution)'
     
 
 - task: VSBuild@1
   displayName: 'Build WPFs'
   inputs:
-    solution: 'temp.sln'
+    solution: '$(solution)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 

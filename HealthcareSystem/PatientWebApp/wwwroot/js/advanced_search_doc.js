@@ -63,26 +63,37 @@
         let third_operator = $('#operator_type_3 option:selected').val();
 
         if (!start_date) {
-            start_date = "null";
+            start_date = null;
         }
         if (!end_date) {
-            end_date = "null";
+            end_date = null;
         }
         if (!doctor) {
-            doctor = "null";
+            doctor = null;
         }
         if (!drug_anamnesis) {
-            drug_anamnesis = "null";
+            drug_anamnesis = null;
         }
 
         let doc_type = $('#doc_type option:selected').val();
         if (doc_type == "prescription") {
+
+            var newData = {
+                "Jmbg": jmbg,
+                "StartDate": start_date,
+                "EndDateOperator": parseInt(first_operator),
+                "EndDate": end_date,
+                "DoctorSurnameOperator": parseInt(second_operator),
+                "DoctorSurname": doctor,
+                "DrugNameOperator": parseInt(third_operator),
+                "DrugName": drug_anamnesis
+            };
+
             $.ajax({
-                url: '/api/therapy/' + jmbg + '/' + start_date + '/' + end_date + '/' + doctor + '/' + drug_anamnesis + '/' + first_operator + '/' + second_operator + '/' + third_operator,
-                type: 'GET',
-                dataType: 'json',
-                processData: false,
-                contentType: false,
+                url: "/api/therapy/advance-search",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(newData),
                 success: function (data) {
                     $('div#div_report').empty();
                     $('#not_found').attr("hidden", true);
@@ -93,20 +104,31 @@
                     for (let i = 0; i < data.length; i++) {
                         addPrescriptionTable(data[i]);
                     }
+
                 },
-                error: function () {
-                    console.log("Error getting prescriptions")
+                error: function (jqXHR) {
+
+                    alert(jqXHR.responseText);
                 }
-            });
+            });         
 
         } else {
+            var newData = {
+                "Jmbg": jmbg,
+                "StartDate": start_date,
+                "EndDateOperator": parseInt(first_operator),
+                "EndDate": end_date,
+                "DoctorSurnameOperator": parseInt(second_operator),
+                "DoctorSurname": doctor,
+                "AnamnesisOperator": parseInt(third_operator),
+                "Anamnesis": drug_anamnesis
+            };
 
             $.ajax({
-                url: '/api/examination/' + jmbg + '/' + start_date + '/' + end_date + '/' + doctor + '/' + drug_anamnesis + '/' + first_operator + '/' + second_operator + '/' + third_operator,
-                type: 'GET',
-                dataType: 'json',
-                processData: false,
-                contentType: false,
+                url: "/api/examination/advance-search",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(newData),
                 success: function (data) {
                     $('div#div_report').empty();
                     $('#not_found').attr("hidden", true);
@@ -117,11 +139,14 @@
                     for (let i = 0; i < data.length; i++) {
                         addReportTable(data[i]);
                     }
+
                 },
-                error: function () {
-                    console.log("Error getting examination reports")
+                error: function (jqXHR) {
+
+                    alert(jqXHR.responseText);
                 }
             });
+
         }
 
     });

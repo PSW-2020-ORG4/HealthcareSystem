@@ -14,6 +14,9 @@ using System.Configuration;
 using Backend.Repository.ExaminationRepository;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Model.Exceptions;
+using Backend.Service.SearchSpecification;
+using System.Linq;
+using Backend.Service.SearchSpecification.ExaminationSearch;
 
 namespace Service.ExaminationAndPatientCard
 {
@@ -27,336 +30,6 @@ namespace Service.ExaminationAndPatientCard
         public void AddExamination(Examination examination)
         {
             _scheduledExaminationRepository.AddExamination(examination);
-        }
-
-        public List<Examination> AdvancedSearchExaminationReports(List<Examination> examinations, string startDate, string endDate, string doctorSurname, string anamesis, string firstOperator, string secondOperator, string thirdOperator)
-        {
-            List<Examination> filteredExamintion = new List<Examination>();
-
-            if (startDate.Equals("null") && endDate.Equals("null") && doctorSurname.Equals("null") && anamesis.Equals("null"))
-            {
-                return examinations;
-            }
-
-            foreach (Examination e in examinations)
-            {
-                if (endDate.Equals("null") && doctorSurname.Equals("null") && anamesis.Equals("null"))
-                {
-                    if (DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0)
-                    {
-                        filteredExamintion.Add(e);
-                    }
-                }
-                else if (startDate.Equals("null") && doctorSurname.Equals("null") && anamesis.Equals("null"))
-                {
-                    if (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0)
-                    {
-                        filteredExamintion.Add(e);
-                    }
-                }
-                else if (startDate.Equals("null") && endDate.Equals("null") && anamesis.Equals("null"))
-                {
-                    if (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower()))
-                    {
-                        filteredExamintion.Add(e);
-                    }
-                }
-                else if (startDate.Equals("null") && endDate.Equals("null") && doctorSurname.Equals("null"))
-                {
-                    if (e.Anamnesis.ToLower().Contains(anamesis.ToLower()))
-                    {
-                        filteredExamintion.Add(e);
-                    }
-                }
-                else if (anamesis.Equals("null") && doctorSurname.Equals("null"))
-                {
-                    if (firstOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else if (anamesis.Equals("null") && endDate.Equals("null"))
-                {
-                    if (secondOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else if (doctorSurname.Equals("null") && endDate.Equals("null"))
-                {
-                    if (thirdOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else if (anamesis.Equals("null") && startDate.Equals("null"))
-                {
-                    if (secondOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else if (doctorSurname.Equals("null") && startDate.Equals("null"))
-                {
-                    if (thirdOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else if (startDate.Equals("null") && endDate.Equals("null"))
-                {
-                    if (thirdOperator.Equals("AND"))
-                    {
-                        if ((e.Anamnesis.ToLower().Contains(anamesis.ToLower())) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else
-                    {
-                        if ((e.Anamnesis.ToLower().Contains(anamesis.ToLower())) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else if (startDate.Equals("null"))
-                {
-                    if (thirdOperator.Equals("AND") && secondOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (thirdOperator.Equals("OR") && secondOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (thirdOperator.Equals("OR") && secondOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (thirdOperator.Equals("AND") && secondOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else if (endDate.Equals("null"))
-                {
-                    if (thirdOperator.Equals("AND") && secondOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (thirdOperator.Equals("OR") && secondOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (thirdOperator.Equals("OR") && secondOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (thirdOperator.Equals("AND") && secondOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else if (doctorSurname.Equals("null"))
-                {
-                    if (firstOperator.Equals("AND") && thirdOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("OR") && thirdOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("OR") && thirdOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("AND") && thirdOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else if (anamesis.Equals("null"))
-                {
-                    if (firstOperator.Equals("AND") && secondOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("OR") && secondOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("OR") && secondOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("AND") && secondOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-                else
-                {
-                    if (firstOperator.Equals("AND") && secondOperator.Equals("AND") && thirdOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("OR") && secondOperator.Equals("OR") && thirdOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("OR") && secondOperator.Equals("AND") && thirdOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("AND") && secondOperator.Equals("OR") && thirdOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("OR") && secondOperator.Equals("OR") && thirdOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("AND") && secondOperator.Equals("AND") && thirdOperator.Equals("OR"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) || (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("AND") && secondOperator.Equals("OR") && thirdOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) && (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) || (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                    else if (firstOperator.Equals("OR") && secondOperator.Equals("AND") && thirdOperator.Equals("AND"))
-                    {
-                        if ((DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0) || (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0) && (e.Doctor.Surname.ToLower().Contains(doctorSurname.ToLower())) && (e.Anamnesis.ToLower().Contains(anamesis.ToLower())))
-                        {
-                            filteredExamintion.Add(e);
-                        }
-                    }
-                }
-
-            }
-
-            return filteredExamintion;
         }
 
         public Examination AppointmentRecommendationByDate(Doctor doctor, DateTime beginDate, DateTime endDate)
@@ -436,14 +109,13 @@ namespace Service.ExaminationAndPatientCard
 
         public List<Examination> GetExaminationsByPatient(string patientJmbg)
         {
-            try
-            {
-                return _scheduledExaminationRepository.GetExaminationsByPatient(patientJmbg);
-            }
-            catch (Exception)
+            List<Examination> examinations = _scheduledExaminationRepository.GetExaminationsByPatient(patientJmbg);
+
+            if (examinations == null)
             {
                 throw new NotFoundException("There is no patients examinations in database.");
             }
+            return examinations;
         }
 
         public List<Examination> GetExaminationsByRoom(int numberOfRoom)
@@ -464,6 +136,18 @@ namespace Service.ExaminationAndPatientCard
         public void UpdateExamination(Examination examination)
         {
             _scheduledExaminationRepository.UpdateExamination(examination);
+        }
+
+        public List<Examination> AdvancedSearch(ExaminationSearchDTO parameters)
+        {
+            List<Examination> examinations = GetExaminationsByPatient(parameters.Jmbg);
+
+            ISpecification<Examination> filter = new ExaminationStartDateSpecification(parameters.StartDate);
+            filter = filter.BinaryOperation(parameters.EndDateOperator, new ExaminationEndDateSpecification(parameters.EndDate));
+            filter = filter.BinaryOperation(parameters.DoctorSurnameOperator, new ExaminationDoctorSurnameSpecification(parameters.DoctorSurname));
+            filter = filter.BinaryOperation(parameters.AnamnesisOperator, new ExaminationAnamnesisSpecification(parameters.Anamnesis));
+            
+            return examinations.Where(examination => filter.IsSatisfiedBy(examination)).ToList();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Backend.Model.Exceptions;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.ExaminationAndPatientCard;
+using Backend.Service.SearchSpecification.TherapySearch;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
@@ -45,25 +46,24 @@ namespace PatientWebApp.Controllers
         }
 
         /// <summary>
-        /// /getting examinations linked to a certain patient
+        /// /getting searched therapies linked to a certain patient
         /// </summary>
-        /// <param name="patientJmbg">patients jmbg</param>
-        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{patientJmbg}/{startDate}/{endDate}/{doctorSurname}/{drugName}/{firstOperator}/{secondOperator}/{thirdOperator}")]
-        public ActionResult AdvancedSearchExaminations(string patientJmbg, string startDate, string endDate, string doctorSurname, string drugName, string firstOperator, string secondOperator, string thirdOperator)
+        /// <param name="therapySearchDTO">an object need be find in the database</param>
+        /// <returns>if alright returns code 200(Ok), if not 400(not found)</returns>
+        [HttpPost("advance-search")]
+        public ActionResult AdvanceSearchTherapies(TherapySearchDTO therapySearchDTO)
         {
             try
             {
-                List<Therapy> therapies = new List<Therapy>();
                 List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
-                therapies = _therapyService.GetTherapyByPatient(patientJmbg);    
-                _therapyService.AdvancedSearchThearapiesReports(therapies, startDate, endDate, doctorSurname, drugName, firstOperator, secondOperator, thirdOperator).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
+                _therapyService.AdvancedSearch(therapySearchDTO).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
                 return Ok(therapyDTOs);
             }
             catch (NotFoundException exception)
             {
                 return NotFound(exception.Message);
             }
+
         }
     }
 }

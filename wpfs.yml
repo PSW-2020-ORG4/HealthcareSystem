@@ -5,6 +5,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
+  paths: "**/LegacyBackend/* **/GraphicalEditor/* **/PatientFrontend/* **/ManagerFrontend/* **/SecretaryFrontend/* **/DoctorFrontend/*"
   solution: 'HealthcareSystem/temp.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
@@ -19,7 +20,8 @@ jobs:
       script: |
         # 
         $files=$(git diff HEAD HEAD~ --name-only)
-        $paths = "**/LegacyBackend/*", "**/GraphicalEditor/*", "**/PatientFrontend/*", "**/ManagerFrontend/*", "**/SecretaryFrontend/*", "**/DoctorFrontend/*"
+        $paths = $env:PATHS -split ' '
+        $paths
         
         $shouldBuild = $false
 

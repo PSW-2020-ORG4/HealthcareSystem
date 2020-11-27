@@ -21,12 +21,16 @@ jobs:
         $files=$(git diff HEAD HEAD~ --name-only)
         $paths = "**/LegacyBackend/*", "**/GraphicalEditor/*", "**/PatientFrontend/*", "**/ManagerFrontend/*", "**/SecretaryFrontend/*", "**/DoctorFrontend/*"
         
+        $files
+
         foreach ($path in $paths) 
         { 
-          if( $files -like $path) 
-          {
-            Write-Host "##vso[task.setvariable variable=shouldBuild]True"
-          } 
+            $files -like $path
+            if( $files -like $path) 
+            {
+                echo "here"
+                Write-Host "##vso[task.setvariable variable=shouldBuild]True"
+            } 
         }
       pwsh: true
 

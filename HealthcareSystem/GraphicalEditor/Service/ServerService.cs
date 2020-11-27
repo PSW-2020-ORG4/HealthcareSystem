@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Enumerations;
+﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.MapObjectRelated;
 using Model.Manager;
@@ -10,9 +11,14 @@ namespace GraphicalEditor.Service
 {
     public class ServerService
     {
+        private RestClient GetClient()
+        {
+            var client = new RestSharp.RestClient("http://localhost:" + ServerConstants.PORT);
+            return client;
+        }
         public void AddAllRooms()
         {
-            var client = new RestSharp.RestClient("http://localhost:61631/");
+            var client = GetClient();
             List<MapObject> allMapObjects = MainWindow._allMapObjects;
 
             foreach(MapObject mapObject in allMapObjects)
@@ -36,7 +42,7 @@ namespace GraphicalEditor.Service
 
         public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber(int roomNumber)
         {
-            var client = new RestSharp.RestClient("http://localhost:61631/");
+            var client = GetClient();
             var request = new RestRequest("api/nonConsumableEquipment/byRoomNumber/"+roomNumber, Method.GET);
             var response = client.Get<List<NonConsumableEquipment>>(request);
             List<NonConsumableEquipment> nonConsumableEquipment =(List<NonConsumableEquipment>) response.Data;
@@ -45,7 +51,7 @@ namespace GraphicalEditor.Service
 
         public List<ConsumableEquipment> GetConsumableEquipmentByRoomNumber(int roomNumber)
         {
-            var client = new RestSharp.RestClient("http://localhost:61631/");
+            var client = GetClient();
             var request = new RestRequest("api/consumableEquipment/byRoomNumber/" + roomNumber, Method.GET);
             var response = client.Get<List<ConsumableEquipment>>(request);
             List<ConsumableEquipment> consumableEquipment = (List<ConsumableEquipment>)response.Data;
@@ -54,8 +60,8 @@ namespace GraphicalEditor.Service
 
         public void AddEquipment()
         {
+            var client = GetClient();
             List<MapObject> allMapObjects = MainWindow._allMapObjects;
-            var client = new RestSharp.RestClient("http://localhost:61631/");
 
             int typeOfNonConsumable = 0;
             int equipmentID = 0;
@@ -94,8 +100,8 @@ namespace GraphicalEditor.Service
 
         public void AddEquipmentInRooms()
         {
+            var client = GetClient();
             List<MapObject> allMapObjects = MainWindow._allMapObjects;
-            var client = new RestSharp.RestClient("http://localhost:61631/");
             int equipmentId = 0;
 
 

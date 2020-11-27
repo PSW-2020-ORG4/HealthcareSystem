@@ -114,15 +114,17 @@ namespace GraphicalEditor
             this.DataContext = this;
             MockupObjects mockupObjects = new MockupObjects();
             _allMapObjects = mockupObjects.AllMapObjects;
+
             //uncomment when you dont have anything in file
             saveMap();
             LoadInitialMapOnCanvas();
             ChangeEditButtonVisibility();
+
             //uncomment if your database is empty to fill database tables
-            //ServerService server = new ServerService();
-            //server.AddAllRooms();
-            //server.AddEquipment();
-            //server.AddEquipmentInRooms();
+            ServerService server = new ServerService();
+            server.AddAllRooms();
+            server.AddEquipment();
+            server.AddEquipmentInRooms();
         }
 
         public MainWindow(string currentUserRole)

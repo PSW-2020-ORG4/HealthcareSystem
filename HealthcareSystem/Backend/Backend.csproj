@@ -213,6 +213,23 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
+    <Compile Include="Migrations\20201127131042_NMGE.cs" />
+    <Compile Include="Migrations\20201127131042_NMGE.designer.cs">
+      <DependentUpon>20201127131042_NMGE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20201127131152_NMGE2.cs" />
+    <Compile Include="Migrations\20201127131152_NMGE2.designer.cs">
+      <DependentUpon>20201127131152_NMGE2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\ConsumableEquipmentRepository\FileConsumableEquimpentRepository\ConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\ConsumableEquipmentRepository\IConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\ConsumableEquipmentRepository\MySqlConsumableEquipmentRepository\MySqlConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\EquipmentInRoomsRepository\FileEquipmentInRoomRepository\EquipmentInRoomsRepository.cs" />
+    <Compile Include="Repository\EquipmentInRoomsRepository\IEquipmentInRoomsRepository.cs" />
+    <Compile Include="Repository\EquipmentInRoomsRepository\MySqlEquipmentInRoomsRepository\MySqlEquipmentInRoomsRepository.cs" />
+    <Compile Include="Repository\NonConsumableEquipmentRepository\FileNonConsumableEquipmentRepository\NonConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\NonConsumableEquipmentRepository\INonConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\NonConsumableEquipmentRepository\MySqlNonConsumableEquipmentRepository\MySqlNonConsumableEquipmentRepository.cs" />
     <Compile Include="Service\Encryption\EncryptionService.cs" />
     <Compile Include="Migrations\20201122221302_NewMigration.cs" />
     <Compile Include="Migrations\20201122221302_NewMigration.designer.cs">
@@ -296,9 +313,7 @@
     <Compile Include="Repository\PatientRepository\FilePatientRepository\FileActivePatientRepository.cs" />
     <Compile Include="Repository\CityRepository.cs" />
     <Compile Include="Repository\DrugRepository\FileDrugRepository\ConfirmedDrugRepository.cs" />
-    <Compile Include="Repository\ConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\DrugTypeRepository\FileDrugTypeRepository\DrugTypeRepository.cs" />
-    <Compile Include="Repository\EquipmentInRoomsRepository.cs" />
     <Compile Include="Repository\PatientRepository\IActivePatientRepository.cs" />
     <Compile Include="Repository\FeedbackRepository\IFeedbackRepository.cs" />
     <Compile Include="Repository\FeedbackRepository\FileFeedbackRepository\FileFeedbackRepository.cs" />
@@ -306,7 +321,6 @@
     <Compile Include="Repository\ManagerRepository.cs" />
     <Compile Include="Repository\PatientRepository\MySqlPatientRepository\MySqlActivePatientRepository.cs" />
     <Compile Include="Repository\FeedbackRepository\MySqlFeedbackRepository\MySqlFeedbackRepository.cs" />
-    <Compile Include="Repository\NonConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\NotificationRepository.cs" />
     <Compile Include="Repository\PlacementInSickRoomRepository.cs" />
     <Compile Include="Repository\RenovationPeriodRepository\FileRenovationPeriodRepository\FileRenovationPeriodRepository.cs" />
@@ -355,6 +369,9 @@
     <Compile Include="Service\PlacementInARoomAndRenovationPeriod\RenovationPeriodService.cs" />
     <Compile Include="Service\RoomAndEquipment\ConsumableEquipmentService.cs" />
     <Compile Include="Service\RoomAndEquipment\EquipmentInRoomsService.cs" />
+    <Compile Include="Service\RoomAndEquipment\IConsumableEquipmentService.cs" />
+    <Compile Include="Service\RoomAndEquipment\IEquipmentInRoomsService.cs" />
+    <Compile Include="Service\RoomAndEquipment\INonConsumableEquipmentService.cs" />
     <Compile Include="Service\RoomAndEquipment\IRoomService.cs" />
     <Compile Include="Service\RoomAndEquipment\NonConsumableEquipmentService.cs" />
     <Compile Include="Service\RoomAndEquipment\RoomService.cs" />

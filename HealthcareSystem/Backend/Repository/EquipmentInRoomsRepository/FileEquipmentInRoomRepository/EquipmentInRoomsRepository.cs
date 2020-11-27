@@ -9,10 +9,11 @@ using Model.Manager;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using Backend.Repository.EquipmentInRoomsRepository;
 
 namespace Repository
 {
-    public class EquipmentInRoomsRepository
+    public class EquipmentInRoomsRepository : IEquipmentInRoomsRepository
     {
         private string path;
 
@@ -108,7 +109,7 @@ namespace Repository
             return equipment;
         }
 
-        private List<EquipmentInRooms> ReadFromFile()
+        public List<EquipmentInRooms> ReadFromFile()
         {
             List<EquipmentInRooms> equipmentInRooms;
             if (File.Exists(path))
@@ -128,6 +129,11 @@ namespace Repository
         {
             string json = JsonConvert.SerializeObject(equipmentInRooms);
             File.WriteAllText(path, json);
+        }
+
+        EquipmentInRooms IEquipmentInRoomsRepository.GetEquipment(int idEquipment)
+        {
+            throw new NotImplementedException();
         }
     }
 }

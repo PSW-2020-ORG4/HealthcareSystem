@@ -1,6 +1,8 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models.MapObjectRelated;
+using GraphicalEditor.Service;
+using Model.Manager;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -105,6 +107,19 @@ namespace GraphicalEditor.Models
             canvas.Children.Remove(MapObjectNameTextBlock);
             canvas.Children.Remove(MapObjectDoor.Rectangle);
             canvas.Children.Remove(Rectangle);
+        }
+        public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber()
+        {
+            ServerService service = new ServerService();
+            List<NonConsumableEquipment> nonConsumableEquipment = service.GetNonConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
+            return nonConsumableEquipment;
+        }
+
+        public List<ConsumableEquipment> GetConsumableEquipmentByRoomNumber()
+        {
+            ServerService service = new ServerService();
+            List<ConsumableEquipment> consumableEquipment = service.GetConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
+            return consumableEquipment;
         }
 
     }

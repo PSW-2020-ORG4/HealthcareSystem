@@ -32,12 +32,16 @@ namespace Backend.Model
         public DbSet<WorkingTime> WorkingTimes { get; set; }
         public DbSet<Pharmacy> Pharmacies { get; set; }
         public DbSet<ActionBenefit> ActionsBenefits { get; set; }
+        public DbSet<EquipmentInRooms> EquipmentsInRooms { get; set; }
+        public DbSet<ConsumableEquipment> ConsumableEquipments { get; set; }
+        public DbSet<NonConsumableEquipment> NonConsumableEquipments { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Pharmacy>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
+            builder.Entity<EquipmentInRooms>().HasKey(o => new { o.RoomNumber, o.IdEquipment });
 
         }
     }

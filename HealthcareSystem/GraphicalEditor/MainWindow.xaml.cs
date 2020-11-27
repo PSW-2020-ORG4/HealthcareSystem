@@ -4,6 +4,7 @@ using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
+using GraphicalEditor.Service;
 using GraphicalEditor.Services;
 using GraphicalEditor.Services.Interface;
 using System;
@@ -117,6 +118,11 @@ namespace GraphicalEditor
             saveMap();
             LoadInitialMapOnCanvas();
             ChangeEditButtonVisibility();
+            //uncomment if your database is empty to fill database tables
+            //ServerService server = new ServerService();
+            //server.AddAllRooms();
+            //server.AddEquipment();
+            //server.AddEquipmentInRooms();
         }
 
         public MainWindow(string currentUserRole)
@@ -135,6 +141,11 @@ namespace GraphicalEditor
             saveMap();
             LoadInitialMapOnCanvas();
             ChangeEditButtonVisibility();
+            // uncomment if your database is empty to fill database tables
+            /*ServerService server = new ServerService();
+            server.AddAllRooms();
+            server.AddEquipment();
+            server.AddEquipmentInRooms();*/
         }
 
 
@@ -258,6 +269,8 @@ namespace GraphicalEditor
             {
                 DisplayMapObject = _selectedMapObject.MapObjectEntity;
                 SelectedMapObject = _selectedMapObject;
+                var s = SelectedMapObject.GetConsumableEquipmentByRoomNumber();
+                var k = SelectedMapObject.GetNonConsumableEquipmentByRoomNumber();
             }
             else
             {

@@ -1,0 +1,40 @@
+trigger:
+- develop
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your PowerShell commands here.
+      
+      dotnet new sln --name temp
+      dotnet sln add "HealthcareSystem/DoctorFrontend/DoctorFrontend.csproj"
+      dotnet sln add "HealthcareSystem/ManagerFrontend/ManagerFrontend.csproj"
+      dotnet sln add "HealthcareSystem/SecretaryFrontend/SecretaryFrontend.csproj"
+      dotnet sln add "HealthcareSystem/PatientFrontend/PatientFrontend.csproj"
+      dotnet sln add "HealthcareSystem/GraphicalEditor/GraphicalEditor.csproj"
+      dotnet sln add "HealthcareSystem/LegacyBackend/LegacyBackend.csproj"
+    pwsh: true
+
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  displayName: 'NuGet package restore'
+  inputs:
+    restoreSolution: 'temp.sln'
+
+- task: VSBuild@1
+  displayName: 'Build WPFs'
+  inputs:
+    solution: 'temp.sln'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+

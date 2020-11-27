@@ -11,7 +11,7 @@
 			alert("success  medical staff  ")
 
 			if (surveyResult.length == 0) {
-				console.log("there are no survey results");
+				console.log("there are no survey results about medical staff");
 			}
 			else {
 				let overallAverageRating = calculateOverallAverageRating(surveyResult);
@@ -23,8 +23,8 @@
 			}
 		},
 		error: function () {
-			alert("error");
-			console.log('error getting survey result');
+			alert("error getting survey result medical staff");
+			console.log('error getting survey result medical staff');
 		}
 	});
 
@@ -40,7 +40,7 @@
 			alert("success Hospital ")
 
 			if (surveyResult.length == 0) {
-				console.log("there are no survey results");
+				console.log("there are no survey results about hospital");
 			}
 			else {
 				let overallAverageRating = calculateOverallAverageRating(surveyResult);
@@ -52,8 +52,8 @@
 			}
 		},
 		error: function () {
-			alert("error");
-			console.log('error getting survey result');
+			alert("error getting survey result about hospital");
+			console.log('error getting survey result about hospital');
 		}
 	});
 
@@ -69,7 +69,7 @@
 			alert("success doctor ")
 
 			if (surveyResult.length == 0) {
-				console.log("there are no survey results");
+				console.log("there are no survey results about doctor");
 			}
 			else {
 				let overallAverageRating = calculateOverallAverageRating(surveyResult);
@@ -81,10 +81,37 @@
 			}
 		},
 		error: function () {
-			alert("error");
-			console.log('error getting survey result');
+			alert("error getting survey result about doctor");
+			console.log('error getting survey result about doctor');
 		}
 	});
+
+
+	$.ajax({
+		url: "/api/doctor",
+		type: "GET",
+		dataType: 'json',
+		processData: false,
+		contentType: false,
+		success: function (doctors) {
+
+			alert("success - doctors ")
+
+			if (doctors.length == 0) {
+				console.log("there are no doctors");
+			}
+			else {
+				for (let i = 0; i < doctors.length; i++) {
+					$('select#doctors').append('<option value="' + doctors[i].jmbg + '">' + doctors[i].name + ' ' + doctors[i].surname + '</option>');
+				}
+			}
+		},
+		error: function () {
+			alert("error getting doctors");
+			console.log('error getting doctors');
+		}
+	});
+
 });
 
 

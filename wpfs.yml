@@ -14,6 +14,7 @@ jobs:
 - job: Check
   steps:
   - task: PowerShell@2
+    displayName: 'Check if build is needed'
     name: CheckChangedFiles
     inputs:
       targetType: 'inline'
@@ -49,6 +50,7 @@ jobs:
   condition: eq(dependencies.Check.outputs['CheckChangedFiles.shouldBuild'], 'Yes')
   steps:
   - task: PowerShell@2
+    displayName: 'Create temp sln'
     inputs:
       targetType: 'inline'
       script: |

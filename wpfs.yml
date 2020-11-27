@@ -44,7 +44,7 @@ jobs:
 
 - job: Build
   dependsOn: Check
-  condition: eq(dependencies.Check.outputs['CheckChangedFiles.shouldBuild'], 'Yes'))
+  condition: eq(dependencies.Check.outputs['CheckChangedFiles.shouldBuild'], 'Yes')
   steps:
   - task: PowerShell@2
     inputs:

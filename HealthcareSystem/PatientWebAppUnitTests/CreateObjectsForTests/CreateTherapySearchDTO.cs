@@ -16,7 +16,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
 
         public TherapySearchDTO CreateInvalidTestObject()
         {
-            return new TherapySearchDTO(jmbg: "1309998775018", startDate: DateTime.Now, endOperator: LogicalOperator.And, endDate: DateTime.Now, doctorOperator: LogicalOperator.And, doctorSurname: null, drugOperator: LogicalOperator.And, drugName: null);
+            return new TherapySearchDTO(jmbg: null, startDate: DateTime.Now, endOperator: LogicalOperator.And, endDate: DateTime.Now, doctorOperator: LogicalOperator.And, doctorSurname: null, drugOperator: LogicalOperator.And, drugName: null);
         }
 
     }

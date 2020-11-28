@@ -10,12 +10,12 @@ namespace PatientWebAppTests.CreateObjectsForTests
     { 
         public ExaminationSearchDTO CreateValidTestObject()
         {
-            return new ExaminationSearchDTO(jmbg: "1309998775018", startDate: DateTime.Now, endOperator: LogicalOperator.And, endDate: DateTime.Now, doctorOperator: LogicalOperator.And, doctorSurname: "Markovic", anamnesisOperator: LogicalOperator.And, anamnesis: "Bol u grlu");
+            return new ExaminationSearchDTO(jmbg: "1309998775018", startDate: new DateTime(2020, 10, 10), endOperator: LogicalOperator.Or, endDate: DateTime.Now, doctorOperator: LogicalOperator.Or, doctorSurname: "Markovic", anamnesisOperator: LogicalOperator.And, anamnesis: "Bol u grlu");
         }
 
         public ExaminationSearchDTO CreateInvalidTestObject()
         {
-            return new ExaminationSearchDTO(jmbg: null, startDate: DateTime.Now, endOperator: LogicalOperator.And, endDate: DateTime.Now, doctorOperator: LogicalOperator.And, doctorSurname: null, anamnesisOperator: LogicalOperator.And, anamnesis: null);
+            return new ExaminationSearchDTO(jmbg: "1309998775018", startDate: new DateTime(2020, 10, 10), endOperator: LogicalOperator.And, endDate: DateTime.Now, doctorOperator: LogicalOperator.And, doctorSurname: null, anamnesisOperator: LogicalOperator.And, anamnesis: "gdsgsdg");
         }
     }
 }

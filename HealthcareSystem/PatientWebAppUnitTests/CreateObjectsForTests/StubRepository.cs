@@ -11,6 +11,8 @@ using System.Text;
 using Backend.Repository.ExaminationRepository;
 using Model.PerformingExamination;
 using Backend.Repository.TherapyRepository;
+using Model.Enums;
+using Model.Manager;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
@@ -65,7 +67,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
             var examinationStubRepository = new Mock<IScheduledExaminationRepository>();
             var examinationValidObject = _objectFactory.GetExamination().CreateValidTestObject();
             var examinations = new List<Examination>();
-            examinations.Add(examinationValidObject);
+            examinations.Add(examinationValidObject);          
 
             examinationStubRepository.Setup(m => m.GetExaminationsByPatient("1309998775018")).Returns(examinations);
 

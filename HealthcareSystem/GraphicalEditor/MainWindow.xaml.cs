@@ -123,8 +123,8 @@ namespace GraphicalEditor
 
             // uncomment only the first time you start the project in order
             // to populate DB with start data
-            InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            initializeDatabaseData.InitiliazeData();
+            //InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
+            //initializeDatabaseData.InitiliazeData();
 
         }
 
@@ -141,7 +141,6 @@ namespace GraphicalEditor
             MockupObjects mockupObjects = new MockupObjects();
             _allMapObjects = mockupObjects.AllMapObjects;
             ChangeEditButtonVisibility();
-
             // uncomment only when you want to save the map for the first time
             //saveMap();
 
@@ -269,8 +268,9 @@ namespace GraphicalEditor
             {
                 DisplayMapObject = _selectedMapObject.MapObjectEntity;
                 SelectedMapObject = _selectedMapObject;
-                //var s = SelectedMapObject.GetConsumableEquipmentByRoomNumber();
-                //var k = SelectedMapObject.GetNonConsumableEquipmentByRoomNumber();
+                //these properties we will need to map on our graphicalEditorWPF
+                var consumableEquipmentForSelectedObject = SelectedMapObject.GetConsumableEquipmentByRoomNumber();
+                var nonConsumableEquipmentForSelectedObject = SelectedMapObject.GetNonConsumableEquipmentByRoomNumber();
             }
             else
             {

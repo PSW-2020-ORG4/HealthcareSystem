@@ -10,13 +10,29 @@ namespace GraphicalEditor.Service
 {
     public class GenericHTTPService
     {
-        private RestClient GetClient()
+        protected RestClient GetClient()
         {
             var client = new RestSharp.RestClient("http://localhost:" + ServerConstants.PORT);
             return client;
         }
 
         public void AddHTTPPostRequest(String requestURL, String JSONContent)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL);
+            request.AddJsonBody(JSONContent);
+            IRestResponse response = client.Post(request);
+        }
+
+        public List<T> HTTPGetRequest<T>(string requestURL)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL,Method.GET);
+            var response = client.Get<List<T>>(request);
+            return response.Data;
+        }
+
+        public void AddHTTPGetRequest(String requestURL, String JSONContent)
         {
             var client = GetClient();
             var request = new RestRequest("api/" + requestURL);

@@ -84,7 +84,6 @@
     <Compile Include="Service\Interface\IMapObjectServices.cs" />
     <Compile Include="Service\MapObjectServices.cs" />
     <Compile Include="Service\RoomService.cs" />
-    <Compile Include="Service\ServerService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

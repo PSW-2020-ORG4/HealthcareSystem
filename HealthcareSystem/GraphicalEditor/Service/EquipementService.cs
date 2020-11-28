@@ -1,5 +1,6 @@
 ﻿using GraphicalEditor.Models;
 using Model.Manager;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,6 +76,16 @@ namespace GraphicalEditor.Service
             JSONContent += ",'Quantity': -1";
 
             return JSONContent;
+        }
+
+        public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber(int roomNumber)
+        {
+            return (List<NonConsumableEquipment>)HTTPGetRequest<NonConsumableEquipment>("nonConsumableEquipment/byRoomNumber/ " + roomNumber);
+        }
+
+        public List<ConsumableEquipment> GetConsumableEquipmentByRoomNumber(int roomNumber)
+        {
+            return (List<ConsumableEquipment>)HTTPGetRequest<ConsumableEquipment>("consumableEquipment/byRoomNumber/" + roomNumber);
         }
     }
 }

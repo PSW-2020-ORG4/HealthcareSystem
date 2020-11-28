@@ -108,19 +108,19 @@ namespace GraphicalEditor.Models
             canvas.Children.Remove(MapObjectDoor.Rectangle);
             canvas.Children.Remove(Rectangle);
         }
-        /*public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber()
+        public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber()
         {
-            ServerService service = new ServerService();
-            List<NonConsumableEquipment> nonConsumableEquipment = service.GetNonConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
+            EquipementService equipmentService = new EquipementService();
+            List<NonConsumableEquipment> nonConsumableEquipment = equipmentService.GetNonConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
             return nonConsumableEquipment;
         }
 
         public List<ConsumableEquipment> GetConsumableEquipmentByRoomNumber()
         {
-            ServerService service = new ServerService();
-            List<ConsumableEquipment> consumableEquipment = service.GetConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
+            EquipementService equipmentService = new EquipementService();
+            List<ConsumableEquipment> consumableEquipment = equipmentService.GetConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
             return consumableEquipment;
-        }*/
+        }
 
         public Boolean CheckIfDBAddableRoom()
             => MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.EXAMINATION_ROOM

@@ -1,4 +1,4 @@
-$reason = "$(Build.Reason)"
+$reason = $args[0]
 if($reason -eq "PullRequest")
 {
     $files=$(git diff HEAD HEAD~ --name-only)

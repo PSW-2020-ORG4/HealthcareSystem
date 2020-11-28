@@ -8,6 +8,9 @@ variables:
   paths: "**/IntegrationAdapters/* **/IntegrationAdaptersTests/* **/Backend/* "
   project: '**/IntegrationAdapters.csproj'
   configuration: 'Release'
+  sonarProjectKey: 'milana-todorovic_Adapters'
+  sonarProjectName: 'milana-todorovic_Adapters'
+  sonarOrganization: 'milana-todorovic'
 
 jobs:
 - job: Check
@@ -18,29 +21,37 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        # 
-        $files=$(git diff HEAD HEAD~ --name-only)
-        $paths = $env:PATHS -split ' '
-        $paths
-        
-        $shouldBuild = $false
-
-        foreach ($path in $paths) 
-        { 
-            if( $files -like $path) 
-            {
-                $shouldBuild = $true
-                break
-            } 
-        }
-
-        if ($shouldBuild)
+        $branch = $(git branch --show-current)
+        $branch
+        if ($branch -eq "develop")
         {
+            echo "Build will execute"
             Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]Yes"
         }
         else
         {
-            Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]No"
+            $files=$(git diff HEAD HEAD~ --name-only)
+            $paths = $env:PATHS -split ' '
+            
+            $shouldBuild = $false
+            foreach ($path in $paths) 
+            { 
+                if( $files -like $path) 
+                {
+                    $shouldBuild = $true
+                    break
+                } 
+            }
+            if ($shouldBuild)
+            {
+                echo "Build will execute"
+                Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]Yes"
+            }
+            else
+            {
+                echo "Build will not execute"
+                Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]No"
+            }
         }
       pwsh: true
 
@@ -52,15 +63,27 @@ jobs:
       inputs:
         packageType: 'sdk'
         version: '3.1.x'
-    
     - task: DotNetCoreCLI@2
       inputs:
         command: 'restore'
         projects: '$(project)'
         feedsToUse: 'select'
-    
+    - task: SonarCloudPrepare@1
+      displayName: 'Prepare SonarCloud analysis'
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: '$(sonarOrganization)'
+        scannerMode: 'MSBuild'
+        projectKey: '$(sonarProjectKey)'
+        projectName: '$(sonarProjectName)'    
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'
         projects: '$(project)'
         arguments: '-c $(configuration)'
+    - task: SonarCloudAnalyze@1
+      displayName: 'SonarCloud analysis'
+    - task: SonarCloudPublish@1
+      displayName: 'Publish SonarCloud results'
+      inputs:
+        pollingTimeoutSec: '300'

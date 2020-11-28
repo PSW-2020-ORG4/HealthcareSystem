@@ -9,9 +9,14 @@ namespace Backend.Repository
 {
     public interface ISurveyRepository
     {
-        Survey GetSurveyById(int id);
         void AddSurvey(Survey survey);
-        void UpdateSurvey(Survey survey);
-        List<Survey> GetSurveysByJmbg(string jmbg);
+
+        List<SurveyAboutDoctor> GetSurveysByDoctor(string jmbg);
+
+        List<SurveyResult> GetSurveyResultsAboutMedicalStaff();
+
+        List<SurveyResult> GetSurveyResultsAboutHospital();
+
+        List<SurveyResult> GetSurveyResultsAboutDoctor(string jmbg);
     }
 }

@@ -1,7 +1,6 @@
-﻿using System.Diagnostics;
-using Backend.Model;
+﻿using System;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using IntegrationAdapters.Dtos;
 using Backend.Service.Pharmacies;
 using Backend.Model.Pharmacies;
@@ -11,21 +10,7 @@ namespace IntegrationAdapters.Controllers
 {
     public class HomeController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly PharmacyService _pharmacyService;
-        
-        public HomeController(ILogger<HomeController> logger, MyDbContext ctx)
-        {
-            _logger = logger;
-            _pharmacyService = new PharmacyService(new MySqlPharmacyRepo(ctx));
-        }
-
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult ApiRegister()
         {
             return View();
         }

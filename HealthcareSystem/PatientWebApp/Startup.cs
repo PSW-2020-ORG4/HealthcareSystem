@@ -33,6 +33,9 @@ using Service.ExaminationAndPatientCard;
 using Backend.Service.SendingMail;
 using Backend.Settings;
 using Microsoft.AspNetCore.Http;
+using Backend.Service.ExaminationAndPatientCard;
+using Backend.Repository.TherapyRepository;
+using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
 
 namespace PatientWebApp
 {
@@ -85,8 +88,13 @@ namespace PatientWebApp
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRoomService, RoomService>();
 
-            //placement dodati
             services.AddScoped<IScheduledExaminationRepository, MySqlScheduledExaminationRepository>();
+            services.AddScoped<IExaminationService, ExaminationService>();
+
+            services.AddScoped<ITherapyRepository, MySqlTherapyRepository>();
+            services.AddScoped<ITherapyService, TherapyService>();
+
+            //placement dodati
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
 

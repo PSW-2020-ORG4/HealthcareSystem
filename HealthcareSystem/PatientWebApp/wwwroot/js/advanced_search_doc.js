@@ -1,4 +1,10 @@
 ﻿$(document).ready(function () {
+
+    $('#start_date').val("");
+    $('#end_date').val("");
+    $('#doctor_surname').val("");
+    $('#drug_exam_name').val("");
+
     $('#examination_search').prop("selected", true);
     $("#drug_exam_name").attr("placeholder", "Anamnesis").blur();
 

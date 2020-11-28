@@ -23,13 +23,13 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    projects: ($project)
+    projects: '**/PatientWebApp.csproj'
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: ($project)
+    projects: '**/PatientWebApp.csproj'
 
 
   

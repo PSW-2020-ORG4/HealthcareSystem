@@ -21,16 +21,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        echo $(Build.Reason)
-        $branch = $(git branch --show-current)
-        echo here
-        echo $branch
-        if ($branch -eq "develop")
-        {
-            echo "Build will execute"
-            Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]Yes"
-        }
-        else
+        if($(Build.Reason) -eq "PullRequest"
         {
             $files=$(git diff HEAD HEAD~ --name-only)
             $paths = $env:PATHS -split ' '
@@ -54,6 +45,10 @@ jobs:
                 echo "Build will not execute"
                 Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]No"
             }
+        }
+        else{
+            echo "Build will execute"
+            Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]Yes"
         }
       pwsh: true
 

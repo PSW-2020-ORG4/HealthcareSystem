@@ -22,7 +22,8 @@ jobs:
       targetType: 'inline'
       script: |
         $branch = $(git branch --show-current)
-        $branch
+        echo here
+        echo $branch
         if ($branch -eq "develop")
         {
             echo "Build will execute"

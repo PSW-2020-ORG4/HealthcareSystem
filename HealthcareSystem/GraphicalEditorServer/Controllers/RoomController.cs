@@ -25,16 +25,24 @@ namespace GraphicalEditorServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddRoom([FromBody] String test)
+        public ActionResult AddRoom([FromBody] String JSONString)
         {
-            String final = "{";
-            final += test;
-            final += "}";
-            RoomDTO room = JsonConvert.DeserializeObject<RoomDTO>(final);
+            String JSONContent = StringToJSONFormat(JSONString);
+
+            RoomDTO room = JsonConvert.DeserializeObject<RoomDTO>(JSONString);
             Model.Manager.Room newRoom = new Model.Manager.Room((int)room.Id, (TypeOfUsage)room.Usage, 0, 0, false);
             _roomService.AddRoom(newRoom);
             return Ok();
+        }
 
+        private string StringToJSONFormat(string JSONString)
+        {
+            string[] atributes = JSONString.Split(",");
+            String JSONContent = "{";
+            JSONContent += JSONString;
+            JSONContent += "}";
+
+            return JSONContent;
         }
     }
 }

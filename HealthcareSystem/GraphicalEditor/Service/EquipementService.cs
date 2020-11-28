@@ -13,7 +13,7 @@ namespace GraphicalEditor.Service
         public void AddConsumableEquipment(ConsumableEquipment consumableEquipment)
         {
             String JSONContent = ConsumableEquipmentToJSONConverter(consumableEquipment);
-            AddHTTPRequest("equipment", JSONContent);
+            AddHTTPPostRequest("equipment/consumable", JSONContent);
         }
 
         private string ConsumableEquipmentToJSONConverter(ConsumableEquipment consumableEquipment)
@@ -29,7 +29,7 @@ namespace GraphicalEditor.Service
         public void AddNonConsumableEquipment(NonConsumableEquipment nonConsumableEquipment)
         {
             String JSONContent = NonConsumableEquipmentToJSONConverter(nonConsumableEquipment);
-            AddHTTPRequest("equipment", JSONContent);
+            AddHTTPPostRequest("equipment/nonconsumable", JSONContent);
         }
 
         private string NonConsumableEquipmentToJSONConverter(NonConsumableEquipment NonConsumableEquipment)
@@ -45,12 +45,12 @@ namespace GraphicalEditor.Service
         {
             if (mapObject.CheckIfDBAddableRoom())
             {
-                String JSONContent = ConEquipmentInRoomToJSONConverter(mapObject, consumableEquipment);
-                AddHTTPRequest("equipmentInRooms", JSONContent);
+                String JSONContent = NonEquipmentInRoomToJSONConverter(mapObject, consumableEquipment);
+                AddHTTPPostRequest("equipmentInRooms", JSONContent);
             }
         }
 
-        private string ConEquipmentInRoomToJSONConverter(MapObject mapObject, ConsumableEquipment consumableEquipment)
+        private string NonEquipmentInRoomToJSONConverter(MapObject mapObject, ConsumableEquipment consumableEquipment)
         {
             String JSONContent = "'IdEquipment': " + consumableEquipment.Id;
             JSONContent += ",'RoomNumber': " + mapObject.MapObjectEntity.Id;
@@ -64,7 +64,7 @@ namespace GraphicalEditor.Service
             if (mapObject.CheckIfDBAddableRoom())
             {
                 String JSONContent = NonEquipmentInRoomToJSONConverter(mapObject, nonConsumableEquipment);
-                AddHTTPRequest("equipmentInRooms", JSONContent);
+                AddHTTPPostRequest("equipmentInRooms", JSONContent);
             }
         }
 

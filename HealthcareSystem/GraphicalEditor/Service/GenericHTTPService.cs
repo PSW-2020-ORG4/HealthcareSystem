@@ -16,7 +16,7 @@ namespace GraphicalEditor.Service
             return client;
         }
 
-        public void AddHTTPRequest(String requestURL, String JSONContent)
+        public void AddHTTPPostRequest(String requestURL, String JSONContent)
         {
             var client = GetClient();
             var request = new RestRequest("api/" + requestURL);

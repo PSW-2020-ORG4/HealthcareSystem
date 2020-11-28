@@ -13,7 +13,7 @@ namespace GraphicalEditor.Service
         public void AddRoom(MapObject mapObject)
         {            
             String JSONContent = RoomToJSONStringConverter(mapObject);
-            AddHTTPRequest("rooms", JSONContent);
+            AddHTTPPostRequest("rooms", JSONContent);
         }
 
         private string RoomToJSONStringConverter(MapObject mapObject)

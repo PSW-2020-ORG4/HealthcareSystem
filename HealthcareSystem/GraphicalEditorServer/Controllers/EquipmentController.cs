@@ -25,27 +25,38 @@ namespace GraphicalEditorServer.Controllers
             _consumableEquipmentService = consumableEquipmentService; 
         }
 
-        [HttpPost]
-        public ActionResult AddEquipment([FromBody] String test)
+        [HttpPost("consumable")]
+        public ActionResult AddConsumableEquipment([FromBody] String JSONString)
         {
-            string[] atributes = test.Split(",");
-            String final = "{";
-            final += test;
-            final += "}";
+            String JSONContent = StringToJSONFormat(JSONString);            
 
-            if (atributes.Length<3) {
-                 NonConsumableEquipment nonCosumableEquipment = JsonConvert.DeserializeObject<NonConsumableEquipment>(final);
+            ConsumableEquipment cosumableEquipment = JsonConvert.DeserializeObject<ConsumableEquipment>(JSONContent);
+            _consumableEquipmentService.newConsumableEquipment(cosumableEquipment);
 
-                _nonConsumableEquipmentService.newNonConsumableEquipment(nonCosumableEquipment);
-            }
-            else
-            {
-                ConsumableEquipment cosumableEquipment = JsonConvert.DeserializeObject<ConsumableEquipment>(final);
-
-                _consumableEquipmentService.newConsumableEquipment(cosumableEquipment);
-            }
             return Ok();
         }
+
+        [HttpPost("nonconsumable")]
+        public ActionResult AddNonConsumableEquipment([FromBody] String JSONString)
+        {
+            String JSONContent = StringToJSONFormat(JSONString);
+
+            NonConsumableEquipment nonCosumableEquipment = JsonConvert.DeserializeObject<NonConsumableEquipment>(JSONContent);
+            _nonConsumableEquipmentService.newNonConsumableEquipment(nonCosumableEquipment);
+
+            return Ok();
+        }
+
+        private string StringToJSONFormat(string JSONString)
+        {
+            string[] atributes = JSONString.Split(",");
+            String JSONContent = "{";
+            JSONContent += JSONString;
+            JSONContent += "}";
+
+            return JSONContent;
+        }
+
     }
 
 }

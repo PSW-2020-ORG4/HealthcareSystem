@@ -24,16 +24,23 @@ namespace GraphicalEditorServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddEquipmentInRoom([FromBody] String test)
+        public ActionResult AddEquipmentInRoom([FromBody] String JSONString)
         {
-            String final = "{";
-            final += test;
-            final += "}";
+            String JSONContent = StringToJSONFormat(JSONString);
 
-            EquipmentInRooms equipmentInRooms = JsonConvert.DeserializeObject<EquipmentInRooms>(final);           
+            EquipmentInRooms equipmentInRooms = JsonConvert.DeserializeObject<EquipmentInRooms>(JSONContent);           
             _equipmentInRoomService.addEquipmentInRoom(equipmentInRooms);
             return Ok();
+        }
 
+        private string StringToJSONFormat(string JSONString)
+        {
+            string[] atributes = JSONString.Split(",");
+            String JSONContent = "{";
+            JSONContent += JSONString;
+            JSONContent += "}";
+
+            return JSONContent;
         }
 
         [HttpGet("byRoomNumber/{roomNumber}")]

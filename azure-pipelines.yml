@@ -21,14 +21,8 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        $branch = $(git branch --show-current)
-        $branch
-        if ($branch -eq "develop")
-        {
-            echo "Build will execute"
-            Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]Yes"
-        }
-        else
+        $reason = "$(Build.Reason)"
+        if($reason -eq "PullRequest")
         {
             $files=$(git diff HEAD HEAD~ --name-only)
             $paths = $env:PATHS -split ' '
@@ -53,21 +47,21 @@ jobs:
                 Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]No"
             }
         }
+        else
+        {
+            echo "Build will execute"
+            Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]Yes"
+        }
       pwsh: true
 
 - job: Build
   dependsOn: Check
   condition: eq(dependencies.Check.outputs['CheckChangedFiles.shouldBuild'], 'Yes')
   steps:
-    - task: UseDotNet@2
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core SDK 2.2.103 for SonarCloud'
       inputs:
-        packageType: 'sdk'
-        version: '3.1.x'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'restore'
-        projects: '$(project)'
-        feedsToUse: 'select'
+        version: '2.2.103'
     - task: SonarCloudPrepare@1
       displayName: 'Prepare SonarCloud analysis'
       inputs:
@@ -75,8 +69,20 @@ jobs:
         organization: '$(sonarOrganization)'
         scannerMode: 'MSBuild'
         projectKey: '$(sonarProjectKey)'
-        projectName: '$(sonarProjectName)'    
+        projectName: '$(sonarProjectName)'
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK 3.1.x for build'
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
     - task: DotNetCoreCLI@2
+      displayName: 'Restore project'
+      inputs:
+        command: 'restore'
+        projects: '$(project)'
+        feedsToUse: 'select'
+    - task: DotNetCoreCLI@2
+      displayName: 'Build project'
       inputs:
         command: 'build'
         projects: '$(project)'

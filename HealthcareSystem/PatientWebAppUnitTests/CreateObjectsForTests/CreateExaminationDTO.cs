@@ -11,7 +11,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public ExaminationDTO CreateInvalidTestObject()
         {
             
-            return new ExaminationDTO(id: 1, type: "pregled", dateAndTime: "11.11.2020.", doctorJmbg: null, doctorName: "jelena", doctorSurname: "budisa",
+            return new ExaminationDTO(id: 1, type: "pregled", dateAndTime: "11.11.2020.", doctorJmbg: null, doctorName: "jelena", doctorSurname: "",
                idRoom: 1,anamnesis: "", patientJmbg: null);
         }
 

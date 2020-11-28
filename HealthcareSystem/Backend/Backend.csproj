@@ -213,16 +213,11 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
-
     <Compile Include="Migrations\20201126183739_ThirdMigration.cs" />
     <Compile Include="Migrations\20201126183739_ThirdMigration.designer.cs">
       <DependentUpon>20201126183739_ThirdMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Service\Encryption\EncryptionService.cs" />
-    <Compile Include="Migrations\20201122221302_NewMigration.cs" />
-    <Compile Include="Migrations\20201122221302_NewMigration.designer.cs">
-      <DependentUpon>20201122221302_NewMigration.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\Enums\Grade.cs" />
     <Compile Include="Model\Exceptions\DatabaseException.cs" />

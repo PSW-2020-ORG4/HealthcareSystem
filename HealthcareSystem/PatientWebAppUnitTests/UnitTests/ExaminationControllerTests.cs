@@ -49,12 +49,16 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is NotFoundResult);
         }
+       /* [Fact]
+        public void Get_existent_examination_by_patient_search_one()
+        {
+            ExaminationService examinationService = new ExaminationService(_stubRepository.CreateExaminationStubRepository());
+            ExaminationController examinationController = new ExaminationController(examinationService);
 
+            var result = examinationController.GetExaminationsByPatientSearch("1","","","","");
 
-
-
-
-
+            Assert.True(result is OkObjectResult);
+        } */
 
     }
 }

@@ -16,11 +16,12 @@ using Backend.Service.ExaminationAndPatientCard;
 
 namespace Service.ExaminationAndPatientCard
 {
-   public class ExaminationService: IExaminationService
-   {
+    public class ExaminationService : IExaminationService
+    {
         private IScheduledExaminationRepository _scheduledExaminationRepository;
 
-        public ExaminationService(IScheduledExaminationRepository scheduledExaminationRepository) {
+        public ExaminationService(IScheduledExaminationRepository scheduledExaminationRepository)
+        {
             _scheduledExaminationRepository = scheduledExaminationRepository;
         }
         public void AddExamination(Examination examination)
@@ -50,7 +51,7 @@ namespace Service.ExaminationAndPatientCard
 
         public void DeleteDoctorScheduledExaminations(string doctorJmbg)
         {
-             _scheduledExaminationRepository.DeleteDoctorScheduledExaminations(doctorJmbg);
+            _scheduledExaminationRepository.DeleteDoctorScheduledExaminations(doctorJmbg);
         }
 
         public void DeleteExamination(int id)
@@ -127,6 +128,20 @@ namespace Service.ExaminationAndPatientCard
         {
             _scheduledExaminationRepository.UpdateExamination(examination);
         }
+
+        public bool GetExaminationsByPatientSearch1(Examination e, string startDate, string endDate, string doctorSurname, string anamesis)
+        {
+            Examination examination = new Examination();
+            if (endDate.Equals("null") && doctorSurname.Equals("null") && anamesis.Equals("null"))
+            {
+                if (DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public List<Examination> GetExaminationsByPatientSearch(List<Examination> examinations, string startDate, string endDate, string doctorSurname, string anamesis)
         {
 
@@ -139,14 +154,11 @@ namespace Service.ExaminationAndPatientCard
 
             foreach (Examination e in examinations)
             {
-                if (endDate.Equals("null") && doctorSurname.Equals("null") && anamesis.Equals("null"))
+                if (GetExaminationsByPatientSearch1(e, startDate, endDate, doctorSurname, anamesis))
                 {
-                    if (DateTime.Compare(e.DateAndTime, DateTime.Parse(startDate)) >= 0)
-                    {
-                        filteredExamintion.Add(e);
-                    }
+                    filteredExamintion.Add(e);
                 }
-                else if (startDate.Equals("null") && doctorSurname.Equals("null") && anamesis.Equals("null"))
+                if (startDate.Equals("null") && doctorSurname.Equals("null") && anamesis.Equals("null"))
                 {
                     if (DateTime.Compare(e.DateAndTime, DateTime.Parse(endDate)) <= 0)
                     {

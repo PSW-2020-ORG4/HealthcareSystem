@@ -68,9 +68,9 @@ namespace PatientWebAppTests.CreateObjectsForTests
             examinations.Add(examinationValidObject);
 
             examinationStubRepository.Setup(m => m.GetExaminationsByPatient("1")).Returns(examinations);
-
+            
             return examinationStubRepository.Object;
         }
-
+       
     }
 }

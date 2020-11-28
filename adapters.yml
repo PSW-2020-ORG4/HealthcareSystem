@@ -21,7 +21,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
-        if($(Build.Reason) -eq "PullRequest"
+        if($(Build.Reason) -eq "PullRequest")
         {
             $files=$(git diff HEAD HEAD~ --name-only)
             $paths = $env:PATHS -split ' '

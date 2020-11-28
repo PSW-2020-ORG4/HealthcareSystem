@@ -13,5 +13,6 @@ namespace ProjekatZdravoKorporacija
     /// </summary>
     public partial class App : Application
     {
+	//trigger build
     }
 }

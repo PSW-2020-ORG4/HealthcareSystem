@@ -7,9 +7,7 @@
 		processData: false,
 		contentType: false,
 		success: function (surveyResult) {
-
-			alert("success  medical staff  ")
-
+			console.log('success - loading survey about medical staff from database');
 			if (surveyResult.length == 0) {
 				console.log("there are no survey results about medical staff");
 			}
@@ -28,7 +26,6 @@
 		}
 	});
 
-
 	$.ajax({
 		url: "/api/survey/surveyResultAboutHospital",
 		type: "GET",
@@ -36,9 +33,7 @@
 		processData: false,
 		contentType: false,
 		success: function (surveyResult) {
-
-			alert("success Hospital ")
-
+			console.log('success - loading survey about hospital from database');
 			if (surveyResult.length == 0) {
 				console.log("there are no survey results about hospital");
 			}
@@ -58,33 +53,45 @@
 	});
 
 
-	$.ajax({
-		url: "/api/survey/surveyResultAboutDoctor/1308987105625",
-		type: "GET",
-		dataType: 'json',
-		processData: false,
-		contentType: false,
-		success: function (surveyResult) {
+	//***************************************************************************** on change  
+	/*
+	function changeDoctor(event) {
 
-			alert("success doctor ")
+		alert(" onchange  function ");
 
-			if (surveyResult.length == 0) {
-				console.log("there are no survey results about doctor");
-			}
-			else {
-				let overallAverageRating = calculateOverallAverageRating(surveyResult);
-				$('div#survey_result_Doctor').append('<p class="text-center h5 mb-4">Overall average rating: ' + overallAverageRating + ' / 5</p>');
-				for (let i = 0; i < surveyResult.length; i++) {
-					let divElement = addOneSurveyResult(surveyResult[i]);
-					$('div#survey_result_Doctor').append(divElement);
+		var selectElement = document.getElementById("doctors");
+		var doctorValue = selectElement.options[selectElement.selectedIndex].value;
+
+		$.ajax({
+			url: "/api/survey/surveyResultAboutDoctor/" + doctorValue,
+			type: "GET",
+			dataType: 'json',
+			processData: false,
+			contentType: false,
+			success: function (surveyResult) {
+				alert("success - doctor selected")
+				console.log('success - doctor selected');
+				if (surveyResult.length == 0) {
+					console.log("there are no survey results about doctor");
 				}
+				else {
+					//document.getElementById('survey_result_Doctor').innerHTML = "";
+					//$('div#survey_result_Doctor').detach(); //  empty();
+					let overallAverageRating = calculateOverallAverageRating(surveyResult);
+					$('div#survey_result_Doctor').append('<p class="text-center h5 mb-4">Overall average rating: ' + overallAverageRating + ' / 5</p>');
+					for (let i = 0; i < surveyResult.length; i++) {
+						let divElement = addOneSurveyResult(surveyResult[i]);
+						$('div#survey_result_Doctor').append(divElement);
+					}
+				}
+			},
+			error: function () {
+				alert("error getting survey result about doctor");
+				console.log('error getting survey result about doctor');
 			}
-		},
-		error: function () {
-			alert("error getting survey result about doctor");
-			console.log('error getting survey result about doctor');
-		}
-	});
+		});
+	}
+	*/
 
 
 	$.ajax({
@@ -94,9 +101,7 @@
 		processData: false,
 		contentType: false,
 		success: function (doctors) {
-
-			alert("success - doctors ")
-
+			console.log('success - loading doctors from database');
 			if (doctors.length == 0) {
 				console.log("there are no doctors");
 			}
@@ -153,3 +158,36 @@ function calculateOverallAverageRating(surveyResult) {
 	return (overallAverageRating / surveyResult.length).toFixed(2);
 }
 
+
+function changeDoctor(event) {
+
+	var selectElement = document.getElementById("doctors");
+	var doctorValue = selectElement.options[selectElement.selectedIndex].value;
+
+	$.ajax({
+		url: "/api/survey/surveyResultAboutDoctor/" + doctorValue,
+		type: "GET",
+		dataType: 'json',
+		processData: false,
+		contentType: false,
+		success: function (surveyResult) {
+			console.log('success - doctor selected');
+			if (surveyResult.length == 0) {
+				console.log("there are no survey results about doctor");
+			}
+			else {
+				document.getElementById('survey_result_Doctor').innerHTML = "";
+				let overallAverageRating = calculateOverallAverageRating(surveyResult);
+				$('div#survey_result_Doctor').append('<p class="text-center h5 mb-4">Overall average rating: ' + overallAverageRating + ' / 5</p>');
+				for (let i = 0; i < surveyResult.length; i++) {
+					let divElement = addOneSurveyResult(surveyResult[i]);
+					$('div#survey_result_Doctor').append(divElement);
+				}
+			}
+		},
+		error: function () {
+			alert("error getting survey result about doctor");
+			console.log('error getting survey result about doctor');
+		}
+	});
+}

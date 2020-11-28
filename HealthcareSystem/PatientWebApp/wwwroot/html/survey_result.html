@@ -37,7 +37,7 @@
     </nav>
 
     <div class="text-center border border-light p-4">
-        <p class="h4 mb-3"> Survey result </p>
+        <p class="h3 mb-3"> Survey result </p>
     </div>
 
     <div id="survey_result">
@@ -47,15 +47,18 @@
         <div id="survey_result_Hospital" style="background-color: rgb(0, 204, 212)" class="container p-3 my-3 border">
             <p class="text-center h4 mb-4"> Opinion about the hospital  </p>
         </div>
-
-        <div id="choosing_doctor" class="text-center container p-3 border">
-            <p class="text-center h4 mb-4"> Choose a doctor </p>
-            <select name="doctors" id="doctors">
-            </select>
-        </div>
-
-        <div id="survey_result_Doctor" style="background-color: rgb(0, 204, 212)" class="container p-3 my-3 border">
-            <p class="text-center h4 mb-4"> Opinion about the doctor  </p>
+        <div style="background-color: rgb(0, 204, 212)" class="container p-3 my-3 border">
+            <div id="choosing_doctor" class="text-center container">
+                <p class="text-center h4 "> Choose a doctor </p>
+                <select name="doctors" id="doctors" onchange="changeDoctor(event)">
+                    <option value="none" selected disabled hidden>
+                        Select an Option
+                    </option>
+                </select>
+            </div>
+            <p class="text-center h4 mb-4  my-3"> Opinion about the doctor  </p>
+            <div id="survey_result_Doctor">
+            </div>
         </div>
     </div>
 

@@ -146,6 +146,26 @@ namespace GraphicalEditor
             saveMap();
             LoadInitialMapOnCanvas();
             ChangeEditButtonVisibility();
+
+            RestrictUsersAccessBasedOnRole();
+        }
+
+        private void RestrictUsersAccessBasedOnRole()
+        {
+
+            if (!String.IsNullOrEmpty(_currentUserRole))
+            {
+                if (_currentUserRole.Equals("Patient"))
+                {
+                    ObjectEquipmentAndMedicinePanel.Visibility = Visibility.Collapsed;
+                    SearchEquipmentAndMedicineMenuItem.Visibility = Visibility.Collapsed;
+                }
+
+                if (!_currentUserRole.Equals("Manager"))
+                {
+                    EditObjectButton.Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
 

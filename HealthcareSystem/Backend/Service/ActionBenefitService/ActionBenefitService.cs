@@ -66,6 +66,16 @@ namespace Backend.Service
             return _actionBenefitRepository.GetPublicActionsBenefits().ToList();
         }
 
+        public void MakePublic(int id, bool isPublic)
+        {
+            ActionBenefit ab = _actionBenefitRepository.GetActionBenefitById(id);
+            if (ab == null)
+                throw new ArgumentException("Action&Benefit not found");
+
+            ab.IsPublic = isPublic;
+            UpdateActionBenefit(ab);
+        }
+
         public void UpdateActionBenefit(ActionBenefit ab)
         {
             _actionBenefitRepository.UpdateActionBenefit(ab);

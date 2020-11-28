@@ -9,6 +9,9 @@ variables:
   solution: 'HealthcareSystem/temp.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  sonarProjectKey: 'milana-todorovic_WPFs'
+  sonarProjectName: 'milana-todorovic_WPFs'
+  sonarOrganization: 'milana-todorovic'
 
 jobs:
 - job: Check
@@ -50,7 +53,7 @@ jobs:
   condition: eq(dependencies.Check.outputs['CheckChangedFiles.shouldBuild'], 'Yes')
   steps:
   - task: PowerShell@2
-    displayName: 'Create temp sln'
+    displayName: 'Create temporary sln'
     inputs:
       targetType: 'inline'
       script: |
@@ -74,6 +77,14 @@ jobs:
     inputs:
       restoreSolution: '$(solution)'
       
+  - task: SonarCloudPrepare@1
+    displayName: 'Prepare SonarCloud analysis'
+    inputs:
+      SonarCloud: 'SonarCloud'
+      organization: '$(sonarOrganization)'
+      scannerMode: 'MSBuild'
+      projectKey: '$(sonarProjectKey)'
+      projectName: '$(sonarProjectName)'
 
   - task: VSBuild@1
     displayName: 'Build WPFs'
@@ -81,4 +92,12 @@ jobs:
       solution: '$(solution)'
       platform: '$(buildPlatform)'
       configuration: '$(buildConfiguration)'
+      
+  - task: SonarCloudAnalyze@1
+    displayName: 'SonarCloud analysis'
+    
+  - task: SonarCloudPublish@1
+    displayName: 'Publish SonarCloud results'
+    inputs:
+      pollingTimeoutSec: '300'
 

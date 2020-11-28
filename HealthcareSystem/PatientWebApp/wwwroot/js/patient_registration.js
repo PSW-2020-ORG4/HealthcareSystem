@@ -82,6 +82,18 @@
 
 	});
 
+	/*Select combo box about medical insurance*/
+	$("#insurance").change(function () {
+		if ($('#insurance').val() == 1) {
+			$('#enter_lbo').text('Personal number of the insured *');
+		}
+		else {
+			$('#enter_lbo').text('Personal number of the insured');
+        }
+		
+	})
+
+
 	/*Registrate patient on submit*/
 	$('form#registration').submit(function (event) {
 
@@ -107,6 +119,12 @@
 		let email = $('#email').val();
 		let password = $('#password').val();
 		let passwordRepeat = $('#rpt_password').val();
+		let file = $('#file').val()
+
+		if (file == null || file == '') {
+			alert('Please, upload a profile image');
+			return;
+		}
 
 		if (bloodType == null) {
 			bloodType = -1;
@@ -165,8 +183,8 @@
 				$('#form_image').submit();
 
 			},
-			error: function (jqXHR) {
-				alert(jqXHR.responseText);
+			error: function () {
+				console.log("error about patient registration");
 			}
 		});
 

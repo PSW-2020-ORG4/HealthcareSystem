@@ -55,30 +55,30 @@
         <section id="corners">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-6">
-                    <label for="name"><b>First Name</b></label>
+                    <label for="name"><b>First Name *</b></label>
                     <input type="text" class="register" placeholder="Enter Your First Name" name="name" id="name" required>
                 </div>
                 <div class="col-md-6">
-                    <label for="surname"><b>Last Name</b></label>
+                    <label for="surname"><b>Last Name *</b></label>
                     <input type="text" placeholder="Enter Your Last Name" name="surname" id="surname" class="register" required>
                 </div>
             </div>
 
             <div class="row d-flex justify-content-center" style="margin-top:30px;">
                 <div class="col-md-6">
-                    <label for="jmbg"><b>Unique identification number</b></label>
+                    <label for="jmbg"><b>Unique identification number *</b></label>
                     <input type="text" placeholder="Enter Your unique identification number" name="jmbg" id="jmbg" class="register" required>
                 </div>
 
                 <div class="col-md-6">
-                    <label for="dateOfBirth"><b>Date of birth</b></label>
+                    <label for="dateOfBirth"><b>Date of birth *</b></label>
                     <input type="date" placeholder="Enter Your date of birth" name="dateOfBirth" id="dateOfBirth" class="register" required>
                 </div>
             </div>
 
             <div class="row d-flex justify-content-center" style="margin-top:30px;">
                 <div class="col-md-6">
-                    <label><b>Gender</b></label>
+                    <label><b>Gender *</b></label>
                     <select id="gender" style="height:43px;width:103%;border-radius:0px;" required>
                         <option value="" disabled selected hidden>Choose gender</option>
                         <option value="0">Male</option>
@@ -87,20 +87,20 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="phone"><b>Phone number</b></label>
+                    <label for="phone"><b>Phone number *</b></label>
                     <input type="number" placeholder="Enter Your phone number" name="phone" id="phone" class="register" required>
                 </div>
             </div>
 
             <div class="row d-flex justify-content-center" style="margin-top:30px;">
                 <div class="col-md-6">
-                    <label><b>Country</b></label>
+                    <label><b>Country *</b></label>
                     <select id="countries" style="height:43px;width:103%;border-radius:0px;" required>
                         <option value="" disabled selected hidden>Choose country</option>
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label><b>City</b></label>
+                    <label><b>City *</b></label>
                     <select id="cities" style="height:43px;width:103%;border-radius:0px;" required>
                         <option value="" disabled selected hidden>Choose city</option>
                     </select>
@@ -109,7 +109,7 @@
 
             <div class="row d-flex justify-content-center" style="margin-top:30px;">
                 <div class="col-md-12">
-                    <label for="address"><b>Home address</b></label>
+                    <label for="address"><b>Home address *</b></label>
                     <input type="text" placeholder="Enter Your home address" name="address" id="address" class="register" required>
                 </div>
             </div>
@@ -140,7 +140,7 @@
 
             <div class="row d-flex justify-content-center" style="margin-top:30px;">
                 <div class="col-md-6">
-                    <label><b>Do You have medical insurance?</b></label>
+                    <label><b>Do You have medical insurance? *</b></label>
                     <select id="insurance" style="height:43px;width:103%;border-radius:0px;" required>
                         <option value="" disabled selected hidden>Choose option</option>
                         <option value="0">No</option>
@@ -148,7 +148,7 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label><b>Personal number of the insured</b></label>
+                    <label><b id="enter_lbo">Personal number of the insured</b></label>
                     <input type="text" placeholder="Enter number of the insured" name="lbo" id="lbo" class="register">
                 </div>
             </div>
@@ -173,17 +173,17 @@
         <section id="corners">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-12">
-                    <label><b>Email</b></label>
+                    <label><b>Email *</b></label>
                     <input type="text" placeholder="Enter Your email" name="email" id="email" class="register" required>
                 </div>
 
                 <div class="col-md-12" style="margin-top:30px;">
-                    <label><b>Password</b></label>
+                    <label><b>Password *</b></label>
                     <input type="password" placeholder="Enter Your password" name="password" id="password" class="register" required>
                 </div>
 
                 <div class="col-md-12" style="margin-top:30px;">
-                    <label><b>Repeat password</b></label>
+                    <label><b>Repeat password *</b></label>
                     <input type="password" placeholder="Repeat Your password" name="rpt_password" id="rpt_password" class="register" required>
                 </div>
             </div>

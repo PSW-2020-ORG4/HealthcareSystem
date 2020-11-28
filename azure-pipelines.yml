@@ -8,8 +8,8 @@ variables:
   paths: "**/PatientWebApp/* **/PatientWebAppTests/* **/Backend/* "
   project: '**/PatientWebApp.csproj'
   configuration: 'Release'
-  sonarProjectKey: 'milana-todorovic_WPFs'
-  sonarProjectName: 'milana-todorovic_WPFs'
+  sonarProjectKey: 'milana-todorovic_Web'
+  sonarProjectName: 'milana-todorovic_Web'
   sonarOrganization: 'milana-todorovic'
 
 jobs:

@@ -5,6 +5,9 @@ using PatientWebApp.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Model.PerformingExamination;
+using Backend.Service.SearchSpecification.ExaminationSearch;
+using Backend.Service.SearchSpecification.TherapySearch;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
@@ -35,5 +38,23 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return new CreateSurvey();
         }
 
+        public ICreateTestObject<Examination> GetExamination()
+        {
+            return new CreateExamination();
+        }
+
+        public ICreateTestObject<ExaminationSearchDTO> GetExaminationSearchDTO()
+        {
+            return new CreateExaminationSearchDTO();
+        }
+
+        public ICreateTestObject<Therapy> GetTherapy()
+        {
+            return new CreateTherapy();
+        }
+        public ICreateTestObject<TherapySearchDTO> GetTherapySearchDTO()
+        {
+            return new CreateTherapySearchDTO();
+        }
     }
 }

@@ -1,9 +1,3 @@
-/***********************************************************************
- * Module:  Doctor.cs
- * Author:  Jelena Zeljko
- * Purpose: Definition of the Class Users.Doctor
- ***********************************************************************/
-
 using Backend.Model;
 using Model.Enums;
 using Model.Manager;
@@ -22,7 +16,7 @@ namespace Model.Users
         [ForeignKey("DoctorsOffice")]
         public int DoctorsOfficeId { get; set; }
         public virtual Room DoctorsOffice { get; set; }
-        public virtual ICollection<Survey> Surveys { get; set; }
+        public virtual ICollection<SurveyAboutDoctor> SurveysAboutDoctor { get; set; }
         public virtual ICollection<WorkingTime> WorkingTimes { get; set; }
 
         public Doctor() { }

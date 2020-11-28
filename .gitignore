@@ -1,3 +1,5 @@
+# Migrations are generated and cause issues when changed on multiple branches
+Migrations/
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,aspnetcore,dotnetcore
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,aspnetcore,dotnetcore

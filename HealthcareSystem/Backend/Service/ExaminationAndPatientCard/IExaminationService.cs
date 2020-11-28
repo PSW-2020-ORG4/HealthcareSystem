@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Service.SearchSpecification;
+using Backend.Service.SearchSpecification.ExaminationSearch;
 using Model.Manager;
 using Model.PerformingExamination;
 using Model.Users;
@@ -32,5 +34,6 @@ namespace Backend.Service.ExaminationAndPatientCard
         Examination AppointmentRecommendationByDoctor(Doctor doctor, DateTime beginDate, DateTime endDate);
         Examination AppointmentRecommendationByDate(Doctor doctor, DateTime beginDate, DateTime endDate);
         List<Examination> GetExaminationsByDoctorAndDate(Doctor doctor, DateTime dateAndTime);
+        List<Examination> AdvancedSearch(ExaminationSearchDTO parameters);
     }
 }

@@ -23,15 +23,5 @@ namespace Controller.NotificationSurveyAndFeedback
             _surveyService.AddSurvey(survey);
         }
 
-        public List<Survey> ViewSurveyByJmbg(string jmbg)
-        {
-            return _surveyService.GetSurveysByJmbg(jmbg);
-        }
-
-        public void EditSurvey(Survey survey)
-        {
-            _surveyService.UpdateSurvey(survey);
-        }
-
     }
 }

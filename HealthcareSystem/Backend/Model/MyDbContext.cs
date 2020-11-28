@@ -21,7 +21,9 @@ namespace Backend.Model
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<PatientCard> PatientCards { get; set; }
-        public DbSet<Survey> Surveys { get; set; }
+        public DbSet<SurveyAboutDoctor> SurveysAboutDoctor { get; set; }
+        public DbSet<SurveyAboutMedicalStaff> SurveysAboutMedicalStaff { get; set; }
+        public DbSet<SurveyAboutHospital> SurveysAboutHospital { get; set; }
         public DbSet<Ingredient> Ingridients { get; set; }
         public DbSet<Drug> Drugs { get; set; }
         public DbSet<DrugType> DrugTypes { get; set; }

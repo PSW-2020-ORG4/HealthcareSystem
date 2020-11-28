@@ -9,9 +9,12 @@ namespace Backend.Service
 {
     public interface ISurveyService
     {
-        Survey GetSurveyById(int id);
         void AddSurvey(Survey survey);
-        void UpdateSurvey(Survey survey);
-        List<Survey> GetSurveysByJmbg(string jmbg);
+
+        public List<SurveyResult> GetSurveyResultsAboutMedicalStaff();
+
+        public List<SurveyResult> GetSurveyResultsAboutDoctor(string jmbg);
+
+        public List<SurveyResult> GetSurveyResultsAboutHospital();
     }
 }

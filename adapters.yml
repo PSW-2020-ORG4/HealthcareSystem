@@ -1,0 +1,66 @@
+trigger:
+- develop
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+variables:
+  paths: "**/IntegrationAdapters/* **/Backend/* "
+  project: '**/IntegrationAdapters.csproj'
+  configuration: 'Release'
+
+jobs:
+- job: Check
+  steps:
+  - task: PowerShell@2
+    displayName: 'Check if build is needed'
+    name: CheckChangedFiles
+    inputs:
+      targetType: 'inline'
+      script: |
+        # 
+        $files=$(git diff HEAD HEAD~ --name-only)
+        $paths = $env:PATHS -split ' '
+        $paths
+        
+        $shouldBuild = $false
+
+        foreach ($path in $paths) 
+        { 
+            if( $files -like $path) 
+            {
+                $shouldBuild = $true
+                break
+            } 
+        }
+
+        if ($shouldBuild)
+        {
+            Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]Yes"
+        }
+        else
+        {
+            Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]No"
+        }
+      pwsh: true
+
+- job: Build
+  dependsOn: Check
+  condition: eq(dependencies.Check.outputs['CheckChangedFiles.shouldBuild'], 'Yes')
+  steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
+    
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '$(project)'
+        feedsToUse: 'select'
+    
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '$(project)'
+        arguments: '-c $(configuration)'

@@ -5,8 +5,8 @@ pool:
   vmImage: 'ubuntu-18.04'
 
 variables:
-  paths: "**/PatientWebApp/* **/PatientWebAppTests/* **/Backend/* "
-  project: '**/PatientWebApp.csproj'
+  paths: "**/IntegrationAdapters/* **/IntegrationAdaptersTests/* **/Backend/* "
+  project: '**/IntegrationAdapters.csproj'
   configuration: 'Release'
 
 jobs:
@@ -64,7 +64,3 @@ jobs:
         command: 'build'
         projects: '$(project)'
         arguments: '-c $(configuration)'
-
-
-
-  

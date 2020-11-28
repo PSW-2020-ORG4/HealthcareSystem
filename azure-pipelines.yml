@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-18.04'
 
 variables:
-  project: 'HealthcareSystem/PatientWebApp/PatientWebApp.csproj'
+  project: '**/PatientWebApp.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 

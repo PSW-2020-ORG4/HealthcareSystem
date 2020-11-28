@@ -19,6 +19,7 @@ jobs:
     displayName: 'Check if build is needed'
     inputs:
       filePath: 'changedFileChecker.ps1'
+      arguments: '$(Build.Reason)'
       pwsh: true
 
 - job: Build

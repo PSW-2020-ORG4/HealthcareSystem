@@ -21,6 +21,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
+        echo $(Build.Reason)
         $branch = $(git branch --show-current)
         echo here
         echo $branch

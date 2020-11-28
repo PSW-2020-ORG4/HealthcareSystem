@@ -20,24 +20,16 @@ steps:
     packageType: 'sdk'
     version: '3.1.x'
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      
-       dotnet restore HealthcareSystem/PatientWebApp/PatientWebApp.csproj
-
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    projects: '**/PatientWebApp.csproj'
+    projects: ($project)
     feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: '($project)'
+    projects: ($project)
 
 
   

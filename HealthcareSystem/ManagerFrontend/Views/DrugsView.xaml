@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="Clinic_Health.Views.DrugsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Clinic_Health.Views" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             Height="510" Width="1200">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="68"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Prikaz svih lekova"  FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="224,10,126,0" Height="33"/>
+            <TextBlock Text="Izaberi kriterijum pretrage:"  FontSize="15" HorizontalAlignment="Left" Margin="44,38,0,10" Width="175" />
+            <ComboBox ItemsSource="{Binding Kriterijumi}" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Width="190" Margin="44,58,0,0" SelectedItem="{Binding SelectedKriterijum, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2"/>
+            <TextBox materialDesign:HintAssist.Hint="{Binding PretragaHint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="28" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Width="190" Margin="258,58,0,0" Text="{Binding Pretraga, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="2"/>
+            <Button x:Name="buttonTraziLekove" Content="Traži"
+                    Background="White" Height="35" Margin="468,51,42,424" Width="90" Click="ButtonTraziLekove_Click" Grid.RowSpan="2"/>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="170*"/>
+                    <ColumnDefinition Width="431*"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid  x:Name="dataGridLekovi" ItemsSource="{Binding Path=TempLekovi}" SelectedItem="{Binding SelektovaniLek, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectionMode="Single" CanUserAddRows="False" SelectionChanged="DataGridLekovi_SelectionChanged"
+			      CanUserResizeColumns="False" 
+				  AutoGenerateColumns="False"
+				  IsReadOnly="True"
+				  HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Margin="54,23,40,117" Grid.ColumnSpan="2">
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"/>
+                        <DataGridTextColumn Header="Sifra" Binding="{Binding Sifra}"/>
+                        <DataGridTextColumn Header="Namena" Binding="{Binding Namena}"/>
+                        <DataGridTextColumn Header="Rok trajanja" Binding="{Binding RokTrajanja}"/>
+                        <DataGridTextColumn Header="Kolicina"  Binding="{Binding Kolicina}"/>
+                        <DataGridTextColumn Header="Proizvodjac"  Binding="{Binding Proizvodjac}"/>
+                        <DataGridTextColumn Header="Tip"  Binding="{Binding Tip}"/>
+                        <DataGridTemplateColumn Header="Sastav leka">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="btnDrug" Content="Sastav" Click="Button_Click_Drug">
+                                        <Button.ToolTip>
+                                            Prikazi spisak svih sastojaka leka
+                                        </Button.ToolTip>
+                                    </Button>
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+
+            </Grid>
+
+            <Button ToolTip="Obrisi oznaceni lek" Grid.Row="1" x:Name="buttonObrisiLek" Content="Obriši"
+                    Background="White" Height="35" Width="90"  Margin="258,336,252,72" Click="buttonObrisiLek_Click"/>
+        </Grid>
+
+        <Grid Grid.Column="1" >
+            <materialDesign:Card Padding="10" Background="{DynamicResource PrimaryHueLightBrush}" Margin="0,64,26,47">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="61"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition Height="42"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Sacuvaj lek"  FontSize="25" VerticalAlignment="Top" HorizontalAlignment="left"  Height="33" Width="129" Margin="199,10,0,0" Grid.Column="1"/>
+                    <TextBlock  Grid.Row="1" Text="Naziv*:"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="24" Margin="0,12,0,0" Width="46" Grid.ColumnSpan="2"   />
+                    <TextBlock  Grid.Row="2" Text="Količina*:"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="24" Margin="0,10,0,0" Width="61" Grid.ColumnSpan="2"   />
+                    <TextBlock  Grid.Row="3" Text="Odabrani sastojci su:"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="24" Margin="292,11,0,0" Width="143" Grid.ColumnSpan="2"    />
+
+                    <TextBlock  Grid.Row="3" Text="Sifra*:"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="24" Margin="0,11,0,0" Width="39" Grid.ColumnSpan="2"   />
+                    <TextBox x:Name="NazivTb" materialDesign:HintAssist.Hint="{Binding NazivHint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Row="1" Height="25" Width="180" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="102,11,0,0" Grid.Column="1" Text="{Binding SelektovaniLek.Naziv, Mode=TwoWay,UpdateSourceTrigger=Explicit}"/>
+                    <TextBox x:Name="KolicinaTb" Grid.Row="2" materialDesign:HintAssist.Hint="{Binding KolicinaHint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="24" Width="180" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="102,10,0,0" Grid.Column="1" Text="{Binding SelektovaniLek.Kolicina, Mode=TwoWay,UpdateSourceTrigger=Explicit}" ></TextBox>
+                    <TextBox x:Name="SifraTb" IsEnabled="False"  Grid.Row="3" materialDesign:HintAssist.Hint="{Binding SifraHint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="24" Width="180" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="102,11,0,0" Grid.Column="1" Text="{Binding SelektovaniLek.Sifra, Mode=TwoWay,UpdateSourceTrigger=Explicit}" ></TextBox>
+                    <ListBox x:Name="listBox2" BorderThickness="1 1 1 1" Background="LemonChiffon" ItemsSource="{Binding}" HorizontalAlignment="Left" Height="84"  VerticalAlignment="Top" Width="166" Grid.Row="4" Grid.ColumnSpan="2" Margin="378,0,0,0" Grid.RowSpan="2"/>
+
+                    <TextBlock  Grid.Row="4" Text="Rok trajanja*:"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="24"  Width="87" Margin="0,10,0,0" Grid.ColumnSpan="2"  />
+                    <TextBlock  Grid.Row="5" Text="Sastojci*:"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="24"  Width="87" Margin="0,10,0,0" Grid.ColumnSpan="2"   />
+
+                    <TextBlock  Grid.Row="1" Text="Proizvodjac*:"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="24" Margin="291,12,0,0" Width="85" Grid.Column="1"   />
+                    <TextBlock  Grid.Row="2" Text="Tip leka*:"  FontSize="15" VerticalAlignment="Top" HorizontalAlignment="Left"  Height="24" Margin="292,10,0,0" Width="64" Grid.Column="1"    />
+
+                    <DatePicker x:Name="RokTb" Grid.Row="4" Height="24" Width="180" materialDesign:HintAssist.Hint="{Binding RokHint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="102,10,0,0" Grid.Column="1" Text="{Binding SelektovanLek.RokTrajanja, Mode=TwoWay, UpdateSourceTrigger=Explicit}"></DatePicker>
+                    <ListBox x:Name="listBox1" BorderThickness="1 1 1 1" Background="LemonChiffon" ItemsSource="{Binding}" SelectionMode="Multiple" Grid.Row="5"   Width="180" Grid.ColumnSpan="2" Margin="102,10,272,64" Grid.RowSpan="2" />
+                    <Button Content="Dodaj sastojke" HorizontalAlignment="Left" Margin="102,63,0,0" VerticalAlignment="Top" Width="127" RenderTransformOrigin="0.733,1.182" Click="Button_sastojci_Click" Grid.ColumnSpan="2" Grid.Row="6"/>
+
+                    <TextBox x:Name="ProizvodjacTb" Grid.Row="1" materialDesign:HintAssist.Hint="{Binding ProizvodjacHint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="24" Width="176" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="378,12,0,0" Grid.Column="1" Text="{Binding SelektovaniLek.Proizvodjac, Mode=TwoWay,UpdateSourceTrigger=Explicit}" ></TextBox>
+                    <ComboBox x:Name="TipTb" ItemsSource="{Binding}" materialDesign:HintAssist.Hint="Izaberi tip" Grid.Row="2" Width="176" VerticalContentAlignment="Center" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="378,6,0,0" Grid.Column="1"  />
+
+                    <Button  Grid.Row="6" x:Name="buttonPrebaciLek" Content="Premesti u potvrdjene"
+                     Height="35"   HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Click="buttonPrebaciLek_Click" Margin="306,10,0,0"/>
+
+                    <!--ItemsSource="{Binding Source={StaticResource enumValues}}"-->
+
+                    <Button  Grid.Row="6" x:Name="buttonSacuvajLek" Content="Sačuvaj lek"
+                    Background="White" Height="35"   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="333,63,0,0" Grid.Column="1" Click="ButtonSacuvajLek_Click"/>
+                    <Button x:Name="Otkazi" Grid.Row="6" BorderThickness="0" Background="Transparent" Content="Otkazi" VerticalAlignment="Top" HorizontalAlignment="Left" Height="35" Width="73" Margin="440,63,0,0"  Click="Otkazi_Click" Grid.ColumnSpan="2" />
+
+                    <!-- <Button  Grid.Row="6" BorderThickness="0" Background="Transparent" Content="ili Otkaži" VerticalAlignment="Top" HorizontalAlignment="Left" Height="35" Width="50" Margin="180,10,0,0" Grid.Column="1"    /> -->
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+
+    </Grid>
+
+</UserControl>
+
+
+

@@ -1,0 +1,19 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:PdfViewer="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" x:Class="WpfApp1.ReportViewer"
+        mc:Ignorable="d"
+        Title="Izvještaj" Height="440" Width="900"  WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+
+        <local:ReportPdf/>
+
+    </Window.DataContext>
+    <Grid>
+        <PdfViewer:PdfViewerControl ItemSource="{Binding DocumentStream}"/>
+        
+    </Grid>
+</Window>

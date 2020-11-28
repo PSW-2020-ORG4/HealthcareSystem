@@ -1,0 +1,23 @@
+﻿<Window x:Class="WpfApp1.ViewPlacements"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Istorija smještanja" ResizeMode="CanMinimize" Height="350" Width="525" Background="AliceBlue" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DataGrid x:Name="DataGrid1" IsReadOnly="True" CanUserResizeColumns="False" CanUserReorderColumns="False" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="160" Margin="30,87,0,0" VerticalAlignment="Top" Width="349">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Datum smještanja" Binding="{Binding DateOfPlacement}"/>
+                <DataGridTextColumn Header="Datum otpuštanja" Binding="{Binding DateOfDismison}"/>
+                <DataGridTextColumn Header="Broj sobe" Binding="{Binding room}"/>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock HorizontalAlignment="Left" Height="23" Margin="30,39,0,0" TextWrapping="Wrap" Text="Pacijent:" FontSize="16" VerticalAlignment="Top" Width="67" RenderTransformOrigin="-0.284,-0.13"/>
+        <TextBlock x:Name="txtPatient" HorizontalAlignment="Left" Height="23" Margin="113,39,0,0" TextWrapping="Wrap" Text="" FontSize="16" VerticalAlignment="Top" Width="256" RenderTransformOrigin="-0.284,-0.13"/>
+
+    </Grid>
+</Window>

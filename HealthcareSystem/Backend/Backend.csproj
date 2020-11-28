@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.EntityFrameworkCore.Design.3.1.9\build\net461\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('..\packages\Microsoft.EntityFrameworkCore.Design.3.1.9\build\net461\Microsoft.EntityFrameworkCore.Design.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{07719B07-7B98-4293-AE15-2DA5CCF135ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Backend</RootNamespace>
+    <AssemblyName>Backend</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.8.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.8\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.4.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MailKit, Version=2.10.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.2.10.0\lib\net47\MailKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.0\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.3.1.9\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Design, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Design.3.1.9\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Proxies, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Proxies.3.1.9\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Proxies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Relational.3.1.9\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.3.1.9\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.9.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.1.9\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="MimeKit, Version=2.10.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.2.10.0\lib\net47\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="MySqlConnector, Version=0.69.9.0, Culture=neutral, PublicKeyToken=d33d3e53aa5f8c92, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySqlConnector.0.69.9\lib\net471\MySqlConnector.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Pomelo.EntityFrameworkCore.MySql, Version=3.2.3.0, Culture=neutral, PublicKeyToken=2cc498582444921b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pomelo.EntityFrameworkCore.MySql.3.2.3\lib\netstandard2.0\Pomelo.EntityFrameworkCore.MySql.dll</HintPath>
+    </Reference>
+    <Reference Include="Pomelo.JsonObject, Version=2.2.1.0, Culture=neutral, PublicKeyToken=2cc498582444921b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pomelo.JsonObject.2.2.1\lib\netstandard2.0\Pomelo.JsonObject.dll</HintPath>
+    </Reference>
+    <Reference Include="RabbitMQ.Client, Version=6.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
+      <HintPath>..\packages\RabbitMQ.Client.6.2.1\lib\net461\RabbitMQ.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.7.1\lib\net461\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.7.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.4.7.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Channels, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Channels.4.7.1\lib\net461\System.Threading.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controller\DrugAndTherapy\DrugController.cs" />
+    <Compile Include="Controller\DrugAndTherapy\DrugTypeAndIngridentController.cs" />
+    <Compile Include="Controller\DrugAndTherapy\TherapyController.cs" />
+    <Compile Include="Controller\ExaminationAndPatientCard\ExaminationController.cs" />
+    <Compile Include="Controller\ExaminationAndPatientCard\PatientCardController.cs" />
+    <Compile Include="Controller\NotificationSurveyAndFeedback\FeedbackController.cs" />
+    <Compile Include="Controller\NotificationSurveyAndFeedback\NotificationController.cs" />
+    <Compile Include="Controller\NotificationSurveyAndFeedback\SurveyController.cs" />
+    <Compile Include="Controller\PlacementInARoomAndRenovationPeriod\PlacementInSickRoomController.cs" />
+    <Compile Include="Controller\PlacementInARoomAndRenovationPeriod\RenovationPeriodController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\ConsumableEquipmentController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\EquipmentController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\EquipmentInRoomsController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\IEquipmentController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\NonConsumableEquipmentController.cs" />
+    <Compile Include="Controller\RoomAndEquipment\RoomController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\DoctorController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\IUserStrategy.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\ManagerController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\PatientController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
+    <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
+    <Compile Include="Service\Encryption\EncryptionService.cs" />
+    <Compile Include="Migrations\20201122221302_NewMigration.cs" />
+    <Compile Include="Migrations\20201122221302_NewMigration.designer.cs">
+      <DependentUpon>20201122221302_NewMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
+    <Compile Include="Model\Enums\Grade.cs" />
+    <Compile Include="Model\Exceptions\DatabaseException.cs" />
+    <Compile Include="Model\PerformingExamination\Examination.cs" />
+    <Compile Include="Model\PerformingExamination\PlacemetnInARoom.cs" />
+    <Compile Include="Model\Enums\TypeOfExamination.cs" />
+    <Compile Include="Model\Exceptions\ValidationException.cs" />
+    <Compile Include="Model\Exceptions\HealthClinicException.cs" />
+    <Compile Include="Model\Exceptions\NotFoundException.cs" />
+    <Compile Include="Model\Manager\ConsumableEquipment.cs" />
+    <Compile Include="Model\Manager\Drug.cs" />
+    <Compile Include="Model\Manager\DrugType.cs" />
+    <Compile Include="Model\Manager\Equipment.cs" />
+    <Compile Include="Model\Manager\EquipmentInRooms.cs" />
+    <Compile Include="Model\Manager\Ingredient.cs" />
+    <Compile Include="Model\Manager\NonConsumableEquipment.cs" />
+    <Compile Include="Model\Manager\RenovationPeriod.cs" />
+    <Compile Include="Model\Manager\Room.cs" />
+    <Compile Include="Model\Manager\TypeOfConsumable.cs" />
+    <Compile Include="Model\Manager\TypeOfEquipment.cs" />
+    <Compile Include="Model\Manager\TypeOfNonConsumable.cs" />
+    <Compile Include="Model\Enums\TypeOfUsage.cs" />
+    <Compile Include="Model\Manager\WorkingTime.cs" />
+    <Compile Include="Model\Manager\WorkShifts.cs" />
+    <Compile Include="Model\MyDbContext.cs" />
+    <Compile Include="Model\Enums\BloodType.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\Survey.cs" />
+    <Compile Include="Model\PerformingExamination\Therapy.cs" />
+    <Compile Include="Model\Pharmacies\ActionBenefit.cs" />
+    <Compile Include="Model\Pharmacies\ActionBenefitMessage.cs" />
+    <Compile Include="Model\Users\Country.cs" />
+    <Compile Include="Model\Users\PatientCard.cs" />
+    <Compile Include="Model\Enums\RhFactorType.cs" />
+    <Compile Include="Model\Users\Admin.cs" />
+    <Compile Include="Model\Users\City.cs" />
+    <Compile Include="Model\Users\Doctor.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\Feedback.cs" />
+    <Compile Include="Model\Enums\GenderType.cs" />
+    <Compile Include="Model\Enums\Languages.cs" />
+    <Compile Include="Model\Users\Manager.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\Notification.cs" />
+    <Compile Include="Model\Users\Patient.cs" />
+    <Compile Include="Model\Users\Secretary.cs" />
+    <Compile Include="Model\Enums\TypeOfDoctor.cs" />
+    <Compile Include="Model\Enums\TypeOfNotification.cs" />
+    <Compile Include="Model\Enums\TypeOfQualifications.cs" />
+    <Compile Include="Model\Users\User.cs" />
+    <Compile Include="Model\Pharmacies\Pharmacy.cs" />
+    <Compile Include="Model\Users\WelcomeRequest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ActionBenefitRepository\IActionBenefitRepository.cs" />
+    <Compile Include="Repository\ActionBenefitRepository\MySqlActionBenefitRepository\MySqlActionBenefitRepository.cs" />
+    <Compile Include="Repository\CityRepository\ICityRepository.cs" />
+    <Compile Include="Repository\CityRepository\MySqlCityRepository\MySqlCityRepository.cs" />
+    <Compile Include="Repository\CountryRepository\ICountryRepository.cs" />
+    <Compile Include="Repository\CountryRepository\MySqlCountryRepository\MySqlCountryRepository.cs" />
+    <Compile Include="Repository\DoctorRepository\FileDoctorRepository\FileDoctorRepository.cs" />
+    <Compile Include="Repository\DoctorRepository\IDoctorRepository.cs" />
+    <Compile Include="Repository\DoctorRepository\MySqlDoctorRepository\MySqlDoctorRepository.cs" />
+    <Compile Include="Repository\DrugRepository\IConfirmedDrugRepository.cs" />
+    <Compile Include="Repository\DrugRepository\IUnconfirmedDrugRepository.cs" />
+    <Compile Include="Repository\DrugRepository\MySqlDrugRepository\MySqlConfirmedDrugRepository.cs" />
+    <Compile Include="Repository\DrugRepository\MySqlDrugRepository\MySqlUnconfirmedDrugRepository.cs" />
+    <Compile Include="Repository\DrugTypeRepository\IDrugTypeRepository.cs" />
+    <Compile Include="Repository\DrugTypeRepository\MySqlDrugTypeRepository\MySqlDrugTypeRepository.cs" />
+    <Compile Include="Repository\IngridientRepository\IIngridientRepository.cs" />
+    <Compile Include="Repository\IngridientRepository\MySqlIngridientRepository\MySqlIngridientRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\FileExaminationRepository\FileCanceledExaminationRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\FileExaminationRepository\FileScheduledExaminationRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\ICanceledExaminationRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\IScheduledExaminationRepository.cs" />
+    <Compile Include="Repository\ExaminationRepository\MySqlExaminationRepository\MySqlScheduledExaminationRepository.cs" />
+    <Compile Include="Repository\PatientCardRepository\FilePatientCardRepository\FileActivePatientCardRepository.cs" />
+    <Compile Include="Repository\PatientCardRepository\IActivePatientCardRepository.cs" />
+    <Compile Include="Repository\PatientCardRepository\MySqlPatientCardRepository\MySqlActivePatientCardRepository.cs" />
+    <Compile Include="Repository\PatientRepository\FilePatientRepository\FileActivePatientRepository.cs" />
+    <Compile Include="Repository\CityRepository.cs" />
+    <Compile Include="Repository\DrugRepository\FileDrugRepository\ConfirmedDrugRepository.cs" />
+    <Compile Include="Repository\ConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\DrugTypeRepository\FileDrugTypeRepository\DrugTypeRepository.cs" />
+    <Compile Include="Repository\EquipmentInRoomsRepository.cs" />
+    <Compile Include="Repository\PatientRepository\IActivePatientRepository.cs" />
+    <Compile Include="Repository\FeedbackRepository\IFeedbackRepository.cs" />
+    <Compile Include="Repository\FeedbackRepository\FileFeedbackRepository\FileFeedbackRepository.cs" />
+    <Compile Include="Repository\IngridientRepository\FileIngridientRepository\IngridientRepository.cs" />
+    <Compile Include="Repository\ManagerRepository.cs" />
+    <Compile Include="Repository\PatientRepository\MySqlPatientRepository\MySqlActivePatientRepository.cs" />
+    <Compile Include="Repository\FeedbackRepository\MySqlFeedbackRepository\MySqlFeedbackRepository.cs" />
+    <Compile Include="Repository\NonConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\NotificationRepository.cs" />
+    <Compile Include="Repository\PlacementInSickRoomRepository.cs" />
+    <Compile Include="Repository\RenovationPeriodRepository\FileRenovationPeriodRepository\FileRenovationPeriodRepository.cs" />
+    <Compile Include="Repository\RenovationPeriodRepository\IRenovationPeriodRepository.cs" />
+    <Compile Include="Repository\RenovationPeriodRepository\MySqlRenovationPeriodRepository\MySqlRenovationPeriodRepository.cs" />
+    <Compile Include="Repository\RoomRepository\FileRoomRepository\RoomRepository.cs" />
+    <Compile Include="Repository\RoomRepository\IRoomRepository.cs" />
+    <Compile Include="Repository\RoomRepository\MySqlRoomRepository\MySqlRoomRepository.cs" />
+    <Compile Include="Repository\SecretaryRepository.cs" />
+    <Compile Include="Repository\SurveyRepository\FileSurveyRepository\FileSurveyRepository.cs" />
+    <Compile Include="Repository\SurveyRepository\ISurveyRepository.cs" />
+    <Compile Include="Repository\SurveyRepository\MySqlSurveyRepository\MySqlSurveyRepository.cs" />
+    <Compile Include="Repository\DrugRepository\FileDrugRepository\UnconfirmedDrugRepository.cs" />
+    <Compile Include="Service\ActionBenefitService\ActionBenefitService.cs" />
+    <Compile Include="Service\ActionBenefitService\IActionBenefitService.cs" />
+    <Compile Include="Service\ActionBenefitService\RabbitMqActionBenefitService\IActionBenefitMessageingService.cs" />
+    <Compile Include="Service\ActionBenefitService\RabbitMqActionBenefitService\RabbitMqActionBenefitService.cs" />
+    <Compile Include="Service\ActionBenefitService\RabbitMqActionBenefitService\RabbitMqConfiguration.cs" />
+    <Compile Include="Service\CityAndCountry\CityService.cs" />
+    <Compile Include="Service\CityAndCountry\CountryService.cs" />
+    <Compile Include="Service\CityAndCountry\ICityService.cs" />
+    <Compile Include="Service\CityAndCountry\ICountryService.cs" />
+    <Compile Include="Service\DrugAndTherapy\DrugService.cs" />
+    <Compile Include="Service\DrugAndTherapy\DrugTypeAndIngridientService.cs" />
+    <Compile Include="Service\DrugAndTherapy\IDrugService.cs" />
+    <Compile Include="Service\DrugAndTherapy\IDrugTypeAndIngridientService.cs" />
+    <Compile Include="Repository\TherapyRepository\FileTherapyRepository\FileTherapyRepository.cs" />
+    <Compile Include="Repository\TherapyRepository\ITherapyRepository.cs" />
+    <Compile Include="Repository\TherapyRepository\MySqlTherapyRepository\MySqlTherapyRepository.cs" />
+    <Compile Include="Repository\WorkingTimeRepository.cs" />
+    <Compile Include="Repository\PharmacyRepository\IPharmacyRepo.cs" />
+    <Compile Include="Repository\PharmacyRepository\MySqlPharmacyRepo\MySqlPharmacyRepo.cs" />
+    <Compile Include="Service\DrugAndTherapy\ITherapyService.cs" />
+    <Compile Include="Service\DrugAndTherapy\TherapyService.cs" />
+    <Compile Include="Service\ExaminationAndPatientCard\ExaminationService.cs" />
+    <Compile Include="Service\ExaminationAndPatientCard\IExaminationService.cs" />
+    <Compile Include="Service\ExaminationAndPatientCard\IPatientCardService.cs" />
+    <Compile Include="Service\ExaminationAndPatientCard\PatientCardService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\FeedbackService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\IFeedbackService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\ISurveyService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\NotificationService.cs" />
+    <Compile Include="Service\NotificationSurveyAndFeedback\SurveyService.cs" />
+    <Compile Include="Service\PlacementInARoomAndRenovationPeriod\IRenovationPeriodService.cs" />
+    <Compile Include="Service\PlacementInARoomAndRenovationPeriod\PlacementInSickRoomService.cs" />
+    <Compile Include="Service\PlacementInARoomAndRenovationPeriod\RenovationPeriodService.cs" />
+    <Compile Include="Service\RoomAndEquipment\ConsumableEquipmentService.cs" />
+    <Compile Include="Service\RoomAndEquipment\EquipmentInRoomsService.cs" />
+    <Compile Include="Service\RoomAndEquipment\IRoomService.cs" />
+    <Compile Include="Service\RoomAndEquipment\NonConsumableEquipmentService.cs" />
+    <Compile Include="Service\RoomAndEquipment\RoomService.cs" />
+    <Compile Include="Service\SendingMail\IMailService.cs" />
+    <Compile Include="Service\SendingMail\MailService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\DoctorService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\IDoctorService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\IPatientService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\ManagerService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\PatientService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\SecretaryService.cs" />
+    <Compile Include="Service\UsersAndWorkingTime\WorkingTimeService.cs" />
+    <Compile Include="Service\Pharmacies\IPharmacyService.cs" />
+    <Compile Include="Service\Pharmacies\PharmacyService.cs" />
+    <Compile Include="Settings\MailSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.EntityFrameworkCore.Design.3.1.9\build\net461\Microsoft.EntityFrameworkCore.Design.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.EntityFrameworkCore.Design.3.1.9\build\net461\Microsoft.EntityFrameworkCore.Design.props'))" />
+  </Target>
+</Project>

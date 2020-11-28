@@ -1,0 +1,331 @@
+﻿<Window x:Class="WpfApp1.PatienFileTab"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:l="clr-namespace:WpfApp1.Help"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="Korporacija Zdravo" ResizeMode="CanMinimize" Height="450" Width="800" WindowStartupLocation="CenterScreen" l:HelpProvider.HelpKey="karton">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+    </Window.CommandBindings>
+    <Grid>
+        <StatusBar HorizontalAlignment="Left" Height="26" Margin="0,392,0,0" VerticalAlignment="Top" Width="792" Background="#FFAAE8DA" >
+            <TextBlock Height="21" TextWrapping="Wrap" Text="Nalog:" Width="39"/>
+            <TextBlock x:Name="logInDoctor" Height="21" TextWrapping="Wrap" Text="" Width="171"/>
+        </StatusBar>
+        <Menu HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="792" Background="#FFAAE8DA" Margin="0,1,0,0">
+            <MenuItem Header="O nama">
+                <MenuItem Header="O aplikaciji" Margin="0,0,-10,0" Click="MenuItem_Click_2">
+                    <MenuItem.Icon>
+                        <Image Source="Images/about.jpg" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem.ToolTip>
+                    Informacije o aplikaciji
+                </MenuItem.ToolTip>
+            </MenuItem>
+            <MenuItem Header="Pomoć" Click="MenuItem_Click_4">
+                <MenuItem.ToolTip>
+                    Pomoć pri rukovanju aplikacijom
+                </MenuItem.ToolTip>
+            </MenuItem>
+            <MenuItem Header="Moj nalog">
+                <MenuItem Header="Izmjena naloga" Margin="0,0,-32,0" Click="MenuItem_Click_1">
+                    <MenuItem.Icon>
+                        <Image Source="Images/edit.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Odjavi se" Click="MenuItem_Click" Margin="0,0,-10,0">
+                    <MenuItem.Icon>
+                        <Image Source="Images/logout.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem.ToolTip>
+                    Informacije o nalogu i odjava
+                </MenuItem.ToolTip>
+            </MenuItem>
+        </Menu>
+        <TabControl HorizontalAlignment="Left" Height="368" Margin="0,23,0,0" VerticalAlignment="Top" Width="792">
+            <TabItem Header="Karton" Background="#FFAAE8DA" Selector.IsSelected="True" Height="23" VerticalAlignment="Top">
+                <Grid Background="AliceBlue" Margin="-2,-2,-5,-4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="103*"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="204*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="73*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="19*"/>
+                        <ColumnDefinition Width="56"/>
+                        <ColumnDefinition Width="178*"/>
+                        <ColumnDefinition Width="448*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.ColumnSpan="6" HorizontalAlignment="Left" Height="95" Margin="38,63,0,0" Stroke="#FF53CAD6" VerticalAlignment="Top" Width="525" Grid.Row="2"/>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="0,63,0,0" TextWrapping="Wrap" Text="Datum" FontSize="13" VerticalAlignment="Top" Width="97" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="2"/>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="85,63,0,0" TextWrapping="Wrap" Text="Tok bolesti i nalazi" FontSize="13" VerticalAlignment="Top" Width="112" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2"/>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="97,63,0,0" TextWrapping="Wrap" Text="Terapija" FontSize="13" VerticalAlignment="Top" Width="112" Grid.Column="5" Grid.Row="2"/>
+                    <TextBox x:Name="txtbox3" Grid.Column="5" HorizontalAlignment="Left" Height="75" Margin="48,81,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="170" Grid.Row="2">
+                        <TextBox.ToolTip>
+                            Unesite terapiju koju ste propisali pacijentu.
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <TextBox x:Name="txtbox2" Grid.Column="4" HorizontalAlignment="Left" Height="75" Margin="53,81,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="170" Grid.Row="2" Grid.ColumnSpan="2">
+                        <TextBox.ToolTip>
+                            Unesite tok bolesi pacijenta.
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <TextBox x:Name="txtbox1" IsReadOnly="True" HorizontalAlignment="Left" Height="75" Margin="43,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" Grid.ColumnSpan="5" Grid.Row="2" Background="AliceBlue">
+                        <TextBox.ToolTip>
+                            Današnji datum.
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <Button Content="Sačuvaj" HorizontalAlignment="Left" Height="24" Margin="131,166,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Grid.Column="5" Click="Button_Click_1" Grid.Row="2">
+                        <Button.ToolTip>
+                            Sačuvajte informacije u karton.
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="Karton" HorizontalAlignment="Left" Height="24" Margin="131,25,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Grid.Column="5" Grid.Row="2" Click="Button_Click_2">
+                        <Button.ToolTip>
+                            Prikaz istorije bolesti
+                        </Button.ToolTip>
+                    </Button>
+                    <Rectangle Fill="AliceBlue" HorizontalAlignment="Left" Height="95" Margin="39,91,0,0" Grid.RowSpan="3" Stroke="#FF53CAD6" VerticalAlignment="Top" Width="394" Grid.ColumnSpan="6"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="51,10,0,0" TextWrapping="Wrap" Text="Alergije:" VerticalAlignment="Top" Width="56" Grid.ColumnSpan="3" Grid.Row="2"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="99,97,0,0" TextWrapping="Wrap" Text="Krvna grupa:" VerticalAlignment="Top" Width="69" Grid.Column="4" Grid.RowSpan="2"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="48,97,0,0" TextWrapping="Wrap" Text="Datum rođenja:" VerticalAlignment="Top" Width="93" Grid.ColumnSpan="4" Grid.RowSpan="2"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="48,20,0,0" TextWrapping="Wrap" Text="Osiguranik LBO: " VerticalAlignment="Top" Width="93" Grid.Row="1" Grid.ColumnSpan="4" RenderTransformOrigin="0.462,0.062" Grid.RowSpan="2"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="99,19,0,0" TextWrapping="Wrap" Text="Rh faktor:" VerticalAlignment="Top" Width="65" Grid.Column="4" Grid.Row="1" RenderTransformOrigin="0.308,0.312"/>
+                    <TextBlock x:Name="txtDatumRodjenja" HorizontalAlignment="Left" Margin="36,97,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="93" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="3"/>
+                    <TextBlock x:Name="txtKrvnaGrupa" HorizontalAlignment="Left" Margin="0,99,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="57" Grid.Column="5" Grid.RowSpan="2"/>
+                    <TextBlock x:Name="txtRhFaktor" HorizontalAlignment="Left" Margin="169,19,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="65" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"/>
+                    <TextBlock x:Name="txtLbo" HorizontalAlignment="Left" Margin="36,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="114" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Column="3"/>
+                    <TextBlock x:Name="txtAlergije" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="271" Grid.ColumnSpan="3" Grid.Row="2" Grid.Column="3" Height="33"/>
+                    <Button Content="Izmjena" HorizontalAlignment="Left" Height="24" Margin="131,91,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Grid.Column="5" Grid.RowSpan="2" Click="Button_Click_7">
+                        <Button.ToolTip>Izmjena informacija o pacijentu.</Button.ToolTip>
+                    </Button>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Propiši lijek" Background="#FFAAE8DA" Selector.IsSelected="True">
+                <Grid Background="AliceBlue" Margin="-1,-2,-4,-4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="65*"/>
+                        <RowDefinition Height="47*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="73*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="19*"/>
+                        <ColumnDefinition Width="56"/>
+                        <ColumnDefinition Width="104*"/>
+                        <ColumnDefinition Width="520*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="DataGrid3" IsReadOnly="True" AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" SelectedItem="True" Grid.ColumnSpan="6" HorizontalAlignment="Left" Height="163" Margin="25,141,0,0" VerticalAlignment="Top" Width="360" Grid.RowSpan="2" SelectionMode="Single" SelectionChanged="DataGrid3_SelectionChanged" >
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Sastav lijeka">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Background="#FF9EE6DC" Name="btnDrug" Content="Sastav" Click="Button_Click_Drug">
+                                            <Button.ToolTip>
+                                                Prikaži spisak svih sastojaka lijeka.
+                                            </Button.ToolTip>
+                                        </Button>
+
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Broj" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Naziv" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Količina" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Header="Vrsta" Binding="{Binding drugType}"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Propiši" HorizontalAlignment="Left" Height="24" Margin="382,82,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Grid.Column="5" Grid.Row="1" Click="Button_Click_4">
+                        <Button.ToolTip>
+                            Sačuvaj unijetu terapiju.
+                        </Button.ToolTip>
+                    </Button>
+                    <TextBlock x:Name="noName_Copy" HorizontalAlignment="Left" Height="21" Margin="137,144,0,0" TextWrapping="Wrap" Text="Da li odmah dajete lijek pacijentu?" VerticalAlignment="Top" Width="192" Grid.Column="5"/>
+                    <Button Content="Odmah" HorizontalAlignment="Left" Height="24" Margin="382,141,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Grid.Column="5" Click="Button_Click_3">
+                        <Button.ToolTip>
+                            Lijek pacijentu se daje trenutno.
+                        </Button.ToolTip>
+                    </Button>
+                    <TextBlock x:Name="noName_Copy1" FontSize="14" HorizontalAlignment="Left" Height="22" Margin="137,192,0,0" TextWrapping="Wrap" Text="Lijek na recept" VerticalAlignment="Top" Width="102" Grid.Column="5" Grid.RowSpan="2"/>
+                    <TextBox Name="txtPrescribe" HorizontalAlignment="Left" Height="22" Margin="261,24,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="74" Grid.Column="5" RenderTransformOrigin="-1.918,2.8" Grid.Row="1">
+                        <TextBox.ToolTip>
+                            Unesite način upotrebe lijeka kog želite propisati.
+                        </TextBox.ToolTip>
+
+                    </TextBox>
+                    <TextBlock HorizontalAlignment="Left" FontSize="14" Height="21" Margin="137,110,0,0" TextWrapping="Wrap" Text="Lijek: " VerticalAlignment="Top" Width="41" Grid.Column="5"/>
+
+                    <TextBox x:Name="txtDrug" IsReadOnly="True" Grid.Column="5" HorizontalAlignment="Left" Height="25" Margin="183,107,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="152" Background="AliceBlue">
+                        <TextBox.ToolTip>
+                            Naziv odabranog lijeka.
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <TextBlock x:Name="noName_Copy2" HorizontalAlignment="Left" Height="21" Margin="137,56,0,0" TextWrapping="Wrap" Text="Izaberite datum do kog se uzima lijek:" VerticalAlignment="Top" Width="213" Grid.Column="5" Grid.Row="1"/>
+                    <DatePicker Name="dateTherapy" Grid.Column="5" HorizontalAlignment="Left" Margin="137,82,0,0" Grid.Row="1" VerticalAlignment="Top" Width="198" DisplayDateStart="{x:Static sys:DateTime.Today}"/>
+                    <TextBlock x:Name="noName_Copy3" HorizontalAlignment="Left" Height="22" Margin="137,24,0,0" TextWrapping="Wrap" Text="Dnevna doza lijeka:" VerticalAlignment="Top" Width="119" Grid.Column="5" RenderTransformOrigin="0.503,0.909" Grid.Row="1"/>
+                    <TextBlock x:Name="noName_Copy4" HorizontalAlignment="Left" Height="22" Margin="25,114,0,0" TextWrapping="Wrap" Text="Pretraži lijek po nazivu:" VerticalAlignment="Top" Width="138" RenderTransformOrigin="0.503,0.909" Grid.ColumnSpan="4"/>
+                    <TextBox x:Name="txtSearch" HorizontalAlignment="Left" Height="22" Margin="10,114,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="212" Grid.Column="4" RenderTransformOrigin="-1.918,2.8" KeyUp="txtSearch_KeyUp" Grid.ColumnSpan="2">
+                        <TextBox.ToolTip>Unesite naziv lijeka kog želite propisati.</TextBox.ToolTip>
+
+                    </TextBox>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Zakaži termin" Background="#FFAAE8DA" Selector.IsSelected="True">
+                <Grid Background="AliceBlue" Margin="-1,-2,-3,-2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="93*"/>
+                        <RowDefinition Height="19*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="89*"/>
+                        <ColumnDefinition Width="150*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="13*"/>
+                        <ColumnDefinition Width="24*"/>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="435*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="10,178,0,0" TextWrapping="Wrap" Text="Izaberite doktora: " VerticalAlignment="Top" Width="100" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <DatePicker x:Name="dataExam" HorizontalAlignment="Left" Margin="24,93,0,0" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="3" Width="145" DisplayDateStart="{x:Static sys:DateTime.Today}"/>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="10,93,0,0" TextWrapping="Wrap" Text="Izaberite datum: " VerticalAlignment="Top" Width="100" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <Button Content="Zakaži" HorizontalAlignment="Left" Height="24" Margin="0,17,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Grid.Column="6" RenderTransformOrigin="4.213,-0.458" Click="Button_Click_6" Grid.Row="1" Grid.ColumnSpan="2">
+                        <Button.ToolTip>
+                            Sačuvaj zakazani termin
+                        </Button.ToolTip>
+                    </Button>
+                    <DataGrid Name="DataGrid4" AutoGenerateColumns="False" CanUserResizeColumns="False" IsReadOnly="True" CanUserReorderColumns="False" HorizontalAlignment="Left" Width="468" Margin="0,93,0,0" Grid.Column="6" SelectionChanged="DataGrid4_SelectionChanged" Grid.ColumnSpan="2" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Broj" Binding="{Binding IdExamination}"/>
+                            <DataGridTextColumn Header="Datum i vrijeme" Binding="{Binding DateAndTime}"/>
+                            <DataGridTextColumn Header="Doktor" Binding="{Binding doctor}"/>
+                            <DataGridTextColumn Header="Vrsta pregleda" Binding="{Binding Type}"/>
+                            <DataGridTextColumn Header="Soba" Binding="{Binding room}"/>
+                            <DataGridTextColumn Header="Pacijent" Binding="{Binding patientCard}"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Prikaži" Height="24" Margin="75,217,0,0" VerticalAlignment="Top" Background="#FF92DCD2" Grid.Column="2" RenderTransformOrigin="4.213,-0.458" Click="Button_Click_5" Grid.ColumnSpan="2">
+                        <Button.ToolTip>
+                            Prikaži slobodne i zauzete termine pregleda
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Content="Otkaži" HorizontalAlignment="Left" Height="24" Margin="66,17,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" Grid.Column="7" RenderTransformOrigin="4.213,-0.458" Click="Button_Click_10" Grid.Row="1">
+                        <Button.ToolTip>Otkaži zakazani termin.</Button.ToolTip>
+                    </Button>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="10,134,0,0" TextWrapping="Wrap" Text="Izaberite smjenu: " VerticalAlignment="Top" Width="100" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <ComboBox x:Name="txtSmjena" Grid.Column="2" HorizontalAlignment="Left" Margin="25,134,0,0" VerticalAlignment="Top" Width="145" Grid.ColumnSpan="3" SelectionChanged="txtSmjena_SelectionChanged">
+                        <ComboBoxItem Name="first" Content="Prva (I)"/>
+                        <ComboBoxItem Name="second" Content="Druga (II) "/>
+                        <ComboBoxItem Name="third" Content="Treca (III) "/>
+
+                    </ComboBox>
+                    <ComboBox x:Name="textBoxDoctorExam" ItemsSource="{Binding}" Grid.ColumnSpan="3" Grid.Column="2" HorizontalAlignment="Left" Margin="25,174,0,0" VerticalAlignment="Top" Width="145">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Margin="2" Text="{Binding Name}"/>
+                                    <TextBlock Margin="2" Text="{Binding Surname}"/>
+                                    <TextBlock Margin="2" Text="{Binding Jmbg}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ComboBoxItem}">
+                                <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                            <Border Name="templateBorder" Padding="2" SnapsToDevicePixels="true">
+                                                <ContentPresenter>
+                                                    <ContentPresenter.Content>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Margin="5" Grid.Column="0" Text="{Binding Name}"/>
+                                                            <TextBlock Margin="5" Grid.Column="1" Text="{Binding Surname}"/>
+                                                            <TextBlock Margin="5" Grid.Column="2" Text="{Binding Jmbg}"/>
+                                                        </Grid>
+                                                    </ContentPresenter.Content>
+                                                </ContentPresenter>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsHighlighted" Value="True">
+                                                    <Setter Property="Foreground" Value="{x:Static SystemColors.HighlightTextBrush}"/>
+                                                    <Setter TargetName="templateBorder" Property="Background" Value="{x:Static SystemColors.HighlightBrush}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="10,17,0,0" TextWrapping="Wrap" Text="Izaberite sobu: " VerticalAlignment="Top" Width="100" Grid.ColumnSpan="2" Grid.Column="1" RenderTransformOrigin="0.52,1.5" Grid.Row="1"/>
+                    <ComboBox Name="txtSoba" ItemsSource="{Binding}" Grid.Column="2" HorizontalAlignment="Left" Margin="25,17,0,0" VerticalAlignment="Top" Width="145" Grid.ColumnSpan="3" Grid.Row="1" >
+
+                    </ComboBox>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="10,258,0,0" TextWrapping="Wrap" Text="Vrsta pregleda: " VerticalAlignment="Top" Width="100" Grid.ColumnSpan="2" Grid.Column="1"/>
+                    <ComboBox Name="txtVrsta" ItemsSource="{Binding}" Grid.Column="2" HorizontalAlignment="Left" Margin="25,258,0,0" Width="145" Grid.ColumnSpan="3" SelectionChanged="txtVrsta_SelectionChanged"/>
+                </Grid>
+            </TabItem>
+
+
+            <TabItem Header="Smjesti u sobu" Background="#FFAAE8DA">
+                <Grid Background="AliceBlue" Margin="-1,-2,-3,-2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="155*"/>
+                        <ColumnDefinition Width="631*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="161,137,0,0" TextWrapping="Wrap" Text="Izaberite sobu: " VerticalAlignment="Top" Width="100" RenderTransformOrigin="4.04,1.167" Grid.Column="1"/>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="161,203,0,0" TextWrapping="Wrap" Text="Izaberite krevet: " VerticalAlignment="Top" Width="100" RenderTransformOrigin="3.36,0.611" Grid.Column="1"/>
+                    <Button Content="Smjesti" HorizontalAlignment="Left" Height="24" Margin="338,263,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" RenderTransformOrigin="0.236,0.75" Click="Button_Click_9" Grid.Column="1">
+                        <Button.ToolTip>
+                            Sačuvaj smještanje pacijenta u sobu
+                        </Button.ToolTip>
+                    </Button>
+                    <DatePicker x:Name="dataOd" HorizontalAlignment="Left" Margin="82,135,0,0" VerticalAlignment="Top" Width="164" DisplayDateStart="{x:Static sys:DateTime.Today}" Grid.ColumnSpan="2"/>
+                    <DatePicker x:Name="dataDo" HorizontalAlignment="Left" Margin="82,199,0,0" VerticalAlignment="Top" Width="164" RenderTransformOrigin="0.483,1" DisplayDateStart="{x:Static sys:DateTime.Today}" Grid.ColumnSpan="2" SelectedDateChanged="dataDo_SelectedDateChanged"/>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="39,101,0,0" TextWrapping="Wrap" Text="Izaberite period ležanja: " VerticalAlignment="Top" Width="138" Grid.ColumnSpan="2"/>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="39,137,0,0" TextWrapping="Wrap" Text="Od: " VerticalAlignment="Top" Width="20" RenderTransformOrigin="-1.1,3.333"/>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="39,205,0,0" TextWrapping="Wrap" Text="Do: " VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.56,0.111"/>
+
+                    <ComboBox x:Name="comboSoba" ItemsSource="{Binding}" HorizontalAlignment="Left" Margin="261,137,0,0" VerticalAlignment="Top" Width="168" Grid.Column="1" SelectionChanged="comboSoba_SelectionChanged">
+
+                    </ComboBox>
+                    <ComboBox x:Name="comboKrevet" ItemsSource="{Binding}"  HorizontalAlignment="Left" Margin="266,199,0,0" VerticalAlignment="Top" Width="163" Grid.Column="1">
+
+                    </ComboBox>
+                    <TextBlock HorizontalAlignment="Left" Height="18" Margin="39,269,0,0" TextWrapping="Wrap" Text="Pregledjte istoriju smještanja: " VerticalAlignment="Top" Width="158" Grid.ColumnSpan="2"/>
+                    <Button Content="Pregledaj" HorizontalAlignment="Left" Height="24" Margin="60,265,0,0" VerticalAlignment="Top" Width="91" Background="#FF92DCD2" RenderTransformOrigin="0.236,0.75" Grid.Column="1" Click="Button_Click_8">
+                        <Button.ToolTip>Pregleda sva smještanja</Button.ToolTip>
+                    </Button>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Image HorizontalAlignment="Left" Height="74" Margin="10,54,0,0" VerticalAlignment="Top" Width="80" Source="Images/exam.png" Stretch="Fill"/>
+        <TextBlock HorizontalAlignment="Left" Height="33" Margin="101,83,0,0" TextWrapping="Wrap" Text="Pacijent: " FontSize="16" VerticalAlignment="Top" Width="73"/>
+        <TextBlock x:Name="showName" HorizontalAlignment="Left" Height="23" Margin="166,83,0,0" TextWrapping="Wrap" Text="{Binding ElementName=showName, Path=Text}" FontSize="16" VerticalAlignment="Top" Width="267"/>
+        <TextBlock HorizontalAlignment="Left" Margin="586,54,0,0" TextWrapping="Wrap" Text="Završi ovaj pregled i odaberi novi:" FontSize="13" VerticalAlignment="Top" Width="200" Height="21"/>
+        <Button Content="Povratak na početnu stranu" HorizontalAlignment="Left" Height="24" Margin="586,80,0,0" VerticalAlignment="Top" Width="170" Background="#FF92DCD2" Click="Button_Click">
+            <Button.ToolTip>
+                Izaberi novog pacijenta
+            </Button.ToolTip>
+        </Button>
+    </Grid>
+</Window>

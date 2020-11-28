@@ -1,0 +1,108 @@
+﻿<Window x:Class="ZdravoKorporacija.EditInformationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZdravoKorporacija"
+        mc:Ignorable="d"
+        Title="Zdravo Korporacija"
+        Height="665" Width="960"
+        Background="Azure"
+        Foreground="DarkBlue"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="caption" Content="Izmena informacija" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan ="2" FontSize="32" Width ="700" Margin="10" HorizontalContentAlignment="Center" FontWeight="SemiBold"/>
+
+        <!--#region #Labels -->
+        <Label Content="Ime :" Grid.Column="2" Grid.Row="3" Height="30" Style="{StaticResource ResourceKey=labeleStyle}"/>
+
+        <Label Content="Prezime :" Grid.Column="2" Grid.Row="4" Height="30" Style="{StaticResource ResourceKey=labeleStyle}"/>
+
+        <Label Content="JMBG :" Grid.Column="2" Grid.Row="5" Height="30" Style="{StaticResource ResourceKey=labeleStyle}"/>
+
+        <Label Content="Pol :" Grid.Column="2" Grid.Row="6"  Height="30" Style="{StaticResource ResourceKey=labeleStyle}"/>
+
+        <Label Content="Datum rođenja :" Grid.Column="2" Grid.Row="7" Height="30" Style="{StaticResource ResourceKey=labeleStyle}"/>
+
+        <Label Content="Adresa stanovanja :" Grid.Column="2" Grid.Row="8" Height="30" Style="{StaticResource ResourceKey=labeleStyle}"/>
+
+        <Label Content="Mesto stanovanja :" Grid.Column="2" Grid.Row="9" Height="30" Style="{StaticResource ResourceKey=labeleStyle}"/>
+
+        <Label Content="Broj telefona :" Grid.Column="2" Grid.Row="10" Height="30" Style="{StaticResource ResourceKey=labeleStyle}"/>
+
+        <Label Content="E-mail adresa :" Grid.Column="2" Grid.Row="11" Height="30" Style="{StaticResource ResourceKey=labeleStyle}"/>
+        <!--#endregion-->
+
+        <!--#region #TextBoxes -->
+        <TextBox x:Name="firstName" Grid.Column="4" Grid.Row="3"/>
+
+        <TextBox x:Name="lastName" Grid.Column="4" Grid.Row="4"/>
+
+        <TextBox x:Name="jmbg" Grid.Column="4" Grid.Row="5" IsEnabled="False"/>
+
+        <DatePicker x:Name="dateOfBirthPicker" Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" Width="350" Style="{StaticResource ResourceKey=dataPickerRegistration}" KeyUp="dateOfBirth_KeyUp" ToolTip="Izbor datuma rodjenja se otvara pritiskom na dugme F1"/>
+        
+        <TextBox x:Name="homeAdress" Grid.Column="4" Grid.Row="8"/>
+
+        <ComboBox x:Name="cityAdress" Grid.Column="4" Grid.Row="9" Style="{StaticResource ResourceKey=comboBoxAppointmentStyle}" Grid.ColumnSpan="2" Width="350"  KeyUp="cityAdress_KeyUp" ToolTip="Izbor mesta stanovanja se otvara pritiskom na dugme F1" ItemsSource="{Binding}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="2" Foreground="DarkBlue" FontSize="18" Text="{Binding Name}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBox x:Name="telephoneNumber" Grid.Column="4" Grid.Row="10"/>
+
+        <TextBox x:Name="emailAdress" Grid.Column="4" Grid.Row="11"/>
+        <!--#endregion-->
+
+        <GroupBox x:Name="Gender" Grid.ColumnSpan="2"  Grid.Row="6" Grid.Column="4" Height="60" Width ="350">
+            <StackPanel>
+                <RadioButton x:Name ="male" Content="Muški" Grid.Column="4" HorizontalAlignment="Left" Grid.Row="6" Width="100" GroupName="Pol" KeyDown="Male_KeyDown"/>
+                <RadioButton x:Name ="female" Content="Ženski" Grid.Column="4" HorizontalAlignment="Left" Grid.Row="6" Width="100" GroupName="Pol" KeyDown="Female_KeyDown"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!--#region #Buttons -->
+        <Button x:Name="buttonConfrim" Content="Potvrdite izmenu" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="12" HorizontalAlignment="Center" Margin="160,10,0,0" Width="250" Height="60" VerticalAlignment="Center" Click="buttonConfrim_Click"/>
+
+        <Button x:Name="buttonCancel" Content="Odustanite od izmene" Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="12" HorizontalAlignment="Center" Margin="100,10,0,0" Width="250" Height="60" VerticalAlignment="Center" Click="buttonCancel_Click"/>
+        <!--#endregion-->
+
+    </Grid>
+
+</Window>

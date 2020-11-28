@@ -1,0 +1,16 @@
+﻿<Window x:Class="WpfApp1.AboutAplication"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="O aplikaciji" ResizeMode="CanMinimize" Height="350" Width="525" Background="AliceBlue" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="60" Margin="30,11,0,0" VerticalAlignment="Top" Width="80" Source="Images/hospital.png" Stretch="Fill"/>
+        <TextBlock HorizontalAlignment="Left" Margin="115,45,0,0" TextWrapping="Wrap" Text="Korporacija ZDRAVO aplikacija" VerticalAlignment="Top" Height="26" Width="269" FontSize="17" FontWeight="Bold"/>
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Justify" Margin="30,90,0,0" TextWrapping="Wrap" Text="Desktop aplikacija Korporacije Zdravo namjenjena je svim doktorima zaposlenim u ovoj bolnici. Pomoću ove aplikacije doktori će, prije svega efikasnije obavljati svoj posao. Doktori imaju mogućnost da kad god to požele pogledaju termine zakazane kod njih, zakazuju preglede pacijentima, smještaju ih u sobu itd. Bitna karakteristika aplikacije pored efikasnijeg obavljanja posla jeste i skladištenje svih podataka vezanih za preglede, istoriju bolesti pacijenta i mnoge druge." VerticalAlignment="Top" Height="133" Width="322"/>
+        <TextBlock HorizontalAlignment="Left"  Margin="30,230,0,0" TextWrapping="Wrap" Text="Nadamo se da Vam je ova aplikacije olakšala ionako težak i zahtjevan posao spašavanja ljudskih života.  " VerticalAlignment="Top" Width="322" Height="38"/>
+        <TextBlock HorizontalAlignment="Left" Margin="30,273,0,0" TextWrapping="Wrap" Text="Uživajte u njenom korišćenju!" VerticalAlignment="Top" RenderTransformOrigin="-1.94,-0.75"/>
+    </Grid>
+</Window>

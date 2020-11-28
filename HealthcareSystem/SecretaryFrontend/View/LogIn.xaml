@@ -1,0 +1,103 @@
+﻿<Window x:Class="ProjekatZdravoKorporacija.LogIn"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjekatZdravoKorporacija"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Height="768" Width="1024"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="NoResize">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="721*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="493*"/>
+            <ColumnDefinition Width="65"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <Border.Background>
+                <ImageBrush ImageSource="/Resources/Icons/background_black.png"></ImageBrush>
+            </Border.Background>
+
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top" Height="799">
+                    <StackPanel DockPanel.Dock="Top">
+                        <StackPanel Height="190" HorizontalAlignment="Center">
+                            <Grid Height="264">
+                                <Image Source="/Resources/Icons/logo_photo.png"  HorizontalAlignment="Center" VerticalAlignment="Center" Height="221" Width="365" Margin="0,20,-0.2,10.2"/>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Height="27" Margin="0,70,0,0">
+                            <TextBlock HorizontalAlignment="Center" 
+                                   FontFamily="Helvetica" Height="25" 
+                                   FontSize="20"
+                                   Foreground="White" FontWeight="Medium">
+                                Prijavite se na sistem
+                            </TextBlock>
+                        </StackPanel>
+
+                        <Border Width="350" Height="300" CornerRadius="10" Background="White" BorderBrush="Black">
+                            <StackPanel DockPanel.Dock="Bottom" 
+                            HorizontalAlignment="Center" 
+                            Orientation="Vertical" Width="230">
+
+                                <StackPanel Orientation="Vertical" Height="70" Margin="0,60,0,0" FocusManager.FocusedElement="{Binding ElementName=username}">
+                                    <TextBox x:Name="NameTextBox"
+                                          materialDesign:HintAssist.Hint="Korisničko ime"
+                                          FontSize="18">
+                                    </TextBox>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" Height="70" Margin="0">
+                                    <PasswordBox
+                                     x:Name="PasswordBox"
+                                     materialDesign:HintAssist.Hint="Lozinka"
+                                     materialDesign:TextFieldAssist.HasClearButton="True"
+                                     FontSize="18"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Vertical" Height="71">
+                                    <Button Name="signInBtn"
+                                        Width="198" 
+                                        Content="Prijava" 
+                                        Margin="0,30,0,0"
+                                        FontSize="25"
+                                        Click="signInBtn_Click" 
+                                        BorderBrush="{x:Null}">
+                                        <Button.Effect>
+                                            <DropShadowEffect Color="#FF1A3951"/>
+                                        </Button.Effect>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </DockPanel>
+                
+            </DockPanel>
+        </Border>
+
+        <Button x:Name="closeBtn" Grid.Row="0" Grid.Column="1" Click="closeBtn_Click" 
+                BorderBrush="{x:Null}" Height="40" Width="40">
+            <Button.Background>
+                <ImageBrush ImageSource="/Resources/Icons/shutdown.png"/>
+            </Button.Background>
+        </Button>
+
+    </Grid>
+
+</Window>

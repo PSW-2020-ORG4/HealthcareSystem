@@ -1,0 +1,457 @@
+﻿<Page x:Class="ProjekatZdravoKorporacija.View.DetailsAboutPatient"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
+      xmlns:local="clr-namespace:ProjekatZdravoKorporacija.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800" 
+      Height="708" Width="959"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="13"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition  Height="80"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:Card Background="{DynamicResource MaterialDesignPaper}"
+                            Grid.Row="0" Grid.ColumnSpan="2">
+
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel>
+                            <Expander   x:Name="infoExpander"
+                                        HorizontalAlignment="Stretch"
+                                        IsExpanded="True" FontWeight="Medium" Width="937">
+                                <Expander.Header>
+                                    <TextBlock FontSize="18">Lični podaci</TextBlock>
+                                </Expander.Header>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="0" 
+                                         VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                         Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Ime:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                BorderBrush="LightGray"
+                                                BorderThickness="1"
+                                                Width="250" Height="40"
+                                                HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right"
+                                                       Name="txtName"
+                                                       Foreground="Gray"
+                                                       Height="40"
+                                                       FontSize="24"
+                                                       FontWeight="Normal"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" Margin="0">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center" Margin="0">Prezime:</Label>
+                                        <Border  VerticalAlignment="Center"
+                                                 BorderBrush="LightGray"
+                                                BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right" Margin="0">
+                                            <TextBlock DockPanel.Dock="Right" 
+                                                       Margin="0"
+                                                       Foreground="Gray"
+                                                       Height="40"
+                                                       FontSize="24" FontWeight="Normal"
+                                                       Name="txtSurname"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="0" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">JMBG:</Label>
+                                        <Border  VerticalAlignment="Center"
+                                                 BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right"
+                                                     Name="txtJmbg"
+                                                     Foreground="Gray"
+                                                     Height="40"
+                                                     FontSize="24" FontWeight="Normal"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Datum rođenja:</Label>
+                                        <Border  VerticalAlignment="Center"
+                                                 BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock FontSize="24" Margin="0" 
+                                                     FontWeight="Normal"
+                                                     Foreground="Gray"
+                                                     VerticalAlignment="Center" 
+                                                     Name="txtDateOfBirth"/>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="2" Grid.Column="0" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Pol:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock FontSize="24" Width="240"
+                                                     Foreground="Gray" Name="txtGender"
+                                                      FontWeight="Normal">
+                                            </TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                </Grid>
+                            </Expander>
+                        </StackPanel>
+                        
+                        <StackPanel>
+                            <Expander x:Name="adressExpander"
+                                      HorizontalAlignment="Stretch"
+                                       FontWeight="Medium"
+                                      IsExpanded="True"
+                                      FontSize="18" Width="937">
+                                <Expander.Header>
+                                    <TextBlock FontSize="18">Adresa i kontakt</TextBlock>
+                                </Expander.Header>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="0" 
+                                         VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Ulica:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                BorderBrush="LightGray"
+                                                BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right"
+                                                       TextWrapping="Wrap"
+                                                       Foreground="Gray"
+                                                       FontSize="20"
+                                                       FontWeight="Normal"
+                                                       Name="txtStreet"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="1" 
+                                         VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Grad:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right" 
+                                                       FontSize="24"
+                                                       FontWeight="Normal"
+                                                     Foreground="Gray"
+                                                     Name="txtCity"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="0" 
+                                        VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Telefon:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right"
+                                                     Foreground="Gray" FontSize="22"
+                                                       FontWeight="Normal"
+                                                     Name="txtPhone"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">email:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right" 
+                                                     Foreground="Gray" FontSize="22"
+                                                       FontWeight="Normal"
+                                                     Name="txtEmail"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+                                </Grid>
+                            </Expander>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <Expander x:Name="medicalExpander"
+                                      HorizontalAlignment="Stretch"
+                                      FontWeight="Medium" 
+                                      FontSize="18"
+                                      IsExpanded="True" Width="937">
+                                <Expander.Header>
+                                    <TextBlock FontSize="18">Medicinski karton</TextBlock>
+                                </Expander.Header>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="150"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <DockPanel Grid.Row="0" Grid.Column="0" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Krvna grupa:</Label>
+                                        <Border  VerticalAlignment="Center"
+                                                 BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="90" Height="40"
+                                                 HorizontalAlignment="Right" Margin="41,0,0,0">
+                                            <TextBlock FontSize="24"
+                                                      FontWeight="Normal"
+                                                      Foreground="Gray"
+                                                      Name="txtBloodType">
+                                            </TextBlock>
+                                        </Border>
+                                        <Border  VerticalAlignment="Center"
+                                                 BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="130" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock Margin="0" FontSize="24"
+                                                      FontWeight="Normal"
+                                                      Foreground="Gray"
+                                                      Name="txtRh">
+                                            </TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Alergije:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right" 
+                                                     Margin="0"
+                                                     FontSize="20"
+                                                     TextWrapping="WrapWithOverflow"
+                                                     Name="txtAllergy"
+                                                     Foreground="Gray"
+                                                     Height="40" 
+                                                     FontWeight="Normal"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="0" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Osiguranje:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right"  
+                                                       Margin="0"
+                                                     Name="txtHasOccurance"
+                                                     Height="40"
+                                                     Foreground="Gray"
+                                                     FontSize="24" FontWeight="Normal"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">LBO:</Label>
+                                        <Border  VerticalAlignment="Center"
+                                                 BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right" 
+                                                     Foreground="Gray"
+                                                     Margin="0"
+                                                     Height="40"
+                                                     FontSize="24"
+                                                     FontWeight="Normal"
+                                                     Name="txtLbo"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                         VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                               Width="910" Height="140" Margin="15,0,0,0" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Istorija bolesti:</Label>
+                                        <Border BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                VerticalAlignment="Center"
+                                                 Width="720" Height="120"
+                                                 HorizontalAlignment="Right">
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock FontSize="22" Width="240" Background="LightGray" IsEnabled="False">Datum</TextBlock>
+                                                    <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}" 
+                                                         Name="txtDate" Width="240" Height="90" 
+                                                         BorderBrush="Black" BorderThickness="1" IsEnabled="False"></TextBox>
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock FontSize="22" Width="240" Background="LightGray" IsEnabled="False">Opis bolesti</TextBlock>
+                                                    <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  BorderBrush="Black" BorderThickness="1"
+                                                         Name="txtDesc" Width="240" Height="90" IsEnabled="False"></TextBox>
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock FontSize="22" Width="240" Background="LightGray" IsEnabled="False">Terapija</TextBlock>
+                                                    <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  BorderBrush="Black" BorderThickness="1"
+                                                         Name="txtTherapy" Width="240" Height="90" IsEnabled="False"></TextBox>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+                                    </DockPanel>
+
+                                </Grid>
+                            </Expander>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <Expander   x:Name="userExpander"
+                                        HorizontalAlignment="Stretch"
+                                         FontWeight="Medium"
+                                        Width="937" IsExpanded="True"
+                                         Height="130"
+                                        FontSize="18">
+                                <Expander.Header>
+                                    <TextBlock FontSize="18">Korisnički podaci</TextBlock>
+                                </Expander.Header>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <DockPanel Grid.Column="0"
+                                        VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                         Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Korisničko ime:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBlock DockPanel.Dock="Right" 
+                                                       Foreground="Gray"
+                                                       FontSize="24"
+                                                       Name="txtUsername"></TextBlock>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Column="1"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                         Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Lozinka:</Label>
+                                        <Border VerticalAlignment="Center"
+                                                Width="250" Height="40"
+                                                BorderBrush="LightGray"
+                                                 BorderThickness="1"
+                                                 HorizontalAlignment="Right">
+                                            <PasswordBox DockPanel.Dock="Right" 
+                                                         CaretBrush="{x:Null}"  
+                                                         BorderBrush="#89000000"
+                                                         x:Name="pbPassword"
+                                                         FontSize="24"
+                                                         VerticalAlignment="Center"
+                                                         Foreground="Gray"></PasswordBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                </Grid>
+                            </Expander>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </materialDesign:Card>
+
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="2" 
+                        VerticalAlignment="Center" Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+                <Button BorderBrush="Black" 
+                        Width="150"
+                        Name="okBtn"
+                        Click="okBtn_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/yesBtn.png" Width="30"></Image>
+                        <TextBlock VerticalAlignment="Center">U redu</TextBlock>
+                    </StackPanel>
+                </Button>
+                
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Page>

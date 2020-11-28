@@ -8,7 +8,7 @@ using Model.PerformingExamination;
 
 namespace Backend.Repository.TherapyRepository.MySqlTherapyRepository
 {
-    class MySqlTherapyRepository : ITherapyRepository
+    public class MySqlTherapyRepository : ITherapyRepository
     {
         private readonly MyDbContext _context;
         public MySqlTherapyRepository(MyDbContext context)

@@ -213,11 +213,6 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
-    <Compile Include="Migrations\20201127194902_RoomsAndEquipment.cs" />
-    <Compile Include="Migrations\20201127194902_RoomsAndEquipment.designer.cs">
-      <DependentUpon>20201127194902_RoomsAndEquipment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository\FileConsumableEquimpentRepository\ConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository\IConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository\MySqlConsumableEquipmentRepository\MySqlConsumableEquipmentRepository.cs" />
@@ -227,6 +222,10 @@
     <Compile Include="Repository\NonConsumableEquipmentRepository\FileNonConsumableEquipmentRepository\NonConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\NonConsumableEquipmentRepository\INonConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\NonConsumableEquipmentRepository\MySqlNonConsumableEquipmentRepository\MySqlNonConsumableEquipmentRepository.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutDoctor.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutHospital.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutMedicalStaff.cs" />
+    <Compile Include="Model\NotificationSurveyAndFeedback\SurveyResult.cs" />
     <Compile Include="Service\Encryption\EncryptionService.cs" />
     <Compile Include="Model\Enums\Grade.cs" />
     <Compile Include="Model\Exceptions\DatabaseException.cs" />
@@ -367,6 +366,21 @@
     <Compile Include="Service\RoomAndEquipment\IRoomService.cs" />
     <Compile Include="Service\RoomAndEquipment\NonConsumableEquipmentService.cs" />
     <Compile Include="Service\RoomAndEquipment\RoomService.cs" />
+    <Compile Include="Service\SearchSpecification\AndSpecification.cs" />
+    <Compile Include="Service\SearchSpecification\CompositeSpecification.cs" />
+    <Compile Include="Service\SearchSpecification\ExaminationSearch\ExaminationAnamnesisSpecification.cs" />
+    <Compile Include="Service\SearchSpecification\ExaminationSearch\ExaminationDoctorSurnameSpecification.cs" />
+    <Compile Include="Service\SearchSpecification\ExaminationSearch\ExaminationEndDateSpecification.cs" />
+    <Compile Include="Service\SearchSpecification\ExaminationSearch\ExaminationSearchDTO.cs" />
+    <Compile Include="Service\SearchSpecification\ExaminationSearch\ExaminationStartDateSpecification.cs" />
+    <Compile Include="Service\SearchSpecification\ISpecification.cs" />
+    <Compile Include="Service\SearchSpecification\LogicalOperator.cs" />
+    <Compile Include="Service\SearchSpecification\OrSpecification.cs" />
+    <Compile Include="Service\SearchSpecification\TherapySearch\TherapyDoctorSurnameSpecification.cs" />
+    <Compile Include="Service\SearchSpecification\TherapySearch\TherapyDrugNameSpacification.cs" />
+    <Compile Include="Service\SearchSpecification\TherapySearch\TherapyEndDateSpecification.cs" />
+    <Compile Include="Service\SearchSpecification\TherapySearch\TherapySearchDTO.cs" />
+    <Compile Include="Service\SearchSpecification\TherapySearch\TherapyStartDateSpecification.cs" />
     <Compile Include="Service\SendingMail\IMailService.cs" />
     <Compile Include="Service\SendingMail\MailService.cs" />
     <Compile Include="Service\UsersAndWorkingTime\DoctorService.cs" />

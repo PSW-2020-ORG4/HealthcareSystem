@@ -1,4 +1,5 @@
 using Backend.Model;
+using Backend.Model.Exceptions;
 using Backend.Model.Pharmacies;
 using Backend.Service.Pharmacies;
 using Microsoft.Extensions.DependencyInjection;
@@ -84,11 +85,18 @@ namespace Backend.Service
 
         public void Subscribe(string exchangeName)
         {
-            throw new NotImplementedException();
+            if (exchangeName == null || exchangeName.Trim() == "")
+                throw new ArgumentException("Non valid exchange name");
+
+            _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
+            _channel.QueueBind(queue: _queueName, exchange: exchangeName, routingKey: "");
         }
 
         public void Unsubscribe(String exchangeName)
         {
+            if (exchangeName == null || exchangeName.Trim() == "")
+                throw new ArgumentException("Non valid exchange name");
+
             _channel.QueueUnbind(queue: _queueName, exchange: exchangeName, "", null);
         }
 

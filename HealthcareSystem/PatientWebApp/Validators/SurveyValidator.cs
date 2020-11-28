@@ -22,8 +22,7 @@ namespace PatientWebApp.Validators
         }
 
         public void ValidateSurveyFields(SurveyDTO surveyDTO)
-        {
-            
+        {           
             if (EmptyCheck(surveyDTO))
                 throw new ValidationException("Survey cannot be null.");
             if (!_doctorValidator.IsValidDoctorJmbg(surveyDTO.DoctorJmbg))
@@ -48,7 +47,7 @@ namespace PatientWebApp.Validators
                 return false;
             if (!IsValidGrade(surveyDTO.GettingAdviceByMedicalStaff))
                 return false;
-            if (!IsValidGrade(surveyDTO.EaseInObtainingFollowupInformationAndCare))
+            if (!IsValidGrade(surveyDTO.EaseInObtainingFollowUpInformation))
                 return false;
             if (!IsValidGrade(surveyDTO.Nursing))
                 return false;

@@ -16,6 +16,5 @@ namespace Backend.Service
         Doctor SignIn(string username, string password);
         bool IsUsernameValid(string username);
         bool IsPasswordValid(string password);
-
     }
 }

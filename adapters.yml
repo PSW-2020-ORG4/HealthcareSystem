@@ -21,6 +21,7 @@ jobs:
     inputs:
       targetType: 'inline'
       script: |
+        $reason = "$(Build.Reason)"
         if($(Build.Reason) -eq "PullRequest")
         {
             $files=$(git diff HEAD HEAD~ --name-only)

@@ -58,6 +58,18 @@ jobs:
   dependsOn: Check
   condition: eq(dependencies.Check.outputs['CheckChangedFiles.shouldBuild'], 'Yes')
   steps:
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core SDK 2.2.103 For Sonar Cloud'
+      inputs:
+        version: '2.2.103'
+    - task: SonarCloudPrepare@1
+      displayName: 'Prepare SonarCloud analysis'
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: '$(sonarOrganization)'
+        scannerMode: 'MSBuild'
+        projectKey: '$(sonarProjectKey)'
+        projectName: '$(sonarProjectName)'
     - task: UseDotNet@2
       inputs:
         packageType: 'sdk'
@@ -67,14 +79,6 @@ jobs:
         command: 'restore'
         projects: '$(project)'
         feedsToUse: 'select'
-    - task: SonarCloudPrepare@1
-      displayName: 'Prepare SonarCloud analysis'
-      inputs:
-        SonarCloud: 'SonarCloud'
-        organization: '$(sonarOrganization)'
-        scannerMode: 'MSBuild'
-        projectKey: '$(sonarProjectKey)'
-        projectName: '$(sonarProjectName)'    
     - task: DotNetCoreCLI@2
       inputs:
         command: 'build'

@@ -156,5 +156,6 @@ namespace PatientWebApp.Controllers
             }
             return RedirectPermanent("http://localhost:65117/html/patients_home_page.html");
         }
+
     }
 }

@@ -9,12 +9,12 @@ using Xunit;
 
 namespace PatientWebAppTests.UnitTests
 {
-    public class ExaminationAdvancedSearchTests
+    public class ExaminationSearchTests
     {
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
 
-        public ExaminationAdvancedSearchTests() {
+        public ExaminationSearchTests() {
 
             _objectFactory = new TestObjectFactory();
             _stubRepository = new StubRepository();

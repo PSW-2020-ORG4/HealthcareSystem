@@ -159,16 +159,16 @@
 
 });
 
-function addReportTable(examiantion) {
+function addReportTable(examination) {
   
     let report = $('<div style="margin-top: 40px; margin-left: 21%; margin-bottom:20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 40px;left: 450px; top: 200px; width:600px;">'
         + '<table><tr><td>'
         + '<table style="height: 220px; margin-left: 30px; margin-bottom: 20px; width: 350px;">'
         + '<tr><td colspan="2"><h5>Examination report information</h5></td></tr>'
-        + '<tr><th width="35%">Date:</th><td>' + examiantion.dateAndTime + '</td></tr>'
-        + '<tr><th>Doctor:</th><td>'+ examiantion.doctorName + ' ' +examiantion.doctorSurname + '</td></tr>'
-        + '<tr><th>Type:</th><td>' + examiantion.type + '</td></tr>'
-        + '<tr><th>Anamnesis:</th><td>' + examiantion.anamnesis + '</td></tr>'
+        + '<tr><th width="35%">Date:</th><td>' + examination.dateAndTime + '</td></tr>'
+        + '<tr><th>Doctor:</th><td>' + examination.doctorName + ' ' + examination.doctorSurname + '</td></tr>'
+        + '<tr><th>Type:</th><td>' + examination.type + '</td></tr>'
+        + '<tr><th>Anamnesis:</th><td>' + examination.anamnesis + '</td></tr>'
         + '</table></td></tr></table></div >');
 
     $('div#div_report').append(report);

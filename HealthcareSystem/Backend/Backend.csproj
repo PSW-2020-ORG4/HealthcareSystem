@@ -222,6 +222,11 @@
     <Compile Include="Repository\NonConsumableEquipmentRepository\FileNonConsumableEquipmentRepository\NonConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\NonConsumableEquipmentRepository\INonConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\NonConsumableEquipmentRepository\MySqlNonConsumableEquipmentRepository\MySqlNonConsumableEquipmentRepository.cs" />
+    <Compile Include="Migrations\20201129160109_MyNewMigration.cs" />
+    <Compile Include="Migrations\20201129160109_MyNewMigration.designer.cs">
+      <DependentUpon>20201129160109_MyNewMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutDoctor.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutHospital.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutMedicalStaff.cs" />

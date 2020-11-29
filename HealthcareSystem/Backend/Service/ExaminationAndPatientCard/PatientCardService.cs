@@ -22,7 +22,14 @@ namespace Backend.Service
         }
         public void AddPatientCard(PatientCard patientCard)
         {
-            _activePatientCardRepository.AddPatientCard(patientCard);
+            try
+            {
+                _activePatientCardRepository.AddPatientCard(patientCard);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("Patient card with id=" + patientCard.Id + " already exists in database.");
+            }
         }
         public PatientCard ViewPatientCard(string patientJmbg)
         {

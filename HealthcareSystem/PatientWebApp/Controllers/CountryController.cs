@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Model.Exceptions;
 using Backend.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,14 @@ namespace PatientWebApp.Controllers
         public IActionResult GetCountries()
         {
             List<CountryDTO> countryDTOs = new List<CountryDTO>();
-            _countryService.GetCountries().ForEach(country => countryDTOs.Add(CountryMapper.CountryToCountryDTO(country)));
+            try
+            {
+                _countryService.GetCountries().ForEach(country => countryDTOs.Add(CountryMapper.CountryToCountryDTO(country)));
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
             return Ok(countryDTOs);
         }
     }

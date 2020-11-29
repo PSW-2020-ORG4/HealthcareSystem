@@ -40,12 +40,17 @@
                 <a class="nav-link" href="search_documentation.html">Documentation</a>
             </li>
         </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="patient_profile.html">Profile</a>
+            </li>
+        </ul>
     </nav>
 
     <h3 style="margin-top: 30px; margin-left:20px;">Search documentation</h3>
 
     <!-- Search form -->
-    <div style="margin-top: 40px; margin-right: 20px; margin-left: 20px; border-style: solid; border-color: black; border-width: 1px; height: 150px; background-color: #cce6ff;">
+    <div style="margin-top: 40px; margin-right: 20px; margin-left: 20px; border-style: solid; border-color: black; border-width: 1px; height: 170px; background-color: #cce6ff;">
         <form id="search_prescription">
             <table>
                 <br/>
@@ -53,7 +58,7 @@
                 <tr>
                     <!-- Combo box -->
                     <td>
-                        <select class="form-control" id="doc_type" style="background-color: #cce6ff; width: 230px; height: 45px; margin-left: 80px; margin-top: 10px;">
+                        <select class="form-control" id="doc_type" style="background: white; width: 240px; height: 55px; margin-left: 30px; margin-top: 10px;">
                             <option value="prescription" id="recipe_search">Prescription</option>
                             <option value="report" id="examination_search">Examination report</option>
                         </select>
@@ -61,32 +66,32 @@
 
                     <!-- Input date -->
                     <td width="25%">
-                        <input id="start_date" class="textbox-n form-control" type="text" placeholder="Start date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 180px; height: 35px; margin-left: 40px; margin-top: 10px;" />
+                        <input id="start_date" class="textbox-n form-control" type="text" placeholder="Start date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 240px; background:white; height:45px; margin-left: 30px; margin-top: 10px;" />
                     </td>
 
                     <!-- Input date -->
                     <td width="25%">
-                        <input id="end_date" class="textbox-n form-control" type="text" placeholder="End date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 180px; height: 35px; margin-left: 20px; margin-top: 10px;" />
+                        <input id="end_date" class="textbox-n form-control" type="text" placeholder="End date" onfocus="(this.type='date')" onblur="(this.type='text')" style="width: 240px; background:white; height:45px; margin-left: 30px; margin-top: 10px;" />
                     </td>
 
                     <!-- Input text -->
                     <td width="25%">
-                        <input id="doctor_surname" type="text" placeholder="Doctor's surname" class="textbox-n form-control" style="width: 180px; height: 35px; margin-left: 20px; margin-top: 10px;" />
+                        <input id="doctor_surname" type="text" placeholder="Doctor's surname" class="textbox-n form-control" style="width: 240px; background:white; height:45px; margin-left: 30px; margin-top: 10px;"/>
                     </td>
 
                     <!-- Input text -->
                     <td width="25%">
-                        <input id="drug_exam_name" type="text" placeholder="" class="textbox-n form-control" style="width: 180px; height: 35px; margin-left: 20px; margin-top: 10px;" />
+                        <input id="drug_exam_name" type="text" placeholder="" class="textbox-n form-control" style="width: 240px; background:white; height:45px; margin-left: 30px; margin-top: 10px;" />
                     </td>
 
                     <!-- Search button -->
                     <td width="25%">
-                        <input type="submit" value="Search"/>
+                        <button style=" width:160px; margin-left:20px; height:45px;" class="btn btn-primary mb-2" id="search_btn" type="submit">Search</button>
                     </td>
                 </tr>
                 <tr>
                     <td width="25%">
-                        <a href="advanced_search_doc.html">&nbsp;&nbsp;&nbsp;&nbsp;Advanced search</a>
+                        <a href="advanced_search_doc.html" style="margin-left:30px;">Advanced search</a>
                     </td>
                 </tr>
             </table>
@@ -95,8 +100,7 @@
 
     <!-- Preview prescriptions and reports -->
     <div class="container" id="div_prescriptions">
-        <div class="border_prescriptions" id="border_prescriptions">
-        </div>
+     
     </div>
 
 

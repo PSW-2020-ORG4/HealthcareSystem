@@ -10,21 +10,47 @@ namespace PatientWebAppTests.CreateObjectsForTests
     {
         public Survey CreateInvalidTestObject()
         {
-            SurveyAboutDoctor surveyAboutDoctor = new SurveyAboutDoctor(behaviorOfDoctor: 0, doctorProfessionalism: 3, gettingAdviceByDoctor: 2,
-                                                                            availabilityOfDoctor: 3, doctorJmbg: "");
-            SurveyAboutMedicalStaff surveyAboutMedicalStaff = new SurveyAboutMedicalStaff(behaviorOfMedicalStaff: -2, medicalStaffProfessionalism: 5, 
-                                                                                            gettingAdviceByMedicalStaff: 3, easeInObtainingFollowUpInformation: 3);
-            SurveyAboutHospital surveyAboutHospital = new SurveyAboutHospital(nursing: 5, cleanliness: 9, overallRating: 3, satisfiedWithDrugAndInstrument: 4);
+            SurveyAboutDoctor surveyAboutDoctor = new SurveyAboutDoctor(
+                behaviorOfDoctor: 0, 
+                doctorProfessionalism: 3, 
+                gettingAdviceByDoctor: 2,
+                availabilityOfDoctor: 3, 
+                doctorJmbg: ""
+            );
+            SurveyAboutMedicalStaff surveyAboutMedicalStaff = new SurveyAboutMedicalStaff(
+                behaviorOfMedicalStaff: -2,
+                medicalStaffProfessionalism: 5, 
+                gettingAdviceByMedicalStaff: 3, 
+                easeInObtainingFollowUpInformation: 3
+            );
+            SurveyAboutHospital surveyAboutHospital = new SurveyAboutHospital(
+                nursing: 5, 
+                cleanliness: 9, 
+                overallRating: 3, 
+                satisfiedWithDrugAndInstrument: 4
+            );
             return new Survey(surveyAboutDoctor: surveyAboutDoctor, surveyAboutMedicalStaff: surveyAboutMedicalStaff, surveyAboutHospital: surveyAboutHospital);                                    
         }
 
         public Survey CreateValidTestObject()
         {
-            SurveyAboutDoctor surveyAboutDoctor = new SurveyAboutDoctor(behaviorOfDoctor: 3, doctorProfessionalism: 3, gettingAdviceByDoctor: 2,
-                                                                            availabilityOfDoctor: 3, doctorJmbg: "2211985888888");
-            SurveyAboutMedicalStaff surveyAboutMedicalStaff = new SurveyAboutMedicalStaff(behaviorOfMedicalStaff: 2, medicalStaffProfessionalism: 5,
-                                                                                            gettingAdviceByMedicalStaff: 3, easeInObtainingFollowUpInformation: 3);
-            SurveyAboutHospital surveyAboutHospital = new SurveyAboutHospital(nursing: 5, cleanliness: 4, overallRating: 3, satisfiedWithDrugAndInstrument: 4);
+            SurveyAboutDoctor surveyAboutDoctor = new SurveyAboutDoctor(
+                behaviorOfDoctor: 3, 
+                doctorProfessionalism: 3, 
+                gettingAdviceByDoctor: 2,                                                                
+                availabilityOfDoctor: 3, 
+                doctorJmbg: "2211985888888");
+            SurveyAboutMedicalStaff surveyAboutMedicalStaff = new SurveyAboutMedicalStaff(
+                behaviorOfMedicalStaff: 2, 
+                medicalStaffProfessionalism: 5,
+                gettingAdviceByMedicalStaff: 3, 
+                easeInObtainingFollowUpInformation: 3
+            );
+            SurveyAboutHospital surveyAboutHospital = new SurveyAboutHospital(
+                nursing: 5, 
+                cleanliness: 4, 
+                overallRating: 3, 
+                satisfiedWithDrugAndInstrument: 4);
             return new Survey(surveyAboutDoctor: surveyAboutDoctor, surveyAboutMedicalStaff: surveyAboutMedicalStaff, surveyAboutHospital: surveyAboutHospital);
         }
     }

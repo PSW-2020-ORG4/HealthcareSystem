@@ -53,11 +53,18 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public ISurveyRepository CreateSurveyStubRepository()
         {
             var surveyStubRepository = new Mock<ISurveyRepository>();
-            var surveyValidObject = _objectFactory.GetSurvey().CreateValidTestObject();
-            var surveys = new List<Survey>();
-            surveys.Add(surveyValidObject);
+
+            var surveyResultAboutDoctorValidObject = _objectFactory.GetSurveyResultAboutDoctor().CreateValidTestObject();
+            var surveyResultsAboutDoctor = new List<SurveyResult> { surveyResultAboutDoctorValidObject };
+            var surveyResultAboutHospitalValidObject = _objectFactory.GetSurveyResultAboutHospital().CreateValidTestObject();
+            var surveyResultsAboutHospital = new List<SurveyResult> { surveyResultAboutHospitalValidObject };
+            var surveyResultAboutMedicalStaffValidObject = _objectFactory.GetSurveyResultAboutMedicalStaff().CreateValidTestObject();
+            var surveyResultsAboutMedicalStaff = new List<SurveyResult> { surveyResultAboutMedicalStaffValidObject };
 
             surveyStubRepository.Setup(m => m.AddSurvey(new Survey()));
+            surveyStubRepository.Setup(m => m.GetSurveyResultsAboutDoctor("2211985888888")).Returns(surveyResultsAboutDoctor);
+            surveyStubRepository.Setup(m => m.GetSurveyResultsAboutHospital()).Returns(surveyResultsAboutHospital);
+            surveyStubRepository.Setup(m => m.GetSurveyResultsAboutMedicalStaff()).Returns(surveyResultsAboutMedicalStaff);
 
             return surveyStubRepository.Object;
         }

@@ -14,6 +14,14 @@ namespace Model.Manager
         public TypeOfConsumable Type { get; set; }
 
         public ConsumableEquipment() { }
+
+        public ConsumableEquipment(int equipmentId, int quantity, TypeOfConsumable typeOfConsumable)
+        {
+            Id = equipmentId;
+            Quantity = quantity;
+            Type = typeOfConsumable;
+        }
+
         public ConsumableEquipment(ConsumableEquipment consumableEquipment)
         {
             this.Id = consumableEquipment.Id;

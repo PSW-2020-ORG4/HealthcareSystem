@@ -9,10 +9,11 @@ using Model.Manager;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using Backend.Repository;
 
 namespace Repository
 {
-    public class ConsumableEquipmentRepository
+    public class ConsumableEquipmentRepository : IConsumableEquipmentRepository
     {
         private string path;
 
@@ -83,7 +84,7 @@ namespace Repository
             return true;
         }
 
-        public Model.Manager.ConsumableEquipment NewEquipment(Model.Manager.ConsumableEquipment equipment)
+        public ConsumableEquipment NewEquipment(ConsumableEquipment equipment)
         {
             List<ConsumableEquipment> consumableEquipment = ReadFromFile();
             ConsumableEquipment searchEquipment = GetEquipment(equipment.Id);

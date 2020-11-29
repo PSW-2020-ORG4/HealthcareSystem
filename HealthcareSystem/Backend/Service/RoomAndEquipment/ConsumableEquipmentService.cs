@@ -4,38 +4,58 @@
  * Purpose: Definition of the Class Service.ConsumableEquipmentService
  ***********************************************************************/
 
-using System;
+using Backend.Repository;
+using Backend.Repository.EquipmentInRoomsRepository;
+using Backend.Service.RoomAndEquipment;
 using Model.Manager;
-using Model.Users;
-using Repository;
 using System.Collections.Generic;
 
 namespace Service.RoomAndEquipment
 {
-   public class ConsumableEquipmentService
-{
-    private ConsumableEquipmentRepository consumableEquipmentRepository = new ConsumableEquipmentRepository();
-
-    public ConsumableEquipment newConsumableEquipment(ConsumableEquipment equipment)
+    public class ConsumableEquipmentService : IConsumableEquipmentService
+    {
+        private IConsumableEquipmentRepository _consumableEquipmentRepository;
+        private IEquipmentInRoomsRepository _equipmentInRoomRepository;
+        public ConsumableEquipmentService(IConsumableEquipmentRepository consumableEquipmentRepository, IEquipmentInRoomsRepository equipmentInRoomRepository)
         {
-            return consumableEquipmentRepository.NewEquipment(equipment);
+            _consumableEquipmentRepository = consumableEquipmentRepository;
+            _equipmentInRoomRepository = equipmentInRoomRepository;
         }
-    public List<ConsumableEquipment> ViewConsumableEquipment()
-    {
-            return consumableEquipmentRepository.GetAllEquipment();
-     }
+        public ConsumableEquipment newConsumableEquipment(ConsumableEquipment equipment)
+        {
+            return _consumableEquipmentRepository.NewEquipment(equipment);
+        }
+        public List<ConsumableEquipment> ViewConsumableEquipment()
+        {
+            return _consumableEquipmentRepository.GetAllEquipment();
+        }
 
-    public Model.Manager.ConsumableEquipment EditConsumableEquipment(Model.Manager.ConsumableEquipment equipment)
-    {
-            return consumableEquipmentRepository.SetEquipment(equipment);
-     }
+        public Model.Manager.ConsumableEquipment EditConsumableEquipment(Model.Manager.ConsumableEquipment equipment)
+        {
+            return _consumableEquipmentRepository.SetEquipment(equipment);
+        }
 
-    public bool DeleteConsumableEquipment(int id)
-    {
-            return consumableEquipmentRepository.DeleteEquipment(id);
-     }
+        public bool DeleteConsumableEquipment(int id)
+        {
+            return _consumableEquipmentRepository.DeleteEquipment(id);
+        }
 
-   
+        public List<ConsumableEquipment> GetConsumableEquipmentByRoomNumber(int roomNumber)
+        {
+            List<EquipmentInRooms> equipmentsInRoom = _equipmentInRoomRepository.GetEquipmentByRoom(roomNumber);
+            List<ConsumableEquipment> consumableEquipmentInRoom = new List<ConsumableEquipment>();
+            foreach (EquipmentInRooms equipmentInRoom in equipmentsInRoom)
+            {
+                ConsumableEquipment consumableEquipment = _consumableEquipmentRepository.GetEquipment(equipmentInRoom.IdEquipment);
+                if (consumableEquipment != null)
+                {
+                    consumableEquipmentInRoom.Add(consumableEquipment);
+                }
+            }
+            return consumableEquipmentInRoom;
+        }
 
-}
+
+
+    }
 }

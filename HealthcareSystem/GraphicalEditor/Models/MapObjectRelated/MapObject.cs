@@ -1,6 +1,8 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models.MapObjectRelated;
+using GraphicalEditor.Service;
+using Model.Manager;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -106,6 +108,24 @@ namespace GraphicalEditor.Models
             canvas.Children.Remove(MapObjectDoor.Rectangle);
             canvas.Children.Remove(Rectangle);
         }
+        public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber()
+        {
+            EquipementService equipmentService = new EquipementService();
+            List<NonConsumableEquipment> nonConsumableEquipment = equipmentService.GetNonConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
+            return nonConsumableEquipment;
+        }
+
+        public List<ConsumableEquipment> GetConsumableEquipmentByRoomNumber()
+        {
+            EquipementService equipmentService = new EquipementService();
+            List<ConsumableEquipment> consumableEquipment = equipmentService.GetConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
+            return consumableEquipment;
+        }
+
+        public Boolean CheckIfDBAddableRoom()
+            => MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.EXAMINATION_ROOM
+                || MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.HOSPITALIZATION_ROOM
+                || MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.OPERATION_ROOM;
 
     }
 }

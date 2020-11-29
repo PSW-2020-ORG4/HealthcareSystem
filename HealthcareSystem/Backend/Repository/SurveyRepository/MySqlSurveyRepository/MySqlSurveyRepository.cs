@@ -1,4 +1,5 @@
 ﻿using Backend.Model;
+using Backend.Model.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,15 +25,22 @@ namespace Backend.Repository
         public List<SurveyResult> GetSurveyResultsAboutDoctor(string jmbg)
         {
             List<SurveyResult> surveyResults = new List<SurveyResult>();
-            SurveyResult behaviorOfDoctor = getSurveyResultAboutBehaviorOfDoctor(jmbg);          
-            SurveyResult doctorProfessionalism = getSurveyResultAboutDoctorProfessionalism(jmbg);
-            SurveyResult gettingAdviceByDoctor = getSurveyResultAboutGettingAdviceByDoctor(jmbg);
-            SurveyResult availabilityOfDoctor = getSurveyResultAboutAvailabilityOfDoctor(jmbg);
-            surveyResults.Add(behaviorOfDoctor);
-            surveyResults.Add(doctorProfessionalism);
-            surveyResults.Add(gettingAdviceByDoctor);
-            surveyResults.Add(availabilityOfDoctor);
-            return surveyResults;
+            try
+            {
+                SurveyResult behaviorOfDoctor = getSurveyResultAboutBehaviorOfDoctor(jmbg);
+                SurveyResult doctorProfessionalism = getSurveyResultAboutDoctorProfessionalism(jmbg);
+                SurveyResult gettingAdviceByDoctor = getSurveyResultAboutGettingAdviceByDoctor(jmbg);
+                SurveyResult availabilityOfDoctor = getSurveyResultAboutAvailabilityOfDoctor(jmbg);
+                surveyResults.Add(behaviorOfDoctor);
+                surveyResults.Add(doctorProfessionalism);
+                surveyResults.Add(gettingAdviceByDoctor);
+                surveyResults.Add(availabilityOfDoctor);
+                return surveyResults;
+            }
+            catch (NotFoundException exception)
+            {
+                throw new NotFoundException(exception.Message);
+            }                  
         }      
 
         public List<SurveyResult> GetSurveyResultsAboutHospital()
@@ -59,8 +67,7 @@ namespace Backend.Repository
             surveyResults.Add(behaviorOfMedicalStaff);
             surveyResults.Add(medicalStaffProfessionalism);
             surveyResults.Add(gettingAdviceByMedicalStaff);
-            surveyResults.Add(easeInObtainingFollowupInformation);
-           
+            surveyResults.Add(easeInObtainingFollowupInformation);          
             return surveyResults;
         }
 
@@ -72,53 +79,81 @@ namespace Backend.Repository
         private SurveyResult getSurveyResultAboutBehaviorOfDoctor(string jmbg)
         {
             SurveyResult behaviorOfDoctor = new SurveyResult();
-            behaviorOfDoctor.RatedItem = "Behavior of doctor";
-            behaviorOfDoctor.AverageRating = GetSurveysByDoctor(jmbg).Average(x => x.BehaviorOfDoctor);
-            behaviorOfDoctor.NumberOfGradesOne = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 1);
-            behaviorOfDoctor.NumberOfGradesTwo = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 2);
-            behaviorOfDoctor.NumberOfGradesThree = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 3);
-            behaviorOfDoctor.NumberOfGradesFour = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 4);
-            behaviorOfDoctor.NumberOfGradesFive = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 5);
-            return behaviorOfDoctor;
+            try
+            {
+                behaviorOfDoctor.RatedItem = "Behavior of doctor";
+                behaviorOfDoctor.AverageRating = GetSurveysByDoctor(jmbg).Average(x => x.BehaviorOfDoctor);
+                behaviorOfDoctor.NumberOfGradesOne = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 1);
+                behaviorOfDoctor.NumberOfGradesTwo = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 2);
+                behaviorOfDoctor.NumberOfGradesThree = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 3);
+                behaviorOfDoctor.NumberOfGradesFour = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 4);
+                behaviorOfDoctor.NumberOfGradesFive = GetSurveysByDoctor(jmbg).Count(x => x.BehaviorOfDoctor == 5);
+                return behaviorOfDoctor;
+            }
+            catch (Exception)
+            {
+                throw new NotFoundException("Survey result about doctor doesn't exist in database.");
+            }      
         }
 
         private SurveyResult getSurveyResultAboutDoctorProfessionalism(string jmbg)
         {
             SurveyResult doctorProfessionalism = new SurveyResult();
-            doctorProfessionalism.RatedItem = "Professionalism";
-            doctorProfessionalism.AverageRating = GetSurveysByDoctor(jmbg).Average(x => x.DoctorProfessionalism);
-            doctorProfessionalism.NumberOfGradesOne = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 1);
-            doctorProfessionalism.NumberOfGradesTwo = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 2);
-            doctorProfessionalism.NumberOfGradesThree = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 3);
-            doctorProfessionalism.NumberOfGradesFour = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 4);
-            doctorProfessionalism.NumberOfGradesFive = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 5);
-            return doctorProfessionalism;
+            try
+            {
+                doctorProfessionalism.RatedItem = "Professionalism";
+                doctorProfessionalism.AverageRating = GetSurveysByDoctor(jmbg).Average(x => x.DoctorProfessionalism);
+                doctorProfessionalism.NumberOfGradesOne = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 1);
+                doctorProfessionalism.NumberOfGradesTwo = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 2);
+                doctorProfessionalism.NumberOfGradesThree = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 3);
+                doctorProfessionalism.NumberOfGradesFour = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 4);
+                doctorProfessionalism.NumberOfGradesFive = GetSurveysByDoctor(jmbg).Count(x => x.DoctorProfessionalism == 5);
+                return doctorProfessionalism;
+            }
+            catch (Exception)
+            {
+                throw new NotFoundException("Survey result about doctor doesn't exist in database.");
+            }         
         }
 
         private SurveyResult getSurveyResultAboutGettingAdviceByDoctor(string jmbg)
         {
             SurveyResult gettingAdviceByDoctor = new SurveyResult();
-            gettingAdviceByDoctor.RatedItem = "Getting advice by doctor";
-            gettingAdviceByDoctor.AverageRating = GetSurveysByDoctor(jmbg).Average(x => x.GettingAdviceByDoctor);
-            gettingAdviceByDoctor.NumberOfGradesOne = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 1);
-            gettingAdviceByDoctor.NumberOfGradesTwo = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 2);
-            gettingAdviceByDoctor.NumberOfGradesThree = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 3);
-            gettingAdviceByDoctor.NumberOfGradesFour = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 4);
-            gettingAdviceByDoctor.NumberOfGradesFive = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 5);
-            return gettingAdviceByDoctor;
+            try
+            {
+                gettingAdviceByDoctor.RatedItem = "Getting advice by doctor";
+                gettingAdviceByDoctor.AverageRating = GetSurveysByDoctor(jmbg).Average(x => x.GettingAdviceByDoctor);
+                gettingAdviceByDoctor.NumberOfGradesOne = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 1);
+                gettingAdviceByDoctor.NumberOfGradesTwo = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 2);
+                gettingAdviceByDoctor.NumberOfGradesThree = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 3);
+                gettingAdviceByDoctor.NumberOfGradesFour = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 4);
+                gettingAdviceByDoctor.NumberOfGradesFive = GetSurveysByDoctor(jmbg).Count(x => x.GettingAdviceByDoctor == 5);
+                return gettingAdviceByDoctor;
+            }
+            catch (Exception)
+            {
+                throw new NotFoundException("Survey result about doctor doesn't exist in database.");
+            }       
         }
 
         private SurveyResult getSurveyResultAboutAvailabilityOfDoctor(string jmbg)
         {
             SurveyResult availabilityOfDoctor = new SurveyResult();
-            availabilityOfDoctor.RatedItem = "Availability of doctor";
-            availabilityOfDoctor.AverageRating = GetSurveysByDoctor(jmbg).Average(x => x.AvailabilityOfDoctor);
-            availabilityOfDoctor.NumberOfGradesOne = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 1);
-            availabilityOfDoctor.NumberOfGradesTwo = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 2);
-            availabilityOfDoctor.NumberOfGradesThree = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 3);
-            availabilityOfDoctor.NumberOfGradesFour = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 4);
-            availabilityOfDoctor.NumberOfGradesFive = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 5);
-            return availabilityOfDoctor;
+            try
+            {
+                availabilityOfDoctor.RatedItem = "Availability of doctor";
+                availabilityOfDoctor.AverageRating = GetSurveysByDoctor(jmbg).Average(x => x.AvailabilityOfDoctor);
+                availabilityOfDoctor.NumberOfGradesOne = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 1);
+                availabilityOfDoctor.NumberOfGradesTwo = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 2);
+                availabilityOfDoctor.NumberOfGradesThree = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 3);
+                availabilityOfDoctor.NumberOfGradesFour = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 4);
+                availabilityOfDoctor.NumberOfGradesFive = GetSurveysByDoctor(jmbg).Count(x => x.AvailabilityOfDoctor == 5);
+                return availabilityOfDoctor;
+            }
+            catch (Exception)
+            {
+                throw new NotFoundException("Survey result about doctor doesn't exist in database.");
+            }          
         }
 
         private SurveyResult getSurveyResultAboutNursing()
@@ -133,7 +168,7 @@ namespace Backend.Repository
             nursing.NumberOfGradesFive = _context.SurveysAboutHospital.Count(x => x.Nursing == 5);
             return nursing;
         }
-
+        
         private SurveyResult getSurveyResultAboutCleanliness()
         {
             SurveyResult cleanliness = new SurveyResult();

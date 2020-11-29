@@ -53,47 +53,6 @@
 	});
 
 
-	//***************************************************************************** on change  
-	/*
-	function changeDoctor(event) {
-
-		alert(" onchange  function ");
-
-		var selectElement = document.getElementById("doctors");
-		var doctorValue = selectElement.options[selectElement.selectedIndex].value;
-
-		$.ajax({
-			url: "/api/survey/surveyResultAboutDoctor/" + doctorValue,
-			type: "GET",
-			dataType: 'json',
-			processData: false,
-			contentType: false,
-			success: function (surveyResult) {
-				alert("success - doctor selected")
-				console.log('success - doctor selected');
-				if (surveyResult.length == 0) {
-					console.log("there are no survey results about doctor");
-				}
-				else {
-					//document.getElementById('survey_result_Doctor').innerHTML = "";
-					//$('div#survey_result_Doctor').detach(); //  empty();
-					let overallAverageRating = calculateOverallAverageRating(surveyResult);
-					$('div#survey_result_Doctor').append('<p class="text-center h5 mb-4">Overall average rating: ' + overallAverageRating + ' / 5</p>');
-					for (let i = 0; i < surveyResult.length; i++) {
-						let divElement = addOneSurveyResult(surveyResult[i]);
-						$('div#survey_result_Doctor').append(divElement);
-					}
-				}
-			},
-			error: function () {
-				alert("error getting survey result about doctor");
-				console.log('error getting survey result about doctor');
-			}
-		});
-	}
-	*/
-
-
 	$.ajax({
 		url: "/api/doctor",
 		type: "GET",
@@ -173,6 +132,7 @@ function changeDoctor(event) {
 		success: function (surveyResult) {
 			console.log('success - doctor selected');
 			if (surveyResult.length == 0) {
+				alert("there are no survey results about doctor");
 				console.log("there are no survey results about doctor");
 			}
 			else {
@@ -185,9 +145,10 @@ function changeDoctor(event) {
 				}
 			}
 		},
-		error: function () {
-			alert("error getting survey result about doctor");
-			console.log('error getting survey result about doctor');
+		error: function (jqXHR) {
+			document.getElementById('survey_result_Doctor').innerHTML = "";
+			alert(jqXHR.responseText);
+			console.log(jqXHR.responseText);
 		}
 	});
 }

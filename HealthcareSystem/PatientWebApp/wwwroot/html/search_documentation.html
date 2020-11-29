@@ -44,7 +44,7 @@
 
     <h3 style="margin-top: 30px; margin-left:20px;">Search documentation</h3>
 
-    <!-- Serch form -->
+    <!-- Search form -->
     <div style="margin-top: 40px; margin-right: 20px; margin-left: 20px; border-style: solid; border-color: black; border-width: 1px; height: 150px; background-color: #cce6ff;">
         <form id="search_prescription">
             <table>
@@ -54,7 +54,6 @@
                     <!-- Combo box -->
                     <td>
                         <select class="form-control" id="doc_type" style="background-color: #cce6ff; width: 230px; height: 45px; margin-left: 80px; margin-top: 10px;">
-                            <option value="" disabled selected id="no_type">Type of document</option>
                             <option value="prescription" id="recipe_search">Prescription</option>
                             <option value="report" id="examination_search">Examination report</option>
                         </select>
@@ -72,7 +71,7 @@
 
                     <!-- Input text -->
                     <td width="25%">
-                        <input id="doctor_name" type="text" placeholder="Doctor's name" class="textbox-n form-control" style="width: 180px; height: 35px; margin-left: 20px; margin-top: 10px;" />
+                        <input id="doctor_surname" type="text" placeholder="Doctor's surname" class="textbox-n form-control" style="width: 180px; height: 35px; margin-left: 20px; margin-top: 10px;" />
                     </td>
 
                     <!-- Input text -->
@@ -80,47 +79,23 @@
                         <input id="drug_exam_name" type="text" placeholder="" class="textbox-n form-control" style="width: 180px; height: 35px; margin-left: 20px; margin-top: 10px;" />
                     </td>
 
-                    <!-- Serch button -->
+                    <!-- Search button -->
                     <td width="25%">
-                        <button style=" width:120px; margin-right:30px;" class="btn btn-primary mb-2" id="search_btn" type="submit">Search</button>
+                        <input type="submit" value="Search"/>
                     </td>
                 </tr>
-
+                <tr>
+                    <td width="25%">
+                        <a href="advanced_search_doc.html">&nbsp;&nbsp;&nbsp;&nbsp;Advanced search</a>
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
 
     <!-- Preview prescriptions and reports -->
-    <div class="container" id="div_prescriptions" style="margin-top: 40px; margin-left: 20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 40px;left: 450px; top: 200px; width:600px;">
-        <div class="border_prescriptions" style="width: 600px; ">
-
-            <table class="table_prescription">
-                <tr>
-                    <td>
-                        <table style="height: 220px; margin-left: 40px; width: 350px;">
-                            <tr>
-                                <td colspan="2"><h5>Prescription information</h5></td>
-                            </tr>
-                            <tr>
-                                <th width="35%">Date:</th>
-                                <td>20/10/2020</td>
-                            </tr>
-                            <tr>
-                                <th>Doctor:</th>
-                                <td>Ana Miletic</td>
-                            </tr>
-                            <tr>
-                                <th>Drug:</th>
-                                <td>Amoksicilin</td>
-                            </tr>
-                            <tr>
-                                <th>Daily dose:</th>
-                                <td>3</td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+    <div class="container" id="div_prescriptions">
+        <div class="border_prescriptions" id="border_prescriptions">
         </div>
     </div>
 

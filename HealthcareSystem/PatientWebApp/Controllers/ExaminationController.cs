@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.Exceptions;
 using Backend.Service.ExaminationAndPatientCard;
+using Backend.Service.SearchSpecification;
+using Backend.Service.SearchSpecification.ExaminationSearch;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
@@ -36,6 +38,7 @@ namespace PatientWebApp.Controllers
                 return NotFound(exception.Message);
             }
         }
+
         /// <summary>
         /// /getting examinations linked to a certain patient
         /// </summary>
@@ -50,9 +53,11 @@ namespace PatientWebApp.Controllers
                 _examinationService.GetExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
                 return Ok(examinationDTOs);
             }
-            catch (Exception)
+
+            catch (NotFoundException exception)
             {
-                return NotFound();
+                return NotFound(exception.Message);
+
             }
         }
 
@@ -81,5 +86,26 @@ namespace PatientWebApp.Controllers
                 return NotFound();
             }
         }
+
+        /// /getting searched examinations linked to a certain patient
+        /// </summary>
+        /// <param name="examinationSearchDTO">an object need be find in the database</param>
+        /// <returns>if alright returns code 200(Ok), if not 400(not found)</returns>
+        [HttpPost("advance-search")]
+        public ActionResult AdvanceSearchExaminations(ExaminationSearchDTO examinationSearchDTO)
+        {
+            try
+            {
+                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
+                _examinationService.AdvancedSearch(examinationSearchDTO).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
+                return Ok(examinationDTOs);
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
+
+        }
+
     }
 }

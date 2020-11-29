@@ -1,4 +1,4 @@
-﻿using Backend.Model;
+using Backend.Model;
 using System.Collections.Generic;
 
 namespace Backend.Service
@@ -13,5 +13,6 @@ namespace Backend.Service
         void CreateActionBenefit(string exchangeName, ActionBenefitMessage message);
         void UpdateActionBenefit(ActionBenefit ab);
         void DeleteActionBenefit(int id);
+        void MakePublic(int id, bool isPublic);
     }
 }

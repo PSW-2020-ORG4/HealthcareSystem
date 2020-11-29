@@ -335,7 +335,9 @@ namespace Backend.Repository.ExaminationRepository.FileExaminationRepository
                 hours = 0;
                 for (int i = 0; i < 16; i++)
                 {
-                    result.Add(new Examination(++lastId, new TypeOfExamination(), date.AddHours(hours), anamnesis, new Doctor(doctor), new Room(), new PatientCard()));
+
+                    result.Add(new Examination(++lastId, new TypeOfExamination(), date.AddHours(hours),"", new Doctor(doctor), new Room(), new PatientCard()));
+
                     hours += DURATION_OF_EXAMINATION;
                 }
             }

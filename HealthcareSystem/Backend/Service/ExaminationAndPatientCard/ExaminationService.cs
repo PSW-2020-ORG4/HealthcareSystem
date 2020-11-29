@@ -13,6 +13,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using Backend.Repository.ExaminationRepository;
 using Backend.Service.ExaminationAndPatientCard;
+using Backend.Model.Exceptions;
+using Backend.Service.SearchSpecification;
+using System.Linq;
+using Backend.Service.SearchSpecification.ExaminationSearch;
 
 namespace Service.ExaminationAndPatientCard
 {
@@ -106,7 +110,13 @@ namespace Service.ExaminationAndPatientCard
 
         public List<Examination> GetExaminationsByPatient(string patientJmbg)
         {
-            return _scheduledExaminationRepository.GetExaminationsByPatient(patientJmbg);
+            List<Examination> examinations = _scheduledExaminationRepository.GetExaminationsByPatient(patientJmbg);
+
+            if (examinations == null)
+            {
+                throw new NotFoundException("There is no patients examinations in database.");
+            }
+            return examinations;
         }
 
         public List<Examination> GetExaminationsByRoom(int numberOfRoom)
@@ -128,6 +138,7 @@ namespace Service.ExaminationAndPatientCard
         {
             _scheduledExaminationRepository.UpdateExamination(examination);
         }
+
 
         public bool GetExaminationsByPatientSearch1(Examination e, string startDate, string endDate, string doctorSurname, string anamesis)
         {
@@ -259,6 +270,18 @@ namespace Service.ExaminationAndPatientCard
                 }
             }
             return filteredExamintion;
+
+        public List<Examination> AdvancedSearch(ExaminationSearchDTO parameters)
+        {
+            List<Examination> examinations = GetExaminationsByPatient(parameters.Jmbg);
+
+            ISpecification<Examination> filter = new ExaminationStartDateSpecification(parameters.StartDate);
+            filter = filter.BinaryOperation(parameters.EndDateOperator, new ExaminationEndDateSpecification(parameters.EndDate));
+            filter = filter.BinaryOperation(parameters.DoctorSurnameOperator, new ExaminationDoctorSurnameSpecification(parameters.DoctorSurname));
+            filter = filter.BinaryOperation(parameters.AnamnesisOperator, new ExaminationAnamnesisSpecification(parameters.Anamnesis));
+            
+            return examinations.Where(examination => filter.IsSatisfiedBy(examination)).ToList();
+
         }
     }
 }

@@ -15,6 +15,10 @@ using Backend.Service.SendingMail;
 using System.Threading.Tasks;
 using Backend.Model.Users;
 using Service.ExaminationAndPatientCard;
+using Backend.Model.Exceptions;
+using Backend.Service.SearchSpecification.ExaminationSearch;
+using Backend.Service.SearchSpecification;
+
 
 namespace PatientWebAppTests.UnitTests
 {
@@ -29,36 +33,59 @@ namespace PatientWebAppTests.UnitTests
             _stubRepository = new StubRepository();
         }
 
+
+        private ExaminationController SetupExaminationController()
+        {
+            ExaminationService examinationService = new ExaminationService(_stubRepository.CreateExaminationStubRepository());
+
+            ExaminationController examinationController = new ExaminationController(examinationService);
+
+            return examinationController;
+        }
+
         [Fact]
         public void Get_existent_examination_by_patient_jmbg()
         {
-            ExaminationService examinationService = new ExaminationService(_stubRepository.CreateExaminationStubRepository());
-            ExaminationController examinationController = new ExaminationController(examinationService);
+            ExaminationController examinationController = SetupExaminationController();
 
-            var result = examinationController.GetExaminationsByPatient("1");
+            var result = examinationController.GetExaminationsByPatient("1309998775018");
 
             Assert.True(result is OkObjectResult);
         }
+
+
         [Fact]
-        public void Get_non_existent_examination_by_patient_jmbg()
+        public void Get_existent_examination_by_non_patient_jmbg()
         {
-            ExaminationService examinationService = new ExaminationService(_stubRepository.CreateExaminationStubRepository());
-            ExaminationController examinationController = new ExaminationController(examinationService);
+            ExaminationController examinationController = SetupExaminationController();
 
-            var result = examinationController.GetExaminationsByPatient("2q84793");
+            var result = examinationController.GetExaminationsByPatient("0000000000000");
 
-            Assert.True(result is NotFoundResult);
+            Assert.True(result is NotFoundObjectResult);
         }
-       /* [Fact]
-        public void Get_existent_examination_by_patient_search_one()
-        {
-            ExaminationService examinationService = new ExaminationService(_stubRepository.CreateExaminationStubRepository());
-            ExaminationController examinationController = new ExaminationController(examinationService);
 
-            var result = examinationController.GetExaminationsByPatientSearch("1","","","","");
+        [Fact]
+        public void Advanced_search_examination()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var examinationSearchDTOValidObject = _objectFactory.GetExaminationSearchDTO().CreateValidTestObject();
+            var result = examinationController.AdvanceSearchExaminations(examinationSearchDTOValidObject);
 
             Assert.True(result is OkObjectResult);
-        } */
+        }
+
+        [Fact]
+        public void Advanced_search_non_exitent_examination()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var examinationSearchDTOInvalidObject = _objectFactory.GetExaminationSearchDTO().CreateInvalidTestObject();
+            var result = examinationController.AdvanceSearchExaminations(examinationSearchDTOInvalidObject);
+
+            Assert.True(result is NotFoundObjectResult);
+        }
+
 
     }
 }

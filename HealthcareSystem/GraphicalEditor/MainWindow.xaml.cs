@@ -61,6 +61,17 @@ namespace GraphicalEditor
             }
         }
 
+        private int _selectedMenuOptionIndex = 0;
+        public int SelectedMenuOptionIndex
+        {
+            get { return _selectedMenuOptionIndex; }
+            set
+            {
+                _selectedMenuOptionIndex = value;
+                OnPropertyChanged("SelectedMenuOptionIndex");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName = null)
@@ -177,7 +188,7 @@ namespace GraphicalEditor
 
         public void ChangeEditButtonVisibility()
         {
-            EditObjectButton.Visibility = Visibility.Hidden;
+            EditObjectButton.Visibility = Visibility.Collapsed;
             EditMode = false;
 
             if (!String.IsNullOrEmpty(_currentUserRole) && _currentUserRole.Equals("Manager") && (_selectedMapObject != null))
@@ -400,19 +411,24 @@ namespace GraphicalEditor
 
         private void ListViewExtendMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int selectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
+            SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
 
-            switch (selectedMenuOptionIndex)
+            switch (SelectedMenuOptionIndex)
             {
                 case 0:
+                    IsMenuOpened = false;
                     break;
                 case 1:
+                    IsMenuOpened = false;
                     break;
                 case 2:
+                    IsMenuOpened = false;
                     break;
                 case 3:
+                    IsMenuOpened = false;
                     break;
                 case 4:
+                    IsMenuOpened = false;
                     break;
             }
         }

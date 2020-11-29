@@ -36,7 +36,7 @@ namespace PatientWebApp.Mappers
             ExaminationDTO dto = new ExaminationDTO();
             dto.Id = examination.Id;
             dto.Type = examination.Type.ToString();
-            dto.DateAndTime = examination.DateAndTime.ToString();
+            dto.DateAndTime = examination.DateAndTime.ToShortDateString();
             dto.DoctorJmbg = examination.DoctorJmbg;
             dto.PatientJmbg = examination.PatientCard.PatientJmbg;
             if (dto.DoctorJmbg == null)

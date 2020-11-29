@@ -11,25 +11,41 @@ namespace PatientWebApp.Mappers
     {
         public static Survey SurveyDTOToSurvey(SurveyDTO dto)
         {
-            Survey survey = new Survey();
-            survey.Id = dto.Id;
-            survey.DoctorJmbg = dto.DoctorJmbg;
-            survey.BehaviorOfDoctor = dto.BehaviorOfDoctor;
-            survey.DoctorProfessionalism = dto.DoctorProfessionalism;
-            survey.GettingAdviceByDoctor = dto.GettingAdviceByDoctor;
-            survey.AvailabilityOfDoctor = dto.AvailabilityOfDoctor;
-            survey.BehaviorOfMedicalStaff = dto.BehaviorOfMedicalStaff;
-            survey.MedicalStaffProfessionalism = dto.MedicalStaffProfessionalism;
-            survey.GettingAdviceByMedicalStaff = dto.GettingAdviceByMedicalStaff;
-            survey.EaseInObtainingFollowupInformationAndCare = dto.EaseInObtainingFollowupInformationAndCare;
-            survey.Nursing = dto.Nursing;
-            survey.Cleanliness = dto.Cleanliness;
-            survey.OverallRating = dto.OverallRating;
-            survey.SatisfiedWithDrugAndInstrument = dto.SatisfiedWithDrugAndInstrument;
-
-            return survey;
+            SurveyAboutDoctor surveyAboutDoctor = CreateSurveyAboutDoctor(dto);
+            SurveyAboutMedicalStaff surveyAboutMedicalStaff = CreateSurveyAboutMedicalStaff(dto);
+            SurveyAboutHospital surveyAboutHospital = CreateSurveyAboutHospital(dto);
+            return new Survey(surveyAboutDoctor, surveyAboutMedicalStaff, surveyAboutHospital);
         }
 
+        private static SurveyAboutHospital CreateSurveyAboutHospital(SurveyDTO dto)
+        {
+            SurveyAboutHospital surveyAboutHospital = new SurveyAboutHospital();
+            surveyAboutHospital.Nursing = dto.Nursing;
+            surveyAboutHospital.Cleanliness = dto.Cleanliness;
+            surveyAboutHospital.OverallRating = dto.OverallRating;
+            surveyAboutHospital.SatisfiedWithDrugAndInstrument = dto.SatisfiedWithDrugAndInstrument;
+            return surveyAboutHospital;
+        }
 
+        private static SurveyAboutMedicalStaff CreateSurveyAboutMedicalStaff(SurveyDTO dto)
+        {
+            SurveyAboutMedicalStaff surveyAboutMedicalStaff = new SurveyAboutMedicalStaff();
+            surveyAboutMedicalStaff.BehaviorOfMedicalStaff = dto.BehaviorOfMedicalStaff;
+            surveyAboutMedicalStaff.MedicalStaffProfessionalism = dto.MedicalStaffProfessionalism;
+            surveyAboutMedicalStaff.GettingAdviceByMedicalStaff = dto.GettingAdviceByMedicalStaff;
+            surveyAboutMedicalStaff.EaseInObtainingFollowUpInformation = dto.EaseInObtainingFollowUpInformation;
+            return surveyAboutMedicalStaff;
+        }
+
+        private static SurveyAboutDoctor CreateSurveyAboutDoctor(SurveyDTO dto)
+        {
+            SurveyAboutDoctor surveyAboutDoctor = new SurveyAboutDoctor();
+            surveyAboutDoctor.BehaviorOfDoctor = dto.BehaviorOfDoctor;
+            surveyAboutDoctor.DoctorProfessionalism = dto.DoctorProfessionalism;
+            surveyAboutDoctor.GettingAdviceByDoctor = dto.GettingAdviceByDoctor;
+            surveyAboutDoctor.AvailabilityOfDoctor = dto.AvailabilityOfDoctor;
+            surveyAboutDoctor.DoctorJmbg = dto.DoctorJmbg;
+            return surveyAboutDoctor;
+        }
     }
 }

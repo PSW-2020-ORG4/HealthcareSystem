@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Service.SearchSpecification.TherapySearch;
 using Model.PerformingExamination;
 
 namespace Backend.Service.DrugAndTherapy
@@ -19,8 +20,10 @@ namespace Backend.Service.DrugAndTherapy
         List<Therapy> GetTherapyForNextSevenDaysByPatient(string patientJmbg);
         void DeletePatientTherapies(string patientJmbg);
         void DeleteDrugTherapies(int id);
+
         List<Therapy> GetTherapiesByExaminationSearch(List<Therapy> therapies, string startDate, string endDate, string doctorSurname, string drugName);
-        
+ 
+        List<Therapy> AdvancedSearch(TherapySearchDTO parameters);
 
     }
 }

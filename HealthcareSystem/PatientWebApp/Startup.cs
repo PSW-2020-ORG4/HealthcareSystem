@@ -36,6 +36,9 @@ using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
 using Backend.Service.SendingMail;
 using Backend.Settings;
 using Microsoft.AspNetCore.Http;
+using Backend.Service.ExaminationAndPatientCard;
+using Backend.Repository.TherapyRepository;
+using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
 
 
 namespace PatientWebApp

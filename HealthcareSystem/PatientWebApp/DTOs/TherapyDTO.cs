@@ -21,7 +21,6 @@ namespace PatientWebApp.DTOs
 
         public TherapyDTO()
         {
-
         }
 
     }

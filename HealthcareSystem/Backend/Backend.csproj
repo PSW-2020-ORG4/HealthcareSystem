@@ -213,9 +213,9 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
-    <Compile Include="Migrations\20201126181413_MyMigration.cs" />
-    <Compile Include="Migrations\20201126181413_MyMigration.designer.cs">
-      <DependentUpon>20201126181413_MyMigration.cs</DependentUpon>
+    <Compile Include="Migrations\20201129160109_MyNewMigration.cs" />
+    <Compile Include="Migrations\20201129160109_MyNewMigration.designer.cs">
+      <DependentUpon>20201129160109_MyNewMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\MyDbContextModelSnapshot.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutDoctor.cs" />

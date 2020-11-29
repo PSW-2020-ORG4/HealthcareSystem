@@ -1,22 +1,26 @@
 ﻿$(document).ready(function () {
 
+	var jmbg = "1309998775018";
+
 	$.ajax({
-		url: "/api/doctor",
+		url: '/api/examination/' + jmbg,
 		type: "GET",
 		dataType: 'json',
 		processData: false,
 		contentType: false,
-		success: function (doctors) {
-			console.log('success - loading doctors from database');
-			if (doctors.length == 0) {
-				alert("there is no doctor in the database");
+		success: function (examinations) {
+			console.log('success - loading examinations from database');
+			if (examinations.length == 0) {
+				alert("There is no examinations for patient in the database");
 				setTimeout(function () {
 					window.location.href = 'patients_home_page.html';
-				}, 2000);
+				}, 1000);
 			}
 			else {
-				var jmbgDoctor = doctors[0].jmbg;
-				$('p#doctor_name_and_surname').append(' ' + doctors[0].name + ' ' + doctors[0].surname);
+				let last_examination = examinations[examinations.length - 1];
+
+				var jmbgDoctor = last_examination.doctorJmbg;
+				$('p#doctor_name_and_surname').append(' ' + last_examination.doctorName + ' ' + last_examination.doctorSurname);
 
 				$('#survey_form').submit(function (event) {
 

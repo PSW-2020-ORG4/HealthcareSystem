@@ -1,4 +1,5 @@
-﻿using Backend.Repository;
+﻿using Backend.Model.Exceptions;
+using Backend.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,14 @@ namespace Backend.Service
         }
         public List<Country> GetCountries()
         {
-            return _countryRepository.GetCountries();
+            try
+            {
+                return _countryRepository.GetCountries();
+            }
+            catch (Exception)
+            {
+                throw new NotFoundException("There is no countries in database.");
+            }
         }
     }
 }

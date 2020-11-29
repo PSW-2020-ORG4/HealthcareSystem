@@ -18,7 +18,14 @@ namespace Backend.Service
         }
         public List<City> GetCities()
         {
-            return _cityRepository.GetCities();
+            try
+            {
+                return _cityRepository.GetCities();
+            }
+            catch (Exception)
+            {
+                throw new NotFoundException("There is no cities in database.");
+            }
         }
 
         public List<City> GetCitiesByCountryId(int countryId)

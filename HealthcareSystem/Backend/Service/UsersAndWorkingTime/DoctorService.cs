@@ -62,10 +62,14 @@ namespace Service.UsersAndWorkingTime
 
         public List<Doctor> ViewDoctors()
         {
-            List<Doctor> doctors = _doctorRepository.GetAllDoctors();
-            if (doctors == null)
-                throw new NotFoundException("Doctors doesn't exist in database.");
-            return doctors;
+            try
+            {
+                return _doctorRepository.GetAllDoctors();
+            }
+            catch (Exception)
+            {
+                throw new NotFoundException("Doctors don't exist in database.");
+            }
         }
 
         public Doctor ViewProfile(string jmbg)

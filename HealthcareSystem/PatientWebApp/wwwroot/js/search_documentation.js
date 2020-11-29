@@ -137,7 +137,7 @@
     });
 });
 function addPrescriptionTable(therapy, j) {
-    let divElement = $('<div class="border_perscription"><table class="table_perscription">'
+    let divElement = $('<div class="border_perscription" style="margin-top: 40px; margin-left: 21%; margin-bottom:20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 40px;left: 450px; top: 200px; width:600px;"><table class="table_perscription" style="margin-left:19%; margin-bottom:20px">'
         + ' <tr> <th> <p>Therapy  number  </p></th><td><p><b>' + j + '</b> :</p></td></tr > '
         + ' <tr> <th>Start date:</th><td>' + therapy.startDate + '</td></tr > '
         + ' <tr> <th>End date:</th><td>' + therapy.endDate + '</td></tr > '
@@ -150,7 +150,7 @@ function addPrescriptionTable(therapy, j) {
 }
 function addExaminationTable(examiantion, i) {
     i = i + 1;
-    let divElement = $('<div class="border_perscription"><table class="table_perscription">'
+    let divElement = $('<div class="border_perscription" style="margin-top: 40px; margin-left: 21%; margin-bottom:20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 40px;left: 450px; top: 200px; width:600px;"><table class="table_perscription" style="margin-left:19%; margin-bottom:20px">'
         + ' <tr> <th> <p>Examination  number  </p></th><td><p><b>' + i + '</b> :</p></td></tr > '
         + '<tr><th>Date:</th><td>' + examiantion.dateAndTime + '</td></tr>'
         + '<tr><th>Doctor:</th><td>' + examiantion.doctorName + ' ' + examiantion.doctorSurname + '</td></tr>'

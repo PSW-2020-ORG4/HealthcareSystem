@@ -65,7 +65,6 @@ namespace Backend.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ActionsBenefitsExchangeName")
-                        .IsRequired()
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4")
                         .HasMaxLength(255);
 
@@ -95,7 +94,7 @@ namespace Backend.Migrations
                     b.ToTable("Pharmacies");
                 });
 
-            modelBuilder.Entity("Backend.Model.Survey", b =>
+            modelBuilder.Entity("Backend.Model.SurveyAboutDoctor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -107,28 +106,29 @@ namespace Backend.Migrations
                     b.Property<int>("BehaviorOfDoctor")
                         .HasColumnType("int");
 
-                    b.Property<int>("BehaviorOfMedicalStaff")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Cleanliness")
-                        .HasColumnType("int");
-
                     b.Property<string>("DoctorJmbg")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<int>("DoctorProfessionalism")
                         .HasColumnType("int");
 
-                    b.Property<int>("EaseInObtainingFollowupInformationAndCare")
-                        .HasColumnType("int");
-
                     b.Property<int>("GettingAdviceByDoctor")
                         .HasColumnType("int");
 
-                    b.Property<int>("GettingAdviceByMedicalStaff")
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorJmbg");
+
+                    b.ToTable("SurveysAboutDoctor");
+                });
+
+            modelBuilder.Entity("Backend.Model.SurveyAboutHospital", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("MedicalStaffProfessionalism")
+                    b.Property<int>("Cleanliness")
                         .HasColumnType("int");
 
                     b.Property<int>("Nursing")
@@ -142,9 +142,30 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorJmbg");
+                    b.ToTable("SurveysAboutHospital");
+                });
 
-                    b.ToTable("Surveys");
+            modelBuilder.Entity("Backend.Model.SurveyAboutMedicalStaff", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("BehaviorOfMedicalStaff")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EaseInObtainingFollowUpInformation")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GettingAdviceByMedicalStaff")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedicalStaffProfessionalism")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SurveysAboutMedicalStaff");
                 });
 
             modelBuilder.Entity("Model.Manager.Drug", b =>
@@ -540,10 +561,10 @@ namespace Backend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Backend.Model.Survey", b =>
+            modelBuilder.Entity("Backend.Model.SurveyAboutDoctor", b =>
                 {
                     b.HasOne("Model.Users.Doctor", "Doctor")
-                        .WithMany("Surveys")
+                        .WithMany("SurveysAboutDoctor")
                         .HasForeignKey("DoctorJmbg");
                 });
 

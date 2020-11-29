@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Backend.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class MyNewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,8 +41,11 @@ namespace Backend.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false),
-                    ApiKey = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(maxLength: 255, nullable: false),
+                    ApiKey = table.Column<string>(maxLength: 255, nullable: false),
+                    Url = table.Column<string>(maxLength: 255, nullable: false),
+                    ActionsBenefitsExchangeName = table.Column<string>(maxLength: 255, nullable: true),
+                    ActionsBenefitsSubscribed = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,6 +66,38 @@ namespace Backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rooms", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SurveysAboutHospital",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nursing = table.Column<int>(nullable: false),
+                    Cleanliness = table.Column<int>(nullable: false),
+                    OverallRating = table.Column<int>(nullable: false),
+                    SatisfiedWithDrugAndInstrument = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SurveysAboutHospital", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SurveysAboutMedicalStaff",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    BehaviorOfMedicalStaff = table.Column<int>(nullable: false),
+                    MedicalStaffProfessionalism = table.Column<int>(nullable: false),
+                    GettingAdviceByMedicalStaff = table.Column<int>(nullable: false),
+                    EaseInObtainingFollowUpInformation = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SurveysAboutMedicalStaff", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,6 +144,28 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ActionsBenefits",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PharmacyId = table.Column<int>(nullable: false),
+                    Subject = table.Column<string>(nullable: false),
+                    Message = table.Column<string>(nullable: false),
+                    IsPublic = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActionsBenefits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ActionsBenefits_Pharmacies_PharmacyId",
+                        column: x => x.PharmacyId,
+                        principalTable: "Pharmacies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RenovationPeriods",
                 columns: table => new
                 {
@@ -152,7 +209,8 @@ namespace Backend.Migrations
                     DateOfRegistration = table.Column<DateTime>(nullable: true)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IsGuest = table.Column<bool>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: true)
+                    IsActive = table.Column<bool>(nullable: true),
+                    ImageName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -242,7 +300,7 @@ namespace Backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Surveys",
+                name: "SurveysAboutDoctor",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -251,21 +309,13 @@ namespace Backend.Migrations
                     DoctorProfessionalism = table.Column<int>(nullable: false),
                     GettingAdviceByDoctor = table.Column<int>(nullable: false),
                     AvailabilityOfDoctor = table.Column<int>(nullable: false),
-                    BehaviorOfMedicalStaff = table.Column<int>(nullable: false),
-                    MedicalStaffProfessionalism = table.Column<int>(nullable: false),
-                    GettingAdviceByMedicalStaff = table.Column<int>(nullable: false),
-                    EaseInObtainingFollowupInformationAndCare = table.Column<int>(nullable: false),
-                    Nursing = table.Column<int>(nullable: false),
-                    Cleanliness = table.Column<int>(nullable: false),
-                    OverallRating = table.Column<int>(nullable: false),
-                    SatisfiedWithDrugAndInstrument = table.Column<int>(nullable: false),
                     DoctorJmbg = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Surveys", x => x.Id);
+                    table.PrimaryKey("PK_SurveysAboutDoctor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Surveys_User_DoctorJmbg",
+                        name: "FK_SurveysAboutDoctor_User_DoctorJmbg",
                         column: x => x.DoctorJmbg,
                         principalTable: "User",
                         principalColumn: "Jmbg",
@@ -302,6 +352,7 @@ namespace Backend.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Type = table.Column<int>(nullable: false),
                     DateAndTime = table.Column<DateTime>(nullable: false),
+                    Anamnesis = table.Column<string>(nullable: true),
                     DoctorJmbg = table.Column<string>(nullable: true),
                     IdRoom = table.Column<int>(nullable: false),
                     IdPatientCard = table.Column<int>(nullable: false)
@@ -335,7 +386,7 @@ namespace Backend.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Anamnesis = table.Column<string>(nullable: true),
+                    Diagnosis = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     EndDate = table.Column<DateTime>(nullable: false),
                     DailyDose = table.Column<int>(nullable: false),
@@ -358,6 +409,11 @@ namespace Backend.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ActionsBenefits_PharmacyId",
+                table: "ActionsBenefits",
+                column: "PharmacyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
@@ -401,13 +457,19 @@ namespace Backend.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pharmacies_ActionsBenefitsExchangeName",
+                table: "Pharmacies",
+                column: "ActionsBenefitsExchangeName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RenovationPeriods_RoomNumber",
                 table: "RenovationPeriods",
                 column: "RoomNumber");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Surveys_DoctorJmbg",
-                table: "Surveys",
+                name: "IX_SurveysAboutDoctor_DoctorJmbg",
+                table: "SurveysAboutDoctor",
                 column: "DoctorJmbg");
 
             migrationBuilder.CreateIndex(
@@ -439,25 +501,34 @@ namespace Backend.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActionsBenefits");
+
+            migrationBuilder.DropTable(
                 name: "Feedbacks");
 
             migrationBuilder.DropTable(
                 name: "Ingridients");
 
             migrationBuilder.DropTable(
-                name: "Pharmacies");
-
-            migrationBuilder.DropTable(
                 name: "RenovationPeriods");
 
             migrationBuilder.DropTable(
-                name: "Surveys");
+                name: "SurveysAboutDoctor");
+
+            migrationBuilder.DropTable(
+                name: "SurveysAboutHospital");
+
+            migrationBuilder.DropTable(
+                name: "SurveysAboutMedicalStaff");
 
             migrationBuilder.DropTable(
                 name: "Therapies");
 
             migrationBuilder.DropTable(
                 name: "WorkingTimes");
+
+            migrationBuilder.DropTable(
+                name: "Pharmacies");
 
             migrationBuilder.DropTable(
                 name: "Drugs");

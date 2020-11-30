@@ -1,11 +1,7 @@
 ﻿using GraphicalEditor.Models;
-using Model.Manager;
-using RestSharp;
+using GraphicalEditor.Models.Equipment;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphicalEditor.Service
 {

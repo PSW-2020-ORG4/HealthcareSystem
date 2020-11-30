@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Backend.Service.RoomAndEquipment;
-using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditorServer.DTO;
-using GraphicalEditorServer.Mappers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Enums;
 using Newtonsoft.Json;

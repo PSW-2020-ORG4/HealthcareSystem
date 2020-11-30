@@ -1,10 +1,4 @@
-﻿using GraphicalEditor.Enumerations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GraphicalEditorServer.DTO
+﻿namespace GraphicalEditorServer.DTO
 {
     public class RoomDTO
     {

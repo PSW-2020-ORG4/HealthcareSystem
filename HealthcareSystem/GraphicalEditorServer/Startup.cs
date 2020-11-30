@@ -1,30 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Backend.Model;
 using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.RoomAndEquipment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Service.RoomAndEquipment;
-using Backend.Model;
-using Backend.Repository.RoomRepository;
-using Backend.Repository.RoomRepository.MySqlRoomRepository;
-using Backend.Service.RoomAndEquipment;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Service.RoomAndEquipment;
 using Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository;
 using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository;
@@ -45,18 +29,19 @@ namespace GraphicalEditorServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            /*services.AddDbContext<MyDbContext>(options =>
-                               options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());*/
+
             var host = Configuration["DBHOST"] ?? "localhost";
             var port = Configuration["DBPORT"] ?? "3306";
-            var password = Configuration["DBPASSWORD"] ?? "root";
+            var user = Configuration["DBUSER"] ?? "organization4";
+            var password = Configuration["DBPASSWORD"] ?? "organization4";
+            var database = Configuration["DB"] ?? "organization4db";
 
+            string connectionString = $"server={host} ;userid={user}; pwd={password};"
+                                    + $"port={port}; database={database}";
 
-            services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
             {
-                options.UseMySql($"server={host} ;userid=root; pwd={password};"
-                + $"port={port}; database=graphicaleditorappmydb");
+                options.UseMySql(connectionString, x => x.MigrationsAssembly("Backend")).UseLazyLoadingProxies();
             });
 
             services.AddScoped<IRoomService, RoomService>();

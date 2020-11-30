@@ -23,17 +23,20 @@ namespace IntegrationAdapters
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /*            services.AddDbContext<MyDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("PharmacyCooperationConnection")).UseLazyLoadingProxies());*/
+            services.AddControllers();
+
             var host = Configuration["DBHOST"] ?? "localhost";
             var port = Configuration["DBPORT"] ?? "3306";
-            var password = Configuration["DBPASSWORD"] ?? "root";
+            var user = Configuration["DBUSER"] ?? "organization4";
+            var password = Configuration["DBPASSWORD"] ?? "organization4";
+            var database = Configuration["DB"] ?? "organization4db";
 
+            string connectionString = $"server={host} ;userid={user}; pwd={password};"
+                                    + $"port={port}; database={database}";
 
-            services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
             {
-                options.UseMySql($"server={host} ;userid=root; pwd={password};"
-                + $"port={port}; database=integrationadaptersappmydb");
+                options.UseMySql(connectionString, x => x.MigrationsAssembly("Backend")).UseLazyLoadingProxies();
             });
 
             services.AddControllersWithViews();
@@ -72,8 +75,6 @@ namespace IntegrationAdapters
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            context.Database.Migrate();
         }
     }
 }

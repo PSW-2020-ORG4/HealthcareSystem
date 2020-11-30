@@ -4,11 +4,11 @@ services:
     image: mysql
     ports:
       - "8001:5432"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "root"
 
   patientwebapp:
-    # build: HealthcareSystem\Dockerfile.patient-webapp
     build:
       context: HealthcareSystem\
       dockerfile: Dockerfile.patient-webapp
@@ -16,7 +16,11 @@ services:
     - "8181:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      DBHOST: 'mysqldb'
+      DBHOST: "mysqldb"
+      DBPORT: "3306"
+      DBUSER: "root"
+      DBPASSWORD: "root"
+      DB: "organization4db"
     depends_on:
       - mysqldb
     restart: always
@@ -29,7 +33,11 @@ services:
     - "8282:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      DBHOST: 'mysqldb'
+      DBHOST: "mysqldb"
+      DBPORT: "3306"
+      DBUSER: "root"
+      DBPASSWORD: "root"
+      DB: "organization4db"
     depends_on:
       - mysqldb
     restart: always
@@ -42,7 +50,11 @@ services:
     - "8383:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      DBHOST: 'mysqldb'
+      DBHOST: "mysqldb"
+      DBPORT: "3306"
+      DBUSER: "root"
+      DBPASSWORD: "root"
+      DB: "organization4db"
     depends_on:
       - mysqldb
     restart: always

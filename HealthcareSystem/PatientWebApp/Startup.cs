@@ -48,24 +48,24 @@ namespace PatientWebApp
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
             var host = Configuration["DBHOST"] ?? "localhost";
             var port = Configuration["DBPORT"] ?? "3306";
-            var password = Configuration["DBPASSWORD"] ?? "root";
+            var user = Configuration["DBUSER"] ?? "organization4";
+            var password = Configuration["DBPASSWORD"] ?? "organization4";
+            var database = Configuration["DB"] ?? "organization4db";
 
+            string connectionString = $"server={host} ;userid={user}; pwd={password};"
+                                    + $"port={port}; database={database}";
 
             services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
             {
-                options.UseMySql($"server={host} ;userid=root; pwd={password};"
-                + $"port={port}; database=patientwebappmydb");
+                options.UseMySql(connectionString, x => x.MigrationsAssembly("Backend")).UseLazyLoadingProxies();
             });
-            /*            services.AddDbContext<MyDbContext>(options =>
-                                            options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());*/
 
             services.AddScoped<ICountryRepository, MySqlCountryRepository>();
             services.AddScoped<ICountryService, CountryService>();
@@ -73,7 +73,7 @@ namespace PatientWebApp
             services.AddScoped<ICityRepository, MySqlCityRepository>();
             services.AddScoped<ICityService, CityService>();
 
-            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();       
+            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();
             services.AddScoped<IFeedbackService, FeedbackService>();
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
@@ -117,7 +117,6 @@ namespace PatientWebApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
         {
 

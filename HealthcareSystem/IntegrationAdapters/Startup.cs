@@ -2,6 +2,7 @@ using Backend.Model;
 using Backend.Repository;
 using Backend.Service;
 using Backend.Service.Pharmacies;
+using Backend.Service.SftpService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,8 @@ namespace IntegrationAdapters
             services.AddScoped<IPharmacyService, PharmacyService>();
             services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();
-            
+            services.AddScoped<ISftpService, SftpService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "SFTP";
+    Layout = "_Layout";
+}@using (Html.BeginForm())
+ {
+     @Html.AntiForgeryToken()
+
+     <div>
+         @Html.ActionLink("Upload file", "Upload")
+     </div>
+
+     <div>
+         @Html.ActionLink("Download file", "Download")
+     </div>
+ }

@@ -52,8 +52,20 @@ namespace PatientWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            var host = Configuration["DBHOST"] ?? "localhost";
+            var port = Configuration["DBPORT"] ?? "3306";
+            var password = Configuration["DBPASSWORD"] ?? "root";
+
+
+            services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
-                                options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());
+            {
+                options.UseMySql($"server={host} ;userid=root; pwd={password};"
+                + $"port={port}; database=patientwebappmydb");
+            });
+            /*            services.AddDbContext<MyDbContext>(options =>
+                                            options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());*/
 
             services.AddScoped<ICountryRepository, MySqlCountryRepository>();
             services.AddScoped<ICountryService, CountryService>();
@@ -106,7 +118,7 @@ namespace PatientWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
         {
 
             if (env.IsDevelopment())
@@ -125,6 +137,7 @@ namespace PatientWebApp
                 endpoints.MapControllers();
             });
 
+            context.Database.Migrate();
         }
     }
 }

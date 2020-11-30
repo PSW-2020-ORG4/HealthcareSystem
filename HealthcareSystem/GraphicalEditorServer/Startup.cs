@@ -45,8 +45,20 @@ namespace GraphicalEditorServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            /*services.AddDbContext<MyDbContext>(options =>
+                               options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());*/
+            var host = Configuration["DBHOST"] ?? "localhost";
+            var port = Configuration["DBPORT"] ?? "3306";
+            var password = Configuration["DBPASSWORD"] ?? "root";
+
+
+            services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
-                               options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());
+            {
+                options.UseMySql($"server={host} ;userid=root; pwd={password};"
+                + $"port={port}; database=graphicaleditorappmydb");
+            });
+
             services.AddScoped<IRoomService, RoomService>();
 
             services.AddScoped<IRoomRepository, MySqlRoomRepository>();
@@ -67,7 +79,7 @@ namespace GraphicalEditorServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -82,6 +94,8 @@ namespace GraphicalEditorServer
             {
                 endpoints.MapControllers();
             });
+
+            context.Database.Migrate();
         }
     }
 }

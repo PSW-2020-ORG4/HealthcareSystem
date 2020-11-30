@@ -23,7 +23,19 @@ namespace IntegrationAdapters
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("PharmacyCooperationConnection")).UseLazyLoadingProxies());
+            /*            services.AddDbContext<MyDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("PharmacyCooperationConnection")).UseLazyLoadingProxies());*/
+            var host = Configuration["DBHOST"] ?? "localhost";
+            var port = Configuration["DBPORT"] ?? "3306";
+            var password = Configuration["DBPASSWORD"] ?? "root";
+
+
+            services.AddControllers();
+            services.AddDbContext<MyDbContext>(options =>
+            {
+                options.UseMySql($"server={host} ;userid=root; pwd={password};"
+                + $"port={port}; database=integrationadaptersappmydb");
+            });
+
             services.AddControllersWithViews();
 
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
@@ -38,7 +50,7 @@ namespace IntegrationAdapters
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
         {
             if (env.IsDevelopment())
             {
@@ -60,6 +72,8 @@ namespace IntegrationAdapters
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            context.Database.Migrate();
         }
     }
 }

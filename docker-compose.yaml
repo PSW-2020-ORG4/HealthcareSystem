@@ -1,0 +1,48 @@
+version: "3.8"
+services: 
+  mysqldb:
+    image: mysql
+    ports:
+      - "8001:5432"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+
+  patientwebapp:
+    # build: HealthcareSystem\Dockerfile.patient-webapp
+    build:
+      context: HealthcareSystem\
+      dockerfile: Dockerfile.patient-webapp
+    ports:
+    - "8181:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DBHOST: 'mysqldb'
+    depends_on:
+      - mysqldb
+    restart: always
+
+  integrationadapters:
+    build:
+      context: HealthcareSystem\
+      dockerfile: Dockerfile.integration-adapters
+    ports:
+    - "8282:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DBHOST: 'mysqldb'
+    depends_on:
+      - mysqldb
+    restart: always
+
+  graphicaleditorserver:
+    build:
+      context: HealthcareSystem\
+      dockerfile: Dockerfile.graphical-editorserver
+    ports:
+    - "8383:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DBHOST: 'mysqldb'
+    depends_on:
+      - mysqldb
+    restart: always

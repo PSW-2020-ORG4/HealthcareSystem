@@ -217,9 +217,13 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
+    <Compile Include="Model\Pharmacies\DrugConsumption.cs" />
+    <Compile Include="Model\Pharmacies\DrugConsumptionReport.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository\FileConsumableEquimpentRepository\ConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository\IConsumableEquipmentRepository.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository\MySqlConsumableEquipmentRepository\MySqlConsumableEquipmentRepository.cs" />
+    <Compile Include="Repository\DrugConsumptionRepository\IDrugConsumptionRepository.cs" />
+    <Compile Include="Repository\DrugConsumptionRepository\MySqlDrugConsumptionRepository\MySqlDrugConsumptionRepository.cs" />
     <Compile Include="Repository\EquipmentInRoomsRepository\FileEquipmentInRoomRepository\EquipmentInRoomsRepository.cs" />
     <Compile Include="Repository\EquipmentInRoomsRepository\IEquipmentInRoomsRepository.cs" />
     <Compile Include="Repository\EquipmentInRoomsRepository\MySqlEquipmentInRoomsRepository\MySqlEquipmentInRoomsRepository.cs" />
@@ -236,6 +240,8 @@
     <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutMedicalStaff.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\SurveyResult.cs" />
     <Compile Include="Model\Pharmacies\SftpConfig.cs" />
+    <Compile Include="Service\DrugConsumptionService\DrugConsumptionService.cs" />
+    <Compile Include="Service\DrugConsumptionService\IDrugConsumptionService.cs" />
     <Compile Include="Service\Encryption\EncryptionService.cs" />
     <Compile Include="Model\Enums\Grade.cs" />
     <Compile Include="Model\Exceptions\DatabaseException.cs" />

@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    let jmbg = "123";
+    let jmbg = "1309998775018";
     $.ajax({
         url: "/api/patient/" + jmbg,
         type: 'GET',
@@ -32,13 +32,17 @@
                 $('#blood').val("B")
             } else if (patientDTO.bloodType == "2") {
                 $('#blood').val("AB")
-            } else {
+            } else if (patientDTO.bloodType == "3") {
                 $('#blood').val("0")
+            } else {
+                $('#blood').val(" ")
             }
             if (patientDTO.rhFactor == "0") {
                 $('#rh').val("+")
+            } else if (patientDTO.rhFactor == "1") {
+                $('#blood').val("-")
             } else {
-                $('#rh').val("-")
+                $('#rh').val(" ")
             }
             if (patientDTO.hasInsurance == "0") {
                 $('#insurance').val("YES")

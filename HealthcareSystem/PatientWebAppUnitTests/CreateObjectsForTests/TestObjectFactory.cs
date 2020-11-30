@@ -56,5 +56,21 @@ namespace PatientWebAppTests.CreateObjectsForTests
         {
             return new CreateTherapySearchDTO();
         }
+
+        public ICreateTestObject<SurveyResult> GetSurveyResultAboutDoctor()
+        {
+            return new CreateSurveyResult();
+        }
+
+        public ICreateTestObject<SurveyResult> GetSurveyResultAboutHospital()
+        {
+            return new CreateSurveyResult();
+        }
+
+        public ICreateTestObject<SurveyResult> GetSurveyResultAboutMedicalStaff()
+        {
+            return new CreateSurveyResult();
+        }
+
     }
 }

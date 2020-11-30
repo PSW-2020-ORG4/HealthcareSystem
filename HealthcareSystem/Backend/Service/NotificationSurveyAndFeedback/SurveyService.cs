@@ -39,10 +39,17 @@ namespace Service.NotificationSurveyAndFeedback
 
         public List<SurveyResult> GetSurveyResultsAboutDoctor(string jmbg)
         {
-            List<SurveyResult> surveyResults = _surveyRepository.GetSurveyResultsAboutDoctor(jmbg);
-            if (surveyResults == null)
-                throw new NotFoundException("Survey results about doctor doesn't exist in database.");
-            return surveyResults;
+            try
+            {
+                List<SurveyResult> surveyResults = _surveyRepository.GetSurveyResultsAboutDoctor(jmbg);
+                if (surveyResults == null)
+                    throw new NotFoundException("Survey results about doctor doesn't exist in database.");
+                return surveyResults;
+            }
+            catch (NotFoundException exception)
+            {
+                throw new NotFoundException(exception.Message);
+            }          
         }
 
         public List<SurveyResult> GetSurveyResultsAboutHospital()

@@ -4,6 +4,7 @@ using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
+using GraphicalEditor.Service;
 using GraphicalEditor.Services;
 using GraphicalEditor.Services.Interface;
 using System;
@@ -124,10 +125,18 @@ namespace GraphicalEditor
             this.DataContext = this;
             MockupObjects mockupObjects = new MockupObjects();
             _allMapObjects = mockupObjects.AllMapObjects;
-            //uncomment when you dont have anything in file
-            saveMap();
-            LoadInitialMapOnCanvas();
             ChangeEditButtonVisibility();
+
+            // uncomment only when you want to save the map for the first time
+            //saveMap();
+
+            LoadInitialMapOnCanvas();
+
+            // uncomment only the first time you start the project in order
+            // to populate DB with start data
+            //InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
+            //initializeDatabaseData.InitiliazeData();
+
         }
 
         public MainWindow(string currentUserRole)
@@ -142,10 +151,31 @@ namespace GraphicalEditor
             this.DataContext = this;
             MockupObjects mockupObjects = new MockupObjects();
             _allMapObjects = mockupObjects.AllMapObjects;
-            //uncomment when you dont have anything in file
-            saveMap();
-            LoadInitialMapOnCanvas();
             ChangeEditButtonVisibility();
+            // uncomment only when you want to save the map for the first time
+            saveMap();
+
+            LoadInitialMapOnCanvas();
+
+            RestrictUsersAccessBasedOnRole();
+        }
+
+        private void RestrictUsersAccessBasedOnRole()
+        {
+
+            if (!String.IsNullOrEmpty(_currentUserRole))
+            {
+                if (_currentUserRole.Equals("Patient"))
+                {
+                    ObjectEquipmentAndMedicinePanel.Visibility = Visibility.Collapsed;
+                    SearchEquipmentAndMedicineMenuItem.Visibility = Visibility.Collapsed;
+                }
+
+                if (!_currentUserRole.Equals("Manager"))
+                {
+                    EditObjectButton.Visibility = Visibility.Collapsed;
+                }
+            }
         }
 
 
@@ -269,6 +299,9 @@ namespace GraphicalEditor
             {
                 DisplayMapObject = _selectedMapObject.MapObjectEntity;
                 SelectedMapObject = _selectedMapObject;
+                //these properties we will need to map on our graphicalEditorWPF
+                var consumableEquipmentForSelectedObject = SelectedMapObject.GetConsumableEquipmentByRoomNumber();
+                var nonConsumableEquipmentForSelectedObject = SelectedMapObject.GetNonConsumableEquipmentByRoomNumber();
             }
             else
             {

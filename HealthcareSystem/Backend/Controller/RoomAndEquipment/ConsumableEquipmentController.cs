@@ -14,10 +14,10 @@ namespace Controller.RoomAndEquipment
 {
     class ConsumableEquipmentController : IEquipmentController
     {
-        private ConsumableEquipmentService consumableService = new ConsumableEquipmentService();
+        private ConsumableEquipmentService _consumableService;
         public Equipment CreateEquipment(Equipment equipment)
         {
-            return consumableService.newConsumableEquipment((ConsumableEquipment)equipment);
+            return _consumableService.newConsumableEquipment((ConsumableEquipment)equipment);
         }
     }
 }

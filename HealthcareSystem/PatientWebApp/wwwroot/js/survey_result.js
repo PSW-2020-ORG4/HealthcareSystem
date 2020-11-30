@@ -7,11 +7,9 @@
 		processData: false,
 		contentType: false,
 		success: function (surveyResult) {
-
-			alert("success  medical staff  ")
-
+			console.log('success - loading survey about medical staff from database');
 			if (surveyResult.length == 0) {
-				console.log("there are no survey results");
+				console.log("there are no survey results about medical staff");
 			}
 			else {
 				let overallAverageRating = calculateOverallAverageRating(surveyResult);
@@ -23,11 +21,10 @@
 			}
 		},
 		error: function () {
-			alert("error");
-			console.log('error getting survey result');
+			alert("error getting survey result medical staff");
+			console.log('error getting survey result medical staff');
 		}
 	});
-
 
 	$.ajax({
 		url: "/api/survey/surveyResultAboutHospital",
@@ -36,11 +33,9 @@
 		processData: false,
 		contentType: false,
 		success: function (surveyResult) {
-
-			alert("success Hospital ")
-
+			console.log('success - loading survey about hospital from database');
 			if (surveyResult.length == 0) {
-				console.log("there are no survey results");
+				console.log("there are no survey results about hospital");
 			}
 			else {
 				let overallAverageRating = calculateOverallAverageRating(surveyResult);
@@ -52,39 +47,35 @@
 			}
 		},
 		error: function () {
-			alert("error");
-			console.log('error getting survey result');
+			alert("error getting survey result about hospital");
+			console.log('error getting survey result about hospital');
 		}
 	});
 
 
 	$.ajax({
-		url: "/api/survey/surveyResultAboutDoctor/1308987105625",
+		url: "/api/doctor",
 		type: "GET",
 		dataType: 'json',
 		processData: false,
 		contentType: false,
-		success: function (surveyResult) {
-
-			alert("success doctor ")
-
-			if (surveyResult.length == 0) {
-				console.log("there are no survey results");
+		success: function (doctors) {
+			console.log('success - loading doctors from database');
+			if (doctors.length == 0) {
+				console.log("there are no doctors");
 			}
 			else {
-				let overallAverageRating = calculateOverallAverageRating(surveyResult);
-				$('div#survey_result_Doctor').append('<p class="text-center h5 mb-4">Overall average rating: ' + overallAverageRating + ' / 5</p>');
-				for (let i = 0; i < surveyResult.length; i++) {
-					let divElement = addOneSurveyResult(surveyResult[i]);
-					$('div#survey_result_Doctor').append(divElement);
+				for (let i = 0; i < doctors.length; i++) {
+					$('select#doctors').append('<option value="' + doctors[i].jmbg + '">' + doctors[i].name + ' ' + doctors[i].surname + '</option>');
 				}
 			}
 		},
 		error: function () {
-			alert("error");
-			console.log('error getting survey result');
+			alert("error getting doctors");
+			console.log('error getting doctors');
 		}
 	});
+
 });
 
 
@@ -126,3 +117,38 @@ function calculateOverallAverageRating(surveyResult) {
 	return (overallAverageRating / surveyResult.length).toFixed(2);
 }
 
+
+function changeDoctor(event) {
+
+	var selectElement = document.getElementById("doctors");
+	var doctorValue = selectElement.options[selectElement.selectedIndex].value;
+
+	$.ajax({
+		url: "/api/survey/surveyResultAboutDoctor/" + doctorValue,
+		type: "GET",
+		dataType: 'json',
+		processData: false,
+		contentType: false,
+		success: function (surveyResult) {
+			console.log('success - doctor selected');
+			if (surveyResult.length == 0) {
+				alert("there are no survey results about doctor");
+				console.log("there are no survey results about doctor");
+			}
+			else {
+				document.getElementById('survey_result_Doctor').innerHTML = "";
+				let overallAverageRating = calculateOverallAverageRating(surveyResult);
+				$('div#survey_result_Doctor').append('<p class="text-center h5 mb-4">Overall average rating: ' + overallAverageRating + ' / 5</p>');
+				for (let i = 0; i < surveyResult.length; i++) {
+					let divElement = addOneSurveyResult(surveyResult[i]);
+					$('div#survey_result_Doctor').append(divElement);
+				}
+			}
+		},
+		error: function (jqXHR) {
+			document.getElementById('survey_result_Doctor').innerHTML = "";
+			alert(jqXHR.responseText);
+			console.log(jqXHR.responseText);
+		}
+	});
+}

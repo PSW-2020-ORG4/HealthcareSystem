@@ -26,7 +26,14 @@ namespace PatientWebApp.Controllers
         public IActionResult GetCities()
         {
             List<CityDTO> cityDTOs = new List<CityDTO>();
-            _cityService.GetCities().ForEach(city => cityDTOs.Add(CityMapper.CityToCityDTO(city)));
+            try
+            {
+                _cityService.GetCities().ForEach(city => cityDTOs.Add(CityMapper.CityToCityDTO(city)));
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
             return Ok(cityDTOs);
         }
 

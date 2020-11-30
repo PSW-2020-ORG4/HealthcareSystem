@@ -9,10 +9,11 @@ using Model.Manager;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using Backend.Repository;
 
 namespace Repository
 {
-    public class NonConsumableEquipmentRepository
+    public class NonConsumableEquipmentRepository : INonConsumableEquipmentRepository
     {
         private string path;
 

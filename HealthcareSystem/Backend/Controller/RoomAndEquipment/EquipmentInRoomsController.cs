@@ -14,25 +14,25 @@ namespace Controller.RoomAndEquipment
 {
     public class EquipmentInRoomsController
     {
-        public EquipmentInRoomsService equipmentInRoomsService = new EquipmentInRoomsService();
+        public EquipmentInRoomsService _equipmentInRoomsService;
         public Model.Manager.EquipmentInRooms addEquipmentInRoom(Model.Manager.EquipmentInRooms equipment)
         {
-            return equipmentInRoomsService.addEquipmentInRoom(equipment);
+            return _equipmentInRoomsService.addEquipmentInRoom(equipment);
         }
 
         public Model.Manager.EquipmentInRooms editEquipmentInRooms(Model.Manager.EquipmentInRooms equipment)
         {
-            return equipmentInRoomsService.editEquipmentInRooms(equipment);
+            return _equipmentInRoomsService.editEquipmentInRooms(equipment);
         }
 
         public bool deleteEquipmentInRooms(int idEquipment)
         {
-            return equipmentInRoomsService.deleteEquipmentInRooms(idEquipment);
+            return _equipmentInRoomsService.deleteEquipmentInRooms(idEquipment);
         }
 
         public int viewEquipmentInRooms(int roomNumber)
         {
-            return equipmentInRoomsService.viewEquipmentInRooms(roomNumber);
+            return _equipmentInRoomsService.viewEquipmentInRooms(roomNumber);
         }
     }
 }

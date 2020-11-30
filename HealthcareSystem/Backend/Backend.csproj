@@ -235,8 +235,6 @@
     <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutHospital.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\SurveyAboutMedicalStaff.cs" />
     <Compile Include="Model\NotificationSurveyAndFeedback\SurveyResult.cs" />
-    <Compile Include="Model\Pharmacies\DrugConsumption.cs" />
-    <Compile Include="Model\Pharmacies\DrugConsumptionReport.cs" />
     <Compile Include="Model\Pharmacies\SftpConfig.cs" />
     <Compile Include="Service\Encryption\EncryptionService.cs" />
     <Compile Include="Model\Enums\Grade.cs" />

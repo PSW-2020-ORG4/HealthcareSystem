@@ -1,33 +1,23 @@
-﻿using GraphicalEditor.Enumerations;
-using GraphicalEditor.Models.MapObjectRelated;
-using GraphicalEditorServer.DTO;
+﻿using GraphicalEditorServer.DTO;
 using Model.Enums;
 using Model.Manager;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphicalEditorServer.Mappers
 {
     public class RoomMapper
     {
 
-        public static GraphicalEditor.Models.MapObjectRelated.Room BackendRoomToGraphicalEditorRoom(Model.Manager.Room beckendRoom)
+        public static RoomDTO BackendRoomToGraphicalEditorRoom(Room beckendRoom)
         {
-            Model.Manager.Room room = new Model.Manager.Room();
-
-            // not implemented
-            return null;
+            throw new NotImplementedException();
         }
 
-        public static Model.Manager.Room GraphicalEditorRoomToBackendRoom(GraphicalEditor.Models.MapObjectRelated.Room room)
+        public static Room GraphicalEditorRoomToBackendRoom(RoomDTO room)
         {
-            Model.Manager.Room backendRoom = new Model.Manager.Room();
+            Room backendRoom = new Room();
             backendRoom.Id = (int) room.Id;
-            TypeOfMapObject typeOfRoom = room.MapObjectType.TypeOfMapObject;
-
-            switch (typeOfRoom)
+            switch (room.Usage)
             {
                 case TypeOfMapObject.EXAMINATION_ROOM :
                    backendRoom.Usage = TypeOfUsage.CONSULTING_ROOM;

@@ -5,6 +5,7 @@ using Renci.SshNet.Sftp;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Backend.Service.SftpService
 {
@@ -34,7 +35,7 @@ namespace Backend.Service.SftpService
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
-                return null;
+                return Enumerable.Empty<SftpFile>();
             }
             finally
             {

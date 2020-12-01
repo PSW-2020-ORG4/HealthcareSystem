@@ -1,14 +1,10 @@
-﻿using GraphicalEditor.Constants;
-using GraphicalEditor.Enumerations;
+﻿using GraphicalEditor.Enumerations;
+using GraphicalEditor.Models.Equipment;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Service;
-using Model.Manager;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;

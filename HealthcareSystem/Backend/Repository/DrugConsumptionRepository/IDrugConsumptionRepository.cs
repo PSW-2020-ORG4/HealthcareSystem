@@ -12,6 +12,6 @@ namespace Backend.Repository.DrugConsumptionRepository
         void CreateDrugConsumption(DrugConsumption dc);
         void UpdateDrugConsumption(DrugConsumption dc);
         void DeleteDrugConsumption(DrugConsumption dc);
-        IEnumerable<DrugConsumptionReport> GetDrugConsumptionForDate(DateTime from, DateTime to);
+        IEnumerable<DrugConsumptionReport> GetDrugConsumptionForDate(DateRange dateRange);
     }
 }

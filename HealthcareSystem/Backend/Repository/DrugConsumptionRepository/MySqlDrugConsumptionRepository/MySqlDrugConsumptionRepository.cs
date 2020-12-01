@@ -43,11 +43,11 @@ namespace Backend.Repository.DrugConsumptionRepository.MySqlDrugConsumptionRepos
             _context.SaveChanges();
         }
 
-        public IEnumerable<DrugConsumptionReport> GetDrugConsumptionForDate(DateTime from, DateTime to)
+        public IEnumerable<DrugConsumptionReport> GetDrugConsumptionForDate(DateRange dateRange)
         {
             var query = _context.DrugConsumptions
-                .Where(d => d.Date >= from)
-                .Where(d => d.Date <= to)
+                .Where(d => d.Date >= dateRange.From)
+                .Where(d => d.Date <= dateRange.To)
                 .Join(
                     _context.Drugs,
                     dc => dc.DrugId,

@@ -11,6 +11,6 @@ namespace Backend.Service.DrugConsumptionService
         void CreateDrugConsumption(DrugConsumption dc);
         void UpdateDrugConsumption(DrugConsumption dc);
         void DeleteDrugConsumption(DrugConsumption dc);
-        List<DrugConsumptionReport> GetDrugConsumptionForDate(DateTime from, DateTime to);
+        List<DrugConsumptionReport> GetDrugConsumptionForDate(DateRange dateRange);
     }
 }

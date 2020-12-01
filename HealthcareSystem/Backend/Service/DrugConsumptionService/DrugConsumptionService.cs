@@ -39,9 +39,9 @@ namespace Backend.Service.DrugConsumptionService
             _drugConsumptionRepository.DeleteDrugConsumption(dc);
         }
 
-        public List<DrugConsumptionReport> GetDrugConsumptionForDate(DateTime from, DateTime to)
+        public List<DrugConsumptionReport> GetDrugConsumptionForDate(DateRange dateRange)
         {
-            return _drugConsumptionRepository.GetDrugConsumptionForDate(from, to).ToList();
+            return _drugConsumptionRepository.GetDrugConsumptionForDate(dateRange).ToList();
         }
     }
 }

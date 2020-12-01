@@ -26,14 +26,15 @@ namespace IntegrationAdapters.Controllers
         [HttpPost]
         public IActionResult Index(DateRange dateRange)
         {
-            var reports = _drugConsumptionService.GetDrugConsumptionForDate(dateRange.From, dateRange.To);
+            var reports = _drugConsumptionService.GetDrugConsumptionForDate(dateRange);
             var json = JsonConvert.SerializeObject(reports);
 
-            string reportFileName = $"{dateRange.From:yyyy-M-dd}-to-{dateRange.To:yyyy-M-dd}-report.json";
+            var reportFileName = $"{dateRange.From:yyyy-MM-dd}-to-{dateRange.To:yyyy-MM-dd}-report.json";
 
             System.IO.File.WriteAllText(reportFileName, json);
             _sftpService.UploadFile(reportFileName, "/PSW-uploads/" + reportFileName);
 
+            TempData["Success"] = "Report successfully created and uploaded!";
             return RedirectToAction("Index");
         }
 

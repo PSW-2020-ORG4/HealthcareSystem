@@ -1,4 +1,5 @@
 using Backend.Model;
+using Backend.Model.Pharmacies;
 using Backend.Repository;
 using Backend.Repository.DrugConsumptionRepository;
 using Backend.Repository.DrugConsumptionRepository.MySqlDrugConsumptionRepository;
@@ -31,6 +32,7 @@ namespace IntegrationAdapters
             services.AddControllersWithViews();
 
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
+            services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.AddSingleton<RabbitMqActionBenefitMessageingService>();
             services.AddSingleton<IHostedService, RabbitMqActionBenefitMessageingService>(ServiceProvider => ServiceProvider.GetService<RabbitMqActionBenefitMessageingService>());
 

@@ -217,6 +217,7 @@
     <Compile Include="Controller\UsersAndWorkingTime\SecretaryController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\UserController.cs" />
     <Compile Include="Controller\UsersAndWorkingTime\WorkingTimeController.cs" />
+    <Compile Include="Model\Pharmacies\DateRange.cs" />
     <Compile Include="Model\Pharmacies\DrugConsumption.cs" />
     <Compile Include="Model\Pharmacies\DrugConsumptionReport.cs" />
     <Compile Include="Repository\ConsumableEquipmentRepository\FileConsumableEquimpentRepository\ConsumableEquipmentRepository.cs" />

@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Pharmacies;
+﻿using Backend.Service.DrugConsumptionService;
 using Backend.Service.SftpService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
+using Backend.Model.Pharmacies;
 
 namespace IntegrationAdapters.Controllers
 {
     public class SftpController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly ISftpService _sftpService;
+        private readonly IDrugConsumptionService _drugConsumptionService;
 
-        public SftpController(ISftpService sftpService)
+        public SftpController(ISftpService sftpService, IDrugConsumptionService drugConsumptionService)
         {
             _sftpService = sftpService;
+            _drugConsumptionService = drugConsumptionService;
         }
 
         public IActionResult Index()
@@ -24,10 +23,16 @@ namespace IntegrationAdapters.Controllers
             return View();
         }
 
-        public IActionResult Upload()
+        [HttpPost]
+        public IActionResult Index(DateRange dateRange)
         {
-            var localFilePath = @"C:\Users\Stefan\Desktop\PSW\test.txt";
-            _sftpService.UploadFile(localFilePath, "/PSW-uploads/test-upload.txt");
+            var reports = _drugConsumptionService.GetDrugConsumptionForDate(dateRange.From, dateRange.To);
+            var json = JsonConvert.SerializeObject(reports);
+
+            string reportFileName = $"{dateRange.From:yyyy-M-dd}-to-{dateRange.To:yyyy-M-dd}-report.json";
+
+            System.IO.File.WriteAllText(reportFileName, json);
+            _sftpService.UploadFile(reportFileName, "/PSW-uploads/" + reportFileName);
 
             return RedirectToAction("Index");
         }

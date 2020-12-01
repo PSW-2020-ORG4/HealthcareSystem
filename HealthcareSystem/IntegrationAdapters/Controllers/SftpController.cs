@@ -1,9 +1,8 @@
-﻿using Backend.Service.DrugConsumptionService;
+﻿using Backend.Model.Pharmacies;
+using Backend.Service.DrugConsumptionService;
 using Backend.Service.SftpService;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
-using Backend.Model.Pharmacies;
 
 namespace IntegrationAdapters.Controllers
 {
@@ -38,12 +37,5 @@ namespace IntegrationAdapters.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Download()
-        {
-            var localFilePath = @"E:\TinySFTP\data\PSW-downloads\test-download.txt";
-            _sftpService.DownloadFile("/PSW-uploads/test-upload.txt", localFilePath);
-
-            return RedirectToAction("Index");
-        }
     }
 }

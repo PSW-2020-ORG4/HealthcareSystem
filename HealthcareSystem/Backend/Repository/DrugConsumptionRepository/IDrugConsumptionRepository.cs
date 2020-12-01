@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using Backend.Model.Pharmacies;
 using System.Collections.Generic;
-using Backend.Model.Pharmacies;
 
 namespace Backend.Repository.DrugConsumptionRepository
 {

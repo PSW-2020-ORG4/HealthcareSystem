@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Backend.Model.Pharmacies;
+using Backend.Repository.DrugConsumptionRepository;
 using System.Collections.Generic;
 using System.Linq;
-using Backend.Model.Pharmacies;
-using Backend.Repository.DrugConsumptionRepository;
 
 namespace Backend.Service.DrugConsumptionService
 {
@@ -22,21 +21,6 @@ namespace Backend.Service.DrugConsumptionService
         public DrugConsumption GetDrugConsumptionById(int id)
         {
             return _drugConsumptionRepository.GetDrugConsumptionById(id);
-        }
-
-        public void CreateDrugConsumption(DrugConsumption dc)
-        {
-            _drugConsumptionRepository.CreateDrugConsumption(dc);
-        }
-
-        public void UpdateDrugConsumption(DrugConsumption dc)
-        {
-            _drugConsumptionRepository.UpdateDrugConsumption(dc);
-        }
-
-        public void DeleteDrugConsumption(DrugConsumption dc)
-        {
-            _drugConsumptionRepository.DeleteDrugConsumption(dc);
         }
 
         public List<DrugConsumptionReport> GetDrugConsumptionForDate(DateRange dateRange)

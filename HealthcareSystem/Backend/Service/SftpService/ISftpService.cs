@@ -1,10 +1,5 @@
-﻿using System;
+﻿using Renci.SshNet.Sftp;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Renci.SshNet;
-using Renci.SshNet.Sftp;
 
 namespace Backend.Service.SftpService
 {

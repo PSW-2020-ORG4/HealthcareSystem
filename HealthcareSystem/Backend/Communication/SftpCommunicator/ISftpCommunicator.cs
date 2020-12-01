@@ -1,9 +1,9 @@
 ﻿using Renci.SshNet.Sftp;
 using System.Collections.Generic;
 
-namespace Backend.Service.SftpService
+namespace Backend.Communication.SftpCommunicator
 {
-    public interface ISftpService
+    public interface ISftpCommunicator
     {
         IEnumerable<SftpFile> ListAllFiles(string remoteDirectory = ".");
         void UploadFile(string localFilePath, string remoteFilePath);

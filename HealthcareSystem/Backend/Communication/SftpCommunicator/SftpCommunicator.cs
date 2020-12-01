@@ -7,16 +7,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Backend.Service.SftpService
+namespace Backend.Communication.SftpCommunicator
 {
-    public class SftpService : ISftpService
+    public class SftpCommunicator : ISftpCommunicator
     {
         private readonly string _host;
         private readonly int _port;
         private readonly string _username;
         private readonly string _password;
 
-        public SftpService(IOptions<SftpConfig> sftpOptions)
+        public SftpCommunicator(IOptions<SftpConfig> sftpOptions)
         {
             _host = sftpOptions.Value.Host;
             _port = sftpOptions.Value.Port;

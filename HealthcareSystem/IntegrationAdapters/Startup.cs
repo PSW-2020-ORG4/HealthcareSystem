@@ -1,3 +1,4 @@
+using Backend.Communication.SftpCommunicator;
 using Backend.Model;
 using Backend.Model.Pharmacies;
 using Backend.Repository;
@@ -6,7 +7,6 @@ using Backend.Repository.DrugConsumptionRepository.MySqlDrugConsumptionRepositor
 using Backend.Service;
 using Backend.Service.DrugConsumptionService;
 using Backend.Service.Pharmacies;
-using Backend.Service.SftpService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +40,7 @@ namespace IntegrationAdapters
             services.AddScoped<IPharmacyService, PharmacyService>();
             services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();
-            services.AddScoped<ISftpService, SftpService>();
+            services.AddScoped<ISftpCommunicator, SftpCommunicator>();
             services.AddScoped<IDrugConsumptionRepository, MySqlDrugConsumptionRepository>();
             services.AddScoped<IDrugConsumptionService, DrugConsumptionService>();
 

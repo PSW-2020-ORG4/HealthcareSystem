@@ -10,6 +10,7 @@ using Model.Enums;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using Backend.Model.Enums;
 
 namespace Model.PerformingExamination
 {
@@ -31,9 +32,9 @@ namespace Model.PerformingExamination
 
         [ForeignKey("PatientCard")]
         public int IdPatientCard { get; set; }
-        public bool IsCanceled { get; set; }
-        public bool IsSurveyCompleted { get; set; }
         public virtual PatientCard PatientCard { get; set; }
+        public ExaminationStatus ExaminationStatus { get; set; }
+        public bool IsSurveyCompleted { get; set; }
         public virtual ICollection<Therapy> Therapies { get; set; }
 
         public Examination()
@@ -41,7 +42,7 @@ namespace Model.PerformingExamination
         }
 
         public Examination(int id, TypeOfExamination typeOfExamination, DateTime dateAndTime, string anamnesis, Doctor doctor, Room room,
-                            PatientCard patientCard, bool isCanceled = false, bool isSurveyCompleted = false)
+                            PatientCard patientCard, bool isSurveyCompleted = false)
         {
             Id = id;
             Type = typeOfExamination;
@@ -72,7 +73,7 @@ namespace Model.PerformingExamination
                 PatientCard = new PatientCard(patientCard);
             }
             Therapies = new List<Therapy>();
-            IsCanceled = isCanceled;
+            ExaminationStatus = ExaminationStatus.CREATED;
             IsSurveyCompleted = isSurveyCompleted;
         }
         public Examination(Examination examination)
@@ -106,7 +107,7 @@ namespace Model.PerformingExamination
                 PatientCard = new PatientCard(examination.PatientCard);
             }
             Therapies = examination.Therapies;
-            IsCanceled = examination.IsCanceled;
+            ExaminationStatus = ExaminationStatus.CREATED;
             IsSurveyCompleted = examination.IsSurveyCompleted;
         }
 

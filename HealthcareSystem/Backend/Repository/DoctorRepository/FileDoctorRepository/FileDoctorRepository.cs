@@ -73,7 +73,6 @@ namespace Backend.Repository
                     d.Username = doctor.Username;
                     d.Password = doctor.Password;
                     d.NumberOfLicence = doctor.NumberOfLicence;
-                    d.Specialty = doctor.Specialty;
                     d.DoctorsOffice = doctor.DoctorsOffice;
                     d.DateOfEmployment = doctor.DateOfEmployment;
 

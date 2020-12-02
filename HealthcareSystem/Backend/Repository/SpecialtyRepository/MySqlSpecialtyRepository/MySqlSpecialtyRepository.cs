@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Backend.Model;
+using Backend.Model.Exceptions;
 using Backend.Model.Users;
 
 namespace Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository
@@ -16,7 +17,15 @@ namespace Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository
         }
         public List<Specialty> GetSpecialties()
         {
-            return _context.Specialties.ToList();
+            try
+            {
+                return _context.Specialties.ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+            
         }
     }
 }

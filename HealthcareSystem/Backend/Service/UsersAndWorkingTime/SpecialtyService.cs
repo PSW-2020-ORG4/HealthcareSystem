@@ -16,14 +16,7 @@ namespace Backend.Service.UsersAndWorkingTime
         }
         public List<Specialty> GetSpecialties()
         {
-            try
-            {
-                return _specialtyRepository.GetSpecialties();
-            }
-            catch (Exception)
-            {
-                throw new NotFoundException("There is no specialties in database.");
-            }
+            return _specialtyRepository.GetSpecialties();   
         }
     }
 }

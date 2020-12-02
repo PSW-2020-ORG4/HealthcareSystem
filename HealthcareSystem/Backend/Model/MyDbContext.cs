@@ -39,6 +39,7 @@ namespace Backend.Model
         public DbSet<EquipmentInRooms> EquipmentsInRooms { get; set; }
         public DbSet<ConsumableEquipment> ConsumableEquipments { get; set; }
         public DbSet<NonConsumableEquipment> NonConsumableEquipments { get; set; }
+        public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
@@ -46,6 +47,10 @@ namespace Backend.Model
         {
             builder.Entity<Pharmacy>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
             builder.Entity<EquipmentInRooms>().HasKey(o => new { o.RoomNumber, o.IdEquipment });
+
+            builder.Entity<DoctorSpecialty>().HasKey(ds => new { ds.DoctorJmbg, ds.SpecialtyId });
+            builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Doctor).WithMany(d => d.DoctorSpecialties).HasForeignKey(ds => ds.DoctorJmbg);
+            builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Specialty).WithMany(s => s.DoctorSpecialties).HasForeignKey(ds => ds.SpecialtyId);
 
         }
     }

@@ -11,10 +11,7 @@ namespace Model.Users
    public class Doctor : User
    {
         public string NumberOfLicence { get; set; }
-
-        [ForeignKey("Specialty")]
-        public int SpecialtyId { get; set; }
-        public virtual Specialty Specialty { get; set; }
+        public virtual ICollection<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DateTime DateOfEmployment { get; set; }
 
         [ForeignKey("DoctorsOffice")]
@@ -26,7 +23,7 @@ namespace Model.Users
         public Doctor() { }
 
         public Doctor(string jmbg, string name, string surname, DateTime dateOfBirth, GenderType gender, City city, string homeAddress, string phone,
-                         string email, string username, string password, string numberOfLicence, Specialty specialty, Room doctorsOffice, DateTime dateOfEmployment)
+                         string email, string username, string password, string numberOfLicence, Room doctorsOffice, DateTime dateOfEmployment)
         {
             Jmbg = jmbg;
             Name = name;
@@ -49,14 +46,7 @@ namespace Model.Users
             Username = username;
             Password = password;
             NumberOfLicence = numberOfLicence;
-            if (specialty != null)
-            {
-                Specialty = new Specialty(specialty);
-            }
-            else
-            {
-                Specialty = new Specialty();
-            }
+            
             if (doctorsOffice != null)
             {
                 DoctorsOffice = new Room(doctorsOffice);
@@ -92,14 +82,7 @@ namespace Model.Users
             Username = doctor.Username;
             Password = doctor.Password;
             NumberOfLicence = doctor.NumberOfLicence;
-            if (doctor.Specialty != null)
-            {
-                Specialty = new Specialty(doctor.Specialty);
-            }
-            else
-            {
-                Specialty = new Specialty();
-            }
+           
             if (doctor.DoctorsOffice != null)
             {
                 DoctorsOffice = new Room(doctor.DoctorsOffice);

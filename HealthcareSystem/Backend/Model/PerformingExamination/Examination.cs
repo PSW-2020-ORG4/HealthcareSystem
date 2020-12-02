@@ -10,6 +10,7 @@ using Model.Enums;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using Backend.Model;
 
 namespace Model.PerformingExamination
 {
@@ -33,6 +34,10 @@ namespace Model.PerformingExamination
         public int IdPatientCard { get; set; }
         public virtual PatientCard PatientCard { get; set; }
         public virtual ICollection<Therapy> Therapies { get; set; }
+
+        public virtual ICollection<SurveyAboutDoctor> SurveysAboutDoctor { get; set; }
+        public virtual ICollection<SurveyAboutMedicalStaff> SurveysAboutMedicalStaff { get; set; }
+        public virtual ICollection<SurveyAboutHospital> SurveysAboutHospital { get; set; }
 
         public Examination() 
         {

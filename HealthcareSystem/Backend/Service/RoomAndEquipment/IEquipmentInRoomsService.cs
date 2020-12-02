@@ -13,6 +13,6 @@ namespace Backend.Service.RoomAndEquipment
         EquipmentInRooms editEquipmentInRooms(EquipmentInRooms equipment);
         List<Equipment> getEquipmentByRoomNumber(int roomNumber);
         bool deleteEquipmentInRooms(int idEquipment);
-        int viewEquipmentInRooms(int idEquipment);
+        EquipmentInRooms viewEquipmentInRooms(int idEquipment);
     }
 }

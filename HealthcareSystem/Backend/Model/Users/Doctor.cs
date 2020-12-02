@@ -1,4 +1,5 @@
 using Backend.Model;
+using Backend.Model.Users;
 using Model.Enums;
 using Model.Manager;
 using System;
@@ -10,7 +11,7 @@ namespace Model.Users
    public class Doctor : User
    {
         public string NumberOfLicence { get; set; }
-        public TypeOfDoctor Type { get; set; }
+        public virtual ICollection<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DateTime DateOfEmployment { get; set; }
 
         [ForeignKey("DoctorsOffice")]
@@ -21,7 +22,7 @@ namespace Model.Users
         public Doctor() { }
 
         public Doctor(string jmbg, string name, string surname, DateTime dateOfBirth, GenderType gender, City city, string homeAddress, string phone,
-                         string email, string username, string password, string numberOfLicence, TypeOfDoctor typeOfDoctor, Room doctorsOffice, DateTime dateOfEmployment)
+                         string email, string username, string password, string numberOfLicence, Room doctorsOffice, DateTime dateOfEmployment)
         {
             Jmbg = jmbg;
             Name = name;
@@ -44,7 +45,7 @@ namespace Model.Users
             Username = username;
             Password = password;
             NumberOfLicence = numberOfLicence;
-            Type = typeOfDoctor;
+            
             if (doctorsOffice != null)
             {
                 DoctorsOffice = new Room(doctorsOffice);
@@ -80,7 +81,7 @@ namespace Model.Users
             Username = doctor.Username;
             Password = doctor.Password;
             NumberOfLicence = doctor.NumberOfLicence;
-            Type = doctor.Type;
+           
             if (doctor.DoctorsOffice != null)
             {
                 DoctorsOffice = new Room(doctor.DoctorsOffice);

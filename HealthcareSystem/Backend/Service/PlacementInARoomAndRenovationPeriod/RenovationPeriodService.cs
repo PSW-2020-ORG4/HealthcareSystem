@@ -23,8 +23,8 @@ namespace Service.PlacementInARoomAndRenovationPeriod
     public class RenovationPeriodService : IRenovationPeriodService
     {
         private IRenovationPeriodRepository _renovationPeriodRepository;
-        private IScheduledExaminationRepository _scheduledExaminationRepository;
-        public RenovationPeriodService(IRenovationPeriodRepository renovationPeriodRepository, IScheduledExaminationRepository scheduledExaminationRepository)
+        private IExaminationRepository _scheduledExaminationRepository;
+        public RenovationPeriodService(IRenovationPeriodRepository renovationPeriodRepository, IExaminationRepository scheduledExaminationRepository)
         {
             _renovationPeriodRepository = renovationPeriodRepository;
             _scheduledExaminationRepository = scheduledExaminationRepository;

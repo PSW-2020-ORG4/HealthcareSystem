@@ -69,14 +69,17 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return surveyStubRepository.Object;
         }
 
-        public IScheduledExaminationRepository CreateExaminationStubRepository()
+        public IExaminationRepository CreateExaminationStubRepository()
         {
-            var examinationStubRepository = new Mock<IScheduledExaminationRepository>();
+            var examinationStubRepository = new Mock<IExaminationRepository>();
             var examinationValidObject = _objectFactory.GetExamination().CreateValidTestObject();
             var examinations = new List<Examination>();
             examinations.Add(examinationValidObject);          
 
             examinationStubRepository.Setup(m => m.GetExaminationsByPatient("1309998775018")).Returns(examinations);
+            examinationStubRepository.Setup(m => m.GetCanceledExaminationsByPatient("1309998775018")).Returns(examinations);
+            examinationStubRepository.Setup(m => m.GetPreviousExaminationsByPatient("1309998775018")).Returns(examinations);
+            examinationStubRepository.Setup(m => m.GetFollowingExaminationsByPatient("1309998775018")).Returns(examinations);
 
             return examinationStubRepository.Object;
         }

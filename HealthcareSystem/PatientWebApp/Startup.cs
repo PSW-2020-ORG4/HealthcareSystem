@@ -88,7 +88,7 @@ namespace PatientWebApp
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRoomService, RoomService>();
 
-            services.AddScoped<IScheduledExaminationRepository, MySqlScheduledExaminationRepository>();
+            services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
             services.AddScoped<IExaminationService, ExaminationService>();
 
             services.AddScoped<ITherapyRepository, MySqlTherapyRepository>();

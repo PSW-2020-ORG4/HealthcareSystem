@@ -1,0 +1,41 @@
+﻿@model Backend.Model.Pharmacies.DateRange
+@{
+    ViewData["Title"] = "SFTP";
+    Layout = "_Layout";
+
+}@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Choose dates for report</h4>
+    <hr />
+    
+    <div class="form-group">
+        @if (TempData["Success"] != null)
+        {
+            <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+        }
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Start Date</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.From, new {@class = "ui-datepicker-calendar", id = "from-date" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">End Date</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.To, new { @class = "ui-datepicker-calendar", id = "to-date" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10"></div>
+        <input type="submit" value="Send Report" class="btn btn-primary" />
+    </div>
+
+</div>
+}

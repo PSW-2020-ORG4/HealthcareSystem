@@ -30,6 +30,8 @@ using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository;
 using Backend.Repository.RenovationPeriodRepository;
 using Repository;
+using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
+
 namespace GraphicalEditorServer
 {
     public class Startup
@@ -53,7 +55,7 @@ namespace GraphicalEditorServer
 
             services.AddScoped<IEquipmentInRoomsService, EquipmentInRoomsService>();
 
-            services.AddScoped<IRenovationPeriodRepository, RenovationPeriodRepository>();
+            services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
 
             services.AddScoped<IEquipmentInRoomsRepository, MySqlEquipmentInRoomsRepository>();
 

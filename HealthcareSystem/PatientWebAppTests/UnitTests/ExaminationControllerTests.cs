@@ -1,23 +1,8 @@
-﻿using Backend.Service;
-using Model.Users;
-using Moq;
-using PatientWebApp.Controllers;
-using Repository;
-using System;
+﻿using PatientWebApp.Controllers;
 using Xunit;
-using Model.Enums;
 using Microsoft.AspNetCore.Mvc;
-using Backend;
-using System.Collections.Generic;
-using PatientWebApp.DTOs;
 using PatientWebAppTests.CreateObjectsForTests;
-using Backend.Service.SendingMail;
-using System.Threading.Tasks;
-using Backend.Model.Users;
 using Service.ExaminationAndPatientCard;
-using Backend.Model.Exceptions;
-using Backend.Service.SearchSpecification.ExaminationSearch;
-using Backend.Service.SearchSpecification;
 
 namespace PatientWebAppTests.UnitTests
 {
@@ -82,6 +67,66 @@ namespace PatientWebAppTests.UnitTests
             var result = examinationController.AdvanceSearchExaminations(examinationSearchDTOInvalidObject);
 
             Assert.True(result is NotFoundObjectResult);
+        }
+
+        [Fact]
+        public void Get_canceled_examination_by_valid_patient_jmbg()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var result = examinationController.GetCanceledExaminationsByPatient("1309998775018");
+
+            Assert.True(result is OkObjectResult);
+        }
+
+        [Fact]
+        public void Get_canceled_examination_by_invalid_patient_jmbg()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var result = examinationController.GetCanceledExaminationsByPatient(null);
+
+            Assert.True(result is BadRequestObjectResult);
+        }
+
+        [Fact]
+        public void Get_previous_examination_by_valid_patient_jmbg()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var result = examinationController.GetPreviousExaminationsByPatient("1309998775018");
+
+            Assert.True(result is OkObjectResult);
+        }
+
+        [Fact]
+        public void Get_previous_examination_by_invalid_patient_jmbg()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var result = examinationController.GetPreviousExaminationsByPatient(null);
+
+            Assert.True(result is BadRequestObjectResult);
+        }
+
+        [Fact]
+        public void Get_following_examination_by_valid_patient_jmbg()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var result = examinationController.GetFollowingExaminationsByPatient("1309998775018");
+
+            Assert.True(result is OkObjectResult);
+        }
+
+        [Fact]
+        public void Get_following_examination_by_invalid_patient_jmbg()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var result = examinationController.GetFollowingExaminationsByPatient(null);
+
+            Assert.True(result is BadRequestObjectResult);
         }
     }
 }

@@ -1,18 +1,13 @@
-using Backend.Model.Users;
-using Backend.Service.SendingMail;
 ﻿using Backend.Model;
 using Backend.Repository;
 using Model.Users;
 using Moq;
 using Repository;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Backend.Repository.ExaminationRepository;
 using Model.PerformingExamination;
 using Backend.Repository.TherapyRepository;
-using Model.Enums;
-using Model.Manager;
+using Backend.Model.Enums;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
@@ -72,11 +67,15 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public IExaminationRepository CreateExaminationStubRepository()
         {
             var examinationStubRepository = new Mock<IExaminationRepository>();
-            var examinationValidObject = _objectFactory.GetExamination().CreateValidTestObject();
-            var examinations = new List<Examination>();
-            examinations.Add(examinationValidObject);          
+
+            List<Examination> examinations = _objectFactory.GetExamination().CreateValidTestObjects();
+            List<Examination> canceledExaminations = GetCanceledExamination(examinations);
+            List<Examination> previousExaminations = GetPreviousExaminations(examinations);
 
             examinationStubRepository.Setup(m => m.GetExaminationsByPatient("1309998775018")).Returns(examinations);
+            examinationStubRepository.Setup(m => m.GetPreviousExaminationsByPatient("1309998775018")).Returns(previousExaminations);
+            examinationStubRepository.Setup(m => m.GetFollowingExaminationsByPatient("1309998775018")).Returns(examinations);
+            examinationStubRepository.Setup(m => m.GetCanceledExaminationsByPatient("1309998775018")).Returns(canceledExaminations);
 
             return examinationStubRepository.Object;
         }
@@ -91,6 +90,18 @@ namespace PatientWebAppTests.CreateObjectsForTests
             therapyStubRepository.Setup(m => m.GetTherapyByPatient("1309998775018")).Returns(therapies);
 
             return therapyStubRepository.Object;
+        }
+
+        private List<Examination> GetCanceledExamination(List<Examination> examinations)
+        {
+            examinations.ForEach(e => e.ExaminationStatus = ExaminationStatus.CANCELED);
+            return examinations;
+        }
+
+        private List<Examination> GetPreviousExaminations(List<Examination> examinations)
+        {
+            examinations.ForEach(e => e.ExaminationStatus = ExaminationStatus.FINISHED);
+            return examinations;
         }
     }
 }

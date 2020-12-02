@@ -69,8 +69,8 @@ namespace PatientWebApp.Controllers
         /// /getting canceled examinations linked to a certain patient
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
-        /// <returns>if alright returns code 200(Ok), if patuentJmbg is null returns 400, if connection lost returns 500</returns>
-        [HttpGet("{canceled/patientJmbg}")]
+        /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
+        [HttpGet("cancelled/{patientJmbg}")]
         public ActionResult GetCanceledExaminationsByPatient(string patientJmbg)
         {
             try
@@ -93,8 +93,8 @@ namespace PatientWebApp.Controllers
         /// /getting previous examinations linked to a certain patient
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
-        /// <returns>if alright returns code 200(Ok), if patuentJmbg is null returns 400, if connection lost returns 500</returns>
-        [HttpGet("{previous/patientJmbg}")]
+        /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
+        [HttpGet("previous/{patientJmbg}")]
         public ActionResult GetPreviousExaminationsByPatient(string patientJmbg)
         {
             try
@@ -117,8 +117,8 @@ namespace PatientWebApp.Controllers
         /// /getting following examinations linked to a certain patient
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
-        /// <returns>if alright returns code 200(Ok), if patuentJmbg is null returns 400, if connection lost returns 500</returns>
-        [HttpGet("{previous/patientJmbg}")]
+        /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
+        [HttpGet("following/{patientJmbg}")]
         public ActionResult GetFollowingExaminationsByPatient(string patientJmbg)
         {
             try

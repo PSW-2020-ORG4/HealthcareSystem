@@ -77,9 +77,6 @@ namespace PatientWebAppTests.CreateObjectsForTests
             examinations.Add(examinationValidObject);          
 
             examinationStubRepository.Setup(m => m.GetExaminationsByPatient("1309998775018")).Returns(examinations);
-            examinationStubRepository.Setup(m => m.GetCanceledExaminationsByPatient("1309998775018")).Returns(examinations);
-            examinationStubRepository.Setup(m => m.GetPreviousExaminationsByPatient("1309998775018")).Returns(examinations);
-            examinationStubRepository.Setup(m => m.GetFollowingExaminationsByPatient("1309998775018")).Returns(examinations);
 
             return examinationStubRepository.Object;
         }

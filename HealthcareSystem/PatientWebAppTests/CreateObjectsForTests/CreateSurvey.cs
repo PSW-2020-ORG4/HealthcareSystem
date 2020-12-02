@@ -6,7 +6,7 @@ using Backend.Model;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public class CreateSurvey : ICreateTestObject<Survey>
+    public class CreateSurvey
     {
         public Survey CreateInvalidTestObject()
         {

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public class CreatePatient : ICreateTestObject<Patient>
+    public class CreatePatient
     {
         public Patient CreateValidTestObject()
         {

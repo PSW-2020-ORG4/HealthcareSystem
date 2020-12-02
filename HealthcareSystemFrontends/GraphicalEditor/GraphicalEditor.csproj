@@ -72,10 +72,8 @@
     <Compile Include="Constants\ServerConstants.cs" />
     <Compile Include="Controllers\MapObjectController\MapObjectController.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
-    <Compile Include="Models\Equipment\ConsumableEquipment.cs" />
-    <Compile Include="Models\Equipment\NonConsumableEquipment.cs" />
-    <Compile Include="Models\Equipment\TypeOfConsumable.cs" />
-    <Compile Include="Models\Equipment\TypeOfNonConsumable.cs" />
+    <Compile Include="Models\Equipment\Equipment.cs" />
+    <Compile Include="Models\Equipment\TypeOfEquipment.cs" />
     <Compile Include="Models\MapObjectRelated\BuildingLayersButtons.cs" />
     <Compile Include="Models\MapObjectRelated\MockupObjects.cs" />
     <Compile Include="Models\MapObjectRelated\Road.cs" />

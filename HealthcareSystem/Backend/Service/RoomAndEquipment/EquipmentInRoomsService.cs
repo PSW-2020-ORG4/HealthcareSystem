@@ -18,13 +18,11 @@ namespace Service.RoomAndEquipment
     public class EquipmentInRoomsService : IEquipmentInRoomsService
     {
         private IEquipmentInRoomsRepository _equipmentInRoomsRepository;
-        private IConsumableEquipmentService _consumableEquipmentService;
-        private INonConsumableEquipmentService _nonConsumableEquipmentService;
-        public EquipmentInRoomsService(IEquipmentInRoomsRepository equipmentInRoomsRepository, IConsumableEquipmentService consumableEquipmentService, INonConsumableEquipmentService nonConsumableEquipmentService)
+        private IEquipmentService _equipmentService;
+        public EquipmentInRoomsService(IEquipmentInRoomsRepository equipmentInRoomsRepository, IEquipmentService equipmentService)
         {
             _equipmentInRoomsRepository = equipmentInRoomsRepository;
-            _consumableEquipmentService = consumableEquipmentService;
-            _nonConsumableEquipmentService = nonConsumableEquipmentService;
+            _equipmentService = equipmentService;
 
         }
         public EquipmentInRooms addEquipmentInRoom(EquipmentInRooms equipment)
@@ -48,19 +46,7 @@ namespace Service.RoomAndEquipment
         }
         public List<Equipment> getEquipmentByRoomNumber(int roomNumber)
         {
-            List<NonConsumableEquipment> nonConsumableEquipmentInRoom = _nonConsumableEquipmentService.GetNonConsumableEquipmentByRoomNumber(roomNumber);
-            List<ConsumableEquipment> consumableEquipmentInRoom = _consumableEquipmentService.GetConsumableEquipmentByRoomNumber(roomNumber);
-            List<Equipment> equipmentInRoom = new List<Equipment>();
-            foreach (Equipment nonConsumableEquipment in nonConsumableEquipmentInRoom)
-            {
-                equipmentInRoom.Add(nonConsumableEquipment);
-            }
-            foreach (Equipment consumableEquipment in consumableEquipmentInRoom)
-            {
-                equipmentInRoom.Add(consumableEquipment);
-            }
-            return equipmentInRoom;
+            return _equipmentService.GetEquipmentByRoomNumber(roomNumber);
         }
-
     }
 }

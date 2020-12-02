@@ -16,12 +16,13 @@ namespace GraphicalEditor.Service
             return client;
         }
 
-        public void AddHTTPPostRequest(String requestURL, String JSONContent)
+        public IRestResponse AddHTTPPostRequest(String requestURL, String JSONContent)
         {
             var client = GetClient();
             var request = new RestRequest("api/" + requestURL);
             request.AddJsonBody(JSONContent);
             IRestResponse response = client.Post(request);
+            return response;
         }
 
         public List<T> HTTPGetRequest<T>(string requestURL)

@@ -13,7 +13,7 @@ namespace GraphicalEditor.Service
         public InitializeDatabaseData()
         {
             _roomService = new RoomService();
-            _equipementService = new EquipementService();           
+            _equipementService = new EquipementService();
         }
 
         public void InitiliazeData()
@@ -38,29 +38,18 @@ namespace GraphicalEditor.Service
             List<MapObject> allMapObjects = MainWindow._allMapObjects;
 
             Random random = new Random();
-            bool isConsumable = false;
             int equipmentId = 0;
 
             foreach (MapObject mapObject in allMapObjects)
             {
                 if (mapObject.CheckIfDBAddableRoom())
                 {
-                    if (!isConsumable)
-                    {                        
-                        NonConsumableEquipment nonConsumableEquipment = new NonConsumableEquipment(equipmentId++, (TypeOfNonConsumable) random.Next(0, 6));
-                        _equipementService.AddNonConsumableEquipment(nonConsumableEquipment);
-                        _equipementService.AddNonConsumableEquipmentToRoom(mapObject, nonConsumableEquipment);
-                        isConsumable = true;
-                    }
-                    else
-                    {
-                        ConsumableEquipment consumableEquipment = new ConsumableEquipment(equipmentId++, random.Next(0, 10), (TypeOfConsumable)random.Next(0, 4));
-                        _equipementService.AddConsumableEquipment(consumableEquipment);
-                        _equipementService.AddConsumableEquipmentToRoom(mapObject, consumableEquipment);
-                        isConsumable = false;
-                    }
+                    Equipment singleEquipment = new Equipment(random.Next(0, 10), (TypeOfEquipment)random.Next(0, 9));
+                    singleEquipment.Id =Int32.Parse(_equipementService.AddEquipment(singleEquipment));
+                    _equipementService.AddEquipmentToRoom(mapObject, singleEquipment);
                 }
             }
         }
     }
 }
+

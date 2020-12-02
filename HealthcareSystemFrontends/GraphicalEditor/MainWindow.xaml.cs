@@ -128,7 +128,7 @@ namespace GraphicalEditor
             ChangeEditButtonVisibility();
 
             // uncomment only when you want to save the map for the first time
-            //saveMap();
+            saveMap();
 
             LoadInitialMapOnCanvas();
 
@@ -136,7 +136,6 @@ namespace GraphicalEditor
             // to populate DB with start data
             //InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
             //initializeDatabaseData.InitiliazeData();
-
         }
 
         public MainWindow(string currentUserRole)
@@ -300,8 +299,7 @@ namespace GraphicalEditor
                 DisplayMapObject = _selectedMapObject.MapObjectEntity;
                 SelectedMapObject = _selectedMapObject;
                 //these properties we will need to map on our graphicalEditorWPF
-                var consumableEquipmentForSelectedObject = SelectedMapObject.GetConsumableEquipmentByRoomNumber();
-                var nonConsumableEquipmentForSelectedObject = SelectedMapObject.GetNonConsumableEquipmentByRoomNumber();
+                var equipment = SelectedMapObject.GetEquipmentByRoomNumber();
             }
             else
             {

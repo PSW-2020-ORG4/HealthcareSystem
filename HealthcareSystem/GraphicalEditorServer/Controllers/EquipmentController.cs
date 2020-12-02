@@ -16,35 +16,20 @@ namespace GraphicalEditorServer.Controllers
     [ApiController]
     public class EquipmentController : ControllerBase
     {
-        private readonly INonConsumableEquipmentService _nonConsumableEquipmentService;
-        private readonly IConsumableEquipmentService _consumableEquipmentService;
+        private readonly IEquipmentService _equipmentService;
 
-        public EquipmentController(INonConsumableEquipmentService nonConsumableEquipmentService, IConsumableEquipmentService consumableEquipmentService)
+        public EquipmentController(IEquipmentService equipmentService)
         {
-            _nonConsumableEquipmentService = nonConsumableEquipmentService;
-            _consumableEquipmentService = consumableEquipmentService; 
+            _equipmentService = equipmentService; 
         }
 
-        [HttpPost("consumable")]
-        public ActionResult AddConsumableEquipment([FromBody] String JSONString)
-        {
-            String JSONContent = StringToJSONFormat(JSONString);            
-
-            ConsumableEquipment cosumableEquipment = JsonConvert.DeserializeObject<ConsumableEquipment>(JSONContent);
-            _consumableEquipmentService.newConsumableEquipment(cosumableEquipment);
-
-            return Ok();
-        }
-
-        [HttpPost("nonconsumable")]
-        public ActionResult AddNonConsumableEquipment([FromBody] String JSONString)
+        [HttpPost]
+        public ActionResult AddEquipment([FromBody] String JSONString)
         {
             String JSONContent = StringToJSONFormat(JSONString);
-
-            NonConsumableEquipment nonCosumableEquipment = JsonConvert.DeserializeObject<NonConsumableEquipment>(JSONContent);
-            _nonConsumableEquipmentService.newNonConsumableEquipment(nonCosumableEquipment);
-
-            return Ok();
+            Equipment equipment = JsonConvert.DeserializeObject<Equipment>(JSONContent);
+            Equipment addedEquipment =_equipmentService.newEquipment(equipment);
+            return Ok(addedEquipment.Id);
         }
 
         private string StringToJSONFormat(string JSONString)
@@ -53,7 +38,6 @@ namespace GraphicalEditorServer.Controllers
             String JSONContent = "{";
             JSONContent += JSONString;
             JSONContent += "}";
-
             return JSONContent;
         }
 

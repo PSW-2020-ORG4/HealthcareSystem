@@ -16,8 +16,9 @@ namespace Model.Manager
 {
     public class Drug
     {
-        public virtual List<Ingredient> Ingredient { get; set; }
-        public virtual DrugType DrugType { get; set; }
+        [ForeignKey("DrugType")]
+        public int DrugType_Id { get; set; }
+        public DrugType DrugType { get; set; }
         public string Name { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -27,24 +28,9 @@ namespace Model.Manager
 
         public Drug() { }
 
-        public Drug(List<Ingredient> ingredients, DrugType drugType, string name, int id, int quantity, DateTime expirationDate, string producer)
+        public Drug( DrugType drugType, string name, int id, int quantity, DateTime expirationDate, string producer)
         {
-            if (ingredients == null)
-            {
-                this.Ingredient = new List<Ingredient>();
-            }
-            else
-            {
-                this.Ingredient = ingredients;
-            }
-            if (drugType == null)
-            {
-                this.DrugType = new DrugType();
-            }
-            else
-            {
-                this.DrugType = new DrugType(drugType);
-            }
+            this.DrugType = drugType;
             this.Name = name;
             this.Id = id;
             this.Quantity = quantity;
@@ -54,22 +40,7 @@ namespace Model.Manager
 
         public Drug(Drug drug)
         {
-            if (drug.Ingredient == null)
-            {
-                this.Ingredient = new List<Ingredient>();
-            }
-            else
-            {
-                this.Ingredient = drug.Ingredient;
-            }
-            if (drug.DrugType == null)
-            {
-                this.DrugType = new DrugType();
-            }
-            else
-            {
-                this.DrugType = new DrugType(drug.DrugType);
-            }
+            this.DrugType = drug.DrugType;
             this.Name = drug.Name;
             this.Id = drug.Id;
             this.Quantity = drug.Quantity;

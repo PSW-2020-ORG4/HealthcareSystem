@@ -59,13 +59,9 @@ namespace GraphicalEditorServer
 
             services.AddScoped<IEquipmentInRoomsRepository, MySqlEquipmentInRoomsRepository>();
 
-            services.AddScoped<IConsumableEquipmentService, ConsumableEquipmentService>();
+            services.AddScoped<IEquipmentService, EquipmentService>();
 
-            services.AddScoped<IConsumableEquipmentRepository, MySqlConsumableEquipmentRepository>();
-
-            services.AddScoped<INonConsumableEquipmentService, NonConsumableEquipmentService>();
-
-            services.AddScoped<INonConsumableEquipmentRepository, MySqlNonConsumableEquipmentRepository>();
+            services.AddScoped<IEquipmentRepository, MySqlEquipmentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,38 +9,36 @@ using Model.Manager;
 
 namespace Backend.Repository
 {
-   public class MySqlNonConsumableEquipmentRepository : INonConsumableEquipmentRepository
+    public class MySqlEquipmentRepository : IEquipmentRepository
     {
         private readonly MyDbContext _context;
-
-        public MySqlNonConsumableEquipmentRepository(MyDbContext context)
+        public MySqlEquipmentRepository(MyDbContext context)
         {
             _context = context;
         }
-
         public bool DeleteEquipment(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<NonConsumableEquipment> GetAllEquipment()
+        public List<Equipment> GetAllEquipment()
         {
-            return _context.NonConsumableEquipments.ToList();
+            return _context.Equipment.ToList();
         }
 
-        public NonConsumableEquipment GetEquipment(int id)
+        public Equipment GetEquipment(int id)
         {
-            return _context.NonConsumableEquipments.SingleOrDefault(x => x.Id == id);
+            return _context.Equipment.SingleOrDefault(x => x.Id == id);
         }
 
-        public NonConsumableEquipment NewEquipment(NonConsumableEquipment equipment)
+        public Equipment NewEquipment(Equipment equipment)
         {
-            _context.Add(equipment);
+            _context.Equipment.Add(equipment);
             _context.SaveChanges();
             return equipment;
         }
 
-        public NonConsumableEquipment SetEquipment(NonConsumableEquipment equipment)
+        public Equipment SetEquipment(Equipment equipment)
         {
             throw new NotImplementedException();
         }

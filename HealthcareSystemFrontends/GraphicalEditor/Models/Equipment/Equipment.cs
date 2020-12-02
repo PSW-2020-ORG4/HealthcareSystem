@@ -6,22 +6,21 @@ using System.Threading.Tasks;
 
 namespace GraphicalEditor.Models.Equipment
 {
-    public class ConsumableEquipment
+    public class Equipment
     {
         public int Quantity { get; set; }
-        public TypeOfConsumable Type { get; set; }
+        public TypeOfEquipment Type { get; set; }
         public int Id { get; set; }
 
-        public ConsumableEquipment() { }
+        public Equipment() { }
 
-        public ConsumableEquipment(int equipmentId, int quantity, TypeOfConsumable typeOfConsumable)
+        public Equipment( int quantity, TypeOfEquipment typeOfConsumable)
         {
-            Id = equipmentId;
             Quantity = quantity;
             Type = typeOfConsumable;
         }
 
-        public ConsumableEquipment(ConsumableEquipment consumableEquipment)
+        public Equipment(Equipment consumableEquipment)
         {
             this.Id = consumableEquipment.Id;
             this.Type = consumableEquipment.Type;

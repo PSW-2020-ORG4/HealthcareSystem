@@ -40,6 +40,7 @@ namespace Backend.Model
         public DbSet<ConsumableEquipment> ConsumableEquipments { get; set; }
         public DbSet<NonConsumableEquipment> NonConsumableEquipments { get; set; }
         public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
+        public DbSet<DrugConsumption> DrugConsumptions { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.PerformingExamination;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,14 +19,19 @@ namespace Backend.Model
         public int OverallRating { get; set; }
         public int SatisfiedWithDrugAndInstrument { get; set; }
 
+        [ForeignKey("Examination")]
+        public int ExaminationId { get; set; }
+        public virtual Examination Examination { get; set; }
+
         public SurveyAboutHospital() { }
 
-        public SurveyAboutHospital(int nursing, int cleanliness, int overallRating, int satisfiedWithDrugAndInstrument)
+        public SurveyAboutHospital(int nursing, int cleanliness, int overallRating, int satisfiedWithDrugAndInstrument, int examinationId)
         {
             Nursing = nursing;
             Cleanliness = cleanliness;
             OverallRating = overallRating;
             SatisfiedWithDrugAndInstrument = satisfiedWithDrugAndInstrument;
+            ExaminationId = examinationId;
         }
     }
 }

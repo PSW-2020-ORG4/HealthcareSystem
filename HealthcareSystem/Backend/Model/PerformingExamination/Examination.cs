@@ -11,6 +11,7 @@ using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 using Backend.Model.Enums;
+using Backend.Model;
 
 namespace Model.PerformingExamination
 {
@@ -36,6 +37,10 @@ namespace Model.PerformingExamination
         public ExaminationStatus ExaminationStatus { get; set; }
         public bool IsSurveyCompleted { get; set; }
         public virtual ICollection<Therapy> Therapies { get; set; }
+
+        public virtual SurveyAboutDoctor SurveyAboutDoctor { get; set; }
+        public virtual SurveyAboutMedicalStaff SurveyAboutMedicalStaff { get; set; }
+        public virtual SurveyAboutHospital SurveyAboutHospital { get; set; }
 
         public Examination()
         {

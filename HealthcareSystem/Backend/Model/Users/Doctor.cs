@@ -1,4 +1,5 @@
 using Backend.Model;
+using Backend.Model.Users;
 using Model.Enums;
 using Model.Manager;
 using System;
@@ -10,7 +11,10 @@ namespace Model.Users
    public class Doctor : User
    {
         public string NumberOfLicence { get; set; }
-        public TypeOfDoctor Type { get; set; }
+
+        [ForeignKey("Specialty")]
+        public int SpecialtyId { get; set; }
+        public virtual Specialty Specialty { get; set; }
         public DateTime DateOfEmployment { get; set; }
 
         [ForeignKey("DoctorsOffice")]
@@ -22,7 +26,7 @@ namespace Model.Users
         public Doctor() { }
 
         public Doctor(string jmbg, string name, string surname, DateTime dateOfBirth, GenderType gender, City city, string homeAddress, string phone,
-                         string email, string username, string password, string numberOfLicence, TypeOfDoctor typeOfDoctor, Room doctorsOffice, DateTime dateOfEmployment)
+                         string email, string username, string password, string numberOfLicence, Specialty specialty, Room doctorsOffice, DateTime dateOfEmployment)
         {
             Jmbg = jmbg;
             Name = name;
@@ -45,7 +49,14 @@ namespace Model.Users
             Username = username;
             Password = password;
             NumberOfLicence = numberOfLicence;
-            Type = typeOfDoctor;
+            if (specialty != null)
+            {
+                Specialty = new Specialty(specialty);
+            }
+            else
+            {
+                Specialty = new Specialty();
+            }
             if (doctorsOffice != null)
             {
                 DoctorsOffice = new Room(doctorsOffice);
@@ -81,7 +92,14 @@ namespace Model.Users
             Username = doctor.Username;
             Password = doctor.Password;
             NumberOfLicence = doctor.NumberOfLicence;
-            Type = doctor.Type;
+            if (doctor.Specialty != null)
+            {
+                Specialty = new Specialty(doctor.Specialty);
+            }
+            else
+            {
+                Specialty = new Specialty();
+            }
             if (doctor.DoctorsOffice != null)
             {
                 DoctorsOffice = new Room(doctor.DoctorsOffice);

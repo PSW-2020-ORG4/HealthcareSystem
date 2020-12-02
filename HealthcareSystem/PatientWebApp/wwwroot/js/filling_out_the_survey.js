@@ -54,7 +54,8 @@
 						"Nursing": nursing,
 						"Cleanliness": cleanliness,
 						"OverallRating": overallRating,
-						"SatisfiedWithDrugAndInstrument": satisfiedWithDrugAndInstrument
+						"SatisfiedWithDrugAndInstrument": satisfiedWithDrugAndInstrument,
+						"ExaminationId" : last_examination.id
 					};
 
 					$.ajax({

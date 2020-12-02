@@ -13,20 +13,16 @@ namespace PatientWebApp.Validators
     public class SurveyValidator
     {
         private readonly ISurveyService _surveyService;
-        private readonly DoctorValidator _doctorValidator;
 
         public SurveyValidator(ISurveyService surveyService)
         {
             _surveyService = surveyService;
-            _doctorValidator = new DoctorValidator();
         }
 
         public void ValidateSurveyFields(SurveyDTO surveyDTO)
         {           
             if (EmptyCheck(surveyDTO))
                 throw new ValidationException("Survey cannot be null.");
-            if (!_doctorValidator.IsValidDoctorJmbg(surveyDTO.DoctorJmbg))
-                throw new ValidationException("The doctor does not exist!");
             if (!IsValidateGrades(surveyDTO))
                 throw new ValidationException("The rating is out of range.");
         }

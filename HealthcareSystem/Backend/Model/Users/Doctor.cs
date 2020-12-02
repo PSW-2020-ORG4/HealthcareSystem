@@ -16,7 +16,6 @@ namespace Model.Users
         [ForeignKey("DoctorsOffice")]
         public int DoctorsOfficeId { get; set; }
         public virtual Room DoctorsOffice { get; set; }
-        public virtual ICollection<SurveyAboutDoctor> SurveysAboutDoctor { get; set; }
         public virtual ICollection<WorkingTime> WorkingTimes { get; set; }
 
         public Doctor() { }

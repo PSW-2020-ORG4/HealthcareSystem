@@ -35,9 +35,9 @@ namespace Model.PerformingExamination
         public virtual PatientCard PatientCard { get; set; }
         public virtual ICollection<Therapy> Therapies { get; set; }
 
-        public virtual ICollection<SurveyAboutDoctor> SurveysAboutDoctor { get; set; }
-        public virtual ICollection<SurveyAboutMedicalStaff> SurveysAboutMedicalStaff { get; set; }
-        public virtual ICollection<SurveyAboutHospital> SurveysAboutHospital { get; set; }
+        public virtual SurveyAboutDoctor SurveyAboutDoctor { get; set; }
+        public virtual SurveyAboutMedicalStaff SurveyAboutMedicalStaff { get; set; }
+        public virtual SurveyAboutHospital SurveyAboutHospital { get; set; }
 
         public Examination() 
         {

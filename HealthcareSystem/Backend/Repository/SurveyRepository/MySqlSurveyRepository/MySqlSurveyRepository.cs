@@ -88,12 +88,7 @@ namespace Backend.Repository
 
         public List<SurveyAboutDoctor> GetSurveysByDoctor(string jmbg)
         {
-            return _context.SurveysAboutDoctor.Where(x => GetExaminationsIdByDoctor(jmbg).Contains(x.ExaminationId)).ToList();
-        }
-
-        private List<int> GetExaminationsIdByDoctor(string jmbg)
-        {
-            return _context.Examinations.Where(x => x.DoctorJmbg.Equals(jmbg)).Select(x => x.Id).ToList();
+            return _context.SurveysAboutDoctor.Where(x => x.Examination.DoctorJmbg.Equals(jmbg)).ToList();
         }
 
         private SurveyResult getSurveyResultAboutBehaviorOfDoctor(string jmbg)

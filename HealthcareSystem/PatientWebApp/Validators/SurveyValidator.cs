@@ -23,16 +23,8 @@ namespace PatientWebApp.Validators
         {           
             if (EmptyCheck(surveyDTO))
                 throw new ValidationException("Survey cannot be null.");
-            if (!IsValidExaminationId(surveyDTO.ExaminationId))
-                throw new ValidationException("The examination does not exist!");
             if (!IsValidateGrades(surveyDTO))
                 throw new ValidationException("The rating is out of range.");
-        }
-
-        private bool IsValidExaminationId(int examinationId)
-        {
-            if (examinationId > 0) return true;
-            return false;
         }
 
         private bool IsValidateGrades(SurveyDTO surveyDTO)

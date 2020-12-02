@@ -1,10 +1,4 @@
-﻿/***********************************************************************
- * Module:  SurveyService.cs
- * Author:  Jelena Zeljko
- * Purpose: Definition of the Class Service.SurveyService
- ***********************************************************************/
-
-using Backend.Model;
+﻿using Backend.Model;
 using Backend.Model.Exceptions;
 using Backend.Repository;
 using Backend.Service;

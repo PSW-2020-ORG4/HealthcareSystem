@@ -9,7 +9,7 @@ using Model.Users;
 
 namespace Backend.Repository.ExaminationRepository
 {
-    public interface IScheduledExaminationRepository
+    public interface IExaminationRepository
     {
         Examination GetExaminationById(int id);
         List<Examination> GetAllExaminations();
@@ -32,6 +32,9 @@ namespace Backend.Repository.ExaminationRepository
         Examination AppointmentRecommendationByDoctor(Doctor doctor, DateTime beginDate, DateTime endDate);
         Examination AppointmentRecommendationByDate(Doctor doctor, DateTime beginDate, DateTime endDate);
         List<Examination> GetExaminationsByDoctorAndDate(Doctor doctor, DateTime dateAndTime);
+        List<Examination> GetCanceledExaminationsByPatient(string patientJmbg);
+        List<Examination> GetPreviousExaminationsByPatient(string patientJmbg);
+        List<Examination> GetFollowingExaminationsByPatient(string patientJmbg);
 
     }
 }

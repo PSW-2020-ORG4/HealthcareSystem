@@ -17,14 +17,15 @@ using Backend.Model.Exceptions;
 using Backend.Service.SearchSpecification;
 using System.Linq;
 using Backend.Service.SearchSpecification.ExaminationSearch;
+using Backend.Model.Enums;
 
 namespace Service.ExaminationAndPatientCard
 {
    public class ExaminationService: IExaminationService
    {
-        private IScheduledExaminationRepository _scheduledExaminationRepository;
+        private IExaminationRepository _scheduledExaminationRepository;
 
-        public ExaminationService(IScheduledExaminationRepository scheduledExaminationRepository) {
+        public ExaminationService(IExaminationRepository scheduledExaminationRepository) {
             _scheduledExaminationRepository = scheduledExaminationRepository;
         }
         public void AddExamination(Examination examination)
@@ -150,6 +151,7 @@ namespace Service.ExaminationAndPatientCard
             return examinations.Where(examination => filter.IsSatisfiedBy(examination)).ToList();
         }
 
+
         public void CompleteSurveyAboutExamination(int id)
         {
             try
@@ -162,6 +164,28 @@ namespace Service.ExaminationAndPatientCard
             {
                 throw new DatabaseException(exception.Message);
             }
+
+        public void CancelExamination(int id)
+        {
+            Examination examination = GetExaminationById(id);
+            examination.ExaminationStatus = ExaminationStatus.CANCELED;
+            _scheduledExaminationRepository.UpdateExamination(examination);
+		}
+		
+        public List<Examination> GetCanceledExaminationsByPatient(string patientJmbg)
+        {
+            return _scheduledExaminationRepository.GetCanceledExaminationsByPatient(patientJmbg);
+        }
+
+        public List<Examination> GetPreviousExaminationsByPatient(string patientJmbg)
+        {
+            return _scheduledExaminationRepository.GetPreviousExaminationsByPatient(patientJmbg);
+        }
+
+        public List<Examination> GetFollowingExaminationsByPatient(string patientJmbg)
+        {
+            return _scheduledExaminationRepository.GetFollowingExaminationsByPatient(patientJmbg);
+
         }
     }
 }

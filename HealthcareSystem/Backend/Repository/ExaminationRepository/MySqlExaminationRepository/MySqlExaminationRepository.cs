@@ -4,17 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Backend.Model;
+using Backend.Model.Enums;
+using Backend.Model.Exceptions;
 using Model.Manager;
 using Model.PerformingExamination;
 using Model.Users;
 
 namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
 {
-    public class MySqlScheduledExaminationRepository : IScheduledExaminationRepository
+    public class MySqlExaminationRepository : IExaminationRepository
     {
         private readonly MyDbContext _context;
 
-        public MySqlScheduledExaminationRepository(MyDbContext context)
+        public MySqlExaminationRepository(MyDbContext context)
         {
             _context = context;
         }
@@ -75,15 +77,21 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             throw new NotImplementedException();
         }
-
         public Examination GetExaminationByDoctorDateAndTime(Doctor doctor, DateTime dateAndTime)
         {
             throw new NotImplementedException();
         }
 
         public Examination GetExaminationById(int id)
-        {
-            return _context.Examinations.Find(id);
+        {      
+            try
+            {
+                return _context.Examinations.Find(id);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
 
         public List<Examination> GetExaminationsByDate(DateTime date)
@@ -115,16 +123,47 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             throw new NotImplementedException();
         }
-
         public List<Examination> getFreeAppointments(Doctor doctor, DateTime beginDate, DateTime endDate)
         {
             throw new NotImplementedException();
         }
-
         public void UpdateExamination(Examination examination)
         {
             _context.Examinations.Update(examination);
             _context.SaveChanges();
+        }
+        public List<Examination> GetCanceledExaminationsByPatient(string patientJmbg)
+        {
+            try
+            {
+                return _context.Examinations.Where(e => e.PatientCard.PatientJmbg == patientJmbg && e.ExaminationStatus == ExaminationStatus.CANCELED).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
+        public List<Examination> GetPreviousExaminationsByPatient(string patientJmbg)
+        {
+            try
+            {
+                return _context.Examinations.Where(e => e.PatientCard.PatientJmbg == patientJmbg && e.ExaminationStatus == ExaminationStatus.FINISHED).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
+        public List<Examination> GetFollowingExaminationsByPatient(string patientJmbg)
+        {
+            try
+            {
+                return _context.Examinations.Where(e => e.PatientCard.PatientJmbg == patientJmbg && e.ExaminationStatus == ExaminationStatus.CREATED).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
     }
 }

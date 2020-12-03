@@ -37,17 +37,14 @@ namespace Model.PerformingExamination
         public ExaminationStatus ExaminationStatus { get; set; }
         public bool IsSurveyCompleted { get; set; }
         public virtual ICollection<Therapy> Therapies { get; set; }
-
         public virtual SurveyAboutDoctor SurveyAboutDoctor { get; set; }
         public virtual SurveyAboutMedicalStaff SurveyAboutMedicalStaff { get; set; }
         public virtual SurveyAboutHospital SurveyAboutHospital { get; set; }
 
-        public Examination()
-        {
-        }
+        public Examination() {}
 
         public Examination(int id, TypeOfExamination typeOfExamination, DateTime dateAndTime, string anamnesis, Doctor doctor, Room room,
-                            PatientCard patientCard, bool isSurveyCompleted = false)
+                            PatientCard patientCard, bool isSurveyCompleted = false, ExaminationStatus examinationStatus = ExaminationStatus.CREATED)
         {
             Id = id;
             Type = typeOfExamination;
@@ -78,7 +75,7 @@ namespace Model.PerformingExamination
                 PatientCard = new PatientCard(patientCard);
             }
             Therapies = new List<Therapy>();
-            ExaminationStatus = ExaminationStatus.CREATED;
+            ExaminationStatus = examinationStatus;
             IsSurveyCompleted = isSurveyCompleted;
         }
         public Examination(Examination examination)

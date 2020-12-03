@@ -1,10 +1,11 @@
-﻿using Backend.Model.Exceptions;
-using Backend.Service.ExaminationAndPatientCard;
-using Model.PerformingExamination;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Model.Exceptions;
+using Backend.Service.ExaminationAndPatientCard;
+using Model.PerformingExamination;
+
 
 namespace PatientWebApp.Validators
 {
@@ -30,6 +31,13 @@ namespace PatientWebApp.Validators
             Examination examination = _examinationService.GetExaminationById(id);
             if (examination.IsSurveyCompleted)
                 throw new ValidationException("The survey for this examination has already been completed.");
+        }
+
+        public void CheckIfExaminationCanBeCanceled(int id)
+        {
+            Examination examination = _examinationService.GetExaminationById(id);
+            if (examination.ExaminationStatus != Backend.Model.Enums.ExaminationStatus.CREATED)
+                throw new ValidationException("Examination can't be canceled.");
         }
 
     }

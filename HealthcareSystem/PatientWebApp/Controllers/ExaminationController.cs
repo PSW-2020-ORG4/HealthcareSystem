@@ -22,6 +22,7 @@ namespace PatientWebApp.Controllers
         private readonly IExaminationService _examinationService;
         private readonly ExaminationValidator _examinationValidator;
 
+
         public ExaminationController(IExaminationService examinationService)
         {
             _examinationService = examinationService;
@@ -69,5 +70,100 @@ namespace PatientWebApp.Controllers
 
         }
 
+        /// <summary>
+        /// / updating examiantionStatus (property: ExaminationStatus) to CANCELED
+        /// </summary>
+        /// <param name="id">id of the object to be changed</param>
+        /// <returns>if alright returns code 200(Ok), if not 400(bed request), if connection lost returns 500</returns>
+        [HttpPut("cancel/{id}")]
+        public ActionResult CancelExamination(int id)
+        {
+            try
+            {
+                _examinationValidator.CheckIfExaminationCanBeCanceled(id);
+                _examinationService.CancelExamination(id);
+                return Ok();
+            }
+            catch (ValidationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
+            
+        }
+
+        /// /getting canceled examinations linked to a certain patient
+        /// </summary>
+        /// <param name="patientJmbg">patients jmbg</param>
+        /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
+        [HttpGet("cancelled/{patientJmbg}")]
+        public ActionResult GetCanceledExaminationsByPatient(string patientJmbg)
+        {
+            try
+            {
+                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
+                _examinationService.GetCanceledExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
+                return Ok(examinationDTOs);
+            }
+            catch (NullReferenceException)
+            {
+                return BadRequest("Patient's jmbg cannot be null.");
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// /getting previous examinations linked to a certain patient
+        /// </summary>
+        /// <param name="patientJmbg">patients jmbg</param>
+        /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
+        [HttpGet("previous/{patientJmbg}")]
+        public ActionResult GetPreviousExaminationsByPatient(string patientJmbg)
+        {
+            try
+            {
+                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
+                _examinationService.GetPreviousExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
+                return Ok(examinationDTOs);
+            }
+            catch (NullReferenceException)
+            {
+                return BadRequest("Patient's jmbg cannot be null.");
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// /getting following examinations linked to a certain patient
+        /// </summary>
+        /// <param name="patientJmbg">patients jmbg</param>
+        /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
+        [HttpGet("following/{patientJmbg}")]
+        public ActionResult GetFollowingExaminationsByPatient(string patientJmbg)
+        {
+            try
+            {
+                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
+                _examinationService.GetFollowingExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
+                return Ok(examinationDTOs);
+            }
+            catch (NullReferenceException)
+            {
+                return BadRequest("Patient's jmbg cannot be null.");
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
     }
 }

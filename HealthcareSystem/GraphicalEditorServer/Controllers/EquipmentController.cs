@@ -8,7 +8,7 @@ using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
 using Newtonsoft.Json;
 using Model.Manager;
-
+using Backend.Model.Manager;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -16,35 +16,21 @@ namespace GraphicalEditorServer.Controllers
     [ApiController]
     public class EquipmentController : ControllerBase
     {
-        private readonly INonConsumableEquipmentService _nonConsumableEquipmentService;
-        private readonly IConsumableEquipmentService _consumableEquipmentService;
+        private readonly IEquipmentService _equipmentService;
+        private readonly IEquipmentTypeService _equipmentTypeService;
 
-        public EquipmentController(INonConsumableEquipmentService nonConsumableEquipmentService, IConsumableEquipmentService consumableEquipmentService)
+
+        public EquipmentController(IEquipmentService equipmentService, IEquipmentTypeService equipmentTypeService)
         {
-            _nonConsumableEquipmentService = nonConsumableEquipmentService;
-            _consumableEquipmentService = consumableEquipmentService; 
+            _equipmentService = equipmentService;
+            _equipmentTypeService = equipmentTypeService;
         }
 
-        [HttpPost("consumable")]
-        public ActionResult AddConsumableEquipment([FromBody] String JSONString)
+        [HttpPost]
+        public ActionResult AddEquipment([FromBody] Equipment equipment)
         {
-            String JSONContent = StringToJSONFormat(JSONString);            
-
-            ConsumableEquipment cosumableEquipment = JsonConvert.DeserializeObject<ConsumableEquipment>(JSONContent);
-            _consumableEquipmentService.newConsumableEquipment(cosumableEquipment);
-
-            return Ok();
-        }
-
-        [HttpPost("nonconsumable")]
-        public ActionResult AddNonConsumableEquipment([FromBody] String JSONString)
-        {
-            String JSONContent = StringToJSONFormat(JSONString);
-
-            NonConsumableEquipment nonCosumableEquipment = JsonConvert.DeserializeObject<NonConsumableEquipment>(JSONContent);
-            _nonConsumableEquipmentService.newNonConsumableEquipment(nonCosumableEquipment);
-
-            return Ok();
+            Equipment addedEquipment =_equipmentService.AddEquipment(equipment);
+            return Ok(addedEquipment.Id);
         }
 
         private string StringToJSONFormat(string JSONString)
@@ -53,7 +39,6 @@ namespace GraphicalEditorServer.Controllers
             String JSONContent = "{";
             JSONContent += JSONString;
             JSONContent += "}";
-
             return JSONContent;
         }
 

@@ -10,13 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Backend.Model.Manager;
-
+using Backend.Model.Users;
 namespace Backend.Model
 {
     public class MyDbContext : DbContext
     {
         public DbSet<Country> Countries { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Specialty> Specialties { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Admin> Admins { get; set; }
@@ -38,6 +39,7 @@ namespace Backend.Model
         public DbSet<EquipmentInRooms> EquipmentsInRooms { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
         public DbSet<EquipmentType> EquipmentTypes { get; set; }
+        public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DbSet<DrugConsumption> DrugConsumptions { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
@@ -46,6 +48,10 @@ namespace Backend.Model
         {
             builder.Entity<Pharmacy>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
             builder.Entity<EquipmentInRooms>().HasKey(o => new { o.RoomNumber, o.IdEquipment });
+
+            builder.Entity<DoctorSpecialty>().HasKey(ds => new { ds.DoctorJmbg, ds.SpecialtyId });
+            builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Doctor).WithMany(d => d.DoctorSpecialties).HasForeignKey(ds => ds.DoctorJmbg);
+            builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Specialty).WithMany(s => s.DoctorSpecialties).HasForeignKey(ds => ds.SpecialtyId);
 
         }
     }

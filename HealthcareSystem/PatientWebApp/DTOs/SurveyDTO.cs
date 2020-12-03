@@ -20,14 +20,14 @@ namespace PatientWebApp.DTOs
         public int Cleanliness { get; set; }
         public int OverallRating { get; set; }
         public int SatisfiedWithDrugAndInstrument { get; set; }
-        public string DoctorJmbg { get; set; }
+        public int ExaminationId { get; set; }
 
 
         public SurveyDTO() { }
 
         public SurveyDTO(int id, int behaviorOfDoctor, int doctorProfessionalism, int gettingAdviceByDoctor, int availabilityOfDoctor, 
             int behaviorOfMedicalStaff, int medicalStaffProfessionalism, int gettingAdviceByMedicalStaff, int easeInObtainingFollowUpInformation, 
-            int nursing, int cleanliness, int overallRating, int satisfiedWithDrugAndInstrument, string doctorJmbg)
+            int nursing, int cleanliness, int overallRating, int satisfiedWithDrugAndInstrument, int examinationId)
         {
             Id = id;
             BehaviorOfDoctor = behaviorOfDoctor;
@@ -42,7 +42,7 @@ namespace PatientWebApp.DTOs
             Cleanliness = cleanliness;
             OverallRating = overallRating;
             SatisfiedWithDrugAndInstrument = satisfiedWithDrugAndInstrument;
-            DoctorJmbg = doctorJmbg;
+            ExaminationId = examinationId;
         }
     }
 }

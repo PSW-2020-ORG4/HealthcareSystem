@@ -36,6 +36,9 @@ using Microsoft.AspNetCore.Http;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Repository.TherapyRepository;
 using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
+using Backend.Repository.SpecialtyRepository;
+using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
+using Backend.Service.UsersAndWorkingTime;
 
 namespace PatientWebApp
 {
@@ -60,6 +63,9 @@ namespace PatientWebApp
 
             services.AddScoped<ICityRepository, MySqlCityRepository>();
             services.AddScoped<ICityService, CityService>();
+
+            services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
+            services.AddScoped<ISpecialtyService, SpecialtyService>();
 
             services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();       
             services.AddScoped<IFeedbackService, FeedbackService>();

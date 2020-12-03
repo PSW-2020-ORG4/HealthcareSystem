@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.PerformingExamination;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -17,16 +18,20 @@ namespace Backend.Model
         public int GettingAdviceByMedicalStaff { get; set; }
         public int EaseInObtainingFollowUpInformation { get; set; }
 
+        [ForeignKey("Examination")]
+        public int ExaminationId { get; set; }
+        public virtual Examination Examination { get; set; }
 
         public SurveyAboutMedicalStaff() { }
 
-        public SurveyAboutMedicalStaff(int behaviorOfMedicalStaff, int medicalStaffProfessionalism, 
-                                       int gettingAdviceByMedicalStaff, int easeInObtainingFollowUpInformation)
+        public SurveyAboutMedicalStaff(int behaviorOfMedicalStaff, int medicalStaffProfessionalism, int gettingAdviceByMedicalStaff, 
+                                        int easeInObtainingFollowUpInformation, int examinationId)
         {
             BehaviorOfMedicalStaff = behaviorOfMedicalStaff;
             MedicalStaffProfessionalism = medicalStaffProfessionalism;
             GettingAdviceByMedicalStaff = gettingAdviceByMedicalStaff;
             EaseInObtainingFollowUpInformation = easeInObtainingFollowUpInformation;
+            ExaminationId = examinationId;
         }
     }
 }

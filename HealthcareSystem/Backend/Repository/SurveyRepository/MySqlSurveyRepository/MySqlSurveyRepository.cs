@@ -1,5 +1,6 @@
 ﻿using Backend.Model;
 using Backend.Model.Exceptions;
+using Model.PerformingExamination;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,7 +88,7 @@ namespace Backend.Repository
 
         public List<SurveyAboutDoctor> GetSurveysByDoctor(string jmbg)
         {
-            return _context.SurveysAboutDoctor.Where(x => x.DoctorJmbg.Equals(jmbg)).ToList();
+            return _context.SurveysAboutDoctor.Where(x => x.Examination.DoctorJmbg.Equals(jmbg)).ToList();
         }
 
         private SurveyResult getSurveyResultAboutBehaviorOfDoctor(string jmbg)

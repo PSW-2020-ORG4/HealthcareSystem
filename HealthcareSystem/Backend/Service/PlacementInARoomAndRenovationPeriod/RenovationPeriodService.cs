@@ -7,16 +7,11 @@
 
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
-using Backend.Service;
 using Backend.Service.PlacementInARoomAndRenovationPeriod;
-using Controller.PlacementInARoomAndRenovationPeriod;
-using Model;
 using Model.Manager;
 using Model.PerformingExamination;
 using Repository;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Service.PlacementInARoomAndRenovationPeriod
 {

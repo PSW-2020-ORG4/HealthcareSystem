@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using PatientWebApp.Validators;
 
 namespace PatientWebApp.Controllers
 {
@@ -19,9 +20,12 @@ namespace PatientWebApp.Controllers
     public class ExaminationController : ControllerBase
     {
         private readonly IExaminationService _examinationService;
+        private readonly ExaminationValidator _examinationValidator;
+
         public ExaminationController(IExaminationService examinationService)
         {
             _examinationService = examinationService;
+            _examinationValidator = new ExaminationValidator(_examinationService);
 
         }
         /// <summary>

@@ -19,7 +19,6 @@
 			else {
 				let last_examination = examinations[examinations.length - 1];
 
-				var jmbgDoctor = last_examination.doctorJmbg;
 				$('p#doctor_name_and_surname').append(' ' + last_examination.doctorName + ' ' + last_examination.doctorSurname);
 
 				$('#survey_form').submit(function (event) {
@@ -42,7 +41,6 @@
 					var satisfiedWithDrugAndInstrument = parseInt($('input[name=gradeSatisfiedWithDrugAndInstrument]:checked').val());
 
 					var newSurvey = {
-						"DoctorJmbg": jmbgDoctor,
 						"BehaviorOfDoctor": behaviorOfDoctor,
 						"DoctorProfessionalism": doctorProfessionalism,
 						"GettingAdviceByDoctor": gettingAdviceByDoctor,
@@ -65,25 +63,26 @@
 						data: JSON.stringify(newSurvey),
 						success: function () {
 							alert("success");
+
 							setTimeout(function () {
 								window.location.href = 'patients_home_page.html';
-							}, 2000);
+							}, 1000);
 						},
 						error: function (jqXHR) {
 							alert(jqXHR.responseText);
 						}
 					});
-
 				});
 			}
 		},
 		error: function () {
-			alert("error getting doctor");
-			console.log('error getting doctor');
+			console.log('error getting examination');
 			setTimeout(function () {
 				window.location.href = 'patients_home_page.html';
-			}, 2000);
+			}, 1000);
 		}
 	});
-
 });
+
+
+

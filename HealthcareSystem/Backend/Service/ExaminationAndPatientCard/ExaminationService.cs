@@ -149,5 +149,19 @@ namespace Service.ExaminationAndPatientCard
             
             return examinations.Where(examination => filter.IsSatisfiedBy(examination)).ToList();
         }
+
+        public void CompleteSurveyAboutExamination(int id)
+        {
+            try
+            {
+                Examination examination = GetExaminationById(id);
+                examination.IsSurveyCompleted = true;
+                _scheduledExaminationRepository.UpdateExamination(examination);
+            }
+            catch (DatabaseException exception)
+            {
+                throw new DatabaseException(exception.Message);
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Backend;
+using Backend.Model.Enums;
 using Backend.Model.Users;
 using Model.Enums;
 using Model.Manager;
@@ -19,14 +20,14 @@ namespace PatientWebAppTests.CreateObjectsForTests
                 capacity: 1, occupation: 1, renovation: false), dateOfEmployment: DateTime.Now), room: new Room(number: 1,typeOfUsage: TypeOfUsage.CONSULTING_ROOM,
                 capacity: 1, occupation: 1, renovation: false),
                 patientCard: new PatientCard(id: 1, bloodType: BloodType.A, rhFactor: RhFactorType.NEGATIVE, alergies: "",medicalHistory: "",
-                hasInsurance: true, lbo: "",patientJmbg: "1309998775018"), false);
+                hasInsurance: true, lbo: "",patientJmbg: "1309998775018"), false, ExaminationStatus.CREATED);
          }
         public Examination CreateInvalidTestObject()
         {
             return new Examination(id: 2, typeOfExamination: TypeOfExamination.GENERAL, dateAndTime: DateTime.Now, anamnesis: null, doctor: new Doctor(), room: new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM,
                capacity: 1, occupation: 1, renovation: false),
                patientCard: new PatientCard(id: 1, bloodType: BloodType.A, rhFactor: RhFactorType.NEGATIVE, alergies: "", medicalHistory: "",
-               hasInsurance: true, lbo: "", patientJmbg: null));
+               hasInsurance: true, lbo: "", patientJmbg: null), false, ExaminationStatus.CANCELED);
         }
 
         public List<Examination> CreateValidTestObjects()

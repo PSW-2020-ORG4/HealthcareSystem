@@ -68,14 +68,14 @@ namespace PatientWebAppTests.CreateObjectsForTests
         {
             var examinationStubRepository = new Mock<IExaminationRepository>();
 
-            Examination examinationValid = _objectFactory.GetExamination().CreateValidTestObject();
-            Examination examinationInvalid = _objectFactory.GetExamination().CreateInvalidTestObject();
+            Examination examinationCanBeCanceled = _objectFactory.GetExamination().CreateValidCanBeCanceledTestObject();
+            Examination examinationCantBeCanceled = _objectFactory.GetExamination().CreateValidCantBeCanceledTestObject();
             List<Examination> examinations = _objectFactory.GetExamination().CreateValidTestObjects();
             List<Examination> canceledExaminations = GetCanceledExamination(examinations);
             List<Examination> previousExaminations = GetPreviousExaminations(examinations);
 
-            examinationStubRepository.Setup(m => m.GetExaminationById(1)).Returns(examinationValid);
-            examinationStubRepository.Setup(m => m.GetExaminationById(2)).Returns(examinationInvalid);
+            examinationStubRepository.Setup(m => m.GetExaminationById(1)).Returns(examinationCanBeCanceled);
+            examinationStubRepository.Setup(m => m.GetExaminationById(2)).Returns(examinationCantBeCanceled);
             examinationStubRepository.Setup(m => m.GetExaminationsByPatient("1309998775018")).Returns(examinations);
             examinationStubRepository.Setup(m => m.GetPreviousExaminationsByPatient("1309998775018")).Returns(previousExaminations);
             examinationStubRepository.Setup(m => m.GetFollowingExaminationsByPatient("1309998775018")).Returns(examinations);

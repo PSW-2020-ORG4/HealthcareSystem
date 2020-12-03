@@ -69,7 +69,7 @@ namespace PatientWebApp.Controllers
         }
 
         /// <summary>
-        /// / updating feedbacks status (property: IsPublished) to published
+        /// / updating examiantionStatus (property: ExaminationStatus) to CANCELED
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request), if connection lost returns 500</returns>
@@ -78,7 +78,9 @@ namespace PatientWebApp.Controllers
         {
             try
             {
-                _examinationValidator.CheckIfExaminationCanBeCanceled(id);   
+                _examinationValidator.CheckIfExaminationCanBeCanceled(id);
+                _examinationService.CancelExamination(id);
+                return Ok();
             }
             catch (ValidationException exception)
             {
@@ -88,8 +90,7 @@ namespace PatientWebApp.Controllers
             {
                 return StatusCode(500, exception.Message);
             }
-            _examinationService.CancelExamination(id);
-            return Ok();
+            
         }
 
         /// /getting canceled examinations linked to a certain patient

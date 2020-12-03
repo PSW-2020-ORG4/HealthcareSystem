@@ -128,5 +128,25 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is BadRequestObjectResult);
         }
+
+        [Fact]
+        public void Cancel_following_examination()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var result = examinationController.CancelExamination(1);
+
+            Assert.True(result is OkResult);
+        }
+
+        [Fact]
+        public void Cancel_already_canceled_examination()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var result = examinationController.CancelExamination(2);
+
+            Assert.True(result is BadRequestObjectResult);
+        }
     }
 }

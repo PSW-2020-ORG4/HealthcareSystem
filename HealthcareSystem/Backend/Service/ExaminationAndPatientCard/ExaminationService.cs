@@ -17,6 +17,7 @@ using Backend.Model.Exceptions;
 using Backend.Service.SearchSpecification;
 using System.Linq;
 using Backend.Service.SearchSpecification.ExaminationSearch;
+using Backend.Model.Enums;
 
 namespace Service.ExaminationAndPatientCard
 {
@@ -150,6 +151,13 @@ namespace Service.ExaminationAndPatientCard
             return examinations.Where(examination => filter.IsSatisfiedBy(examination)).ToList();
         }
 
+        public void CancelExamination(int id)
+        {
+            Examination examination = GetExaminationById(id);
+            examination.ExaminationStatus = ExaminationStatus.CANCELED;
+            _scheduledExaminationRepository.UpdateExamination(examination);
+		}
+		
         public List<Examination> GetCanceledExaminationsByPatient(string patientJmbg)
         {
             return _scheduledExaminationRepository.GetCanceledExaminationsByPatient(patientJmbg);

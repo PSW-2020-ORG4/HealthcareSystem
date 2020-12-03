@@ -83,8 +83,15 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         }
 
         public Examination GetExaminationById(int id)
-        {
-            return _context.Examinations.Find(id);
+        {      
+            try
+            {
+                return _context.Examinations.Find(id);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
 
         public List<Examination> GetExaminationsByDate(DateTime date)

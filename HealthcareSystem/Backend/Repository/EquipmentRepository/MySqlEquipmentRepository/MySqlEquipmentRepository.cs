@@ -31,8 +31,9 @@ namespace Backend.Repository
             return _context.Equipment.SingleOrDefault(x => x.Id == id);
         }
 
-        public Equipment NewEquipment(Equipment equipment)
+        public Equipment AddEquipment(Equipment equipment)
         {
+            equipment.Type = _context.EquipmentTypes.SingleOrDefault(x => x.Id == equipment.Type.Id);
             _context.Equipment.Add(equipment);
             _context.SaveChanges();
             return equipment;

@@ -8,7 +8,7 @@ using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
 using Newtonsoft.Json;
 using Model.Manager;
-
+using Backend.Model.Manager;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -17,18 +17,19 @@ namespace GraphicalEditorServer.Controllers
     public class EquipmentController : ControllerBase
     {
         private readonly IEquipmentService _equipmentService;
+        private readonly IEquipmentTypeService _equipmentTypeService;
 
-        public EquipmentController(IEquipmentService equipmentService)
+
+        public EquipmentController(IEquipmentService equipmentService, IEquipmentTypeService equipmentTypeService)
         {
-            _equipmentService = equipmentService; 
+            _equipmentService = equipmentService;
+            _equipmentTypeService = equipmentTypeService;
         }
 
         [HttpPost]
-        public ActionResult AddEquipment([FromBody] String JSONString)
+        public ActionResult AddEquipment([FromBody] Equipment equipment)
         {
-            String JSONContent = StringToJSONFormat(JSONString);
-            Equipment equipment = JsonConvert.DeserializeObject<Equipment>(JSONContent);
-            Equipment addedEquipment =_equipmentService.newEquipment(equipment);
+            Equipment addedEquipment =_equipmentService.AddEquipment(equipment);
             return Ok(addedEquipment.Id);
         }
 

@@ -1,4 +1,5 @@
 ﻿using GraphicalEditor.Constants;
+using GraphicalEditor.Models.Equipment;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace GraphicalEditor.Service
         protected RestClient GetClient()
         {
             var client = new RestSharp.RestClient("http://localhost:" + ServerConstants.PORT);
+            
             return client;
         }
 
@@ -21,6 +23,16 @@ namespace GraphicalEditor.Service
             var client = GetClient();
             var request = new RestRequest("api/" + requestURL);
             request.AddJsonBody(JSONContent);
+            IRestResponse response = client.Post(request);
+            return response;
+        }
+
+        public IRestResponse AddHTTPPostRequest(String requestURL, object objectToPost)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL, Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(objectToPost);
             IRestResponse response = client.Post(request);
             return response;
         }

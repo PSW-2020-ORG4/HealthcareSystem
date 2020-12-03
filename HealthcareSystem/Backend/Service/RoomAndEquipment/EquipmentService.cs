@@ -21,11 +21,11 @@ namespace Service.RoomAndEquipment
             _equipmentRepository = equipmentRepository;
             _equipmentInRoomRepository = equipmentInRoomRepository;
         }
-        public Equipment newEquipment(Equipment equipment)
+        public Equipment AddEquipment(Equipment equipment)
         {
-            return _equipmentRepository.NewEquipment(equipment);
+            return _equipmentRepository.AddEquipment(equipment);
         }
-        public List<Equipment> ViewEquipment()
+        public List<Equipment> GetEquipment()
         {
             return _equipmentRepository.GetAllEquipment();
         }

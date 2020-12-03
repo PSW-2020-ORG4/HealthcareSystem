@@ -10,19 +10,9 @@ namespace GraphicalEditor.Service
     {
         public string AddEquipment(Equipment equipment)
         {
-            String JSONContent = EquipmentToJSONConverter(equipment);
-            IRestResponse response = AddHTTPPostRequest("equipment", JSONContent);
+            IRestResponse response = AddHTTPPostRequest("equipment", equipment);
             return response.Content;
         }
-
-        private string EquipmentToJSONConverter(Equipment equipment)
-        {
-            String JSONContent = "'Id': " + equipment.Id;
-            JSONContent += ",'Type': " + (int)equipment.Type;
-            JSONContent += ",'Quantity': " + equipment.Quantity;
-            return JSONContent;
-        } 
-
         public void AddEquipmentToRoom(MapObject mapObject, Equipment equipment)
         {
             if (mapObject.CheckIfDBAddableRoom())

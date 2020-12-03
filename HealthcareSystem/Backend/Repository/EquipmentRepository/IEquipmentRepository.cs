@@ -13,7 +13,7 @@ namespace Backend.Repository
         List<Equipment> GetAllEquipment();
         Equipment SetEquipment(Equipment equipment);
         bool DeleteEquipment(int id);
-        Equipment NewEquipment(Equipment equipment);
+        Equipment AddEquipment(Equipment equipment);
 
 
     }

@@ -8,23 +8,23 @@ namespace GraphicalEditor.Models.Equipment
 {
     public class Equipment
     {
-        public int Quantity { get; set; }
-        public TypeOfEquipment Type { get; set; }
         public int Id { get; set; }
+        public int Quantity { get; set; }
+        public int TypeId { get; set; }
+        public virtual EquipmentType Type { get; set; }
 
         public Equipment() { }
 
-        public Equipment( int quantity, TypeOfEquipment typeOfConsumable)
+        public Equipment(int quantity, EquipmentType equipmentType)
         {
             Quantity = quantity;
-            Type = typeOfConsumable;
+            Type = equipmentType;
         }
 
-        public Equipment(Equipment consumableEquipment)
+        public Equipment(Equipment equipment)
         {
-            this.Id = consumableEquipment.Id;
-            this.Type = consumableEquipment.Type;
-            this.Quantity = consumableEquipment.Quantity;
+            this.Type = equipment.Type;
+            this.Quantity = equipment.Quantity;
         }
 
     }

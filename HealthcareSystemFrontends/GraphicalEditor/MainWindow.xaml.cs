@@ -2,6 +2,7 @@
 using GraphicalEditor.Controllers;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
+using GraphicalEditor.Models.Equipment;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Service;
@@ -131,11 +132,10 @@ namespace GraphicalEditor
             saveMap();
 
             LoadInitialMapOnCanvas();
-
             // uncomment only the first time you start the project in order
             // to populate DB with start data
-            //InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            //initializeDatabaseData.InitiliazeData();
+            InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
+            initializeDatabaseData.InitiliazeData();
         }
 
         public MainWindow(string currentUserRole)

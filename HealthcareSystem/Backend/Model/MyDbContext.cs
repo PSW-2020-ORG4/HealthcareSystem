@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Model.Manager;
 
 namespace Backend.Model
 {
@@ -36,6 +37,7 @@ namespace Backend.Model
         public DbSet<ActionBenefit> ActionsBenefits { get; set; }
         public DbSet<EquipmentInRooms> EquipmentsInRooms { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<EquipmentType> EquipmentTypes { get; set; }
         public DbSet<DrugConsumption> DrugConsumptions { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }

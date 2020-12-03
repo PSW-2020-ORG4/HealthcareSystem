@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class ConsumableEquipment
  ***********************************************************************/
 
+using Backend.Model.Manager;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,14 +15,15 @@ namespace Model.Manager
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Quantity { get; set; }
-        public TypeOfEquipment Type { get; set; }
+        public int TypeId {get; set;}
+        public virtual EquipmentType Type { get; set; }
 
         public Equipment() { }
 
-        public Equipment(int quantity, TypeOfEquipment typeOfEquipment)
+        public Equipment(int quantity, EquipmentType equipmentType)
         {
             Quantity = quantity;
-            Type = typeOfEquipment;
+            Type = equipmentType;
         }
 
         public Equipment(Equipment equipment)

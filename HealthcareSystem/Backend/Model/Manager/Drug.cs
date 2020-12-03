@@ -18,7 +18,7 @@ namespace Model.Manager
     {
         [ForeignKey("DrugType")]
         public int DrugType_Id { get; set; }
-        public DrugType DrugType { get; set; }
+        public virtual DrugType DrugType { get; set; }
         public string Name { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

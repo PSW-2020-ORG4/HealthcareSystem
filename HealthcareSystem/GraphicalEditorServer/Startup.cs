@@ -50,14 +50,16 @@ namespace GraphicalEditorServer
             services.AddDbContext<MyDbContext>(options =>
                                options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());
             services.AddScoped<IRoomService, RoomService>();
-
             services.AddScoped<IRoomRepository, MySqlRoomRepository>();
+            services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
+            services.AddScoped<IEquipmentTypeService, EquipmentTypeService>();
+
+            services.AddScoped<IEquipmentTypeRepository, MySqlEquipmentTypeRepository>();
 
             services.AddScoped<IEquipmentInRoomsService, EquipmentInRoomsService>();
 
-            services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
-
             services.AddScoped<IEquipmentInRoomsRepository, MySqlEquipmentInRoomsRepository>();
+
 
             services.AddScoped<IEquipmentService, EquipmentService>();
 

@@ -10,10 +10,13 @@ namespace GraphicalEditor.Service
         private RoomService _roomService;
         private EquipementService _equipementService;
 
+        EquipmentTypeService _equipmentTypeService;
+
         public InitializeDatabaseData()
         {
             _roomService = new RoomService();
             _equipementService = new EquipementService();
+            _equipmentTypeService = new EquipmentTypeService();
         }
 
         public void InitiliazeData()
@@ -39,14 +42,21 @@ namespace GraphicalEditor.Service
 
             Random random = new Random();
             int equipmentId = 0;
-
+            int i = 0;
+            var types = _equipmentTypeService.GetEquipmentTypes();
+            foreach (var type in types)
+            {
+                Equipment equipment = new Equipment(new Random().Next(0, 50), type);
+                _equipementService.AddEquipment(equipment);
+            }
             foreach (MapObject mapObject in allMapObjects)
             {
                 if (mapObject.CheckIfDBAddableRoom())
                 {
-                    Equipment singleEquipment = new Equipment(random.Next(0, 10), (TypeOfEquipment)random.Next(0, 9));
-                    singleEquipment.Id =Int32.Parse(_equipementService.AddEquipment(singleEquipment));
-                    _equipementService.AddEquipmentToRoom(mapObject, singleEquipment);
+                    i++;
+                    Equipment equipment = new Equipment(new Random().Next(0, 50),types[i%types.Count]);
+                    equipment.Id =Int32.Parse(_equipementService.AddEquipment(equipment));
+                    _equipementService.AddEquipmentToRoom(mapObject, equipment);
                 }
             }
         }

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using PatientWebApp.Validators;
 
 namespace PatientWebApp.Controllers
 {
@@ -19,9 +20,11 @@ namespace PatientWebApp.Controllers
     public class ExaminationController : ControllerBase
     {
         private readonly IExaminationService _examinationService;
+        private readonly ExaminationValidator _examinationValidator;
         public ExaminationController(IExaminationService examinationService)
         {
             _examinationService = examinationService;
+            _examinationValidator = new ExaminationValidator(_examinationService);
 
         }
         /// <summary>
@@ -63,6 +66,30 @@ namespace PatientWebApp.Controllers
                 return NotFound(exception.Message);
             }
 
+        }
+
+        /// <summary>
+        /// / updating feedbacks status (property: IsPublished) to published
+        /// </summary>
+        /// <param name="id">id of the object to be changed</param>
+        /// <returns>if alright returns code 200(Ok), if not 400(bed request), if connection lost returns 500</returns>
+        [HttpPut("cancel/{id}")]
+        public ActionResult CancelExamination(int id)
+        {
+            try
+            {
+                _examinationValidator.CheckIfExaminationCanBeCanceled(id);   
+            }
+            catch (ValidationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
+            _examinationService.CancelExamination(id);
+            return Ok();
         }
 
     }

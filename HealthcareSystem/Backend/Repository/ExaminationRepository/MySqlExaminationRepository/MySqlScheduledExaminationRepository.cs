@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Backend.Model;
+using Backend.Model.Exceptions;
 using Model.Manager;
 using Model.PerformingExamination;
 using Model.Users;
@@ -82,8 +83,15 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         }
 
         public Examination GetExaminationById(int id)
-        {
-            return _context.Examinations.Find(id);
+        {      
+            try
+            {
+                return _context.Examinations.Find(id);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
 
         public List<Examination> GetExaminationsByDate(DateTime date)

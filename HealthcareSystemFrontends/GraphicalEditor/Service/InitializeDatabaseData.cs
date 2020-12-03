@@ -44,11 +44,6 @@ namespace GraphicalEditor.Service
             int equipmentId = 0;
             int i = 0;
             var types = _equipmentTypeService.GetEquipmentTypes();
-            foreach (var type in types)
-            {
-                Equipment equipment = new Equipment(new Random().Next(0, 50), type);
-                _equipementService.AddEquipment(equipment);
-            }
             if (types.Count == 0) {
                 return;
             }

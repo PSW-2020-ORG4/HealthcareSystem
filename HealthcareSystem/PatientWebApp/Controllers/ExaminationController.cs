@@ -83,9 +83,9 @@ namespace PatientWebApp.Controllers
             {
                 return BadRequest("Patient's jmbg cannot be null.");
             }
-            catch (DatabaseException)
+            catch (DatabaseException e)
             {
-                return StatusCode(500);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -107,9 +107,9 @@ namespace PatientWebApp.Controllers
             {
                 return BadRequest("Patient's jmbg cannot be null.");
             }
-            catch (DatabaseException)
+            catch (DatabaseException e)
             {
-                return StatusCode(500);
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -131,9 +131,9 @@ namespace PatientWebApp.Controllers
             {
                 return BadRequest("Patient's jmbg cannot be null.");
             }
-            catch (DatabaseException)
+            catch (DatabaseException e)
             {
-                return StatusCode(500);
+                return StatusCode(500, e.Message);
             }
         }
     }

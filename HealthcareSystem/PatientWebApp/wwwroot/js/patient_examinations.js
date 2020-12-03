@@ -93,7 +93,6 @@ function addExaminationRow(examination) {
         + '<table style="height: 140px; margin-left: 30px; margin-bottom: 20px; width: 350px;">'
         + '<tr><th>Date:</th><td>' + examination.dateAndTime + '</td></tr>'
         + '<tr><th>Examination type:</th><td>' + examination.type + '</td></tr>'
-        + '<tr><th>Area of expertise:</th><td>' + 'UZETI PODATAK' + '</td></tr>'
         + '<tr><th>Doctor:</th><td>' + examination.doctorName + ' ' + examination.doctorSurname + '</td></tr>'
         + '</br>' + ' </table ></div > ');
 

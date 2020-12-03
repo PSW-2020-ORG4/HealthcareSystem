@@ -40,7 +40,7 @@ namespace Backend.Repository
             return equipmentType;
         }
 
-        public EquipmentType SetEquipmentType(EquipmentType equipmentType)
+        public EquipmentType UpdateEquipmentType(EquipmentType equipmentType)
         {
             throw new NotImplementedException();
         }

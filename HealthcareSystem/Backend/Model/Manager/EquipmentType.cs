@@ -8,7 +8,7 @@ namespace Backend.Model.Manager
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string EquipementType { get; set; }
+        public string Name { get; set; }
         public bool IsConsumable { get; set; }
 
         public EquipmentType()
@@ -17,7 +17,7 @@ namespace Backend.Model.Manager
 
         public EquipmentType( string equipementType, bool isConsumable)
         {
-            EquipementType = equipementType;
+            Name = equipementType;
             IsConsumable = isConsumable;
         }
     }

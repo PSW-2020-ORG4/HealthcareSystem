@@ -12,7 +12,7 @@ namespace Backend.Repository
     {
         EquipmentType GetEquipmentType(int id);
         List<EquipmentType> GetAllEquipmentTypes();
-        EquipmentType SetEquipmentType(EquipmentType equipmentType);
+        EquipmentType UpdateEquipmentType(EquipmentType equipmentType);
         bool DeleteEquipmentType(int id);
         EquipmentType AddEquipmentType(EquipmentType equipmentType);
 

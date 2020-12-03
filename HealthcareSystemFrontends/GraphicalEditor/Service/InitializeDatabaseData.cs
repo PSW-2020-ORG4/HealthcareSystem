@@ -54,7 +54,7 @@ namespace GraphicalEditor.Service
                 if (mapObject.CheckIfDBAddableRoom())
                 {
                     i++;
-                    Equipment equipment = new Equipment(new Random().Next(0, 50),types[i%types.Count]);
+                    Equipment equipment = new Equipment(new Random().Next(0, 50),types[(i%types.Count+1)-1]);
                     equipment.Id =Int32.Parse(_equipementService.AddEquipment(equipment));
                     _equipementService.AddEquipmentToRoom(mapObject, equipment);
                 }

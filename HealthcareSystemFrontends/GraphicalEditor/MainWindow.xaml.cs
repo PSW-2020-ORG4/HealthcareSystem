@@ -135,7 +135,8 @@ namespace GraphicalEditor
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            initializeDatabaseData.InitiliazeData();
+                initializeDatabaseData.InitiliazeData();
+            
         }
 
         public MainWindow(string currentUserRole)

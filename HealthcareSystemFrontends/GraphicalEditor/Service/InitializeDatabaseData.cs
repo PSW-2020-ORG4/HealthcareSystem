@@ -10,10 +10,13 @@ namespace GraphicalEditor.Service
         private RoomService _roomService;
         private EquipementService _equipementService;
 
+        EquipmentTypeService _equipmentTypeService;
+
         public InitializeDatabaseData()
         {
             _roomService = new RoomService();
-            _equipementService = new EquipementService();           
+            _equipementService = new EquipementService();
+            _equipmentTypeService = new EquipmentTypeService();
         }
 
         public void InitiliazeData()
@@ -38,29 +41,23 @@ namespace GraphicalEditor.Service
             List<MapObject> allMapObjects = MainWindow._allMapObjects;
 
             Random random = new Random();
-            bool isConsumable = false;
             int equipmentId = 0;
-
+            int i = 0;
+            var types = _equipmentTypeService.GetEquipmentTypes();
+            if (types.Count == 0) {
+                return;
+            }
             foreach (MapObject mapObject in allMapObjects)
             {
                 if (mapObject.CheckIfDBAddableRoom())
                 {
-                    if (!isConsumable)
-                    {                        
-                        NonConsumableEquipment nonConsumableEquipment = new NonConsumableEquipment(equipmentId++, (TypeOfNonConsumable) random.Next(0, 6));
-                        _equipementService.AddNonConsumableEquipment(nonConsumableEquipment);
-                        _equipementService.AddNonConsumableEquipmentToRoom(mapObject, nonConsumableEquipment);
-                        isConsumable = true;
-                    }
-                    else
-                    {
-                        ConsumableEquipment consumableEquipment = new ConsumableEquipment(equipmentId++, random.Next(0, 10), (TypeOfConsumable)random.Next(0, 4));
-                        _equipementService.AddConsumableEquipment(consumableEquipment);
-                        _equipementService.AddConsumableEquipmentToRoom(mapObject, consumableEquipment);
-                        isConsumable = false;
-                    }
+                    i++;
+                    Equipment equipment = new Equipment(new Random().Next(0, 50),types[(i%types.Count)]);
+                    equipment.Id =Int32.Parse(_equipementService.AddEquipment(equipment));
+                    _equipementService.AddEquipmentToRoom(mapObject, equipment);
                 }
             }
         }
     }
 }
+

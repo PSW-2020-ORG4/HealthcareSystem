@@ -1,21 +1,16 @@
-/***********************************************************************
- * Module: Equipment.cs
- * Author:  Jelena Budisa
- * Purpose: Definition of the Class ConsumableEquipment
- ***********************************************************************/
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-using Backend.Model.Manager;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Model.Manager
+namespace GraphicalEditor.Models.Equipment
 {
     public class Equipment
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Quantity { get; set; }
-        public int TypeId {get; set;}
+        public int TypeId { get; set; }
         public virtual EquipmentType Type { get; set; }
 
         public Equipment() { }
@@ -28,7 +23,6 @@ namespace Model.Manager
 
         public Equipment(Equipment equipment)
         {
-            this.Id = equipment.Id;
             this.Type = equipment.Type;
             this.Quantity = equipment.Quantity;
         }

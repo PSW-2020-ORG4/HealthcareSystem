@@ -1,0 +1,26 @@
+﻿#search_div {
+    width : 50%;
+    margin:auto;
+    margin-top: 80px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    height: 170px;
+    background-color: #cce6ff;
+}
+
+#examination_status {
+    background: white;
+    width: 240px;
+    height: 55px;
+    margin-left: 150px;
+    margin-top: 10px;
+}
+
+#search_btn {
+    width: 160px;
+    margin-left: 0px;
+    height: 45px;
+}
+
+

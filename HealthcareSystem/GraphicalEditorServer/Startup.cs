@@ -50,22 +50,20 @@ namespace GraphicalEditorServer
             services.AddDbContext<MyDbContext>(options =>
                                options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());
             services.AddScoped<IRoomService, RoomService>();
-
             services.AddScoped<IRoomRepository, MySqlRoomRepository>();
+            services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
+            services.AddScoped<IEquipmentTypeService, EquipmentTypeService>();
+
+            services.AddScoped<IEquipmentTypeRepository, MySqlEquipmentTypeRepository>();
 
             services.AddScoped<IEquipmentInRoomsService, EquipmentInRoomsService>();
 
-            services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
-
             services.AddScoped<IEquipmentInRoomsRepository, MySqlEquipmentInRoomsRepository>();
 
-            services.AddScoped<IConsumableEquipmentService, ConsumableEquipmentService>();
 
-            services.AddScoped<IConsumableEquipmentRepository, MySqlConsumableEquipmentRepository>();
+            services.AddScoped<IEquipmentService, EquipmentService>();
 
-            services.AddScoped<INonConsumableEquipmentService, NonConsumableEquipmentService>();
-
-            services.AddScoped<INonConsumableEquipmentRepository, MySqlNonConsumableEquipmentRepository>();
+            services.AddScoped<IEquipmentRepository, MySqlEquipmentRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

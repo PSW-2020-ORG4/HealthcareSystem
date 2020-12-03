@@ -6,7 +6,7 @@ using Backend.Service.SearchSpecification.ExaminationSearch;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public class CreateExaminationSearchDTO : ICreateTestObject<ExaminationSearchDTO>
+    public class CreateExaminationSearchDTO
     { 
         public ExaminationSearchDTO CreateValidTestObject()
         {

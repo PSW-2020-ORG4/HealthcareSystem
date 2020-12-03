@@ -13,12 +13,15 @@
     <!-- Material Design Bootstrap -->
     <link rel="stylesheet" href="../lib/mdbootstrap/css/mdb.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_for_patient_examinations.css">
     <script src="../lib/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/published_feedback.js"></script>
-    <title>Home page</title>
+    <script type="text/javascript" src="../js/patient_examinations.js"></script>
+    <title>Patient's appointments</title>
 </head>
 <body style="background-color: rgb(125, 208, 230);">
+
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <a href="patients_home_page.html"><h4 class="navbar-brand" id="title" style="margin-right: 50px;">HOSPITAL</h4></a>
 
@@ -49,11 +52,35 @@
         </ul>
     </nav>
 
-    <a href="index.html"><h5>* Back to home page (Log out)</h5></a>
+    <!-- Search form -->
+    <div id="search_div">
+        <form id="search_examinations">
+            <table>
+                <br />
+                <br />
+                <tr>
+                    <!-- Combo box -->
+                    <td>
+                        <select class="form-control" id="examination_status">
+                            <option value="following" id="following_exam">Following examinations</option>
+                            <option value="previous">Previous examinations</option>
+                            <option value="cancelled">Cancelled examinations</option>
+                        </select>
+                    </td>
 
-    <div class="container container_colored" id="view_feedbacks">
-        <h4 style="font-weight:bolder; text-align: center;">Feedback</h4>
-        <hr />
+                    <!-- Search button -->
+                    <td width="25%">
+                        <button class="btn btn-primary mb-2" id="search_btn" type="submit">Search</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <p id="not_found" style="margin:auto;width:50%;margin-top:70px; margin-left:600px; font-size:20px;" hidden></p>
+
+    <!-- Preview examinations -->
+    <div class="container" id="div_examinations" style="margin-bottom:100px;">
     </div>
 
 </body>

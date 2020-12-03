@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Model.Enums;
 using Model.PerformingExamination;
 
 namespace PatientWebApp.DTOs
@@ -17,12 +18,14 @@ namespace PatientWebApp.DTOs
         public int IdRoom { get; set; }
         public string Anamnesis { get; set; }
         public string PatientJmbg { get; set; }
+        public ExaminationStatus ExaminationStatus { get; set; }
+        public bool IsSurveyCompleted { get; set; }
 
         public ExaminationDTO()
         {
         }
         public ExaminationDTO(int id,string type,string dateAndTime,string doctorJmbg,string doctorName,string doctorSurname,
-            int idRoom,string anamnesis,string patientJmbg) {
+            int idRoom,string anamnesis,string patientJmbg, bool isSurveyCompleted = false) {
 
             Id = id;
             Type = type;
@@ -33,6 +36,8 @@ namespace PatientWebApp.DTOs
             IdRoom = idRoom;
             Anamnesis = anamnesis;
             PatientJmbg = patientJmbg;
+            ExaminationStatus = ExaminationStatus.CREATED;
+            IsSurveyCompleted = isSurveyCompleted;
         }
 
     }

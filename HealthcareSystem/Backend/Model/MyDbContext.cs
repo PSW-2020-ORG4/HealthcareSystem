@@ -9,8 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Model.Manager;
 using Backend.Model.Users;
-
 namespace Backend.Model
 {
     public class MyDbContext : DbContext
@@ -37,8 +37,8 @@ namespace Backend.Model
         public DbSet<Pharmacy> Pharmacies { get; set; }
         public DbSet<ActionBenefit> ActionsBenefits { get; set; }
         public DbSet<EquipmentInRooms> EquipmentsInRooms { get; set; }
-        public DbSet<ConsumableEquipment> ConsumableEquipments { get; set; }
-        public DbSet<NonConsumableEquipment> NonConsumableEquipments { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<EquipmentType> EquipmentTypes { get; set; }
         public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DbSet<DrugConsumption> DrugConsumptions { get; set; }
 

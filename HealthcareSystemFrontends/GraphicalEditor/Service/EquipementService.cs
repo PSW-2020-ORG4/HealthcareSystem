@@ -1,5 +1,6 @@
 ﻿using GraphicalEditor.Models;
 using GraphicalEditor.Models.Equipment;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 
@@ -7,81 +8,32 @@ namespace GraphicalEditor.Service
 {
     public class EquipementService : GenericHTTPService
     {
-        public void AddConsumableEquipment(ConsumableEquipment consumableEquipment)
+        public string AddEquipment(Equipment equipment)
         {
-            String JSONContent = ConsumableEquipmentToJSONConverter(consumableEquipment);
-            AddHTTPPostRequest("equipment/consumable", JSONContent);
+            IRestResponse response = AddHTTPPostRequest("equipment", equipment);
+            return response.Content;
         }
-
-        private string ConsumableEquipmentToJSONConverter(ConsumableEquipment consumableEquipment)
-        {
-            String JSONContent = "'Id': " + consumableEquipment.Id;
-            JSONContent += ",'Type': " + (int)consumableEquipment.Type;
-            JSONContent += ",'Quantity': " + consumableEquipment.Quantity;
-
-            return JSONContent;
-        }
-
-
-        public void AddNonConsumableEquipment(NonConsumableEquipment nonConsumableEquipment)
-        {
-            String JSONContent = NonConsumableEquipmentToJSONConverter(nonConsumableEquipment);
-            AddHTTPPostRequest("equipment/nonconsumable", JSONContent);
-        }
-
-        private string NonConsumableEquipmentToJSONConverter(NonConsumableEquipment NonConsumableEquipment)
-        {
-            String JSONContent = "'Id': " + NonConsumableEquipment.Id;
-            JSONContent += ",'Type': " + (int)NonConsumableEquipment.Type;
-
-            return JSONContent;
-        }
-        
-
-        public void AddConsumableEquipmentToRoom(MapObject mapObject, ConsumableEquipment consumableEquipment)
+        public void AddEquipmentToRoom(MapObject mapObject, Equipment equipment)
         {
             if (mapObject.CheckIfDBAddableRoom())
             {
-                String JSONContent = NonEquipmentInRoomToJSONConverter(mapObject, consumableEquipment);
+                String JSONContent = EquipmentInRoomToJSONConverter(mapObject, equipment);
                 AddHTTPPostRequest("equipmentInRooms", JSONContent);
             }
         }
 
-        private string NonEquipmentInRoomToJSONConverter(MapObject mapObject, ConsumableEquipment consumableEquipment)
+        private string EquipmentInRoomToJSONConverter(MapObject mapObject, Equipment equipment)
         {
-            String JSONContent = "'IdEquipment': " + consumableEquipment.Id;
+            String JSONContent = "'IdEquipment': " + equipment.Id;
             JSONContent += ",'RoomNumber': " + mapObject.MapObjectEntity.Id;
-            JSONContent += ",'Quantity': " + consumableEquipment.Quantity;
+            JSONContent += ",'Quantity': " + equipment.Quantity;
 
             return JSONContent;
         }
 
-        public void AddNonConsumableEquipmentToRoom(MapObject mapObject, NonConsumableEquipment nonConsumableEquipment)
+        public List<Equipment> GetEquipmentByRoomNumber(int roomNumber)
         {
-            if (mapObject.CheckIfDBAddableRoom())
-            {
-                String JSONContent = NonEquipmentInRoomToJSONConverter(mapObject, nonConsumableEquipment);
-                AddHTTPPostRequest("equipmentInRooms", JSONContent);
-            }
-        }
-
-        private string NonEquipmentInRoomToJSONConverter(MapObject mapObject, NonConsumableEquipment nonConsumableEquipment)
-        {
-            String JSONContent = "'IdEquipment': " + nonConsumableEquipment.Id;
-            JSONContent += ",'RoomNumber': " + mapObject.MapObjectEntity.Id;
-            JSONContent += ",'Quantity': -1";
-
-            return JSONContent;
-        }
-
-        public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber(int roomNumber)
-        {
-            return (List<NonConsumableEquipment>)HTTPGetRequest<NonConsumableEquipment>("nonConsumableEquipment/byRoomNumber/ " + roomNumber);
-        }
-
-        public List<ConsumableEquipment> GetConsumableEquipmentByRoomNumber(int roomNumber)
-        {
-            return (List<ConsumableEquipment>)HTTPGetRequest<ConsumableEquipment>("consumableEquipment/byRoomNumber/" + roomNumber);
+            return (List<Equipment>)HTTPGetRequest<Equipment>("equipmentInRooms/byRoomNumber/ " + roomNumber);
         }
     }
 }

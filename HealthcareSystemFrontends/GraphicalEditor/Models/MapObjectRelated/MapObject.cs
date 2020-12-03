@@ -104,18 +104,12 @@ namespace GraphicalEditor.Models
             canvas.Children.Remove(MapObjectDoor.Rectangle);
             canvas.Children.Remove(Rectangle);
         }
-        public List<NonConsumableEquipment> GetNonConsumableEquipmentByRoomNumber()
-        {
-            EquipementService equipmentService = new EquipementService();
-            List<NonConsumableEquipment> nonConsumableEquipment = equipmentService.GetNonConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
-            return nonConsumableEquipment;
-        }
 
-        public List<ConsumableEquipment> GetConsumableEquipmentByRoomNumber()
+        public List<Equipment.Equipment> GetEquipmentByRoomNumber()
         {
             EquipementService equipmentService = new EquipementService();
-            List<ConsumableEquipment> consumableEquipment = equipmentService.GetConsumableEquipmentByRoomNumber((int)MapObjectEntity.Id);
-            return consumableEquipment;
+            List<Equipment.Equipment> equipmentInTheRoom = (List<Equipment.Equipment>)equipmentService.GetEquipmentByRoomNumber((int)MapObjectEntity.Id);
+            return equipmentInTheRoom;
         }
 
         public Boolean CheckIfDBAddableRoom()

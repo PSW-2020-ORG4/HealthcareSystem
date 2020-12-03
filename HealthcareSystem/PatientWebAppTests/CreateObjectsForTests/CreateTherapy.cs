@@ -10,7 +10,7 @@ using Model.Users;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public class CreateTherapy : ICreateTestObject<Therapy>
+    public class CreateTherapy
     {
         public Therapy CreateValidTestObject()
         {

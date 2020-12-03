@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    class CreateSurveyDTO : ICreateTestObject<SurveyDTO>
+    public class CreateSurveyDTO
     {
         public SurveyDTO CreateInvalidTestObject()
         {

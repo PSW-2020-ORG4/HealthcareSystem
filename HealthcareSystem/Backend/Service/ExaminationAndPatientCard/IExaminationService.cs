@@ -35,5 +35,8 @@ namespace Backend.Service.ExaminationAndPatientCard
         Examination AppointmentRecommendationByDate(Doctor doctor, DateTime beginDate, DateTime endDate);
         List<Examination> GetExaminationsByDoctorAndDate(Doctor doctor, DateTime dateAndTime);
         List<Examination> AdvancedSearch(ExaminationSearchDTO parameters);
+        List<Examination> GetCanceledExaminationsByPatient(string patientJmbg);
+        List<Examination> GetPreviousExaminationsByPatient(string patientJmbg);
+        List<Examination> GetFollowingExaminationsByPatient(string patientJmbg);
     }
 }

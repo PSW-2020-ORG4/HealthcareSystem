@@ -7,7 +7,7 @@ using Model.PerformingExamination;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public class CreateTherapySearchDTO: ICreateTestObject<TherapySearchDTO>
+    public class CreateTherapySearchDTO
     {
         public TherapySearchDTO CreateValidTestObject()
         {

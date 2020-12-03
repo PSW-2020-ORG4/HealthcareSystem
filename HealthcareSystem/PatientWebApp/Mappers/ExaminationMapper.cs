@@ -23,6 +23,8 @@ namespace PatientWebApp.Mappers
             examination.DoctorJmbg = dto.DoctorJmbg;
             examination.IdRoom = dto.IdRoom;
             examination.PatientCard.PatientJmbg = dto.PatientJmbg;
+            examination.IsSurveyCompleted = dto.IsSurveyCompleted;
+            examination.ExaminationStatus = dto.ExaminationStatus;
             return examination;
         }
 
@@ -51,8 +53,9 @@ namespace PatientWebApp.Mappers
             }
 
             dto.IdRoom = examination.IdRoom;
-
             dto.Anamnesis = examination.Anamnesis;
+            dto.IsSurveyCompleted = examination.IsSurveyCompleted;
+            dto.ExaminationStatus = examination.ExaminationStatus;
 
             return dto;
         }

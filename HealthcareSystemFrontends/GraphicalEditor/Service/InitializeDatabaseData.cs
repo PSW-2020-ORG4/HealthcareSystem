@@ -49,12 +49,15 @@ namespace GraphicalEditor.Service
                 Equipment equipment = new Equipment(new Random().Next(0, 50), type);
                 _equipementService.AddEquipment(equipment);
             }
+            if (types.Count == 0) {
+                return;
+            }
             foreach (MapObject mapObject in allMapObjects)
             {
                 if (mapObject.CheckIfDBAddableRoom())
                 {
                     i++;
-                    Equipment equipment = new Equipment(new Random().Next(0, 50),types[(i%types.Count+1)-1]);
+                    Equipment equipment = new Equipment(new Random().Next(0, 50),types[(i%types.Count)]);
                     equipment.Id =Int32.Parse(_equipementService.AddEquipment(equipment));
                     _equipementService.AddEquipmentToRoom(mapObject, equipment);
                 }

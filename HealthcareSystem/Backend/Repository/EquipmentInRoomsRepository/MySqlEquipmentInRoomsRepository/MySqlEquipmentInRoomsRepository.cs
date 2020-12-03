@@ -22,34 +22,28 @@ namespace Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRep
             throw new NotImplementedException();
         }
 
-        public int GetEquipment(int idEquipment)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<EquipmentInRooms> GetEquipmentByRoom(int roomNumber)
+        public List<EquipmentInRooms> GetEquipmentInRoomsByRoomNumber(int roomNumber)
         {
             var m =  _context.EquipmentsInRooms.Where(x => x.RoomNumber == roomNumber).ToList();
             return (List<EquipmentInRooms>)m;
         }
         
-
-
-        public EquipmentInRooms NewEquipment(EquipmentInRooms equipment)
+        public EquipmentInRooms AddEquipment(EquipmentInRooms equipment)
         {
             _context.EquipmentsInRooms.Add(equipment);
             _context.SaveChanges();
             return equipment;
         }
 
-        public EquipmentInRooms SetEquipment(EquipmentInRooms equipment)
+        public EquipmentInRooms UpdateEquipment(EquipmentInRooms equipment)
         {
             throw new NotImplementedException();
         }
 
-        EquipmentInRooms IEquipmentInRoomsRepository.GetEquipment(int idEquipment)
+        public EquipmentInRooms GetEquipmenInRoomsByEquipmentId(int idEquipment)
         {
             return _context.EquipmentsInRooms.Single(x => x.IdEquipment == idEquipment);
         }
+
     }
 }

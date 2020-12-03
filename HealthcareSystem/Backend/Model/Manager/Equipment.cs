@@ -15,6 +15,8 @@ namespace Model.Manager
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int Quantity { get; set; }
+
+        [ForeignKey("EquipmentType")]
         public int TypeId {get; set;}
         public virtual EquipmentType Type { get; set; }
 

@@ -71,6 +71,7 @@
     </ApplicationDefinition>
     <Compile Include="Constants\ServerConstants.cs" />
     <Compile Include="Controllers\MapObjectController\MapObjectController.cs" />
+    <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
     <Compile Include="Models\Equipment\Equipment.cs" />
     <Compile Include="Models\Equipment\EquipmentType.cs" />

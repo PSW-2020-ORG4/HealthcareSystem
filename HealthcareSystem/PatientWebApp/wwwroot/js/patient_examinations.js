@@ -88,14 +88,40 @@
 
 function addExaminationRow(examination) {
 
+    let btn_type = '';
+    if (examination.examinationStatus == 0) {
+        btn_type = '<button class="btn btn-danger" style="margin-bottom:10px;" id="' + examination.id + '" onclick="cancelExamination(this.id)">Cancel</button>';
+
+    }
+
     let divElement = $('<div style="margin-top: 40px; margin:auto; margin-top:70px; border-style: solid; border-color: black; border-width: 1px;padding: 10px; background-color: #cce6ff;width:470px; height:220px;">'
         + '<table><tr><td>'
         + '<table style="height: 140px; margin-left: 30px; margin-bottom: 20px; width: 350px;">'
         + '<tr><th>Date:</th><td>' + examination.dateAndTime + '</td></tr>'
         + '<tr><th>Examination type:</th><td>' + examination.type + '</td></tr>'
         + '<tr><th>Doctor:</th><td>' + examination.doctorName + ' ' + examination.doctorSurname + '</td></tr>'
-        + '</br>' + ' </table ></div > ');
+        + '<tr style="margin-top:20px;"><th></th><td><span style="width: 200px;"></span>' + btn_type + '</td></tr></br></table></div>');
 
     $('div#div_examinations').append(divElement);
 
-}
+};
+
+function cancelExamination(id) {
+
+    $.ajax({
+        type: "PUT",
+        url: "/api/examination/cancel/" + id,
+        success: function () {
+
+            console.log('You have successfully cancel the examination!');
+            setTimeout(function () {
+                location.reload();
+            }, 500);
+        },
+        error: function (jqXHR) {
+
+            alert(jqXHR.responseText);
+        }
+    });
+
+};

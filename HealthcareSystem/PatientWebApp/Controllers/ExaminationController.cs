@@ -21,6 +21,8 @@ namespace PatientWebApp.Controllers
     {
         private readonly IExaminationService _examinationService;
         private readonly ExaminationValidator _examinationValidator;
+
+
         public ExaminationController(IExaminationService examinationService)
         {
             _examinationService = examinationService;
@@ -32,7 +34,7 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{patientJmbg}")]
+        [HttpGet("by-patient/{patientJmbg}")]
         public ActionResult GetExaminationsByPatient(string patientJmbg)
         {
             try
@@ -81,6 +83,10 @@ namespace PatientWebApp.Controllers
                 _examinationValidator.CheckIfExaminationCanBeCanceled(id);
                 _examinationService.CancelExamination(id);
                 return Ok();
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
             }
             catch (ValidationException exception)
             {
@@ -163,5 +169,26 @@ namespace PatientWebApp.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+
+        [HttpGet("{id}")]
+        public ActionResult GetExaminationById(int id)
+        {
+            try
+            {
+                ExaminationDTO examinationDTO = new ExaminationDTO();
+                examinationDTO = ExaminationMapper.ExaminationToExaminationDTO(_examinationService.GetExaminationById(id));
+                return Ok(examinationDTO);
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
     }
 }

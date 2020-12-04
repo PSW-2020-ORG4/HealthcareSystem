@@ -11,6 +11,8 @@ namespace Backend.Model
 {
     public class SurveyAboutDoctor
     {
+        private int examination;
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -33,6 +35,16 @@ namespace Backend.Model
             GettingAdviceByDoctor = gettingAdviceByDoctor;
             AvailabilityOfDoctor = availabilityOfDoctor;
             ExaminationId = examinationId;
+        }
+
+        public SurveyAboutDoctor(int behaviorOfDoctor, int doctorProfessionalism, int gettingAdviceByDoctor,
+                                    int availabilityOfDoctor, Examination examination)
+        {
+            BehaviorOfDoctor = behaviorOfDoctor;
+            DoctorProfessionalism = doctorProfessionalism;
+            GettingAdviceByDoctor = gettingAdviceByDoctor;
+            AvailabilityOfDoctor = availabilityOfDoctor;
+            Examination = examination;
         }
     }
 }

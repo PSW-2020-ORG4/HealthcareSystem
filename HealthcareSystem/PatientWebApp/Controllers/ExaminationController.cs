@@ -34,7 +34,7 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{patientJmbg}")]
+        [HttpGet("by-patient/{patientJmbg}")]
         public ActionResult GetExaminationsByPatient(string patientJmbg)
         {
             try
@@ -83,6 +83,10 @@ namespace PatientWebApp.Controllers
                 _examinationValidator.CheckIfExaminationCanBeCanceled(id);
                 _examinationService.CancelExamination(id);
                 return Ok();
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
             }
             catch (ValidationException exception)
             {
@@ -167,14 +171,18 @@ namespace PatientWebApp.Controllers
         }
 
 
-        [HttpGet("examination-by-id/{examinationId}")]
-        public ActionResult GetExaminationById(int examinationId)
+        [HttpGet("{id}")]
+        public ActionResult GetExaminationById(int id)
         {
             try
             {
                 ExaminationDTO examinationDTO = new ExaminationDTO();
-                examinationDTO = ExaminationMapper.ExaminationToExaminationDTO(_examinationService.GetExaminationById(examinationId));
+                examinationDTO = ExaminationMapper.ExaminationToExaminationDTO(_examinationService.GetExaminationById(id));
                 return Ok(examinationDTO);
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
             }
             catch (DatabaseException e)
             {

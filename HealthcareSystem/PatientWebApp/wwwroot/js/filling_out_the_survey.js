@@ -1,11 +1,10 @@
 ﻿var params = (new URL(window.location.href)).searchParams;
 var id = params.get("id");
-alert(" fill survey  " + id);
 
 $(document).ready(function () {
 
 	$.ajax({
-		url: '/api/examination/examination-by-id/' + id,
+		url: '/api/examination/' + id,
 		type: "GET",
 		dataType: 'json',
 		processData: false,
@@ -70,10 +69,11 @@ $(document).ready(function () {
 			
 		},
 		error: function () {
+			alert('error getting examination');
 			console.log('error getting examination');
 			setTimeout(function () {
 				window.location.href = 'patients_home_page.html';
-			}, 1000);
+			}, 1500);
 		}
 	});
 });

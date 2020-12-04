@@ -45,15 +45,19 @@ namespace PatientWebApp.Controllers
                 _surveyService.AddSurvey(SurveyMapper.SurveyDTOToSurvey(surveyDTO));
                 _examinationService.CompleteSurveyAboutExamination(surveyDTO.ExaminationId);
                 return Ok();
+            }         
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
             }
             catch (ValidationException exception)
             {
                 return BadRequest(exception.Message);
             }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }      
         }
 
 

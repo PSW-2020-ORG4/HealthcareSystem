@@ -33,10 +33,10 @@ namespace Backend.Service
             _username = rabbitMqOPtions.Value.Username;
             _password = rabbitMqOPtions.Value.Password;
             _queueName = "bolnica-1";
-            InitializeRabbitMqListener();
+            InitializeRabbitMqListener(0);
         }
 
-        private void InitializeRabbitMqListener()
+        private void InitializeRabbitMqListener(int iteration)
         {
             try
             {
@@ -60,9 +60,19 @@ namespace Backend.Service
                         _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");
                     }
                 }
-            }catch(BrokerUnreachableException bue)
+            }
+            catch (BrokerUnreachableException bue)
             {
-                Dispose();
+                if (iteration < 3)
+                {
+                    //set wait time
+                    Thread.Sleep(5000);
+                    InitializeRabbitMqListener(++iteration);
+                }
+                else
+                {
+                    Dispose();
+                }
             }
         }
 

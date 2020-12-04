@@ -40,22 +40,42 @@ namespace Service.RoomAndEquipment
             return _equipmentRepository.DeleteEquipment(id);
         }
 
-        public List<Equipment> GetEquipmentByRoomNumber(int roomNumber)
+        public List<Equipment> GetEquipmentWithRoomForSearchTerm(string searchTerm)
         {
-            List<EquipmentInRooms> equipmentsInRoom = _equipmentInRoomRepository.GetEquipmentByRoom(roomNumber);
-            List<Equipment> equipmentInRoom = new List<Equipment>();
-            foreach (EquipmentInRooms singleEquipment in equipmentsInRoom)
+            List<Equipment> equipment = GetEquipment();
+            List<Equipment> validEquipment = new List<Equipment>();
+            foreach (Equipment e in equipment)
             {
-                Equipment anEquipment = _equipmentRepository.GetEquipment(singleEquipment.IdEquipment);
-                if (anEquipment != null)
-                {
-                    equipmentInRoom.Add(anEquipment);
-                }
+                if (CheckIfEquipmentNameContainsSearchTerm(e, searchTerm))
+                    validEquipment.Add(e);
             }
-            return equipmentInRoom;
+
+            return validEquipment;
         }
 
+        private bool CheckIfEquipmentNameContainsSearchTerm(Equipment equipment, string searchTerm)
+        {
+            if (equipment.Type.Name.ToString().ToLower().Contains(searchTerm.ToLower()))
+                return true;
+            else return false;
+        }
 
+        public Equipment GetEquipmentById(int equipmentId)
+        {
+            return _equipmentRepository.GetEquipmentById(equipmentId);
+        }
 
+        public List<Equipment> GetEquipmentByRoomNumber(int roomNumber)
+        {
+            List<EquipmentInRooms> equipmentInRooms = _equipmentInRoomRepository.GetEquipmentInRoomsByRoomNumber(roomNumber);
+
+            List<Equipment> equipment = new List<Equipment>();
+            foreach (var e in equipmentInRooms)
+            {
+                equipment.Add(GetEquipmentById(e.IdEquipment));
+            }
+
+            return equipment;
+        }
     }
 }

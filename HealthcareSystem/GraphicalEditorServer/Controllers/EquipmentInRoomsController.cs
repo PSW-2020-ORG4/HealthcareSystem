@@ -29,7 +29,7 @@ namespace GraphicalEditorServer.Controllers
             String JSONContent = StringToJSONFormat(JSONString);
 
             EquipmentInRooms equipmentInRooms = JsonConvert.DeserializeObject<EquipmentInRooms>(JSONContent);           
-            _equipmentInRoomService.addEquipmentInRoom(equipmentInRooms);
+            _equipmentInRoomService.AddEquipmentInRoom(equipmentInRooms);
             return Ok();
         }
 
@@ -41,20 +41,6 @@ namespace GraphicalEditorServer.Controllers
             JSONContent += "}";
 
             return JSONContent;
-        }
-
-        [HttpGet("byRoomNumber/{roomNumber}")]
-        public IActionResult GetEquipmentByRoomNumber(int roomNumber)
-        {
-            try
-            {
-                List<Equipment> equipmentsInRoom = _equipmentInRoomService.getEquipmentByRoomNumber(roomNumber);
-                return Ok(equipmentsInRoom);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-        }
+        }        
     }
 }

@@ -9,10 +9,9 @@ namespace Backend.Service.RoomAndEquipment
 {
     public interface IEquipmentInRoomsService
     {
-        EquipmentInRooms addEquipmentInRoom(EquipmentInRooms equipment);
-        EquipmentInRooms editEquipmentInRooms(EquipmentInRooms equipment);
-        List<Equipment> getEquipmentByRoomNumber(int roomNumber);
-        bool deleteEquipmentInRooms(int idEquipment);
-        EquipmentInRooms viewEquipmentInRooms(int idEquipment);
+        EquipmentInRooms AddEquipmentInRoom(EquipmentInRooms equipment);
+        EquipmentInRooms EditEquipmentInRooms(EquipmentInRooms equipment);
+        bool DeleteEquipmentInRooms(int idEquipment);
+        EquipmentInRooms GetEquipmentInRoomsFromEquipment(Equipment equipment);
     }
 }

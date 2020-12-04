@@ -8,6 +8,7 @@ using GraphicalEditor.Repository;
 using GraphicalEditor.Service;
 using GraphicalEditor.Services;
 using GraphicalEditor.Services.Interface;
+using GraphicalEditorServer.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -135,7 +136,16 @@ namespace GraphicalEditor
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            initializeDatabaseData.InitiliazeData();
+            //initializeDatabaseData.InitiliazeData();
+
+            EquipementService equipementService = new EquipementService();
+            /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
+            foreach(EquipmentWithRoomDTO res in result)
+            {
+                Console.WriteLine(res.IdEquipment);
+                Console.WriteLine(res.RoomNumber);
+                Console.WriteLine("---");
+            }*/
             
         }
 

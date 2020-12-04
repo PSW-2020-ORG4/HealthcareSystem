@@ -9,7 +9,7 @@ namespace Backend.Repository
 {
    public interface IEquipmentRepository
     {
-        Equipment GetEquipment(int id);
+        Equipment GetEquipmentById(int id);
         List<Equipment> GetAllEquipment();
         Equipment SetEquipment(Equipment equipment);
         bool DeleteEquipment(int id);

@@ -12,7 +12,9 @@ namespace Backend.Service.RoomAndEquipment
         Equipment AddEquipment(Equipment equipment);
         List<Equipment> GetEquipment();
         Equipment EditEquipment(Equipment equipment);
-        List<Equipment> GetEquipmentByRoomNumber(int roomNumber);
+        Equipment GetEquipmentById(int equipmentId);
         bool DeleteEquipment(int id);
+        List<Equipment> GetEquipmentWithRoomForSearchTerm(string searchTerm);
+        List<Equipment> GetEquipmentByRoomNumber(int roomNumber);
     }
 }

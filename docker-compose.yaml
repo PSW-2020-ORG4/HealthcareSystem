@@ -22,7 +22,7 @@ services:
       DBPASSWORD: "root"
       DB: "organization4db"
     depends_on:
-      - mysqldb
+      - database
     restart: always
 
   intergrationadapters:
@@ -39,7 +39,7 @@ services:
       DBPASSWORD: "root"
       DB: "organization4db"
     depends_on:
-      - mysqldb
+      - database
     restart: always
 
   editorserver:
@@ -56,5 +56,5 @@ services:
       DBPASSWORD: "root"
       DB: "organization4db"
     depends_on:
-      - mysqldb
+      - database
     restart: always

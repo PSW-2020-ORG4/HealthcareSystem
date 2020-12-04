@@ -11,25 +11,25 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public Survey CreateInvalidTestObject()
         {
             SurveyAboutDoctor surveyAboutDoctor = new SurveyAboutDoctor(
-                behaviorOfDoctor: 0, 
+                behaviorOfDoctor: 1, 
                 doctorProfessionalism: 3, 
                 gettingAdviceByDoctor: 2,
                 availabilityOfDoctor: 3,
-                examinationId: 1
+                examination: new CreateExamination().CreateInvalidTestObjectForSurvey()
             );
             SurveyAboutMedicalStaff surveyAboutMedicalStaff = new SurveyAboutMedicalStaff(
-                behaviorOfMedicalStaff: -2,
+                behaviorOfMedicalStaff: 2,
                 medicalStaffProfessionalism: 5, 
                 gettingAdviceByMedicalStaff: 3, 
                 easeInObtainingFollowUpInformation: 3,
-                examinationId: 1
+                examination: new CreateExamination().CreateInvalidTestObjectForSurvey()
             );
             SurveyAboutHospital surveyAboutHospital = new SurveyAboutHospital(
                 nursing: 5, 
-                cleanliness: 9, 
+                cleanliness: 1, 
                 overallRating: 3, 
                 satisfiedWithDrugAndInstrument: 4,
-                examinationId: 1
+                examination: new CreateExamination().CreateInvalidTestObjectForSurvey()
             );
             return new Survey(surveyAboutDoctor: surveyAboutDoctor, surveyAboutMedicalStaff: surveyAboutMedicalStaff, surveyAboutHospital: surveyAboutHospital);                                    
         }
@@ -41,21 +41,21 @@ namespace PatientWebAppTests.CreateObjectsForTests
                 doctorProfessionalism: 3, 
                 gettingAdviceByDoctor: 2,                                                                
                 availabilityOfDoctor: 3,
-                examinationId: 1
+                examination: new CreateExamination().CreateValidTestObjectForSurvey()
             );
             SurveyAboutMedicalStaff surveyAboutMedicalStaff = new SurveyAboutMedicalStaff(
-                behaviorOfMedicalStaff: 2, 
+                behaviorOfMedicalStaff: 2,
                 medicalStaffProfessionalism: 5,
-                gettingAdviceByMedicalStaff: 3, 
+                gettingAdviceByMedicalStaff: 3,
                 easeInObtainingFollowUpInformation: 3,
-                examinationId: 1
-            );
+                examination: new CreateExamination().CreateValidTestObjectForSurvey()
+            ); 
             SurveyAboutHospital surveyAboutHospital = new SurveyAboutHospital(
                 nursing: 5, 
                 cleanliness: 4, 
                 overallRating: 3, 
                 satisfiedWithDrugAndInstrument: 4,
-                examinationId: 1
+                examination: new CreateExamination().CreateValidTestObjectForSurvey()
             );
             return new Survey(surveyAboutDoctor: surveyAboutDoctor, surveyAboutMedicalStaff: surveyAboutMedicalStaff, surveyAboutHospital: surveyAboutHospital);
         }

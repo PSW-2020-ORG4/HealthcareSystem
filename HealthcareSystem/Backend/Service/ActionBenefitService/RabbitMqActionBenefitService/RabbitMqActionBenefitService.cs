@@ -166,5 +166,23 @@ namespace Backend.Service
 
             base.Dispose();
         }
+
+        public void SubscriptionEdit(string exOld, bool subOld, string exNew, bool subNew)
+        {
+            if (subOld != subNew || exOld != exNew)
+            {
+                if (subOld && !subNew && exOld == exNew)
+                    Unsubscribe(exOld);
+                else if (!subOld && subNew && exOld == exNew)
+                    Subscribe(exNew);
+                else if (subOld && subNew && exOld != exNew)
+                {
+                    Unsubscribe(exOld);
+                    Subscribe(exNew);
+                }
+                else if (!subOld && subNew)
+                    Subscribe(exNew);
+            }
+        }
     }
 }

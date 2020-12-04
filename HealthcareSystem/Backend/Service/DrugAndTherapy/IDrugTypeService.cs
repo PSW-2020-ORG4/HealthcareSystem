@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Backend.Repository.DrugTypeRepository
+namespace Backend.Service.DrugAndTherapy
 {
-    public interface IDrugTypeRepository
+    public interface IDrugTypeService
     {
-        DrugType GetDrugType(int id);
-        List<DrugType> GetAllDrugTypes();
+
+        DrugType AddDrugType(DrugType drugType);
+        DrugType GetDrugTypeById(int id);
+        List<DrugType> GetDrugTypes();
         DrugType UpdateDrugType(DrugType drugType);
         bool DeleteDrugType(int id);
-        DrugType AddDrugType(DrugType drugType);
     }
 }

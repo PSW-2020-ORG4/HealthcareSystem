@@ -26,7 +26,7 @@ namespace Backend.Repository
             return _context.Equipment.ToList();
         }
 
-        public Equipment GetEquipment(int id)
+        public Equipment GetEquipmentById(int id)
         {
             return _context.Equipment.SingleOrDefault(x => x.Id == id);
         }

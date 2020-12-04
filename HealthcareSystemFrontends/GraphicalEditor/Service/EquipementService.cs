@@ -1,5 +1,6 @@
 ﻿using GraphicalEditor.Models;
 using GraphicalEditor.Models.Equipment;
+using GraphicalEditorServer.DTO;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,12 @@ namespace GraphicalEditor.Service
 
         public List<Equipment> GetEquipmentByRoomNumber(int roomNumber)
         {
-            return (List<Equipment>)HTTPGetRequest<Equipment>("equipmentInRooms/byRoomNumber/ " + roomNumber);
+            return (List<Equipment>)HTTPGetRequest<Equipment>("equipment/byRoomNumber/ " + roomNumber);
+        }
+
+        public List<EquipmentWithRoomDTO> GetEquipmentWithRoomForSearchTerm(String searchTerm)
+        {
+            return (List<EquipmentWithRoomDTO>) HTTPGetRequest<EquipmentWithRoomDTO>("equipment/search?term=" + searchTerm);
         }
     }
 }

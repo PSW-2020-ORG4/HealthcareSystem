@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Models.Equipment;
+﻿using Backend.Model.Manager;
+using GraphicalEditor.Models.Equipment;
 using RestSharp;
 using System;
 using System.Collections.Generic;

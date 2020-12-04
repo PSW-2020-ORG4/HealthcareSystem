@@ -1,25 +1,19 @@
-﻿$(document).ready(function () {
+﻿var params = (new URL(window.location.href)).searchParams;
+var id = params.get("id");
+alert(" fill survey  " + id);
 
-	var jmbg = "1309998775018";
+$(document).ready(function () {
 
 	$.ajax({
-		url: '/api/examination/' + jmbg,
+		url: '/api/examination/examination-by-id/' + id,
 		type: "GET",
 		dataType: 'json',
 		processData: false,
 		contentType: false,
-		success: function (examinations) {
-			console.log('success - loading examinations from database');
-			if (examinations.length == 0) {
-				alert("There is no examinations for patient in the database");
-				setTimeout(function () {
-					window.location.href = 'patients_home_page.html';
-				}, 1000);
-			}
-			else {
-				let last_examination = examinations[examinations.length - 1];
+		success: function (examination) {
+			console.log('success - loading examination from database');
 
-				$('p#doctor_name_and_surname').append(' ' + last_examination.doctorName + ' ' + last_examination.doctorSurname);
+				$('p#doctor_name_and_surname').append(' ' + examination.doctorName + ' ' + examination.doctorSurname);
 
 				$('#survey_form').submit(function (event) {
 
@@ -53,7 +47,7 @@
 						"Cleanliness": cleanliness,
 						"OverallRating": overallRating,
 						"SatisfiedWithDrugAndInstrument": satisfiedWithDrugAndInstrument,
-						"ExaminationId" : last_examination.id
+						"ExaminationId": examination.id
 					};
 
 					$.ajax({
@@ -73,7 +67,7 @@
 						}
 					});
 				});
-			}
+			
 		},
 		error: function () {
 			console.log('error getting examination');
@@ -83,6 +77,4 @@
 		}
 	});
 });
-
-
 

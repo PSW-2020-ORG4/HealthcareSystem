@@ -165,5 +165,22 @@ namespace PatientWebApp.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+
+        [HttpGet("examination-by-id/{examinationId}")]
+        public ActionResult GetExaminationById(int examinationId)
+        {
+            try
+            {
+                ExaminationDTO examinationDTO = new ExaminationDTO();
+                examinationDTO = ExaminationMapper.ExaminationToExaminationDTO(_examinationService.GetExaminationById(examinationId));
+                return Ok(examinationDTO);
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
     }
 }

@@ -164,6 +164,7 @@ namespace Service.ExaminationAndPatientCard
             {
                 throw new DatabaseException(exception.Message);
             }
+        }
 
         public void CancelExamination(int id)
         {

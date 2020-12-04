@@ -94,6 +94,10 @@ function addExaminationRow(examination) {
 
     }
 
+    if (examination.examinationStatus == 2 && examination.isSurveyCompleted == 0) {
+        btn_type = '<button class="btn btn-info" style="margin-bottom:10px;" id="' + examination.id + '" onclick="FillOutTheSurvey(this.id)">Fill out the survey</button>';
+    }
+
     let divElement = $('<div style="margin-top: 40px; margin:auto; margin-top:70px; border-style: solid; border-color: black; border-width: 1px;padding: 10px; background-color: #cce6ff;width:470px; height:220px;">'
         + '<table><tr><td>'
         + '<table style="height: 140px; margin-left: 30px; margin-bottom: 20px; width: 350px;">'
@@ -124,4 +128,10 @@ function cancelExamination(id) {
         }
     });
 
+};
+
+
+function FillOutTheSurvey(examinationId) {
+
+    window.location.href = 'filling_out_the_survey.html?id=' + examinationId;
 };

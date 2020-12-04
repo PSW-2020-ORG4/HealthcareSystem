@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
 
 namespace IntegrationAdapters
 {
@@ -36,7 +38,11 @@ namespace IntegrationAdapters
 
             services.AddDbContext<MyDbContext>(options =>
             {
-                options.UseMySql(connectionString, x => x.MigrationsAssembly("Backend")).UseLazyLoadingProxies();
+                options.UseMySql(
+                    connectionString,
+                    x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                        100, new TimeSpan(0, 0, 0, 30), new List<int>())
+                    ).UseLazyLoadingProxies();
             });
 
             services.AddControllersWithViews();

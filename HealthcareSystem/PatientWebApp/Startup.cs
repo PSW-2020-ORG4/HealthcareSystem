@@ -1,6 +1,5 @@
 using Backend.Model;
 using Backend.Repository;
-using Backend.Service;
 using Backend.Repository.DrugRepository;
 using Backend.Repository.DrugRepository.MySQLDrugRepository;
 using Backend.Repository.DrugTypeRepository;
@@ -13,29 +12,32 @@ using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
+using Backend.Repository.TherapyRepository;
+using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
+using Backend.Service;
 using Backend.Service.DrugAndTherapy;
+using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.NotificationSurveyAndFeedback;
 using Backend.Service.PlacementInARoomAndRenovationPeriod;
 using Backend.Service.RoomAndEquipment;
+using Backend.Service.SendingMail;
+using Backend.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Repository;
 using Service.DrugAndTherapy;
+using Service.ExaminationAndPatientCard;
 using Service.NotificationSurveyAndFeedback;
 using Service.PlacementInARoomAndRenovationPeriod;
 using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
-using Service.ExaminationAndPatientCard;
-using Backend.Service.SendingMail;
-using Backend.Settings;
-using Microsoft.AspNetCore.Http;
-using Backend.Service.ExaminationAndPatientCard;
-using Backend.Repository.TherapyRepository;
-using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
+using System;
+using System.Collections.Generic;
 
 namespace PatientWebApp
 {
@@ -48,23 +50,30 @@ namespace PatientWebApp
 
         public IConfiguration Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            var host = Configuration["DBHOST"] ?? "localhost";
-            var port = Configuration["DBPORT"] ?? "3306";
-            var user = Configuration["DBUSER"] ?? "organization4";
-            var password = Configuration["DBPASSWORD"] ?? "organization4";
-            var database = Configuration["DB"] ?? "organization4db";
+            var host = Configuration["DBHOST"] ?? "";
+            var port = Configuration["DBPORT"] ?? "";
+            var user = Configuration["DBUSER"] ?? "";
+            var password = Configuration["DBPASSWORD"] ?? "";
+            var database = Configuration["DB"] ?? "";
 
             string connectionString = $"server={host} ;userid={user}; pwd={password};"
                                     + $"port={port}; database={database}";
 
+            Console.WriteLine(connectionString);
+
             services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
             {
-                options.UseMySql(connectionString, x => x.MigrationsAssembly("Backend")).UseLazyLoadingProxies();
+                options.UseMySql(
+                    connectionString,
+                    x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                        100, new TimeSpan(0, 0, 0, 30), new List<int>())
+                    ).UseLazyLoadingProxies();
             });
 
             services.AddScoped<ICountryRepository, MySqlCountryRepository>();
@@ -117,12 +126,19 @@ namespace PatientWebApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
         {
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    serviceScope.ServiceProvider.GetService<MyDbContext>().Database.EnsureDeleted();
+                    serviceScope.ServiceProvider.GetService<MyDbContext>().Database.EnsureCreated();
+                }
             }
 
             app.UseStaticFiles();
@@ -135,8 +151,6 @@ namespace PatientWebApp
             {
                 endpoints.MapControllers();
             });
-
-            context.Database.Migrate();
         }
     }
 }

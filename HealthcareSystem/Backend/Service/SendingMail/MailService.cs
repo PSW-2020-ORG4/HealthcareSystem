@@ -68,7 +68,7 @@ namespace Backend.Service.SendingMail
 
         private string ReadMailText()
         {
-            var pathToHtmlPage = "\\Templates\\WelcomeTemplate.html";
+            var pathToHtmlPage = Path.Combine(".", "Templates", "WelcomeTemplate.html");
             string FilePath = Directory.GetCurrentDirectory() + pathToHtmlPage;
             StreamReader reader = new StreamReader(FilePath);
             string MailText = reader.ReadToEnd();

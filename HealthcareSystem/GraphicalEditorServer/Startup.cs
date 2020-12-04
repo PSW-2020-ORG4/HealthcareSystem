@@ -14,6 +14,9 @@ using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository;
 using Backend.Repository.RenovationPeriodRepository;
 using Repository;
+using System.Collections.Generic;
+using System;
+
 namespace GraphicalEditorServer
 {
     public class Startup
@@ -41,7 +44,11 @@ namespace GraphicalEditorServer
 
             services.AddDbContext<MyDbContext>(options =>
             {
-                options.UseMySql(connectionString, x => x.MigrationsAssembly("Backend")).UseLazyLoadingProxies();
+                options.UseMySql(
+                    connectionString,
+                    x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                        100, new TimeSpan(0, 0, 0, 30), new List<int>())
+                    ).UseLazyLoadingProxies();
             });
 
             services.AddScoped<IRoomService, RoomService>();
@@ -79,8 +86,6 @@ namespace GraphicalEditorServer
             {
                 endpoints.MapControllers();
             });
-
-            context.Database.Migrate();
         }
     }
 }

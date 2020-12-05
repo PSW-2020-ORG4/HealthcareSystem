@@ -9,6 +9,6 @@ namespace Backend.Service.RoomAndEquipment
         EquipmentType GetEquipmentTypeById(int id);
         List<EquipmentType> GetEquipmentTypes();
         EquipmentType UpdateEquipmentType(EquipmentType equipmentType);
-        bool DeleteEquipmentType(int id);
+        void DeleteEquipmentType(int id);
     }
 }

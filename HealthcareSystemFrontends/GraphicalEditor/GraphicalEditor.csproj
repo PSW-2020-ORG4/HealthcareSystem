@@ -73,6 +73,9 @@
     <Compile Include="Controllers\MapObjectController\MapObjectController.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
+    <Compile Include="Models\Drugs\Drug.cs" />
+    <Compile Include="Models\Drugs\DrugInRoom.cs" />
+    <Compile Include="Models\Drugs\DrugType.cs" />
     <Compile Include="Models\Equipment\Equipment.cs" />
     <Compile Include="Models\Equipment\EquipmentType.cs" />
     <Compile Include="Models\Equipment\TypeOfEquipment.cs" />
@@ -82,6 +85,8 @@
     <Compile Include="Repository\ContractResolver.cs" />
     <Compile Include="Repository\FileRepository.cs" />
     <Compile Include="Repository\Interface\IRepository.cs" />
+    <Compile Include="Service\DrugService.cs" />
+    <Compile Include="Service\DrugTypeService.cs" />
     <Compile Include="Service\EquipmentTypeService.cs" />
     <Compile Include="Service\InitializeDatabaseData.cs" />
     <Compile Include="Service\EquipementService.cs" />

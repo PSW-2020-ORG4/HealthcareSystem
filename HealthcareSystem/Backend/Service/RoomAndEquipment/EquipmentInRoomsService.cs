@@ -35,9 +35,9 @@ namespace Service.RoomAndEquipment
             return _equipmentInRoomsRepository.UpdateEquipment(equipment);
         }
 
-        public bool DeleteEquipmentInRooms(int idEquipment)
+        public void DeleteEquipmentInRooms(int idEquipment)
         {
-            return _equipmentInRoomsRepository.DeleteEquipment(idEquipment);
+             _equipmentInRoomsRepository.DeleteEquipment(idEquipment);
         }
 
         public EquipmentInRooms GetEquipmentInRoomsFromEquipment(Equipment equipment)

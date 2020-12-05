@@ -23,7 +23,7 @@ namespace GraphicalEditorServer.Controllers
         {
             String JSONContent = StringToJSONFormat(JSONString);
 
-            RoomDTO room = JsonConvert.DeserializeObject<RoomDTO>(JSONString);
+            RoomDTO room = JsonConvert.DeserializeObject<RoomDTO>(JSONContent);
             Model.Manager.Room newRoom = new Model.Manager.Room((int)room.Id, (TypeOfUsage)room.Usage, 0, 0, false);
             _roomService.AddRoom(newRoom);
             return Ok();

@@ -86,6 +86,9 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {      
             try
             {
+                Examination examination = _context.Examinations.Find(id);
+                if (examination == null)
+                    throw new NotFoundException("Examination doesn't exist.");
                 return _context.Examinations.Find(id);
             }
             catch (Exception)

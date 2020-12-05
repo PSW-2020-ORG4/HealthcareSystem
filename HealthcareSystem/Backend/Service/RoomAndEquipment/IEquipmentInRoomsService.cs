@@ -11,7 +11,7 @@ namespace Backend.Service.RoomAndEquipment
     {
         EquipmentInRooms AddEquipmentInRoom(EquipmentInRooms equipment);
         EquipmentInRooms EditEquipmentInRooms(EquipmentInRooms equipment);
-        bool DeleteEquipmentInRooms(int idEquipment);
+        void DeleteEquipmentInRooms(int idEquipment);
         EquipmentInRooms GetEquipmentInRoomsFromEquipment(Equipment equipment);
     }
 }

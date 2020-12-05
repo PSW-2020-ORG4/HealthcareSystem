@@ -10,7 +10,7 @@ namespace Backend.Repository.EquipmentInRoomsRepository
    public interface IEquipmentInRoomsRepository
     {
         EquipmentInRooms UpdateEquipment(EquipmentInRooms equipment);
-        bool DeleteEquipment(int id);
+        void DeleteEquipment(int id);
         EquipmentInRooms AddEquipment(EquipmentInRooms equipment);
         EquipmentInRooms GetEquipmenInRoomsByEquipmentId(int equipmentId);
         List<EquipmentInRooms> GetEquipmentInRoomsByRoomNumber(int roomNumber);

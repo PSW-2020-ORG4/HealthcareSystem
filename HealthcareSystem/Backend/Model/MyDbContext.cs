@@ -41,6 +41,7 @@ namespace Backend.Model
         public DbSet<EquipmentType> EquipmentTypes { get; set; }
         public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DbSet<DrugConsumption> DrugConsumptions { get; set; }
+	    public DbSet<DrugInRoom> DrugsInRooms { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
@@ -53,6 +54,7 @@ namespace Backend.Model
             builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Doctor).WithMany(d => d.DoctorSpecialties).HasForeignKey(ds => ds.DoctorJmbg);
             builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Specialty).WithMany(s => s.DoctorSpecialties).HasForeignKey(ds => ds.SpecialtyId);
 
+            builder.Entity<DrugInRoom>().HasKey(o => new { o.RoomNumber, o.DrugId });
         }
     }
 }

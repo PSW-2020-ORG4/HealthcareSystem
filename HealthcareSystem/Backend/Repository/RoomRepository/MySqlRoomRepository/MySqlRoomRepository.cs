@@ -56,5 +56,10 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
             _context.Update(room);
             _context.SaveChanges();
         }
+
+        public List<Room> GetRoomsByUsageAndEquipment(TypeOfUsage usage, ICollection<int> equipmentTypeIds)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

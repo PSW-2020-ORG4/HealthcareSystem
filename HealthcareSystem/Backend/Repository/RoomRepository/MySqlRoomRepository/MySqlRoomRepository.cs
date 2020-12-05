@@ -62,5 +62,12 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
             // This will be changed by Graphical Editor team
             return GetAllRooms();
         }
+        public bool CheckIfRoomExists(int roomId)
+        {
+            if (_context.Rooms.Find(roomId) == null)
+                return false;
+
+            return true;
+        }
     }
 }

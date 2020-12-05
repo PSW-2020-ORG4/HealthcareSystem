@@ -4,8 +4,6 @@ using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Repository
 {
@@ -39,13 +37,34 @@ namespace Backend.Repository
 
         public Doctor GetDoctorByJmbg(string jmbg)
         {
-            return _context.Doctors.Find(jmbg);
+            Doctor doctor;
+            try
+            {
+                doctor = _context.Doctors.Find(jmbg);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+
+            if (doctor == null)
+                throw new NotFoundException("Doctor doesn't exist in database.");
+
+            return doctor;
         }
 
         public void SetDoctor(Doctor doctor)
         {
             _context.Doctors.Update(doctor);
             _context.SaveChanges();
+        }
+
+        public bool CheckIfDoctorExists(string jmbg)
+        {
+            if (_context.Doctors.Find(jmbg) == null)
+                return false;
+
+            return true;
         }
 
     }

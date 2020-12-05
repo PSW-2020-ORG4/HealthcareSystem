@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Model.DTO;
 using Backend.Model.Exceptions;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.SearchSpecification;
@@ -21,14 +22,12 @@ namespace PatientWebApp.Controllers
     {
         private readonly IExaminationService _examinationService;
         private readonly ExaminationValidator _examinationValidator;
-
-
         public ExaminationController(IExaminationService examinationService)
         {
             _examinationService = examinationService;
             _examinationValidator = new ExaminationValidator(_examinationService);
-
         }
+
         /// <summary>
         /// /getting examinations linked to a certain patient
         /// </summary>
@@ -170,9 +169,13 @@ namespace PatientWebApp.Controllers
             }
         }
 
-
+        /// <summary>
+        /// /getting one examination by id
+        /// </summary>
+        /// <param name="id">examination id</param>
+        /// <returns>if alright returns code 200(Ok), if returned value is null returns 404, if connection lost returns 500</returns>
         [HttpGet("{id}")]
-        public ActionResult GetExaminationById(int id)
+        public IActionResult GetExaminationById(int id)
         {
             try
             {

@@ -102,14 +102,12 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
                 throw new DatabaseException("The database connection is down.");
             }
         }
-        public bool IsDoctorAvailable(string doctorJmbg, DateTime dateTime)
+
+        public ICollection<Examination> GetExaminationsByDoctorAndDateTime(string doctorJmbg, DateTime dateTime)
         {
             try
             {
-                if (_context.Examinations.Where(e => e.DoctorJmbg == doctorJmbg && e.DateAndTime == dateTime).ToList().Count > 0)
-                    return false;
-
-                return true;
+                return _context.Examinations.Where(e => e.DoctorJmbg == doctorJmbg && e.DateAndTime == dateTime).ToList();
             }
             catch (Exception)
             {
@@ -117,33 +115,29 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
             }
         }
 
-        public bool IsPatientAvailable(int patientCardId, DateTime dateTime)
+        public ICollection<Examination> GetExaminationsByRoomAndDateTime(int roomId, DateTime dateTime)
         {
             try
             {
-                if (_context.Examinations.Where(e => e.IdPatientCard == patientCardId && e.DateAndTime == dateTime).ToList().Count > 0)
-                    return false;
-
-                return true;
+                return _context.Examinations.Where(e => e.IdRoom == roomId && e.DateAndTime == dateTime).ToList();
             }
             catch (Exception)
             {
                 throw new DatabaseException("The database connection is down.");
             }
         }
-        public bool IsRoomAvailable(int roomId, DateTime dateTime)
+
+        public ICollection<Examination> GetExaminationsByPatientAndDateTime(int patientCardId, DateTime dateTime)
         {
             try
             {
-                if (_context.Examinations.Where(e => e.IdRoom == roomId && e.DateAndTime == dateTime).ToList().Count > 0)
-                    return false;
-
-                return true;
+                return _context.Examinations.Where(e => e.IdPatientCard == patientCardId && e.DateAndTime == dateTime).ToList();
             }
             catch (Exception)
             {
                 throw new DatabaseException("The database connection is down.");
             }
         }
+
     }
 }

@@ -15,5 +15,6 @@ namespace Repository
         void AddPatient(Patient patient);
         void DeletePatient(string jmbg);
         Patient CheckUsernameAndPassword(string username, string password);
+        int GetNumberOfCanceledExaminations(string jmbg);
     }
 }

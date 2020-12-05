@@ -47,5 +47,6 @@ namespace Backend.Repository
             _context.Doctors.Update(doctor);
             _context.SaveChanges();
         }
+
     }
 }

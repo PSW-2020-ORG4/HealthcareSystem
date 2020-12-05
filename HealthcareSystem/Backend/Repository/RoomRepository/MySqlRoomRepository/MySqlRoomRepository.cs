@@ -59,7 +59,8 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
 
         public List<Room> GetRoomsByUsageAndEquipment(TypeOfUsage usage, ICollection<int> equipmentTypeIds)
         {
-            throw new NotImplementedException();
+            // This will be changed by Graphical Editor team
+            return GetAllRooms();
         }
     }
 }

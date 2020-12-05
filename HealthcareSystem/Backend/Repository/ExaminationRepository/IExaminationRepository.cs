@@ -21,6 +21,8 @@ namespace Backend.Repository.ExaminationRepository
         List<Examination> GetCanceledExaminationsByPatient(string patientJmbg);
         List<Examination> GetPreviousExaminationsByPatient(string patientJmbg);
         List<Examination> GetFollowingExaminationsByPatient(string patientJmbg);
-
+        bool IsDoctorAvailable(string doctorJmbg, DateTime dateTime);
+        bool IsPatientAvailable(int patientCardId, DateTime dateTime);
+        bool IsRoomAvailable(int roomId, DateTime dateTime);
     }
 }

@@ -73,5 +73,18 @@ namespace Backend.Service
             patient.ImageName = imageName;
             _activePatientRepository.UpdatePatient(patient);
         }
+        public List<Patient> ViewMaliciousPatients()
+        {
+            List<Patient> patients = _activePatientRepository.GetAllPatients();
+            List<Patient> result = new List<Patient>();
+            foreach (Patient patient in patients)
+            {
+                if (_activePatientRepository.GetNumberOfCanceledExaminations(patient.Jmbg) >= 3)
+                {
+                    result.Add(patient);
+                }
+            }
+            return result;
+        }
     }
 }

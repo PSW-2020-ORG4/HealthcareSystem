@@ -156,6 +156,24 @@ namespace PatientWebApp.Controllers
             }
             return RedirectPermanent("http://localhost:65117/html/patients_home_page.html");
         }
+        /// <summary>
+        /// /getting malicious patients(who canceled examinations 3 or more times in the past month)
+        /// </summary>
+        /// <returns>list of patients</returns>
+        [HttpGet("malicious-patients")]
+        public IActionResult GetMaliciousPatients()
+        {
+            try
+            {
+                List<PatientDTO> patientDTOs = new List<PatientDTO>();
+                _patientService.ViewMaliciousPatients().ForEach(patient => patientDTOs.Add(PatientMapper.PatientToPatientDTO(patient)));
+                return Ok(patientDTOs);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
+        }
 
     }
 }

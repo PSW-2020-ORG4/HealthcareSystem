@@ -44,7 +44,32 @@ namespace PatientWebApp.Adapters
 
             return patientDto;
         }
+        /// <summary>
+        /// /mapping object Patient to type PatientDTO
+        /// </summary>
+        /// <param name="patient">object type Patient</param>
+        /// <returns>object type PatientDTO</returns>
+        public static PatientDTO PatientToPatientDTO(Patient patient)
+        {
+            PatientDTO patientDto = new PatientDTO();
 
+            patientDto.Jmbg = patient.Jmbg;
+            patientDto.Name = patient.Name;
+            patientDto.Surname = patient.Surname;
+            patientDto.Gender = patient.Gender;
+            patientDto.DateOfBirth = patient.DateOfBirth;
+            patientDto.Phone = patient.Phone;
+            patientDto.CountryId = patient.City.CountryId;
+            patientDto.CountryName = patient.City.Country.Name;
+            patientDto.CityZipCode = patient.CityZipCode;
+            patientDto.CityName = patient.City.Name;
+            patientDto.HomeAddress = patient.HomeAddress;
+            patientDto.Email = patient.Email;
+            patientDto.Password = patient.Password;
+            patientDto.ImageName = patient.ImageName;
+
+            return patientDto;
+        }
         /// <summary>
         /// /mapping object type PatientDTO to type Patient
         /// </summary>

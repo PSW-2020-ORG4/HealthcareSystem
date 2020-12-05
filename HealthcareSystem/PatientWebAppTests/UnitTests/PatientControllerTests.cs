@@ -36,7 +36,7 @@ namespace PatientWebAppTests.UnitTests
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             PatientCardService patientCardService = new PatientCardService(_stubRepository.CreatePatientCardStubRepository());
             IMailService mailService = mailMockService.Object;
-        
+
             PatientController patientController = new PatientController(patientService, patientCardService, null, mailService);
 
             return patientController;
@@ -117,7 +117,7 @@ namespace PatientWebAppTests.UnitTests
 
             string encryptedJmbg = _encryptionService.EncryptString("1234567891234");
             var result = patientController.ActivatePatient(encryptedJmbg);
-           
+
             Assert.True(result is OkResult);
         }
 

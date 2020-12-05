@@ -16,5 +16,6 @@ namespace Backend.Service
         void EditPatient(Patient patient);
         void SavePatientImageName(string jmbg, string imageName);
         Patient SignIn(string username, string password);
+        List<Patient> ViewMaliciousPatients();
     }
 }

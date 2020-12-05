@@ -12,7 +12,7 @@ namespace Backend.Repository.DrugTypeRepository
         DrugType GetDrugType(int id);
         List<DrugType> GetAllDrugTypes();
         DrugType UpdateDrugType(DrugType drugType);
-        bool DeleteDrugType(int id);
+        void DeleteDrugType(int id);
         DrugType AddDrugType(DrugType drugType);
     }
 }

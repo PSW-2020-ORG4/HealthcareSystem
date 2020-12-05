@@ -13,7 +13,7 @@ namespace Backend.Service.DrugAndTherapy
         DrugInRoom AddDrugInRoom(DrugInRoom drugInRoom);
         DrugInRoom EditDrugInRoom(DrugInRoom drugInRoom);
         List<Drug> GetDrugsByRoomNumber(int roomNumber);
-        bool DeleteDrugInRoom(int drugId);
+        void DeleteDrugInRoom(int drugId);
         DrugInRoom ViewDrugInRoom(int drugId);
     }
 }

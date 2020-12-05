@@ -14,6 +14,6 @@ namespace Backend.Service.DrugAndTherapy
         DrugType GetDrugTypeById(int id);
         List<DrugType> GetDrugTypes();
         DrugType UpdateDrugType(DrugType drugType);
-        bool DeleteDrugType(int id);
+        void DeleteDrugType(int id);
     }
 }

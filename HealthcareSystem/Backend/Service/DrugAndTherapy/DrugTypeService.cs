@@ -29,9 +29,9 @@ namespace Service.DrugAndTherapy
             return _drugTypeRepository.AddDrugType(drugType);
         }
 
-        public bool DeleteDrugType(int id)
+        public void DeleteDrugType(int id)
         {
-            return _drugTypeRepository.DeleteDrugType(id);
+             _drugTypeRepository.DeleteDrugType(id);
         }
 
         public DrugType GetDrugTypeById(int id)

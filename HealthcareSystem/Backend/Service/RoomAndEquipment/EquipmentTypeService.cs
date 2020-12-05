@@ -20,9 +20,9 @@ namespace Backend.Service.RoomAndEquipment
             return _equipmentTypeRepository.AddEquipmentType(equipmentType);
         }
 
-        public bool DeleteEquipmentType(int id)
+        public void DeleteEquipmentType(int id)
         {
-            return _equipmentTypeRepository.DeleteEquipmentType(id);
+             _equipmentTypeRepository.DeleteEquipmentType(id);
         }
 
         public EquipmentType UpdateEquipmentType(EquipmentType equipmentType)

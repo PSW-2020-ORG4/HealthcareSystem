@@ -17,7 +17,7 @@ namespace Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository
             _context = context;
         }
 
-        public bool DeleteDrug(int id)
+        public void DeleteDrug(int id)
         {
             throw new NotImplementedException();
         }

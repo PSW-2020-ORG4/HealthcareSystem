@@ -27,9 +27,9 @@ namespace Backend.Service.DrugAndTherapy
             return _drugInRoomRepository.AddDrug(drugInRoom);
         }
 
-        public bool DeleteDrugInRoom(int drugId)
+        public void DeleteDrugInRoom(int drugId)
         {
-            return _drugInRoomRepository.DeleteDrug(drugId);
+             _drugInRoomRepository.DeleteDrug(drugId);
         }
 
         public DrugInRoom EditDrugInRoom(DrugInRoom drugInRoom)

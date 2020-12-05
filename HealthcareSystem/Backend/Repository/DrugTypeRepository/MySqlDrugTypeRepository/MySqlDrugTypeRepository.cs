@@ -23,7 +23,7 @@ namespace Backend.Repository.DrugTypeRepository.MySqlDrugTypeRepository
             return drugType;
         }
 
-        public bool DeleteDrugType(int id)
+        public void DeleteDrugType(int id)
         {
             throw new NotImplementedException();
         }

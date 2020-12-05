@@ -44,7 +44,17 @@ namespace Repository
         }
         public Patient GetPatientByJmbg(string jmbg)
         {
-            return _context.Patients.Find(jmbg);
+            try
+            {
+                Patient patient = _context.Patients.Find(jmbg);
+                if (patient == null)
+                    throw new DatabaseException("Patient doesn't exist in database.");
+                return _context.Patients.Find(jmbg);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
         public void UpdatePatient(Patient patient)
         {

@@ -175,5 +175,20 @@ namespace PatientWebApp.Controllers
             }
         }
 
+
+        [HttpPut("blocked/{jmbg}")]
+        public ActionResult CancelExamination(string jmbg)
+        {
+            try
+            {
+                _patientService.BlockPatient(jmbg);
+                return Ok();
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
+
+        }
     }
 }

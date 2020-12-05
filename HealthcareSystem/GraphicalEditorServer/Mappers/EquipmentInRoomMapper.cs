@@ -14,7 +14,7 @@ namespace GraphicalEditorServer.Mappers
             EquipmentWithRoomDTO equipmentWithRoomDTO = new EquipmentWithRoomDTO();
             equipmentWithRoomDTO.IdEquipment = e.Id;
             equipmentWithRoomDTO.RoomNumber = equipmentInRoom.RoomNumber;
-            equipmentWithRoomDTO.Quantity = e.Id;
+            equipmentWithRoomDTO.Quantity = e.Quantity;
             equipmentWithRoomDTO.EquipmentName = e.Type.Name;
             equipmentWithRoomDTO.IsEquipmentConsumable = e.Type.IsConsumable;
 

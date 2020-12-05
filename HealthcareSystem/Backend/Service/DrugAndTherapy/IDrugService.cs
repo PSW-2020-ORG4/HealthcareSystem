@@ -23,7 +23,7 @@ namespace Backend.Service.DrugAndTherapy
         void AddDrug(Drug drug);
  	    public List<Drug> GetDrugsByRoomNumber(int roomNumber);
         void AddConfirmedDrug(Drug drug);
-        DrugInRoom GetDrugInRoomByDrugId(int drugId);
+        List<Drug> GetDrugWithRoomForSearchTerm(string searchTerm);
 
     }
 }

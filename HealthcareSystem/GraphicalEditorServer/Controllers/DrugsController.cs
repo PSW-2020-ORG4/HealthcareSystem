@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Backend.Model.Exceptions;
 using Backend.Model.Manager;
 using Backend.Service.DrugAndTherapy;
+using GraphicalEditorServer.DTO;
+using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Manager;
@@ -18,11 +20,13 @@ namespace GraphicalEditorServer.Controllers
     {
         private readonly IDrugService _drugService;
         private readonly IDrugTypeService _drugTypeService;
+        private readonly IDrugInRoomService _drugInRoomService;
 
-        public DrugsController(IDrugService drugService, IDrugTypeService drugTypeService)
+        public DrugsController(IDrugService drugService, IDrugTypeService drugTypeService, IDrugInRoomService drugInRoomService)
         {
             _drugService = drugService;
             _drugTypeService = drugTypeService;
+            _drugInRoomService = drugInRoomService;
         }
 
         [HttpPost]
@@ -46,18 +50,20 @@ namespace GraphicalEditorServer.Controllers
             }
         }
 
-        [HttpGet("drugsInRoomByDrugId/{drugId}")]
-        public IActionResult GetDrugsInRoomByDrugId(int drugId)
+        [HttpGet("search")]
+        public ActionResult GetDrugWithRoomForSearchTerm(string term = "")
         {
-            try
+
+            List<Drug> drugs = _drugService.GetDrugWithRoomForSearchTerm(term);
+
+            List<DrugWithRoomDTO> drugWithRoomDTOs = new List<DrugWithRoomDTO>();
+            foreach (Drug d in drugs)
             {
-                DrugInRoom drugInRoom = _drugService.GetDrugInRoomByDrugId(drugId);
-                return Ok(drugInRoom);
+                DrugWithRoomDTO drugInRoomDTO = DrugWithRoomMapper.DrugToDrugWithRoomDTO(d, _drugInRoomService.GetDrugsInRoomsFromDrug(d));
+                drugWithRoomDTOs.Add(drugInRoomDTO);
             }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+
+            return Ok(drugWithRoomDTOs);
         }
 
 

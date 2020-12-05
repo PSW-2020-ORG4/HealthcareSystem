@@ -15,5 +15,6 @@ namespace Backend.Service.DrugAndTherapy
         List<Drug> GetDrugsByRoomNumber(int roomNumber);
         void DeleteDrugInRoom(int drugId);
         DrugInRoom ViewDrugInRoom(int drugId);
+        DrugInRoom GetDrugsInRoomsFromDrug(Drug drug);
     }
 }

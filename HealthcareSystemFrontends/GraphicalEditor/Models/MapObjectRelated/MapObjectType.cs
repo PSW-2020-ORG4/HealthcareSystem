@@ -195,6 +195,26 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 return allMapObjectTypesAvailableToChange;
             }
         }
+
+        public static List<MapObjectType> AllMapObjectTypesAvailableForSearch
+        {
+            get
+            {
+                List<MapObjectType> allMapObjectTypesAvailableToChange = new List<MapObjectType>();
+                Array typesOfMapObjects = Enum.GetValues(typeof(TypeOfMapObject));
+                foreach (TypeOfMapObject mapObjectType in typesOfMapObjects)
+                {
+                    if (mapObjectType != TypeOfMapObject.ROAD)
+                    {
+                        MapObjectType singleTypeOfMapObject = new MapObjectType(mapObjectType);
+                        allMapObjectTypesAvailableToChange.Add(singleTypeOfMapObject);
+                    }
+                }
+
+                return allMapObjectTypesAvailableToChange;
+            }
+        }
+
         public void SetStrokeColorAndThickness(Rectangle rectangle)
         {
             if (TypeOfMapObject != TypeOfMapObject.ROAD)

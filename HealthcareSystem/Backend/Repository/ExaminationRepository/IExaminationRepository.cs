@@ -21,6 +21,8 @@ namespace Backend.Repository.ExaminationRepository
         List<Examination> GetCanceledExaminationsByPatient(string patientJmbg);
         List<Examination> GetPreviousExaminationsByPatient(string patientJmbg);
         List<Examination> GetFollowingExaminationsByPatient(string patientJmbg);
-
+        ICollection<Examination> GetExaminationsByDoctorAndDateTime(string doctorJmbg, DateTime dateTime);
+        ICollection<Examination> GetExaminationsByRoomAndDateTime(int roomId, DateTime dateTime);
+        ICollection<Examination> GetExaminationsByPatientAndDateTime(int patientCardId, DateTime dateTime);
     }
 }

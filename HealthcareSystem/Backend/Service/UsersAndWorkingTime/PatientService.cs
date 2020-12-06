@@ -86,5 +86,9 @@ namespace Backend.Service
             }
             return result;
         }
+        public int GetNumberOfCanceledExaminations(string jmbg) 
+        {
+            return _activePatientRepository.GetNumberOfCanceledExaminations(jmbg);       
+        }
     }
 }

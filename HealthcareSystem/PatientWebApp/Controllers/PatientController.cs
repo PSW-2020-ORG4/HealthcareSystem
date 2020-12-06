@@ -174,6 +174,18 @@ namespace PatientWebApp.Controllers
                 return StatusCode(500, exception.Message);
             }
         }
-
+        [HttpGet("{jmbg}/canceled-examinations")]
+        public int GetNumberOfCanceledExaminations(string jmbg)
+        {
+            try
+            {
+                int number = _patientService.GetNumberOfCanceledExaminations(jmbg);
+                return number;
+            }
+            catch (DatabaseException exception)
+            {
+                return -1;
+            } 
+        }
     }
 }

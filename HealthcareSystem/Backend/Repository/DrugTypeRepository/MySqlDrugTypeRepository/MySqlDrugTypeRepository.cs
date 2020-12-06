@@ -15,9 +15,32 @@ namespace Backend.Repository.DrugTypeRepository.MySqlDrugTypeRepository
         {
             _context = context;
         }
+
+        public DrugType AddDrugType(DrugType drugType)
+        {
+            _context.DrugTypes.Add(drugType);
+            _context.SaveChanges();
+            return drugType;
+        }
+
+        public void DeleteDrugType(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<DrugType> GetAllDrugTypes()
         {
             return _context.DrugTypes.ToList();
+        }
+
+        public DrugType GetDrugType(int id)
+        {
+            return _context.DrugTypes.SingleOrDefault(x => x.Id == id);
+        }
+
+        public DrugType UpdateDrugType(DrugType drugType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

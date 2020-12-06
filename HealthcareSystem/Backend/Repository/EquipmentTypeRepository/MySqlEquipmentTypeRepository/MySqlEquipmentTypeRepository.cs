@@ -28,7 +28,7 @@ namespace Backend.Repository
             return _context.EquipmentTypes.ToList();
         }   
         
-        public bool DeleteEquipmentType(int id)
+        public void DeleteEquipmentType(int id)
         {
             throw new NotImplementedException();
         }

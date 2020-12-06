@@ -17,7 +17,7 @@ namespace Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRep
             _context = context;
         }
 
-        public bool DeleteEquipment(int id)
+        public void DeleteEquipment(int id)
         {
             throw new NotImplementedException();
         }

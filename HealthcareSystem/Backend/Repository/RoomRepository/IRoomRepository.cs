@@ -18,6 +18,6 @@ namespace Backend.Repository.RoomRepository
         void UpdateRoom(Room room);
         void DeleteRoom(int number);
         void AddRoom(Room room);
-
+        bool CheckIfRoomExists(int roomId);
     }
 }

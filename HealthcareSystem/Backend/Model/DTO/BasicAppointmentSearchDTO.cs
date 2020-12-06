@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Backend.Model.Exceptions;
+using System;
 using System.Collections.Generic;
 
 namespace Backend.Model.DTO
@@ -10,5 +11,15 @@ namespace Backend.Model.DTO
         public ICollection<int> RequiredEquipmentTypes { get; set; }
         public DateTime EarliestDateTime { get; set; }
         public DateTime LatestDateTime { get; set; }
+
+        public void IsAppointmentValid()
+        {
+            if (string.IsNullOrEmpty(DoctorJmbg))
+                throw new ValidationException("Doctor jmbg cannot be null or empty.");
+            if (EarliestDateTime == null)
+                throw new ValidationException("Earliest date cannot be null.");
+            if (LatestDateTime == null)
+                throw new ValidationException("Latest date cannot be null");
+        }
     }
 }

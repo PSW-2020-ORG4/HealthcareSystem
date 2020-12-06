@@ -36,8 +36,13 @@ namespace PatientWebApp.Validators
         public void CheckIfExaminationCanBeCanceled(int id)
         {
             Examination examination = _examinationService.GetExaminationById(id);
+            DateTime restrictDate = examination.DateAndTime.AddDays(-2);
+            DateTime todayDate = DateTime.Now;
+
             if (examination.ExaminationStatus != Backend.Model.Enums.ExaminationStatus.CREATED)
-                throw new ValidationException("Examination can't be canceled.");
+                throw new ValidationException("Examination has already been finished or canceled");
+            if (todayDate > restrictDate)
+                throw new ValidationException("The examination is in less than 48 hours.");
         }
 
     }

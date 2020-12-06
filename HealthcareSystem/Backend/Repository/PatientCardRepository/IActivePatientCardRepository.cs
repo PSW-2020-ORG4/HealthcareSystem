@@ -14,5 +14,6 @@ namespace Repository
         void AddPatientCard(PatientCard patientCard);
         void DeletePatientCard(string patientJmbg);
         void UpdatePatientCard(PatientCard card);
+        bool CheckIfPatientCardExists(int patientCardId);
     }
 }

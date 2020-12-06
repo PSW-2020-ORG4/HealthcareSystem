@@ -14,5 +14,6 @@ namespace Backend.Repository
         List<Doctor> GetAllDoctors();
         void AddDoctor(Doctor doctor);
         Doctor CheckUsernameAndPassword(string username, string password);
+        bool CheckIfDoctorExists(string jmbg);
     }
 }

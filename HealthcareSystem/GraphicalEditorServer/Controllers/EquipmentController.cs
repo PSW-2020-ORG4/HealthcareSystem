@@ -35,7 +35,6 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost]
         public ActionResult AddEquipment([FromBody] Equipment equipment)
         {
-            Console.WriteLine("TUUU");
             Equipment addedEquipment =_equipmentService.AddEquipment(equipment);
             return Ok(addedEquipment.Id);
         }

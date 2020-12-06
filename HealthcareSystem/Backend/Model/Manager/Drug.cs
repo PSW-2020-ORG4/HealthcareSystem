@@ -27,16 +27,16 @@ namespace Model.Manager
         public string Producer { get; set; }
 
         public Drug() { }
-
-        public Drug( DrugType drugType, string name, int id, int quantity, DateTime expirationDate, string producer)
+	
+        public Drug( DrugType drugType, string name, int quantity, DateTime expirationDate, string producer)
         {
             this.DrugType = drugType;
             this.Name = name;
-            this.Id = id;
             this.Quantity = quantity;
             this.ExpirationDate = expirationDate;
             this.Producer = producer;
         }
+
 
         public Drug(Drug drug)
         {

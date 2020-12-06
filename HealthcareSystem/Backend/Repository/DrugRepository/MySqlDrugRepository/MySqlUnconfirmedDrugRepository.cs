@@ -17,9 +17,7 @@ namespace Backend.Repository.DrugRepository.MySQLDrugRepository
         }
         public void DeleteDrug(int id)
         {
-            Drug drug = GetDrug(id);
-            _context.Remove(drug);
-            _context.SaveChanges();
+            throw new NotImplementedException();
         }
 
         public List<Drug> GetAllDrugs()
@@ -27,7 +25,7 @@ namespace Backend.Repository.DrugRepository.MySQLDrugRepository
             return _context.Drugs.ToList();
         }
 
-        public Drug GetDrug(int id)
+        public Drug GetDrugById(int id)
         {
             return _context.Drugs.Find(id);
         }
@@ -38,16 +36,18 @@ namespace Backend.Repository.DrugRepository.MySQLDrugRepository
             return 0;
         }
 
-        public void AddDrug(Drug drug)
+        public Drug AddDrug(Drug drug)
         {
             _context.Drugs.Add(drug);
             _context.SaveChanges();
+            return drug;
         }
 
-        public void UpdateDrug(Drug drug)
+        public Drug SetDrug(Drug drug)
         {
             _context.Update(drug);
             _context.SaveChanges();
+            return drug;
         }
     }
 }

@@ -10,11 +10,11 @@ namespace Backend.Repository.DrugRepository
     public interface IUnconfirmedDrugRepository
     {
         int getLastId();
-        Drug GetDrug(int id);
+        Drug GetDrugById(int id);
         List<Drug> GetAllDrugs();
-        void UpdateDrug(Drug drug);
+        Drug SetDrug(Drug drug);
         void DeleteDrug(int id);
-        void AddDrug(Drug drug);
+        Drug AddDrug(Drug drug);
 
     }
 }

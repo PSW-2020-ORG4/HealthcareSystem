@@ -113,5 +113,17 @@ namespace Model.PerformingExamination
             IsSurveyCompleted = examination.IsSurveyCompleted;
         }
 
+        public Examination(DateTime dateTime, string doctorJmbg, int roomId, int patientCardId)
+        {
+            DateAndTime = dateTime;
+            DoctorJmbg = doctorJmbg;
+            IdRoom = roomId;
+            IdPatientCard = patientCardId;
+            Type = TypeOfExamination.GENERAL;
+            Anamnesis = null;
+            ExaminationStatus = ExaminationStatus.CREATED;
+            IsSurveyCompleted = false;
+        }
+
     }
 }

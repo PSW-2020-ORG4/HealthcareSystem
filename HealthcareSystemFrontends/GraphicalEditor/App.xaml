@@ -12,6 +12,107 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+
+            <!--  SIDE PANEL DATA GRID STYLE  -->
+            <!--  DataGrid  -->
+            <Style
+                x:Key="SidePanelDataGrid"
+                BasedOn="{StaticResource MaterialDesignDataGrid}"
+                TargetType="DataGrid">
+                <Setter Property="AutoGenerateColumns" Value="False" />
+                <Setter Property="CanUserAddRows" Value="False" />
+                <Setter Property="CanUserDeleteRows" Value="False" />
+                <Setter Property="CanUserReorderColumns" Value="False" />
+                <Setter Property="CanUserResizeColumns" Value="False" />
+                <Setter Property="CanUserResizeRows" Value="False" />
+                <Setter Property="ColumnHeaderHeight" Value="30" />
+                <Setter Property="HeadersVisibility" Value="Column" />
+                <Setter Property="IsReadOnly" Value="True" />
+                <Setter Property="SelectionMode" Value="Single" />
+
+                <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+                <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+
+
+                <Setter Property="HorizontalGridLinesBrush" Value="LightPink" />
+                <Setter Property="VerticalGridLinesBrush" Value="Transparent" />
+
+
+                <Style.Resources>
+                    <!--  DataGridColumnHeader  -->
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+
+                        <Setter Property="FontFamily" Value="Roboto" />
+                        <Setter Property="FontSize" Value="16" />
+
+
+                        <Setter Property="Background" Value="MediumPurple" />
+                        <Setter Property="Foreground" Value="White" />
+                    </Style>
+
+
+                    <!--  DataGridRow  -->
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Height" Value="40" />
+                        <Setter Property="FontSize" Value="16" />
+
+
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Lavender" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="MediumPurple" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+                        </Style.Resources>
+                    </Style>
+
+                    <!--  DataGridCell  -->
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Style.Resources>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                </Style.Resources>
+            </Style>
+
+
+            <!--  SIDE PANEL DATA GRID Row  -->
+            <Style
+                x:Key="SidePanelDataGridRow"
+                BasedOn="{StaticResource MaterialDesignDataGridRow}"
+                TargetType="DataGridRow">
+                <Setter Property="Height" Value="40" />
+                <Setter Property="FontSize" Value="16" />
+
+
+                <Style.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Lavender" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="MediumPurple" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+                </Style.Resources>
+            </Style>
+
+
+            <!--  DATA GRID BUTTON THAT IS VISIBLE ONLY ON ROW HOVER  -->
+            <Style
+                x:Key="DataGridButtonVisibleOnRowHover"
+                BasedOn="{StaticResource MaterialDesignRaisedButton}"
+                TargetType="Button">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=IsMouseOver}" Value="True">
+                        <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

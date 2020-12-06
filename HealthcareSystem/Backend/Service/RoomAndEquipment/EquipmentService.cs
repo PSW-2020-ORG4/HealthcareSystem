@@ -35,9 +35,9 @@ namespace Service.RoomAndEquipment
             return _equipmentRepository.SetEquipment(equipment);
         }
 
-        public bool DeleteEquipment(int id)
+        public void DeleteEquipment(int id)
         {
-            return _equipmentRepository.DeleteEquipment(id);
+             _equipmentRepository.DeleteEquipment(id);
         }
 
         public List<Equipment> GetEquipmentWithRoomForSearchTerm(string searchTerm)

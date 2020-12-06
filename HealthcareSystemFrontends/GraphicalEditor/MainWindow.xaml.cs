@@ -37,6 +37,7 @@ namespace GraphicalEditor
         public static Canvas _canvas;
         private MapObjectController _mapObjectController;
         public static List<MapObject> _allMapObjects;
+        public static List<MapObjectType> _allMapObjectTypes;
         private string _currentUserRole;
 
 
@@ -116,10 +117,24 @@ namespace GraphicalEditor
             }
         }
 
+        public List<MapObjectType> AllMapObjectTypes
+        {
+            get
+            {
+                return _allMapObjectTypes;
+            }
+            set
+            {
+                _allMapObjectTypes = value;
+                OnPropertyChanged("AllMapObjectTypes");
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = this;
+            AllMapObjectTypes = MapObjectType.AllMapObjectTypesAvailableForSearch;
             _canvas = this.Canvas;
             _fileRepository = new FileRepository("test.json");
             _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
@@ -130,13 +145,13 @@ namespace GraphicalEditor
             ChangeEditButtonVisibility();
 
             // uncomment only when you want to save the map for the first time
-            saveMap();
+            //saveMap();
 
             LoadInitialMapOnCanvas();
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            //initializeDatabaseData.InitiliazeData();
+            initializeDatabaseData.InitiliazeData();
 
             EquipementService equipementService = new EquipementService();
             /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
@@ -153,6 +168,7 @@ namespace GraphicalEditor
         {
             InitializeComponent();
             this.DataContext = this;
+            AllMapObjectTypes = MapObjectType.AllMapObjectTypesAvailableForSearch;
             _currentUserRole = currentUserRole;
             _canvas = this.Canvas;
             _fileRepository = new FileRepository("test.json");
@@ -473,6 +489,31 @@ namespace GraphicalEditor
                     IsMenuOpened = false;
                     break;
             }
+        }
+
+        private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchMapObjectsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowEquipmentSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowMedicineSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

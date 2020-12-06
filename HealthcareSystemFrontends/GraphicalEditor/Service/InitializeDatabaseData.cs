@@ -1,5 +1,6 @@
 ﻿using Backend.Model.Manager;
 using GraphicalEditor.Models;
+using GraphicalEditor.Models.Drugs;
 using GraphicalEditor.Models.Equipment;
 using System;
 using System.Collections.Generic;
@@ -10,21 +11,26 @@ namespace GraphicalEditor.Service
     {
         private RoomService _roomService;
         private EquipementService _equipementService;
-
-        EquipmentTypeService _equipmentTypeService;
+        private EquipmentTypeService _equipmentTypeService;
+        private DrugService _drugService;
+        private DrugTypeService _drugTypeService;
 
         public InitializeDatabaseData()
         {
             _roomService = new RoomService();
             _equipementService = new EquipementService();
             _equipmentTypeService = new EquipmentTypeService();
+            _drugService = new DrugService();
+            _drugTypeService = new DrugTypeService();
         }
 
         public void InitiliazeData()
         {
-            AddRooms();
-            AddEquipmentTypes();
-            AddEquipment();
+          //  AddRooms();
+         //   AddEquipmentTypes();
+        //    AddEquipment();
+          //  AddDrugTypes();
+            AddDrugs();
         }
 
 
@@ -73,6 +79,39 @@ namespace GraphicalEditor.Service
                 }
             }
         }
+
+        public void AddDrugTypes()
+        {
+            _drugTypeService.AddDrugType(new DrugType("tableta", "lek za glavu"));
+            _drugTypeService.AddDrugType(new DrugType("tableta", "lek za temperaturu"));
+
+        }
+
+        public void AddDrugs()
+        {
+            List<MapObject> allMapObjects = MainWindow._allMapObjects;
+
+            int i = 0;
+            var types = _drugTypeService.GetDrugTypes();
+            if (types.Count == 0)
+            {
+                return;
+            }
+            foreach (MapObject mapObject in allMapObjects)
+            {
+                if (mapObject.CheckIfDBAddableRoom())
+                {
+                    i++;
+                    Drug drug1 = new Drug(types[0], "Brufen", 20, DateTime.Now.AddDays(365), "Hemofram");
+                    Drug drug2 = new Drug(types[1], "Metafeks", 10, DateTime.Now.AddDays(365), "Hemofram");
+                    drug1.Id = Int32.Parse(_drugService.AddDrug(drug1));
+                    drug2.Id = Int32.Parse(_drugService.AddDrug(drug2));
+                    _drugService.AddDrugToRoom(mapObject, drug1);
+                    _drugService.AddDrugToRoom(mapObject, drug2);
+                }
+            }
+        }
+
     }
 }
 

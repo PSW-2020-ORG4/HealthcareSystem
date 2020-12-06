@@ -14,9 +14,10 @@ namespace Backend.Repository.RoomRepository
         Room GetRoomByNumber(int number);
         List<Room> GetRoomsByUsage(TypeOfUsage usage);
         List<Room> GetAllRooms();
+        List<Room> GetRoomsByUsageAndEquipment(TypeOfUsage usage, ICollection<int> equipmentTypeIds);
         void UpdateRoom(Room room);
         void DeleteRoom(int number);
         void AddRoom(Room room);
-
+        bool CheckIfRoomExists(int roomId);
     }
 }

@@ -68,7 +68,10 @@ namespace Service.RoomAndEquipment
         public List<Equipment> GetEquipmentByRoomNumber(int roomNumber)
         {
             List<EquipmentInRooms> equipmentInRooms = _equipmentInRoomRepository.GetEquipmentInRoomsByRoomNumber(roomNumber);
-
+            if (equipmentInRooms == null) 
+            {
+                return null;
+            }
             List<Equipment> equipment = new List<Equipment>();
             foreach (var e in equipmentInRooms)
             {

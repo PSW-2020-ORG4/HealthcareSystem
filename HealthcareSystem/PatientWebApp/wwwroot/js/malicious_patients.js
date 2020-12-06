@@ -44,7 +44,6 @@ function blockPatient(patientJmbg) {
         type: "PUT",
         url: "/api/patient/blocked/" + patientJmbg,
         success: function () {
-            alert("You have successfully blocked the patient.");
             console.log('You have successfully blocked the patient.');
             setTimeout(function () {
                 location.reload();

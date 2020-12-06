@@ -45,7 +45,7 @@ namespace GraphicalEditorServer.Controllers
             try
             {
                 List<Equipment> equipmentsInRoom = _equipmentService.GetEquipmentByRoomNumber(roomNumber);
-                if (equipmentsInRoom == null) {
+                if (equipmentsInRoom.Count==0) {
                     return NotFound("NotFound");
                 }
                 return Ok(equipmentsInRoom);

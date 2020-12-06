@@ -5,21 +5,16 @@ using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {
-    public class CreateEquipmentType : ICreateTestObjectFactory<EquipmentType>
+    public class CreateEquipmentType 
     {
         public EquipmentType CreateInvalidTestObject()
         {
-            return new EquipmentType("fsdafafas",false);
+            return null;
         }
 
         public EquipmentType CreateValidTestObject()
         {
             return new EquipmentType("table",true);
-        }
-
-        public EquipmentType CreateValidTestObject(int id)
-        {
-            return new EquipmentType("table", true);
         }
     }
 }

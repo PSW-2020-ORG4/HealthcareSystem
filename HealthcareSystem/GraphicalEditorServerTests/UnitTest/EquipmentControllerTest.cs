@@ -16,13 +16,13 @@ namespace GraphicalEditorServerTests.UnitTest
 {
     public class EquipmentControllerTest
     {
-        private readonly TestObjectFactory _objectFactory;
+        private readonly CreateEquipmentInRoom _createEquipmentInRoom;
         private readonly StubRepository _stubRepository;
         
         public EquipmentControllerTest()
         {
-            _objectFactory = new TestObjectFactory();
             _stubRepository = new StubRepository();
+            _createEquipmentInRoom = new CreateEquipmentInRoom();
         }
         private EquipmentController SetupEquipmentController()
         {
@@ -47,7 +47,7 @@ namespace GraphicalEditorServerTests.UnitTest
         {
             EquipmentController equipmentController = SetupEquipmentController();
 
-            EquipmentInRooms invalidEquipmentInRoom = _objectFactory.GetEquipmentInRooms().CreateInvalidTestObject();
+            EquipmentInRooms invalidEquipmentInRoom = _createEquipmentInRoom.CreateInvalidTestObject();
             IActionResult result = equipmentController.GetEquipmentByRoomNumber(invalidEquipmentInRoom.RoomNumber);
 
             Assert.True(result is NotFoundObjectResult);

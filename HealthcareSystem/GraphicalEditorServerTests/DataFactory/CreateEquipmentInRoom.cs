@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {
-    public class CreateEquipmentInRoom : ICreateTestObjectFactory<EquipmentInRooms>
+    public class CreateEquipmentInRoom
     {
         public EquipmentInRooms CreateInvalidTestObject()
         {

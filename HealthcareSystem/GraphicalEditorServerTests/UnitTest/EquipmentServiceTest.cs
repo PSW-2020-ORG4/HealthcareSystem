@@ -10,14 +10,15 @@ namespace GraphicalEditorServerTests.UnitTest
 {
     public class EquipmentServiceTest
     {
-        private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
+        private readonly CreateEquipmentInRoom _createEquipmentInRoom;
 
         public EquipmentServiceTest()
         {
-            _objectFactory = new TestObjectFactory();
             _stubRepository = new StubRepository();
+            _createEquipmentInRoom = new CreateEquipmentInRoom();
         }
+
         private EquipmentService SetupEquipmentService()
         {
             EquipmentService _equipmentService = new EquipmentService(_stubRepository.CreateEquipmentStubRepository(), _stubRepository.CreateEquipmentInRoomStubRepository());
@@ -35,9 +36,9 @@ namespace GraphicalEditorServerTests.UnitTest
         public void Get_existent_equipment_by_invalid_room_number()
         {
             EquipmentService equipmentService = SetupEquipmentService();
-            EquipmentInRooms invalidEquipmentInRoom = _objectFactory.GetEquipmentInRooms().CreateInvalidTestObject();
+            EquipmentInRooms invalidEquipmentInRoom = _createEquipmentInRoom.CreateInvalidTestObject();
             List<Equipment> equipment = equipmentService.GetEquipmentByRoomNumber(invalidEquipmentInRoom.RoomNumber);
-            Assert.Null(equipment);
+            Assert.Empty(equipment);
         }
     }
 }

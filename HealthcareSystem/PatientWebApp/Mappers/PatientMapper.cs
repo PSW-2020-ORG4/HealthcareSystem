@@ -67,6 +67,7 @@ namespace PatientWebApp.Adapters
             patientDto.Email = patient.Email;
             patientDto.Password = patient.Password;
             patientDto.ImageName = patient.ImageName;
+            patientDto.IsBlocked = patient.IsBlocked;
 
             return patientDto;
         }
@@ -90,7 +91,7 @@ namespace PatientWebApp.Adapters
             patient.Email = patientDTO.Email;
             patient.Username = patientDTO.Email;
             patient.Password = patientDTO.Password;
-            patient.IsGuest = false;
+            patient.IsBlocked = false;
             patient.IsActive = false;
             patient.ImageName = patientDTO.ImageName;
 

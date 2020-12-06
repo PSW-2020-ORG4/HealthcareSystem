@@ -1,5 +1,25 @@
 ﻿$(document).ready(function () {
 
+    let element_step_1 = '<label for="dateOfExam"><b>Date of examiantion</b></label>'
+        + '<input class="form-control" type = "date" placeholder = "Enter date of examination" name = "dateOfExam" id = "dateOfExam" required><br />'
+        + '<button class="btn btn-success" style="margin-left:200px;" id ="step_btn" onclick="step(1)">Next</button>';
+
+    $('div#div_schedule_exam').append(element_step_1);
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if (month < 10)
+        month = '0' + month.toString();
+    if (day < 10)
+        day = '0' + day.toString();
+
+    var minDate = year + '-' + month + '-' + day;
+
+    $('#dateOfExam').attr('min', minDate);
+
+
     $('#following_exam').prop("selected", true);
 
     let jmbg = "1309998775018";
@@ -84,6 +104,82 @@
     });
 
 });
+
+function step(id) {
+
+    $('#step_btn').click(function (event) {
+        $("#div_schedule_exam").empty();
+
+        event.preventDefault();
+        if (id == 1) {
+            let element_step_2 = '<label for="dateOfExam"><b>Specialty of doctor</b></label>'
+                + '<select class="form-control" required>'
+                + '<option value="previous">Kardiolog</option>'
+                + '<option value="cancelled">Plumolog</option></select><br />'
+                + '<button class="btn btn-warning" style ="margin-left:150px;" id ="step_previous_btn" onclick="step_previous(1)">Previous</button>'
+                + '<button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="step(2)">Next</button>';
+
+            $('div#div_schedule_exam').append(element_step_2);
+        }
+        if (id == 2) {
+            let element_step_3 = '<label for="dateOfExam"><b>Doctor</b></label>'
+                + '<select class="form-control" required>'
+                + '<option value="previous">Marko Markovic</option>'
+                + '<option value="cancelled">Darko Daric</option></select><br />'
+                + '<button class="btn btn-warning" style ="margin-left:150px;" id ="step_previous_btn" onclick="step_previous(2)">Previous</button>'
+                + '<button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="step(3)">Next</button>';
+
+            $('div#div_schedule_exam').append(element_step_3);
+        }
+        if (id == 3) {
+            let element_step_4 = '<label for="dateOfExam"><b>Available appointments</b></label>'   
+                + '</br><table border="1" style="background: #ccffcc;"><tr><td>12.12.2020 12:00</td><td>dr Marko Markovic</td><td><button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="scheduleExamination()">Schedule</button></td></tr></table><br />'
+                + '<button class="btn btn-warning" style ="margin-left:190px;" id ="step_previous_btn" onclick="step_previous(3)">Previous</button>';
+
+            $('div#div_schedule_exam').append(element_step_4);
+        }
+              
+    });
+};
+
+function step_previous(id) {
+
+    $('#step_previous_btn').click(function (event) {
+        $("#div_schedule_exam").empty();
+
+        event.preventDefault();
+        if (id == 1) {
+            let element_step_1 = '<label for="dateOfExam"><b>Date of examiantion</b></label>'
+                + '<input class="form-control" type = "date" placeholder = "Enter date of examination" name = "dateOfExam" id = "dateOfExam" required><br />'
+                + '<button class="btn btn-success" style="margin-left:200px;" id ="step_btn" onclick="step(1)">Next</button>';
+
+            $('div#div_schedule_exam').append(element_step_1);
+        }
+        if (id == 2) {
+            let element_step_2 = '<label for="dateOfExam"><b>Specialty of doctor</b></label>'
+                +'<select class="form-control" required>'
+                + '<option value="previous">Kardiolog</option>'
+                + '<option value="cancelled">Plumolog</option></select><br />'
+                + '<button class="btn btn-warning" style ="margin-left:150px;" id ="step_previous_btn" onclick="step_previous(1)">Previous</button>'
+                + '<button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="step(2)">Next</button>';
+
+            $('div#div_schedule_exam').append(element_step_2);
+        }
+        if (id == 3) {
+            let element_step_3 = '<label for="dateOfExam"><b>Doctor</b></label>'
+                + '<select class="form-control" required>'
+                + '<option value="previous">Marko Markovic</option>'
+                + '<option value="cancelled">Darko Daric</option></select><br />'
+                + '<button class="btn btn-warning" style ="margin-left:150px;" id ="step_previous_btn" onclick="step_previous(2)">Previous</button>'
+                + '<button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="step(3)">Next</button>';
+
+            $('div#div_schedule_exam').append(element_step_3);
+        }
+
+
+
+    });
+};
 
 
 function addExaminationRow(examination) {

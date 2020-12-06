@@ -9,16 +9,19 @@
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="../lib/jquery-ui-bootstrap/assets/css/bootstrap.min.css">
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href="../lib/mdbootstrap/css/mdb.min.css">
+    <link href="../lib/mdb/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../lib/mdb/css/mdb.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/style_for_patient_examinations.css">
+    
+
     <script src="../lib/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="../js/patient_examinations.js"></script>
+
     <title>Patient's appointments</title>
+
 </head>
 <body style="background-color: rgb(125, 208, 230);">
 
@@ -46,6 +49,21 @@
             </li>
         </ul>
     </nav>
+
+    <form id="new_examinations">
+        <table style="width: 50%; margin: auto; margin-top: 80px;">
+            <tr>
+                <td>
+                    <h5 style="text-align:center;">Do you want to schedule new examiantion?</h5>
+                </td>
+
+                <!-- New examiantion button -->
+                <td width="25%">
+                    <button data-toggle="modal" data-target="#centralModalSuccess" class="btn btn-success" type="submit">Schedule</button>
+                </td>
+            </tr>
+        </table>
+    </form>
 
     <!-- Search form -->
     <div id="search_div">
@@ -77,6 +95,42 @@
     <!-- Preview examinations -->
     <div class="container" id="div_examinations" style="margin-bottom:100px;">
     </div>
+
+    <!-- Central Modal Medium Success -->
+    <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+            <!--Content-->
+            <div class="modal-content step-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">Schedule examination</p>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div id="div_schedule_exam">
+
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Central Modal Medium Success-->
+
+    <script type="text/javascript" src="../lib/jquery-ui-bootstrap/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../lib/mdb/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/mdb/js/popper.min.js"></script>
+    <script type="text/javascript" src="../lib/mdb/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../lib/mdb/js/mdb.min.js"></script>
+
 
 </body>
 </html>

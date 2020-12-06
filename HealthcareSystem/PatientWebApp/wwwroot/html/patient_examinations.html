@@ -112,13 +112,32 @@
 
                 <!--Body-->
                 <div class="modal-body">
-                    <div id="div_schedule_exam">
-
-
+                    <div id="div_date">
+                        <label for="dateOfExam"><b>Date of examiantion</b></label>
+                        <input class="form-control" type="date" placeholder="Enter date of examination" name="dateOfExam" id="dateOfExam" required="true"><br />
+                        <button class="btn btn-success" style="margin-left:200px;" id="step_btn" onclick="step(1)">Next</button>
+                    </div>
+                    <div id="div_specialty" style="display:none">
+                        <label for="dateOfExam"><b>Specialty of doctor</b></label>
+                        <select class="form-control" id="specialty_name">
+                        </select><br />
+                        <button class="btn btn-warning" style="margin-left:130px;" id="step_previous_btn" onclick="step_previous(1)">Previous</button>
+                        <button class="btn btn-success" style="margin-left:20px;" id="step_btn" onclick="step(2)">Next</button>
+                    </div>
+                    <div id="div_doctor" style="display:none;">
+                        <label for="dateOfExam"><b>Doctor</b></label>
+                        <select class="form-control" id="doctor_name">
+                        </select><br />
+                        <button class="btn btn-warning" style="margin-left:130px;" id="step_previous_btn" onclick="step_previous(2)">Previous</button>
+                        <button class="btn btn-success" style="margin-left:20px;" id="step_btn" onclick="step(3)">Next</button>
+                    </div>
+                    <div id="div_appointments" style="display:none;">
+                        <label for="dateOfExam"><b>Available appointments</b></label>
+                        <select class="form-control" id="free_appointments">
+                        </select><br />
+                        <button class="btn btn-warning" style="margin-left:170px;" id="step_previous_btn" onclick="step_previous(3)">Previous</button>
                     </div>
                 </div>
-
-
             </div>
             <!--/.Content-->
         </div>

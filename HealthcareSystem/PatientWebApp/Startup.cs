@@ -41,6 +41,8 @@ using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
 using Backend.Service.UsersAndWorkingTime;
 using Backend.Repository.DrugInRoomRepository;
 using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
+using Backend.Repository.DoctorSpecialtyRepository;
+using Backend.Repository.DoctorSpecialtyRepository.MySqlDoctorSpecialtyRepository;
 
 namespace PatientWebApp
 {
@@ -77,6 +79,9 @@ namespace PatientWebApp
 
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
             services.AddScoped<IDoctorService, DoctorService>();
+
+            services.AddScoped<IDoctorSpecialtyRepository, MySqlDoctorSpecialtyRepository>();
+            services.AddScoped<IDoctorSpecialtyService, DoctorSpecialtyService>();
 
             services.AddScoped<ISurveyRepository, MySqlSurveyRepository>();
             services.AddScoped<ISurveyService, SurveyService>();

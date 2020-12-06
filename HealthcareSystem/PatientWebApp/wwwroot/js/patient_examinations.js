@@ -1,14 +1,9 @@
 ﻿$(document).ready(function () {
 
-    let element_step_1 = '<label for="dateOfExam"><b>Date of examiantion</b></label>'
-        + '<input class="form-control" type = "date" placeholder = "Enter date of examination" name = "dateOfExam" id = "dateOfExam" required><br />'
-        + '<button class="btn btn-success" style="margin-left:200px;" id ="step_btn" onclick="step(1)">Next</button>';
-
-    $('div#div_schedule_exam').append(element_step_1);
     var dtToday = new Date();
 
     var month = dtToday.getMonth() + 1;
-    var day = dtToday.getDate();
+    var day = dtToday.getDate() + 1;
     var year = dtToday.getFullYear();
     if (month < 10)
         month = '0' + month.toString();
@@ -17,8 +12,110 @@
 
     var minDate = year + '-' + month + '-' + day;
 
-    $('#dateOfExam').attr('min', minDate);
+    $('#dateOfExam').attr('min', minDate); 
 
+    $.ajax({
+        url: '/api/doctor/all-specialty',
+        type: 'GET',
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (specialtes) {
+            for (let s of specialtes) {        
+                let specialty = $('<option value="' + s.id + '">' + s.name + '</option>');
+                $('#specialty_name').append(specialty);              
+            }
+
+            let select_specialty = $('#specialty_name option:selected').val();
+          
+            $.ajax({
+                url: '/api/doctor/doctor-specialty/' + select_specialty,
+                type: 'GET',
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (doctorSpecialtes) {
+                    for (let ds of doctorSpecialtes) {
+
+                        let doctorJmbg = ds.doctorJmbg;
+
+                        $.ajax({
+                            url: '/api/doctor/' + doctorJmbg,
+                            type: 'GET',
+                            dataType: 'json',
+                            processData: false,
+                            contentType: false,
+                            success: function (doctor) {
+
+                                let doctorName = $('<option value="' + doctor.jmbg + '">' + doctor.name + ' ' + doctor.surname +'</option>');
+                                $('#doctor_name').append(doctorName);
+
+                            },
+                            error: function () {
+                                console.log("Error getting doctor")
+                            }
+                        });  
+
+                        let specialty = $('<option value="' + s.id + '">' + s.name + '</option>');
+                        $('#specialty_name').append(specialty);
+                    }
+
+                },
+                error: function () {
+                    console.log("Error getting doctors specialtes")
+                }
+            });  
+        },
+        error: function () {
+            console.log("Error getting specialtes")
+        }
+    });  
+
+    $('#specialty_name').change(function () {
+
+        var select = document.getElementById("doctor_name");
+        var length = select.options.length;
+        for (i = length - 1; i >= 0; i--) {
+            select.options[i] = null;
+        }
+
+        let select_specialty = $('#specialty_name option:selected').val();
+        alert(select_specialty);
+
+        $.ajax({
+            url: '/api/doctor/doctor-specialty/' + select_specialty,
+            type: 'GET',
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function (doctorSpecialtes) {
+                for (let ds of doctorSpecialtes) {
+                    let doctorJmbg = ds.doctorJmbg;
+                    alert(doctorJmbg);
+
+                    $.ajax({
+                        url: '/api/doctor/' + doctorJmbg,
+                        type: 'GET',
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false,
+                        success: function (doctor) {
+                            let doctorName = $('<option value="' + doctor.jmbg + '">' + doctor.name + ' ' + doctor.surname + '</option>');
+                            $('#doctor_name').append(doctorName);
+
+                        },
+                        error: function () {
+                            console.log("Error getting doctor")
+                        }
+                    });
+                }
+
+            },
+            error: function () {
+                console.log("Error getting doctors specialtes")
+            }
+        }); 
+    });
 
     $('#following_exam').prop("selected", true);
 
@@ -107,80 +204,46 @@
 
 function step(id) {
 
-    $('#step_btn').click(function (event) {
-        $("#div_schedule_exam").empty();
-
-        event.preventDefault();
         if (id == 1) {
-            let element_step_2 = '<label for="dateOfExam"><b>Specialty of doctor</b></label>'
-                + '<select class="form-control" required>'
-                + '<option value="previous">Kardiolog</option>'
-                + '<option value="cancelled">Plumolog</option></select><br />'
-                + '<button class="btn btn-warning" style ="margin-left:150px;" id ="step_previous_btn" onclick="step_previous(1)">Previous</button>'
-                + '<button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="step(2)">Next</button>';
-
-            $('div#div_schedule_exam').append(element_step_2);
+            document.getElementById("div_date").style.display = "none";
+            document.getElementById("div_specialty").style.display = "initial";
         }
         if (id == 2) {
-            let element_step_3 = '<label for="dateOfExam"><b>Doctor</b></label>'
-                + '<select class="form-control" required>'
-                + '<option value="previous">Marko Markovic</option>'
-                + '<option value="cancelled">Darko Daric</option></select><br />'
-                + '<button class="btn btn-warning" style ="margin-left:150px;" id ="step_previous_btn" onclick="step_previous(2)">Previous</button>'
-                + '<button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="step(3)">Next</button>';
-
-            $('div#div_schedule_exam').append(element_step_3);
+            document.getElementById("div_specialty").style.display = "none";
+            document.getElementById("div_doctor").style.display = "initial";
         }
         if (id == 3) {
-            let element_step_4 = '<label for="dateOfExam"><b>Available appointments</b></label>'   
-                + '</br><table border="1" style="background: #ccffcc;"><tr><td>12.12.2020 12:00</td><td>dr Marko Markovic</td><td><button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="scheduleExamination()">Schedule</button></td></tr></table><br />'
-                + '<button class="btn btn-warning" style ="margin-left:190px;" id ="step_previous_btn" onclick="step_previous(3)">Previous</button>';
-
-            $('div#div_schedule_exam').append(element_step_4);
+            document.getElementById("div_doctor").style.display = "none";
+            document.getElementById("div_appointments").style.display = "initial";
+            //to do call ajax get(get free appiontments)
         }
-              
-    });
+     
 };
 
 function step_previous(id) {
 
-    $('#step_previous_btn').click(function (event) {
-        $("#div_schedule_exam").empty();
-
-        event.preventDefault();
         if (id == 1) {
-            let element_step_1 = '<label for="dateOfExam"><b>Date of examiantion</b></label>'
-                + '<input class="form-control" type = "date" placeholder = "Enter date of examination" name = "dateOfExam" id = "dateOfExam" required><br />'
-                + '<button class="btn btn-success" style="margin-left:200px;" id ="step_btn" onclick="step(1)">Next</button>';
-
-            $('div#div_schedule_exam').append(element_step_1);
+            document.getElementById("div_date").style.display = "initial";
+            document.getElementById("div_specialty").style.display = "none";
         }
         if (id == 2) {
-            let element_step_2 = '<label for="dateOfExam"><b>Specialty of doctor</b></label>'
-                +'<select class="form-control" required>'
-                + '<option value="previous">Kardiolog</option>'
-                + '<option value="cancelled">Plumolog</option></select><br />'
-                + '<button class="btn btn-warning" style ="margin-left:150px;" id ="step_previous_btn" onclick="step_previous(1)">Previous</button>'
-                + '<button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="step(2)">Next</button>';
-
-            $('div#div_schedule_exam').append(element_step_2);
+            document.getElementById("div_specialty").style.display = "initial";
+            document.getElementById("div_doctor").style.display = "none";
         }
         if (id == 3) {
-            let element_step_3 = '<label for="dateOfExam"><b>Doctor</b></label>'
-                + '<select class="form-control" required>'
-                + '<option value="previous">Marko Markovic</option>'
-                + '<option value="cancelled">Darko Daric</option></select><br />'
-                + '<button class="btn btn-warning" style ="margin-left:150px;" id ="step_previous_btn" onclick="step_previous(2)">Previous</button>'
-                + '<button class="btn btn-success" style="margin-left:20px;" id ="step_btn" onclick="step(3)">Next</button>';
-
-            $('div#div_schedule_exam').append(element_step_3);
+            document.getElementById("div_doctor").style.display = "initial";
+            document.getElementById("div_appointments").style.display = "none";
         }
 
-
-
-    });
 };
 
+function scheduleExamination() {
+
+    let date = $('#dateOfExam').val();  
+    let specialty = $('#specialty_name option:selected').val();
+    let doctor = $('#doctor_name option:selected').val();
+    //to do call ajax post(add examiantion)
+};
 
 function addExaminationRow(examination) {
 

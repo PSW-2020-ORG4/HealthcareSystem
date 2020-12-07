@@ -198,6 +198,10 @@
         }
     });
 
+    $('#btn_close').click(function () {
+        location.reload();
+    });
+
 });
 
 function step(id) {

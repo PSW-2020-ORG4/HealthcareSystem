@@ -185,11 +185,35 @@ namespace PatientWebApp.Controllers
             }
             catch (NotFoundException exception)
             {
-                return NotFound(exception.Message);
+                return BadRequest(exception.Message);
             }
             catch (DatabaseException e)
             {
                 return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// /adding new examination to database
+        /// </summary>
+        /// <param name="examinationDTO">an object to be added to the database</param>
+        /// <returns>if alright returns code 201(Created), if validation isn't successful return 400, if connection lost returns 500</returns>
+        [HttpPost]
+        public IActionResult AddExamination(ExaminationDTO examinationDTO)
+        {
+            try
+            {
+                _examinationValidator.ValidateExaminationFields(examinationDTO);
+                _examinationService.AddExamination(ExaminationMapper.ExaminationDTOToExamination(examinationDTO));
+                return StatusCode(201);
+            }
+            catch(ValidationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
             }
         }
 

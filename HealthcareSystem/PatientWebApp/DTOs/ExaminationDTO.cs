@@ -18,14 +18,13 @@ namespace PatientWebApp.DTOs
         public int IdRoom { get; set; }
         public string Anamnesis { get; set; }
         public string PatientJmbg { get; set; }
+        public int PatientCardId { get; set; }
         public ExaminationStatus ExaminationStatus { get; set; }
         public bool IsSurveyCompleted { get; set; }
 
-        public ExaminationDTO()
-        {
-        }
+        public ExaminationDTO() { }
         public ExaminationDTO(int id,string type,string dateAndTime,string doctorJmbg,string doctorName,string doctorSurname,
-            int idRoom,string anamnesis,string patientJmbg, bool isSurveyCompleted = false) {
+            int idRoom,string anamnesis,string patientJmbg,int patientCardId, bool isSurveyCompleted = false) {
 
             Id = id;
             Type = type;
@@ -36,6 +35,7 @@ namespace PatientWebApp.DTOs
             IdRoom = idRoom;
             Anamnesis = anamnesis;
             PatientJmbg = patientJmbg;
+            PatientCardId = patientCardId;
             ExaminationStatus = ExaminationStatus.CREATED;
             IsSurveyCompleted = isSurveyCompleted;
         }

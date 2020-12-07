@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
 
+    var newAppointments = [];
+
     var dtToday = new Date();
 
     var month = dtToday.getMonth() + 1;
@@ -56,8 +58,6 @@
                             }
                         });  
 
-                        let specialty = $('<option value="' + s.id + '">' + s.name + '</option>');
-                        $('#specialty_name').append(specialty);
                     }
 
                 },
@@ -80,7 +80,6 @@
         }
 
         let select_specialty = $('#specialty_name option:selected').val();
-        alert(select_specialty);
 
         $.ajax({
             url: '/api/doctor/doctor-specialty/' + select_specialty,
@@ -91,7 +90,6 @@
             success: function (doctorSpecialtes) {
                 for (let ds of doctorSpecialtes) {
                     let doctorJmbg = ds.doctorJmbg;
-                    alert(doctorJmbg);
 
                     $.ajax({
                         url: '/api/doctor/' + doctorJmbg,
@@ -213,9 +211,47 @@ function step(id) {
             document.getElementById("div_doctor").style.display = "initial";
         }
         if (id == 3) {
+
+            var select = document.getElementById("free_appointments");
+            var length = select.options.length;
+            for (i = length - 1; i >= 0; i--) {
+                select.options[i] = null;
+            }
+
+            let date = $('#dateOfExam').val();
+            let doctorJmbg = $('#doctor_name option:selected').val();
+           
+            var newData = {
+                "PatientCardId": 1,
+                "DoctorJmbg": doctorJmbg,
+                "RequiredEquipmentTypes": [],
+                "EarliestDateTime": date,
+                "LatestDateTime": date
+            };
+
+            var i = 0;
+            $.ajax({
+                url: "/api/appointment/basic-search",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(newData),
+                success: function (appointments) {
+                    newAppointments = appointments;
+                    for (let a of appointments) {
+                        let appointment = $('<option value="' + i + '">' + a.dateAndTime + '</option>');
+                        $('#free_appointments').append(appointment);
+                        i = i + 1;
+                    }
+
+                },
+                error: function (jqXHR) {
+
+                    alert(jqXHR.responseText);
+                }
+            });
+
             document.getElementById("div_doctor").style.display = "none";
             document.getElementById("div_appointments").style.display = "initial";
-            //to do call ajax get(get free appiontments)
         }
      
 };
@@ -239,10 +275,39 @@ function step_previous(id) {
 
 function scheduleExamination() {
 
-    let date = $('#dateOfExam').val();  
-    let specialty = $('#specialty_name option:selected').val();
-    let doctor = $('#doctor_name option:selected').val();
-    //to do call ajax post(add examiantion)
+    let doctorJmbg = $('#doctor_name option:selected').val();
+    let a = $('#free_appointments option:selected').val();
+
+    var appointment = newAppointments[a];
+    var newData = {
+        "Type": appointment.type,
+        "DateAndTime": appointment.dateAndTime,
+        "DoctorJmbg": doctorJmbg,
+        "IdRoom": appointment.idRoom,
+        "Anamnesis": "",
+        "PatientCardId": appointment.patientCardId,
+        "PatientJmbg": "1309998775018",
+        "ExaminationStatus": 0,
+        "IsSurveyCompleted": false
+    };
+
+    $.ajax({
+        url: "/api/examination",
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(newData),
+        success: function () {
+
+            setTimeout(function () {
+                window.location.href = 'patient_examinations.html';
+            }, 2000);
+
+        },
+        error: function (jqXHR) {
+
+            alert(jqXHR.responseText);
+        }
+    });
 };
 
 function addExaminationRow(examination) {

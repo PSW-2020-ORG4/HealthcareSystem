@@ -12,6 +12,15 @@ namespace Backend.Model.DTO
         public DateTime EarliestDateTime { get; set; }
         public DateTime LatestDateTime { get; set; }
 
+        public BasicAppointmentSearchDTO(int patientCardId, string doctorJmbg, ICollection<int> requiredEquipmentTypes, DateTime earliestDateTime, DateTime latestDateTime)
+        {
+            PatientCardId = patientCardId;
+            DoctorJmbg = doctorJmbg;
+            RequiredEquipmentTypes = requiredEquipmentTypes;
+            EarliestDateTime = earliestDateTime;
+            LatestDateTime = latestDateTime;
+        }
+
         public void IsAppointmentValid()
         {
             if (string.IsNullOrEmpty(DoctorJmbg))

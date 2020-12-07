@@ -86,5 +86,17 @@ namespace Backend.Service
             }
             return result;
         }
+
+        public void BlockPatient(string jmbg)
+        {
+            Patient patient = GetPatientByJmbg(jmbg);
+            patient.IsBlocked = true;
+            _activePatientRepository.UpdatePatient(patient);
+        }
+
+        public Patient GetPatientByJmbg(string jmbg)
+        {
+            return _activePatientRepository.GetPatientByJmbg(jmbg);
+        }
     }
 }

@@ -175,5 +175,24 @@ namespace PatientWebApp.Controllers
             }
         }
 
+
+        [HttpPut("blocked/{jmbg}")]
+        public ActionResult BlockPatient(string jmbg)
+        {
+            try
+            {
+                _patientService.BlockPatient(jmbg);
+                return Ok();
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
+
+        }
     }
 }

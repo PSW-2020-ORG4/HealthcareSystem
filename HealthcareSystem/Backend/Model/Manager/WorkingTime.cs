@@ -21,7 +21,6 @@ namespace Model.Manager
         public WorkShifts WorkShift { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
         public WorkingTime() { }
 
         public WorkingTime(Users.Doctor doctor, WorkShifts workShift, DateTime start, DateTime end)

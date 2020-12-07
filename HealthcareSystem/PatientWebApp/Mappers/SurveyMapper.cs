@@ -24,6 +24,7 @@ namespace PatientWebApp.Mappers
             surveyAboutHospital.Cleanliness = dto.Cleanliness;
             surveyAboutHospital.OverallRating = dto.OverallRating;
             surveyAboutHospital.SatisfiedWithDrugAndInstrument = dto.SatisfiedWithDrugAndInstrument;
+            surveyAboutHospital.ExaminationId = dto.ExaminationId;
             return surveyAboutHospital;
         }
 
@@ -34,6 +35,7 @@ namespace PatientWebApp.Mappers
             surveyAboutMedicalStaff.MedicalStaffProfessionalism = dto.MedicalStaffProfessionalism;
             surveyAboutMedicalStaff.GettingAdviceByMedicalStaff = dto.GettingAdviceByMedicalStaff;
             surveyAboutMedicalStaff.EaseInObtainingFollowUpInformation = dto.EaseInObtainingFollowUpInformation;
+            surveyAboutMedicalStaff.ExaminationId = dto.ExaminationId;
             return surveyAboutMedicalStaff;
         }
 
@@ -44,7 +46,7 @@ namespace PatientWebApp.Mappers
             surveyAboutDoctor.DoctorProfessionalism = dto.DoctorProfessionalism;
             surveyAboutDoctor.GettingAdviceByDoctor = dto.GettingAdviceByDoctor;
             surveyAboutDoctor.AvailabilityOfDoctor = dto.AvailabilityOfDoctor;
-            surveyAboutDoctor.DoctorJmbg = dto.DoctorJmbg;
+            surveyAboutDoctor.ExaminationId = dto.ExaminationId;
             return surveyAboutDoctor;
         }
     }

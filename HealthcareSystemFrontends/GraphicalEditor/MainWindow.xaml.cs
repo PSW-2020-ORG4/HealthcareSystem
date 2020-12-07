@@ -2,11 +2,13 @@
 using GraphicalEditor.Controllers;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
+using GraphicalEditor.Models.Equipment;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Service;
 using GraphicalEditor.Services;
 using GraphicalEditor.Services.Interface;
+using GraphicalEditorServer.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +37,7 @@ namespace GraphicalEditor
         public static Canvas _canvas;
         private MapObjectController _mapObjectController;
         public static List<MapObject> _allMapObjects;
+        public static List<MapObjectType> _allMapObjectTypes;
         private string _currentUserRole;
 
 
@@ -114,10 +117,24 @@ namespace GraphicalEditor
             }
         }
 
+        public List<MapObjectType> AllMapObjectTypes
+        {
+            get
+            {
+                return _allMapObjectTypes;
+            }
+            set
+            {
+                _allMapObjectTypes = value;
+                OnPropertyChanged("AllMapObjectTypes");
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = this;
+            AllMapObjectTypes = MapObjectType.AllMapObjectTypesAvailableForSearch;
             _canvas = this.Canvas;
             _fileRepository = new FileRepository("test.json");
             _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
@@ -131,18 +148,27 @@ namespace GraphicalEditor
             //saveMap();
 
             LoadInitialMapOnCanvas();
-
             // uncomment only the first time you start the project in order
             // to populate DB with start data
-            //InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            //initializeDatabaseData.InitiliazeData();
+            InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
+            initializeDatabaseData.InitiliazeData();
 
+            EquipementService equipementService = new EquipementService();
+            /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
+            foreach(EquipmentWithRoomDTO res in result)
+            {
+                Console.WriteLine(res.IdEquipment);
+                Console.WriteLine(res.RoomNumber);
+                Console.WriteLine("---");
+            }*/
+            
         }
 
         public MainWindow(string currentUserRole)
         {
             InitializeComponent();
             this.DataContext = this;
+            AllMapObjectTypes = MapObjectType.AllMapObjectTypesAvailableForSearch;
             _currentUserRole = currentUserRole;
             _canvas = this.Canvas;
             _fileRepository = new FileRepository("test.json");
@@ -300,8 +326,7 @@ namespace GraphicalEditor
                 DisplayMapObject = _selectedMapObject.MapObjectEntity;
                 SelectedMapObject = _selectedMapObject;
                 //these properties we will need to map on our graphicalEditorWPF
-                var consumableEquipmentForSelectedObject = SelectedMapObject.GetConsumableEquipmentByRoomNumber();
-                var nonConsumableEquipmentForSelectedObject = SelectedMapObject.GetNonConsumableEquipmentByRoomNumber();
+                var equipment = SelectedMapObject.GetEquipmentByRoomNumber();
             }
             else
             {
@@ -464,6 +489,31 @@ namespace GraphicalEditor
                     IsMenuOpened = false;
                     break;
             }
+        }
+
+        private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchMapObjectsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowEquipmentSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowMedicineSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

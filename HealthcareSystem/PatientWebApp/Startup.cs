@@ -36,6 +36,11 @@ using Microsoft.AspNetCore.Http;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Repository.TherapyRepository;
 using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
+using Backend.Repository.SpecialtyRepository;
+using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
+using Backend.Service.UsersAndWorkingTime;
+using Backend.Repository.DrugInRoomRepository;
+using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
 
 namespace PatientWebApp
 {
@@ -61,6 +66,9 @@ namespace PatientWebApp
             services.AddScoped<ICityRepository, MySqlCityRepository>();
             services.AddScoped<ICityService, CityService>();
 
+            services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
+            services.AddScoped<ISpecialtyService, SpecialtyService>();
+
             services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();       
             services.AddScoped<IFeedbackService, FeedbackService>();
 
@@ -78,6 +86,7 @@ namespace PatientWebApp
 
             services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
             services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
+            services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
             services.AddScoped<IDrugService, DrugService>();
 
             services.AddScoped<IDrugTypeRepository, MySqlDrugTypeRepository>();
@@ -88,7 +97,7 @@ namespace PatientWebApp
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRoomService, RoomService>();
 
-            services.AddScoped<IScheduledExaminationRepository, MySqlScheduledExaminationRepository>();
+            services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
             services.AddScoped<IExaminationService, ExaminationService>();
 
             services.AddScoped<ITherapyRepository, MySqlTherapyRepository>();
@@ -97,6 +106,8 @@ namespace PatientWebApp
             //placement dodati
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
+
+            services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 

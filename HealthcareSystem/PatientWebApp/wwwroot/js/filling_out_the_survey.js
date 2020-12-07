@@ -1,26 +1,18 @@
-﻿$(document).ready(function () {
+﻿var params = (new URL(window.location.href)).searchParams;
+var id = params.get("id");
 
-	var jmbg = "1309998775018";
+$(document).ready(function () {
 
 	$.ajax({
-		url: '/api/examination/' + jmbg,
+		url: '/api/examination/' + id,
 		type: "GET",
 		dataType: 'json',
 		processData: false,
 		contentType: false,
-		success: function (examinations) {
-			console.log('success - loading examinations from database');
-			if (examinations.length == 0) {
-				alert("There is no examinations for patient in the database");
-				setTimeout(function () {
-					window.location.href = 'patients_home_page.html';
-				}, 1000);
-			}
-			else {
-				let last_examination = examinations[examinations.length - 1];
+		success: function (examination) {
+			console.log('success - loading examination from database');
 
-				var jmbgDoctor = last_examination.doctorJmbg;
-				$('p#doctor_name_and_surname').append(' ' + last_examination.doctorName + ' ' + last_examination.doctorSurname);
+				$('p#doctor_name_and_surname').append(' ' + examination.doctorName + ' ' + examination.doctorSurname);
 
 				$('#survey_form').submit(function (event) {
 
@@ -42,7 +34,6 @@
 					var satisfiedWithDrugAndInstrument = parseInt($('input[name=gradeSatisfiedWithDrugAndInstrument]:checked').val());
 
 					var newSurvey = {
-						"DoctorJmbg": jmbgDoctor,
 						"BehaviorOfDoctor": behaviorOfDoctor,
 						"DoctorProfessionalism": doctorProfessionalism,
 						"GettingAdviceByDoctor": gettingAdviceByDoctor,
@@ -54,7 +45,8 @@
 						"Nursing": nursing,
 						"Cleanliness": cleanliness,
 						"OverallRating": overallRating,
-						"SatisfiedWithDrugAndInstrument": satisfiedWithDrugAndInstrument
+						"SatisfiedWithDrugAndInstrument": satisfiedWithDrugAndInstrument,
+						"ExaminationId": examination.id
 					};
 
 					$.ajax({
@@ -64,25 +56,25 @@
 						data: JSON.stringify(newSurvey),
 						success: function () {
 							alert("success");
+
 							setTimeout(function () {
 								window.location.href = 'patients_home_page.html';
-							}, 2000);
+							}, 1000);
 						},
 						error: function (jqXHR) {
 							alert(jqXHR.responseText);
 						}
 					});
-
 				});
-			}
+			
 		},
 		error: function () {
-			alert("error getting doctor");
-			console.log('error getting doctor');
+			alert('error getting examination');
+			console.log('error getting examination');
 			setTimeout(function () {
 				window.location.href = 'patients_home_page.html';
-			}, 2000);
+			}, 1500);
 		}
 	});
-
 });
+

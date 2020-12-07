@@ -73,5 +73,30 @@ namespace Backend.Service
             patient.ImageName = imageName;
             _activePatientRepository.UpdatePatient(patient);
         }
+        public List<Patient> ViewMaliciousPatients()
+        {
+            List<Patient> patients = _activePatientRepository.GetAllPatients();
+            List<Patient> result = new List<Patient>();
+            foreach (Patient patient in patients)
+            {
+                if (_activePatientRepository.GetNumberOfCanceledExaminations(patient.Jmbg) >= 3)
+                {
+                    result.Add(patient);
+                }
+            }
+            return result;
+        }
+
+        public void BlockPatient(string jmbg)
+        {
+            Patient patient = GetPatientByJmbg(jmbg);
+            patient.IsBlocked = true;
+            _activePatientRepository.UpdatePatient(patient);
+        }
+
+        public Patient GetPatientByJmbg(string jmbg)
+        {
+            return _activePatientRepository.GetPatientByJmbg(jmbg);
+        }
     }
 }

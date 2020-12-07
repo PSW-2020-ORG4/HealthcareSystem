@@ -7,24 +7,19 @@
 
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
-using Backend.Service;
 using Backend.Service.PlacementInARoomAndRenovationPeriod;
-using Controller.PlacementInARoomAndRenovationPeriod;
-using Model;
 using Model.Manager;
 using Model.PerformingExamination;
 using Repository;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Service.PlacementInARoomAndRenovationPeriod
 {
     public class RenovationPeriodService : IRenovationPeriodService
     {
         private IRenovationPeriodRepository _renovationPeriodRepository;
-        private IScheduledExaminationRepository _scheduledExaminationRepository;
-        public RenovationPeriodService(IRenovationPeriodRepository renovationPeriodRepository, IScheduledExaminationRepository scheduledExaminationRepository)
+        private IExaminationRepository _scheduledExaminationRepository;
+        public RenovationPeriodService(IRenovationPeriodRepository renovationPeriodRepository, IExaminationRepository scheduledExaminationRepository)
         {
             _renovationPeriodRepository = renovationPeriodRepository;
             _scheduledExaminationRepository = scheduledExaminationRepository;

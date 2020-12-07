@@ -10,6 +10,7 @@ using Xunit;
 using Service.NotificationSurveyAndFeedback;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Model;
+using Service.ExaminationAndPatientCard;
 
 namespace PatientWebAppTests.UnitTests
 {
@@ -27,8 +28,9 @@ namespace PatientWebAppTests.UnitTests
         private SurveyController SetupSurveyController()
         {
             SurveyService surveyService = new SurveyService(_stubRepository.CreateSurveyStubRepository());
+            ExaminationService examinationService = new ExaminationService(_stubRepository.CreateExaminationStubRepository());
 
-            SurveyController surveyController = new SurveyController(surveyService);
+            SurveyController surveyController = new SurveyController(surveyService, examinationService);
 
             return surveyController;
         }

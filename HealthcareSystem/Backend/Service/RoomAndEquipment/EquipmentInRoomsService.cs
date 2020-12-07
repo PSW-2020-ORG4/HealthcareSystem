@@ -17,52 +17,32 @@ namespace Service.RoomAndEquipment
 {
     public class EquipmentInRoomsService : IEquipmentInRoomsService
     {
-        public EquipmentInRoomsRepository equipmentInRoomsRepository = new EquipmentInRoomsRepository();
-
         private IEquipmentInRoomsRepository _equipmentInRoomsRepository;
-        private IConsumableEquipmentService _consumableEquipmentService;
-        private INonConsumableEquipmentService _nonConsumableEquipmentService;
-        public EquipmentInRoomsService(IEquipmentInRoomsRepository equipmentInRoomsRepository, IConsumableEquipmentService consumableEquipmentService, INonConsumableEquipmentService nonConsumableEquipmentService)
+        private IEquipmentService _equipmentService;
+        public EquipmentInRoomsService(IEquipmentInRoomsRepository equipmentInRoomsRepository, IEquipmentService equipmentService)
         {
             _equipmentInRoomsRepository = equipmentInRoomsRepository;
-            _consumableEquipmentService = consumableEquipmentService;
-            _nonConsumableEquipmentService = nonConsumableEquipmentService;
+            _equipmentService = equipmentService;
 
         }
-        public Model.Manager.EquipmentInRooms addEquipmentInRoom(Model.Manager.EquipmentInRooms equipment)
+        public EquipmentInRooms AddEquipmentInRoom(EquipmentInRooms equipment)
         {
-            return _equipmentInRoomsRepository.NewEquipment(equipment);
+            return _equipmentInRoomsRepository.AddEquipment(equipment);
         }
 
-        public Model.Manager.EquipmentInRooms editEquipmentInRooms(Model.Manager.EquipmentInRooms equipment)
+        public EquipmentInRooms EditEquipmentInRooms(EquipmentInRooms equipment)
         {
-            return equipmentInRoomsRepository.SetEquipment(equipment);
+            return _equipmentInRoomsRepository.UpdateEquipment(equipment);
         }
 
-        public bool deleteEquipmentInRooms(int idEquipment)
+        public void DeleteEquipmentInRooms(int idEquipment)
         {
-            return equipmentInRoomsRepository.DeleteEquipment(idEquipment);
-        }
-        
-        public int viewEquipmentInRooms(int idEquipment)
-        {
-            return equipmentInRoomsRepository.GetEquipment(idEquipment);
-        }
-        public List<Equipment> getEquipmentByRoomNumber(int roomNumber)
-        {
-            List<NonConsumableEquipment> nonConsumableEquipmentInRoom = _nonConsumableEquipmentService.GetNonConsumableEquipmentByRoomNumber(roomNumber);
-            List<ConsumableEquipment> consumableEquipmentInRoom = _consumableEquipmentService.GetConsumableEquipmentByRoomNumber(roomNumber);
-            List<Equipment> equipmentInRoom = new List<Equipment>();
-            foreach (Equipment nonConsumableEquipment in nonConsumableEquipmentInRoom)
-            {
-                equipmentInRoom.Add(nonConsumableEquipment);
-            }
-            foreach (Equipment consumableEquipment in consumableEquipmentInRoom)
-            {
-                equipmentInRoom.Add(consumableEquipment);
-            }
-            return equipmentInRoom;
+             _equipmentInRoomsRepository.DeleteEquipment(idEquipment);
         }
 
+        public EquipmentInRooms GetEquipmentInRoomsFromEquipment(Equipment equipment)
+        {
+            return _equipmentInRoomsRepository.GetEquipmenInRoomsByEquipmentId(equipment.Id);
+        }        
     }
 }

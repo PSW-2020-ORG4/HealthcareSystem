@@ -1,4 +1,5 @@
-﻿using Model.Users;
+﻿using Model.PerformingExamination;
+using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,6 +11,8 @@ namespace Backend.Model
 {
     public class SurveyAboutDoctor
     {
+        private int examination;
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -18,20 +21,30 @@ namespace Backend.Model
         public int GettingAdviceByDoctor { get; set; }
         public int AvailabilityOfDoctor { get; set; }
 
-        [ForeignKey("Doctor")]
-        public string DoctorJmbg { get; set; }
-        public virtual Doctor Doctor { get; set; }
+        [ForeignKey("Examination")]
+        public int ExaminationId { get; set; }
+        public virtual Examination Examination { get; set; }
 
         public SurveyAboutDoctor() { }
 
         public SurveyAboutDoctor(int behaviorOfDoctor, int doctorProfessionalism, int gettingAdviceByDoctor,
-                                    int availabilityOfDoctor, string doctorJmbg)
+                                    int availabilityOfDoctor, int examinationId)
         {
             BehaviorOfDoctor = behaviorOfDoctor;
             DoctorProfessionalism = doctorProfessionalism;
             GettingAdviceByDoctor = gettingAdviceByDoctor;
             AvailabilityOfDoctor = availabilityOfDoctor;
-            DoctorJmbg = doctorJmbg;
+            ExaminationId = examinationId;
+        }
+
+        public SurveyAboutDoctor(int behaviorOfDoctor, int doctorProfessionalism, int gettingAdviceByDoctor,
+                                    int availabilityOfDoctor, Examination examination)
+        {
+            BehaviorOfDoctor = behaviorOfDoctor;
+            DoctorProfessionalism = doctorProfessionalism;
+            GettingAdviceByDoctor = gettingAdviceByDoctor;
+            AvailabilityOfDoctor = availabilityOfDoctor;
+            Examination = examination;
         }
     }
 }

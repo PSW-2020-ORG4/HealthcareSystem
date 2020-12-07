@@ -42,10 +42,23 @@ namespace Repository
         {
             return _context.Patients.ToList();
         }
+
         public Patient GetPatientByJmbg(string jmbg)
         {
-            return _context.Patients.Find(jmbg);
+            Patient patient;
+            try
+            {
+                patient = _context.Patients.Find(jmbg);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+            if (patient == null)
+                throw new NotFoundException("Patient doesn't exist in database.");
+            return patient;
         }
+
         public void UpdatePatient(Patient patient)
         {
             _context.Patients.Update(patient);

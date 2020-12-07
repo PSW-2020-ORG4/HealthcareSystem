@@ -22,8 +22,15 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         }
         public void AddExamination(Examination examination)
         {
-            _context.Examinations.Add(examination);
-            _context.SaveChanges();
+            try
+            {
+                _context.Examinations.Add(examination);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
 
         public List<Examination> GetAllExaminations()
@@ -32,18 +39,20 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         }
 
         public Examination GetExaminationById(int id)
-        {      
+        {
+            Examination examination;
             try
             {
-                Examination examination = _context.Examinations.Find(id);
-                if (examination == null)
-                    throw new NotFoundException("Examination doesn't exist.");
-                return _context.Examinations.Find(id);
+                examination = _context.Examinations.Find(id);
             }
             catch (Exception)
             {
                 throw new DatabaseException("The database connection is down.");
             }
+            if (examination == null)
+                throw new NotFoundException("Examination doesn't exist.");
+
+            return examination;
         }
 
         public List<Examination> GetExaminationsByDate(DateTime date)
@@ -102,5 +111,42 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
                 throw new DatabaseException("The database connection is down.");
             }
         }
+
+        public ICollection<Examination> GetExaminationsByDoctorAndDateTime(string doctorJmbg, DateTime dateTime)
+        {
+            try
+            {
+                return _context.Examinations.Where(e => e.DoctorJmbg == doctorJmbg && e.DateAndTime == dateTime).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
+
+        public ICollection<Examination> GetExaminationsByRoomAndDateTime(int roomId, DateTime dateTime)
+        {
+            try
+            {
+                return _context.Examinations.Where(e => e.IdRoom == roomId && e.DateAndTime == dateTime).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
+
+        public ICollection<Examination> GetExaminationsByPatientAndDateTime(int patientCardId, DateTime dateTime)
+        {
+            try
+            {
+                return _context.Examinations.Where(e => e.IdPatientCard == patientCardId && e.DateAndTime == dateTime).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
+
     }
 }

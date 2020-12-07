@@ -39,6 +39,8 @@ using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
 using Backend.Repository.SpecialtyRepository;
 using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
 using Backend.Service.UsersAndWorkingTime;
+using Backend.Repository.DrugInRoomRepository;
+using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
 
 namespace PatientWebApp
 {
@@ -84,6 +86,7 @@ namespace PatientWebApp
 
             services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
             services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
+            services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
             services.AddScoped<IDrugService, DrugService>();
 
             services.AddScoped<IDrugTypeRepository, MySqlDrugTypeRepository>();
@@ -103,6 +106,8 @@ namespace PatientWebApp
             //placement dodati
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
+
+            services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 

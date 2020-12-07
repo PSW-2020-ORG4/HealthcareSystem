@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Model.DTO;
 using Backend.Model.Exceptions;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.SearchSpecification;
@@ -25,14 +26,14 @@ namespace PatientWebApp.Controllers
         {
             _examinationService = examinationService;
             _examinationValidator = new ExaminationValidator(_examinationService);
-
         }
+
         /// <summary>
         /// /getting examinations linked to a certain patient
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{patientJmbg}")]
+        [HttpGet("by-patient/{patientJmbg}")]
         public ActionResult GetExaminationsByPatient(string patientJmbg)
         {
             try
@@ -81,6 +82,10 @@ namespace PatientWebApp.Controllers
                 _examinationValidator.CheckIfExaminationCanBeCanceled(id);
                 _examinationService.CancelExamination(id);
                 return Ok();
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
             }
             catch (ValidationException exception)
             {
@@ -163,5 +168,54 @@ namespace PatientWebApp.Controllers
                 return StatusCode(500, e.Message);
             }
         }
+
+        /// <summary>
+        /// /getting one examination by id
+        /// </summary>
+        /// <param name="id">examination id</param>
+        /// <returns>if alright returns code 200(Ok), if returned value is null returns 404, if connection lost returns 500</returns>
+        [HttpGet("{id}")]
+        public IActionResult GetExaminationById(int id)
+        {
+            try
+            {
+                ExaminationDTO examinationDTO = new ExaminationDTO();
+                examinationDTO = ExaminationMapper.ExaminationToExaminationDTO(_examinationService.GetExaminationById(id));
+                return Ok(examinationDTO);
+            }
+            catch (NotFoundException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        /// <summary>
+        /// /adding new examination to database
+        /// </summary>
+        /// <param name="examinationDTO">an object to be added to the database</param>
+        /// <returns>if alright returns code 201(Created), if validation isn't successful return 400, if connection lost returns 500</returns>
+        [HttpPost]
+        public IActionResult AddExamination(ExaminationDTO examinationDTO)
+        {
+            try
+            {
+                _examinationValidator.ValidateExaminationFields(examinationDTO);
+                _examinationService.AddExamination(ExaminationMapper.ExaminationDTOToExamination(examinationDTO));
+                return StatusCode(201);
+            }
+            catch(ValidationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Model.Enums;
 using Model.PerformingExamination;
+using Model.Users;
 using PatientWebApp.DTOs;
 
 namespace PatientWebApp.Mappers
@@ -20,9 +21,11 @@ namespace PatientWebApp.Mappers
             Examination examination = new Examination();
             examination.Id = dto.Id;
             examination.Type = (TypeOfExamination)Enum.Parse(typeof(TypeOfExamination), dto.Type, true);
+            examination.DateAndTime = DateTime.Parse(dto.DateAndTime);
+            examination.Anamnesis = dto.Anamnesis;
             examination.DoctorJmbg = dto.DoctorJmbg;
             examination.IdRoom = dto.IdRoom;
-            examination.PatientCard.PatientJmbg = dto.PatientJmbg;
+            examination.IdPatientCard = dto.PatientCardId;
             examination.IsSurveyCompleted = dto.IsSurveyCompleted;
             examination.ExaminationStatus = dto.ExaminationStatus;
             return examination;
@@ -38,10 +41,18 @@ namespace PatientWebApp.Mappers
             ExaminationDTO dto = new ExaminationDTO();
             dto.Id = examination.Id;
             dto.Type = examination.Type.ToString();
-            dto.DateAndTime = examination.DateAndTime.ToShortDateString();
+            dto.DateAndTime = examination.DateAndTime.ToString();
             dto.DoctorJmbg = examination.DoctorJmbg;
-            dto.PatientJmbg = examination.PatientCard.PatientJmbg;
-            if (dto.DoctorJmbg == null)
+            dto.PatientCardId = examination.IdPatientCard;
+            if (examination.PatientCard == null)
+            {
+                dto.PatientJmbg = "";
+            }
+            else
+            {
+                dto.PatientJmbg = examination.PatientCard.PatientJmbg;
+            }
+            if (examination.Doctor == null)
             {
                 dto.DoctorName = "";
                 dto.DoctorSurname = "";
@@ -51,7 +62,6 @@ namespace PatientWebApp.Mappers
                 dto.DoctorName = examination.Doctor.Name;
                 dto.DoctorSurname = examination.Doctor.Surname;
             }
-
             dto.IdRoom = examination.IdRoom;
             dto.Anamnesis = examination.Anamnesis;
             dto.IsSurveyCompleted = examination.IsSurveyCompleted;
@@ -59,5 +69,6 @@ namespace PatientWebApp.Mappers
 
             return dto;
         }
+
     }
 }

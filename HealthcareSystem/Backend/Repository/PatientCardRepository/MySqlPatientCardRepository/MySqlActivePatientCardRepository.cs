@@ -38,5 +38,12 @@ namespace Repository
             _context.PatientCards.Update(patientCard);
             _context.SaveChanges();
         }
+        public bool CheckIfPatientCardExists(int patientCardId)
+        {
+            if (_context.PatientCards.Find(patientCardId) == null)
+                return false;
+
+            return true;
+        }
     }
 }

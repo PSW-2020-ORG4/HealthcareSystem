@@ -21,11 +21,12 @@ using Backend.Model.Enums;
 
 namespace Service.ExaminationAndPatientCard
 {
-   public class ExaminationService: IExaminationService
-   {
+    public class ExaminationService : IExaminationService
+    {
         private IExaminationRepository _scheduledExaminationRepository;
 
-        public ExaminationService(IExaminationRepository scheduledExaminationRepository) {
+        public ExaminationService(IExaminationRepository scheduledExaminationRepository)
+        {
             _scheduledExaminationRepository = scheduledExaminationRepository;
         }
         public void AddExamination(Examination examination)
@@ -33,59 +34,9 @@ namespace Service.ExaminationAndPatientCard
             _scheduledExaminationRepository.AddExamination(examination);
         }
 
-        public Examination AppointmentRecommendationByDate(Doctor doctor, DateTime beginDate, DateTime endDate)
-        {
-            return _scheduledExaminationRepository.AppointmentRecommendationByDate(doctor, beginDate, endDate);
-        }
-
-        public Examination AppointmentRecommendationByDoctor(Doctor doctor, DateTime beginDate, DateTime endDate)
-        {
-            return _scheduledExaminationRepository.AppointmentRecommendationByDoctor(doctor, beginDate, endDate);
-        }
-
-        public bool CheckDoctorAvailability(Doctor doctor, DateTime dateAndTime)
-        {
-            return _scheduledExaminationRepository.CheckDoctorAvailability(doctor, dateAndTime);
-        }
-
-        public bool CheckRoomAvailability(Room room, DateTime dateAndTime)
-        {
-            return _scheduledExaminationRepository.CheckRoomAvailability(room, dateAndTime);
-        }
-
-        public void DeleteDoctorScheduledExaminations(string doctorJmbg)
-        {
-             _scheduledExaminationRepository.DeleteDoctorScheduledExaminations(doctorJmbg);
-        }
-
-        public void DeleteExamination(int id)
-        {
-            _scheduledExaminationRepository.DeleteExamination(id);
-        }
-
-        public void DeletePatientScheduledExaminations(string patientJmbg)
-        {
-            _scheduledExaminationRepository.DeletePatientScheduledExaminations(patientJmbg);
-        }
-
-        public void DeleteRoomScheduledExaminations(int numberOfRoom)
-        {
-            _scheduledExaminationRepository.DeleteRoomScheduledExaminations(numberOfRoom);
-        }
-
-        public List<Examination> fillAppointments(Doctor doctor, DateTime beginDate, DateTime endDate)
-        {
-            return _scheduledExaminationRepository.fillAppointments(doctor, beginDate, endDate);
-        }
-
         public List<Examination> GetAllExaminations()
         {
             return _scheduledExaminationRepository.GetAllExaminations();
-        }
-
-        public Examination GetExaminationByDoctorDateAndTime(Doctor doctor, DateTime dateAndTime)
-        {
-            return _scheduledExaminationRepository.GetExaminationByDoctorDateAndTime(doctor, dateAndTime);
         }
 
         public Examination GetExaminationById(int id)
@@ -96,16 +47,6 @@ namespace Service.ExaminationAndPatientCard
         public List<Examination> GetExaminationsByDate(DateTime date)
         {
             return _scheduledExaminationRepository.GetExaminationsByDate(date);
-        }
-
-        public List<Examination> GetExaminationsByDoctor(string doctorJmbg)
-        {
-            return _scheduledExaminationRepository.GetExaminationsByDoctor(doctorJmbg);
-        }
-
-        public List<Examination> GetExaminationsByDoctorAndDate(Doctor doctor, DateTime dateAndTime)
-        {
-            return _scheduledExaminationRepository.GetExaminationsByDoctorAndDate(doctor, dateAndTime);
         }
 
         public List<Examination> GetExaminationsByPatient(string patientJmbg)
@@ -119,26 +60,6 @@ namespace Service.ExaminationAndPatientCard
             return examinations;
         }
 
-        public List<Examination> GetExaminationsByRoom(int numberOfRoom)
-        {
-            return _scheduledExaminationRepository.GetExaminationsByRoom(numberOfRoom);
-        }
-
-        public List<Examination> GetExaminationsByRoomAndDates(int numberOfRoom, DateTime beginDate, DateTime endDate)
-        {
-            return _scheduledExaminationRepository.GetExaminationsByRoomAndDates(numberOfRoom, beginDate, endDate);
-        }
-
-        public List<Examination> getFreeAppointments(Doctor doctor, DateTime beginDate, DateTime endDate)
-        {
-            return _scheduledExaminationRepository.getFreeAppointments(doctor, beginDate, endDate);
-        }
-
-        public void UpdateExamination(Examination examination)
-        {
-            _scheduledExaminationRepository.UpdateExamination(examination);
-        }
-
         public List<Examination> AdvancedSearch(ExaminationSearchDTO parameters)
         {
             List<Examination> examinations = GetExaminationsByPatient(parameters.Jmbg);
@@ -147,8 +68,22 @@ namespace Service.ExaminationAndPatientCard
             filter = filter.BinaryOperation(parameters.EndDateOperator, new ExaminationEndDateSpecification(parameters.EndDate));
             filter = filter.BinaryOperation(parameters.DoctorSurnameOperator, new ExaminationDoctorSurnameSpecification(parameters.DoctorSurname));
             filter = filter.BinaryOperation(parameters.AnamnesisOperator, new ExaminationAnamnesisSpecification(parameters.Anamnesis));
-            
+
             return examinations.Where(examination => filter.IsSatisfiedBy(examination)).ToList();
+        }
+
+        public void CompleteSurveyAboutExamination(int id)
+        {
+            try
+            {
+                Examination examination = GetExaminationById(id);
+                examination.IsSurveyCompleted = true;
+                _scheduledExaminationRepository.UpdateExamination(examination);
+            }
+            catch (DatabaseException exception)
+            {
+                throw new DatabaseException(exception.Message);
+            }
         }
 
         public void CancelExamination(int id)
@@ -156,8 +91,8 @@ namespace Service.ExaminationAndPatientCard
             Examination examination = GetExaminationById(id);
             examination.ExaminationStatus = ExaminationStatus.CANCELED;
             _scheduledExaminationRepository.UpdateExamination(examination);
-		}
-		
+        }
+
         public List<Examination> GetCanceledExaminationsByPatient(string patientJmbg)
         {
             return _scheduledExaminationRepository.GetCanceledExaminationsByPatient(patientJmbg);
@@ -171,6 +106,7 @@ namespace Service.ExaminationAndPatientCard
         public List<Examination> GetFollowingExaminationsByPatient(string patientJmbg)
         {
             return _scheduledExaminationRepository.GetFollowingExaminationsByPatient(patientJmbg);
+
         }
     }
 }

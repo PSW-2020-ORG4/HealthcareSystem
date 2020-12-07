@@ -9,6 +9,7 @@ using GraphicalEditorServer.DTO;
 using Newtonsoft.Json;
 using Model.Manager;
 using Backend.Model.Manager;
+using GraphicalEditorServer.Mappers;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -18,12 +19,17 @@ namespace GraphicalEditorServer.Controllers
     {
         private readonly IEquipmentService _equipmentService;
         private readonly IEquipmentTypeService _equipmentTypeService;
+        private readonly IEquipmentInRoomsService _equipmentInRoomsService;
 
 
-        public EquipmentController(IEquipmentService equipmentService, IEquipmentTypeService equipmentTypeService)
+        public EquipmentController(
+            IEquipmentService equipmentService, 
+            IEquipmentTypeService equipmentTypeService,
+            IEquipmentInRoomsService equipmentInRoomsService)
         {
             _equipmentService = equipmentService;
             _equipmentTypeService = equipmentTypeService;
+            _equipmentInRoomsService = equipmentInRoomsService;
         }
 
         [HttpPost]
@@ -33,13 +39,27 @@ namespace GraphicalEditorServer.Controllers
             return Ok(addedEquipment.Id);
         }
 
-        private string StringToJSONFormat(string JSONString)
+        [HttpGet("byRoomNumber/{roomNumber}")]
+        public IActionResult GetEquipmentByRoomNumber(int roomNumber)
         {
-            string[] atributes = JSONString.Split(",");
-            String JSONContent = "{";
-            JSONContent += JSONString;
-            JSONContent += "}";
-            return JSONContent;
+            List<Equipment> equipmentsInRoom = _equipmentService.GetEquipmentByRoomNumber(roomNumber);
+            return Ok(equipmentsInRoom);
+        }
+
+        [HttpGet("search")]
+        public ActionResult GetEquipmentWithRoomForSearchTerm(string term = "")
+        {
+            Console.WriteLine(term);
+            List<Equipment> equipment = _equipmentService.GetEquipmentWithRoomForSearchTerm(term);
+
+            List<EquipmentWithRoomDTO> equipmentWithRoomDTOs = new List<EquipmentWithRoomDTO>();
+            foreach(Equipment e in equipment)
+            {
+                EquipmentWithRoomDTO equipmentInRoomDTO = EquipmentWithRoomMapper.EquipmentToEquipmentWithRoomDTO(e, _equipmentInRoomsService.GetEquipmentInRoomsFromEquipment(e));
+                equipmentWithRoomDTOs.Add(equipmentInRoomDTO);
+            }
+
+            return Ok(equipmentWithRoomDTOs);
         }
 
     }

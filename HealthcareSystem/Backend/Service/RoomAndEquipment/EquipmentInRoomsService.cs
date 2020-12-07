@@ -25,28 +25,24 @@ namespace Service.RoomAndEquipment
             _equipmentService = equipmentService;
 
         }
-        public EquipmentInRooms addEquipmentInRoom(EquipmentInRooms equipment)
+        public EquipmentInRooms AddEquipmentInRoom(EquipmentInRooms equipment)
         {
-            return _equipmentInRoomsRepository.NewEquipment(equipment);
+            return _equipmentInRoomsRepository.AddEquipment(equipment);
         }
 
-        public EquipmentInRooms editEquipmentInRooms(EquipmentInRooms equipment)
+        public EquipmentInRooms EditEquipmentInRooms(EquipmentInRooms equipment)
         {
-            return _equipmentInRoomsRepository.SetEquipment(equipment);
+            return _equipmentInRoomsRepository.UpdateEquipment(equipment);
         }
 
-        public bool deleteEquipmentInRooms(int idEquipment)
+        public void DeleteEquipmentInRooms(int idEquipment)
         {
-            return _equipmentInRoomsRepository.DeleteEquipment(idEquipment);
+             _equipmentInRoomsRepository.DeleteEquipment(idEquipment);
         }
-        
-        public EquipmentInRooms viewEquipmentInRooms(int idEquipment)
+
+        public EquipmentInRooms GetEquipmentInRoomsFromEquipment(Equipment equipment)
         {
-            return _equipmentInRoomsRepository.GetEquipment(idEquipment);
-        }
-        public List<Equipment> getEquipmentByRoomNumber(int roomNumber)
-        {
-            return _equipmentService.GetEquipmentByRoomNumber(roomNumber);
-        }
+            return _equipmentInRoomsRepository.GetEquipmenInRoomsByEquipmentId(equipment.Id);
+        }        
     }
 }

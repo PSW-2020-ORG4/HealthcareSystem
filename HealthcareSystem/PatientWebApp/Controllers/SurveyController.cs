@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Backend.Model;
 using Backend.Model.Exceptions;
 using Backend.Service;
+using Backend.Service.ExaminationAndPatientCard;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PatientWebApp.DTOs;
@@ -20,11 +21,18 @@ namespace PatientWebApp.Controllers
         private readonly ISurveyService _surveyService;
         private readonly SurveyValidator _surveyValidator;
 
-        public SurveyController(ISurveyService surveyService)
+        private readonly IExaminationService _examinationService;
+        private readonly ExaminationValidator _examinationValidator;
+
+
+        public SurveyController(ISurveyService surveyService, IExaminationService examinationService)
         {
             _surveyService = surveyService;
             _surveyValidator = new SurveyValidator(surveyService);
+            _examinationService = examinationService;
+            _examinationValidator = new ExaminationValidator(_examinationService);
         }
+
 
         [HttpPost]
         public ActionResult AddSurvey(SurveyDTO surveyDTO)
@@ -32,17 +40,24 @@ namespace PatientWebApp.Controllers
             try
             {
                 _surveyValidator.ValidateSurveyFields(surveyDTO);
+                _examinationValidator.CheckIfExaminationIsFinished(surveyDTO.ExaminationId);
+                _examinationValidator.CheckIfSurveyAboutExaminationIsCompleted(surveyDTO.ExaminationId);
                 _surveyService.AddSurvey(SurveyMapper.SurveyDTOToSurvey(surveyDTO));
+                _examinationService.CompleteSurveyAboutExamination(surveyDTO.ExaminationId);
+                return Ok();
+            }         
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
             }
             catch (ValidationException exception)
             {
                 return BadRequest(exception.Message);
             }
-            catch (DatabaseException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            return Ok();
         }
 
 

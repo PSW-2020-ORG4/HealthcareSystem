@@ -26,6 +26,10 @@ namespace Backend.Service
         private readonly String _password;
         private readonly String _queueName;
 
+        public RabbitMqActionBenefitMessageingService()
+        {
+        }
+
         public RabbitMqActionBenefitMessageingService(IServiceProvider service, IOptions<RabbitMqConfiguration> rabbitMqOPtions)
         {
             _service = service;
@@ -71,6 +75,7 @@ namespace Backend.Service
                 }
                 else
                 {
+                    Console.WriteLine(bue.Message);
                     Dispose();
                 }
             }
@@ -142,6 +147,7 @@ namespace Backend.Service
             }
             catch(Exception ex) 
             {
+                Console.WriteLine(ex.Message);
                 _channel.BasicReject(e.DeliveryTag, false);
             }
         }

@@ -68,7 +68,7 @@ namespace IntegrationAdapters.Controllers
         public IActionResult Edit(Pharmacy pharmacy)
         {
             Pharmacy pharmacyOld = _pharmacyService.GetPharmacyByIdNoTracking(pharmacy.Id);
-            if (pharmacy == null)
+            if (pharmacyOld == null)
                 throw new ArgumentNullException("There is no pharmacy with id=" + pharmacy.Id);
 
             if (pharmacy.ActionsBenefitsExchangeName == null)

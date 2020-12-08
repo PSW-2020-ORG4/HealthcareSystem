@@ -31,11 +31,12 @@ namespace IntegrationAdaptersTests.UnitTests
         private PharmacyController GetPharmacyController()
         {
             var stubRepository = new Mock<IPharmacyRepo>();
+            var mockRabbit = new Mock<Backend.Service.RabbitMqActionBenefitMessageingService>();
             var pharmacy = CreatePharmacy.CreateValidTestObject();
             pharmacy.Id = 1;
 
             stubRepository.Setup(m => m.GetPharmacyById(pharmacy.Id)).Returns(pharmacy);
-            return new PharmacyController(new PharmacyService(stubRepository.Object));
+            return new PharmacyController(new PharmacyService(stubRepository.Object), mockRabbit.Object);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Backend.Model.Users;
-﻿using Backend.Model;
+using Backend.Model;
 using Model.Users;
 using PatientWebApp.DTOs;
 using System;
@@ -70,6 +70,11 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public CreateSurveyResult GetSurveyResultAboutMedicalStaff()
         {
             return new CreateSurveyResult();
+        }
+
+        public CreateExaminationDTO GetExaminationDTO()
+        {
+            return new CreateExaminationDTO();
         }
 
     }

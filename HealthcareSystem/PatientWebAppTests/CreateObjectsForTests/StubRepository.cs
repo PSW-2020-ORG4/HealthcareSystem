@@ -8,6 +8,11 @@ using Backend.Repository.ExaminationRepository;
 using Model.PerformingExamination;
 using Backend.Repository.TherapyRepository;
 using Backend.Model.Enums;
+using Backend.Repository.RoomRepository;
+using Model.Manager;
+using Model.Enums;
+using Backend;
+using System;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
@@ -40,6 +45,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
 
             patientCardStubRepository.Setup(m => m.GetPatientCardByJmbg("1234567891234")).Returns(patientCards[0]);
             patientCardStubRepository.Setup(m => m.AddPatientCard(new PatientCard()));
+            patientCardStubRepository.Setup(m => m.CheckIfPatientCardExists(1)).Returns(true);
 
             return patientCardStubRepository.Object;
 
@@ -76,6 +82,13 @@ namespace PatientWebAppTests.CreateObjectsForTests
             List<Examination> canceledExaminations = GetCanceledExamination(examinations);
             List<Examination> previousExaminations = GetPreviousExaminations(examinations);
 
+            List<Examination> searchExaminations = _objectFactory.GetExamination().CreateValidSearchTestObjects();
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", It.IsAny<DateTime>())).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByPatientAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
+
+            examinationStubRepository.Setup(m => m.AddExamination(new Examination()));
+
             examinationStubRepository.Setup(m => m.GetExaminationById(1)).Returns(examinationCanBeCanceled);
             examinationStubRepository.Setup(m => m.GetExaminationById(2)).Returns(examinationCantBeCanceled);
             examinationStubRepository.Setup(m => m.GetExaminationById(9)).Returns(examinationValidForSurvey);
@@ -99,7 +112,6 @@ namespace PatientWebAppTests.CreateObjectsForTests
 
             return therapyStubRepository.Object;
         }
-
         private List<Examination> GetCanceledExamination(List<Examination> examinations)
         {
             examinations.ForEach(e => e.ExaminationStatus = ExaminationStatus.CANCELED);
@@ -110,6 +122,34 @@ namespace PatientWebAppTests.CreateObjectsForTests
         {
             examinations.ForEach(e => e.ExaminationStatus = ExaminationStatus.FINISHED);
             return examinations;
+        }
+        public IRoomRepository CreateRoomStubRepository()
+        {
+            var roomStubRepository = new Mock<IRoomRepository>();
+            var roomValidObject = new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM, capacity: 1, occupation: 1, renovation: false);
+            var rooms = new List<Room>();
+            rooms.Add(roomValidObject);
+
+            roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(rooms[0]);
+            roomStubRepository.Setup(m => m.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>())).Returns(rooms);
+            roomStubRepository.Setup(m => m.CheckIfRoomExists(1)).Returns(true);
+
+            return roomStubRepository.Object;
+        }
+        public IDoctorRepository CreateDoctorStubRepository()
+        {
+            var doctorStubRepository = new Mock<IDoctorRepository>();
+            var doctorValidObject = new Doctor(jmbg: "0909965768767", name: "Ana", surname: "Markovic", dateOfBirth: DateTime.Now, gender: GenderType.F,
+            city: new City(zipCode: 21000, name: "Novi Sad", country: new Country(id: 1, name: "Serbia")), homeAddress: "Zmaj Jovina 10", phone: "065452102", email: "pera@gmail.com", username: "pera",
+            password: "12345678", numberOfLicence: "", doctorsOffice: new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM,
+            capacity: 1, occupation: 1, renovation: false), dateOfEmployment: DateTime.Now);
+            var doctors = new List<Doctor>();
+            doctors.Add(doctorValidObject);
+
+            doctorStubRepository.Setup(m => m.GetDoctorByJmbg("0909965768767")).Returns(doctors[0]);
+            doctorStubRepository.Setup(m => m.CheckIfDoctorExists("0909965768767")).Returns(true);
+
+            return doctorStubRepository.Object;
         }
     }
 }

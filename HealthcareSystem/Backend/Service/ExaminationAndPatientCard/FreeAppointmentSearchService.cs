@@ -106,8 +106,8 @@ namespace Backend.Service.ExaminationAndPatientCard
         }
         private bool IsAvailable(Examination examination)
         {
-            if (IsDoctorAvailable(examination.DoctorJmbg, examination.DateAndTime) && 
-                IsRoomAvailable(examination.IdRoom, examination.DateAndTime) && 
+            if (IsDoctorAvailable(examination.DoctorJmbg, examination.DateAndTime) &&
+                IsRoomAvailable(examination.IdRoom, examination.DateAndTime) &&
                 IsPatientAvailable(examination.IdPatientCard, examination.DateAndTime))
                 return true;
 

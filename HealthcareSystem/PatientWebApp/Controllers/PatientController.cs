@@ -186,8 +186,8 @@ namespace PatientWebApp.Controllers
             catch (DatabaseException exception)
             {
                 return -1;
-            } 
-
+            }
+        }
         [HttpPut("blocked/{jmbg}")]
         public ActionResult BlockPatient(string jmbg)
         {

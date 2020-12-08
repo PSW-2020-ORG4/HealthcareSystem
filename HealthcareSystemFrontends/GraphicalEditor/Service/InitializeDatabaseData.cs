@@ -26,11 +26,11 @@ namespace GraphicalEditor.Service
 
         public void InitiliazeData()
         {
-          //  AddRooms();
-         //   AddEquipmentTypes();
-        //    AddEquipment();
-          //  AddDrugTypes();
-            AddDrugs();
+            AddRooms();
+            AddEquipmentTypes();
+            AddEquipment();
+            //AddDrugTypes();
+            //AddDrugs();
         }
 
 

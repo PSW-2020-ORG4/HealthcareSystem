@@ -1,5 +1,7 @@
 ﻿using Backend.Model;
 using Backend.Model.Exceptions;
+using Backend.Model.Users;
+using Backend.Repository.SpecialtyRepository;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -65,7 +67,6 @@ namespace Backend.Repository
                 return false;
 
             return true;
-        }
-
+        }        
     }
 }

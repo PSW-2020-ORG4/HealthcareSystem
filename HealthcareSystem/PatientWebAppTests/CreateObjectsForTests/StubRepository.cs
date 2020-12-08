@@ -87,6 +87,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
             examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", It.IsAny<DateTime>())).Returns(new List<Examination>());
             examinationStubRepository.Setup(m => m.GetExaminationsByPatientAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
 
+            examinationStubRepository.Setup(m => m.AddExamination(new Examination()));
 
             examinationStubRepository.Setup(m => m.GetExaminationById(1)).Returns(examinationCanBeCanceled);
             examinationStubRepository.Setup(m => m.GetExaminationById(2)).Returns(examinationCantBeCanceled);
@@ -132,7 +133,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
             roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(rooms[0]);
             roomStubRepository.Setup(m => m.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>())).Returns(rooms);
             roomStubRepository.Setup(m => m.CheckIfRoomExists(1)).Returns(true);
- 
+
             return roomStubRepository.Object;
         }
         public IDoctorRepository CreateDoctorStubRepository()

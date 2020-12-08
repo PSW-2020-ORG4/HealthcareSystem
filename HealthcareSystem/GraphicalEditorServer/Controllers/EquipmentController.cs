@@ -42,8 +42,17 @@ namespace GraphicalEditorServer.Controllers
         [HttpGet("byRoomNumber/{roomNumber}")]
         public IActionResult GetEquipmentByRoomNumber(int roomNumber)
         {
-            List<Equipment> equipmentsInRoom = _equipmentService.GetEquipmentByRoomNumber(roomNumber);
-            return Ok(equipmentsInRoom);
+            try
+            {
+                List<Equipment> equipmentsInRoom = _equipmentService.GetEquipmentByRoomNumber(roomNumber);
+                if (equipmentsInRoom.Count==0) {
+                    return NotFound("NotFound");
+                }
+                return Ok(equipmentsInRoom);
+            }
+            catch (Exception e) {
+                return NotFound(e.Message);
+            }
         }
 
         [HttpGet("search")]

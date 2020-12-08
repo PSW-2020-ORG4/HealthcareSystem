@@ -148,5 +148,33 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is BadRequestObjectResult);
         }
+
+
+
+
+        [Fact]
+        public void Add_valid_examination()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var examinationDTOValidObject = _objectFactory.GetExaminationDTO().CreateValidTestObject();
+            var result = examinationController.AddExamination(examinationDTOValidObject);
+
+            Assert.True(result is StatusCodeResult);
+        }
+
+        [Fact]
+        public void Add_invalid_examination()
+        {
+            ExaminationController examinationController = SetupExaminationController();
+
+            var examinationDTOInvalidObject = _objectFactory.GetExaminationDTO().CreateInvalidTestObject();
+            var result = examinationController.AddExamination(examinationDTOInvalidObject);
+
+            Assert.True(result is BadRequestObjectResult);
+        }
+
+
+
     }
 }

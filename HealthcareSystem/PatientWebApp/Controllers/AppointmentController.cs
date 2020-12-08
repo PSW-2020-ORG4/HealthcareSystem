@@ -6,6 +6,9 @@ using Backend.Model.DTO;
 using Backend.Model.Exceptions;
 using Backend.Service.ExaminationAndPatientCard;
 using Microsoft.AspNetCore.Mvc;
+using Model.PerformingExamination;
+using PatientWebApp.DTOs;
+using PatientWebApp.Mappers;
 
 namespace PatientWebApp.Controllers
 {
@@ -28,10 +31,14 @@ namespace PatientWebApp.Controllers
         [HttpPost("basic-search")]
         public IActionResult BasicSearchAppointments(BasicAppointmentSearchDTO parameters)
         {
+            List<ExaminationDTO> freeAppointmentsDTOs = new List<ExaminationDTO>();
+            List<Examination> freeAppointments;
             try
             {
                 parameters.IsAppointmentValid();
-                return Ok(_freeAppointmentSearchService.BasicSearch(parameters));
+                freeAppointments = _freeAppointmentSearchService.BasicSearch(parameters).ToList();
+                freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));
+                return Ok(freeAppointmentsDTOs);
             }
             catch(ValidationException exception)
             {

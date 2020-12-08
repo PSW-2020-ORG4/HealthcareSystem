@@ -12,6 +12,5 @@ namespace Model.Enums
    {
       GENERAL = 0,
       SURGERY = 1
-   
    }
 }

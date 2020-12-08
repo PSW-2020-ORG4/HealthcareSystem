@@ -18,5 +18,8 @@ namespace Backend.Service
         Patient SignIn(string username, string password);
         List<Patient> ViewMaliciousPatients();
         int GetNumberOfCanceledExaminations(string jmbg);
+        public Patient GetPatientByJmbg(string jmbg);
+        void BlockPatient(string jmbg);
+
     }
 }

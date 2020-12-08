@@ -16,19 +16,19 @@ namespace Model.Users
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateOfRegistration { get; set; }
-        public bool IsGuest { get; set; }
+        public bool IsBlocked { get; set; }
         public bool IsActive { get; set; }
         public string ImageName { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual PatientCard PatientCard { get; set; }
         public Patient()
         {
-            IsGuest = false;
+            IsBlocked = false;
         }
 
         public Patient(string jmbg,string name,string surname,DateTime dateOfBirth,GenderType gender,City city,string homeAddress,
                         string phone,string email,string username,string password,
-                        DateTime dateOfRegistration,bool isGuest,string imagePath)
+                        DateTime dateOfRegistration,bool isBlocked, string imagePath)
         {
             Jmbg = jmbg;
             Name = name;
@@ -51,10 +51,11 @@ namespace Model.Users
             Username = username;
             Password = password;
             DateOfRegistration = dateOfRegistration;
-            IsGuest = isGuest;
+            IsBlocked = isBlocked;
             IsActive = false;
             ImageName = imagePath;
         }
+
         public Patient(Patient patient)
         {
             Jmbg = patient.Jmbg;
@@ -78,7 +79,7 @@ namespace Model.Users
             Username = patient.Username;
             Password = patient.Password;
             DateOfRegistration = patient.DateOfRegistration;
-            IsGuest = patient.IsGuest;
+            IsBlocked = patient.IsBlocked;
             IsActive = false;
             ImageName = patient.ImageName;
         }

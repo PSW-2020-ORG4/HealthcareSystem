@@ -174,6 +174,7 @@ namespace PatientWebApp.Controllers
                 return StatusCode(500, exception.Message);
             }
         }
+
         [HttpGet("{jmbg}/canceled-examinations")]
         public int GetNumberOfCanceledExaminations(string jmbg)
         {
@@ -186,6 +187,24 @@ namespace PatientWebApp.Controllers
             {
                 return -1;
             } 
+
+        [HttpPut("blocked/{jmbg}")]
+        public ActionResult BlockPatient(string jmbg)
+        {
+            try
+            {
+                _patientService.BlockPatient(jmbg);
+                return Ok();
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
+
         }
     }
 }

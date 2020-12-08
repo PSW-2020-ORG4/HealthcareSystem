@@ -1,5 +1,5 @@
 using Backend.Model.Pharmacies;
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Model.NotificationSurveyAndFeedback;
 using Model.Manager;
 using Model.PerformingExamination;
@@ -44,7 +44,6 @@ namespace Backend.Model
         {
             builder.Entity<Pharmacy>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
             builder.Entity<EquipmentInRooms>().HasKey(o => new { o.RoomNumber, o.IdEquipment });
-
         }
     }
 }

@@ -68,12 +68,12 @@ namespace Backend.Service.SendingMail
 
         private string ReadMailText()
         {
-            var pathToHtmlPage = Path.Combine("Templates", "WelcomeTemplate.html");
-            string FilePath = Directory.GetCurrentDirectory() + pathToHtmlPage;
-            StreamReader reader = new StreamReader(FilePath);
-            string MailText = reader.ReadToEnd();
+            string pathToHtmlPage = Path.Combine("Templates", "WelcomeTemplate.html");
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), pathToHtmlPage);
+            StreamReader reader = new StreamReader(filePath);
+            string mailText = reader.ReadToEnd();
             reader.Close();
-            return MailText;
+            return mailText;
         }
 
     }

@@ -1,12 +1,16 @@
 version: "3.8"
 services: 
   database:
-    image: mysql
-    ports:
-      - "8001:5432"
-      - "3306:3306"
+    image: mysql:8.0.22
     environment:
-      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_USER: "org4"
+      MYSQL_PASSWORD: "org4"
+      MYSQL_DATABASE: "organization4db"
+    networks:
+      - demo
+    volumes:
+      - sql-scripts:/docker-entrypoint-initdb.d/
 
   patientwebapp:
     build:
@@ -18,12 +22,16 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       DBHOST: "database"
       DBPORT: "3306"
-      DBUSER: "root"
-      DBPASSWORD: "root"
+      DBUSER: "org4"
+      DBPASSWORD: "org4"
       DB: "organization4db"
     depends_on:
       - database
-    restart: always
+    restart: on-failure
+    volumes:
+      - sql-scripts:/app/sql
+    networks:
+      - demo
 
   intergrationadapters:
     build:
@@ -35,29 +43,33 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       DBHOST: "database"
       DBPORT: "3306"
-      DBUSER: "root"
-      DBPASSWORD: "root"
+      DBUSER: "org4"
+      DBPASSWORD: "org4"
       DB: "organization4db"
     depends_on:
       - database
-    restart: always
+    restart: on-failure
+    networks:
+      - demo
 
   editorserver:
     build:
       context: HealthcareSystem\
       dockerfile: Dockerfile.graphical-editorserver
     ports:
-    - "8383:80"
+    - "5001:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       DBHOST: "database"
       DBPORT: "3306"
-      DBUSER: "root"
-      DBPASSWORD: "root"
+      DBUSER: "org4"
+      DBPASSWORD: "org4"
       DB: "organization4db"
     depends_on:
       - database
-    restart: always  
+    restart: on-failure
+    networks:
+      - demo
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -68,3 +80,13 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      - demo
+
+volumes:
+  sql-scripts:
+
+networks:
+  demo:
+    name: demo
+    driver: bridge

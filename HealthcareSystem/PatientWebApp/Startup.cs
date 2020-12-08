@@ -133,12 +133,6 @@ namespace PatientWebApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-
-                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-                {
-                    serviceScope.ServiceProvider.GetService<MyDbContext>().Database.EnsureDeleted();
-                    serviceScope.ServiceProvider.GetService<MyDbContext>().Database.EnsureCreated();
-                }
             }
 
             app.UseStaticFiles();

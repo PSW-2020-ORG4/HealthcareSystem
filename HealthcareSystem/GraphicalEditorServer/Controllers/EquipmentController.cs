@@ -49,17 +49,18 @@ namespace GraphicalEditorServer.Controllers
         [HttpGet("search")]
         public ActionResult GetEquipmentWithRoomForSearchTerm(string term = "")
         {
-            Console.WriteLine(term);
+       
             List<Equipment> equipment = _equipmentService.GetEquipmentWithRoomForSearchTerm(term);
 
-            List<EquipmentWithRoomDTO> equipmentWithRoomDTOs = new List<EquipmentWithRoomDTO>();
+            List<EquipmentWithRoomDTO> allEquipmentWithRoomDTOs = new List<EquipmentWithRoomDTO>();
             foreach(Equipment e in equipment)
             {
-                EquipmentWithRoomDTO equipmentInRoomDTO = EquipmentWithRoomMapper.EquipmentToEquipmentWithRoomDTO(e, _equipmentInRoomsService.GetEquipmentInRoomsFromEquipment(e));
-                equipmentWithRoomDTOs.Add(equipmentInRoomDTO);
+                List<EquipmentWithRoomDTO> equipmentInRoomDTO = EquipmentWithRoomMapper.EquipmentToEquipmentWithRoomDTO(e, _equipmentInRoomsService.GetEquipmentInRoomsFromEquipment(e));
+
+                allEquipmentWithRoomDTOs.AddRange(equipmentInRoomDTO);
             }
 
-            return Ok(equipmentWithRoomDTOs);
+            return Ok(allEquipmentWithRoomDTOs);
         }
 
     }

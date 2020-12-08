@@ -40,9 +40,9 @@ namespace Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository
             throw new NotImplementedException();
         }
 
-        public DrugInRoom GetDrugInRoomByDrugId(int drugId)
+        public List<DrugInRoom> GetDrugInRoomByDrugId(int drugId)
         {
-            return _context.DrugsInRooms.Single(x => x.DrugId == drugId);
+            return _context.DrugsInRooms.Where(x => x.DrugId == drugId).ToList();
         }
 
     }

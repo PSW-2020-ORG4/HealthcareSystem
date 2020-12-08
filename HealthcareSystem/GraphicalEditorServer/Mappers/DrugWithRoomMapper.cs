@@ -10,15 +10,21 @@ namespace GraphicalEditorServer.Mappers
 {
     public class DrugWithRoomMapper
     {
-        public static DrugWithRoomDTO DrugToDrugWithRoomDTO(Drug drug, DrugInRoom drugInRoom)
+        public static List<DrugWithRoomDTO> DrugToDrugWithRoomDTO(Drug drug, List<DrugInRoom> drugsInRooms)
         {
-            DrugWithRoomDTO drugWithRoomDTO = new DrugWithRoomDTO();
-            drugWithRoomDTO.DrugId = drug.Id;
-            drugWithRoomDTO.RoomNumber = drugInRoom.RoomNumber;
-            drugWithRoomDTO.Quantity = drug.Quantity;
-            drugWithRoomDTO.DrugName = drug.Name;
+            List<DrugWithRoomDTO> drugWithRoomDTOs = new List<DrugWithRoomDTO>();
+            foreach (DrugInRoom drugInRoom in drugsInRooms)
+            {
+                DrugWithRoomDTO drugWithRoomDTO = new DrugWithRoomDTO();
+                drugWithRoomDTO.DrugId = drug.Id;
+                drugWithRoomDTO.RoomNumber = drugInRoom.RoomNumber;
+                drugWithRoomDTO.Quantity = drug.Quantity;
+                drugWithRoomDTO.DrugName = drug.Name;
+                drugWithRoomDTOs.Add(drugWithRoomDTO);
+            }
+           
 
-            return drugWithRoomDTO;
+            return drugWithRoomDTOs;
         }
     }
 }

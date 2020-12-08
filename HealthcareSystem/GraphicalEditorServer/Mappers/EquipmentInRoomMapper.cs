@@ -9,16 +9,21 @@ namespace GraphicalEditorServer.Mappers
 {
     public class EquipmentWithRoomMapper
     {
-        public static EquipmentWithRoomDTO EquipmentToEquipmentWithRoomDTO(Equipment e, EquipmentInRooms equipmentInRoom)
+        public static List<EquipmentWithRoomDTO> EquipmentToEquipmentWithRoomDTO(Equipment e, List<EquipmentInRooms> equipmentInRooms)
         {
-            EquipmentWithRoomDTO equipmentWithRoomDTO = new EquipmentWithRoomDTO();
-            equipmentWithRoomDTO.IdEquipment = e.Id;
-            equipmentWithRoomDTO.RoomNumber = equipmentInRoom.RoomNumber;
-            equipmentWithRoomDTO.Quantity = e.Quantity;
-            equipmentWithRoomDTO.EquipmentName = e.Type.Name;
-            equipmentWithRoomDTO.IsEquipmentConsumable = e.Type.IsConsumable;
-
-            return equipmentWithRoomDTO;
+            List<EquipmentWithRoomDTO> equipmentWithRoomDTOs = new List<EquipmentWithRoomDTO>();
+            foreach (EquipmentInRooms eqInRoom in equipmentInRooms)
+            {
+                EquipmentWithRoomDTO equipmentWithRoomDTO = new EquipmentWithRoomDTO();
+                equipmentWithRoomDTO.IdEquipment = e.Id;
+                equipmentWithRoomDTO.RoomNumber = eqInRoom.RoomNumber;
+                equipmentWithRoomDTO.Quantity = e.Quantity;
+                equipmentWithRoomDTO.EquipmentName = e.Type.Name;
+                equipmentWithRoomDTO.IsEquipmentConsumable = e.Type.IsConsumable;
+                equipmentWithRoomDTOs.Add(equipmentWithRoomDTO);
+            }
+            
+            return equipmentWithRoomDTOs;
         }
     }
 }

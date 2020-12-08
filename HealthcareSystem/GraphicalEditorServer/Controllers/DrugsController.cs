@@ -56,14 +56,14 @@ namespace GraphicalEditorServer.Controllers
 
             List<Drug> drugs = _drugService.GetDrugWithRoomForSearchTerm(term);
 
-            List<DrugWithRoomDTO> drugWithRoomDTOs = new List<DrugWithRoomDTO>();
+            List<DrugWithRoomDTO> allDrugWithRoomDTOs = new List<DrugWithRoomDTO>();
             foreach (Drug d in drugs)
             {
-                DrugWithRoomDTO drugInRoomDTO = DrugWithRoomMapper.DrugToDrugWithRoomDTO(d, _drugInRoomService.GetDrugsInRoomsFromDrug(d));
-                drugWithRoomDTOs.Add(drugInRoomDTO);
+                List<DrugWithRoomDTO> drugInRoomDTO = DrugWithRoomMapper.DrugToDrugWithRoomDTO(d, _drugInRoomService.GetDrugsInRoomsFromDrug(d));
+                allDrugWithRoomDTOs.AddRange(drugInRoomDTO);
             }
 
-            return Ok(drugWithRoomDTOs);
+            return Ok(allDrugWithRoomDTOs);
         }
 
 

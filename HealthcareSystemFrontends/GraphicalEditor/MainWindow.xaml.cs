@@ -76,6 +76,21 @@ namespace GraphicalEditor
             }
         }
 
+        private int _previousSelectedMenuOptionIndex = 0;
+        public int PreviousSelectedMenuOptionIndex
+        {
+            get { return _previousSelectedMenuOptionIndex; }
+            set
+            {
+                _previousSelectedMenuOptionIndex = value;
+                OnPropertyChanged("PreviousSelectedMenuOptionIndex");
+            }
+        }
+
+        private List<int> _selectedMenuOptionsHistory;
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName = null)
@@ -161,7 +176,8 @@ namespace GraphicalEditor
                 Console.WriteLine(res.RoomNumber);
                 Console.WriteLine("---");
             }*/
-            
+
+            _selectedMenuOptionsHistory = new List<int>();
         }
 
         public MainWindow(string currentUserRole)
@@ -184,6 +200,8 @@ namespace GraphicalEditor
             LoadInitialMapOnCanvas();
 
             RestrictUsersAccessBasedOnRole();
+
+            _selectedMenuOptionsHistory = new List<int>();
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -471,6 +489,8 @@ namespace GraphicalEditor
         {
             SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
 
+            UpdateMenuOptionSelectionHistory(SelectedMenuOptionIndex);
+
             switch (SelectedMenuOptionIndex)
             {
                 case 0:
@@ -490,6 +510,43 @@ namespace GraphicalEditor
                     break;
             }
         }
+
+        private void UpdateMenuOptionSelectionHistory(int currentlySelectedMenuOptionIndex)
+        {
+            if (_selectedMenuOptionsHistory.Count >= 0 && _selectedMenuOptionsHistory.Count < 2)
+            {
+                _selectedMenuOptionsHistory.Add(currentlySelectedMenuOptionIndex);
+            }
+            else
+            {
+                _selectedMenuOptionsHistory.RemoveAt(0);
+                _selectedMenuOptionsHistory.Add(currentlySelectedMenuOptionIndex);
+
+                PreviousSelectedMenuOptionIndex = _selectedMenuOptionsHistory[0];
+                SelectedMenuOptionIndex = _selectedMenuOptionsHistory[1];
+            }
+
+            ChangeBackButtonEnablement();
+        }
+
+        private void ChangeBackButtonEnablement()
+        {
+            if ((_selectedMenuOptionsHistory.Count >= 0 && _selectedMenuOptionsHistory.Count < 2)
+                || (PreviousSelectedMenuOptionIndex == SelectedMenuOptionIndex))
+            {
+                BackButton.IsEnabled = false;
+            }
+            else
+            {
+                BackButton.IsEnabled = true;
+            }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateMenuOptionSelectionHistory(PreviousSelectedMenuOptionIndex);
+        }
+
 
         private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
         {

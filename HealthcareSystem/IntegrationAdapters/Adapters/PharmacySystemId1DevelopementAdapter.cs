@@ -7,14 +7,14 @@ using System.Collections.Generic;
 
 namespace IntegrationAdapters.Adapters
 {
-    public class PharmacySystem_ID1_DevelopementAdapter : IPharmacySystemAdapter
+    public class PharmacySystemId1DevelopementAdapter : IPharmacySystemAdapter
     {
         private readonly IMapper _mapper;
         private readonly PharmacySystemAdapterParameters _parameters;
         private Channel _grpcChannel;
         private DrugAvailability.DrugAvailabilityClient _grpcClient;
 
-        public PharmacySystem_ID1_DevelopementAdapter(PharmacySystemAdapterParameters parameters, IMapper mapper)
+        public PharmacySystemId1DevelopementAdapter(PharmacySystemAdapterParameters parameters, IMapper mapper)
         {
             _parameters = parameters;
             _mapper = mapper;
@@ -34,7 +34,7 @@ namespace IntegrationAdapters.Adapters
                 _grpcChannel.ShutdownAsync().Wait();
         }
 
-        public List<DrugDTO> DrugAvailibility(string name)
+        public List<DrugDto> DrugAvailibility(string name)
         {
             FindDrugRequest request = new FindDrugRequest();
             request.ApiKey = _parameters.ApiKey;
@@ -50,10 +50,10 @@ namespace IntegrationAdapters.Adapters
             }
             if (response != null && response.Drugs != null && response.Drugs.Count > 0)
             {
-                return _mapper.Map<List<DrugDTO>>(response.Drugs);
+                return _mapper.Map<List<DrugDto>>(response.Drugs);
             }
 
-            return null;
+            return new List<DrugDto>();
         }
     }
 }

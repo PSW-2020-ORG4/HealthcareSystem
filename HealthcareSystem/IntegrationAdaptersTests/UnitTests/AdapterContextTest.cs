@@ -18,7 +18,7 @@ namespace IntegrationAdaptersTests.UnitTests
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
             List<Profile> profiles = new List<Profile>()
             {
-                new Pharmacy_ID1_Profile(),
+                new PharmacyId1Profile(),
                 new PharmacySystemProfile()
             };
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfiles(profiles));

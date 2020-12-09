@@ -28,7 +28,7 @@ namespace IntegrationAdapters.Adapters
                 switch (_pharmacySystem.Id)
                 {
                     case 1:
-                        _pharmacySystemAdapter = new PharmacySystem_ID1_DevelopementAdapter(parameters, _mapper);
+                        _pharmacySystemAdapter = new PharmacySystemId1DevelopementAdapter(parameters, _mapper);
                         break;
                     default:
                         _pharmacySystemAdapter = null;

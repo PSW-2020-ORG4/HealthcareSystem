@@ -1,14 +1,11 @@
 ﻿using Backend.Model.Pharmacies;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace IntegrationAdapters.Dtos
 {
-    public class SearchResultDTO
+    public class SearchResultDto
     {
         public PharmacySystem pharmacySystem { get; set; }
-        public List<DrugDTO> drugs { get; set; }
+        public List<DrugDto> drugs { get; set; }
     }
 }

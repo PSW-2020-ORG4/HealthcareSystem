@@ -28,25 +28,24 @@ namespace IntegrationAdapters.Controllers
         public IActionResult Search(string name)
         {
             var pharmacySystems = _pharmacyService.GetAllPharmacies();
-            List<SearchResultDTO> result = new List<SearchResultDTO>();
+            List<SearchResultDto> result = new List<SearchResultDto>();
             foreach (PharmacySystem pharmacySystem in pharmacySystems)
             {
                 if (_adapterContext.SetPharmacySystemAdapter(pharmacySystem) == null)
                     continue;
 
-                List<DrugDTO> search = null;
-
+                List<DrugDto> search = new List<DrugDto> ();
                 try
                 {
-                 search = _adapterContext.GetPharmacySystemAdapter().DrugAvailibility(name);
+                 search.AddRange(_adapterContext.GetPharmacySystemAdapter().DrugAvailibility(name));
                 } 
                 catch(GrpcException gEx)
                 {
                     Console.WriteLine(gEx);
                 }
 
-                if(search != null)
-                    result.Add(new SearchResultDTO() { pharmacySystem = pharmacySystem, drugs = new List<DrugDTO>(search) });
+                if(search.Count > 0)
+                    result.Add(new SearchResultDto() { pharmacySystem = pharmacySystem, drugs = new List<DrugDto>(search) });
             }
             _adapterContext.RemoveAdapter();
             ViewBag.SearchBox = name;

@@ -7,6 +7,6 @@ namespace IntegrationAdapters.Adapters
     public interface IPharmacySystemAdapter
     {
         public void CloseConnections();
-        public List<DrugDTO> DrugAvailibility(string name);
+        public List<DrugDto> DrugAvailibility(string name);
     }
 }

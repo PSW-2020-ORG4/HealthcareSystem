@@ -47,9 +47,9 @@ namespace GraphicalEditor.Models.MapObjectRelated
             }
         }
 
-        public void ClearOtherFloors(MapObject mapObject, int choosenFloor, Canvas canvas)
+        public void ClearAllFloors(MapObject mapObject, int choosenFloor, Canvas canvas)
         {
-            if (mapObject.MapObjectEntity.GetType() == typeof(Room) && ((Room)mapObject.MapObjectEntity).BuildingId == Id && ((Room)mapObject.MapObjectEntity).Floor != choosenFloor)
+            if (mapObject.MapObjectEntity.GetType() == typeof(Room) && ((Room)mapObject.MapObjectEntity).BuildingId == Id)
             {
                 mapObject.RemoveFromCanvas(canvas);
             }
@@ -57,21 +57,27 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         public void ShowChoosenFloor(object sender, RoutedEventArgs e)
         {
-            int choosenFloor = Int32.Parse((e.Source as Button).Content.ToString());
-            ChangeFloorButtonsEnablement(e.Source as Button);
+            int choosenFloorNumber = Int32.Parse((e.Source as Button).Content.ToString());
+            ChangeFloorButtonsEnablement(choosenFloorNumber);
+            ShowFloorByFloorNumber(choosenFloorNumber);
+            
+        }
+
+        private void ShowFloorByFloorNumber(int choosenFloorNumber)
+        {
             foreach (MapObject mapObject in MainWindow._allMapObjects)
             {
-                ClearOtherFloors(mapObject, choosenFloor, MainWindow._canvas);
-                LoadChoosenFloor(mapObject, choosenFloor, MainWindow._canvas);
+                ClearAllFloors(mapObject, choosenFloorNumber, MainWindow._canvas);
+                LoadChoosenFloor(mapObject, choosenFloorNumber, MainWindow._canvas);
             }
         }
 
-        private void ChangeFloorButtonsEnablement(Button choosenButton)
+        private void ChangeFloorButtonsEnablement(int choosenFloorNumber)
         {
             List<Button> floorButtons = BuildingLayersButtons.LayersSelectButtons;
             foreach (Button button in floorButtons)
             {
-                if (!button.Content.ToString().Equals(choosenButton.Content.ToString()))
+                if (Int32.Parse(button.Content.ToString()) != (choosenFloorNumber))
                 {
                     button.IsEnabled = true;
                 }
@@ -80,6 +86,12 @@ namespace GraphicalEditor.Models.MapObjectRelated
                     button.IsEnabled = false;
                 }
             }
+        }
+
+        public void ShowFloorForSpecificMapObject(MapObject mapObject)
+        {
+            ChangeFloorButtonsEnablement(((Room)mapObject.MapObjectEntity).Floor);
+            ShowFloorByFloorNumber(((Room)mapObject.MapObjectEntity).Floor);
         }
     }
 }

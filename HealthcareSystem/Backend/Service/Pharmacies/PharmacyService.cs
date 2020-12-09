@@ -47,6 +47,11 @@ namespace Backend.Service.Pharmacies
             return _pharmacyRepo.GetPharmacyById(id);
         }
 
+        public PharmacySystem GetPharmacyByIdNoTracking(int id)
+        {
+            return _pharmacyRepo.GetPharmacyByIdNoTracking(id);
+        }
+
         public void SubscribeUnsubscibe(int id, bool subscribe)
         {
             PharmacySystem p = _pharmacyRepo.GetPharmacyById(id);

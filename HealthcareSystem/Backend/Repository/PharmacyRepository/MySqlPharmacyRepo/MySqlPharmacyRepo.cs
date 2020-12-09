@@ -1,5 +1,6 @@
 ﻿using Backend.Model;
 using Backend.Model.Pharmacies;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,11 @@ namespace Backend.Repository
         public PharmacySystem GetPharmacyById(int id)
         {
             return _context.Pharmacies.FirstOrDefault(p => p.Id == id);
+        }
+
+        public PharmacySystem GetPharmacyByIdNoTracking(int id)
+        {
+            return _context.Pharmacies.AsNoTracking().Where(p => p.Id == id).FirstOrDefault();
         }
 
         public void CreatePharmacy(PharmacySystem p)
@@ -65,5 +71,6 @@ namespace Backend.Repository
         {
             return _context.Pharmacies.Where(p => p.ActionsBenefitsSubscribed == subscribed);
         }
+
     }
 }

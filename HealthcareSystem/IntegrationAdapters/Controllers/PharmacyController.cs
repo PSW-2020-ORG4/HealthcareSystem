@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Backend.Model.Pharmacies;
+using Backend.Service;
 using Backend.Service.Pharmacies;
+using IntegrationAdapters.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdapters.Controllers
@@ -9,10 +11,12 @@ namespace IntegrationAdapters.Controllers
     public class PharmacyController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly IPharmacyService _pharmacyService;
+        private readonly IActionBenefitMessageingService _actionBenefitMessageingService;
 
-        public PharmacyController(IPharmacyService iPharmacyService)
+        public PharmacyController(IPharmacyService iPharmacyService, RabbitMqActionBenefitMessageingService actionBenefitMessageingService)
         {
             _pharmacyService = iPharmacyService;
+            _actionBenefitMessageingService = actionBenefitMessageingService;
         }
 
         public IActionResult ApiRegister()
@@ -38,6 +42,9 @@ namespace IntegrationAdapters.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (pharmacy.ActionsBenefitsSubscribed)
+                _actionBenefitMessageingService.Subscribe(pharmacy.ActionsBenefitsExchangeName);
+
             TempData["Success"] = "Registration successful!";
             return RedirectToAction("ApiRegister");
         }
@@ -60,10 +67,19 @@ namespace IntegrationAdapters.Controllers
         [HttpPost]
         public IActionResult Edit(PharmacySystem pharmacy)
         {
+            PharmacySystem pharmacyOld = _pharmacyService.GetPharmacyByIdNoTracking(pharmacy.Id);
+            if (pharmacyOld == null)
+                throw new ArgumentNullException("There is no pharmacy with id=" + pharmacy.Id);
+
             if (pharmacy.ActionsBenefitsExchangeName == null)
                 pharmacy.ActionsBenefitsSubscribed = false;
 
             _pharmacyService.UpdatePharmacy(pharmacy);
+
+            _actionBenefitMessageingService.SubscriptionEdit(pharmacyOld.ActionsBenefitsExchangeName, 
+                                                             pharmacyOld.ActionsBenefitsSubscribed, 
+                                                             pharmacy.ActionsBenefitsExchangeName, 
+                                                             pharmacy.ActionsBenefitsSubscribed);
 
             return RedirectToAction("Index");
         }

@@ -26,6 +26,10 @@ namespace Backend.Service
         private readonly String _password;
         private readonly String _queueName;
 
+        public RabbitMqActionBenefitMessageingService()
+        {
+        }
+
         public RabbitMqActionBenefitMessageingService(IServiceProvider service, IOptions<RabbitMqConfiguration> rabbitMqOPtions)
         {
             _service = service;
@@ -33,10 +37,10 @@ namespace Backend.Service
             _username = rabbitMqOPtions.Value.Username;
             _password = rabbitMqOPtions.Value.Password;
             _queueName = "bolnica-1";
-            InitializeRabbitMqListener();
+            InitializeRabbitMqListener(0);
         }
 
-        private void InitializeRabbitMqListener()
+        private void InitializeRabbitMqListener(int iteration)
         {
             try
             {
@@ -60,9 +64,20 @@ namespace Backend.Service
                         _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");
                     }
                 }
-            }catch(BrokerUnreachableException bue)
+            }
+            catch (BrokerUnreachableException bue)
             {
-                Dispose();
+                if (iteration < 3)
+                {
+                    //set wait time
+                    Thread.Sleep(5000);
+                    InitializeRabbitMqListener(++iteration);
+                }
+                else
+                {
+                    Console.WriteLine(bue.Message);
+                    Dispose();
+                }
             }
         }
 
@@ -132,6 +147,7 @@ namespace Backend.Service
             }
             catch(Exception ex) 
             {
+                Console.WriteLine(ex.Message);
                 _channel.BasicReject(e.DeliveryTag, false);
             }
         }
@@ -165,6 +181,24 @@ namespace Backend.Service
                 _connection.Dispose();
 
             base.Dispose();
+        }
+
+        public void SubscriptionEdit(string exOld, bool subOld, string exNew, bool subNew)
+        {
+            if (subOld != subNew || exOld != exNew)
+            {
+                if (subOld && !subNew && exOld == exNew)
+                    Unsubscribe(exOld);
+                else if (!subOld && subNew && exOld == exNew)
+                    Subscribe(exNew);
+                else if (subOld && subNew && exOld != exNew)
+                {
+                    Unsubscribe(exOld);
+                    Subscribe(exNew);
+                }
+                else if (!subOld && subNew)
+                    Subscribe(exNew);
+            }
         }
     }
 }

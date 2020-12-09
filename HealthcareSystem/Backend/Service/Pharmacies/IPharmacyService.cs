@@ -11,6 +11,7 @@ namespace Backend.Service.Pharmacies
     {
         IEnumerable<PharmacySystem> GetAllPharmacies();
         PharmacySystem GetPharmacyById(int id);
+        PharmacySystem GetPharmacyByIdNoTracking(int id);
         PharmacySystem GetPharmacyByExchangeName(string exchangeName);
         List<PharmacySystem> GetPharmaciesBySubscribed(bool subscribed);
 

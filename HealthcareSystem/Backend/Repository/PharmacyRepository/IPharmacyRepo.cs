@@ -13,6 +13,7 @@ namespace Backend.Repository
 
         IEnumerable<PharmacySystem> GetAllPharmacies();
         PharmacySystem GetPharmacyById(int id);
+        PharmacySystem GetPharmacyByIdNoTracking(int id);
         PharmacySystem GetPharmacyByExchangeName(string exchangeName);
         IEnumerable<PharmacySystem> GetPharmaciesBySubscribed(bool subscribed);
 

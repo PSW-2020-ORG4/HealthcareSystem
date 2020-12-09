@@ -5,7 +5,7 @@ namespace IntegrationAdapters.Adapters
 {
     public interface IAdapterContext : IDisposable
     {
-        public void SetPharmacySystemAdapter(PharmacySystem pharmacy);
+        public void SetPharmacySystemAdapter(PharmacySystem pharmacySystem);
         public IPharmacySystemAdapter GetPharmacySystemAdapter();
     }
 }

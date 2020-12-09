@@ -1,5 +1,4 @@
 ﻿using IntegrationAdapters.Dtos;
-using System;
 using System.Collections.Generic;
 
 namespace IntegrationAdapters.Adapters

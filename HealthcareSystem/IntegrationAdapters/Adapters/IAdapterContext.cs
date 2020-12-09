@@ -1,5 +1,4 @@
 ﻿using Backend.Model.Pharmacies;
-using System;
 
 namespace IntegrationAdapters.Adapters
 {

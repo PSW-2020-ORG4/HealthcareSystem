@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace IntegrationAdapters.Adapters
 {
-    public interface IPharmacySystemAdapter : IDisposable
+    public interface IPharmacySystemAdapter
     {
+        public void CloseConnections();
         public List<DrugDTO> DrugAvailibility(string name);
-        //public void Tender();
     }
 }

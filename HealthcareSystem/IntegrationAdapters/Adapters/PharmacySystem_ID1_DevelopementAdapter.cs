@@ -28,6 +28,12 @@ namespace IntegrationAdapters.Adapters
             _grpcClient = new DrugAvailability.DrugAvailabilityClient(_grpcChannel);
         }
 
+        public void CloseConnections()
+        {
+            if (_grpcChannel != null && _grpcChannel.State != ChannelState.Shutdown)
+                _grpcChannel.ShutdownAsync().Wait();
+        }
+
         public List<DrugDTO> DrugAvailibility(string name)
         {
             FindDrugRequest request = new FindDrugRequest();
@@ -48,12 +54,6 @@ namespace IntegrationAdapters.Adapters
             }
 
             return null;
-        }
-
-        public void Dispose()
-        {
-            if (_grpcChannel != null && _grpcChannel.State != ChannelState.Shutdown)
-                _grpcChannel.ShutdownAsync().Wait();
         }
     }
 }

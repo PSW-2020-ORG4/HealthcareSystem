@@ -17,21 +17,21 @@ namespace IntegrationAdapters.Adapters
             _environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         }
 
-        public void SetPharmacySystemAdapter(PharmacySystem pharmacySystem)
+        public IPharmacySystemAdapter SetPharmacySystemAdapter(PharmacySystem pharmacySystem)
         {
-            Dispose();
+            RemoveAdapter();
             _pharmacySystem = pharmacySystem;
             PharmacySystemAdapterParameters parameters = _mapper.Map<PharmacySystemAdapterParameters>(_pharmacySystem);
 
             if (_environment == "Development")
             {
-                switch (pharmacySystem.Id)
+                switch (_pharmacySystem.Id)
                 {
                     case 1:
                         _pharmacySystemAdapter = new PharmacySystem_ID1_DevelopementAdapter(parameters, _mapper);
                         break;
                     default:
-                        _pharmacySystem = null;
+                        _pharmacySystemAdapter = null;
                         break;
                 }
             } 
@@ -39,14 +39,16 @@ namespace IntegrationAdapters.Adapters
             {
                 switch (pharmacySystem.Id)
                 {
-                    case 1:
+                    //case 1:
                     //_pharmacySystemAdapter = new PharmacySystem_ID1_ProductionAdapter(parameters, _mapper);
                     //break;
                     default:
-                        _pharmacySystem = null;
+                        _pharmacySystemAdapter = null;
                         break;
                 }
             }
+
+            return _pharmacySystemAdapter;
         }
 
         public IPharmacySystemAdapter GetPharmacySystemAdapter()
@@ -54,10 +56,11 @@ namespace IntegrationAdapters.Adapters
             return _pharmacySystemAdapter;
         }
 
-        public void Dispose()
+        public void RemoveAdapter()
         {
             if (_pharmacySystemAdapter != null)
-                _pharmacySystemAdapter.Dispose();
+                _pharmacySystemAdapter.CloseConnections();
+            _pharmacySystemAdapter = null;
         }
     }
 }

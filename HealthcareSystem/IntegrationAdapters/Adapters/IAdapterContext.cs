@@ -3,9 +3,10 @@ using System;
 
 namespace IntegrationAdapters.Adapters
 {
-    public interface IAdapterContext : IDisposable
+    public interface IAdapterContext
     {
-        public void SetPharmacySystemAdapter(PharmacySystem pharmacySystem);
+        public IPharmacySystemAdapter SetPharmacySystemAdapter(PharmacySystem pharmacySystem);
         public IPharmacySystemAdapter GetPharmacySystemAdapter();
+        public void RemoveAdapter();
     }
 }

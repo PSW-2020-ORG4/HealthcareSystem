@@ -31,18 +31,24 @@ namespace IntegrationAdapters.Controllers
             List<SearchResultDTO> result = new List<SearchResultDTO>();
             foreach (PharmacySystem pharmacySystem in pharmacySystems)
             {
-                _adapterContext.SetPharmacySystemAdapter(pharmacySystem);
+                if (_adapterContext.SetPharmacySystemAdapter(pharmacySystem) == null)
+                    continue;
+
                 List<DrugDTO> search = null;
+
                 try
                 {
                  search = _adapterContext.GetPharmacySystemAdapter().DrugAvailibility(name);
-                } catch(GrpcException gEx)
+                } 
+                catch(GrpcException gEx)
                 {
                     Console.WriteLine(gEx);
                 }
+
                 if(search != null)
                     result.Add(new SearchResultDTO() { pharmacySystem = pharmacySystem, drugs = new List<DrugDTO>(search) });
             }
+            _adapterContext.RemoveAdapter();
             ViewBag.SearchBox = name;
             return View(result);
         }

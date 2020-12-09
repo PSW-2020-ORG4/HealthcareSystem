@@ -40,9 +40,9 @@ namespace Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRep
             throw new NotImplementedException();
         }
 
-        public EquipmentInRooms GetEquipmenInRoomsByEquipmentId(int idEquipment)
+        public List<EquipmentInRooms> GetEquipmenInRoomsByEquipmentId(int idEquipment)
         {
-            return _context.EquipmentsInRooms.Single(x => x.IdEquipment == idEquipment);
+            return _context.EquipmentsInRooms.Where(x => x.IdEquipment == idEquipment).ToList();
         }
 
     }

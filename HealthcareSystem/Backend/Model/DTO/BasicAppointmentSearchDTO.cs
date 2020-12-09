@@ -12,14 +12,23 @@ namespace Backend.Model.DTO
         public DateTime EarliestDateTime { get; set; }
         public DateTime LatestDateTime { get; set; }
 
+        public BasicAppointmentSearchDTO(int patientCardId, string doctorJmbg, ICollection<int> requiredEquipmentTypes, DateTime earliestDateTime, DateTime latestDateTime)
+        {
+            PatientCardId = patientCardId;
+            DoctorJmbg = doctorJmbg;
+            RequiredEquipmentTypes = requiredEquipmentTypes;
+            EarliestDateTime = earliestDateTime;
+            LatestDateTime = latestDateTime;
+        }
+
         public void IsAppointmentValid()
         {
             if (string.IsNullOrEmpty(DoctorJmbg))
                 throw new ValidationException("Doctor jmbg cannot be null or empty.");
-            if (EarliestDateTime == null)
-                throw new ValidationException("Earliest date cannot be null.");
-            if (LatestDateTime == null)
-                throw new ValidationException("Latest date cannot be null");
+            if (DateTime.Compare(EarliestDateTime,DateTime.Now) <= 0)
+                throw new ValidationException("Earliest date must be greater than " + DateTime.Now.ToShortDateString() + ".");
+            if (DateTime.Compare(LatestDateTime, DateTime.Now) <= 0)
+                throw new ValidationException("Latest date must be greater than " + DateTime.Now.ToShortDateString() + ".");
         }
     }
 }

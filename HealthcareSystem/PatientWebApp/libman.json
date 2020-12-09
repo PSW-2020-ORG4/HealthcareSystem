@@ -20,6 +20,14 @@
     {
       "library": "javascript.util@0.12.12",
       "destination": "wwwroot/lib/javascript.util/"
+    },
+    {
+      "library": "bootstrap-modal@2.2.6",
+      "destination": "wwwroot/bootstrap-modal/"
+    },
+    {
+      "library": "mdb-ui-kit@2.2.1",
+      "destination": "wwwroot/lib/mdb-ui-kit/"
     }
   ]
 }

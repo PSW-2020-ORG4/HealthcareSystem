@@ -41,7 +41,9 @@ namespace IntegrationAdaptersTests.UnitTests
             {
                 ["Success"] = "Registration successful!"
             };
-            return new PharmacyController(mockService.Object)
+
+            var mockRabbit = new Mock<Backend.Service.RabbitMqActionBenefitMessageingService>();
+            return new PharmacyController(mockService.Object, mockRabbit.Object)
             {
                 TempData = tempData
             };

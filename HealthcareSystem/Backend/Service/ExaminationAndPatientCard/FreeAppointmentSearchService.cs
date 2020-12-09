@@ -101,16 +101,42 @@ namespace Backend.Service.ExaminationAndPatientCard
         private ICollection<DateTime> GenerateStartTimes(DateTime earliest, DateTime latest)
         {
             ICollection<DateTime> startTimes = new List<DateTime>();
+            earliest = InitializeEarliestTime(earliest);
+            latest = InitializeLatestTime(latest);
 
             for(DateTime time = earliest; DateTime.Compare(time, latest) < 0; time = time.Add(_appointmentDuration))
-                startTimes.Add(time);
-   
+            {
+                if (CheckIfTimeValid(time))
+                {
+                    startTimes.Add(time);
+                    continue;
+                }
+                time = new DateTime(time.Year, time.Month, time.Day + 1, 6, 30, 0);
+            }
+                
             return startTimes;
+        }
+        private DateTime InitializeEarliestTime(DateTime earliest)
+        {
+            return new DateTime(earliest.Year,earliest.Month,earliest.Day,7,0,0);
+        }
+
+        private DateTime InitializeLatestTime(DateTime latest)
+        {
+            return new DateTime(latest.Year, latest.Month, latest.Day, 17, 0, 0);
+        }
+        private bool CheckIfTimeValid(DateTime dateTime)
+        {
+            if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(7, 0, 0)) < 0)
+                return false;
+            if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(17, 0, 0)) > 0)
+                return false;
+            return true;
         }
         private bool IsAvailable(Examination examination)
         {
-            if (IsDoctorAvailable(examination.DoctorJmbg, examination.DateAndTime) && 
-                IsRoomAvailable(examination.IdRoom, examination.DateAndTime) && 
+            if (IsDoctorAvailable(examination.DoctorJmbg, examination.DateAndTime) &&
+                IsRoomAvailable(examination.IdRoom, examination.DateAndTime) &&
                 IsPatientAvailable(examination.IdPatientCard, examination.DateAndTime))
                 return true;
 

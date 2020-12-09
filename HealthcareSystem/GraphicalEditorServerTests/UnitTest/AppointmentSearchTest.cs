@@ -1,0 +1,74 @@
+﻿using GraphicalEditorServerTests.DataFactory;
+using Model.Enums;
+using Model.Manager;
+using Service.RoomAndEquipment;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Xunit;
+
+namespace GraphicalEditorServerTests.UnitTest
+{
+    public class AppointmentSearchTest
+    {
+        private readonly StubRepository _stubRepository;
+
+        public AppointmentSearchTest()
+        {
+            _stubRepository = new StubRepository();
+        }
+
+        private RoomService SetupRoomService()
+        {
+            RoomService roomService = new RoomService(_stubRepository.CreateRoomStubRepository(),
+                _stubRepository.CreateRenovationStubRepository(),
+                _stubRepository.CreateEquipmentInRoomStubRepository(),
+                _stubRepository.CreateEquipmentStubRepository());
+
+            return roomService;
+        }
+
+        [Fact]
+        public void Find_available_rooms_from_required_equipment_Negative0()
+        {
+            RoomService roomService = SetupRoomService();
+            List<Room> result = (List<Room>)roomService.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>() { 0, 1, 3 });
+
+            Assert.True(result.Count == 0);
+        }
+
+        [Fact]
+        public void Find_available_rooms_from_required_equipment_Positive1()
+        {
+            RoomService roomService = SetupRoomService();
+            List<Room> result = (List<Room>)roomService.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>() { 3, 2 });
+
+            List<Room> validResult = new List<Room>();
+            validResult.Add(new Room(1, TypeOfUsage.CONSULTING_ROOM, 20, 10, false));
+            validResult.Add(new Room(2, TypeOfUsage.CONSULTING_ROOM, 20, 10, false));
+
+            Assert.Equal(2, result.Count);
+        }
+
+        [Fact]
+        public void Find_available_rooms_from_required_equipment_Positive2()
+        {
+            RoomService roomService = SetupRoomService();
+            List<Room> result = (List<Room>)roomService.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>() { 2, 3, 4 });
+
+            List<Room> validResult = new List<Room>();
+            validResult.Add(new Room(2, TypeOfUsage.CONSULTING_ROOM, 20, 10, false));
+
+            Assert.Single(result);
+        }
+
+        [Fact]
+        public void Find_available_rooms_from_required_equipment_Negative3()
+        {
+            RoomService roomService = SetupRoomService();
+            List<Room> result = (List<Room>)roomService.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>() { 2,3,5,6 });
+
+            Assert.True(result.Count == 0);
+        }
+    }
+}

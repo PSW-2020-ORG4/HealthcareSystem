@@ -1,4 +1,5 @@
-﻿using Model.Manager;
+﻿using Backend.Model.Manager;
+using Model.Manager;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,5 +20,32 @@ namespace GraphicalEditorServerTests.DataFactory
         {
             return new Equipment(30, new CreateEquipmentType().CreateValidTestObject());
         }
+
+        public Equipment CreateBedTestObject()
+        {
+            return new Equipment(30, new EquipmentType(0, "bed", false));
+        }
+        
+        public Equipment CreateMaskTestObject()
+        {
+            return new Equipment(30, new EquipmentType(1, "mask", true));
+        }
+
+        public Equipment CreateComputerTestObject()
+        {
+            return new Equipment(30, new EquipmentType(2, "computer", false));
+        }
+
+        public Equipment CreateNeedleTestObject()
+        {
+            return new Equipment(30, new EquipmentType(3, "needle", true));
+        }
+
+        public Equipment CreateBendTestObject()
+        {
+            return new Equipment(30, new EquipmentType(4, "bend", true));
+        }
+
+
     }
 }

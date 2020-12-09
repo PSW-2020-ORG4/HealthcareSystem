@@ -11,13 +11,13 @@ namespace Backend.Repository
     {
         bool SaveChanges();
 
-        IEnumerable<Pharmacy> GetAllPharmacies();
-        Pharmacy GetPharmacyById(int id);
-        Pharmacy GetPharmacyByExchangeName(string exchangeName);
-        IEnumerable<Pharmacy> GetPharmaciesBySubscribed(bool subscribed);
+        IEnumerable<PharmacySystem> GetAllPharmacies();
+        PharmacySystem GetPharmacyById(int id);
+        PharmacySystem GetPharmacyByExchangeName(string exchangeName);
+        IEnumerable<PharmacySystem> GetPharmaciesBySubscribed(bool subscribed);
 
-        void CreatePharmacy(Pharmacy p);
-        void UpdatePharmacy(Pharmacy p);
-        void DeletePharmacy(Pharmacy p);
+        void CreatePharmacy(PharmacySystem p);
+        void UpdatePharmacy(PharmacySystem p);
+        void DeletePharmacy(PharmacySystem p);
     }
 }

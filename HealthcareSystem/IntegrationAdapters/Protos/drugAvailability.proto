@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option csharp_namespace = "IntegrationAdapters.Protos";
+
+package protos;
+
+service DrugAvailability {
+	rpc FindDrug(FindDrugRequest) returns(FindDrugResponse) {}
+}
+
+message FindDrugRequest {
+	string apiKey = 1;
+	string name = 2;
+}
+
+message FindDrugResponse {
+	repeated Drug drugs = 1;
+}
+
+message Drug {
+	int32 id = 1;
+	string name =2;
+	int32 quantity = 3;
+	Pharmacy pharmacy = 4;
+}
+
+message Pharmacy {
+	int32 id = 1;
+	string name = 2;
+}

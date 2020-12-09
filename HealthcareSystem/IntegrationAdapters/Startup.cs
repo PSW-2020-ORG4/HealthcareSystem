@@ -1,3 +1,4 @@
+using AutoMapper;
 using Backend.Communication.SftpCommunicator;
 using Backend.Model;
 using Backend.Model.Pharmacies;
@@ -7,12 +8,14 @@ using Backend.Repository.DrugConsumptionRepository.MySqlDrugConsumptionRepositor
 using Backend.Service;
 using Backend.Service.DrugConsumptionService;
 using Backend.Service.Pharmacies;
+using IntegrationAdapters.Adapters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace IntegrationAdapters
 {
@@ -43,7 +46,9 @@ namespace IntegrationAdapters
             services.AddScoped<ISftpCommunicator, SftpCommunicator>();
             services.AddScoped<IDrugConsumptionRepository, MySqlDrugConsumptionRepository>();
             services.AddScoped<IDrugConsumptionService, DrugConsumptionService>();
+            services.AddScoped<IAdapterContext, AdapterContext>();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

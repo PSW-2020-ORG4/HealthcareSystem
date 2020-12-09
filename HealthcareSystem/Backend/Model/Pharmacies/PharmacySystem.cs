@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Model.Pharmacies
 {
-    public class Pharmacy
+    public class PharmacySystem
     {
         [Key]
         public int Id { get; set; }
@@ -29,5 +29,9 @@ namespace Backend.Model.Pharmacies
 
         [Required] 
         public bool ActionsBenefitsSubscribed { get; set; } = false;
+
+        public string grpcHost { get; set; } = "localhost";
+
+        public int grpcPort { get; set; } = 30051;
     }
 }

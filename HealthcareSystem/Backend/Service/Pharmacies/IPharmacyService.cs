@@ -9,14 +9,14 @@ namespace Backend.Service.Pharmacies
 {
     public interface IPharmacyService
     {
-        IEnumerable<Pharmacy> GetAllPharmacies();
-        Pharmacy GetPharmacyById(int id);
-        Pharmacy GetPharmacyByExchangeName(string exchangeName);
-        List<Pharmacy> GetPharmaciesBySubscribed(bool subscribed);
+        IEnumerable<PharmacySystem> GetAllPharmacies();
+        PharmacySystem GetPharmacyById(int id);
+        PharmacySystem GetPharmacyByExchangeName(string exchangeName);
+        List<PharmacySystem> GetPharmaciesBySubscribed(bool subscribed);
 
         void SubscribeUnsubscibe(int id, bool subscribe);
-        void CreatePharmacy(Pharmacy p);
-        void UpdatePharmacy(Pharmacy p);
-        void DeletePharmacy(Pharmacy p);
+        void CreatePharmacy(PharmacySystem p);
+        void UpdatePharmacy(PharmacySystem p);
+        void DeletePharmacy(PharmacySystem p);
     }
 }

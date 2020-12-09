@@ -21,7 +21,7 @@ namespace IntegrationAdapters.Controllers
         }
 
         [HttpPost]
-        public IActionResult ApiRegister(Pharmacy pharmacy)
+        public IActionResult ApiRegister(PharmacySystem pharmacy)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -58,7 +58,7 @@ namespace IntegrationAdapters.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Pharmacy pharmacy)
+        public IActionResult Edit(PharmacySystem pharmacy)
         {
             if (pharmacy.ActionsBenefitsExchangeName == null)
                 pharmacy.ActionsBenefitsSubscribed = false;

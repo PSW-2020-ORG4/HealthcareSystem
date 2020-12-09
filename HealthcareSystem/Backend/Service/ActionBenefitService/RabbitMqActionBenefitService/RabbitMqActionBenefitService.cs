@@ -54,7 +54,7 @@ namespace Backend.Service
                 {
                     IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
 
-                    foreach (Pharmacy p in pharmacyService.GetPharmaciesBySubscribed(true))
+                    foreach (PharmacySystem p in pharmacyService.GetPharmaciesBySubscribed(true))
                     {
                         _channel.ExchangeDeclare(exchange: p.ActionsBenefitsExchangeName, type: ExchangeType.Fanout);
                         _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");

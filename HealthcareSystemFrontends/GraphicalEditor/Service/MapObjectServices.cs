@@ -1,4 +1,5 @@
 ﻿using GraphicalEditor.Models;
+using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Services.Interface;
 using System;
@@ -20,6 +21,20 @@ namespace GraphicalEditor.Services
         public void UpdateMapObject(MapObject mapObject)
         {
             _fileRepository.UpdateMapObject(mapObject);
+        }
+
+        public List<MapObject> SearchMapObjects(MapObjectType searchedMapObjectType)
+        {
+            List<MapObject> searchResultMapObjects = new List<MapObject>();
+
+            foreach (MapObject mapObject in MainWindow._allMapObjects)
+            {
+                if (mapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == searchedMapObjectType.TypeOfMapObject)
+                {
+                    searchResultMapObjects.Add(mapObject);
+                }
+            }
+            return searchResultMapObjects;
         }
     }
 }

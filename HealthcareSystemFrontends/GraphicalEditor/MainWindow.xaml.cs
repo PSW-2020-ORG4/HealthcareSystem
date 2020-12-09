@@ -152,16 +152,8 @@ namespace GraphicalEditor
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            // initializeDatabaseData.InitiliazeData();
 
-            /*  EquipementService equipementService = new EquipementService();
-              List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
-              foreach(EquipmentWithRoomDTO res in result)
-              {
-                  Console.WriteLine(res.IdEquipment);
-                  Console.WriteLine(res.RoomNumber);
-                  Console.WriteLine("---");S
-              } */
+            //initializeDatabaseData.InitiliazeData();
 
         }
 
@@ -492,12 +484,21 @@ namespace GraphicalEditor
             }
         }
 
-        private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
+        private void SearchMapObjectsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (SearchObjectTypeComboBox.SelectedItem != null)
+            {
+                MapObjectType searchedMapObjectType = (MapObjectType)SearchObjectTypeComboBox.SelectedItem;
+                List<MapObject> searchResultMapObjects = _mapObjectController.SearchMapObjects(searchedMapObjectType);
+                ObjectSearchResultsDataGrid.ItemsSource = searchResultMapObjects;
+            }
+            else
+            {
+                return;
+            }
         }
 
-        private void SearchMapObjectsButton_Click(object sender, RoutedEventArgs e)
+        private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

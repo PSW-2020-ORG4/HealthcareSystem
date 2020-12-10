@@ -1,5 +1,6 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Controllers;
+using GraphicalEditor.DTO;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.Equipment;
@@ -173,7 +174,8 @@ namespace GraphicalEditor
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            initializeDatabaseData.InitiliazeData();
+            //initializeDatabaseData.InitiliazeData();
+
 
             EquipementService equipementService = new EquipementService();
             /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
@@ -185,6 +187,7 @@ namespace GraphicalEditor
             }*/
 
             ListViewExtendMenu.SelectedIndex = 0;
+
         }
 
         public MainWindow(string currentUserRole)
@@ -533,12 +536,22 @@ namespace GraphicalEditor
         }
 
 
-        private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void SearchMapObjectsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SearchObjectTypeComboBox.SelectedItem != null)
+            {
+                MapObjectType searchedMapObjectType = (MapObjectType)SearchObjectTypeComboBox.SelectedItem;
+                List<MapObject> searchResultMapObjects = _mapObjectController.SearchMapObjects(searchedMapObjectType);
+                ObjectSearchResultsDataGrid.ItemsSource = searchResultMapObjects;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
         {
 
         }

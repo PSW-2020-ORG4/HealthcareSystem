@@ -144,11 +144,24 @@ namespace Service.DrugAndTherapy
             return confirmedDrugsInRoom;
         }
 
-        public DrugInRoom GetDrugInRoomByDrugId(int drugId)
+        public List<Drug> GetDrugWithRoomForSearchTerm(string searchTerm)
         {
-            DrugInRoom drugInRoom = _drugInRoomRepository.GetDrugInRoomByDrugId(drugId);
+            List<Drug> drugs = ViewConfirmedDrugs();
+            List<Drug> validEDrugs = new List<Drug>();
+            foreach (Drug d in drugs)
+            {
+                if (CheckIfDrugNameContainsSearchTerm(d, searchTerm))
+                    validEDrugs.Add(d);
+            }
 
-            return drugInRoom;
+            return validEDrugs;
+        }
+
+        private bool CheckIfDrugNameContainsSearchTerm(Drug drug, string searchTerm)
+        {
+            if (drug.Name.ToString().ToLower().Contains(searchTerm.ToLower()))
+                return true;
+            else return false;
         }
 
     }

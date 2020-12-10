@@ -29,7 +29,7 @@ namespace IntegrationAdaptersTests.UnitTests
         public void PharmacySystemAdapter_SetPharmacy1Adapter_ImplementedAdapter()
         {
             AdapterContext adapterContext = new AdapterContext(_mapper);
-            PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, grpcHost = "localhost", grpcPort = 30051 };
+            PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, GrpcHost = "localhost", GrpcPort = 30051 };
 
             adapterContext.SetPharmacySystemAdapter(pharmacy);
 
@@ -41,7 +41,7 @@ namespace IntegrationAdaptersTests.UnitTests
         {
             var mapper = new Mock<IMapper>();
             AdapterContext adapterContext = new AdapterContext(_mapper);
-            PharmacySystem pharmacy = new PharmacySystem { Id = 2, Name = "apoteka-2", ApiKey = "api-2", Url = "url-2", ActionsBenefitsExchangeName = "exchange-2", ActionsBenefitsSubscribed = true, grpcHost = "localhost", grpcPort = 30051 };
+            PharmacySystem pharmacy = new PharmacySystem { Id = 2, Name = "apoteka-2", ApiKey = "api-2", Url = "url-2", ActionsBenefitsExchangeName = "exchange-2", ActionsBenefitsSubscribed = true, GrpcHost = "localhost", GrpcPort = 30051 };
 
             adapterContext.SetPharmacySystemAdapter(pharmacy);
 
@@ -53,7 +53,7 @@ namespace IntegrationAdaptersTests.UnitTests
         {
             Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Production");
             AdapterContext adapterContext = new AdapterContext(_mapper);
-            PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, grpcHost = "localhost", grpcPort = 30051 };
+            PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, GrpcHost = "localhost", GrpcPort = 30051 };
 
             adapterContext.SetPharmacySystemAdapter(pharmacy);
 

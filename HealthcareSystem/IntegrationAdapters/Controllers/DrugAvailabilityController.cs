@@ -1,10 +1,8 @@
-﻿using Backend.Model.Exceptions;
-using Backend.Model.Pharmacies;
+﻿using Backend.Model.Pharmacies;
 using Backend.Service.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 
 namespace IntegrationAdapters.Controllers

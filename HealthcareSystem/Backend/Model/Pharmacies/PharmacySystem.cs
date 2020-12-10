@@ -26,8 +26,9 @@ namespace Backend.Model.Pharmacies
         [Required] 
         public bool ActionsBenefitsSubscribed { get; set; } = false;
 
-        public string grpcHost { get; set; } = "localhost";
+        [StringLength(255)]
+        public string GrpcHost { get; set; }
 
-        public int grpcPort { get; set; } = 30051;
+        public int GrpcPort { get; set; } = -1;
     }
 }

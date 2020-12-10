@@ -21,7 +21,7 @@ namespace IntegrationAdapters.Controllers
 
         public IActionResult ApiRegister()
         {
-            return View();
+            return View(new PharmacySystem());
         }
 
         [HttpPost]

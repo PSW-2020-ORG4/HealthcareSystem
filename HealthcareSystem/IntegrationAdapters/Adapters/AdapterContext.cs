@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using Backend.Model.Pharmacies;
 using System;
-using System.Net.Http;
 
 namespace IntegrationAdapters.Adapters
 {
     public class AdapterContext : IAdapterContext
     {
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
         public PharmacySystem _pharmacySystem { get; private set; }
         private IPharmacySystemAdapter _pharmacySystemAdapter;
         private readonly string _environment;

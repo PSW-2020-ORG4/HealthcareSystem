@@ -364,7 +364,6 @@
                                     FontSize="18"
                                     Foreground="#FF313131"
                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                    SelectedIndex="{Binding SelectedMenuOptionIndex}"
                                     SelectionChanged="ListViewExtendMenu_SelectionChanged">
 
                                     <ListViewItem
@@ -496,6 +495,7 @@
                                     Background="{x:Null}"
                                     BorderBrush="{x:Null}"
                                     Click="BackButton_Click"
+                                    IsEnabled="{Binding IsBackButtonEnabled}"
                                     Style="{StaticResource EditingModeMenuButton}">
                                     <materialDesign:PackIcon
                                         Width="50"

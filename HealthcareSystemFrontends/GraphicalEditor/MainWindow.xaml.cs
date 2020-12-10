@@ -76,20 +76,27 @@ namespace GraphicalEditor
             }
         }
 
-        private int _previousSelectedMenuOptionIndex = 0;
-        public int PreviousSelectedMenuOptionIndex
+        private int? _previousSelectedMenuOptionIndex;
+        public int? PreviousSelectedMenuOptionIndex
         {
             get { return _previousSelectedMenuOptionIndex; }
             set
             {
                 _previousSelectedMenuOptionIndex = value;
                 OnPropertyChanged("PreviousSelectedMenuOptionIndex");
+                OnPropertyChanged("IsBackButtonEnabled");
             }
         }
 
-        private List<int> _selectedMenuOptionsHistory;
+        public Boolean IsBackButtonEnabled
+        {
+            get
+            {
+                return PreviousSelectedMenuOptionIndex.HasValue;
+            }
+        }
 
-
+       
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -177,7 +184,7 @@ namespace GraphicalEditor
                 Console.WriteLine("---");
             }*/
 
-            _selectedMenuOptionsHistory = new List<int>();
+            ListViewExtendMenu.SelectedIndex = 0;
         }
 
         public MainWindow(string currentUserRole)
@@ -201,7 +208,7 @@ namespace GraphicalEditor
 
             RestrictUsersAccessBasedOnRole();
 
-            _selectedMenuOptionsHistory = new List<int>();
+            ListViewExtendMenu.SelectedIndex = 0;
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -487,9 +494,11 @@ namespace GraphicalEditor
 
         private void ListViewExtendMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
-
-            UpdateMenuOptionSelectionHistory(SelectedMenuOptionIndex);
+            if (SelectedMenuOptionIndex != ListViewExtendMenu.SelectedIndex)
+            {
+                PreviousSelectedMenuOptionIndex = SelectedMenuOptionIndex;
+                SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
+            }
 
             switch (SelectedMenuOptionIndex)
             {
@@ -511,40 +520,16 @@ namespace GraphicalEditor
             }
         }
 
-        private void UpdateMenuOptionSelectionHistory(int currentlySelectedMenuOptionIndex)
-        {
-            if (_selectedMenuOptionsHistory.Count >= 0 && _selectedMenuOptionsHistory.Count < 2)
-            {
-                _selectedMenuOptionsHistory.Add(currentlySelectedMenuOptionIndex);
-            }
-            else
-            {
-                _selectedMenuOptionsHistory.RemoveAt(0);
-                _selectedMenuOptionsHistory.Add(currentlySelectedMenuOptionIndex);
-
-                PreviousSelectedMenuOptionIndex = _selectedMenuOptionsHistory[0];
-                SelectedMenuOptionIndex = _selectedMenuOptionsHistory[1];
-            }
-
-            ChangeBackButtonEnablement();
-        }
-
-        private void ChangeBackButtonEnablement()
-        {
-            if ((_selectedMenuOptionsHistory.Count >= 0 && _selectedMenuOptionsHistory.Count < 2)
-                || (PreviousSelectedMenuOptionIndex == SelectedMenuOptionIndex))
-            {
-                BackButton.IsEnabled = false;
-            }
-            else
-            {
-                BackButton.IsEnabled = true;
-            }
-        }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateMenuOptionSelectionHistory(PreviousSelectedMenuOptionIndex);
+            if (!PreviousSelectedMenuOptionIndex.HasValue)
+                return;
+
+            SelectedMenuOptionIndex = PreviousSelectedMenuOptionIndex.Value;
+            PreviousSelectedMenuOptionIndex = null;
+
+            ListViewExtendMenu.SelectedIndex = SelectedMenuOptionIndex;
         }
 
 

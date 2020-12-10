@@ -72,10 +72,32 @@ namespace GraphicalEditor
             get { return _selectedMenuOptionIndex; }
             set
             {
+                PreviousSelectedMenuOptionIndex = _selectedMenuOptionIndex;
                 _selectedMenuOptionIndex = value;
                 OnPropertyChanged("SelectedMenuOptionIndex");
             }
         }
+
+        private int? _previousSelectedMenuOptionIndex;
+        public int? PreviousSelectedMenuOptionIndex
+        {
+            get { return _previousSelectedMenuOptionIndex; }
+            set
+            {
+                _previousSelectedMenuOptionIndex = value;
+                OnPropertyChanged("PreviousSelectedMenuOptionIndex");
+                OnPropertyChanged("IsBackButtonEnabled");
+            }
+        }
+
+        public Boolean IsBackButtonEnabled
+        {
+            get
+            {
+                return PreviousSelectedMenuOptionIndex.HasValue;
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -152,8 +174,17 @@ namespace GraphicalEditor
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-
             //initializeDatabaseData.InitiliazeData();
+
+
+            EquipementService equipementService = new EquipementService();
+            /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
+            foreach(EquipmentWithRoomDTO res in result)
+            {
+                Console.WriteLine(res.IdEquipment);
+                Console.WriteLine(res.RoomNumber);
+                Console.WriteLine("---");
+            }*/
 
         }
 
@@ -177,6 +208,7 @@ namespace GraphicalEditor
             LoadInitialMapOnCanvas();
 
             RestrictUsersAccessBasedOnRole();
+
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -467,8 +499,6 @@ namespace GraphicalEditor
 
         private void ListViewExtendMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
-
             switch (SelectedMenuOptionIndex)
             {
                 case 0:
@@ -488,6 +518,18 @@ namespace GraphicalEditor
                     break;
             }
         }
+
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!PreviousSelectedMenuOptionIndex.HasValue)
+                return;
+
+            SelectedMenuOptionIndex = PreviousSelectedMenuOptionIndex.Value;
+            PreviousSelectedMenuOptionIndex = null;
+        }
+
+
 
         private void SearchMapObjectsButton_Click(object sender, RoutedEventArgs e)
         {

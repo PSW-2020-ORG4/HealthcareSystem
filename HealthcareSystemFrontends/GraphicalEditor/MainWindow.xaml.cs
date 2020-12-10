@@ -72,6 +72,7 @@ namespace GraphicalEditor
             get { return _selectedMenuOptionIndex; }
             set
             {
+                PreviousSelectedMenuOptionIndex = _selectedMenuOptionIndex;
                 _selectedMenuOptionIndex = value;
                 OnPropertyChanged("SelectedMenuOptionIndex");
             }
@@ -185,8 +186,6 @@ namespace GraphicalEditor
                 Console.WriteLine("---");
             }*/
 
-            ListViewExtendMenu.SelectedIndex = 0;
-
         }
 
         public MainWindow(string currentUserRole)
@@ -210,7 +209,6 @@ namespace GraphicalEditor
 
             RestrictUsersAccessBasedOnRole();
 
-            ListViewExtendMenu.SelectedIndex = 0;
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -496,12 +494,6 @@ namespace GraphicalEditor
 
         private void ListViewExtendMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SelectedMenuOptionIndex != ListViewExtendMenu.SelectedIndex)
-            {
-                PreviousSelectedMenuOptionIndex = SelectedMenuOptionIndex;
-                SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
-            }
-
             switch (SelectedMenuOptionIndex)
             {
                 case 0:
@@ -530,8 +522,6 @@ namespace GraphicalEditor
 
             SelectedMenuOptionIndex = PreviousSelectedMenuOptionIndex.Value;
             PreviousSelectedMenuOptionIndex = null;
-
-            ListViewExtendMenu.SelectedIndex = SelectedMenuOptionIndex;
         }
 
 

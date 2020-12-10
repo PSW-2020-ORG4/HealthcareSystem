@@ -364,6 +364,7 @@
                                     FontSize="18"
                                     Foreground="#FF313131"
                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                    SelectedIndex="{Binding SelectedMenuOptionIndex}"
                                     SelectionChanged="ListViewExtendMenu_SelectionChanged">
 
                                     <ListViewItem

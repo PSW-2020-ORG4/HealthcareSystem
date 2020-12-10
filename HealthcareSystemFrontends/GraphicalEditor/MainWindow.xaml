@@ -364,7 +364,6 @@
                                     FontSize="18"
                                     Foreground="#FF313131"
                                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                    SelectedIndex="{Binding SelectedMenuOptionIndex}"
                                     SelectionChanged="ListViewExtendMenu_SelectionChanged">
 
                                     <ListViewItem
@@ -486,6 +485,7 @@
 
                                 <!--  Back Button  -->
                                 <Button
+                                    IsEnabled="{Binding BackButtonEnabled}"
                                     x:Name="BackButton"
                                     Grid.Row="0"
                                     Width="Auto"

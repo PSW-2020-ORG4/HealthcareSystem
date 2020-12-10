@@ -76,19 +76,25 @@ namespace GraphicalEditor
             }
         }
 
-        private int _previousSelectedMenuOptionIndex = 0;
-        public int PreviousSelectedMenuOptionIndex
+        private int? _previousSelectedMenuOptionIndex;
+        public int? PreviousSelectedMenuOptionIndex
         {
             get { return _previousSelectedMenuOptionIndex; }
             set
             {
                 _previousSelectedMenuOptionIndex = value;
                 OnPropertyChanged("PreviousSelectedMenuOptionIndex");
+                OnPropertyChanged("BackButtonEnabled");
             }
         }
 
-        private List<int> _selectedMenuOptionsHistory;
-
+        public Boolean BackButtonEnabled
+        {
+            get
+            {
+                return PreviousSelectedMenuOptionIndex.HasValue;
+            }
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -165,8 +171,8 @@ namespace GraphicalEditor
             LoadInitialMapOnCanvas();
             // uncomment only the first time you start the project in order
             // to populate DB with start data
-            InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            initializeDatabaseData.InitiliazeData();
+            //InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
+            //initializeDatabaseData.InitiliazeData();
 
             EquipementService equipementService = new EquipementService();
             /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
@@ -177,7 +183,6 @@ namespace GraphicalEditor
                 Console.WriteLine("---");
             }*/
 
-            _selectedMenuOptionsHistory = new List<int>();
         }
 
         public MainWindow(string currentUserRole)
@@ -201,7 +206,6 @@ namespace GraphicalEditor
 
             RestrictUsersAccessBasedOnRole();
 
-            _selectedMenuOptionsHistory = new List<int>();
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -487,64 +491,21 @@ namespace GraphicalEditor
 
         private void ListViewExtendMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
-
-            UpdateMenuOptionSelectionHistory(SelectedMenuOptionIndex);
-
-            switch (SelectedMenuOptionIndex)
+            if (SelectedMenuOptionIndex != ListViewExtendMenu.SelectedIndex)
             {
-                case 0:
-                    IsMenuOpened = false;
-                    break;
-                case 1:
-                    IsMenuOpened = false;
-                    break;
-                case 2:
-                    IsMenuOpened = false;
-                    break;
-                case 3:
-                    IsMenuOpened = false;
-                    break;
-                case 4:
-                    IsMenuOpened = false;
-                    break;
-            }
-        }
-
-        private void UpdateMenuOptionSelectionHistory(int currentlySelectedMenuOptionIndex)
-        {
-            if (_selectedMenuOptionsHistory.Count >= 0 && _selectedMenuOptionsHistory.Count < 2)
-            {
-                _selectedMenuOptionsHistory.Add(currentlySelectedMenuOptionIndex);
-            }
-            else
-            {
-                _selectedMenuOptionsHistory.RemoveAt(0);
-                _selectedMenuOptionsHistory.Add(currentlySelectedMenuOptionIndex);
-
-                PreviousSelectedMenuOptionIndex = _selectedMenuOptionsHistory[0];
-                SelectedMenuOptionIndex = _selectedMenuOptionsHistory[1];
+                PreviousSelectedMenuOptionIndex = SelectedMenuOptionIndex;
+                SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
             }
 
-            ChangeBackButtonEnablement();
-        }
-
-        private void ChangeBackButtonEnablement()
-        {
-            if ((_selectedMenuOptionsHistory.Count >= 0 && _selectedMenuOptionsHistory.Count < 2)
-                || (PreviousSelectedMenuOptionIndex == SelectedMenuOptionIndex))
-            {
-                BackButton.IsEnabled = false;
-            }
-            else
-            {
-                BackButton.IsEnabled = true;
-            }
+            IsMenuOpened = false;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateMenuOptionSelectionHistory(PreviousSelectedMenuOptionIndex);
+            if (!PreviousSelectedMenuOptionIndex.HasValue)
+                return;
+            SelectedMenuOptionIndex = PreviousSelectedMenuOptionIndex.Value;
+            PreviousSelectedMenuOptionIndex = null;
         }
 
 

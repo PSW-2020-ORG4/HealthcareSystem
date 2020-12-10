@@ -12,7 +12,7 @@ namespace Backend.Repository.EquipmentInRoomsRepository
         EquipmentInRooms UpdateEquipment(EquipmentInRooms equipment);
         void DeleteEquipment(int id);
         EquipmentInRooms AddEquipment(EquipmentInRooms equipment);
-        EquipmentInRooms GetEquipmenInRoomsByEquipmentId(int equipmentId);
+        List<EquipmentInRooms> GetEquipmenInRoomsByEquipmentId(int equipmentId);
         List<EquipmentInRooms> GetEquipmentInRoomsByRoomNumber(int roomNumber);
     }
 }

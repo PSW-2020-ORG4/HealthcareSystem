@@ -42,9 +42,9 @@ namespace Backend.Service.DrugAndTherapy
             return _drugService.GetDrugsByRoomNumber(roomNumber);
         }
 
-        public DrugInRoom ViewDrugInRoom(int drugId)
+        public List<DrugInRoom> GetDrugsInRoomsFromDrug(Drug drug)
         {
-            return _drugInRoomRepository.GetDrugInRoomByDrugId(drugId);
+            return _drugInRoomRepository.GetDrugInRoomByDrugId(drug.Id);
         }
 
     }

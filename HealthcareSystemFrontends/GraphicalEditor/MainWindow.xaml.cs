@@ -1,5 +1,6 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Controllers;
+using GraphicalEditor.DTO;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.Equipment;
@@ -151,17 +152,9 @@ namespace GraphicalEditor
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
+
             //initializeDatabaseData.InitiliazeData();
 
-            EquipementService equipementService = new EquipementService();
-            /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
-            foreach(EquipmentWithRoomDTO res in result)
-            {
-                Console.WriteLine(res.IdEquipment);
-                Console.WriteLine(res.RoomNumber);
-                Console.WriteLine("---");
-            }*/
-            
         }
 
         public MainWindow(string currentUserRole)

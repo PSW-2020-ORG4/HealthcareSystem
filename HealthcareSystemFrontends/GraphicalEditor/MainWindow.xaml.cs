@@ -72,10 +72,32 @@ namespace GraphicalEditor
             get { return _selectedMenuOptionIndex; }
             set
             {
+                PreviousSelectedMenuOptionIndex = _selectedMenuOptionIndex;
                 _selectedMenuOptionIndex = value;
                 OnPropertyChanged("SelectedMenuOptionIndex");
             }
         }
+
+        private int? _previousSelectedMenuOptionIndex;
+        public int? PreviousSelectedMenuOptionIndex
+        {
+            get { return _previousSelectedMenuOptionIndex; }
+            set
+            {
+                _previousSelectedMenuOptionIndex = value;
+                OnPropertyChanged("PreviousSelectedMenuOptionIndex");
+                OnPropertyChanged("IsBackButtonEnabled");
+            }
+        }
+
+        public Boolean IsBackButtonEnabled
+        {
+            get
+            {
+                return PreviousSelectedMenuOptionIndex.HasValue;
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -152,8 +174,17 @@ namespace GraphicalEditor
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-
             //initializeDatabaseData.InitiliazeData();
+
+
+            EquipementService equipementService = new EquipementService();
+            /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
+            foreach(EquipmentWithRoomDTO res in result)
+            {
+                Console.WriteLine(res.IdEquipment);
+                Console.WriteLine(res.RoomNumber);
+                Console.WriteLine("---");
+            }*/
 
         }
 
@@ -177,6 +208,7 @@ namespace GraphicalEditor
             LoadInitialMapOnCanvas();
 
             RestrictUsersAccessBasedOnRole();
+
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -312,22 +344,27 @@ namespace GraphicalEditor
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             _selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-            ApplySelectionEffectToObject(_selectedMapObject);
 
-            if (_selectedMapObject != null)
+            MarkAndDisplaySelectedMapObject(_selectedMapObject);
+
+            ChangeEditButtonVisibility();
+        }
+
+        private void MarkAndDisplaySelectedMapObject(MapObject selectedMapObjectForDisplay)
+        {
+            ApplySelectionEffectToObject(selectedMapObjectForDisplay);
+
+            if (selectedMapObjectForDisplay != null)
             {
-                DisplayMapObject = _selectedMapObject.MapObjectEntity;
-                SelectedMapObject = _selectedMapObject;
-                //these properties we will need to map on our graphicalEditorWPF
-                var equipment = SelectedMapObject.GetEquipmentByRoomNumber();
+                DisplayMapObject = selectedMapObjectForDisplay.MapObjectEntity;
+                SelectedMapObject = selectedMapObjectForDisplay;
+
             }
             else
             {
                 SelectedMapObject = null;
                 DisplayMapObject = null;
             }
-
-            ChangeEditButtonVisibility();
         }
 
         private void ApplyHoverEffectToObject(MapObject hoverMapObject)
@@ -462,8 +499,6 @@ namespace GraphicalEditor
 
         private void ListViewExtendMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
-
             switch (SelectedMenuOptionIndex)
             {
                 case 0:
@@ -484,6 +519,18 @@ namespace GraphicalEditor
             }
         }
 
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!PreviousSelectedMenuOptionIndex.HasValue)
+                return;
+
+            SelectedMenuOptionIndex = PreviousSelectedMenuOptionIndex.Value;
+            PreviousSelectedMenuOptionIndex = null;
+        }
+
+
+
         private void SearchMapObjectsButton_Click(object sender, RoutedEventArgs e)
         {
             if (SearchObjectTypeComboBox.SelectedItem != null)
@@ -497,6 +544,29 @@ namespace GraphicalEditor
                 return;
             }
         }
+
+        private void ShowSelectedSearchResultObjectOnMap(MapObject selectedSearchResultObject)
+        {
+            if (selectedSearchResultObject.MapObjectEntity.GetType() == typeof(Room))
+            {
+                long buildingId = ((Room)selectedSearchResultObject.MapObjectEntity).BuildingId;
+                MapObject building = _mapObjectController.GetMapObjectById(buildingId);
+                ((Building)building.MapObjectEntity).ShowFloorForSpecificMapObject(selectedSearchResultObject);
+            }
+
+            MarkAndDisplaySelectedMapObject(selectedSearchResultObject);
+            ListViewExtendMenu.SelectedIndex = 0;
+        }
+
+
+
+        private void ShowSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            MapObject selectedSearchResultObject = (MapObject)ObjectSearchResultsDataGrid.SelectedItem;
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultObject);
+        }
+
 
         private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
         {
@@ -515,7 +585,6 @@ namespace GraphicalEditor
 
             EquipmentSearchResultsDataGrid.ItemsSource = searchResultEquipment;
             MedicineSearchResultsDataGrid.ItemsSource = searchResultDrugs;
-
         }
 
         private void ShowEquipmentSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
@@ -528,10 +597,7 @@ namespace GraphicalEditor
 
         }
 
-        private void ShowSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
     }
 }
 

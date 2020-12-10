@@ -484,6 +484,30 @@
                                     <RowDefinition Height="10*" />
                                 </Grid.RowDefinitions>
 
+                                <!--  Back Button  -->
+                                <Button
+                                    x:Name="BackButton"
+                                    Grid.Row="0"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}"
+                                    Click="BackButton_Click"
+                                    IsEnabled="{Binding IsBackButtonEnabled}"
+                                    Style="{StaticResource EditingModeMenuButton}">
+                                    <materialDesign:PackIcon
+                                        Width="50"
+                                        Height="50"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="MediumPurple"
+                                        Kind="ArrowBack" />
+                                </Button>
+
+                                <!--  Menu Button  -->
                                 <Button
                                     x:Name="OpenMenuButton"
                                     Grid.Row="0"

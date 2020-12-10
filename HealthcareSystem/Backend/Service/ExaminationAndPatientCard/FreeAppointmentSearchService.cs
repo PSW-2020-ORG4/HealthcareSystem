@@ -76,7 +76,8 @@ namespace Backend.Service.ExaminationAndPatientCard
             List<Examination> freeAppointments = new List<Examination>();
             foreach(Doctor doctor in allDoctors)
             {
-                if(doctor.CheckIfDoctorHasSpecialty(parameters.SpecialtyId))
+                if (doctor.CheckIfDoctorHasSpecialty(parameters.SpecialtyId))
+                    parameters.InitialParameters.DoctorJmbg = doctor.Jmbg;
                     freeAppointments.AddRange(BasicSearch(parameters.InitialParameters));
             }
 

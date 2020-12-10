@@ -1,6 +1,10 @@
-﻿using GraphicalEditorServerTests.DataFactory;
+﻿using Backend.Model.DTO;
+using Backend.Model.Enums;
+using Backend.Service.ExaminationAndPatientCard;
+using GraphicalEditorServerTests.DataFactory;
 using Model.Enums;
 using Model.Manager;
+using Model.PerformingExamination;
 using Service.RoomAndEquipment;
 using System;
 using System.Collections.Generic;
@@ -26,6 +30,25 @@ namespace GraphicalEditorServerTests.UnitTest
                 _stubRepository.CreateEquipmentStubRepository());
 
             return roomService;
+        }
+         
+        private FreeAppointmentSearchService SetupFreeAppointmentSearchService()
+        {
+
+            FreeAppointmentSearchService freeAppointmentSearchService = new FreeAppointmentSearchService(SetupRoomService(),
+                _stubRepository.CreateExaminationStubRepository(), _stubRepository.CreateDoctorStubRepository(), _stubRepository.CreatePatientCardStubRepository());
+
+            return freeAppointmentSearchService;
+        }
+
+        [Fact]
+        public void Find_free_appointsments_with_doctor_prirority()
+        {
+            FreeAppointmentSearchService freeAppointmentSearchService = SetupFreeAppointmentSearchService();
+            
+            ICollection<Examination> result = freeAppointmentSearchService.SearchWithPriorities(new AppointmentSearchWithPrioritiesDTO(new BasicAppointmentSearchDTO(1, "0909965768767", new List<int>() { 3, 2}, new DateTime(2020, 12, 5, 7, 0, 0), new DateTime(2020, 12, 5, 8, 0, 0)), SearchPriority.Doctor,1));
+
+            Assert.NotNull(result);
         }
 
         [Fact]

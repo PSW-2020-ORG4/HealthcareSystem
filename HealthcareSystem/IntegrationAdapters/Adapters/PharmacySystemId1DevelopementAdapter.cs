@@ -24,7 +24,7 @@ namespace IntegrationAdapters.Adapters
 
         private void InitializeGrpc()
         {
-            _grpcChannel = new Channel(_parameters.grpcHost, _parameters.grpcPort, ChannelCredentials.Insecure);
+            _grpcChannel = new Channel(_parameters.GrpcHost, _parameters.GrpcPort, ChannelCredentials.Insecure);
             _grpcClient = new DrugAvailability.DrugAvailabilityClient(_grpcChannel);
         }
 

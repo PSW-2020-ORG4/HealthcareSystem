@@ -36,8 +36,4 @@
 	<Protobuf Include="Protos/drugAvailability.proto" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="APIs\" />
-  </ItemGroup>
-
 </Project>

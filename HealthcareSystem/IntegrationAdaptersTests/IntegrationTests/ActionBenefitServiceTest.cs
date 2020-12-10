@@ -1,8 +1,6 @@
 ﻿using Backend.Model;
-using Backend.Model.Pharmacies;
 using Backend.Repository;
 using Backend.Service;
-using Microsoft.EntityFrameworkCore;
 using System;
 using Xunit;
 

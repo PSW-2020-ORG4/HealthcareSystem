@@ -35,14 +35,7 @@ namespace IntegrationAdapters.Controllers
                     continue;
 
                 List<DrugDto> search = new List<DrugDto> ();
-                try
-                {
-                 search.AddRange(_adapterContext.GetPharmacySystemAdapter().DrugAvailibility(name));
-                } 
-                catch(GrpcException gEx)
-                {
-                    Console.WriteLine(gEx);
-                }
+                search.AddRange(_adapterContext.GetPharmacySystemAdapter().DrugAvailibility(name));
 
                 if(search.Count > 0)
                     result.Add(new SearchResultDto() { pharmacySystem = pharmacySystem, drugs = new List<DrugDto>(search) });

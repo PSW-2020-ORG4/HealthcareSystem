@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Backend.Model.Exceptions;
 using Grpc.Core;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.Protos;
+using System;
 using System.Collections.Generic;
 
 namespace IntegrationAdapters.Adapters
@@ -39,14 +39,14 @@ namespace IntegrationAdapters.Adapters
             FindDrugRequest request = new FindDrugRequest();
             request.ApiKey = _parameters.ApiKey;
             request.Name = name;
-            FindDrugResponse response;
+            FindDrugResponse response = null;
             try
             {
                 response = _grpcClient.FindDrug(request);
             }
-            catch
+            catch(RpcException rex)
             {
-                throw new GrpcException("Unable to connect to gRPC server!");
+                Console.WriteLine(rex);
             }
             if (response != null && response.Drugs != null && response.Drugs.Count > 0)
             {

@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Backend.Model.Pharmacies;
 using System;
+using System.Net.Http;
 
 namespace IntegrationAdapters.Adapters
 {
     public class AdapterContext : IAdapterContext
     {
-        public IMapper _mapper { get; }
+        private IMapper _mapper;
         public PharmacySystem _pharmacySystem { get; private set; }
         private IPharmacySystemAdapter _pharmacySystemAdapter;
         private readonly string _environment;
@@ -39,9 +40,9 @@ namespace IntegrationAdapters.Adapters
             {
                 switch (pharmacySystem.Id)
                 {
-                    //case 1:
-                    //_pharmacySystemAdapter = new PharmacySystem_ID1_ProductionAdapter(parameters, _mapper);
-                    //break;
+                    case 1:
+                    _pharmacySystemAdapter = new PharmacySystemId1ProductionAdapter(parameters, _mapper);
+                    break;
                     default:
                         _pharmacySystemAdapter = null;
                         break;

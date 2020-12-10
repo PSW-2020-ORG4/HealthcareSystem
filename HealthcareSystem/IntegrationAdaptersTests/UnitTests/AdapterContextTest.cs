@@ -2,6 +2,7 @@
 using Backend.Model.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.MapperProfiles;
+using Microsoft.Extensions.Http;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace IntegrationAdaptersTests.UnitTests
         public void PharmacySystemAdapter_SetPharmacy1Adapter_ImplementedAdapter()
         {
             AdapterContext adapterContext = new AdapterContext(_mapper);
-            PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, grpcHost = "localhost", grpcPort = 30051};
+            PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, grpcHost = "localhost", grpcPort = 30051 };
 
             adapterContext.SetPharmacySystemAdapter(pharmacy);
 
@@ -45,6 +46,18 @@ namespace IntegrationAdaptersTests.UnitTests
             adapterContext.SetPharmacySystemAdapter(pharmacy);
 
             Assert.True(adapterContext.GetPharmacySystemAdapter() == null);
+        }
+
+        [Fact]
+        public void PharmacySystemAdapter_SetPharmacy1Adapter_ImplementedAdapter_Production()
+        {
+            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Production");
+            AdapterContext adapterContext = new AdapterContext(_mapper);
+            PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, grpcHost = "localhost", grpcPort = 30051 };
+
+            adapterContext.SetPharmacySystemAdapter(pharmacy);
+
+            Assert.True(adapterContext.GetPharmacySystemAdapter() != null);
         }
     }
 }

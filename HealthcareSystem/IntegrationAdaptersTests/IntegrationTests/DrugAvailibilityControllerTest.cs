@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Backend.Model;
+﻿using Backend.Model;
 using Backend.Model.Pharmacies;
 using Backend.Repository;
 using Backend.Service.Pharmacies;
@@ -7,9 +6,7 @@ using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Controllers;
 using IntegrationAdapters.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -34,13 +31,18 @@ namespace IntegrationAdaptersTests.IntegrationTests
                 );
             adapterContext.Setup(c => c.GetPharmacySystemAdapter().DrugAvailibility(It.Is<string>(name => name != "droga"))).Returns(new List<DrugDto>());
             adapterContext.Setup(c => c.SetPharmacySystemAdapter(It.IsAny<PharmacySystem>())).Returns(new Mock<IPharmacySystemAdapter>().Object);
+            adapterContext.Setup(c => c.RemoveAdapter()).Verifiable();
             DrugAvailabilityController controller = new DrugAvailabilityController(adapterContext.Object, pharmacyService);
 
             ViewResult result = (ViewResult)controller.Search("droga");
+            adapterContext.Verify(c => c.RemoveAdapter());
             Assert.NotEmpty((IEnumerable<SearchResultDto>)result.Model);
 
             result = (ViewResult)controller.Search("nesto");
+            adapterContext.Verify(c => c.RemoveAdapter());
             Assert.Empty((IEnumerable<SearchResultDto>)result.Model);
+
+            
         }
     }
 }

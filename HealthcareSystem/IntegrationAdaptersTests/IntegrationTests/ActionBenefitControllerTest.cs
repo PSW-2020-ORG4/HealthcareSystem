@@ -1,13 +1,10 @@
 using Backend.Model;
-using Backend.Model.Pharmacies;
 using Backend.Repository;
 using Backend.Service;
 using IntegrationAdapters.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace IntegrationAdaptersTests.IntegrationTests

@@ -40,7 +40,7 @@ namespace Service.RoomAndEquipment
              _equipmentInRoomsRepository.DeleteEquipment(idEquipment);
         }
 
-        public EquipmentInRooms GetEquipmentInRoomsFromEquipment(Equipment equipment)
+        public List<EquipmentInRooms> GetEquipmentInRoomsFromEquipment(Equipment equipment)
         {
             return _equipmentInRoomsRepository.GetEquipmenInRoomsByEquipmentId(equipment.Id);
         }        

@@ -29,8 +29,13 @@ namespace GraphicalEditor.Service
             AddRooms();
             AddEquipmentTypes();
             AddEquipment();
+<<<<<<< HEAD
             //AddDrugTypes();
             //AddDrugs();
+=======
+            AddDrugTypes();
+            AddDrugs();
+>>>>>>> develop
         }
 
 

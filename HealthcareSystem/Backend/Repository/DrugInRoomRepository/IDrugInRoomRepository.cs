@@ -13,6 +13,7 @@ namespace Backend.Repository.DrugInRoomRepository
         DrugInRoom SetDrug(DrugInRoom drugInRoom);
         void DeleteDrug(int id);
         DrugInRoom AddDrug(DrugInRoom drugInRoom);
-        DrugInRoom GetDrugInRoomByDrugId(int drugId);
+        List<DrugInRoom> GetDrugInRoomByDrugId(int drugId);
+        
     }
 }

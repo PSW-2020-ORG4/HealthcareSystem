@@ -77,13 +77,23 @@ namespace GraphicalEditor
             }
         }
 
-        private Stack<int> _menuSelectionHistory = new Stack<int>();
+        private int? _previousSelectedMenuOptionIndex;
+        public int? PreviousSelectedMenuOptionIndex
+        {
+            get { return _previousSelectedMenuOptionIndex; }
+            set
+            {
+                _previousSelectedMenuOptionIndex = value;
+                OnPropertyChanged("PreviousSelectedMenuOptionIndex");
+                OnPropertyChanged("IsBackButtonEnabled");
+            }
+        }
 
         public Boolean IsBackButtonEnabled
         {
             get
             {
-                return _menuSelectionHistory.Count > 0;
+                return PreviousSelectedMenuOptionIndex.HasValue;
             }
         }
 
@@ -488,8 +498,7 @@ namespace GraphicalEditor
         {
             if (SelectedMenuOptionIndex != ListViewExtendMenu.SelectedIndex)
             {
-                _menuSelectionHistory.Push(SelectedMenuOptionIndex);
-                OnPropertyChanged("IsBackButtonEnabled");
+                PreviousSelectedMenuOptionIndex = SelectedMenuOptionIndex;
                 SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
             }
 
@@ -516,11 +525,11 @@ namespace GraphicalEditor
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_menuSelectionHistory.Count == 0)
+            if (!PreviousSelectedMenuOptionIndex.HasValue)
                 return;
 
-            SelectedMenuOptionIndex = _menuSelectionHistory.Pop();
-            OnPropertyChanged("IsBackButtonEnabled");
+            SelectedMenuOptionIndex = PreviousSelectedMenuOptionIndex.Value;
+            PreviousSelectedMenuOptionIndex = null;
 
             ListViewExtendMenu.SelectedIndex = SelectedMenuOptionIndex;
         }

@@ -5,6 +5,8 @@
  ***********************************************************************/
 
 using Backend.Model.Exceptions;
+using Backend.Model.Manager;
+using Backend.Repository.DrugInRoomRepository;
 using Backend.Repository.DrugRepository;
 using Backend.Service.DrugAndTherapy;
 using Model.Manager;
@@ -18,11 +20,13 @@ namespace Service.DrugAndTherapy
     {
         private IConfirmedDrugRepository _confirmedDrugRepository;
         private IUnconfirmedDrugRepository _unconfirmedDrugRepository;
+	    private IDrugInRoomRepository _drugInRoomRepository;
 
-        public DrugService(IConfirmedDrugRepository confirmedDrugRepository, IUnconfirmedDrugRepository unconfirmedDrugRepository)
+        public DrugService(IConfirmedDrugRepository confirmedDrugRepository, IUnconfirmedDrugRepository unconfirmedDrugRepository,IDrugInRoomRepository drugInRoomRepository)
         {
             _confirmedDrugRepository = confirmedDrugRepository;
             _unconfirmedDrugRepository = unconfirmedDrugRepository;
+	        _drugInRoomRepository = drugInRoomRepository;
         }
 
         public int getLastIdConfirmed()
@@ -44,7 +48,7 @@ namespace Service.DrugAndTherapy
         public void UpdateConfirmedDrug(Drug drug)
         {
             // TODO: implement
-            _confirmedDrugRepository.UpdateDrug(drug);
+            _confirmedDrugRepository.SetDrug(drug);
         }
 
         public void DeleteConfirmedDrug(int id)
@@ -69,7 +73,7 @@ namespace Service.DrugAndTherapy
         public void UpdateUnconfirmedDrug(Drug drug)
         {
             // TODO: implement
-            _unconfirmedDrugRepository.UpdateDrug(drug);
+            _unconfirmedDrugRepository.SetDrug(drug);
         }
 
         public void DeleteUnconfirmedDrug(int id)
@@ -91,14 +95,14 @@ namespace Service.DrugAndTherapy
             {
                 if (d.Id == drug.Id)
                 {
-                    _confirmedDrugRepository.UpdateDrug(drug);
+                    _confirmedDrugRepository.SetDrug(drug);
                 }
             }
             foreach (Drug d in _unconfirmedDrugRepository.GetAllDrugs())
             {
                 if (d.Id == drug.Id)
                 {
-                    _unconfirmedDrugRepository.UpdateDrug(drug);
+                    _unconfirmedDrugRepository.SetDrug(drug);
                 }
             }
 
@@ -118,7 +122,47 @@ namespace Service.DrugAndTherapy
             // TODO: implement
             _unconfirmedDrugRepository.AddDrug(drug);
         }
+	
+	    public void AddConfirmedDrug(Drug drug)
+        {
 
+            _confirmedDrugRepository.AddDrug(drug);
+        }
+
+        public List<Drug> GetDrugsByRoomNumber(int roomNumber)
+        {
+            List<DrugInRoom> drugsInRoom = _drugInRoomRepository.GetDrugsInRoomByRoomNumber(roomNumber);
+            List<Drug> confirmedDrugsInRoom = new List<Drug>();
+            foreach (DrugInRoom drugInRoom in drugsInRoom)
+            {
+                Drug confimredDrug = _confirmedDrugRepository.GetDrugById(drugInRoom.DrugId);
+                if (confimredDrug != null)
+                {
+                    confirmedDrugsInRoom.Add(confimredDrug);
+                }
+            }
+            return confirmedDrugsInRoom;
+        }
+
+        public List<Drug> GetDrugWithRoomForSearchTerm(string searchTerm)
+        {
+            List<Drug> drugs = ViewConfirmedDrugs();
+            List<Drug> validEDrugs = new List<Drug>();
+            foreach (Drug d in drugs)
+            {
+                if (CheckIfDrugNameContainsSearchTerm(d, searchTerm))
+                    validEDrugs.Add(d);
+            }
+
+            return validEDrugs;
+        }
+
+        private bool CheckIfDrugNameContainsSearchTerm(Drug drug, string searchTerm)
+        {
+            if (drug.Name.ToString().ToLower().Contains(searchTerm.ToLower()))
+                return true;
+            else return false;
+        }
 
     }
 }

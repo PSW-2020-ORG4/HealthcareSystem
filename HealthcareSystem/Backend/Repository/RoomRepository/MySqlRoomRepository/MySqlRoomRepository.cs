@@ -56,5 +56,18 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
             _context.Update(room);
             _context.SaveChanges();
         }
+
+        public List<Room> GetRoomsByUsageAndEquipment(TypeOfUsage usage, ICollection<int> equipmentTypeIds)
+        {
+            // This will be changed by Graphical Editor team
+            return GetAllRooms();
+        }
+        public bool CheckIfRoomExists(int roomId)
+        {
+            if (_context.Rooms.Find(roomId) == null)
+                return false;
+
+            return true;
+        }
     }
 }

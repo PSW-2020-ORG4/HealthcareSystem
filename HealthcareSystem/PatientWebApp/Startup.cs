@@ -38,6 +38,20 @@ using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using System;
 using System.Collections.Generic;
+using Service.ExaminationAndPatientCard;
+using Backend.Service.SendingMail;
+using Backend.Settings;
+using Microsoft.AspNetCore.Http;
+using Backend.Service.ExaminationAndPatientCard;
+using Backend.Repository.TherapyRepository;
+using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
+using Backend.Repository.SpecialtyRepository;
+using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
+using Backend.Service.UsersAndWorkingTime;
+using Backend.Repository.DrugInRoomRepository;
+using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
+using Backend.Repository.DoctorSpecialtyRepository;
+using Backend.Repository.DoctorSpecialtyRepository.MySqlDoctorSpecialtyRepository;
 
 namespace PatientWebApp
 {
@@ -55,14 +69,17 @@ namespace PatientWebApp
         {
             services.AddControllers();
 
-            var host = Configuration["DBHOST"] ?? "";
-            var port = Configuration["DBPORT"] ?? "";
-            var user = Configuration["DBUSER"] ?? "";
-            var password = Configuration["DBPASSWORD"] ?? "";
-            var database = Configuration["DB"] ?? "";
+            var host = Configuration["DBHOST"] ?? "aa";
+            var port = Configuration["DBPORT"] ?? "aa";
+            var user = Configuration["DBUSER"] ?? "aa";
+            var password = Configuration["DBPASSWORD"] ?? "aa";
+            var database = Configuration["DB"] ?? "aa";
 
             string connectionString = $"server={host} ;userid={user}; pwd={password};"
                                     + $"port={port}; database={database}";
+
+            IConfiguration mail = Configuration.GetSection("MailSettings");
+            Console.WriteLine(mail["Mail"]);
 
             Console.WriteLine(connectionString);
 
@@ -82,7 +99,10 @@ namespace PatientWebApp
             services.AddScoped<ICityRepository, MySqlCityRepository>();
             services.AddScoped<ICityService, CityService>();
 
-            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();
+            services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
+            services.AddScoped<ISpecialtyService, SpecialtyService>();
+
+            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>(); 
             services.AddScoped<IFeedbackService, FeedbackService>();
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
@@ -90,6 +110,9 @@ namespace PatientWebApp
 
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
             services.AddScoped<IDoctorService, DoctorService>();
+
+            services.AddScoped<IDoctorSpecialtyRepository, MySqlDoctorSpecialtyRepository>();
+            services.AddScoped<IDoctorSpecialtyService, DoctorSpecialtyService>();
 
             services.AddScoped<ISurveyRepository, MySqlSurveyRepository>();
             services.AddScoped<ISurveyService, SurveyService>();
@@ -99,6 +122,7 @@ namespace PatientWebApp
 
             services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
             services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
+            services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
             services.AddScoped<IDrugService, DrugService>();
 
             services.AddScoped<IDrugTypeRepository, MySqlDrugTypeRepository>();
@@ -109,7 +133,7 @@ namespace PatientWebApp
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRoomService, RoomService>();
 
-            services.AddScoped<IScheduledExaminationRepository, MySqlScheduledExaminationRepository>();
+            services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
             services.AddScoped<IExaminationService, ExaminationService>();
 
             services.AddScoped<ITherapyRepository, MySqlTherapyRepository>();
@@ -118,6 +142,8 @@ namespace PatientWebApp
             //placement dodati
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
+
+            services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 

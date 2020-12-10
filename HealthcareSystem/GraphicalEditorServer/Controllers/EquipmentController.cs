@@ -8,7 +8,8 @@ using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
 using Newtonsoft.Json;
 using Model.Manager;
-
+using Backend.Model.Manager;
+using GraphicalEditorServer.Mappers;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -16,45 +17,59 @@ namespace GraphicalEditorServer.Controllers
     [ApiController]
     public class EquipmentController : ControllerBase
     {
-        private readonly INonConsumableEquipmentService _nonConsumableEquipmentService;
-        private readonly IConsumableEquipmentService _consumableEquipmentService;
+        private readonly IEquipmentService _equipmentService;
+        private readonly IEquipmentTypeService _equipmentTypeService;
+        private readonly IEquipmentInRoomsService _equipmentInRoomsService;
 
-        public EquipmentController(INonConsumableEquipmentService nonConsumableEquipmentService, IConsumableEquipmentService consumableEquipmentService)
+
+        public EquipmentController(
+            IEquipmentService equipmentService, 
+            IEquipmentTypeService equipmentTypeService,
+            IEquipmentInRoomsService equipmentInRoomsService)
         {
-            _nonConsumableEquipmentService = nonConsumableEquipmentService;
-            _consumableEquipmentService = consumableEquipmentService; 
+            _equipmentService = equipmentService;
+            _equipmentTypeService = equipmentTypeService;
+            _equipmentInRoomsService = equipmentInRoomsService;
         }
 
-        [HttpPost("consumable")]
-        public ActionResult AddConsumableEquipment([FromBody] String JSONString)
+        [HttpPost]
+        public ActionResult AddEquipment([FromBody] Equipment equipment)
         {
-            String JSONContent = StringToJSONFormat(JSONString);            
-
-            ConsumableEquipment cosumableEquipment = JsonConvert.DeserializeObject<ConsumableEquipment>(JSONContent);
-            _consumableEquipmentService.newConsumableEquipment(cosumableEquipment);
-
-            return Ok();
+            Equipment addedEquipment =_equipmentService.AddEquipment(equipment);
+            return Ok(addedEquipment.Id);
         }
 
-        [HttpPost("nonconsumable")]
-        public ActionResult AddNonConsumableEquipment([FromBody] String JSONString)
+        [HttpGet("byRoomNumber/{roomNumber}")]
+        public IActionResult GetEquipmentByRoomNumber(int roomNumber)
         {
-            String JSONContent = StringToJSONFormat(JSONString);
-
-            NonConsumableEquipment nonCosumableEquipment = JsonConvert.DeserializeObject<NonConsumableEquipment>(JSONContent);
-            _nonConsumableEquipmentService.newNonConsumableEquipment(nonCosumableEquipment);
-
-            return Ok();
+            try
+            {
+                List<Equipment> equipmentsInRoom = _equipmentService.GetEquipmentByRoomNumber(roomNumber);
+                if (equipmentsInRoom.Count==0) {
+                    return NotFound("NotFound");
+                }
+                return Ok(equipmentsInRoom);
+            }
+            catch (Exception e) {
+                return NotFound(e.Message);
+            }
         }
 
-        private string StringToJSONFormat(string JSONString)
+        [HttpGet("search")]
+        public ActionResult GetEquipmentWithRoomForSearchTerm(string term = "")
         {
-            string[] atributes = JSONString.Split(",");
-            String JSONContent = "{";
-            JSONContent += JSONString;
-            JSONContent += "}";
+       
+            List<Equipment> equipment = _equipmentService.GetEquipmentWithRoomForSearchTerm(term);
 
-            return JSONContent;
+            List<EquipmentWithRoomDTO> allEquipmentWithRoomDTOs = new List<EquipmentWithRoomDTO>();
+            foreach(Equipment e in equipment)
+            {
+                List<EquipmentWithRoomDTO> equipmentInRoomDTO = EquipmentWithRoomMapper.EquipmentToEquipmentWithRoomDTO(e, _equipmentInRoomsService.GetEquipmentInRoomsFromEquipment(e));
+
+                allEquipmentWithRoomDTOs.AddRange(equipmentInRoomDTO);
+            }
+
+            return Ok(allEquipmentWithRoomDTOs);
         }
 
     }

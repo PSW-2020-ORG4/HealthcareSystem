@@ -10,21 +10,23 @@ using Model.Enums;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using Backend.Model.Enums;
+using Backend.Model;
 
 namespace Model.PerformingExamination
 {
-   public class Examination
-   {
+    public class Examination
+    {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public TypeOfExamination Type  { get; set; }
+        public TypeOfExamination Type { get; set; }
         public DateTime DateAndTime { get; set; }
         public string Anamnesis { get; set; }
 
         [ForeignKey("Doctor")]
         public string DoctorJmbg { get; set; }
         public virtual Doctor Doctor { get; set; }
-    
+
         [ForeignKey("Room")]
         public int IdRoom { get; set; }
         public virtual Room Room { get; set; }
@@ -32,13 +34,17 @@ namespace Model.PerformingExamination
         [ForeignKey("PatientCard")]
         public int IdPatientCard { get; set; }
         public virtual PatientCard PatientCard { get; set; }
+        public ExaminationStatus ExaminationStatus { get; set; }
+        public bool IsSurveyCompleted { get; set; }
         public virtual ICollection<Therapy> Therapies { get; set; }
+        public virtual SurveyAboutDoctor SurveyAboutDoctor { get; set; }
+        public virtual SurveyAboutMedicalStaff SurveyAboutMedicalStaff { get; set; }
+        public virtual SurveyAboutHospital SurveyAboutHospital { get; set; }
 
-        public Examination() 
-        {
-        }
+        public Examination() {}
 
-        public Examination(int id, TypeOfExamination typeOfExamination, DateTime dateAndTime, string anamnesis, Doctor doctor, Room room, PatientCard patientCard)
+        public Examination(int id, TypeOfExamination typeOfExamination, DateTime dateAndTime, string anamnesis, Doctor doctor, Room room,
+                            PatientCard patientCard, bool isSurveyCompleted = false, ExaminationStatus examinationStatus = ExaminationStatus.CREATED)
         {
             Id = id;
             Type = typeOfExamination;
@@ -69,6 +75,8 @@ namespace Model.PerformingExamination
                 PatientCard = new PatientCard(patientCard);
             }
             Therapies = new List<Therapy>();
+            ExaminationStatus = examinationStatus;
+            IsSurveyCompleted = isSurveyCompleted;
         }
         public Examination(Examination examination)
         {
@@ -101,7 +109,21 @@ namespace Model.PerformingExamination
                 PatientCard = new PatientCard(examination.PatientCard);
             }
             Therapies = examination.Therapies;
+            ExaminationStatus = ExaminationStatus.CREATED;
+            IsSurveyCompleted = examination.IsSurveyCompleted;
         }
-   
-   }
+
+        public Examination(DateTime dateTime, string doctorJmbg, int roomId, int patientCardId)
+        {
+            DateAndTime = dateTime;
+            DoctorJmbg = doctorJmbg;
+            IdRoom = roomId;
+            IdPatientCard = patientCardId;
+            Type = TypeOfExamination.GENERAL;
+            Anamnesis = null;
+            ExaminationStatus = ExaminationStatus.CREATED;
+            IsSurveyCompleted = false;
+        }
+
+    }
 }

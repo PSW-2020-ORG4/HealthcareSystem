@@ -1,4 +1,5 @@
 ﻿using GraphicalEditor.Models;
+using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Services;
 using GraphicalEditor.Services.Interface;
@@ -22,6 +23,16 @@ namespace GraphicalEditor.Controllers
         public void UpdateMapObject(MapObject mapObject)
         {
             mapObjectService.UpdateMapObject(mapObject);
+        }
+
+        public MapObject GetMapObjectById(long id)
+        {
+            return mapObjectService.GetMapObjectById(id);
+        }
+
+        public List<MapObject> SearchMapObjects(MapObjectType searchedMapObjectType)
+        {
+            return mapObjectService.SearchMapObjects(searchedMapObjectType);
         }
     }
 }

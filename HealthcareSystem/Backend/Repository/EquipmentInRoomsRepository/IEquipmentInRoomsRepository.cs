@@ -9,11 +9,10 @@ namespace Backend.Repository.EquipmentInRoomsRepository
 {
    public interface IEquipmentInRoomsRepository
     {
-        List<EquipmentInRooms> GetEquipmentByRoom(int roomNumber);
-        EquipmentInRooms GetEquipment(int idEquipment);
-        EquipmentInRooms SetEquipment(EquipmentInRooms equipment);
-        bool DeleteEquipment(int id);
-        EquipmentInRooms NewEquipment(EquipmentInRooms equipment);
-
+        EquipmentInRooms UpdateEquipment(EquipmentInRooms equipment);
+        void DeleteEquipment(int id);
+        EquipmentInRooms AddEquipment(EquipmentInRooms equipment);
+        List<EquipmentInRooms> GetEquipmenInRoomsByEquipmentId(int equipmentId);
+        List<EquipmentInRooms> GetEquipmentInRoomsByRoomNumber(int roomNumber);
     }
 }

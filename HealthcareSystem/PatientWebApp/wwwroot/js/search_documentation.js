@@ -36,7 +36,7 @@
     let jmbg = "1309998775018";
 
     $.ajax({
-        url: '/api/examination/' + jmbg,
+        url: '/api/examination/by-patient/' + jmbg,
         type: 'GET',
         dataType: 'json',
         processData: false,
@@ -47,7 +47,7 @@
                 $('#not_found').attr("hidden", false);
             }
             for (let i = 0; i < data.length; i++) {
-                addExaminationTable(data[i],i);
+                addExaminationRow(data[i],i);
             }
         },
         error: function () {
@@ -97,7 +97,7 @@
                 data: JSON.stringify(newData),
                 success: function (data) {
                     for (let i = 0; i < data.length; i++) {
-                        addExaminationTable(data[i], i);
+                        addExaminationRow(data[i], i);
                     }
                 },
                 error: function (error) {
@@ -150,7 +150,7 @@ function addPrescriptionTable(therapy, j) {
     $('div#div_prescriptions').append(divElement);
 
 }
-function addExaminationTable(examination, i) {
+function addExaminationRow(examination, i) {
     i = i + 1;
     let divElement = $('<div style="margin-top: 40px; margin-left: 21%; margin-bottom:20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 40px;left: 450px; top: 200px; width:600px;">'
         + '<table><tr><td>'

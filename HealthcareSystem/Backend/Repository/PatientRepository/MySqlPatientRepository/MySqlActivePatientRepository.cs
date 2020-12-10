@@ -1,4 +1,6 @@
 ﻿using Backend.Model;
+using Backend.Model.Enums;
+using Backend.Model.Exceptions;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -40,14 +42,39 @@ namespace Repository
         {
             return _context.Patients.ToList();
         }
+
         public Patient GetPatientByJmbg(string jmbg)
         {
-            return _context.Patients.Find(jmbg);
+            Patient patient;
+            try
+            {
+                patient = _context.Patients.Find(jmbg);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+            if (patient == null)
+                throw new NotFoundException("Patient doesn't exist in database.");
+            return patient;
         }
+
         public void UpdatePatient(Patient patient)
         {
             _context.Patients.Update(patient);
             _context.SaveChanges();
+        }
+        public int GetNumberOfCanceledExaminations(string jmbg)
+        {
+            try
+            {
+                return _context.Examinations.Count(e => e.PatientCard.PatientJmbg == jmbg &&
+                e.ExaminationStatus == ExaminationStatus.CANCELED && e.DateAndTime >= DateTime.Now.AddMonths(-1));
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
     }
 }

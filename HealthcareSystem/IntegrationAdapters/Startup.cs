@@ -1,6 +1,11 @@
+using Backend.Communication.SftpCommunicator;
 using Backend.Model;
+using Backend.Model.Pharmacies;
 using Backend.Repository;
+using Backend.Repository.DrugConsumptionRepository;
+using Backend.Repository.DrugConsumptionRepository.MySqlDrugConsumptionRepository;
 using Backend.Service;
+using Backend.Service.DrugConsumptionService;
 using Backend.Service.Pharmacies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,6 +53,7 @@ namespace IntegrationAdapters
             services.AddControllersWithViews();
 
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
+            services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.AddSingleton<RabbitMqActionBenefitMessageingService>();
             services.AddSingleton<IHostedService, RabbitMqActionBenefitMessageingService>(ServiceProvider => ServiceProvider.GetService<RabbitMqActionBenefitMessageingService>());
 
@@ -55,7 +61,10 @@ namespace IntegrationAdapters
             services.AddScoped<IPharmacyService, PharmacyService>();
             services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();
-            
+            services.AddScoped<ISftpCommunicator, SftpCommunicator>();
+            services.AddScoped<IDrugConsumptionRepository, MySqlDrugConsumptionRepository>();
+            services.AddScoped<IDrugConsumptionService, DrugConsumptionService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -46,6 +46,9 @@ services:
       DBUSER: "org4"
       DBPASSWORD: "org4"
       DB: "organization4db"
+      RabbitMq:Hostname: "rabbitmq"
+      RabbitMq:Username: "org4"
+      RabbitMq:Password: "org4"
     depends_on:
       - database
     restart: on-failure
@@ -74,9 +77,8 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     environment:
-      RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_DEFAULT_USER: "org4"
+      RABBITMQ_DEFAULT_PASS: "org4"
     ports:
       - 5672:5672
       - 15672:15672

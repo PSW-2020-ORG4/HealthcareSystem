@@ -1,12 +1,15 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Controllers;
+using GraphicalEditor.DTO;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
+using GraphicalEditor.Models.Equipment;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Service;
 using GraphicalEditor.Services;
 using GraphicalEditor.Services.Interface;
+using GraphicalEditorServer.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -35,6 +38,7 @@ namespace GraphicalEditor
         public static Canvas _canvas;
         private MapObjectController _mapObjectController;
         public static List<MapObject> _allMapObjects;
+        public static List<MapObjectType> _allMapObjectTypes;
         private string _currentUserRole;
 
 
@@ -68,10 +72,32 @@ namespace GraphicalEditor
             get { return _selectedMenuOptionIndex; }
             set
             {
+                PreviousSelectedMenuOptionIndex = _selectedMenuOptionIndex;
                 _selectedMenuOptionIndex = value;
                 OnPropertyChanged("SelectedMenuOptionIndex");
             }
         }
+
+        private int? _previousSelectedMenuOptionIndex;
+        public int? PreviousSelectedMenuOptionIndex
+        {
+            get { return _previousSelectedMenuOptionIndex; }
+            set
+            {
+                _previousSelectedMenuOptionIndex = value;
+                OnPropertyChanged("PreviousSelectedMenuOptionIndex");
+                OnPropertyChanged("IsBackButtonEnabled");
+            }
+        }
+
+        public Boolean IsBackButtonEnabled
+        {
+            get
+            {
+                return PreviousSelectedMenuOptionIndex.HasValue;
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -114,10 +140,24 @@ namespace GraphicalEditor
             }
         }
 
+        public List<MapObjectType> AllMapObjectTypes
+        {
+            get
+            {
+                return _allMapObjectTypes;
+            }
+            set
+            {
+                _allMapObjectTypes = value;
+                OnPropertyChanged("AllMapObjectTypes");
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
             this.DataContext = this;
+            AllMapObjectTypes = MapObjectType.AllMapObjectTypesAvailableForSearch;
             _canvas = this.Canvas;
             _fileRepository = new FileRepository("test.json");
             _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
@@ -131,11 +171,20 @@ namespace GraphicalEditor
             //saveMap();
 
             LoadInitialMapOnCanvas();
-
             // uncomment only the first time you start the project in order
             // to populate DB with start data
-            //InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
+            InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
             //initializeDatabaseData.InitiliazeData();
+
+
+            EquipementService equipementService = new EquipementService();
+            /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
+            foreach(EquipmentWithRoomDTO res in result)
+            {
+                Console.WriteLine(res.IdEquipment);
+                Console.WriteLine(res.RoomNumber);
+                Console.WriteLine("---");
+            }*/
 
         }
 
@@ -143,6 +192,7 @@ namespace GraphicalEditor
         {
             InitializeComponent();
             this.DataContext = this;
+            AllMapObjectTypes = MapObjectType.AllMapObjectTypesAvailableForSearch;
             _currentUserRole = currentUserRole;
             _canvas = this.Canvas;
             _fileRepository = new FileRepository("test.json");
@@ -158,6 +208,7 @@ namespace GraphicalEditor
             LoadInitialMapOnCanvas();
 
             RestrictUsersAccessBasedOnRole();
+
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -293,23 +344,27 @@ namespace GraphicalEditor
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             _selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-            ApplySelectionEffectToObject(_selectedMapObject);
 
-            if (_selectedMapObject != null)
+            MarkAndDisplaySelectedMapObject(_selectedMapObject);
+
+            ChangeEditButtonVisibility();
+        }
+
+        private void MarkAndDisplaySelectedMapObject(MapObject selectedMapObjectForDisplay)
+        {
+            ApplySelectionEffectToObject(selectedMapObjectForDisplay);
+
+            if (selectedMapObjectForDisplay != null)
             {
-                DisplayMapObject = _selectedMapObject.MapObjectEntity;
-                SelectedMapObject = _selectedMapObject;
-                //these properties we will need to map on our graphicalEditorWPF
-                var consumableEquipmentForSelectedObject = SelectedMapObject.GetConsumableEquipmentByRoomNumber();
-                var nonConsumableEquipmentForSelectedObject = SelectedMapObject.GetNonConsumableEquipmentByRoomNumber();
+                DisplayMapObject = selectedMapObjectForDisplay.MapObjectEntity;
+                SelectedMapObject = selectedMapObjectForDisplay;
+
             }
             else
             {
                 SelectedMapObject = null;
                 DisplayMapObject = null;
             }
-
-            ChangeEditButtonVisibility();
         }
 
         private void ApplyHoverEffectToObject(MapObject hoverMapObject)
@@ -444,8 +499,6 @@ namespace GraphicalEditor
 
         private void ListViewExtendMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
-
             switch (SelectedMenuOptionIndex)
             {
                 case 0:
@@ -465,6 +518,72 @@ namespace GraphicalEditor
                     break;
             }
         }
+
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!PreviousSelectedMenuOptionIndex.HasValue)
+                return;
+
+            SelectedMenuOptionIndex = PreviousSelectedMenuOptionIndex.Value;
+            PreviousSelectedMenuOptionIndex = null;
+        }
+
+
+
+        private void SearchMapObjectsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SearchObjectTypeComboBox.SelectedItem != null)
+            {
+                MapObjectType searchedMapObjectType = (MapObjectType)SearchObjectTypeComboBox.SelectedItem;
+                List<MapObject> searchResultMapObjects = _mapObjectController.SearchMapObjects(searchedMapObjectType);
+                ObjectSearchResultsDataGrid.ItemsSource = searchResultMapObjects;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void ShowSelectedSearchResultObjectOnMap(MapObject selectedSearchResultObject)
+        {
+            if (selectedSearchResultObject.MapObjectEntity.GetType() == typeof(Room))
+            {
+                long buildingId = ((Room)selectedSearchResultObject.MapObjectEntity).BuildingId;
+                MapObject building = _mapObjectController.GetMapObjectById(buildingId);
+                ((Building)building.MapObjectEntity).ShowFloorForSpecificMapObject(selectedSearchResultObject);
+            }
+
+            MarkAndDisplaySelectedMapObject(selectedSearchResultObject);
+            ListViewExtendMenu.SelectedIndex = 0;
+        }
+
+
+
+        private void ShowSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            MapObject selectedSearchResultObject = (MapObject)ObjectSearchResultsDataGrid.SelectedItem;
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultObject);
+        }
+
+
+        private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowEquipmentSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowMedicineSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+      
     }
 }
 

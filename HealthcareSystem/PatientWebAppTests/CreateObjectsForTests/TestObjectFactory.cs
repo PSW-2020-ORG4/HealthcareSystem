@@ -1,5 +1,5 @@
 ﻿using Backend.Model.Users;
-﻿using Backend.Model;
+using Backend.Model;
 using Model.Users;
 using PatientWebApp.DTOs;
 using System;
@@ -13,63 +13,68 @@ namespace PatientWebAppTests.CreateObjectsForTests
 {
     public class TestObjectFactory
     {
-        public ICreateTestObject<PatientDTO> GetPatientDTO()
+        public CreatePatientDTO GetPatientDTO()
         {
             return new CreatePatientDTO();
         }
 
-        public ICreateTestObject<Patient> GetPatient()
+        public CreatePatient GetPatient()
         {
             return new CreatePatient();
         }
 
-        public ICreateTestObject<PatientCard> GetPatientCard()
+        public CreatePatientCard GetPatientCard()
         {
             return new CreatePatientCard();
         }
 
-        public ICreateTestObject<SurveyDTO> GetSurveyDTO()
+        public CreateSurveyDTO GetSurveyDTO()
         {
             return new CreateSurveyDTO();
         }
 
-        public ICreateTestObject<Survey> GetSurvey()
+        public CreateSurvey GetSurvey()
         {
             return new CreateSurvey();
         }
 
-        public ICreateTestObject<Examination> GetExamination()
+        public CreateExamination GetExamination()
         {
             return new CreateExamination();
         }
 
-        public ICreateTestObject<ExaminationSearchDTO> GetExaminationSearchDTO()
+        public CreateExaminationSearchDTO GetExaminationSearchDTO()
         {
             return new CreateExaminationSearchDTO();
         }
 
-        public ICreateTestObject<Therapy> GetTherapy()
+        public CreateTherapy GetTherapy()
         {
             return new CreateTherapy();
         }
-        public ICreateTestObject<TherapySearchDTO> GetTherapySearchDTO()
+        public CreateTherapySearchDTO GetTherapySearchDTO()
         {
             return new CreateTherapySearchDTO();
         }
 
-        public ICreateTestObject<SurveyResult> GetSurveyResultAboutDoctor()
+        public CreateSurveyResult GetSurveyResultAboutDoctor()
         {
             return new CreateSurveyResult();
         }
 
-        public ICreateTestObject<SurveyResult> GetSurveyResultAboutHospital()
+        public CreateSurveyResult GetSurveyResultAboutHospital()
         {
             return new CreateSurveyResult();
         }
 
-        public ICreateTestObject<SurveyResult> GetSurveyResultAboutMedicalStaff()
+        public CreateSurveyResult GetSurveyResultAboutMedicalStaff()
         {
             return new CreateSurveyResult();
+        }
+
+        public CreateExaminationDTO GetExaminationDTO()
+        {
+            return new CreateExaminationDTO();
         }
 
     }

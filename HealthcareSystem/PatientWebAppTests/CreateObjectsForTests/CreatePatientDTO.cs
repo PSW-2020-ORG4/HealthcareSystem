@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
-    public class CreatePatientDTO : ICreateTestObject<PatientDTO>
+    public class CreatePatientDTO
     {
         public PatientDTO CreateValidTestObject()
         {
@@ -14,7 +14,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
                                                     dateOfBirth: DateTime.Now, phone: "065432485", countryId: 1, countryName: "Srbija",
                                                     cityZipCode: 21000, cityName: "Novi Sad", homeAddress: "Bulevar Oslobodjenja 10",
                                                     bloodType: BloodType.A, rhFactor: RhFactorType.NEGATIVE, hasInsurance: false, lbo: "",
-                                                    alergies: "", medicalHistory: "", email: "ana@gmail.com", password: "12345678");
+                                                    alergies: "", medicalHistory: "", email: "ana@gmail.com", password: "12345678", isBlocked: false);
         }
         public PatientDTO CreateInvalidTestObject()
         {
@@ -22,7 +22,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
                                                     dateOfBirth: DateTime.Now, phone: "", countryId: 1, countryName: "Srbija",
                                                     cityZipCode: 21000, cityName: "Novi Sad", homeAddress: null,
                                                     bloodType: BloodType.A, rhFactor: RhFactorType.POSITIVE, hasInsurance: false, lbo: "",
-                                                    alergies: null, medicalHistory: null, email: null, password: "");
+                                                    alergies: null, medicalHistory: null, email: null, password: "", isBlocked: false);
         }
     }
 }

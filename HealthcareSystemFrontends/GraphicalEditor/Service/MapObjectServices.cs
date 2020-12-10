@@ -23,6 +23,19 @@ namespace GraphicalEditor.Services
             _fileRepository.UpdateMapObject(mapObject);
         }
 
+        public MapObject GetMapObjectById(long id)
+        {
+            foreach (MapObject mapObject in MainWindow._allMapObjects)
+            {
+                if (mapObject.MapObjectEntity.Id == id)
+                {
+                    return mapObject;
+                }
+            }
+
+            return null;
+        }
+
         public List<MapObject> SearchMapObjects(MapObjectType searchedMapObjectType)
         {
             List<MapObject> searchResultMapObjects = new List<MapObject>();

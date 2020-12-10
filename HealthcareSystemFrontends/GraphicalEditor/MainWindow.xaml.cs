@@ -344,22 +344,27 @@ namespace GraphicalEditor
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             _selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-            ApplySelectionEffectToObject(_selectedMapObject);
 
-            if (_selectedMapObject != null)
+            MarkAndDisplaySelectedMapObject(_selectedMapObject);
+
+            ChangeEditButtonVisibility();
+        }
+
+        private void MarkAndDisplaySelectedMapObject(MapObject selectedMapObjectForDisplay)
+        {
+            ApplySelectionEffectToObject(selectedMapObjectForDisplay);
+
+            if (selectedMapObjectForDisplay != null)
             {
-                DisplayMapObject = _selectedMapObject.MapObjectEntity;
-                SelectedMapObject = _selectedMapObject;
-                //these properties we will need to map on our graphicalEditorWPF
-                var equipment = SelectedMapObject.GetEquipmentByRoomNumber();
+                DisplayMapObject = selectedMapObjectForDisplay.MapObjectEntity;
+                SelectedMapObject = selectedMapObjectForDisplay;
+
             }
             else
             {
                 SelectedMapObject = null;
                 DisplayMapObject = null;
             }
-
-            ChangeEditButtonVisibility();
         }
 
         private void ApplyHoverEffectToObject(MapObject hoverMapObject)
@@ -540,6 +545,29 @@ namespace GraphicalEditor
             }
         }
 
+        private void ShowSelectedSearchResultObjectOnMap(MapObject selectedSearchResultObject)
+        {
+            if (selectedSearchResultObject.MapObjectEntity.GetType() == typeof(Room))
+            {
+                long buildingId = ((Room)selectedSearchResultObject.MapObjectEntity).BuildingId;
+                MapObject building = _mapObjectController.GetMapObjectById(buildingId);
+                ((Building)building.MapObjectEntity).ShowFloorForSpecificMapObject(selectedSearchResultObject);
+            }
+
+            MarkAndDisplaySelectedMapObject(selectedSearchResultObject);
+            ListViewExtendMenu.SelectedIndex = 0;
+        }
+
+
+
+        private void ShowSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            MapObject selectedSearchResultObject = (MapObject)ObjectSearchResultsDataGrid.SelectedItem;
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultObject);
+        }
+
+
         private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -555,10 +583,7 @@ namespace GraphicalEditor
 
         }
 
-        private void ShowSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
     }
 }
 

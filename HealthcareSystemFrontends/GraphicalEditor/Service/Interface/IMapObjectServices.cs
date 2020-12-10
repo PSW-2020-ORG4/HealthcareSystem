@@ -11,6 +11,7 @@ namespace GraphicalEditor.Services.Interface
     public interface IMapObjectServices
     {
         void UpdateMapObject(MapObject mapObject);
+        MapObject GetMapObjectById(long id);
         List<MapObject> SearchMapObjects(MapObjectType searchedMapObjectType);
     }
 }

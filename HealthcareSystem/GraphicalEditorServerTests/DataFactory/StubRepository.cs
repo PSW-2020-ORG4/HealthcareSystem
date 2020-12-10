@@ -1,10 +1,14 @@
 ﻿using Backend.Model.Manager;
 using Backend.Repository;
 using Backend.Repository.EquipmentInRoomsRepository;
+using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
 using Model.Manager;
+using Model.PerformingExamination;
+using Model.Users;
 using Moq;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,6 +21,9 @@ namespace GraphicalEditorServerTests.DataFactory
         private readonly CreateEquipmentType _createEquipmentType;
         private readonly CreateEquipmentInRoom _createEquipmentInRoom;
         private readonly CreateRoom _createRooms;
+        private readonly CreateDoctor _createDoctors;
+        private readonly CreatePatientCard _createPatientCard;
+        private readonly CreateExamination _createExamination;
 
         public StubRepository()
         {
@@ -24,6 +31,9 @@ namespace GraphicalEditorServerTests.DataFactory
             _createEquipmentType = new CreateEquipmentType();
             _createEquipmentInRoom = new CreateEquipmentInRoom();
             _createRooms = new CreateRoom();
+            _createDoctors = new CreateDoctor(_createRooms);
+            _createPatientCard = new CreatePatientCard();
+            _createExamination = new CreateExamination();
         }
 
         public IEquipmentRepository CreateEquipmentStubRepository() {
@@ -74,7 +84,8 @@ namespace GraphicalEditorServerTests.DataFactory
         {
             var roomStubRepository = new Mock<IRoomRepository>();
             roomStubRepository.Setup(x => x.GetAllRooms()).Returns(_createRooms.CreateRooms());
-
+            roomStubRepository.Setup(m => m.CheckIfRoomExists(0)).Returns(true);
+            roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(_createRooms.CreateRooms()[0]);
             return roomStubRepository.Object;
         }
 
@@ -84,5 +95,46 @@ namespace GraphicalEditorServerTests.DataFactory
 
             return renovationStubRepository.Object;
         }
+
+        public IExaminationRepository CreateExaminationStubRepository()
+        {
+            var examinationStubRepository = new Mock<IExaminationRepository>();
+               
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 8))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 5, 7, 0, 0))).Returns(_createExamination.CreateInvalidTestObject1);
+            examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 5, 7, 30, 0))).Returns(_createExamination.CreateInvalidTestObject2);
+            examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 5, 8, 0, 0))).Returns(_createExamination.CreateInvalidTestObject3);
+            examinationStubRepository.Setup(m => m.GetExaminationsByPatientAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
+
+            return examinationStubRepository.Object;
+        }
+        public IDoctorRepository CreateDoctorStubRepository()
+        {
+            var doctorStubRepository = new Mock<IDoctorRepository>();
+            var doctorInvalidObject = _createDoctors.CreateValidTestObject();
+            var doctors = new List<Doctor>();
+            doctors.Add(doctorInvalidObject);
+
+            doctorStubRepository.Setup(m => m.GetDoctorByJmbg("0909965768767")).Returns(doctors[0]);
+            doctorStubRepository.Setup(m => m.CheckIfDoctorExists("0909965768767")).Returns(true);
+            doctorStubRepository.Setup(m => m.GetAllDoctors()).Returns(doctors);
+
+            return doctorStubRepository.Object;
+        }
+        public IActivePatientCardRepository CreatePatientCardStubRepository()
+        {
+            var patientCardStubRepository = new Mock<IActivePatientCardRepository>();
+            var patientCardValidObject = _createPatientCard.CreateValidTestObject();
+            var patientCards = new List<PatientCard>();
+            patientCards.Add(patientCardValidObject);
+
+            patientCardStubRepository.Setup(m => m.GetPatientCardByJmbg("1234567891234")).Returns(patientCards[0]);
+            patientCardStubRepository.Setup(m => m.CheckIfPatientCardExists(1)).Returns(true);
+           
+            return patientCardStubRepository.Object;
+
+        }
+
     }
 }

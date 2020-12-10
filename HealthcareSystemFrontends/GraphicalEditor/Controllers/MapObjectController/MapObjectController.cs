@@ -25,6 +25,11 @@ namespace GraphicalEditor.Controllers
             mapObjectService.UpdateMapObject(mapObject);
         }
 
+        public MapObject GetMapObjectById(long id)
+        {
+            return mapObjectService.GetMapObjectById(id);
+        }
+
         public List<MapObject> SearchMapObjects(MapObjectType searchedMapObjectType)
         {
             return mapObjectService.SearchMapObjects(searchedMapObjectType);

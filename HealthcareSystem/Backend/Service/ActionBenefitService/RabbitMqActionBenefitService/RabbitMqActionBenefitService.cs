@@ -21,9 +21,7 @@ namespace Backend.Service
         private IModel _channel;
         private IConnection _connection;
         private readonly IServiceProvider _service;
-        private readonly String _hostname;
-        private readonly String _username;
-        private readonly String _password;
+        private readonly RabbitMqConfiguration _configuration;
         private readonly String _queueName;
 
         public RabbitMqActionBenefitMessageingService()
@@ -33,54 +31,61 @@ namespace Backend.Service
         public RabbitMqActionBenefitMessageingService(IServiceProvider service, IOptions<RabbitMqConfiguration> rabbitMqOPtions)
         {
             _service = service;
-            _hostname = rabbitMqOPtions.Value.Hostname;
-            _username = rabbitMqOPtions.Value.Username;
-            _password = rabbitMqOPtions.Value.Password;
+            _configuration = rabbitMqOPtions.Value;
             _queueName = "bolnica-1";
-            InitializeRabbitMqListener(0);
-	    Console.WriteLine(_hostname);
-	    Console.WriteLine(_username);
-	    Console.WriteLine(_password);
+            InitializeRabbitMqListener();
         }
 
-        private void InitializeRabbitMqListener(int iteration)
+        private void InitializeRabbitMqListener()
         {
-            try
+            InitializeConnection();
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(queue: _queueName,
+                                  durable: true,
+                                  exclusive: false,
+                                  autoDelete: false,
+                                  arguments: null);
+            using (var scope = _service.CreateScope())
             {
-                var factory = new ConnectionFactory() { HostName = _hostname, UserName = _username, Password = _password };
-                _connection = factory.CreateConnection();
-                _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
-                _channel = _connection.CreateModel();
-                _channel.QueueDeclare(queue: _queueName,
-                                      durable: true,
-                                      exclusive: false,
-                                      autoDelete: false,
-                                      arguments: null);
+                IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
 
-                using (var scope = _service.CreateScope())
+                foreach (Pharmacy p in pharmacyService.GetPharmaciesBySubscribed(true))
                 {
-                    IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
-
-                    foreach (Pharmacy p in pharmacyService.GetPharmaciesBySubscribed(true))
-                    {
-                        _channel.ExchangeDeclare(exchange: p.ActionsBenefitsExchangeName, type: ExchangeType.Fanout);
-                        _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");
-                    }
+                    _channel.ExchangeDeclare(exchange: p.ActionsBenefitsExchangeName, type: ExchangeType.Fanout);
+                    _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");
                 }
             }
-            catch (BrokerUnreachableException bue)
+        }
+
+        private void InitializeConnection()
+        {
+            for (int i = 0; i <= _configuration.RetryCount; i++)
             {
-                if (iteration < 10)
+                try
                 {
-		    Console.WriteLine("Connection failed. Retrying.");
-                    //set wait time
-                    Thread.Sleep(5000);
-                    InitializeRabbitMqListener(++iteration);
+                    var factory = new ConnectionFactory()
+                    {
+                        HostName = _configuration.Hostname,
+                        UserName = _configuration.Username,
+                        Password = _configuration.Password
+                    };
+                    _connection = factory.CreateConnection();
+                    _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+                    Console.WriteLine("RabbitMq connection established.");
+                    break;
                 }
-                else
+                catch (BrokerUnreachableException)
                 {
-                    Console.WriteLine(bue.Message);
-                    Dispose();
+                    if (i < _configuration.RetryCount)
+                    {
+                        Console.WriteLine("RabbitMq connection failed. Retrying.");
+                        Thread.Sleep(_configuration.RetryWait);
+                    }
+                    else
+                    {
+                        Console.WriteLine("RabbitMq connection failed. Disposing.");
+                        Dispose();
+                    }
                 }
             }
         }
@@ -149,7 +154,7 @@ namespace Backend.Service
                 HandleMessage(message, exchangeName);
                 _channel.BasicAck(e.DeliveryTag, false);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 _channel.BasicReject(e.DeliveryTag, false);

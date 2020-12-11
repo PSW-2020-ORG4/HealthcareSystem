@@ -20,11 +20,13 @@ services:
     - "8181:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      DBHOST: "database"
-      DBPORT: "3306"
-      DBUSER: "org4"
-      DBPASSWORD: "org4"
-      DB: "organization4db"
+      DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 100
+      DbConnectionSettings:RetryWaitInSeconds: 30
     depends_on:
       - database
     restart: on-failure
@@ -41,16 +43,21 @@ services:
     - "8282:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      DBHOST: "database"
-      DBPORT: "3306"
-      DBUSER: "org4"
-      DBPASSWORD: "org4"
-      DB: "organization4db"
+      DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 100
+      DbConnectionSettings:RetryWaitInSeconds: 30
       RabbitMq:Hostname: "rabbitmq"
       RabbitMq:Username: "org4"
       RabbitMq:Password: "org4"
+      RabbitMq:RetryCount: 20
+      RabbitMq:RetryWait: 30000
     depends_on:
       - database
+      - rabbitmq
     restart: on-failure
     networks:
       - demo
@@ -63,11 +70,13 @@ services:
     - "5001:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      DBHOST: "database"
-      DBPORT: "3306"
-      DBUSER: "org4"
-      DBPASSWORD: "org4"
-      DB: "organization4db"
+      DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 100
+      DbConnectionSettings:RetryWaitInSeconds: 30
     depends_on:
       - database
     restart: on-failure
@@ -79,9 +88,6 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "org4"
       RABBITMQ_DEFAULT_PASS: "org4"
-    ports:
-      - 5672:5672
-      - 15672:15672
     networks:
       - demo
 

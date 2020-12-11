@@ -7,6 +7,7 @@ using Backend.Repository.DrugConsumptionRepository.MySqlDrugConsumptionRepositor
 using Backend.Service;
 using Backend.Service.DrugConsumptionService;
 using Backend.Service.Pharmacies;
+using Backend.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -32,21 +33,16 @@ namespace IntegrationAdapters
         {
             services.AddControllers();
 
-            var host = Configuration["DBHOST"] ?? "localhost";
-            var port = Configuration["DBPORT"] ?? "3306";
-            var user = Configuration["DBUSER"] ?? "organization4";
-            var password = Configuration["DBPASSWORD"] ?? "organization4";
-            var database = Configuration["DB"] ?? "organization4db";
+            IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
+            DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
 
-            string connectionString = $"server={host} ;userid={user}; pwd={password};"
-                                    + $"port={port}; database={database}";
-
+            services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
             {
                 options.UseMySql(
-                    connectionString,
+                    dbSettings.ConnectionString,
                     x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
-                        100, new TimeSpan(0, 0, 0, 30), new List<int>())
+                        dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
                     ).UseLazyLoadingProxies();
             });
 

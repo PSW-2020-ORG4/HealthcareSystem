@@ -1,5 +1,9 @@
 using Backend.Model;
 using Backend.Repository;
+using Backend.Repository.DoctorSpecialtyRepository;
+using Backend.Repository.DoctorSpecialtyRepository.MySqlDoctorSpecialtyRepository;
+using Backend.Repository.DrugInRoomRepository;
+using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
 using Backend.Repository.DrugRepository;
 using Backend.Repository.DrugRepository.MySQLDrugRepository;
 using Backend.Repository.DrugTypeRepository;
@@ -12,6 +16,8 @@ using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
+using Backend.Repository.SpecialtyRepository;
+using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
 using Backend.Repository.TherapyRepository;
 using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
 using Backend.Service;
@@ -21,6 +27,7 @@ using Backend.Service.NotificationSurveyAndFeedback;
 using Backend.Service.PlacementInARoomAndRenovationPeriod;
 using Backend.Service.RoomAndEquipment;
 using Backend.Service.SendingMail;
+using Backend.Service.UsersAndWorkingTime;
 using Backend.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,20 +45,6 @@ using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using System;
 using System.Collections.Generic;
-using Service.ExaminationAndPatientCard;
-using Backend.Service.SendingMail;
-using Backend.Settings;
-using Microsoft.AspNetCore.Http;
-using Backend.Service.ExaminationAndPatientCard;
-using Backend.Repository.TherapyRepository;
-using Backend.Repository.TherapyRepository.MySqlTherapyRepository;
-using Backend.Repository.SpecialtyRepository;
-using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
-using Backend.Service.UsersAndWorkingTime;
-using Backend.Repository.DrugInRoomRepository;
-using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
-using Backend.Repository.DoctorSpecialtyRepository;
-using Backend.Repository.DoctorSpecialtyRepository.MySqlDoctorSpecialtyRepository;
 
 namespace PatientWebApp
 {
@@ -69,27 +62,16 @@ namespace PatientWebApp
         {
             services.AddControllers();
 
-            var host = Configuration["DBHOST"] ?? "aa";
-            var port = Configuration["DBPORT"] ?? "aa";
-            var user = Configuration["DBUSER"] ?? "aa";
-            var password = Configuration["DBPASSWORD"] ?? "aa";
-            var database = Configuration["DB"] ?? "aa";
-
-            string connectionString = $"server={host} ;userid={user}; pwd={password};"
-                                    + $"port={port}; database={database}";
-
-            IConfiguration mail = Configuration.GetSection("MailSettings");
-            Console.WriteLine(mail["Mail"]);
-
-            Console.WriteLine(connectionString);
+            IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
+            DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
 
             services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
             {
                 options.UseMySql(
-                    connectionString,
+                    dbSettings.ConnectionString,
                     x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
-                        100, new TimeSpan(0, 0, 0, 30), new List<int>())
+                        dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
                     ).UseLazyLoadingProxies();
             });
 
@@ -102,7 +84,7 @@ namespace PatientWebApp
             services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
             services.AddScoped<ISpecialtyService, SpecialtyService>();
 
-            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>(); 
+            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();
             services.AddScoped<IFeedbackService, FeedbackService>();
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();

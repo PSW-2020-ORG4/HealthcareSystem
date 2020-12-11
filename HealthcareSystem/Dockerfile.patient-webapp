@@ -15,7 +15,6 @@ COPY PatientWebApp/ .
 FROM build AS publish
 RUN dotnet publish "PatientWebApp.csproj" -c Release -o /app/publish
 RUN dotnet-ef dbcontext script -c "DbContextWithTestData" -p "/src/Backend/Backend.csproj" -o /app/sql/init.sql
-COPY PatientWebApp/Templates /app/publish/Templates
 
 FROM base AS final
 WORKDIR /app

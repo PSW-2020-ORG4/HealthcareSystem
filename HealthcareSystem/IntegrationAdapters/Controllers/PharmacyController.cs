@@ -21,11 +21,11 @@ namespace IntegrationAdapters.Controllers
 
         public IActionResult ApiRegister()
         {
-            return View();
+            return View(new PharmacySystem());
         }
 
         [HttpPost]
-        public IActionResult ApiRegister(Pharmacy pharmacy)
+        public IActionResult ApiRegister(PharmacySystem pharmacy)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -65,9 +65,9 @@ namespace IntegrationAdapters.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Pharmacy pharmacy)
+        public IActionResult Edit(PharmacySystem pharmacy)
         {
-            Pharmacy pharmacyOld = _pharmacyService.GetPharmacyByIdNoTracking(pharmacy.Id);
+            PharmacySystem pharmacyOld = _pharmacyService.GetPharmacyByIdNoTracking(pharmacy.Id);
             if (pharmacyOld == null)
                 throw new ArgumentNullException("There is no pharmacy with id=" + pharmacy.Id);
 

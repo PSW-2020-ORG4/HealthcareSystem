@@ -16,7 +16,7 @@ namespace IntegrationAdaptersTests.UnitTests
             var mockPharmacyRepo = new Mock<IPharmacyRepo>();
             var mockActionBenefitRepo = new Mock<IActionBenefitRepository>();
             var exchange = "ex1";
-            var pharmacy = new Pharmacy { Id = 1, Name = "apoteka1", ApiKey = "api1", Url = "url1", ActionsBenefitsExchangeName = exchange, ActionsBenefitsSubscribed = true };
+            var pharmacy = new PharmacySystem { Id = 1, Name = "apoteka1", ApiKey = "api1", Url = "url1", ActionsBenefitsExchangeName = exchange, ActionsBenefitsSubscribed = true };
             var message = new ActionBenefitMessage { Subject = "akcija1", Message = "blablabla" };
 
             mockPharmacyRepo.Setup(r => r.GetPharmacyByExchangeName(exchange)).Returns(pharmacy);
@@ -34,7 +34,7 @@ namespace IntegrationAdaptersTests.UnitTests
             var mockPharmacyRepo = new Mock<IPharmacyRepo>();
             var mockActionBenefitRepo = new Mock<IActionBenefitRepository>();
             var exchange = "ex1";
-            var pharmacy = new Pharmacy { Id = 1, Name = "apoteka1", ApiKey = "api1", Url = "url1", ActionsBenefitsExchangeName = exchange, ActionsBenefitsSubscribed = true };
+            var pharmacy = new PharmacySystem { Id = 1, Name = "apoteka1", ApiKey = "api1", Url = "url1", ActionsBenefitsExchangeName = exchange, ActionsBenefitsSubscribed = true };
             var message = new ActionBenefitMessage { Subject = null, Message = null };
 
             mockPharmacyRepo.Setup(r => r.GetPharmacyByExchangeName(exchange)).Returns(pharmacy);

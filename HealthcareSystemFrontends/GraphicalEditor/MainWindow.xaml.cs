@@ -573,7 +573,21 @@ namespace GraphicalEditor
 
         private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
         {
+            String equipmentOrMedicineNameUserInput = EquipmentOrMedicineNameTextBox.Text.Trim().ToLower();
+            if (String.IsNullOrEmpty(equipmentOrMedicineNameUserInput))
+            {
+                return;
+            }
 
+            EquipementService equipmentService = new EquipementService();
+            DrugService drugService = new DrugService();
+
+
+            List<EquipmentWithRoomDTO> searchResultEquipment = equipmentService.GetEquipmentWithRoomForSearchTerm(equipmentOrMedicineNameUserInput);
+            List<DrugWithRoomDTO> searchResultDrugs = drugService.GetDrugsWithRoomForSearchTerm(equipmentOrMedicineNameUserInput);
+
+            EquipmentSearchResultsDataGrid.ItemsSource = searchResultEquipment;
+            MedicineSearchResultsDataGrid.ItemsSource = searchResultDrugs;
         }
 
         private void ShowEquipmentSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)

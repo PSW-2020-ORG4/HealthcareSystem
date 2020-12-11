@@ -42,7 +42,7 @@ namespace GraphicalEditor.Service
         {
             return (List<Drug>)HTTPGetRequest<Drug>("drugs/byRoomNumber/ " + roomNumber);
         }
-        public List<DrugWithRoomDTO> GetEquipmentWithRoomForSearchTerm(String searchTerm)
+        public List<DrugWithRoomDTO> GetDrugsWithRoomForSearchTerm(String searchTerm)
         {
             return (List<DrugWithRoomDTO>)HTTPGetRequest<DrugWithRoomDTO>("drugs/search?term=" + searchTerm);
         }

@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.ItemName = "DrugAvailability";
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        <h2 class="text-center">Drug Availability</h2>
+    </div>
+    <div class="card-body">
+        <form class="form" method="get" action="/DrugAvailability/Search">
+            @Html.AntiForgeryToken()
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input id="textinput" name="name" type="text" class="form-control input-md" required="" />    
+                        </td>
+                        <td>
+                            <input type="submit" value="Search" class="btn btn-primary">
+                        </td>
+                    </tr>
+                </tbody>    
+            </table>
+        </form>
+    </div>
+</div>

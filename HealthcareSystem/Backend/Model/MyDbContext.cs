@@ -34,7 +34,7 @@ namespace Backend.Model
         public DbSet<Room> Rooms { get; set; }
         public DbSet<RenovationPeriod> RenovationPeriods { get; set; }
         public DbSet<WorkingTime> WorkingTimes { get; set; }
-        public DbSet<Pharmacy> Pharmacies { get; set; }
+        public DbSet<PharmacySystem> Pharmacies { get; set; }
         public DbSet<ActionBenefit> ActionsBenefits { get; set; }
         public DbSet<EquipmentInRooms> EquipmentsInRooms { get; set; }
         public DbSet<Equipment> Equipment { get; set; }
@@ -47,7 +47,7 @@ namespace Backend.Model
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Pharmacy>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
+            builder.Entity<PharmacySystem>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
             builder.Entity<EquipmentInRooms>().HasKey(o => new { o.RoomNumber, o.IdEquipment });
 
             builder.Entity<DoctorSpecialty>().HasKey(ds => new { ds.DoctorJmbg, ds.SpecialtyId });

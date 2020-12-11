@@ -3,7 +3,7 @@ using GraphicalEditor.Controllers;
 using GraphicalEditor.DTO;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
-using GraphicalEditor.Models.Equipment;
+using GraphicalEditor.Models.Equipments;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Service;
@@ -203,7 +203,7 @@ namespace GraphicalEditor
             _allMapObjects = mockupObjects.AllMapObjects;
             ChangeEditButtonVisibility();
             // uncomment only when you want to save the map for the first time
-            saveMap();
+            //saveMap();
 
             LoadInitialMapOnCanvas();
 
@@ -358,6 +358,9 @@ namespace GraphicalEditor
             {
                 DisplayMapObject = selectedMapObjectForDisplay.MapObjectEntity;
                 SelectedMapObject = selectedMapObjectForDisplay;
+
+                ObjectEquipmentDataGrid.ItemsSource = SelectedMapObject.GetEquipmentInObject();
+                ObjectMedicineDataGrid.ItemsSource = SelectedMapObject.GetMedicineInObject();
 
             }
             else
@@ -570,17 +573,39 @@ namespace GraphicalEditor
 
         private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
         {
+            String equipmentOrMedicineNameUserInput = EquipmentOrMedicineNameTextBox.Text.Trim().ToLower();
+            if (String.IsNullOrEmpty(equipmentOrMedicineNameUserInput))
+            {
+                return;
+            }
 
+            EquipementService equipmentService = new EquipementService();
+            DrugService drugService = new DrugService();
+
+
+            List<EquipmentWithRoomDTO> searchResultEquipment = equipmentService.GetEquipmentWithRoomForSearchTerm(equipmentOrMedicineNameUserInput);
+            List<DrugWithRoomDTO> searchResultDrugs = drugService.GetDrugsWithRoomForSearchTerm(equipmentOrMedicineNameUserInput);
+
+            EquipmentSearchResultsDataGrid.ItemsSource = searchResultEquipment;
+            MedicineSearchResultsDataGrid.ItemsSource = searchResultDrugs;
         }
 
         private void ShowEquipmentSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
         {
+            EquipmentWithRoomDTO selectedSearchResultEquipmentDTO = (EquipmentWithRoomDTO)EquipmentSearchResultsDataGrid.SelectedItem;
 
+            MapObject selectedSearchResultMapObject = _mapObjectController.GetMapObjectById(selectedSearchResultEquipmentDTO.RoomNumber);
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
         private void ShowMedicineSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
         {
+            DrugWithRoomDTO selectedSearchResultDrugDTO = (DrugWithRoomDTO)MedicineSearchResultsDataGrid.SelectedItem;
 
+            MapObject selectedSearchResultMapObject = _mapObjectController.GetMapObjectById(selectedSearchResultDrugDTO.RoomNumber);
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
       

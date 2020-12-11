@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+
 
 namespace Backend.Model.Pharmacies
 {
-    public class Pharmacy
+    public class PharmacySystem
     {
         [Key]
         public int Id { get; set; }
@@ -29,5 +25,10 @@ namespace Backend.Model.Pharmacies
 
         [Required] 
         public bool ActionsBenefitsSubscribed { get; set; } = false;
+
+        [StringLength(255)]
+        public string GrpcHost { get; set; }
+
+        public int GrpcPort { get; set; } = -1;
     }
 }

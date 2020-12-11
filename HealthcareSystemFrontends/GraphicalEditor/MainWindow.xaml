@@ -634,7 +634,7 @@
 
                                                         <Setter Property="ToolTip">
                                                             <Setter.Value>
-                                                                <TextBlock Text="{Binding Type, Converter={StaticResource CapitalizeStringConverter}}" />
+                                                                <TextBlock Text="{Binding Type.Name, Converter={StaticResource CapitalizeStringConverter}}" />
                                                             </Setter.Value>
                                                         </Setter>
                                                     </Style>
@@ -644,7 +644,7 @@
                                                 <DataGrid.Columns>
                                                     <DataGridTextColumn
                                                         Width="3*"
-                                                        Binding="{Binding Type, Converter={StaticResource CapitalizeStringConverter}}"
+                                                        Binding="{Binding Type.Name, Converter={StaticResource CapitalizeStringConverter}}"
                                                         Header="Naziv opreme" />
                                                     <DataGridTextColumn
                                                         Width="1*"
@@ -950,7 +950,7 @@
                                             <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
                                                 <Setter Property="ToolTip">
                                                     <Setter.Value>
-                                                        <TextBlock Text="{Binding Type, Converter={StaticResource CapitalizeStringConverter}}" />
+                                                        <TextBlock Text="{Binding EquipmentName, Converter={StaticResource CapitalizeStringConverter}}" />
                                                     </Setter.Value>
                                                 </Setter>
                                             </Style>
@@ -960,7 +960,7 @@
                                         <DataGrid.Columns>
                                             <DataGridTextColumn
                                                 Width="3*"
-                                                Binding="{Binding Type, Converter={StaticResource CapitalizeStringConverter}}"
+                                                Binding="{Binding EquipmentName, Converter={StaticResource CapitalizeStringConverter}}"
                                                 Header="Naziv" />
 
                                             <DataGridTextColumn
@@ -1029,7 +1029,7 @@
                                             <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
                                                 <Setter Property="ToolTip">
                                                     <Setter.Value>
-                                                        <TextBlock Text="{Binding Name}" />
+                                                        <TextBlock Text="{Binding DrugName}" />
                                                     </Setter.Value>
                                                 </Setter>
                                             </Style>
@@ -1039,7 +1039,7 @@
                                         <DataGrid.Columns>
                                             <DataGridTextColumn
                                                 Width="3*"
-                                                Binding="{Binding Name}"
+                                                Binding="{Binding DrugName}"
                                                 Header="Naziv" />
 
                                             <DataGridTextColumn

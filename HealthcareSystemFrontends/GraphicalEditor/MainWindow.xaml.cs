@@ -175,10 +175,6 @@ namespace GraphicalEditor
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
             //initializeDatabaseData.InitiliazeData();
-<<<<<<< HEAD
-=======
-
->>>>>>> develop
 
             EquipementService equipementService = new EquipementService();
             /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
@@ -188,11 +184,6 @@ namespace GraphicalEditor
                 Console.WriteLine(res.RoomNumber);
                 Console.WriteLine("---");
             }*/
-
-<<<<<<< HEAD
-            
-=======
->>>>>>> develop
         }
 
         public MainWindow(string currentUserRole)

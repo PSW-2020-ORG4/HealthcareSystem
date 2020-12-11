@@ -203,7 +203,7 @@ namespace GraphicalEditor
             _allMapObjects = mockupObjects.AllMapObjects;
             ChangeEditButtonVisibility();
             // uncomment only when you want to save the map for the first time
-            saveMap();
+            //saveMap();
 
             LoadInitialMapOnCanvas();
 
@@ -589,12 +589,20 @@ namespace GraphicalEditor
 
         private void ShowEquipmentSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
         {
+            EquipmentWithRoomDTO selectedSearchResultEquipmentDTO = (EquipmentWithRoomDTO)EquipmentSearchResultsDataGrid.SelectedItem;
 
+            MapObject selectedSearchResultMapObject = _mapObjectController.GetMapObjectById(selectedSearchResultEquipmentDTO.RoomNumber);
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
         private void ShowMedicineSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
         {
+            DrugWithRoomDTO selectedSearchResultDrugDTO = (DrugWithRoomDTO)MedicineSearchResultsDataGrid.SelectedItem;
 
+            MapObject selectedSearchResultMapObject = _mapObjectController.GetMapObjectById(selectedSearchResultDrugDTO.RoomNumber);
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
       

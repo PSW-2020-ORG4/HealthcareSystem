@@ -3,7 +3,7 @@ using GraphicalEditor.Controllers;
 using GraphicalEditor.DTO;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
-using GraphicalEditor.Models.Equipment;
+using GraphicalEditor.Models.Equipments;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Service;
@@ -358,6 +358,9 @@ namespace GraphicalEditor
             {
                 DisplayMapObject = selectedMapObjectForDisplay.MapObjectEntity;
                 SelectedMapObject = selectedMapObjectForDisplay;
+
+                ObjectEquipmentDataGrid.ItemsSource = SelectedMapObject.GetEquipmentInObject();
+                ObjectMedicineDataGrid.ItemsSource = SelectedMapObject.GetMedicineInObject();
 
             }
             else

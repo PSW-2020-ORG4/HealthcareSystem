@@ -1,5 +1,5 @@
 ﻿using GraphicalEditor.Constants;
-using GraphicalEditor.Models.Equipment;
+using GraphicalEditor.Models.Equipments;
 using RestSharp;
 using System;
 using System.Collections.Generic;

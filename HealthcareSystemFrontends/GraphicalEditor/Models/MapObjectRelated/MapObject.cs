@@ -1,5 +1,7 @@
-﻿using GraphicalEditor.Enumerations;
-using GraphicalEditor.Models.Equipment;
+﻿using GraphicalEditor.DTO;
+using GraphicalEditor.Enumerations;
+using GraphicalEditor.Models.Drugs;
+using GraphicalEditor.Models.Equipments;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Service;
 using Newtonsoft.Json;
@@ -105,11 +107,19 @@ namespace GraphicalEditor.Models
             canvas.Children.Remove(Rectangle);
         }
 
-        public List<Equipment.Equipment> GetEquipmentByRoomNumber()
+       
+        public List<Equipment> GetEquipmentInObject()
         {
             EquipementService equipmentService = new EquipementService();
-            List<Equipment.Equipment> equipmentInTheRoom = (List<Equipment.Equipment>)equipmentService.GetEquipmentByRoomNumber((int)MapObjectEntity.Id);
-            return equipmentInTheRoom;
+            List<Equipment> equipmentInObject = equipmentService.GetEquipmentByRoomNumber((int)MapObjectEntity.Id);
+            return equipmentInObject;
+        }
+
+        public List<Drug> GetMedicineInObject()
+        {
+            DrugService drugService = new DrugService();
+            List<Drug> medicinetInObject = drugService.GetDrugsByRoomNumber((int)MapObjectEntity.Id);
+            return medicinetInObject;
         }
 
         public Boolean CheckIfDBAddableRoom()

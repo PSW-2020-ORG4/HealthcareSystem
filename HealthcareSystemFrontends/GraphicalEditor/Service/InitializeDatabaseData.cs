@@ -1,7 +1,7 @@
 ﻿using Backend.Model.Manager;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.Drugs;
-using GraphicalEditor.Models.Equipment;
+using GraphicalEditor.Models.Equipments;
 using System;
 using System.Collections.Generic;
 

@@ -608,7 +608,12 @@ namespace GraphicalEditor
             ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
-      
+        private void SearchAppointmentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            //AppointmentSearchResultsDataGrid.BringIntoView();
+            AppointmentSearchScrollViewer.ScrollToBottom();
+        }
+
     }
 }
 

@@ -72,13 +72,12 @@ namespace Backend.Service.ExaminationAndPatientCard
 
         private ICollection<Examination> RelaxDoctor(AppointmentSearchWithPrioritiesDTO parameters)
         {
-            ICollection<Doctor> allDoctors = _doctorRepository.GetAllDoctors();
+            ICollection<Doctor> allDoctors = _doctorRepository.GetDoctorsBySpecialty(parameters.SpecialtyId);
             List<Examination> freeAppointments = new List<Examination>();
             foreach(Doctor doctor in allDoctors)
             {
-                if (doctor.CheckIfDoctorHasSpecialty(parameters.SpecialtyId))
-                    parameters.InitialParameters.DoctorJmbg = doctor.Jmbg;
-                    freeAppointments.AddRange(BasicSearch(parameters.InitialParameters));
+                parameters.InitialParameters.DoctorJmbg = doctor.Jmbg;
+                freeAppointments.AddRange(BasicSearch(parameters.InitialParameters));                 
             }
 
             return freeAppointments;
@@ -110,7 +109,8 @@ namespace Backend.Service.ExaminationAndPatientCard
                     startTimes.Add(time);
                     continue;
                 }
-                time = new DateTime(time.Year, time.Month, time.Day + 1, 6, 30, 0);
+                time = new DateTime(time.Year, time.Month, time.Day, 6, 30, 0);
+                time = time.AddDays(1);
             }
                 
             return startTimes;

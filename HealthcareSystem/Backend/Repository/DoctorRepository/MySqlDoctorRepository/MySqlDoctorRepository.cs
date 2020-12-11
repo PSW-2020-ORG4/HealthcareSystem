@@ -37,6 +37,13 @@ namespace Backend.Repository
             return _context.Doctors.ToList();
         }
 
+        public List<Doctor> GetDoctorsBySpecialty(int specialtyId)
+        {
+            return _context.Doctors.Where(
+                doctor => doctor.DoctorSpecialties.Any(specialty => specialty.SpecialtyId == specialtyId)).ToList();
+
+        }        
+
         public Doctor GetDoctorByJmbg(string jmbg)
         {
             Doctor doctor;

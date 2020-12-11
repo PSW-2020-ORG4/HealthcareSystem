@@ -171,6 +171,9 @@ namespace GraphicalEditor
             //saveMap();
 
             LoadInitialMapOnCanvas();
+
+
+            new AppointmentService().AddExamination(new ExaminationDTO(DateTime.Now, "1234567891234",1,1));
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();

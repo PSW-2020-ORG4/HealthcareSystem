@@ -27,6 +27,15 @@ namespace GraphicalEditor.Service
             return response;
         }
 
+        public List<T> HTTPGetRequestWithObjectAsParqm<T>(string requestURL, object objectParam)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL, Method.PUT);
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(objectParam);
+            var response = client.Execute<List<T>>(request);
+            return response.Data;
+        }
         public IRestResponse AddHTTPPostRequest(String requestURL, object objectToPost)
         {
             var client = GetClient();

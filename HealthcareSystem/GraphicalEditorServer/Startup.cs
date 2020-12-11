@@ -8,11 +8,14 @@ using Backend.Repository.DrugTypeRepository;
 using Backend.Repository.DrugTypeRepository.MySqlDrugTypeRepository;
 using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository;
+using Backend.Repository.ExaminationRepository;
+using Backend.Repository.ExaminationRepository.MySqlExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.DrugAndTherapy;
+using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.RoomAndEquipment;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +23,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Repository;
 using Service.DrugAndTherapy;
 using Service.RoomAndEquipment;
 
@@ -68,6 +72,13 @@ namespace GraphicalEditorServer
             services.AddScoped<IDrugTypeService, DrugTypeService>();
 
             services.AddScoped<IDrugTypeRepository, MySqlDrugTypeRepository>();
+
+            services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
+            services.AddScoped<IScheduleAppointmenService, ScheduleAppointmentService>();
+            services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
+            services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
+            services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
+            services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,8 +1,7 @@
-﻿using Backend.Model.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Backend.Model.DTO
+namespace GraphicalEditor.DTO
 {
     public class BasicAppointmentSearchDTO
     {
@@ -12,7 +11,7 @@ namespace Backend.Model.DTO
         public DateTime EarliestDateTime { get; set; }
         public DateTime LatestDateTime { get; set; }
 
-        public BasicAppointmentSearchDTO() {}
+        public BasicAppointmentSearchDTO() { }
 
         public BasicAppointmentSearchDTO(int patientCardId, string doctorJmbg, ICollection<int> requiredEquipmentTypes, DateTime earliestDateTime, DateTime latestDateTime)
         {
@@ -21,7 +20,6 @@ namespace Backend.Model.DTO
             RequiredEquipmentTypes = requiredEquipmentTypes;
             EarliestDateTime = earliestDateTime;
             LatestDateTime = latestDateTime;
-            
         }
     }
 }

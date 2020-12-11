@@ -101,7 +101,13 @@ namespace GraphicalEditorServerTests.DataFactory
             var examinationStubRepository = new Mock<IExaminationRepository>();
                
             examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
-            examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 8))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(
+                m => 
+                m.GetExaminationsByDoctorAndDateTime("0909965768767",
+                It.Is<DateTime>( x => !x.Equals(new DateTime(2020, 12, 5, 7, 0, 0)) 
+                                && !x.Equals(new DateTime(2020, 12, 5, 7, 30, 0))
+                                && !x.Equals(new DateTime(2020, 12, 5, 8, 0, 0))))).Returns(new List<Examination>());
+
             examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 5, 7, 0, 0))).Returns(_createExamination.CreateInvalidTestObject1);
             examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 5, 7, 30, 0))).Returns(_createExamination.CreateInvalidTestObject2);
             examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 5, 8, 0, 0))).Returns(_createExamination.CreateInvalidTestObject3);

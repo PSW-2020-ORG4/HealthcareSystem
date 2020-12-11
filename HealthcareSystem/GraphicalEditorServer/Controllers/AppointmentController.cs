@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.DTO;
 using Backend.Service.ExaminationAndPatientCard;
+using GraphicalEditorServer.DTO;
+using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
@@ -22,10 +24,22 @@ namespace GraphicalEditorServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetFreeAppointments([FromBody] AppointmentSearchWithPrioritiesDTO appointmentDTO)
+        public ActionResult GetFreeAppointments(AppointmentSearchWithPrioritiesDTO appointmentDTO)
         {
+            Console.WriteLine("tu");
             List<Examination> examinations = (List<Examination>) _freeAppointmentSearchService.SearchWithPriorities(appointmentDTO);
-            return Ok(examinations);
+            List<ExaminationDTO> allExaminations = new List<ExaminationDTO>();
+            foreach(Examination e in examinations)
+                allExaminations.Add(ExaminationMapper.Exmaination_To_ExaminationDTO(e));          
+            
+            return Ok(allExaminations);
+        }
+
+        [HttpGet]
+        public ActionResult GetFreeAppointments()
+        {
+            Console.WriteLine("tu");
+            return Ok();
         }
     }
 }

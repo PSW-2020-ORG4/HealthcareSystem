@@ -1,5 +1,5 @@
 ﻿using Backend.Model.Manager;
-using GraphicalEditor.Models.Equipment;
+using GraphicalEditor.Models.Equipments;
 using RestSharp;
 using System;
 using System.Collections.Generic;

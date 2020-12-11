@@ -25,7 +25,7 @@ namespace Backend.Service
 
         public void CreateActionBenefit(string exchangeName, ActionBenefitMessage message)
         {
-            Pharmacy p = _pharmacyRepo.GetPharmacyByExchangeName(exchangeName);
+            PharmacySystem p = _pharmacyRepo.GetPharmacyByExchangeName(exchangeName);
             if (p == null)
                 throw new ArgumentNullException("There is no pharmacy with that exchange!");
             if (message == null)

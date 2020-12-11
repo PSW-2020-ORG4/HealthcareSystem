@@ -17,51 +17,51 @@ namespace Backend.Service.Pharmacies
             _pharmacyRepo = pharmacyRepo;
         }
 
-        public void CreatePharmacy(Pharmacy p)
+        public void CreatePharmacy(PharmacySystem p)
         {
             _pharmacyRepo.CreatePharmacy(p);
         }
 
-        public void DeletePharmacy(Pharmacy p)
+        public void DeletePharmacy(PharmacySystem p)
         {
             _pharmacyRepo.DeletePharmacy(p);
         }
 
-        public IEnumerable<Pharmacy> GetAllPharmacies()
+        public IEnumerable<PharmacySystem> GetAllPharmacies()
         {
             return _pharmacyRepo.GetAllPharmacies();
         }
 
-        public List<Pharmacy> GetPharmaciesBySubscribed(bool subscribed)
+        public List<PharmacySystem> GetPharmaciesBySubscribed(bool subscribed)
         {
             return _pharmacyRepo.GetPharmaciesBySubscribed(subscribed).ToList();
         }
 
-        public Pharmacy GetPharmacyByExchangeName(string exchangeName)
+        public PharmacySystem GetPharmacyByExchangeName(string exchangeName)
         {
             return _pharmacyRepo.GetPharmacyByExchangeName(exchangeName);
         }
 
-        public Pharmacy GetPharmacyById(int id)
+        public PharmacySystem GetPharmacyById(int id)
         {
             return _pharmacyRepo.GetPharmacyById(id);
         }
 
-        public Pharmacy GetPharmacyByIdNoTracking(int id)
+        public PharmacySystem GetPharmacyByIdNoTracking(int id)
         {
             return _pharmacyRepo.GetPharmacyByIdNoTracking(id);
         }
 
         public void SubscribeUnsubscibe(int id, bool subscribe)
         {
-            Pharmacy p = _pharmacyRepo.GetPharmacyById(id);
+            PharmacySystem p = _pharmacyRepo.GetPharmacyById(id);
             if (p == null)
                 return;
             p.ActionsBenefitsSubscribed = subscribe;
             UpdatePharmacy(p);
         }
 
-        public void UpdatePharmacy(Pharmacy p)
+        public void UpdatePharmacy(PharmacySystem p)
         {
             _pharmacyRepo.UpdatePharmacy(p);
         }

@@ -1,7 +1,7 @@
 ﻿using Backend.Model.Manager;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.Drugs;
-using GraphicalEditor.Models.Equipment;
+using GraphicalEditor.Models.Equipments;
 using System;
 using System.Collections.Generic;
 
@@ -73,7 +73,7 @@ namespace GraphicalEditor.Service
             {
                 if (mapObject.CheckIfDBAddableRoom())
                 {
-                    Equipment equipment = new Equipment(random.Next(0, 50),types[(random.Next() % types.Count)]);
+                    Equipment equipment = new Equipment(random.Next(1, 50),types[(random.Next() % types.Count)]);
                     equipment.Id =Int32.Parse(_equipementService.AddEquipment(equipment));
                     _equipementService.AddEquipmentToRoom(mapObject, equipment);
                 }

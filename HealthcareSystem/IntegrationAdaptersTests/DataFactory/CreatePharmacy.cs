@@ -4,9 +4,9 @@ namespace IntegrationAdaptersTests.DataFactory
 {
     public class CreatePharmacy
     {
-        public static Pharmacy CreateValidTestObject()
+        public static PharmacySystem CreateValidTestObject()
         {
-            return new Pharmacy()
+            return new PharmacySystem()
             {
                 Name = "Successful Pharmacy",
                 ApiKey = "successfulapikey",
@@ -14,9 +14,9 @@ namespace IntegrationAdaptersTests.DataFactory
             };
         }
 
-        public static Pharmacy CreateInvalidTestObject()
+        public static PharmacySystem CreateInvalidTestObject()
         {
-            return new Pharmacy()
+            return new PharmacySystem()
             {
                 Name = "Unsuccessful Pharmacy",
                 ApiKey = "unsuccessfulapikey"

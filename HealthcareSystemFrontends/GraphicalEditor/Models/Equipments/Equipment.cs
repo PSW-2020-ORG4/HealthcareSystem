@@ -1,6 +1,6 @@
 ﻿using Backend.Model.Manager;
 
-namespace GraphicalEditor.Models.Equipment
+namespace GraphicalEditor.Models.Equipments
 {
     public class Equipment
     {

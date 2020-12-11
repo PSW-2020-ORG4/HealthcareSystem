@@ -34,12 +34,5 @@ namespace GraphicalEditorServer.Controllers
             
             return Ok(allExaminations);
         }
-
-        [HttpGet]
-        public ActionResult GetFreeAppointments()
-        {
-            Console.WriteLine("tu");
-            return Ok();
-        }
     }
 }

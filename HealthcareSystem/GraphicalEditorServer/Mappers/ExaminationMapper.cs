@@ -15,10 +15,6 @@ namespace GraphicalEditorServer.Mappers
         {
             return new ExaminationDTO(examination.DateAndTime, examination.DoctorJmbg, examination.IdRoom, examination.IdPatientCard);
         }
-        /*public static AppointmentSearchWithPrioritiesDTO FrontAppointmentSearchDTO_To_AppointmentSearchWithPrioritiesDTO(FrontAppointmentSearchDTO fas)
-        {
-            return new AppointmentSearchWithPrioritiesDTO(new BasicAppointmentSearchDTO(fas.PatientCardId, fas.DoctorJmbg, fas.RequiredEquipmentTypes, fas.EarliestDateTime, fas.LatestDateTime), fas.Priority, fas.SpecialtyId);
-        }*/
 
     }
 }

@@ -22,11 +22,5 @@ namespace GraphicalEditor.Service
             List<ExaminationDTO> response = HTTPGetRequestWithObjectAsParam<ExaminationDTO>("appointment", appointmentSearchWithPrioritiesDTO);
             return response;
         }
-
-        /* public string GetFreeAppointments(FrontAppointmentSearchDTO appointmentSearchWithPrioritiesDTO)
-         {
-             IRestResponse response = AddHTTPPostRequest("appointment/", appointmentSearchWithPrioritiesDTO);
-             return response.Content;
-         }*/
     }
 }

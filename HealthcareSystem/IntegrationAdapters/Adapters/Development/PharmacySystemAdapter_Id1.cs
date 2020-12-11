@@ -1,31 +1,31 @@
 ﻿using AutoMapper;
 using Grpc.Core;
+using IntegrationAdapters.Apis.Grpc;
 using IntegrationAdapters.Dtos;
-using IntegrationAdapters.Protos;
+using IntegrationAdapters.MapperProfiles;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 
-namespace IntegrationAdapters.Adapters
+namespace IntegrationAdapters.Adapters.Development
 {
-    public class PharmacySystemId1DevelopementAdapter : IPharmacySystemAdapter
+    public class PharmacySystemAdapter_Id1 : IPharmacySystemAdapter
     {
         private readonly IMapper _mapper;
-        private readonly PharmacySystemAdapterParameters _parameters;
+        private PharmacySystemAdapterParameters _parameters;
         private Channel _grpcChannel;
         private DrugAvailability.DrugAvailabilityClient _grpcClient;
 
-        public PharmacySystemId1DevelopementAdapter(PharmacySystemAdapterParameters parameters, IMapper mapper)
+        public PharmacySystemAdapter_Id1()
         {
-            _parameters = parameters;
-            _mapper = mapper;
-
-            InitializeGrpc();
+            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile(new PharmacySystemProfile_Id1()));
+            _mapper = new Mapper(mapperConfig);
         }
 
-        private void InitializeGrpc()
+        public void Initialize(PharmacySystemAdapterParameters parameters, HttpClient httpClient)
         {
-            _grpcChannel = new Channel(_parameters.GrpcHost, _parameters.GrpcPort, ChannelCredentials.Insecure);
-            _grpcClient = new DrugAvailability.DrugAvailabilityClient(_grpcChannel);
+            _parameters = parameters;
+            InitializeGrpc();
         }
 
         public void CloseConnections()
@@ -54,6 +54,12 @@ namespace IntegrationAdapters.Adapters
             }
 
             return new List<DrugDto>();
+        }
+
+        private void InitializeGrpc()
+        {
+            _grpcChannel = new Channel(_parameters.GrpcHost, _parameters.GrpcPort, ChannelCredentials.Insecure);
+            _grpcClient = new DrugAvailability.DrugAvailabilityClient(_grpcChannel);
         }
     }
 }

@@ -1,31 +1,31 @@
-﻿
-using AutoMapper;
-using IntegrationAdapters.APIs;
+﻿using AutoMapper;
+using IntegrationAdapters.Apis.Grpc;
+using IntegrationAdapters.Apis.Http;
 using IntegrationAdapters.Dtos;
-using IntegrationAdapters.Protos;
+using IntegrationAdapters.MapperProfiles;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace IntegrationAdapters.Adapters
+namespace IntegrationAdapters.Adapters.Production
 {
-    public class PharmacySystemId1ProductionAdapter : IPharmacySystemAdapter
+    public class PharmacySystemAdapter_Id1 : IPharmacySystemAdapter
     {
-        private readonly PharmacySystemAdapterParameters _parameters;
-        private readonly PharmacySystemId1RestApiClient _api;
-        private readonly IMapper _mapper;
+        private IMapper _mapper;
+        private PharmacySystemAdapterParameters _parameters;
+        private PharmacySystemApi_Id1 _api;
 
-        public PharmacySystemId1ProductionAdapter(PharmacySystemAdapterParameters parameters, IMapper mapper)
+        public void Initialize(PharmacySystemAdapterParameters parameters, HttpClient httpClient)
         {
+            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile(new PharmacySystemProfile_Id1()));
+            _mapper = new Mapper(mapperConfig);
             _parameters = parameters;
-            _mapper = mapper;
-            _api = new PharmacySystemId1RestApiClient(_parameters.Url);
-            
+            _api = new PharmacySystemApi_Id1(_parameters.Url, httpClient);
         }
 
         public void CloseConnections()
         {
-            _api.DisposeClient();
         }
 
         public List<DrugDto> DrugAvailibility(string name)

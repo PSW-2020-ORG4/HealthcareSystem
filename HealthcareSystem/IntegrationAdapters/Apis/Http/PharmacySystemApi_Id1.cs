@@ -1,20 +1,20 @@
-﻿using IntegrationAdapters.Protos;
+﻿using IntegrationAdapters.Apis.Grpc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntegrationAdapters.APIs
+namespace IntegrationAdapters.Apis.Http
 {
-    public class PharmacySystemId1RestApiClient
+    public class PharmacySystemApi_Id1
     {
         private readonly HttpClient _client;
         private readonly string _baseUrl;
 
-        public PharmacySystemId1RestApiClient(string baseUrl)
+        public PharmacySystemApi_Id1(string baseUrl, HttpClient httpClient)
         {
-            _client = new HttpClient();
+            _client = httpClient;
             _baseUrl = baseUrl;
         }
 
@@ -37,9 +37,5 @@ namespace IntegrationAdapters.APIs
             return ret;
         }
 
-        public void DisposeClient()
-        {
-            _client.Dispose();
-        }
     }
 }

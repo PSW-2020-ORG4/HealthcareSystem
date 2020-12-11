@@ -1,5 +1,4 @@
-﻿
-namespace IntegrationAdapters.Adapters
+﻿namespace IntegrationAdapters.Adapters
 {
     public class PharmacySystemAdapterParameters
     {

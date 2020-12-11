@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Backend.Model.Pharmacies;
+using IntegrationAdapters.MapperProfiles;
 using System;
+using System.Net.Http;
 
 namespace IntegrationAdapters.Adapters
 {
@@ -8,12 +10,15 @@ namespace IntegrationAdapters.Adapters
     {
         private readonly IMapper _mapper;
         public PharmacySystem _pharmacySystem { get; private set; }
-        private IPharmacySystemAdapter _pharmacySystemAdapter;
+        public IPharmacySystemAdapter PharmacySystemAdapter { get; private set; }
         private readonly string _environment;
-        
-        public AdapterContext(IMapper mapper)
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public AdapterContext(IHttpClientFactory httpClientFactory)
         {
-            _mapper = mapper;
+            _httpClientFactory = httpClientFactory;
+            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile(new PharmacySystemProfile()));
+            _mapper = new Mapper(mapperConfig);
             _environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         }
 
@@ -23,44 +28,33 @@ namespace IntegrationAdapters.Adapters
             _pharmacySystem = pharmacySystem;
             PharmacySystemAdapterParameters parameters = _mapper.Map<PharmacySystemAdapterParameters>(_pharmacySystem);
 
-            if (_environment == "Development")
+            try
             {
-                switch (_pharmacySystem.Id)
+                if (_environment == "Development")
                 {
-                    case 1:
-                        _pharmacySystemAdapter = new PharmacySystemId1DevelopementAdapter(parameters, _mapper);
-                        break;
-                    default:
-                        _pharmacySystemAdapter = null;
-                        break;
+                    PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.Development.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
+                    PharmacySystemAdapter.Initialize(parameters, null);
                 }
-            } 
-            else
-            {
-                switch (pharmacySystem.Id)
+                else
                 {
-                    case 1:
-                    _pharmacySystemAdapter = new PharmacySystemId1ProductionAdapter(parameters, _mapper);
-                    break;
-                    default:
-                        _pharmacySystemAdapter = null;
-                        break;
+                    PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.Production.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
+                    PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
                 }
             }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                PharmacySystemAdapter = null;
+            }
 
-            return _pharmacySystemAdapter;
-        }
-
-        public IPharmacySystemAdapter GetPharmacySystemAdapter()
-        {
-            return _pharmacySystemAdapter;
+            return PharmacySystemAdapter;
         }
 
         public void RemoveAdapter()
         {
-            if (_pharmacySystemAdapter != null)
-                _pharmacySystemAdapter.CloseConnections();
-            _pharmacySystemAdapter = null;
+            if (PharmacySystemAdapter != null)
+                PharmacySystemAdapter.CloseConnections();
+            PharmacySystemAdapter = null;
         }
     }
 }

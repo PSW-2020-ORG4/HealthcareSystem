@@ -634,7 +634,7 @@
 
                                                         <Setter Property="ToolTip">
                                                             <Setter.Value>
-                                                                <TextBlock Text="{Binding Type, Converter={StaticResource CapitalizeStringConverter}}" />
+                                                                <TextBlock Text="{Binding Type.Name, Converter={StaticResource CapitalizeStringConverter}}" />
                                                             </Setter.Value>
                                                         </Setter>
                                                     </Style>
@@ -644,7 +644,7 @@
                                                 <DataGrid.Columns>
                                                     <DataGridTextColumn
                                                         Width="3*"
-                                                        Binding="{Binding Type, Converter={StaticResource CapitalizeStringConverter}}"
+                                                        Binding="{Binding Type.Name, Converter={StaticResource CapitalizeStringConverter}}"
                                                         Header="Naziv opreme" />
                                                     <DataGridTextColumn
                                                         Width="1*"

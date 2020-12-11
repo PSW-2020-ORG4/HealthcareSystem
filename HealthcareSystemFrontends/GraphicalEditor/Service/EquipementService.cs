@@ -1,5 +1,5 @@
 ﻿using GraphicalEditor.Models;
-using GraphicalEditor.Models.Equipment;
+using GraphicalEditor.Models.Equipments;
 using GraphicalEditorServer.DTO;
 using RestSharp;
 using System;

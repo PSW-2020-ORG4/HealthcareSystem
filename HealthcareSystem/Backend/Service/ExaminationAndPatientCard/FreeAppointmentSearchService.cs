@@ -102,8 +102,6 @@ namespace Backend.Service.ExaminationAndPatientCard
         private ICollection<DateTime> GenerateStartTimes(DateTime earliest, DateTime latest)
         {
             ICollection<DateTime> startTimes = new List<DateTime>();
-            earliest = InitializeEarliestTime(earliest);
-            latest = InitializeLatestTime(latest);
 
             for(DateTime time = earliest; DateTime.Compare(time, latest) < 0; time = time.Add(_appointmentDuration))
             {
@@ -117,15 +115,7 @@ namespace Backend.Service.ExaminationAndPatientCard
                 
             return startTimes;
         }
-        private DateTime InitializeEarliestTime(DateTime earliest)
-        {
-            return new DateTime(earliest.Year,earliest.Month,earliest.Day,7,0,0);
-        }
 
-        private DateTime InitializeLatestTime(DateTime latest)
-        {
-            return new DateTime(latest.Year, latest.Month, latest.Day, 17, 0, 0);
-        }
         private bool CheckIfTimeValid(DateTime dateTime)
         {
             if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(7, 0, 0)) < 0)

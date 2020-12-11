@@ -42,7 +42,7 @@ namespace GraphicalEditorServerTests.UnitTest
         }
 
         [Fact]
-        public void Find_free_appointsments_with_doctor_prirority()
+        public void Find_free_appointments_with_doctor_prirority()
         {
             FreeAppointmentSearchService freeAppointmentSearchService = SetupFreeAppointmentSearchService();
             
@@ -52,7 +52,7 @@ namespace GraphicalEditorServerTests.UnitTest
         }
 
         [Fact]
-        public void Find_available_rooms_from_required_equipment_Negative0()
+        public void Find_available_rooms_from_required_equipment_Return_None()
         {
             RoomService roomService = SetupRoomService();
             List<Room> result = (List<Room>)roomService.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>() { 0, 1, 3 });
@@ -61,7 +61,7 @@ namespace GraphicalEditorServerTests.UnitTest
         }
 
         [Fact]
-        public void Find_available_rooms_from_required_equipment_Positive1()
+        public void Find_available_rooms_from_required_equipment_Return_2()
         {
             RoomService roomService = SetupRoomService();
             List<Room> result = (List<Room>)roomService.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>() { 3, 2 });
@@ -71,27 +71,6 @@ namespace GraphicalEditorServerTests.UnitTest
             validResult.Add(new Room(2, TypeOfUsage.CONSULTING_ROOM, 20, 10, false));
 
             Assert.Equal(2, result.Count);
-        }
-
-        [Fact]
-        public void Find_available_rooms_from_required_equipment_Positive2()
-        {
-            RoomService roomService = SetupRoomService();
-            List<Room> result = (List<Room>)roomService.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>() { 2, 3, 4 });
-
-            List<Room> validResult = new List<Room>();
-            validResult.Add(new Room(2, TypeOfUsage.CONSULTING_ROOM, 20, 10, false));
-
-            Assert.Single(result);
-        }
-
-        [Fact]
-        public void Find_available_rooms_from_required_equipment_Negative3()
-        {
-            RoomService roomService = SetupRoomService();
-            List<Room> result = (List<Room>)roomService.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>() { 2,3,5,6 });
-
-            Assert.True(result.Count == 0);
         }
     }
 }

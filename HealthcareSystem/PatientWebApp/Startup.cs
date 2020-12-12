@@ -36,6 +36,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Model.Enums;
+using Model.Users;
 using Repository;
 using Service.DrugAndTherapy;
 using Service.ExaminationAndPatientCard;
@@ -45,6 +47,7 @@ using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PatientWebApp
 {
@@ -65,10 +68,12 @@ namespace PatientWebApp
 
             if (_env.IsDevelopment())
             {
+                Console.WriteLine("Configuring for dev.");
                 IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
                 DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
 
-                services.AddControllers();
+                Console.WriteLine(dbSettings.ConnectionString);
+
                 services.AddDbContext<MyDbContext>(options =>
                 {
                     options.UseMySql(
@@ -78,12 +83,14 @@ namespace PatientWebApp
                         ).UseLazyLoadingProxies();
                 });
             }
-            else if (_env.EnvironmentName.Equals("Test"))
+            else if (_env.EnvironmentName.ToLower().Equals("test"))
             {
-                IConfiguration conf = Configuration.GetSection("PostgresDbConnectionSettings");
+                Console.WriteLine("Configuring for test.");
+                IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
                 DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
 
-                services.AddControllers();
+                Console.WriteLine(dbSettings.ConnectionString);
+
                 services.AddDbContext<MyDbContext>(options =>
                 {
                     options.UseNpgsql(
@@ -92,10 +99,19 @@ namespace PatientWebApp
                             dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
                         ).UseLazyLoadingProxies();
                 });
+
+                var optionBuilder = new DbContextOptionsBuilder<MyDbContext>().UseNpgsql(
+                        dbSettings.ConnectionString,
+                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                            200, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
+                        ).UseLazyLoadingProxies();
+                DbContextWithTestData seederContext = new DbContextWithTestData(optionBuilder.Options);
+                seederContext.Database.EnsureDeleted();
+                seederContext.Database.EnsureCreated();
             }
             else
             {
-                Console.WriteLine("Not dev or test");
+                Console.WriteLine("Not dev or test.");
             }
 
             services.AddScoped<ICountryRepository, MySqlCountryRepository>();

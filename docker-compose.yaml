@@ -21,7 +21,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       DbConnectionSettings:Host: "database"
-      DbConnectionSettings:Port: "5432"
+      DbConnectionSettings:Port: "3306"
       DbConnectionSettings:User: "org4"
       DbConnectionSettings:Password: "org4"
       DbConnectionSettings:Database: "organization4db"

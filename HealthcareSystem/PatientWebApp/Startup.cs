@@ -62,7 +62,7 @@ namespace PatientWebApp
         {
             services.AddControllers();
 
-            IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
+            IConfiguration conf = Configuration.GetSection("PostgresDbConnectionSettings");
             DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
 
             services.AddControllers();

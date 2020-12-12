@@ -1,5 +1,5 @@
 using Backend.Model.Pharmacies;
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Model.NotificationSurveyAndFeedback;
 using Model.Manager;
 using Model.PerformingExamination;

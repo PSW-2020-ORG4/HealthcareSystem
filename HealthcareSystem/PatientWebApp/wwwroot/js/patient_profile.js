@@ -10,7 +10,7 @@
         success: function (data) {
             let patientDTO = data
 
-            var imagePath = "http://localhost:65117/uploads/" + patientDTO.imageName;
+            var imagePath = "/uploads/" + patientDTO.imageName;
             $('#profile_image').attr('src', imagePath);
 
             $('#name').val(patientDTO.name)

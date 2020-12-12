@@ -50,30 +50,53 @@ namespace PatientWebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
-
+        private readonly IWebHostEnvironment _env;
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            IConfiguration conf = Configuration.GetSection("PostgresDbConnectionSettings");
-            DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
-
-            services.AddControllers();
-            services.AddDbContext<MyDbContext>(options =>
+            if (_env.IsDevelopment())
             {
-                options.UseNpgsql(
-                    dbSettings.ConnectionString,
-                    x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
-                        dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
-                    ).UseLazyLoadingProxies();
-            });
+                IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
+                DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
+
+                services.AddControllers();
+                services.AddDbContext<MyDbContext>(options =>
+                {
+                    options.UseMySql(
+                        dbSettings.ConnectionString,
+                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                            dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
+                        ).UseLazyLoadingProxies();
+                });
+            }
+            else if (_env.EnvironmentName.Equals("Test"))
+            {
+                IConfiguration conf = Configuration.GetSection("PostgresDbConnectionSettings");
+                DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
+
+                services.AddControllers();
+                services.AddDbContext<MyDbContext>(options =>
+                {
+                    options.UseNpgsql(
+                        dbSettings.ConnectionString,
+                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                            dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
+                        ).UseLazyLoadingProxies();
+                });
+            }
+            else
+            {
+                Console.WriteLine("Not dev or test");
+            }
 
             services.AddScoped<ICountryRepository, MySqlCountryRepository>();
             services.AddScoped<ICountryService, CountryService>();

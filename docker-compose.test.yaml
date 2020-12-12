@@ -1,11 +1,11 @@
 version: "3.8"
 services: 
   database:
-    image: postgres:13
+    image: postgres:13-alpine
     restart: always
     environment:
-      POSTGRES_PASSWORD: "password"
       POSTGRES_USER: "org4"
-      POSTGRES_DATABASE: "organization4db"
+      POSTGRES_PASSWORD: "org4"
+      POSTGRES_DB: "organization4db"
     networks:
       - demo

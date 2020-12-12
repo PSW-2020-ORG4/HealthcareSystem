@@ -68,10 +68,10 @@ namespace PatientWebApp
             services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
             {
-                options.UseMySql(
+                options.UseNpgsql(
                     dbSettings.ConnectionString,
                     x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
-                        dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
+                        dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
                     ).UseLazyLoadingProxies();
             });
 

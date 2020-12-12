@@ -36,4 +36,8 @@
 	<Protobuf Include="Apis\Grpc\PharmacySystemApi_Id1.proto" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
 </Project>

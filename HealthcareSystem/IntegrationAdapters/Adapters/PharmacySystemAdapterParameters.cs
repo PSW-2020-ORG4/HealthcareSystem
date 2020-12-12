@@ -1,4 +1,6 @@
-﻿namespace IntegrationAdapters.Adapters
+﻿using Backend.Model.Pharmacies;
+
+namespace IntegrationAdapters.Adapters
 {
     public class PharmacySystemAdapterParameters
     {
@@ -6,5 +8,7 @@
         public string GrpcHost { get; set; }
         public int GrpcPort { get; set; }
         public string Url { get; set; }
+        public string HospitalName { get; set; }
+        public SftpConfig SftpConfig {get; set;}
     }
 }

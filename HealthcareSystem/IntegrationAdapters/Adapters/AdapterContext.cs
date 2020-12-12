@@ -13,6 +13,7 @@ namespace IntegrationAdapters.Adapters
         public IPharmacySystemAdapter PharmacySystemAdapter { get; private set; }
         private readonly string _environment;
         private readonly IHttpClientFactory _httpClientFactory;
+        private static readonly string _hospitalName = "HealthcareSystem-ORG4";
 
         public AdapterContext(IHttpClientFactory httpClientFactory)
         {
@@ -20,6 +21,8 @@ namespace IntegrationAdapters.Adapters
             var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile(new PharmacySystemProfile()));
             _mapper = new Mapper(mapperConfig);
             _environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            //_environment = "Development";
+            //_environment = "Production";
         }
 
         public IPharmacySystemAdapter SetPharmacySystemAdapter(PharmacySystem pharmacySystem)
@@ -27,12 +30,22 @@ namespace IntegrationAdapters.Adapters
             RemoveAdapter();
             _pharmacySystem = pharmacySystem;
             PharmacySystemAdapterParameters parameters = _mapper.Map<PharmacySystemAdapterParameters>(_pharmacySystem);
+            parameters.HospitalName = _hospitalName;
 
             try
             {
                 PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.{_environment}.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
                 if (_environment == "Development")
                 {
+                    var config = Startup.Configuration.GetSection("SftpConfig");
+                    parameters.SftpConfig = new SftpConfig() 
+                    { 
+                        Host = config["Host"],
+                        Port = int.Parse(config["Port"]), 
+                        Username = config["Username"], 
+                        Password = config["Password"] 
+                    };
+                    
                     PharmacySystemAdapter.Initialize(parameters, null);
                 }
                 else if(_environment == "Production")

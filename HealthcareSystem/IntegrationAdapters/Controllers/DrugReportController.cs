@@ -46,7 +46,7 @@ namespace IntegrationAdapters.Controllers
             {
                 System.IO.File.WriteAllText(reportFilePath + "/" + reportFileName, json);
             }
-            catch(DirectoryNotFoundException dnfe)
+            catch(Exception dnfe)
             {
                 Console.WriteLine(dnfe);
                 TempData["Unsuccess"] = "Error occured while creating report file!";

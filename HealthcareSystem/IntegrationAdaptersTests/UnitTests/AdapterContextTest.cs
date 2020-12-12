@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using Backend.Model.Pharmacies;
+using IntegrationAdapters;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.MapperProfiles;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Http;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using Xunit;
 
@@ -20,6 +23,12 @@ namespace IntegrationAdaptersTests.UnitTests
         [Fact]
         public void PharmacySystemAdapter_SetPharmacy1Adapter_ImplementedAdapter()
         {
+            var builder = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                        .AddEnvironmentVariables();
+
+            Startup.Configuration = builder.Build();
             var mockFactory = new Mock<IHttpClientFactory>();
             AdapterContext adapterContext = new AdapterContext(mockFactory.Object);
             PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, GrpcHost = "localhost", GrpcPort = 30051 };

@@ -5,13 +5,15 @@
  ***********************************************************************/
 
 using Backend.Model.Exceptions;
+using Backend.Model.Manager;
+using Backend.Repository;
+using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Service;
 using Backend.Service.RoomAndEquipment;
 using Model.Enums;
 using Model.Manager;
-using Repository;
 using System;
 using System.Collections.Generic;
 
@@ -21,10 +23,19 @@ namespace Service.RoomAndEquipment
     {
         private IRenovationPeriodRepository _renovationPeriodRepository;
         private IRoomRepository _roomRepository;
-        public RoomService(IRoomRepository roomRepository, IRenovationPeriodRepository renovationPeriodRepository)
+        private IEquipmentInRoomsRepository _equipmentInRoomsRepository;
+        private IEquipmentRepository _equipmentRepository;
+
+        public RoomService(
+            IRoomRepository roomRepository, 
+            IRenovationPeriodRepository renovationPeriodRepository,
+            IEquipmentInRoomsRepository equipmentInRoomsRepository,
+            IEquipmentRepository equipmentRepository)
         {
             _renovationPeriodRepository = renovationPeriodRepository;
             _roomRepository = roomRepository;
+            _equipmentInRoomsRepository = equipmentInRoomsRepository;
+            _equipmentRepository = equipmentRepository;
         }
 
         //private RoomRepository roomRepository = new RoomRepository();
@@ -93,5 +104,51 @@ namespace Service.RoomAndEquipment
             return result;
         }
 
+        public ICollection<Room> GetRoomsByUsageAndEquipment(TypeOfUsage usage, ICollection<int> requiredEquipmentTypeIds)
+        {
+            List<Room> allRooms = _roomRepository.GetAllRooms();
+            allRooms = allRooms.FindAll(r => r.Usage == usage);
+
+            ICollection<Room> validRooms = new List<Room>();
+            foreach (Room room in allRooms)
+            {
+                ICollection<int> availableEquipmentTypes = GetAvailableEquipmentTypesInRoom(room);
+                if (CheckIfRoomHasRequiredEquipment(requiredEquipmentTypeIds, availableEquipmentTypes))
+                    validRooms.Add(room);
+            }
+
+            return validRooms;
+        }
+
+        private ICollection<int> GetAvailableEquipmentTypesInRoom(Room room)
+        {
+            List<EquipmentInRooms> equipmentInRooms = _equipmentInRoomsRepository.GetEquipmentInRoomsByRoomNumber(room.Id);
+            ICollection<int> availableEquipmentTypes = new List<int>();
+            foreach (EquipmentInRooms equipmentInRoom in equipmentInRooms)
+            {
+                Equipment equipment = _equipmentRepository.GetEquipmentById(equipmentInRoom.IdEquipment);
+                EquipmentType equipmentType = equipment.Type;
+                if (!availableEquipmentTypes.Contains(equipmentType.Id))
+                    availableEquipmentTypes.Add(equipmentType.Id);
+            }
+
+            return availableEquipmentTypes;
+        }
+
+        private bool CheckIfRoomHasRequiredEquipment(ICollection<int> requiredEquipmentTypeIds, ICollection<int> availableEquipmentTypes)
+        {
+            foreach (int requiredEquipmentTypeId in requiredEquipmentTypeIds)
+            {
+                if (!availableEquipmentTypes.Contains(requiredEquipmentTypeId))
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool CheckIfRoomExists(int roomId)
+        {
+            return _roomRepository.CheckIfRoomExists(roomId);
+        }
     }
 }

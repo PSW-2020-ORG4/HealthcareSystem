@@ -1,4 +1,6 @@
 ﻿using Backend.Model;
+using Backend.Model.Manager;
+using Backend.Repository.EquipmentInRoomsRepository;
 using Model.Enums;
 using Model.Manager;
 using System;
@@ -12,6 +14,7 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
     public class MySqlRoomRepository : IRoomRepository
     {
         private readonly MyDbContext _context;
+
         public MySqlRoomRepository(MyDbContext context)
         {
             _context = context;
@@ -57,11 +60,6 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
             _context.SaveChanges();
         }
 
-        public List<Room> GetRoomsByUsageAndEquipment(TypeOfUsage usage, ICollection<int> equipmentTypeIds)
-        {
-            // This will be changed by Graphical Editor team
-            return GetAllRooms();
-        }
         public bool CheckIfRoomExists(int roomId)
         {
             if (_context.Rooms.Find(roomId) == null)

@@ -61,5 +61,10 @@ namespace IntegrationAdapters.Adapters.Development
             _grpcChannel = new Channel(_parameters.GrpcHost, _parameters.GrpcPort, ChannelCredentials.Insecure);
             _grpcClient = new DrugAvailability.DrugAvailabilityClient(_grpcChannel);
         }
+
+        public bool SendDrugConsumptionRepor(string reportFIleName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

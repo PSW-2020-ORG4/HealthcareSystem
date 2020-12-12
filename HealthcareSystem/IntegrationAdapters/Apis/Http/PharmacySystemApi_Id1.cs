@@ -1,6 +1,7 @@
 ﻿using IntegrationAdapters.Apis.Grpc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,25 @@ namespace IntegrationAdapters.Apis.Http
             }
             
             return ret;
+        }
+
+        public async Task<bool> SendDrugConsumptionRepor(string apiKey, string fileName)
+        {
+            var stream = File.OpenRead(fileName);
+            var formData = new MultipartFormDataContent
+            {
+                { new StreamContent(stream), "file", fileName },
+                { new StringContent(apiKey), "apiKey" }
+            };
+            var request = new HttpRequestMessage(HttpMethod.Post, _baseUrl+"/api/drugs/uploadReport");
+            request.Content = formData;
+
+            HttpResponseMessage response = await _client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+
+            return false;
         }
 
     }

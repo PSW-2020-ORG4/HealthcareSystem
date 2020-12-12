@@ -30,14 +30,13 @@ namespace IntegrationAdapters.Adapters
 
             try
             {
+                PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.{_environment}.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
                 if (_environment == "Development")
                 {
-                    PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.Development.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
                     PharmacySystemAdapter.Initialize(parameters, null);
                 }
-                else
+                else if(_environment == "Production")
                 {
-                    PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.Production.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
                     PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
                 }
             }

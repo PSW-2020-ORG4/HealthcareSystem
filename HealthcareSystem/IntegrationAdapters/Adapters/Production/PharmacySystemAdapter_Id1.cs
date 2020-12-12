@@ -43,5 +43,20 @@ namespace IntegrationAdapters.Adapters.Production
             
             return _mapper.Map<List<DrugDto>>(ret);
         }
+
+        public bool SendDrugConsumptionRepor(string reportFIleName)
+        {
+            Task<bool> task = Task.Run<bool>(async () => await _api.SendDrugConsumptionRepor(_parameters.ApiKey, reportFIleName));
+            bool ret = false;
+            try
+            {
+                ret = task.Result;
+            }
+            catch(AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+            return ret;
+        }
     }
 }

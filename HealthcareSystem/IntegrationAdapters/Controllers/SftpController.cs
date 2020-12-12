@@ -1,20 +1,25 @@
 ﻿using Backend.Communication.SftpCommunicator;
 using Backend.Model.Pharmacies;
 using Backend.Service.DrugConsumptionService;
+using Backend.Service.Pharmacies;
+using IntegrationAdapters.Adapters;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 
 namespace IntegrationAdapters.Controllers
 {
     public class SftpController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly ISftpCommunicator _sftpCommunicator;
+        private readonly IAdapterContext _adapterContext;
         private readonly IDrugConsumptionService _drugConsumptionService;
+        private readonly IPharmacyService _pharmacyService;
 
-        public SftpController(ISftpCommunicator sftpCommunicator, IDrugConsumptionService drugConsumptionService)
+        public SftpController(IAdapterContext adapterContext, IDrugConsumptionService drugConsumptionService, IPharmacyService pharmacyService)
         {
-            _sftpCommunicator = sftpCommunicator;
+            _adapterContext = adapterContext;
             _drugConsumptionService = drugConsumptionService;
+            _pharmacyService = pharmacyService;
         }
 
         public IActionResult Index()
@@ -25,15 +30,16 @@ namespace IntegrationAdapters.Controllers
         [HttpPost]
         public IActionResult Index(DateRange dateRange)
         {
-            var reports = _drugConsumptionService.GetDrugConsumptionForDate(dateRange);
-            var json = JsonConvert.SerializeObject(reports);
-
-            var reportFileName = $"{dateRange.From:yyyy-MM-dd}-to-{dateRange.To:yyyy-MM-dd}-report.json";
-
-            System.IO.File.WriteAllText(reportFileName, json);
-            _sftpCommunicator.UploadFile(reportFileName, "/PSW-uploads/" + reportFileName);
-
-            TempData["Success"] = "Report successfully created and uploaded!";
+            _adapterContext.SetPharmacySystemAdapter(_pharmacyService.GetPharmacyById(1));
+            if (_adapterContext.PharmacySystemAdapter.SendDrugConsumptionRepor("fasdf"))
+            {
+                TempData["Success"] = "Report successfully created and uploaded!";
+                Console.WriteLine("sent");
+            }
+            else
+            {
+                TempData["Unsuccess"] = "Report unsuccessfully created and uploaded!";
+            }
             return RedirectToAction("Index");
         }
 

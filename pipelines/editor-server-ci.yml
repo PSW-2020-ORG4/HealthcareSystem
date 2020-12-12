@@ -4,7 +4,7 @@ trigger:
 variables:
   paths: "**/GraphicalEditorServer/* **/GraphicalEditorServerTests/* **/Backend/*"
   project: 'HealthcareSystem/GraphicalEditorServer/GraphicalEditorServer.csproj'
-  tests: 'HealthcareSystem/GraphicalEditorServer/GraphicalEditorServer.csproj'
+  tests: 'HealthcareSystem/GraphicalEditorServerTests/GraphicalEditorServerTests.csproj'
   configuration: 'Release'
   sonarProjectKey: 'psw-2020-org4_GraphicalEditorServer'
   sonarProjectName: 'GraphicalEditorServer'

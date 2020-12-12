@@ -38,9 +38,9 @@ namespace IntegrationAdapters.Apis.Http
             return ret;
         }
 
-        public async Task<bool> SendDrugConsumptionRepor(string apiKey, string fileName)
+        public async Task<bool> SendDrugConsumptionRepor(string apiKey, string filePath, string fileName)
         {
-            var stream = File.OpenRead(fileName);
+            var stream = File.OpenRead(filePath + "/" + fileName);
             var formData = new MultipartFormDataContent
             {
                 { new StreamContent(stream), "file", fileName },

@@ -62,7 +62,7 @@ namespace IntegrationAdapters.Adapters.Development
             _grpcClient = new DrugAvailability.DrugAvailabilityClient(_grpcChannel);
         }
 
-        public bool SendDrugConsumptionRepor(string reportFIleName)
+        public bool SendDrugConsumptionRepor(string reportFilePath, string reportFileName)
         {
             throw new NotImplementedException();
         }

@@ -71,13 +71,18 @@
     </ApplicationDefinition>
     <Compile Include="Constants\ServerConstants.cs" />
     <Compile Include="Controllers\MapObjectController\MapObjectController.cs" />
+    <Compile Include="DTO\AppointmentSearchWithPrioritiesDTO.cs" />
+    <Compile Include="DTO\BasicAppointmentSearchDTO.cs" />
     <Compile Include="DTO\DrugWithRoomDTO.cs" />
     <Compile Include="Converters\CapitalizeStringConverter.cs" />
     <Compile Include="Converters\NegativeEquipmentQuantityConverter.cs" />
     <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />
+<<<<<<< HEAD
     <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />
+=======
+>>>>>>> origin/develop
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
     <Compile Include="Enumerations\SearchPriority.cs" />
     <Compile Include="Models\Drugs\Drug.cs" />

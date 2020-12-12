@@ -17,16 +17,10 @@ namespace GraphicalEditor.Service
             return response.Content;
         }
 
-        public List<ExaminationDTO> GetFreeAppointments(FrontAppointmentSearchDTO appointmentSearchWithPrioritiesDTO)
+        public List<ExaminationDTO> GetFreeAppointments(AppointmentSearchWithPrioritiesDTO appointmentSearchWithPrioritiesDTO)
         {
-            List<ExaminationDTO> response = HTTPGetRequestWithObjectAsParqm<ExaminationDTO>("appointment/", appointmentSearchWithPrioritiesDTO);
+            List<ExaminationDTO> response = HTTPGetRequestWithObjectAsParam<ExaminationDTO>("appointment", appointmentSearchWithPrioritiesDTO);
             return response;
         }
-
-        /* public string GetFreeAppointments(FrontAppointmentSearchDTO appointmentSearchWithPrioritiesDTO)
-         {
-             IRestResponse response = AddHTTPPostRequest("appointment/", appointmentSearchWithPrioritiesDTO);
-             return response.Content;
-         }*/
     }
 }

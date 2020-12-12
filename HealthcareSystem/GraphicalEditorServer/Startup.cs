@@ -79,6 +79,8 @@ namespace GraphicalEditorServer
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
+            services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

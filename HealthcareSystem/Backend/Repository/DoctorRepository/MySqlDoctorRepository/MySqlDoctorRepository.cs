@@ -1,5 +1,7 @@
 ﻿using Backend.Model;
 using Backend.Model.Exceptions;
+using Backend.Model.Users;
+using Backend.Repository.SpecialtyRepository;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -35,6 +37,13 @@ namespace Backend.Repository
             return _context.Doctors.ToList();
         }
 
+        public List<Doctor> GetDoctorsBySpecialty(int specialtyId)
+        {
+            return _context.Doctors.Where(
+                doctor => doctor.DoctorSpecialties.Any(specialty => specialty.SpecialtyId == specialtyId)).ToList();
+
+        }        
+
         public Doctor GetDoctorByJmbg(string jmbg)
         {
             Doctor doctor;
@@ -65,7 +74,6 @@ namespace Backend.Repository
                 return false;
 
             return true;
-        }
-
+        }        
     }
 }

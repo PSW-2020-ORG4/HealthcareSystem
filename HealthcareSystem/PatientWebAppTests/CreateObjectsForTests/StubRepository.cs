@@ -131,7 +131,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
             rooms.Add(roomValidObject);
 
             roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(rooms[0]);
-            roomStubRepository.Setup(m => m.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>())).Returns(rooms);
+            //roomStubRepository.Setup(m => m.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>())).Returns(rooms);
             roomStubRepository.Setup(m => m.CheckIfRoomExists(1)).Returns(true);
 
             return roomStubRepository.Object;

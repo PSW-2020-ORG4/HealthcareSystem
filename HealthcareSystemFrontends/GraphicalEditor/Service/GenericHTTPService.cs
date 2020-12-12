@@ -61,5 +61,18 @@ namespace GraphicalEditor.Service
             request.AddJsonBody(JSONContent);
             IRestResponse response = client.Post(request);
         }
+
+        public List<T> HTTPGetRequestWithObjectAsParam<T>(string requestURL, object objectParam)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL, Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(objectParam);
+            var response = client.Execute<List<T>>(request);
+            return response.Data;
+        }
+
+
+
     }
 }

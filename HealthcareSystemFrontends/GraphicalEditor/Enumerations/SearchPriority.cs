@@ -8,7 +8,7 @@ namespace GraphicalEditor.Enumerations
 {
     public enum SearchPriority
     {
-        Doctor,
-        Time
+        Doctor = 0,
+        Date = 1
     }
 }

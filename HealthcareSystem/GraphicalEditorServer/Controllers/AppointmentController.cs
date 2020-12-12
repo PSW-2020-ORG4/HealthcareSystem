@@ -26,37 +26,7 @@ namespace GraphicalEditorServer.Controllers
             _scheduleAppintmentService = scheduleAppintmentService;
         }
 
-        [HttpPost]
-        public ActionResult GetFreeAppointments([FromBody] FrontAppointmentSearchDTO frontAppointmentDTO)
-        {
-            List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
-            AppointmentSearchWithPrioritiesDTO appointmentDTO = new ExaminationMappers().FrontAppointmentSearchDTO_To_AppointmentSearchWithPrioritiesDTO(frontAppointmentDTO);
-            foreach( Examination examination in (List<Examination>)_freeAppointmentSearchService.SearchWithPriorities(appointmentDTO))
-            {
-                examinationDTOs.Add(new ExaminationMappers().Exmaination_To_ExaminationDTO(examination));
-            } 
-            return Ok(examinationDTOs);
-        }
 
-        [HttpPut]
-        public ActionResult GetFreeAppointmentsByPutMethod([FromBody] FrontAppointmentSearchDTO frontAppointmentDTO)
-        {
-            List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
-            //method has not tested yet
-           /* AppointmentSearchWithPrioritiesDTO appointmentDTO = new ExaminationMappers().FrontAppointmentSearchDTO_To_AppointmentSearchWithPrioritiesDTO(frontAppointmentDTO);
-            foreach (Examination examination in (List<Examination>)_freeAppointmentSearchService.SearchWithPriorities(appointmentDTO))
-            {
-                examinationDTOs.Add(new ExaminationMappers().Exmaination_To_ExaminationDTO(examination));
-            }*/
-            //added to check if object will properly sent in front
-            examinationDTOs.Add(new ExaminationDTO(DateTime.Now, "234134514", 2, 3));
-            examinationDTOs.Add(new ExaminationDTO(DateTime.Now, "234134514", 2, 3));
-            examinationDTOs.Add(new ExaminationDTO(DateTime.Now, "234134514", 2, 3));
-            examinationDTOs.Add(new ExaminationDTO(DateTime.Now, "234134514", 2, 3));
-            examinationDTOs.Add(new ExaminationDTO(DateTime.Now, "234134514", 2, 3));
-            examinationDTOs.Add(new ExaminationDTO(DateTime.Now, "234134514", 2, 3));
-            return Ok(examinationDTOs);
-        }
 
         [HttpPost("schedule/")]
         public ActionResult ScheduleAppointmentByDoctor([FromBody] ExaminationDTO scheduleExaminationDTO)
@@ -66,12 +36,16 @@ namespace GraphicalEditorServer.Controllers
             return Ok();
         }
 
-      /*  [HttpPost("proba/")]
-        public ActionResult ScheduleAppointmentByDoctorProba()
+        [HttpPost]
+        public ActionResult GetFreeAppointments(AppointmentSearchWithPrioritiesDTO appointmentDTO)
         {
-            Examination scheduleExamination = new Examination(DateTime.Now, "1309998775018", 1, 1);
-            _scheduleAppintmentService.ScheduleAnAppointmentByDoctor(scheduleExamination);
-            return Ok();
-        }*/
+            Console.WriteLine("tu");
+            List<Examination> examinations = (List<Examination>) _freeAppointmentSearchService.SearchWithPriorities(appointmentDTO);
+            List<ExaminationDTO> allExaminations = new List<ExaminationDTO>();
+            foreach(Examination e in examinations)
+                allExaminations.Add(ExaminationMapper.Exmaination_To_ExaminationDTO(e));          
+            
+            return Ok(allExaminations);
+        }
     }
 }

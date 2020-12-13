@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <script src="../lib/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/term_recommendation.js"></script>
+    <script type="text/javascript" src="../js/appointment_recommendation.js"></script>
 
     <title>Making an appointment</title>
 </head>
@@ -49,41 +49,21 @@
         <p class="h3 mb-3"> Recommended appointment scheduling </p>
     </div>
 
-
-
-    //******************************************************************************************   SPECIJALNOST
-
-
     <div style="margin-top:50px;width:436px;" class="container p-3 my-3 border">
         <div id="div_specialty" style="width:400px; ">
             <label for="dateOfExam"><b>Specialty of doctor: </b></label>
-
             <select class="form-control" name="specialties" id="specialties" onchange="changeSpecialty(event)">
-                <option value="none" selected disabled hidden> Select an Option </option>
-                <option value="doctor1"> Kardiolog </option>
-                <option value="doctor2"> Fizijatar </option>
             </select>
-
-            <br />
+            <br/>
         </div>
-
-
-
-
-        //***************************************************************************************   DOCTOR
 
         <div id="div_doctor" style="width:400px; ">
             <label for="dateOfExam"><b>Doctor: </b></label>
-
             <select class="form-control" name="doctors" id="doctors">
-                <option value="none" selected disabled hidden>
-                    Select an Option
-                </option>
-                <option value="doctor1"> Kardiolog </option>
             </select>
-
-            <br />
+            <br/>
         </div>
+
         <div id="div_date" style="width:400px; ">
             <label for="dateOfExam"><b>From date:</b></label>
             <input class="form-control" type="date" name="dateOfExam" id="dateFrom"><br />

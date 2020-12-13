@@ -176,16 +176,16 @@ namespace PatientWebApp.Controllers
         }
 
         [HttpGet("{jmbg}/canceled-examinations")]
-        public int GetNumberOfCanceledExaminations(string jmbg)
+        public IActionResult GetNumberOfCanceledExaminations(string jmbg)
         {
             try
             {
                 int number = _patientService.GetNumberOfCanceledExaminations(jmbg);
-                return number;
+                return Ok(number);
             }
             catch (DatabaseException exception)
             {
-                return -1;
+                return StatusCode(500, exception.Message);
             }
         }
         [HttpPut("blocked/{jmbg}")]

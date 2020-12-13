@@ -8,7 +8,7 @@ namespace Backend.Model
         private static string connectionString = $"server='dummy' ;userid='dummy'; pwd='dummy';"
                                                 + $"port='3306'; database='dummy'";
         private static DbContextOptionsBuilder<MyDbContext> dummy =
-            new DbContextOptionsBuilder<MyDbContext>().UseMySql(connectionString);
+            new DbContextOptionsBuilder<MyDbContext>().UseNpgsql(connectionString);
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

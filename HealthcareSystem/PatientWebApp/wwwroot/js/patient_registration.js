@@ -178,7 +178,7 @@
 			data: JSON.stringify(newPatient),
 			success: function () {
 
-				var actionPath = 'http://localhost:65117/api/patient/upload?patientJmbg=' + jmbg;
+				var actionPath = '/api/patient/upload?patientJmbg=' + jmbg;
 				$('#form_image').attr('action', actionPath)
 				$('#form_image').submit();
 

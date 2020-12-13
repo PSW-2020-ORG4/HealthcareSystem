@@ -1,0 +1,24 @@
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS ef-base
+ENV PATH $PATH:/root/.dotnet/tools
+RUN dotnet tool install -g dotnet-ef --version 3.1.9
+
+FROM ef-base as build
+WORKDIR /src/Backend
+COPY Backend/ .
+WORKDIR /src/PatientWebApp
+COPY PatientWebApp/ .
+
+FROM build AS publish
+RUN dotnet publish "PatientWebApp.csproj" -c Release -o /app/publish
+RUN dotnet-ef dbcontext script -c "DbContextWithTestData" -p "/src/Backend/Backend.csproj" -o /app/sql/init.sql
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
+WORKDIR /app/publish
+VOLUME /app/sql
+ENTRYPOINT ["dotnet", "PatientWebApp.dll"]

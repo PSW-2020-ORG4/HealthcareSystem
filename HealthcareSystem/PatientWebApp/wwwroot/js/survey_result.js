@@ -82,7 +82,7 @@
 function addOneSurveyResult(surveyResult) {
 
 	let divElement = $(
-		'<div style="background-color: rgb(0, 204, 212);margin-bottom:28px;" class="container p-2 my-2 border"> '
+		'<div style="background-color: #cce6ff; margin-bottom:28px;" class="container p-2 my-2 border"> '
 		+ '<table border="0" style="margin-bottom:10px;">'
 		+ '<tr>'
 		+ '<th style = "width:350px;height:20px" > <p class=" h5"> ' + surveyResult.ratedItem + '</p></th> '

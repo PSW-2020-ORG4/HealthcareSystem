@@ -1,6 +1,7 @@
-﻿using Backend.Model.Enums;
+﻿
+using GraphicalEditor.Enumerations;
 
-namespace Backend.Model.DTO
+namespace GraphicalEditor.DTO
 {
     public class AppointmentSearchWithPrioritiesDTO
     {
@@ -16,6 +17,5 @@ namespace Backend.Model.DTO
         }
 
         public AppointmentSearchWithPrioritiesDTO() { }
-
     }
 }

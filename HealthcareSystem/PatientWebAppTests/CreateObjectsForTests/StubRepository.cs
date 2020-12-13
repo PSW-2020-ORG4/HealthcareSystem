@@ -82,11 +82,6 @@ namespace PatientWebAppTests.CreateObjectsForTests
             List<Examination> canceledExaminations = GetCanceledExamination(examinations);
             List<Examination> previousExaminations = GetPreviousExaminations(examinations);
 
-            List<Examination> searchExaminations = _objectFactory.GetExamination().CreateValidSearchTestObjects();
-            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
-            examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", It.IsAny<DateTime>())).Returns(new List<Examination>());
-            examinationStubRepository.Setup(m => m.GetExaminationsByPatientAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
-
             examinationStubRepository.Setup(m => m.AddExamination(new Examination()));
 
             examinationStubRepository.Setup(m => m.GetExaminationById(1)).Returns(examinationCanBeCanceled);
@@ -131,7 +126,6 @@ namespace PatientWebAppTests.CreateObjectsForTests
             rooms.Add(roomValidObject);
 
             roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(rooms[0]);
-            //roomStubRepository.Setup(m => m.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>())).Returns(rooms);
             roomStubRepository.Setup(m => m.CheckIfRoomExists(1)).Returns(true);
 
             return roomStubRepository.Object;

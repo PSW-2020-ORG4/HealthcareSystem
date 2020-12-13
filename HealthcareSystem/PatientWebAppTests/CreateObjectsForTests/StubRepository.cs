@@ -32,6 +32,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
 
             patientStubRepository.Setup(m => m.GetPatientByJmbg("1234567891234")).Returns(patients[0]);
             patientStubRepository.Setup(m => m.AddPatient(new Patient()));
+            patientStubRepository.Setup(m => m.GetNumberOfCanceledExaminations("1234567891234")).Returns(3);
 
             return patientStubRepository.Object;
         }

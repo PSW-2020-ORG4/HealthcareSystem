@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Backend.Communication.SftpCommunicator
 {
@@ -22,6 +23,14 @@ namespace Backend.Communication.SftpCommunicator
             _port = sftpOptions.Value.Port;
             _username = sftpOptions.Value.Username;
             _password = sftpOptions.Value.Password;
+        }
+
+        public SftpCommunicator(SftpConfig sftpOptions)
+        {
+            _host = sftpOptions.Host;
+            _port = sftpOptions.Port;
+            _username = sftpOptions.Username;
+            _password = sftpOptions.Password;
         }
 
         public IEnumerable<SftpFile> ListAllFiles(string remoteDirectory = ".")
@@ -43,7 +52,7 @@ namespace Backend.Communication.SftpCommunicator
             }
         }
 
-        public void UploadFile(string localFilePath, string remoteFilePath)
+        public async Task<bool> UploadFile(string localFilePath, string remoteFilePath)
         {
             using var client = new SftpClient(_host, _port == 0 ? 22 : _port, _username, _password);
             try
@@ -51,10 +60,13 @@ namespace Backend.Communication.SftpCommunicator
                 client.Connect();
                 using var stream = File.OpenRead(localFilePath);
                 client.UploadFile(stream, remoteFilePath, null);
+                return true;
+                
             }
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
+                return false;
             }
             finally
             {

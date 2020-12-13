@@ -76,8 +76,10 @@
     <Compile Include="DTO\DrugWithRoomDTO.cs" />
     <Compile Include="Converters\CapitalizeStringConverter.cs" />
     <Compile Include="Converters\NegativeEquipmentQuantityConverter.cs" />
+    <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />
+    <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
     <Compile Include="Enumerations\SearchPriority.cs" />
     <Compile Include="Models\Drugs\Drug.cs" />

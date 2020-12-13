@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.DTO;
 using Backend.Service.ExaminationAndPatientCard;
+using GraphicalEditor.DTO;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Http;
@@ -17,10 +18,22 @@ namespace GraphicalEditorServer.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IFreeAppointmentSearchService _freeAppointmentSearchService;
+        private readonly IScheduleAppointmenService _scheduleAppintmentService;
 
-        public AppointmentController(IFreeAppointmentSearchService freeAppointmentSearchService)
+        public AppointmentController(IFreeAppointmentSearchService freeAppointmentSearchService, IScheduleAppointmenService scheduleAppintmentService)
         {
             _freeAppointmentSearchService = freeAppointmentSearchService;
+            _scheduleAppintmentService = scheduleAppintmentService;
+        }
+
+
+
+        [HttpPost("schedule/")]
+        public ActionResult ScheduleAppointmentByDoctor([FromBody] ExaminationDTO scheduleExaminationDTO)
+        {
+            Examination scheduleExamination = new ExaminationMappers().ExmainationDTO_To_Examination(scheduleExaminationDTO);
+            _scheduleAppintmentService.ScheduleAnAppointmentByDoctor(scheduleExamination);
+            return Ok();
         }
 
         [HttpPost]

@@ -20,5 +20,12 @@ namespace Backend.Model.Manager
             Name = equipementType;
             IsConsumable = isConsumable;
         }
+
+        public EquipmentType(int id, string equipementType, bool isConsumable)
+        {
+            Id = id;
+            Name = equipementType;
+            IsConsumable = isConsumable;
+        }
     }
 }

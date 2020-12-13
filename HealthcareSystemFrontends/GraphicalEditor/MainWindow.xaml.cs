@@ -181,8 +181,15 @@ namespace GraphicalEditor
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
             //initializeDatabaseData.InitiliazeData();
 
-
             EquipementService equipementService = new EquipementService();
+            AppointmentService appointmentService = new AppointmentService();
+
+            AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
+                new BasicAppointmentSearchDTO(1, "1234567891234", new List<int>(), new DateTime(2020, 12, 30, 8, 0, 0), new DateTime(2020, 12, 30, 22, 0, 0)), 
+                SearchPriority.Doctor, 1);
+
+            List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
+
             /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
             foreach(EquipmentWithRoomDTO res in result)
             {
@@ -191,10 +198,7 @@ namespace GraphicalEditor
                 Console.WriteLine("---");
             }*/
 
-
-
             SetDataToUIControls();
-
         }
 
         public MainWindow(string currentUserRole)

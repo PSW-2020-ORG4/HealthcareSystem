@@ -1428,7 +1428,7 @@
                                             <TextBlock
                                                 Grid.Row="16"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,20,0,10"
+                                                Margin="0,30,0,10"
                                                 VerticalAlignment="Bottom"
                                                 FontSize="18"
                                                 FontWeight="Normal"

@@ -14,7 +14,6 @@ namespace Model.Users
 {
     public class Patient : User
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateOfRegistration { get; set; }
         public bool IsBlocked { get; set; }
         public bool IsActive { get; set; }

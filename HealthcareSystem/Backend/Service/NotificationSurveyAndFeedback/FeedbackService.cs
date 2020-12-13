@@ -29,6 +29,7 @@ namespace Service.NotificationSurveyAndFeedback
         /// <param name="feedback">an object to be added to the database</param>
         public void AddFeedback(Feedback feedback)
         {
+            feedback.SendingDate = DateTime.Now;
             _feedbackRepository.AddFeedback(feedback);
         }
         /// <summary>

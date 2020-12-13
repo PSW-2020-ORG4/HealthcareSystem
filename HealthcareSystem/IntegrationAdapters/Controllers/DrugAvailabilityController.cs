@@ -33,8 +33,8 @@ namespace IntegrationAdapters.Controllers
                     continue;
 
                 List<DrugDto> search = new List<DrugDto> ();
-                search.AddRange(_adapterContext.GetPharmacySystemAdapter().DrugAvailibility(name));
-
+                search.AddRange(_adapterContext.PharmacySystemAdapter.DrugAvailibility(name));
+                
                 if(search.Count > 0)
                     result.Add(new SearchResultDto() { pharmacySystem = pharmacySystem, drugs = new List<DrugDto>(search) });
             }

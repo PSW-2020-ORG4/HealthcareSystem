@@ -1,20 +1,21 @@
-﻿using IntegrationAdapters.Protos;
+﻿using IntegrationAdapters.Apis.Grpc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntegrationAdapters.APIs
+namespace IntegrationAdapters.Apis.Http
 {
-    public class PharmacySystemId1RestApiClient
+    public class PharmacySystemApi_Id1
     {
         private readonly HttpClient _client;
         private readonly string _baseUrl;
 
-        public PharmacySystemId1RestApiClient(string baseUrl)
+        public PharmacySystemApi_Id1(string baseUrl, HttpClient httpClient)
         {
-            _client = new HttpClient();
+            _client = httpClient;
             _baseUrl = baseUrl;
         }
 
@@ -37,9 +38,24 @@ namespace IntegrationAdapters.APIs
             return ret;
         }
 
-        public void DisposeClient()
+        public async Task<bool> SendDrugConsumptionRepor(string apiKey, string filePath, string fileName)
         {
-            _client.Dispose();
+            var stream = File.OpenRead(filePath + "/" + fileName);
+            var formData = new MultipartFormDataContent
+            {
+                { new StreamContent(stream), "file", fileName },
+                { new StringContent(apiKey), "apiKey" }
+            };
+            var request = new HttpRequestMessage(HttpMethod.Post, _baseUrl+"/api/drugs/uploadReport");
+            request.Content = formData;
+
+            HttpResponseMessage response = await _client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+                return true;
+
+            return false;
         }
+
     }
 }

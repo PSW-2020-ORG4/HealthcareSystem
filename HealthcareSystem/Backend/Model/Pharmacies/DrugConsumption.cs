@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Manager;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,6 +12,7 @@ namespace Backend.Model.Pharmacies
 
         [ForeignKey("Drug")]
         public int DrugId { get; set; }
+        public virtual Drug Drug {get; set;}
 
         [Required]
         public DateTime Date { get; set; }

@@ -32,24 +32,6 @@ namespace GraphicalEditorServerTests.UnitTest
             return roomService;
         }
          
-        private FreeAppointmentSearchService SetupFreeAppointmentSearchService()
-        {
-
-            FreeAppointmentSearchService freeAppointmentSearchService = new FreeAppointmentSearchService(SetupRoomService(),
-                _stubRepository.CreateExaminationStubRepository(), _stubRepository.CreateDoctorStubRepository(), _stubRepository.CreatePatientCardStubRepository());
-
-            return freeAppointmentSearchService;
-        }
-
-        [Fact]
-        public void Find_free_appointments_with_doctor_prirority()
-        {
-            FreeAppointmentSearchService freeAppointmentSearchService = SetupFreeAppointmentSearchService();
-            
-            ICollection<Examination> result = freeAppointmentSearchService.SearchWithPriorities(new AppointmentSearchWithPrioritiesDTO(new BasicAppointmentSearchDTO(1, "0909965768767", new List<int>() { 3, 2}, new DateTime(2020, 12, 5, 7, 0, 0), new DateTime(2020, 12, 5, 8, 0, 0)), SearchPriority.Doctor,1));
-
-            Assert.NotNull(result);
-        }
 
         [Fact]
         public void Find_available_rooms_from_required_equipment_Return_None()

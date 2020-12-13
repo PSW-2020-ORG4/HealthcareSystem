@@ -4,8 +4,9 @@ namespace IntegrationAdapters.Adapters
 {
     public interface IAdapterContext
     {
+        IPharmacySystemAdapter PharmacySystemAdapter { get; }
+
         public IPharmacySystemAdapter SetPharmacySystemAdapter(PharmacySystem pharmacySystem);
-        public IPharmacySystemAdapter GetPharmacySystemAdapter();
         public void RemoveAdapter();
     }
 }

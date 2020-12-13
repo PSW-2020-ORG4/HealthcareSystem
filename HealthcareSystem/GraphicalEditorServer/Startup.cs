@@ -17,6 +17,7 @@ using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.RoomAndEquipment;
+using Backend.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,8 @@ using Microsoft.Extensions.Hosting;
 using Repository;
 using Service.DrugAndTherapy;
 using Service.RoomAndEquipment;
+using System;
+using System.Collections.Generic;
 
 namespace GraphicalEditorServer
 {
@@ -42,8 +45,20 @@ namespace GraphicalEditorServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
+            DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
+
+            services.AddControllers();
             services.AddDbContext<MyDbContext>(options =>
-                               options.UseMySql(ConfigurationExtensions.GetConnectionString(Configuration, "MyDbContextConnectionString")).UseLazyLoadingProxies());
+            {
+                options.UseMySql(
+                    dbSettings.ConnectionString,
+                    x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                        dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
+                    ).UseLazyLoadingProxies();
+            });
+
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IRoomRepository, MySqlRoomRepository>();
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
@@ -84,7 +99,7 @@ namespace GraphicalEditorServer
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
         {
             if (env.IsDevelopment())
             {

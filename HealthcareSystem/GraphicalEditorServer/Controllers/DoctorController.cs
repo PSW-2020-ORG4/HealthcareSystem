@@ -64,7 +64,7 @@ namespace GraphicalEditorServer.Controllers
         }
 
         
-        [HttpGet("all-specialty")]
+        [HttpGet("specialties")]
         public IActionResult GetAllSpecialtes()
         {
             List<SpecialtyDTO> specialtyDTOs = new List<SpecialtyDTO>();
@@ -79,15 +79,19 @@ namespace GraphicalEditorServer.Controllers
             }
         }
 
-        
-        [HttpGet("doctor-specialty/{id}")]
-        public IActionResult GetDoctorSpecialtyBySpecialtyId(int id)
+
+        [HttpGet("doctors-by-specialty/{id}")]
+        public IActionResult GetDoctorsBySpecialtyId(int id)
         {
-            List<DoctorSpecialtyDTO> doctorSpecialtyDTOs = new List<DoctorSpecialtyDTO>();
+            List<DoctorDTO> doctorDTOs = new List<DoctorDTO>();
             try
             {
-                _doctorSpecialtyService.GetDoctorSpecialtyBySpecialtyId(id).ForEach(doctorSpecialty => doctorSpecialtyDTOs.Add(DoctorSpecialtyMapper.DoctorSpecialtyToDoctorSpecialtyDTO(doctorSpecialty)));
-                return Ok(doctorSpecialtyDTOs);
+                foreach(Doctor doctor in _doctorService.ViewDoctorsBySpecialty(id))
+                {
+                    doctorDTOs.Add(DoctorMapper.DoctorToDoctorDTO(doctor));
+                }
+             
+                return Ok(doctorDTOs);
             }
             catch (DatabaseException e)
             {

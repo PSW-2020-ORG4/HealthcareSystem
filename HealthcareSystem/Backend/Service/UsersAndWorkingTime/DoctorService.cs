@@ -76,5 +76,10 @@ namespace Service.UsersAndWorkingTime
         {
             return _doctorRepository.GetDoctorByJmbg(jmbg);
         }
+
+        public List<Doctor> ViewDoctorsBySpecialty(int specialtyId)
+        {
+            return _doctorRepository.GetDoctorsBySpecialty(specialtyId);
+        }
     }
 }

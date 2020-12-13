@@ -15,12 +15,7 @@ namespace GraphicalEditor.Service
 
         public List<SpecialtyDTO> GetAllSpecialties()
         {
-            return (List<SpecialtyDTO>)HTTPGetRequest<SpecialtyDTO>("doctor/all-specialty");
-        }
-
-        public List<DoctorSpecialtyDTO> GetDoctorAndSpecialtyBySpecialtyId(int id)
-        {
-            return (List<DoctorSpecialtyDTO>)HTTPGetRequest<DoctorSpecialtyDTO>("doctor/doctor-specialty/ " + id);
+            return (List<SpecialtyDTO>)HTTPGetRequest<SpecialtyDTO>("doctor/specialties");
         }
 
         public DoctorDTO GetDoctorByJmbg(string jmbg)
@@ -30,18 +25,8 @@ namespace GraphicalEditor.Service
 
         public List<DoctorDTO> GetDoctorsBySpecialty(int specialtyId)
         {
-            List<DoctorDTO> doctors = new List<DoctorDTO>();
-
-            List<DoctorSpecialtyDTO> doctorsWithSpecialties = GetDoctorAndSpecialtyBySpecialtyId(specialtyId);
-            foreach (DoctorSpecialtyDTO doctorJmbgWithSpecialty in doctorsWithSpecialties)
-            {
-                DoctorDTO doctor = GetDoctorByJmbg(doctorJmbgWithSpecialty.DoctorJmbg);
-                doctors.Add(doctor);
-            }
-
-            return doctors;
+            return (List<DoctorDTO>)HTTPGetRequest<DoctorDTO>("doctor/doctors-by-specialty/ " + specialtyId);
         }
-
 
     }
 }

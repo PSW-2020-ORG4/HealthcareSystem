@@ -73,7 +73,6 @@
     <Compile Include="Controllers\MapObjectController\MapObjectController.cs" />
     <Compile Include="DTOForView\EquipmentTypeForViewDTO.cs" />
     <Compile Include="DTO\DoctorDTO.cs" />
-    <Compile Include="DTO\DoctorSpecialtyDTO.cs" />
     <Compile Include="DTO\AppointmentSearchWithPrioritiesDTO.cs" />
     <Compile Include="DTO\BasicAppointmentSearchDTO.cs" />
     <Compile Include="DTO\DrugWithRoomDTO.cs" />

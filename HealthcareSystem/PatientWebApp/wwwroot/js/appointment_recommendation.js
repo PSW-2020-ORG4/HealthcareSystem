@@ -71,6 +71,10 @@
 		}
 	});
 
+	$('#btn_close').click(function () {
+		location.reload();
+	});
+
 });
 
 
@@ -119,36 +123,95 @@ function changeSpecialty(event) {
 
 function findRecommendedAppointments() {
 
-	alert(" function findRecommendedAppointments ");
-
 	let doctorJmbg = $('#doctors option:selected').val();
 	let earliestDateTime = $('#dateFrom').val();
 	let latestDateTime = $('#dateTo').val();
-	let priority = $('input[name=priority]:checked').val();
+	let priority = parseInt($('input[name=priority]:checked').val());
+
+	if (!earliestDateTime || !latestDateTime) {
+		alert("Pick a date!");
+		return;
+	}
+
 	let specialtyId = parseInt($('#specialties option:selected').val());
-	
-	var newData = {
-		"SpecialtyId": specialtyId,
-		"Priority": priority,
-		"PatientCardId": 1,
+
+	var initialParameters= {
+		"PatientCardId": 2,
 		"DoctorJmbg": doctorJmbg,
 		"RequiredEquipmentTypes": [],
 		"EarliestDateTime": earliestDateTime,
 		"LatestDateTime": latestDateTime
 	};
 
-	//ajax...
+	var newData = {
+		"SpecialtyId": specialtyId,
+		"Priority": priority,
+		"InitialParameters": initialParameters
+	};
 
+	var i = 0;
+	$.ajax({
+		url: "/api/appointment/priority-search",
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(newData),
+		success: function (appointments) {
+			newAppointments = appointments;
+			if (appointments.length == 0) {
+				document.getElementById('div_appointments').innerHTML = "";
+				$('#div_appointments').append('<p> There are no free appointment </p>');
+            }
 
+			for (let a of appointments) {
+				let appointment = $('<option value="' + i + '">' + a.dateAndTime + '</option>');
+				$('#free_appointments').append(appointment);
+				i = i + 1;
+				if (i == 10) {
+					break;
+                }
+			}
+		},
+		error: function (jqXHR) {
+			console.log("Error getting appointments");
+			alert(jqXHR.responseText);
+		}
+	});
 
-
-
-
+	document.getElementById("div_appointments").style.display = "initial";
 }
 
 
 
+function scheduleExamination() {
 
+	let doctorJmbg = $('#doctors option:selected').val();
+	let a = $('#free_appointments option:selected').val();
 
+	var appointment = newAppointments[a];
+	var newData = {
+		"Type": appointment.type,
+		"DateAndTime": appointment.dateAndTime,
+		"DoctorJmbg": doctorJmbg,
+		"IdRoom": appointment.idRoom,
+		"Anamnesis": "",
+		"PatientCardId": appointment.patientCardId,
+		"PatientJmbg": "1309998775018",
+		"ExaminationStatus": 0,
+		"IsSurveyCompleted": false
+	};
 
-
+	$.ajax({
+		url: "/api/examination",
+		type: 'POST',
+		contentType: 'application/json',
+		data: JSON.stringify(newData),
+		success: function () {
+			setTimeout(function () {
+				window.location.href = 'appointment_recommendation.html';
+			}, 2000);
+		},
+		error: function (jqXHR) {
+			alert(jqXHR.responseText);
+		}
+	});
+};

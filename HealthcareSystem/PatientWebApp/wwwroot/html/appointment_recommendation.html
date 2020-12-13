@@ -78,14 +78,17 @@
         <div id="div_priority" style="width:400px; ">
             <label for="dateOfExam"><b>Priority:</b></label>
             <br />
-            <input type="radio" id="0" name="priority" value="0" checked="checked">
+            <input type="radio" name="priority" value="0" checked="checked">
             <label for="priorityDoctor">Doctor</label>
-            <input style="margin-left:50px;" type="radio" id="1" name="priority" value="1">
+            <input style="margin-left:50px;" type="radio" name="priority" value="1">
             <label for="priorityTimeInterval">Time interval</label>
         </div>
         <div>
-            <button data-toggle="modal" data-target="#centralModalSuccess" class="btn btn-primary" 
-                    style="margin-left:50px;" id="search_btn" onclick="findRecommendedAppointments()">Find</button>
+            <br />
+            <button data-toggle="modal" data-target="#centralModalSuccess" class="btn btn-primary"
+                    style="margin-left:115px;" id="search_btn" onclick="findRecommendedAppointments()">
+                Find
+            </button>
         </div>
     </div>
 
@@ -110,7 +113,7 @@
                         <label for="dateOfExam"><b>Available appointments</b></label>
                         <select class="form-control" id="free_appointments">
                         </select><br />
-                            <button class="btn btn-success" style="margin-left:20px;" id="step_btn" onclick="scheduleExamination()">Schedule
+                            <button class="btn btn-success" style="margin-left:170px;" id="step_btn" onclick="scheduleExamination()">Schedule
                             </button>                    
                     </div>
                 </div>

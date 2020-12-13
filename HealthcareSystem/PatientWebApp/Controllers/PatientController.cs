@@ -185,7 +185,7 @@ namespace PatientWebApp.Controllers
             }
             catch (DatabaseException exception)
             {
-                return StatusCode(500, exception.Message);
+                return -1;
             }
         }
         [HttpPut("blocked/{jmbg}")]

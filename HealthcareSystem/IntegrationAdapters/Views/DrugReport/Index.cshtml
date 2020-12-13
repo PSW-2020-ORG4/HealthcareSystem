@@ -1,6 +1,6 @@
 ﻿@model Backend.Model.Pharmacies.DateRange
 @{
-    ViewData["Title"] = "SFTP";
+    ViewData["Title"] = "DrugReport";
     Layout = "_Layout";
 
 }@using (Html.BeginForm())
@@ -15,6 +15,10 @@
         @if (TempData["Success"] != null)
         {
             <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+        }
+        @if (TempData["Unsuccess"] != null)
+        {
+            <p class="alert alert-danger" id="successMessage">@TempData["Unsuccess"]</p>
         }
     </div>
 

@@ -13,7 +13,11 @@
     <link href="../lib/mdb/css/mdb.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style_for_patient_examinations.css">
+
     <script src="../lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/appointment_recommendation.js"></script>
 
     <title>Making an appointment</title>
 </head>
@@ -51,24 +55,18 @@
     <div style="margin-top:50px;width:436px;" class="container p-3 my-3 border">
         <div id="div_specialty" style="width:400px; ">
             <label for="dateOfExam"><b>Specialty of doctor: </b></label>
-            <select class="form-control" id="specialty_name">
-                <option value="none" selected disabled hidden> Select an Option </option>
-                <option value="doctor1"> Kardiolog </option>
-                <option value="doctor2"> Fizijatar </option>
-                <option value="doctor3"> Doktor opste prakse </option>
+            <select class="form-control" name="specialties" id="specialties" onchange="changeSpecialty(event)">
             </select>
             <br />
         </div>
+
         <div id="div_doctor" style="width:400px; ">
             <label for="dateOfExam"><b>Doctor: </b></label>
-            <select class="form-control" id="doctor_name">
-                <option value="none" selected disabled hidden> Select an Option </option>
-                <option value="doctor1"> Pera Peric </option>
-                <option value="doctor2"> Marko Markovic </option>
-                <option value="doctor3"> Ivana Ivanovic </option>
+            <select class="form-control" name="doctors" id="doctors">
             </select>
             <br />
         </div>
+
         <div id="div_date" style="width:400px; ">
             <label for="dateOfExam"><b>From date:</b></label>
             <input class="form-control" type="date" name="dateOfExam" id="dateFrom"><br />
@@ -80,15 +78,56 @@
         <div id="div_priority" style="width:400px; ">
             <label for="dateOfExam"><b>Priority:</b></label>
             <br />
-            <input type="radio" id="1" name="priority" value="1" checked="checked">
+            <input type="radio" name="priority" value="0" checked="checked">
             <label for="priorityDoctor">Doctor</label>
-            <input style="margin-left:50px;" type="radio" id="2" name="priority" value="2">
+            <input style="margin-left:50px;" type="radio" name="priority" value="1">
             <label for="priorityTimeInterval">Time interval</label>
         </div>
         <div>
-            <button class="btn btn-primary" id="search_btn" type="submit">Find recommended appointments</button>
+            <br />
+            <button data-toggle="modal" data-target="#centralModalSuccess" class="btn btn-primary"
+                    style="margin-left:115px;" id="search_btn" onclick="findRecommendedAppointments()">
+                Find
+            </button>
         </div>
     </div>
+
+
+    <!-- Central Modal Medium Success -->
+    <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+            <!--Content-->
+            <div class="modal-content step-content">
+                <!--Header-->
+                <div class="modal-header">
+                    <p class="heading lead">Schedule examination</p>
+                    <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div id="div_appointments">
+                        <label for="dateOfExam"><b>Available appointments</b></label>
+                        <select class="form-control" id="free_appointments">
+                        </select><br />
+                            <button class="btn btn-success" style="margin-left:170px;" id="step_btn" onclick="scheduleExamination()">Schedule
+                            </button>                    
+                    </div>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!-- Central Modal Medium Success-->
+
+    <script type="text/javascript" src="../lib/jquery-ui-bootstrap/assets/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../lib/mdb/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/mdb/js/popper.min.js"></script>
+    <script type="text/javascript" src="../lib/mdb/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../lib/mdb/js/mdb.min.js"></script>
 
 </body>
 </html>

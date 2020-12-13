@@ -33,6 +33,8 @@ namespace PatientWebApp.Controllers
         {
             List<ExaminationDTO> freeAppointmentsDTOs = new List<ExaminationDTO>();
             List<Examination> freeAppointments;
+            parameters.EarliestDateTime = InitializeEarliestTime(parameters.EarliestDateTime);
+            parameters.LatestDateTime = InitializeLatestTime(parameters.LatestDateTime);
             try
             {
                 parameters.IsAppointmentValid();
@@ -52,6 +54,47 @@ namespace PatientWebApp.Controllers
             {
                 return StatusCode(500, exception.Message);
             }
+        }
+        /// <summary>
+        /// /getting free appointments
+        /// </summary>
+        /// <param name="parameters">parameters of priority search</param>
+        /// <returns>if alright returns code 200(Ok), if object isn't valid returns 404, if connection lost returns 500</returns>
+        [HttpPost("priority-search")]
+        public IActionResult PrioritySearchAppointments(AppointmentSearchWithPrioritiesDTO parameters)
+        {
+            List<ExaminationDTO> freeAppointmentsDTOs = new List<ExaminationDTO>();
+            List<Examination> freeAppointments;
+            parameters.InitialParameters.EarliestDateTime = InitializeEarliestTime(parameters.InitialParameters.EarliestDateTime);
+            parameters.InitialParameters.LatestDateTime = InitializeLatestTime(parameters.InitialParameters.LatestDateTime);
+            try
+            {
+                parameters.InitialParameters.IsAppointmentValid();
+                freeAppointments = _freeAppointmentSearchService.SearchWithPriorities(parameters).ToList();
+                freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));
+                return Ok(freeAppointmentsDTOs);
+            }
+            catch (ValidationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (BadRequestException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (DatabaseException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
+        }
+        private DateTime InitializeEarliestTime(DateTime earliest)
+        {
+            return new DateTime(earliest.Year, earliest.Month, earliest.Day, 7, 0, 0);
+        }
+
+        private DateTime InitializeLatestTime(DateTime latest)
+        {
+            return new DateTime(latest.Year, latest.Month, latest.Day, 17, 0, 0);
         }
     }
 }

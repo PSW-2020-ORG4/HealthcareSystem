@@ -149,9 +149,6 @@ namespace PatientWebAppTests.UnitTests
             Assert.True(result is BadRequestObjectResult);
         }
 
-
-
-
         [Fact]
         public void Add_valid_examination()
         {
@@ -173,8 +170,6 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is BadRequestObjectResult);
         }
-
-
 
     }
 }

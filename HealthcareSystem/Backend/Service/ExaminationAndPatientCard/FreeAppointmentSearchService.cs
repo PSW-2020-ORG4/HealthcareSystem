@@ -120,7 +120,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         {
             if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(7, 0, 0)) < 0)
                 return false;
-            if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(17, 0, 0)) > 0)
+            if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(17, 0, 0)) >= 0)
                 return false;
             return true;
         }

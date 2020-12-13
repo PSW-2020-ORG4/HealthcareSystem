@@ -95,6 +95,10 @@ namespace Backend.Service
         public void BlockPatient(string jmbg)
         {
             Patient patient = GetPatientByJmbg(jmbg);
+            if (patient == null)
+            {
+                throw new NotFoundException("Patient with jmbg=" + jmbg + " doesn't exist in database.");
+            }
             patient.IsBlocked = true;
             _activePatientRepository.UpdatePatient(patient);
         }

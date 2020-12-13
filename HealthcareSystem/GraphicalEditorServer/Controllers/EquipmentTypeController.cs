@@ -1,6 +1,8 @@
 ﻿using Backend.Model.Exceptions;
 using Backend.Model.Manager;
 using Backend.Service.RoomAndEquipment;
+using GraphicalEditorServer.DTO;
+using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -31,16 +33,13 @@ namespace GraphicalEditorServer.Controllers
         [HttpGet]
         public ActionResult GetAllEquipmentTypes()
         {
-            List<EquipmentType> equipmentTypes = new List<EquipmentType>();
-            try
-            {
-                equipmentTypes = _equipmentTypeService.GetEquipmentTypes();
-                return Ok(equipmentTypes);
+            List<EquipmentTypeDTO> equipmentTypesDTO = new List<EquipmentTypeDTO>();
+            foreach (EquipmentType equipmentType in _equipmentTypeService.GetEquipmentTypes()) {
+                equipmentTypesDTO.Add(new EquipmentTypesMapper().EquipmentType_To_EquipmentTypeDTO(equipmentType));
             }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+                
+                return Ok(equipmentTypesDTO);
+            
         }
 
         [HttpGet("{id}")]

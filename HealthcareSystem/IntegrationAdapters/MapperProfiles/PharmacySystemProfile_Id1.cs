@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
+using IntegrationAdapters.Apis.Grpc;
 using IntegrationAdapters.Dtos;
-using IntegrationAdapters.Protos;
 
 namespace IntegrationAdapters.MapperProfiles
 {
-    public class PharmacyId1Profile : Profile
+    public class PharmacySystemProfile_Id1 : Profile
     {
-        public PharmacyId1Profile()
+        public PharmacySystemProfile_Id1()
         {
             CreateMap<Drug, DrugDto>();
             CreateMap<Pharmacy, PharmacyDto>();

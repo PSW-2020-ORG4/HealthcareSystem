@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <script src="../lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/term_recommendation.js"></script>
 
     <title>Making an appointment</title>
 </head>
@@ -48,25 +49,39 @@
         <p class="h3 mb-3"> Recommended appointment scheduling </p>
     </div>
 
+
+
+    //******************************************************************************************   SPECIJALNOST
+
+
     <div style="margin-top:50px;width:436px;" class="container p-3 my-3 border">
         <div id="div_specialty" style="width:400px; ">
             <label for="dateOfExam"><b>Specialty of doctor: </b></label>
-            <select class="form-control" id="specialty_name">
+
+            <select class="form-control" name="specialties" id="specialties" onchange="changeSpecialty(event)">
                 <option value="none" selected disabled hidden> Select an Option </option>
                 <option value="doctor1"> Kardiolog </option>
                 <option value="doctor2"> Fizijatar </option>
-                <option value="doctor3"> Doktor opste prakse </option>
             </select>
+
             <br />
         </div>
+
+
+
+
+        //***************************************************************************************   DOCTOR
+
         <div id="div_doctor" style="width:400px; ">
             <label for="dateOfExam"><b>Doctor: </b></label>
-            <select class="form-control" id="doctor_name">
-                <option value="none" selected disabled hidden> Select an Option </option>
-                <option value="doctor1"> Pera Peric </option>
-                <option value="doctor2"> Marko Markovic </option>
-                <option value="doctor3"> Ivana Ivanovic </option>
+
+            <select class="form-control" name="doctors" id="doctors">
+                <option value="none" selected disabled hidden>
+                    Select an Option
+                </option>
+                <option value="doctor1"> Kardiolog </option>
             </select>
+
             <br />
         </div>
         <div id="div_date" style="width:400px; ">

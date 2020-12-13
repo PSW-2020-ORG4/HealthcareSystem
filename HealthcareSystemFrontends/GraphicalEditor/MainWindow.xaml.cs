@@ -175,7 +175,6 @@ namespace GraphicalEditor
 
             List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
             RemoveAppointmentsWithDuplicateTimes(freeAppointments);
-            GetFreeRoomsByAppointment(freeAppointments, new DateTime(2020, 12, 37, 8, 30, 0));
         }
         
 

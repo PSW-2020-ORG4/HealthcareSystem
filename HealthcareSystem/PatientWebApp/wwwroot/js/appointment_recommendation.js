@@ -3,7 +3,6 @@
 	var newAppointments = [];
 
 	var dtToday = new Date();
-
 	var month = dtToday.getMonth() + 1;
 	var day = dtToday.getDate() + 1;
 	var year = dtToday.getFullYear();
@@ -11,10 +10,10 @@
 		month = '0' + month.toString();
 	if (day < 10)
 		day = '0' + day.toString();
-
 	var minDate = year + '-' + month + '-' + day;
 
-	$('#dateOfExam').attr('min', minDate);
+	$('#dateFrom').attr('min', minDate);
+	$('#dateTo').attr('min', minDate);
 
 	$.ajax({
 		url: "/api/doctor/all-specialty",
@@ -116,3 +115,40 @@ function changeSpecialty(event) {
 		}
 	});
 }
+
+
+function findRecommendedAppointments() {
+
+	alert(" function findRecommendedAppointments ");
+
+	let doctorJmbg = $('#doctors option:selected').val();
+	let earliestDateTime = $('#dateFrom').val();
+	let latestDateTime = $('#dateTo').val();
+	let priority = $('input[name=priority]:checked').val();
+	let specialtyId = parseInt($('#specialties option:selected').val());
+	
+	var newData = {
+		"SpecialtyId": specialtyId,
+		"Priority": priority,
+		"PatientCardId": 1,
+		"DoctorJmbg": doctorJmbg,
+		"RequiredEquipmentTypes": [],
+		"EarliestDateTime": earliestDateTime,
+		"LatestDateTime": latestDateTime
+	};
+
+	//ajax...
+
+
+
+
+
+
+}
+
+
+
+
+
+
+

@@ -58,5 +58,29 @@ namespace IntegrationAdapters.Adapters.Production
             }
             return ret;
         }
+
+        public List<DrugListDTO> GetAllDrugs()
+        {
+            var task =
+                Task.Run<List<DrugListDTO>>(async () => await _api.GetAllDrugs(_parameters.ApiKey));
+            var ret = new List<DrugListDTO>();
+
+            try
+            {
+                ret = task.Result;
+            }
+            catch (AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+
+            return ret;
+        }
+
+        public bool GetDrugSpecifications(int id)
+        {
+            var task = Task.Run<bool>(async () => await _api.GetDrugSpecifications(_parameters.ApiKey, id));
+            return task.Result;
+        }
     }
 }

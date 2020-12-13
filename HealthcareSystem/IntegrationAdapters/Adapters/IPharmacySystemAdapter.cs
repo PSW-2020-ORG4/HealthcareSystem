@@ -10,5 +10,7 @@ namespace IntegrationAdapters.Adapters
         public void Initialize(PharmacySystemAdapterParameters parameters, HttpClient httpClient);
         public List<DrugDto> DrugAvailibility(string name);
         public bool SendDrugConsumptionRepor(string reportFilePath, string reportFileName);
+        public List<DrugListDTO> GetAllDrugs();
+        public bool GetDrugSpecifications(int id);
     }
 }

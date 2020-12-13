@@ -5,6 +5,8 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using IntegrationAdapters.Dtos;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace IntegrationAdapters.Apis.Http
 {
@@ -46,7 +48,7 @@ namespace IntegrationAdapters.Apis.Http
                 { new StreamContent(stream), "file", fileName },
                 { new StringContent(apiKey), "apiKey" }
             };
-            var request = new HttpRequestMessage(HttpMethod.Post, _baseUrl+"/api/drugs/uploadReport");
+            var request = new HttpRequestMessage(HttpMethod.Post, _baseUrl+"/file/uploadFile");
             request.Content = formData;
 
             HttpResponseMessage response = await _client.SendAsync(request);
@@ -57,5 +59,37 @@ namespace IntegrationAdapters.Apis.Http
             return false;
         }
 
+        public async Task<List<DrugListDTO>> GetAllDrugs(string apiKey)
+        {
+            List<DrugListDTO> ret = new List<DrugListDTO>();
+            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + "/api/noAuth/drug/getAll");
+            HttpResponseMessage response = await _client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                ret.AddRange(JsonConvert.DeserializeObject<List<DrugListDTO>>(jsonResponse));
+            }
+
+            return ret;
+        }
+
+        public async Task<bool> GetDrugSpecifications(string apiKey, int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/drug/multipartdata/getById/{id}");
+            HttpResponseMessage response = await _client.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode) return false;
+            
+
+            await using var fs = File.Create("slika.ico");
+            //await using var ms = await response.Content.ReadAsStreamAsync();
+
+            //await ms.CopyToAsync(fs);
+            //ms.Seek(0, SeekOrigin.Begin);
+            //ms.CopyTo(fs);
+
+            return true;
+        }
     }
 }

@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
 using Backend.Communication.SftpCommunicator;
-using Backend.Model.Pharmacies;
 using Grpc.Core;
 using IntegrationAdapters.Apis.Grpc;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MapperProfiles;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
+using IntegrationAdapters.Apis.Http;
 
 namespace IntegrationAdapters.Adapters.Development
 {
@@ -23,6 +21,7 @@ namespace IntegrationAdapters.Adapters.Development
         private SftpCommunicator _sftpCommunicator;
         private bool _grpc;
         private bool _sftp;
+        private PharmacySystemApi_Id1 _api;
 
         public void Initialize(PharmacySystemAdapterParameters parameters, HttpClient httpClient)
         {
@@ -31,6 +30,7 @@ namespace IntegrationAdapters.Adapters.Development
             _parameters = parameters;
             InitializeGrpc();
             InitializeSftp();
+            _api = new PharmacySystemApi_Id1(_parameters.Url, httpClient);
         }
 
         public void CloseConnections()
@@ -81,6 +81,29 @@ namespace IntegrationAdapters.Adapters.Development
             }
 
             return ret;
+        }
+
+        public List<DrugListDTO> GetAllDrugs()
+        {
+            var task =
+                Task.Run<List<DrugListDTO>>(async () => await _api.GetAllDrugs(_parameters.ApiKey));
+            var ret = new List<DrugListDTO>();
+
+            try
+            {
+                ret = task.Result;
+            }
+            catch (AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+
+            return ret;
+        }
+
+        public bool GetDrugSpecifications(int id)
+        {
+            throw new NotImplementedException();
         }
 
         private void InitializeGrpc()

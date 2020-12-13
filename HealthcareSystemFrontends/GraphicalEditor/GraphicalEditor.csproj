@@ -83,6 +83,7 @@
     <Compile Include="DTO\PatientBasicDTO.cs" />
     <Compile Include="DTO\SpecialtyDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />
+    <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
     <Compile Include="Enumerations\SearchPriority.cs" />
     <Compile Include="Models\Drugs\Drug.cs" />

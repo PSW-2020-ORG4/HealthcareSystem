@@ -10,7 +10,7 @@ namespace GraphicalEditor.Models.Equipments
         public int TypeId { get; set; }
         public virtual EquipmentTypeDTO Type { get; set; }
 
-        public Equipment() { }
+        public Equipment(int v) { }
 
         public Equipment(int quantity, EquipmentTypeDTO equipmentType)
         {

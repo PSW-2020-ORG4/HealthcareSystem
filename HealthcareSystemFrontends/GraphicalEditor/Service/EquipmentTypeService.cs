@@ -1,4 +1,5 @@
 ﻿using Backend.Model.Manager;
+using GraphicalEditor.DTO;
 using GraphicalEditor.Models.Equipments;
 using RestSharp;
 using System;

@@ -61,7 +61,7 @@
 						}
 					},
 					error: function () {
-						console.log("Error getting doctors specialtes")
+						console.log("Error getting specialist doctors")
 					}
 				});
 			}
@@ -72,17 +72,7 @@
 		}
 	});
 
-	//***************************************************************************
-
-	
-
-
 });
-
-
-
-
-
 
 
 function changeSpecialty(event) {
@@ -125,5 +115,4 @@ function changeSpecialty(event) {
 			console.log("Error getting specialist doctors")
 		}
 	});
-
 }

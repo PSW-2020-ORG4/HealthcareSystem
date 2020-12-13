@@ -130,17 +130,5 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is NotFoundObjectResult);
         }
-        [Fact]
-        public void Get_number_of_examinations_by_patient()
-        {
-            PatientController patientController = SetupPatientController(new Mock<IMailService>());
-
-            var result = patientController.GetNumberOfCanceledExaminations("1309998775018");
-
-            if (result >= 3)
-            {
-                Assert.True(result is OkObjectResult);
-            }
-        }
     }
 }

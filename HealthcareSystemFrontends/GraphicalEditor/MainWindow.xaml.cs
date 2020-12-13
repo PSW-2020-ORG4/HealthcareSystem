@@ -1,6 +1,7 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Controllers;
 using GraphicalEditor.DTO;
+using GraphicalEditor.DTOForView;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.Equipments;
@@ -12,6 +13,7 @@ using GraphicalEditor.Services.Interface;
 using GraphicalEditorServer.DTO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -153,6 +155,9 @@ namespace GraphicalEditor
             }
         }
 
+        public ObservableCollection<EquipmentTypeForViewDTO> AllEquipmentTypes { get; set; }
+        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -171,19 +176,23 @@ namespace GraphicalEditor
             //saveMap();
 
             LoadInitialMapOnCanvas();
+
+
+            new AppointmentService().AddExamination(new ExaminationDTO(DateTime.Now, "1234567891234",1,1));
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
+            var a = new EquipmentTypeService().GetEquipmentTypes(); 
             //initializeDatabaseData.InitiliazeData();
 
-            EquipementService equipementService = new EquipementService();
+            /*EquipementService equipementService = new EquipementService();
             AppointmentService appointmentService = new AppointmentService();
 
             AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
                 new BasicAppointmentSearchDTO(1, "1234567891234", new List<int>(), new DateTime(2020, 12, 30, 8, 0, 0), new DateTime(2020, 12, 30, 22, 0, 0)), 
                 SearchPriority.Doctor, 1);
-
-            List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
+*/
+            //List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
 
             /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
             foreach(EquipmentWithRoomDTO res in result)
@@ -192,6 +201,8 @@ namespace GraphicalEditor
                 Console.WriteLine(res.RoomNumber);
                 Console.WriteLine("---");
             }*/
+
+            SetDataToUIControls();
         }
 
         public MainWindow(string currentUserRole)
@@ -215,6 +226,52 @@ namespace GraphicalEditor
 
             RestrictUsersAccessBasedOnRole();
 
+            SetDataToUIControls();
+        }
+
+        public void SetDataToUIControls()
+        {
+            SetValuesInDoctorSpecialtyComboBoxForAppointmentSearch();
+            SetValuesInPatientComboBoxForAppointmentSearch();
+            SetSelectableEquipmentForAppointmentSearch();
+        }
+
+
+        public void SetValuesInDoctorSpecialtyComboBoxForAppointmentSearch()
+        {
+            DoctorService doctorService = new DoctorService();
+            List<SpecialtyDTO> allDoctorSpecialties = doctorService.GetAllSpecialties();
+
+            AppointmentDoctorSpecializationComboBox.ItemsSource = allDoctorSpecialties;
+        }
+
+        public void SetValuesInPatientComboBoxForAppointmentSearch()
+        {
+            PatientService patientService = new PatientService();
+            List<PatientBasicDTO> allPatients = patientService.GetAllPatients();
+
+            AppointmentPatientComboBox.ItemsSource = allPatients;
+        }
+
+        public void SetSelectableEquipmentForAppointmentSearch()
+        {
+            AllEquipmentTypes = new ObservableCollection<EquipmentTypeForViewDTO>();
+
+            EquipmentTypeService equipmentTypeService = new EquipmentTypeService();
+            List<EquipmentTypeDTO> equipmentTypes = equipmentTypeService.GetEquipmentTypes();
+
+            foreach(EquipmentTypeDTO equipmentType in equipmentTypes)
+            {
+                AllEquipmentTypes.Add(new EquipmentTypeForViewDTO(equipmentType, false));
+            }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (EquipmentTypeForViewDTO eas in AllEquipmentTypes)
+            {
+                Console.WriteLine(eas.IsSelected);
+            }
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -231,6 +288,12 @@ namespace GraphicalEditor
                 if (!_currentUserRole.Equals("Manager"))
                 {
                     EditObjectButton.Visibility = Visibility.Collapsed;
+                }
+
+                if (!_currentUserRole.Equals("Secretary"))
+                {
+                    SearchAppointmentsPanel.Visibility = Visibility.Collapsed;
+                    SearchAppointmentsMenuItem.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -614,7 +677,22 @@ namespace GraphicalEditor
             ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
-      
+        private void SearchAppointmentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            //AppointmentSearchResultsDataGrid.BringIntoView();
+            AppointmentSearchScrollViewer.ScrollToBottom();
+        }
+
+        private void AppointmentDoctorSpecializationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DoctorService doctorService = new DoctorService();
+           
+            SpecialtyDTO selectedSpecialty = (SpecialtyDTO)AppointmentDoctorSpecializationComboBox.SelectedItem;
+            List<DoctorDTO> doctorsWithSelectedSpecialty = doctorService.GetDoctorsBySpecialty(selectedSpecialty.Id);
+            AppointmentDoctorComboBox.ItemsSource = doctorsWithSelectedSpecialty;
+        }
+
+       
     }
 }
 

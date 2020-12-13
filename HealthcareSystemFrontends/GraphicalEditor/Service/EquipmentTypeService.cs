@@ -1,4 +1,5 @@
 ﻿using Backend.Model.Manager;
+using GraphicalEditor.DTO;
 using GraphicalEditor.Models.Equipments;
 using RestSharp;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GraphicalEditor.DTO;
 
 namespace GraphicalEditor.Service
 {
@@ -17,9 +19,9 @@ namespace GraphicalEditor.Service
             return response.Content;
         }
 
-        public List<EquipmentType> GetEquipmentTypes()
+        public List<EquipmentTypeDTO> GetEquipmentTypes()
         {
-            return (List<EquipmentType>)HTTPGetRequest<EquipmentType>("equipmentType");
+            return (List<EquipmentTypeDTO>)HTTPGetRequest<EquipmentTypeDTO>("equipmentType");
         }
     }
 }

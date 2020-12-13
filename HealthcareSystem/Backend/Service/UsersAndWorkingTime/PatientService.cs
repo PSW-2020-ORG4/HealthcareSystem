@@ -87,6 +87,11 @@ namespace Backend.Service
             return result;
         }
 
+        public int GetNumberOfCanceledExaminations(string jmbg)
+        {
+            return _activePatientRepository.GetNumberOfCanceledExaminations(jmbg);
+        }
+
         public void BlockPatient(string jmbg)
         {
             Patient patient = GetPatientByJmbg(jmbg);

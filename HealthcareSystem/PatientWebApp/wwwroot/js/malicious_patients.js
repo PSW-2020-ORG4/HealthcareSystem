@@ -8,7 +8,21 @@
         contentType: false,
         success: function (data) {
             for (let i = 0; i < data.length; i++) {
-                addPatient(data[i]);
+
+                
+                $.ajax({
+                    url: '/api/patient/' + data[i].jmbg +'/canceled-examinations',
+                    type: 'GET',
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    success: function (number) {
+                        addPatient(data[i],number);
+                    },
+                    error: function () {
+                        console.log("Error getting number of canceled examinations")
+                    }
+                });
             }
         },
         error: function () {
@@ -17,22 +31,23 @@
     });
 });
 
-function addPatient(patient) {
-    
+function addPatient(patient, number) {
     let btn_type = '';
     if (patient.isBlocked == false) {
-        btn_type = '<button name="button_block" class="btn btn-danger" style="margin-bottom:10px;" id="' + patient.jmbg
+        btn_type = '<button name="button_block" class="btn btn-danger" style="margin-left:100px; width:150px" id="' + patient.jmbg
             + '" onclick="blockPatient(this.id)">Block</button>';
     }
-    
-    let new_patient = $('<div style="margin-top: 10px; margin-left: 21%; margin-bottom:20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 40px;left: 450px; top: 200px; width:600px;">'
-        + '<table style="height: 10px; margin-left: 10px; margin-bottom: 20px; width: 350px;">'
-        + '<tr><td width="25%"><th>Name:</th></td><td>' + ' ' + patient.name + '</td>'
-        + '<td width="25%"><th>Surname:</th></td><td>' + ' ' + patient.surname + '</td></tr>'
-        + '<tr><td width="25%"><th>Email:</th></td><td>' + ' ' + patient.email + '</td>'
-        + '<td width="25%"><th>Phone:</th></td><td width="30px">' + ' ' + patient.phone + '</td></tr></br>' 
 
-        + '<tr style="margin-top:20px;"><th></th><td><span style="width: 200px;"></span>' + btn_type + '</td></tr></br></table></div>');
+    let new_patient = $('<div style="margin-top: 20px; margin-left: 21%; margin-bottom:20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 20px;left: 450px; top: 200px; width:600px;">'
+        + '<table style="height: 100px; margin-left: 30px; margin-bottom: 20px; width: 450px;">'
+        + '<tr><td><th>Name:</th></td><td>' + ' ' + patient.name + '</td><td></td></tr>'
+        + '<tr><td><th>Surname:</th></td><td style=" margin-left: 30px;">' + ' ' + patient.surname + '</td><td></td></tr>'
+        + '<tr><td><th>Number of canceled examinations:</th></td><td style=" margin-left: 30px;" width="30px">' + ' ' + number + '</td > <td>' + btn_type + '</td></tr > '
+        + '<tr><td><th>Email:</th></td><td style=" margin-left: 30px;">' + ' ' + patient.email + '</td><td></td></tr></br>'
+        + '<tr><td><th>Phone:</th></td><td width="30px" style=" margin-left: 30px;">' + ' ' + patient.phone + '</td><td></td></tr></br>'
+	//  + '<tr style="margin-top:20px;"><th></th><td><span style="width: 200px;"></span>' + btn_type + '</td></tr></br>
+        +'</table ></div > ');
+	
 
     $('div#div_patients').append(new_patient);
 }

@@ -82,12 +82,23 @@ namespace PatientWebApp
                             dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
                         ).UseLazyLoadingProxies();
                 });
+
+                var optionBuilder = new DbContextOptionsBuilder<MyDbContext>().UseMySql(
+                        dbSettings.ConnectionString,
+                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                            100, new TimeSpan(0, 0, 0, 30), new List<int>())
+                        ).UseLazyLoadingProxies();
+                DbContextWithTestData seederContext = new DbContextWithTestData(optionBuilder.Options);
+                seederContext.Database.EnsureDeleted();
+                seederContext.Database.EnsureCreated();
             }
             else if (_env.EnvironmentName.ToLower().Equals("test"))
             {
                 Console.WriteLine("Configuring for test.");
-                IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
-                DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
+                int retryCount = Configuration.GetValue<int>("HEROKU_DB_RETRY");
+                int retryWait = Configuration.GetValue<int>("HEROKU_DB_RETRY_WAIT");
+                string dbURL = Configuration.GetValue<string>("DATABASE_URL");
+                DbConnectionSettings dbSettings = new DbConnectionSettings(dbURL, retryCount, retryWait);
 
                 Console.WriteLine(dbSettings.ConnectionString);
 

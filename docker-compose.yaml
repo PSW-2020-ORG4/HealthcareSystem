@@ -9,8 +9,6 @@ services:
       MYSQL_DATABASE: "organization4db"
     networks:
       - demo
-    volumes:
-      - sql-scripts:/docker-entrypoint-initdb.d/
 
   patientwebapp:
     build:
@@ -30,69 +28,64 @@ services:
     depends_on:
       - database
     restart: on-failure
-    volumes:
-      - sql-scripts:/app/sql
     networks:
       - demo
 
-  # intergrationadapters:
-  #   build:
-  #     context: HealthcareSystem\
-  #     dockerfile: Dockerfile.integration-adapters
-  #   ports:
-  #   - "8282:80"
-  #   environment:
-  #     ASPNETCORE_ENVIRONMENT: Development
-  #     DbConnectionSettings:Host: "database"
-  #     DbConnectionSettings:Port: "3306"
-  #     DbConnectionSettings:User: "org4"
-  #     DbConnectionSettings:Password: "org4"
-  #     DbConnectionSettings:Database: "organization4db"
-  #     DbConnectionSettings:RetryCount: 100
-  #     DbConnectionSettings:RetryWaitInSeconds: 30
-  #     RabbitMq:Hostname: "rabbitmq"
-  #     RabbitMq:Username: "org4"
-  #     RabbitMq:Password: "org4"
-  #     RabbitMq:RetryCount: 20
-  #     RabbitMq:RetryWait: 30000
-  #   depends_on:
-  #     - database
-  #     - rabbitmq
-  #   restart: on-failure
-  #   networks:
-  #     - demo
+  intergrationadapters:
+    build:
+      context: HealthcareSystem\
+      dockerfile: Dockerfile.integration-adapters
+    ports:
+    - "8282:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 100
+      DbConnectionSettings:RetryWaitInSeconds: 30
+      RabbitMq:Hostname: "rabbitmq"
+      RabbitMq:Username: "org4"
+      RabbitMq:Password: "org4"
+      RabbitMq:RetryCount: 20
+      RabbitMq:RetryWait: 30000
+    depends_on:
+      - database
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - demo
 
-  # editorserver:
-  #   build:
-  #     context: HealthcareSystem\
-  #     dockerfile: Dockerfile.graphical-editorserver
-  #   ports:
-  #   - "5001:80"
-  #   environment:
-  #     ASPNETCORE_ENVIRONMENT: Development
-  #     DbConnectionSettings:Host: "database"
-  #     DbConnectionSettings:Port: "3306"
-  #     DbConnectionSettings:User: "org4"
-  #     DbConnectionSettings:Password: "org4"
-  #     DbConnectionSettings:Database: "organization4db"
-  #     DbConnectionSettings:RetryCount: 100
-  #     DbConnectionSettings:RetryWaitInSeconds: 30
-  #   depends_on:
-  #     - database
-  #   restart: on-failure
-  #   networks:
-  #     - demo
+  editorserver:
+    build:
+      context: HealthcareSystem\
+      dockerfile: Dockerfile.graphical-editorserver
+    ports:
+    - "5001:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 100
+      DbConnectionSettings:RetryWaitInSeconds: 30
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - demo
 
-  # rabbitmq:
-  #   image: rabbitmq:3-management-alpine
-  #   environment:
-  #     RABBITMQ_DEFAULT_USER: "org4"
-  #     RABBITMQ_DEFAULT_PASS: "org4"
-  #   networks:
-  #     - demo
-
-volumes:
-  sql-scripts:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: "org4"
+      RABBITMQ_DEFAULT_PASS: "org4"
+    networks:
+      - demo
 
 networks:
   demo:

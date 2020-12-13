@@ -8,6 +8,8 @@ using Backend.Repository.DrugRepository;
 using Backend.Repository.DrugRepository.MySQLDrugRepository;
 using Backend.Repository.DrugTypeRepository;
 using Backend.Repository.DrugTypeRepository.MySqlDrugTypeRepository;
+using Backend.Repository.EquipmentInRoomsRepository;
+using Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository;
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.ExaminationRepository.MySqlExaminationRepository;
 using Backend.Repository.IngridientRepository;
@@ -121,9 +123,12 @@ namespace PatientWebApp
             services.AddScoped<ITherapyRepository, MySqlTherapyRepository>();
             services.AddScoped<ITherapyService, TherapyService>();
 
-            //placement dodati
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
+
+            services.AddScoped<IEquipmentRepository, MySqlEquipmentRepository>();
+            services.AddScoped<IEquipmentInRoomsRepository, MySqlEquipmentInRoomsRepository>();
+            services.AddScoped<IEquipmentService, EquipmentService>();
 
             services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
 

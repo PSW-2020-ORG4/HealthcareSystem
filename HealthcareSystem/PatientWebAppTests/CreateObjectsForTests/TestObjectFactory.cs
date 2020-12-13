@@ -77,5 +77,15 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return new CreateExaminationDTO();
         }
 
+        public CreateDoctor GetDoctor()
+        {
+            return new CreateDoctor();
+        }
+
+        public CreateRoom GetRoom()
+        {
+            return new CreateRoom();
+        }
+
     }
 }

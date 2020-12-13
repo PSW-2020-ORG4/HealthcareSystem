@@ -1,4 +1,5 @@
 ﻿using Backend.Model.Manager;
+using GraphicalEditor.DTO;
 
 namespace GraphicalEditor.Models.Equipments
 {
@@ -7,11 +8,11 @@ namespace GraphicalEditor.Models.Equipments
         public int Id { get; set; }
         public int Quantity { get; set; }
         public int TypeId { get; set; }
-        public virtual EquipmentType Type { get; set; }
+        public virtual EquipmentTypeDTO Type { get; set; }
 
         public Equipment() { }
 
-        public Equipment(int quantity, EquipmentType equipmentType)
+        public Equipment(int quantity, EquipmentTypeDTO equipmentType)
         {
             Quantity = quantity;
             Type = equipmentType;

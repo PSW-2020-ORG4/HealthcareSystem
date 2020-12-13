@@ -1,6 +1,7 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Controllers;
 using GraphicalEditor.DTO;
+using GraphicalEditor.DTOForView;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.Equipments;
@@ -12,6 +13,7 @@ using GraphicalEditor.Services.Interface;
 using GraphicalEditorServer.DTO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -153,6 +155,9 @@ namespace GraphicalEditor
             }
         }
 
+        public ObservableCollection<EquipmentTypeForViewDTO> AllEquipmentTypes { get; set; }
+        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -186,6 +191,10 @@ namespace GraphicalEditor
                 Console.WriteLine("---");
             }*/
 
+
+
+            SetDataToUIControls();
+
         }
 
         public MainWindow(string currentUserRole)
@@ -209,6 +218,52 @@ namespace GraphicalEditor
 
             RestrictUsersAccessBasedOnRole();
 
+            SetDataToUIControls();
+        }
+
+        public void SetDataToUIControls()
+        {
+            SetValuesInDoctorSpecialtyComboBoxForAppointmentSearch();
+            SetValuesInPatientComboBoxForAppointmentSearch();
+            SetSelectableEquipmentForAppointmentSearch();
+        }
+
+
+        public void SetValuesInDoctorSpecialtyComboBoxForAppointmentSearch()
+        {
+            DoctorService doctorService = new DoctorService();
+            List<SpecialtyDTO> allDoctorSpecialties = doctorService.GetAllSpecialties();
+
+            AppointmentDoctorSpecializationComboBox.ItemsSource = allDoctorSpecialties;
+        }
+
+        public void SetValuesInPatientComboBoxForAppointmentSearch()
+        {
+            PatientService patientService = new PatientService();
+            List<PatientBasicDTO> allPatients = patientService.GetAllPatients();
+
+            AppointmentPatientComboBox.ItemsSource = allPatients;
+        }
+
+        public void SetSelectableEquipmentForAppointmentSearch()
+        {
+            AllEquipmentTypes = new ObservableCollection<EquipmentTypeForViewDTO>();
+
+            EquipmentTypeService equipmentTypeService = new EquipmentTypeService();
+            List<EquipmentTypeDTO> equipmentTypes = equipmentTypeService.GetEquipmentTypes();
+
+            foreach(EquipmentTypeDTO equipmentType in equipmentTypes)
+            {
+                AllEquipmentTypes.Add(new EquipmentTypeForViewDTO(equipmentType, false));
+            }
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (EquipmentTypeForViewDTO eas in AllEquipmentTypes)
+            {
+                Console.WriteLine(eas.IsSelected);
+            }
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -225,6 +280,12 @@ namespace GraphicalEditor
                 if (!_currentUserRole.Equals("Manager"))
                 {
                     EditObjectButton.Visibility = Visibility.Collapsed;
+                }
+
+                if (!_currentUserRole.Equals("Secretary"))
+                {
+                    SearchAppointmentsPanel.Visibility = Visibility.Collapsed;
+                    SearchAppointmentsMenuItem.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -614,6 +675,16 @@ namespace GraphicalEditor
             AppointmentSearchScrollViewer.ScrollToBottom();
         }
 
+        private void AppointmentDoctorSpecializationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DoctorService doctorService = new DoctorService();
+           
+            SpecialtyDTO selectedSpecialty = (SpecialtyDTO)AppointmentDoctorSpecializationComboBox.SelectedItem;
+            List<DoctorDTO> doctorsWithSelectedSpecialty = doctorService.GetDoctorsBySpecialty(selectedSpecialty.Id);
+            AppointmentDoctorComboBox.ItemsSource = doctorsWithSelectedSpecialty;
+        }
+
+       
     }
 }
 

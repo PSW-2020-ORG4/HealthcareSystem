@@ -735,7 +735,9 @@
                                             Margin="0,20,0,0"
                                             materialDesign:HintAssist.Hint="Izaberite tip objekta."
                                             FontSize="16"
-                                            ItemsSource="{Binding AllMapObjectTypes}">
+                                            IsTextSearchEnabled="True"
+                                            ItemsSource="{Binding AllMapObjectTypes}"
+                                            TextSearch.TextPath="ObjectTypeFullName">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding Path=ObjectTypeFullName}" />
@@ -1120,12 +1122,16 @@
                                                 <RowDefinition Height="1*" />
                                                 <RowDefinition Height="1*" />
                                                 <RowDefinition Height="1*" />
+                                                <RowDefinition Height="3*" />
                                                 <RowDefinition Height="1*" />
                                                 <RowDefinition Height="1*" />
                                                 <RowDefinition Height="1*" />
                                                 <RowDefinition Height="9*" />
-                                                <RowDefinition Height="1*" MinHeight="80" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" MinHeight="100" />
                                             </Grid.RowDefinitions>
+
 
                                             <TextBlock
                                                 Grid.Row="0"
@@ -1136,13 +1142,11 @@
                                                 Text="Pretraga termina: "
                                                 TextWrapping="Wrap" />
 
-
-
                                             <!--  Appointment time interval start  -->
                                             <TextBlock
                                                 Grid.Row="1"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,60,0,0"
+                                                Margin="0,40,0,0"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Bottom"
                                                 FontSize="16"
@@ -1168,7 +1172,7 @@
                                                 x:Name="AppointmentSearchStartTime"
                                                 Grid.Row="2"
                                                 Grid.Column="1"
-                                                Margin="10,0,0,0"
+                                                Margin="10,0,10,0"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Top"
                                                 materialDesign:HintAssist.Hint="Sati:Minuti"
@@ -1209,7 +1213,7 @@
                                                 x:Name="AppointmentSearchEndTime"
                                                 Grid.Row="4"
                                                 Grid.Column="1"
-                                                Margin="10,0,0,0"
+                                                Margin="10,0,10,0"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Top"
                                                 materialDesign:HintAssist.Hint="Sati:Minuti"
@@ -1224,7 +1228,7 @@
                                             <TextBlock
                                                 Grid.Row="5"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,40,0,0"
+                                                Margin="0,20,0,0"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Bottom"
                                                 FontSize="16"
@@ -1235,15 +1239,17 @@
                                                 Name="AppointmentDoctorSpecializationComboBox"
                                                 Grid.Row="6"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,0,0,0"
+                                                Margin="0,0,10,0"
                                                 VerticalAlignment="Top"
                                                 materialDesign:HintAssist.Hint="Izaberite specijalizaciju lekara."
                                                 BorderBrush="MediumPurple"
                                                 FontSize="16"
-                                                ItemsSource="{Binding AllMapObjectTypes}">
+                                                IsTextSearchEnabled="True"
+                                                SelectionChanged="AppointmentDoctorSpecializationComboBox_SelectionChanged"
+                                                TextSearch.TextPath="Name">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding Path=ObjectTypeFullName}" />
+                                                        <TextBlock Text="{Binding Path=Name, Converter={StaticResource CapitalizeStringConverter}}" />
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
@@ -1265,15 +1271,23 @@
                                                 Name="AppointmentDoctorComboBox"
                                                 Grid.Row="8"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,0,0,0"
+                                                Margin="0,0,10,0"
                                                 VerticalAlignment="Top"
                                                 materialDesign:HintAssist.Hint="Izaberite lekara."
                                                 BorderBrush="MediumPurple"
                                                 FontSize="16"
-                                                ItemsSource="{Binding AllMapObjectTypes}">
+                                                IsTextSearchEnabled="True"
+                                                TextSearch.TextPath="Name">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding Path=ObjectTypeFullName}" />
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}Dr {0} {1}">
+                                                                    <Binding Path="Name" />
+                                                                    <Binding Path="Surname" />
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
@@ -1283,7 +1297,7 @@
                                             <TextBlock
                                                 Grid.Row="9"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,40,0,0"
+                                                Margin="0,20,0,0"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Bottom"
                                                 FontSize="16"
@@ -1295,7 +1309,7 @@
                                                 Grid.Column="0"
                                                 FontSize="16"
                                                 GroupName="AppointmentSearchPriorityRadioButton">
-                                                Prioritet vreme
+                                                Vreme
                                             </RadioButton>
 
                                             <RadioButton
@@ -1303,45 +1317,81 @@
                                                 Grid.Column="1"
                                                 FontSize="16"
                                                 GroupName="AppointmentSearchPriorityRadioButton">
-                                                Prioritet lekar
+                                                Lekar
                                             </RadioButton>
 
-                                            <!--  Appointment Required Equipment  -->
+
+                                            <!--  Appointment Patient  -->
                                             <TextBlock
                                                 Grid.Row="11"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,40,0,0"
+                                                Margin="0,20,0,0"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Bottom"
                                                 FontSize="16"
                                                 Foreground="Black"
-                                                Text="Neophodna oprema za pregled:" />
+                                                Text="Pacijent:" />
 
                                             <ComboBox
-                                                Name="AppointmentRequiredEquipmentComboBox"
+                                                Name="AppointmentPatientComboBox"
                                                 Grid.Row="12"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,0,0,0"
+                                                Margin="0,0,10,0"
                                                 VerticalAlignment="Top"
-                                                materialDesign:HintAssist.Hint="Izaberite neophodnu opremu."
+                                                materialDesign:HintAssist.Hint="Izaberite pacijenta."
                                                 BorderBrush="MediumPurple"
                                                 FontSize="16"
-                                                ItemsSource="{Binding AllMapObjectTypes}">
+                                                IsTextSearchEnabled="True"
+                                                TextSearch.TextPath="Name">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <TextBlock Text="{Binding Path=ObjectTypeFullName}" />
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                                    <Binding Path="Name" />
+                                                                    <Binding Path="Surname" />
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
+
+                                            <!--  Appointment Required Equipment  -->
+                                            <DataGrid
+                                                x:Name="AppointmentRequiredEquipmentDataGrid"
+                                                Grid.Row="13"
+                                                Grid.ColumnSpan="2"
+                                                Height="100"
+                                                Margin="0,20,10,0"
+                                                ItemsSource="{Binding AllEquipmentTypes}"
+                                                Style="{StaticResource EquipmentForAppointmentDataGrid}">
+
+                                                <!--  Table Column Headers Names and Binding  -->
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn
+                                                        Width="4*"
+                                                        Binding="{Binding EquipmentType.Name, Converter={StaticResource CapitalizeStringConverter}}"
+                                                        Header="Neophodna oprema za pregled:" />
+
+                                                    <DataGridTemplateColumn Width="*">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox Checked="CheckBox_Checked" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
 
 
                                             <!--  SEARCH APPOINTMENTS BUTTON  -->
                                             <Button
                                                 x:Name="SearchAppointmentsButton"
-                                                Grid.Row="13"
+                                                Grid.Row="14"
                                                 Grid.ColumnSpan="2"
                                                 Height="Auto"
-                                                Margin="0,40,0,0"
+                                                Margin="0,30,10,0"
                                                 Padding="5"
                                                 Background="#7D80DA"
                                                 BorderBrush="{x:Null}"
@@ -1368,17 +1418,17 @@
                                             </Button>
 
                                             <Separator
-                                                Grid.Row="14"
+                                                Grid.Row="15"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,20,0,0"
+                                                Margin="0,20,10,0"
                                                 Background="MediumPurple" />
 
 
                                             <!--  APPOINTMENT SEARCH RESULTS SECTION  -->
                                             <TextBlock
-                                                Grid.Row="15"
+                                                Grid.Row="16"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,0,0,10"
+                                                Margin="0,20,0,10"
                                                 VerticalAlignment="Bottom"
                                                 FontSize="18"
                                                 FontWeight="Normal"
@@ -1389,9 +1439,9 @@
                                             <!--  APPOINTMENT SEARCH RESULTS TABLE  -->
                                             <DataGrid
                                                 x:Name="AppointmentSearchResultsDataGrid"
-                                                Grid.Row="16"
+                                                Grid.Row="17"
                                                 Grid.ColumnSpan="2"
-                                                Margin="0,0,0,0"
+                                                Margin="0,0,10,0"
                                                 Style="{StaticResource SidePanelDataGrid}">
                                                 <DataGrid.Resources>
                                                     <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">

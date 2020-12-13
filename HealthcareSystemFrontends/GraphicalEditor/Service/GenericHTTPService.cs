@@ -37,6 +37,14 @@ namespace GraphicalEditor.Service
             return response;
         }
 
+        public T HTTPGetSingleItemRequest<T>(string requestURL)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL, Method.GET);
+            var response = client.Get<T>(request);
+            return response.Data;
+        }
+
         public List<T> HTTPGetRequest<T>(string requestURL)
         {
             var client = GetClient();

@@ -1,5 +1,4 @@
 using Backend.Model;
-using Backend.Model.Exceptions;
 using Backend.Model.Pharmacies;
 using Backend.Service.Pharmacies;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,48 +20,73 @@ namespace Backend.Service
         private IModel _channel;
         private IConnection _connection;
         private readonly IServiceProvider _service;
-        private readonly String _hostname;
-        private readonly String _username;
-        private readonly String _password;
+        private readonly RabbitMqConfiguration _configuration;
         private readonly String _queueName;
+
+        public RabbitMqActionBenefitMessageingService()
+        {
+        }
 
         public RabbitMqActionBenefitMessageingService(IServiceProvider service, IOptions<RabbitMqConfiguration> rabbitMqOPtions)
         {
             _service = service;
-            _hostname = rabbitMqOPtions.Value.Hostname;
-            _username = rabbitMqOPtions.Value.Username;
-            _password = rabbitMqOPtions.Value.Password;
+            _configuration = rabbitMqOPtions.Value;
             _queueName = "bolnica-1";
             InitializeRabbitMqListener();
         }
 
         private void InitializeRabbitMqListener()
         {
-            try
+            InitializeConnection();
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(queue: _queueName,
+                                  durable: true,
+                                  exclusive: false,
+                                  autoDelete: false,
+                                  arguments: null);
+            using (var scope = _service.CreateScope())
             {
-                var factory = new ConnectionFactory() { HostName = _hostname, UserName = _username, Password = _password };
-                _connection = factory.CreateConnection();
-                _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
-                _channel = _connection.CreateModel();
-                _channel.QueueDeclare(queue: _queueName,
-                                      durable: true,
-                                      exclusive: false,
-                                      autoDelete: false,
-                                      arguments: null);
+                IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
 
-                using (var scope = _service.CreateScope())
+                foreach (PharmacySystem p in pharmacyService.GetPharmaciesBySubscribed(true))
                 {
-                    IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
+                    _channel.ExchangeDeclare(exchange: p.ActionsBenefitsExchangeName, type: ExchangeType.Fanout);
+                    _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");
+                }
+            }
+            
+        }
 
-                    foreach (Pharmacy p in pharmacyService.GetPharmaciesBySubscribed(true))
+        private void InitializeConnection()
+        {
+            for (int i = 0; i <= _configuration.RetryCount; i++)
+            {
+                try
+                {
+                    var factory = new ConnectionFactory()
                     {
-                        _channel.ExchangeDeclare(exchange: p.ActionsBenefitsExchangeName, type: ExchangeType.Fanout);
-                        _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");
+                        HostName = _configuration.Hostname,
+                        UserName = _configuration.Username,
+                        Password = _configuration.Password
+                    };
+                    _connection = factory.CreateConnection();
+                    _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
+                    Console.WriteLine("RabbitMq connection established.");
+                    break;
+                }
+                catch (BrokerUnreachableException)
+                {
+                    if (i < _configuration.RetryCount)
+                    {
+                        Console.WriteLine("RabbitMq connection failed. Retrying.");
+                        Thread.Sleep(_configuration.RetryWait);
+                    }
+                    else
+                    {
+                        Console.WriteLine("RabbitMq connection failed. Disposing.");
+                        Dispose();
                     }
                 }
-            }catch(BrokerUnreachableException bue)
-            {
-                Dispose();
             }
         }
 
@@ -130,8 +154,9 @@ namespace Backend.Service
                 HandleMessage(message, exchangeName);
                 _channel.BasicAck(e.DeliveryTag, false);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 _channel.BasicReject(e.DeliveryTag, false);
             }
         }
@@ -165,6 +190,24 @@ namespace Backend.Service
                 _connection.Dispose();
 
             base.Dispose();
+        }
+
+        public void SubscriptionEdit(string exOld, bool subOld, string exNew, bool subNew)
+        {
+            if (subOld != subNew || exOld != exNew)
+            {
+                if (subOld && !subNew && exOld == exNew)
+                    Unsubscribe(exOld);
+                else if (!subOld && subNew && exOld == exNew)
+                    Subscribe(exNew);
+                else if (subOld && subNew && exOld != exNew)
+                {
+                    Unsubscribe(exOld);
+                    Subscribe(exNew);
+                }
+                else if (!subOld && subNew)
+                    Subscribe(exNew);
+            }
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using GraphicalEditor.Constants;
 using GraphicalEditor.Controllers;
+using GraphicalEditor.DTO;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
-using GraphicalEditor.Models.Equipment;
+using GraphicalEditor.Models.Equipments;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Service;
@@ -71,10 +72,32 @@ namespace GraphicalEditor
             get { return _selectedMenuOptionIndex; }
             set
             {
+                PreviousSelectedMenuOptionIndex = _selectedMenuOptionIndex;
                 _selectedMenuOptionIndex = value;
                 OnPropertyChanged("SelectedMenuOptionIndex");
             }
         }
+
+        private int? _previousSelectedMenuOptionIndex;
+        public int? PreviousSelectedMenuOptionIndex
+        {
+            get { return _previousSelectedMenuOptionIndex; }
+            set
+            {
+                _previousSelectedMenuOptionIndex = value;
+                OnPropertyChanged("PreviousSelectedMenuOptionIndex");
+                OnPropertyChanged("IsBackButtonEnabled");
+            }
+        }
+
+        public Boolean IsBackButtonEnabled
+        {
+            get
+            {
+                return PreviousSelectedMenuOptionIndex.HasValue;
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -151,9 +174,17 @@ namespace GraphicalEditor
             // uncomment only the first time you start the project in order
             // to populate DB with start data
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            initializeDatabaseData.InitiliazeData();
+            //initializeDatabaseData.InitiliazeData();
 
             EquipementService equipementService = new EquipementService();
+            AppointmentService appointmentService = new AppointmentService();
+
+            AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
+                new BasicAppointmentSearchDTO(1, "1234567891234", new List<int>(), new DateTime(2020, 12, 30, 8, 0, 0), new DateTime(2020, 12, 30, 22, 0, 0)), 
+                SearchPriority.Doctor, 1);
+
+            List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
+
             /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
             foreach(EquipmentWithRoomDTO res in result)
             {
@@ -161,7 +192,6 @@ namespace GraphicalEditor
                 Console.WriteLine(res.RoomNumber);
                 Console.WriteLine("---");
             }*/
-            
         }
 
         public MainWindow(string currentUserRole)
@@ -179,11 +209,12 @@ namespace GraphicalEditor
             _allMapObjects = mockupObjects.AllMapObjects;
             ChangeEditButtonVisibility();
             // uncomment only when you want to save the map for the first time
-            saveMap();
+            //saveMap();
 
             LoadInitialMapOnCanvas();
 
             RestrictUsersAccessBasedOnRole();
+
         }
 
         private void RestrictUsersAccessBasedOnRole()
@@ -319,22 +350,30 @@ namespace GraphicalEditor
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             _selectedMapObject = FindSelectedMapObject(e.GetPosition(this.Canvas));
-            ApplySelectionEffectToObject(_selectedMapObject);
 
-            if (_selectedMapObject != null)
+            MarkAndDisplaySelectedMapObject(_selectedMapObject);
+
+            ChangeEditButtonVisibility();
+        }
+
+        private void MarkAndDisplaySelectedMapObject(MapObject selectedMapObjectForDisplay)
+        {
+            ApplySelectionEffectToObject(selectedMapObjectForDisplay);
+
+            if (selectedMapObjectForDisplay != null)
             {
-                DisplayMapObject = _selectedMapObject.MapObjectEntity;
-                SelectedMapObject = _selectedMapObject;
-                //these properties we will need to map on our graphicalEditorWPF
-                var equipment = SelectedMapObject.GetEquipmentByRoomNumber();
+                DisplayMapObject = selectedMapObjectForDisplay.MapObjectEntity;
+                SelectedMapObject = selectedMapObjectForDisplay;
+
+                ObjectEquipmentDataGrid.ItemsSource = SelectedMapObject.GetEquipmentInObject();
+                ObjectMedicineDataGrid.ItemsSource = SelectedMapObject.GetMedicineInObject();
+
             }
             else
             {
                 SelectedMapObject = null;
                 DisplayMapObject = null;
             }
-
-            ChangeEditButtonVisibility();
         }
 
         private void ApplyHoverEffectToObject(MapObject hoverMapObject)
@@ -469,8 +508,6 @@ namespace GraphicalEditor
 
         private void ListViewExtendMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedMenuOptionIndex = ListViewExtendMenu.SelectedIndex;
-
             switch (SelectedMenuOptionIndex)
             {
                 case 0:
@@ -491,30 +528,93 @@ namespace GraphicalEditor
             }
         }
 
-        private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
-        {
 
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!PreviousSelectedMenuOptionIndex.HasValue)
+                return;
+
+            SelectedMenuOptionIndex = PreviousSelectedMenuOptionIndex.Value;
+            PreviousSelectedMenuOptionIndex = null;
         }
+
+
 
         private void SearchMapObjectsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (SearchObjectTypeComboBox.SelectedItem != null)
+            {
+                MapObjectType searchedMapObjectType = (MapObjectType)SearchObjectTypeComboBox.SelectedItem;
+                List<MapObject> searchResultMapObjects = _mapObjectController.SearchMapObjects(searchedMapObjectType);
+                ObjectSearchResultsDataGrid.ItemsSource = searchResultMapObjects;
+            }
+            else
+            {
+                return;
+            }
+        }
 
+        private void ShowSelectedSearchResultObjectOnMap(MapObject selectedSearchResultObject)
+        {
+            if (selectedSearchResultObject.MapObjectEntity.GetType() == typeof(Room))
+            {
+                long buildingId = ((Room)selectedSearchResultObject.MapObjectEntity).BuildingId;
+                MapObject building = _mapObjectController.GetMapObjectById(buildingId);
+                ((Building)building.MapObjectEntity).ShowFloorForSpecificMapObject(selectedSearchResultObject);
+            }
+
+            MarkAndDisplaySelectedMapObject(selectedSearchResultObject);
+            ListViewExtendMenu.SelectedIndex = 0;
+        }
+
+
+
+        private void ShowSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            MapObject selectedSearchResultObject = (MapObject)ObjectSearchResultsDataGrid.SelectedItem;
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultObject);
+        }
+
+
+        private void SearchEquimentAndMedicineButton_Click(object sender, RoutedEventArgs e)
+        {
+            String equipmentOrMedicineNameUserInput = EquipmentOrMedicineNameTextBox.Text.Trim().ToLower();
+            if (String.IsNullOrEmpty(equipmentOrMedicineNameUserInput))
+            {
+                return;
+            }
+
+            EquipementService equipmentService = new EquipementService();
+            DrugService drugService = new DrugService();
+
+
+            List<EquipmentWithRoomDTO> searchResultEquipment = equipmentService.GetEquipmentWithRoomForSearchTerm(equipmentOrMedicineNameUserInput);
+            List<DrugWithRoomDTO> searchResultDrugs = drugService.GetDrugsWithRoomForSearchTerm(equipmentOrMedicineNameUserInput);
+
+            EquipmentSearchResultsDataGrid.ItemsSource = searchResultEquipment;
+            MedicineSearchResultsDataGrid.ItemsSource = searchResultDrugs;
         }
 
         private void ShowEquipmentSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
         {
+            EquipmentWithRoomDTO selectedSearchResultEquipmentDTO = (EquipmentWithRoomDTO)EquipmentSearchResultsDataGrid.SelectedItem;
 
+            MapObject selectedSearchResultMapObject = _mapObjectController.GetMapObjectById(selectedSearchResultEquipmentDTO.RoomNumber);
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
         private void ShowMedicineSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
         {
+            DrugWithRoomDTO selectedSearchResultDrugDTO = (DrugWithRoomDTO)MedicineSearchResultsDataGrid.SelectedItem;
 
+            MapObject selectedSearchResultMapObject = _mapObjectController.GetMapObjectById(selectedSearchResultDrugDTO.RoomNumber);
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
-        private void ShowSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
     }
 }
 

@@ -24,7 +24,7 @@ namespace Backend.Model
 
         [ForeignKey("Pharmacy")]
         public int PharmacyId { get; set; }
-        public virtual Pharmacy Pharmacy { get; set; }
+        public virtual PharmacySystem Pharmacy { get; set; }
 
         [Required]
         public string Subject { get; set; }

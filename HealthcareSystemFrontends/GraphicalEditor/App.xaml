@@ -31,6 +31,7 @@
                 <Setter Property="IsReadOnly" Value="True" />
                 <Setter Property="SelectionMode" Value="Single" />
 
+                <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
                 <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
                 <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
 

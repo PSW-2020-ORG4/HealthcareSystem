@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace IntegrationAdaptersTests.UnitTests
@@ -17,7 +16,7 @@ namespace IntegrationAdaptersTests.UnitTests
         public void Index_ReturnsSingleItem()
         {
             var mockaActionBenefitService = new Mock<IActionBenefitService>();
-            var pharmacy = new Pharmacy { Id=1, Name="a1", ApiKey="a1", Url="u1", ActionsBenefitsExchangeName="e1", ActionsBenefitsSubscribed=true };
+            var pharmacy = new PharmacySystem { Id=1, Name="a1", ApiKey="a1", Url="u1", ActionsBenefitsExchangeName="e1", ActionsBenefitsSubscribed=true };
             var actionsBenefits = new List<ActionBenefit>
             {
                 new ActionBenefit { Id=1, PharmacyId=1, Pharmacy=pharmacy, Subject="s", Message="m", IsPublic=true}

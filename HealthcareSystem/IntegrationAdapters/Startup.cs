@@ -1,3 +1,4 @@
+using AutoMapper;
 using Backend.Communication.SftpCommunicator;
 using Backend.Model;
 using Backend.Model.Pharmacies;
@@ -7,12 +8,16 @@ using Backend.Repository.DrugConsumptionRepository.MySqlDrugConsumptionRepositor
 using Backend.Service;
 using Backend.Service.DrugConsumptionService;
 using Backend.Service.Pharmacies;
+using Backend.Settings;
+using IntegrationAdapters.Adapters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
 
 namespace IntegrationAdapters
 {
@@ -28,7 +33,21 @@ namespace IntegrationAdapters
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyDbContext>(opt => opt.UseMySql(Configuration.GetConnectionString("PharmacyCooperationConnection")).UseLazyLoadingProxies());
+            services.AddControllers();
+
+            IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
+            DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
+
+            services.AddControllers();
+            services.AddDbContext<MyDbContext>(options =>
+            {
+                options.UseMySql(
+                    dbSettings.ConnectionString,
+                    x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                        dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
+                    ).UseLazyLoadingProxies();
+            });
+
             services.AddControllersWithViews();
 
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
@@ -43,11 +62,14 @@ namespace IntegrationAdapters
             services.AddScoped<ISftpCommunicator, SftpCommunicator>();
             services.AddScoped<IDrugConsumptionRepository, MySqlDrugConsumptionRepository>();
             services.AddScoped<IDrugConsumptionService, DrugConsumptionService>();
+            services.AddScoped<IAdapterContext, AdapterContext>();
 
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
         {
             if (env.IsDevelopment())
             {

@@ -11,5 +11,7 @@ namespace Backend.Model.Users
         public virtual Doctor Doctor { get; set; }
         public int SpecialtyId { get; set; }
         public virtual Specialty Specialty { get; set; }
+
+        public DoctorSpecialty() { }
     }
 }

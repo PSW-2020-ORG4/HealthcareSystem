@@ -1,5 +1,6 @@
 ﻿
 
+using GraphicalEditor.DTO;
 using GraphicalEditor.Models;
 using GraphicalEditor.Models.Drugs;
 using RestSharp;
@@ -39,7 +40,11 @@ namespace GraphicalEditor.Service
 
         public List<Drug> GetDrugsByRoomNumber(int roomNumber)
         {
-            return (List<Drug>)HTTPGetRequest<Drug>("drugInRoom/byRoomNumber/ " + roomNumber);
-        } 
+            return (List<Drug>)HTTPGetRequest<Drug>("drugs/byRoomNumber/ " + roomNumber);
+        }
+        public List<DrugWithRoomDTO> GetDrugsWithRoomForSearchTerm(String searchTerm)
+        {
+            return (List<DrugWithRoomDTO>)HTTPGetRequest<DrugWithRoomDTO>("drugs/search?term=" + searchTerm);
+        }
     }
 }

@@ -63,17 +63,17 @@ namespace Backend.Service.SendingMail
             string encryptedJmbg = _encryptionService.EncryptString(request.Jmbg);
             var parsedMailText = MailText.Replace("[username]", request.UserName).Replace("[email]", request.ToEmail)
                 .Replace("[jmbg]", encryptedJmbg).Replace("[host]", host);
-            return parsedMailText; ;
+            return parsedMailText;
         }
 
         private string ReadMailText()
         {
-            var pathToHtmlPage = "\\Templates\\WelcomeTemplate.html";
-            string FilePath = Directory.GetCurrentDirectory() + pathToHtmlPage;
-            StreamReader reader = new StreamReader(FilePath);
-            string MailText = reader.ReadToEnd();
+            string pathToHtmlPage = Path.Combine("Templates", "WelcomeTemplate.html");
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), pathToHtmlPage);
+            StreamReader reader = new StreamReader(filePath);
+            string mailText = reader.ReadToEnd();
             reader.Close();
-            return MailText;
+            return mailText;
         }
 
     }

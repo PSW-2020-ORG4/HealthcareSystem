@@ -20,13 +20,18 @@ namespace PatientWebAppTests.UnitTests
             _stubRepository = new StubRepository();
         }
 
+        /*
         private FreeAppointmentSearchService SetupFreeAppointmentSearchService()
         {
+            
             FreeAppointmentSearchService freeAppointmentSearchService = new FreeAppointmentSearchService(_stubRepository.CreateRoomStubRepository(),
                 _stubRepository.CreateExaminationStubRepository(), _stubRepository.CreateDoctorStubRepository(), _stubRepository.CreatePatientCardStubRepository());
             
             return freeAppointmentSearchService;
-        }
+        }*/
+
+
+        /*
 
         [Fact]
         public void Find_free_appointsments()
@@ -37,6 +42,6 @@ namespace PatientWebAppTests.UnitTests
 
             result.ShouldNotBeEmpty();
         }
-
+        */
     }
 }

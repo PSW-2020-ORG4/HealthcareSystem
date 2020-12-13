@@ -49,7 +49,6 @@ namespace GraphicalEditor.Service
             _equipmentTypeService.AddEquipmentType(new EquipmentType("needle", true));
             _equipmentTypeService.AddEquipmentType(new EquipmentType("bend", true));
             _equipmentTypeService.AddEquipmentType(new EquipmentType("mask", true));
-            _equipmentTypeService.AddEquipmentType(new EquipmentType("table", true));
 
             _equipmentTypeService.AddEquipmentType(new EquipmentType("bed", false));
             _equipmentTypeService.AddEquipmentType(new EquipmentType("table", false));

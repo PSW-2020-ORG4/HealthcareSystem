@@ -8,7 +8,7 @@ namespace IntegrationAdapters.MapperProfiles
     {
         public PharmacySystemProfile()
         {
-            CreateMap<PharmacySystem, PharmacySystemAdapterParameters>();
+            CreateMap<PharmacySystem, PharmacySystemAdapterParameters>().ForMember(ps => ps.SftpConfig, opt => opt.Ignore()).ForMember(ps => ps.HospitalName, opt => opt.Ignore());
         }
     }
 }

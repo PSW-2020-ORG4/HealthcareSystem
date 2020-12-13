@@ -126,7 +126,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public IRoomRepository CreateRoomStubRepository()
         {
             var roomStubRepository = new Mock<IRoomRepository>();
-            var roomValidObject = new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM, capacity: 1, occupation: 1, renovation: false);
+            var roomValidObject = _objectFactory.GetRoom().CreateValidTestObject();
             var rooms = new List<Room>();
             rooms.Add(roomValidObject);
 
@@ -139,10 +139,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public IDoctorRepository CreateDoctorStubRepository()
         {
             var doctorStubRepository = new Mock<IDoctorRepository>();
-            var doctorValidObject = new Doctor(jmbg: "0909965768767", name: "Ana", surname: "Markovic", dateOfBirth: DateTime.Now, gender: GenderType.F,
-            city: new City(zipCode: 21000, name: "Novi Sad", country: new Country(id: 1, name: "Serbia")), homeAddress: "Zmaj Jovina 10", phone: "065452102", email: "pera@gmail.com", username: "pera",
-            password: "12345678", numberOfLicence: "", doctorsOffice: new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM,
-            capacity: 1, occupation: 1, renovation: false), dateOfEmployment: DateTime.Now);
+            var doctorValidObject = _objectFactory.GetDoctor().CreateValidTestObject();
             var doctors = new List<Doctor>();
             doctors.Add(doctorValidObject);
 

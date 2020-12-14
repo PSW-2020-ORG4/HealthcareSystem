@@ -79,8 +79,17 @@ namespace IntegrationAdapters.Adapters.Production
 
         public bool GetDrugSpecifications(int id)
         {
-            var task = Task.Run<bool>(async () => await _api.GetDrugSpecifications(_parameters.ApiKey, id));
-            return task.Result;
+            var task = Task.Run<bool>(async () => await _api.GetDrugSpecificationsHttp(_parameters.ApiKey, id));
+            bool ret = false;
+            try
+            {
+                ret = task.Result;
+            }
+            catch (AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+            return ret;
         }
     }
 }

@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using IntegrationAdapters.Dtos;
 using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace IntegrationAdapters.Apis.Http
 {
@@ -74,22 +77,22 @@ namespace IntegrationAdapters.Apis.Http
             return ret;
         }
 
-        public async Task<bool> GetDrugSpecifications(string apiKey, int id)
+        public async Task<bool> GetDrugSpecificationsHttp(string apiKey, int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/drug/multipartdata/getById/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/multipartdata/getById/{id}");
             HttpResponseMessage response = await _client.SendAsync(request);
-
             if (!response.IsSuccessStatusCode) return false;
             
-
-            await using var fs = File.Create("slika.ico");
-            //await using var ms = await response.Content.ReadAsStreamAsync();
-
-            //await ms.CopyToAsync(fs);
-            //ms.Seek(0, SeekOrigin.Begin);
-            //ms.CopyTo(fs);
-
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            List<string> ret = JsonConvert.DeserializeObject<List<string>>(jsonResponse);
+            using (System.IO.FileStream reader = System.IO.File.Create(ret[0]))
+            {
+                byte[] buffer = Convert.FromBase64String(ret[1]);
+                reader.Write(buffer, 0, buffer.Length);
+            }
             return true;
+            
         }
+        
     }
 }

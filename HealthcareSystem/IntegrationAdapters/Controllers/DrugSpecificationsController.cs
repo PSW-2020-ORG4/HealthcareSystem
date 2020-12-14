@@ -29,18 +29,19 @@ namespace IntegrationAdapters.Controllers
             {
                 return View(new List<DrugListDTO>());
             }
-
+            ViewBag.PharmacyId = id;
             var drugList = _adapterContext.PharmacySystemAdapter.GetAllDrugs();
             _adapterContext.RemoveAdapter();
 
             return View(drugList);
         }
 
-        public IActionResult RequestSpecifications(int id)
+        [Route("DrugSpecifications/DrugList/{idP}/{idD}")]
+        public IActionResult RequestSpecifications(int idD, int idP)
         {
-            var pharmacySystem = _pharmacyService.GetPharmacyById(1);
+            var pharmacySystem = _pharmacyService.GetPharmacyById(idP);
             _adapterContext.SetPharmacySystemAdapter(pharmacySystem);
-            var success = _adapterContext.PharmacySystemAdapter.GetDrugSpecifications(id);
+            var success = _adapterContext.PharmacySystemAdapter.GetDrugSpecifications(idD);
 
             return RedirectToAction("Index");
         }

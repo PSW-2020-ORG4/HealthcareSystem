@@ -30,10 +30,10 @@
                         @item.Code
                     </td>
                     <td class="text-center">
-                        @Html.ActionLink("Request Specifications", "RequestSpecifications", new { id = item.Id })
+                        <a asp-controller="DrugSpecifications" asp-action="DrugList" asp-route-idP=@ViewBag.PharmacyId asp-route-idD=@item.Id> </a>     
                     </td>
                 </tr>
-            }
+            }   
             </tbody>
         </table>
     </div>

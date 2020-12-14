@@ -39,10 +39,10 @@ namespace Backend.Model
             SeedPatientsAndPatientsCard(context);
             if (Verbose) Console.WriteLine("Seeding specialties.");
             SeedSpecialties(context);
-            if (Verbose) Console.WriteLine("Seeding doctors.");
-            SeedDoctors(context);
             if (Verbose) Console.WriteLine("Seeding rooms.");
             SeedRooms(context);
+            if (Verbose) Console.WriteLine("Seeding doctors.");
+            SeedDoctors(context);
             if (Verbose) Console.WriteLine("Seeding drugs.");
             SeedDrugTypes(context);
             SeedDrugs(context);
@@ -160,7 +160,8 @@ namespace Backend.Model
                 CityZipCode = 1,
                 Gender = GenderType.F,
                 NumberOfLicence = "11111111",
-                Password = "MiraMira"
+                Password = "MiraMira",
+                DoctorsOfficeId = 9
             });
             context.Add(new Doctor()
             {
@@ -177,6 +178,7 @@ namespace Backend.Model
                 Gender = GenderType.F,
                 NumberOfLicence = "22222222",
                 Password = "DaraDara",
+                DoctorsOfficeId = 12
             });
             context.SaveChanges();
 

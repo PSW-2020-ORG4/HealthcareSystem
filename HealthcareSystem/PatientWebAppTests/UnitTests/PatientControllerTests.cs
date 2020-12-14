@@ -130,5 +130,37 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is NotFoundObjectResult);
         }
+
+        [Fact]
+        public void Get_number_of_canceled_examinations()
+        {
+            PatientController patientController = SetupPatientController(new Mock<IMailService>());
+
+            var result = patientController.GetNumberOfCanceledExaminations("1234567891234");
+
+            Assert.True(result is OkObjectResult);
+        }
+
+
+        [Fact]
+        public void Block_existent_patient()
+        {
+            PatientController patientController = SetupPatientController(new Mock<IMailService>());
+
+            var result = patientController.BlockPatient("1234567891234");
+
+            Assert.True(result is OkResult);
+        }
+
+        [Fact]
+        public void Block_non_existent_patient()
+        {
+            PatientController patientController = SetupPatientController(new Mock<IMailService>());
+
+            var result = patientController.BlockPatient("1111111111111");
+
+            Assert.True(result is NotFoundObjectResult);
+        }
+
     }
 }

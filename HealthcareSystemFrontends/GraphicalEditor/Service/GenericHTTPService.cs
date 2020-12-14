@@ -27,6 +27,15 @@ namespace GraphicalEditor.Service
             return response;
         }
 
+        public List<T> HTTPGetRequestWithObjectAsParqm<T>(string requestURL, object objectParam)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL, Method.PUT);
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(objectParam);
+            var response = client.Execute<List<T>>(request);
+            return response.Data;
+        }
         public IRestResponse AddHTTPPostRequest(String requestURL, object objectToPost)
         {
             var client = GetClient();
@@ -35,6 +44,14 @@ namespace GraphicalEditor.Service
             request.AddBody(objectToPost);
             IRestResponse response = client.Post(request);
             return response;
+        }
+
+        public T HTTPGetSingleItemRequest<T>(string requestURL)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL, Method.GET);
+            var response = client.Get<T>(request);
+            return response.Data;
         }
 
         public List<T> HTTPGetRequest<T>(string requestURL)
@@ -52,5 +69,18 @@ namespace GraphicalEditor.Service
             request.AddJsonBody(JSONContent);
             IRestResponse response = client.Post(request);
         }
+
+        public List<T> HTTPGetRequestWithObjectAsParam<T>(string requestURL, object objectParam)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL, Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddBody(objectParam);
+            var response = client.Execute<List<T>>(request);
+            return response.Data;
+        }
+
+
+
     }
 }

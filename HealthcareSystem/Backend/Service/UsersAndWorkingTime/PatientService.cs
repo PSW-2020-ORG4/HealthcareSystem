@@ -88,9 +88,18 @@ namespace Backend.Service
             return result;
         }
 
+        public int GetNumberOfCanceledExaminations(string jmbg)
+        {
+            return _activePatientRepository.GetNumberOfCanceledExaminations(jmbg);
+        }
+
         public void BlockPatient(string jmbg)
         {
             Patient patient = GetPatientByJmbg(jmbg);
+            if (patient == null)
+            {
+                throw new NotFoundException("Patient with jmbg=" + jmbg + " doesn't exist in database.");
+            }
             patient.IsBlocked = true;
             _activePatientRepository.UpdatePatient(patient);
         }

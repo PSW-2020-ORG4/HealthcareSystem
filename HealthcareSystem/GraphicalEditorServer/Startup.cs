@@ -1,5 +1,7 @@
 using Backend.Model;
 using Backend.Repository;
+using Backend.Repository.DoctorSpecialtyRepository;
+using Backend.Repository.DoctorSpecialtyRepository.MySqlDoctorSpecialtyRepository;
 using Backend.Repository.DrugInRoomRepository;
 using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
 using Backend.Repository.DrugRepository;
@@ -8,12 +10,19 @@ using Backend.Repository.DrugTypeRepository;
 using Backend.Repository.DrugTypeRepository.MySqlDrugTypeRepository;
 using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository;
+using Backend.Repository.ExaminationRepository;
+using Backend.Repository.ExaminationRepository.MySqlExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
+using Backend.Repository.SpecialtyRepository;
+using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
+using Backend.Service;
 using Backend.Service.DrugAndTherapy;
+using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.RoomAndEquipment;
+using Backend.Service.UsersAndWorkingTime;
 using Backend.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,8 +30,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Repository;
 using Service.DrugAndTherapy;
 using Service.RoomAndEquipment;
+using Service.UsersAndWorkingTime;
 using System;
 using System.Collections.Generic;
 
@@ -113,6 +124,30 @@ namespace GraphicalEditorServer
             services.AddScoped<IDrugTypeService, DrugTypeService>();
 
             services.AddScoped<IDrugTypeRepository, MySqlDrugTypeRepository>();
+
+            services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
+            services.AddScoped<ISpecialtyService, SpecialtyService>();
+
+            services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
+            services.AddScoped<IDoctorService, DoctorService>();
+
+            services.AddScoped<IDoctorSpecialtyRepository, MySqlDoctorSpecialtyRepository>();
+            services.AddScoped<IDoctorSpecialtyService, DoctorSpecialtyService>();
+
+            services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
+            services.AddScoped<IPatientService, PatientService>();
+
+            services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
+            services.AddScoped<IPatientCardService, PatientCardService>();
+
+            services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
+            services.AddScoped<IScheduleAppointmenService, ScheduleAppointmentService>();
+            services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
+            services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
+            services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
+            services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
+            services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

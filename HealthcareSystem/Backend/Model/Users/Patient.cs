@@ -82,5 +82,6 @@ namespace Model.Users
             IsActive = false;
             ImageName = patient.ImageName;
         }
+
     }
 }

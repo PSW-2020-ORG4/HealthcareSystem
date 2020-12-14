@@ -93,5 +93,15 @@ namespace Model.Users
             DateOfEmployment = doctor.DateOfEmployment;
         }
 
+        public bool CheckIfDoctorHasSpecialty(int specialtyId)
+        {
+            foreach (DoctorSpecialty doctorSpecialty in DoctorSpecialties)
+            {
+                if (doctorSpecialty.SpecialtyId == specialtyId)
+                    return true;
+            }
+            return false;
+        }
+
     }
 }

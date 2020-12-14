@@ -13,5 +13,10 @@ namespace Backend.Model.Users
         public virtual Specialty Specialty { get; set; }
 
         public DoctorSpecialty() { }
+        public DoctorSpecialty(string doctorJmbg, int specialityId)
+        {
+            DoctorJmbg = doctorJmbg;
+            SpecialtyId = specialityId;
+        }
     }
 }

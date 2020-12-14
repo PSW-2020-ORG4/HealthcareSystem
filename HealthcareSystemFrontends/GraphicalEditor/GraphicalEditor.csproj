@@ -71,11 +71,21 @@
     </ApplicationDefinition>
     <Compile Include="Constants\ServerConstants.cs" />
     <Compile Include="Controllers\MapObjectController\MapObjectController.cs" />
+    <Compile Include="DTOForView\EquipmentTypeForViewDTO.cs" />
+    <Compile Include="DTO\DoctorDTO.cs" />
+    <Compile Include="DTO\AppointmentSearchWithPrioritiesDTO.cs" />
+    <Compile Include="DTO\BasicAppointmentSearchDTO.cs" />
     <Compile Include="DTO\DrugWithRoomDTO.cs" />
     <Compile Include="Converters\CapitalizeStringConverter.cs" />
     <Compile Include="Converters\NegativeEquipmentQuantityConverter.cs" />
+    <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
+    <Compile Include="DTO\PatientBasicDTO.cs" />
+    <Compile Include="DTO\SpecialtyDTO.cs" />
+    <Compile Include="DTO\ExaminationDTO.cs" />
+    <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
+    <Compile Include="Enumerations\SearchPriority.cs" />
     <Compile Include="Models\Drugs\Drug.cs" />
     <Compile Include="Models\Drugs\DrugInRoom.cs" />
     <Compile Include="Models\Drugs\DrugType.cs" />
@@ -88,6 +98,8 @@
     <Compile Include="Repository\ContractResolver.cs" />
     <Compile Include="Repository\FileRepository.cs" />
     <Compile Include="Repository\Interface\IRepository.cs" />
+    <Compile Include="Service\DoctorService.cs" />
+    <Compile Include="Service\AppointmentService.cs" />
     <Compile Include="Service\DrugService.cs" />
     <Compile Include="Service\DrugTypeService.cs" />
     <Compile Include="Service\EquipmentTypeService.cs" />
@@ -96,6 +108,7 @@
     <Compile Include="Service\GenericHTTPService.cs" />
     <Compile Include="Service\Interface\IMapObjectServices.cs" />
     <Compile Include="Service\MapObjectServices.cs" />
+    <Compile Include="Service\PatientService.cs" />
     <Compile Include="Service\RoomService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

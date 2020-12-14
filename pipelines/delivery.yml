@@ -105,6 +105,35 @@ jobs:
         projects: '$(project)'
         arguments: '-c $(configuration)'
 
+    - task: Bash@3
+      displayName: 'Run Smoke Test [vlaksi-patientwebapp]'
+      inputs:
+        targetType: 'inline'
+        script: |
+          i=0
+          while [[ $i -lt 10 ]]
+          do
+            if [ $( curl -s -o /dev/null -w "%{http_code}" https://vlaksi-patientwebapp.herokuapp.com/api/country ) -eq 200 ]
+            then
+              if [ -n "$(curl -sb -H "Accept: application/json" "https://vlaksi-patientwebapp.herokuapp.com/api/country")"  ]
+              then 
+                echo 'Smoke test [patientwebapp]: DevOps on fire'
+                break
+              else
+                echo 'Smoke test [patientwebapp]: There is still no fire [ without data in response ]'
+              fi
+            else
+              echo 'Smoke test [patientwebapp]: There is still no fire [ code response is not 200 ]'
+            fi
+
+            ((i++))
+            if [[ $i -eq 10 ]]; then
+              echo 'We try 10 time and there is no successful response'
+              exit 1
+            fi
+            sleep 5
+          done
+
     - task: PowerShell@2
       displayName: 'Run E2E tests'
       inputs:

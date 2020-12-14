@@ -46,7 +46,7 @@ namespace IntegrationAdapters.Adapters
                         Password = config["Password"] 
                     };
                     
-                    PharmacySystemAdapter.Initialize(parameters, null);
+                    PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
                 }
                 else if(_environment == "Production")
                 {

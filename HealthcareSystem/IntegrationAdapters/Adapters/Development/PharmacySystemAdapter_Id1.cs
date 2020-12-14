@@ -1,16 +1,15 @@
 ﻿using AutoMapper;
 using Backend.Communication.SftpCommunicator;
-using Backend.Model.Pharmacies;
 using Grpc.Core;
 using IntegrationAdapters.Apis.Grpc;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MapperProfiles;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using IntegrationAdapters.Apis.Http;
 
 namespace IntegrationAdapters.Adapters.Development
 {
@@ -23,6 +22,7 @@ namespace IntegrationAdapters.Adapters.Development
         private SftpCommunicator _sftpCommunicator;
         private bool _grpc;
         private bool _sftp;
+        private PharmacySystemApi_Id1 _api;
 
         public void Initialize(PharmacySystemAdapterParameters parameters, HttpClient httpClient)
         {
@@ -31,6 +31,7 @@ namespace IntegrationAdapters.Adapters.Development
             _parameters = parameters;
             InitializeGrpc();
             InitializeSftp();
+            _api = new PharmacySystemApi_Id1(_parameters.Url, httpClient);
         }
 
         public void CloseConnections()
@@ -64,12 +65,12 @@ namespace IntegrationAdapters.Adapters.Development
             return new List<DrugDto>();
         }
 
-        public bool SendDrugConsumptionRepor(string reportFilePath, string reportFileName)
+        public bool SendDrugConsumptionReport(string reportFilePath, string reportFileName)
         {
             if (!_sftp)
                 return false;
 
-            Task<bool> task = Task.Run<bool>(async () => await _sftpCommunicator.UploadFile(reportFilePath + "/" + reportFileName, $"/{_parameters.HospitalName}/"));
+            Task<bool> task = Task.Run<bool>(async () => await _sftpCommunicator.UploadFile(reportFilePath + "/" + reportFileName, $"/PSW-uploads/{reportFileName}"));
             bool ret = false;
             try
             {
@@ -81,6 +82,44 @@ namespace IntegrationAdapters.Adapters.Development
             }
 
             return ret;
+        }
+
+        public List<DrugListDTO> GetAllDrugs()
+        {
+            var task =
+                Task.Run<List<DrugListDTO>>(async () => await _api.GetAllDrugs(_parameters.ApiKey));
+            var ret = new List<DrugListDTO>();
+
+            try
+            {
+                ret = task.Result;
+            }
+            catch (AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+
+            return ret;
+        }
+
+        public bool GetDrugSpecifications(int id)
+        {
+            var task = Task.Run<string>(async () => await _api.GetDrugSpecificationsSftp(_parameters.ApiKey, id));
+
+            var ret = "";
+            try
+            {
+                ret = task.Result;
+            }
+            catch (AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+
+            if (ret == "") return false;
+
+            _sftpCommunicator.DownloadFile(ret, $"Resources/{Path.GetFileName(ret)}");
+            return true;
         }
 
         private void InitializeGrpc()

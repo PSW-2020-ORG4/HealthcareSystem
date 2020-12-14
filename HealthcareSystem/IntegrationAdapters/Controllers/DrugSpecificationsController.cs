@@ -40,9 +40,9 @@ namespace IntegrationAdapters.Controllers
         {
             var pharmacySystem = _pharmacyService.GetPharmacyById(pharmacyId);
             _adapterContext.SetPharmacySystemAdapter(pharmacySystem);
-            var success = _adapterContext.PharmacySystemAdapter.GetDrugSpecifications(drugId);
+            _adapterContext.PharmacySystemAdapter.GetDrugSpecifications(drugId);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("DrugList", pharmacyId);
         }
     }
 }

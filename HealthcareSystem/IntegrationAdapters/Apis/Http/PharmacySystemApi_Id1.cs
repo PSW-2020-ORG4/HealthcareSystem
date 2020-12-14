@@ -85,7 +85,7 @@ namespace IntegrationAdapters.Apis.Http
             
             string jsonResponse = await response.Content.ReadAsStringAsync();
             List<string> ret = JsonConvert.DeserializeObject<List<string>>(jsonResponse);
-            using (System.IO.FileStream reader = System.IO.File.Create(ret[0]))
+            using (System.IO.FileStream reader = System.IO.File.Create("Resources/" + ret[0]))
             {
                 byte[] buffer = Convert.FromBase64String(ret[1]);
                 reader.Write(buffer, 0, buffer.Length);

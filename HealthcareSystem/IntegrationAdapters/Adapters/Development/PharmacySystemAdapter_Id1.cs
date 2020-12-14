@@ -65,12 +65,12 @@ namespace IntegrationAdapters.Adapters.Development
             return new List<DrugDto>();
         }
 
-        public bool SendDrugConsumptionRepor(string reportFilePath, string reportFileName)
+        public bool SendDrugConsumptionReport(string reportFilePath, string reportFileName)
         {
             if (!_sftp)
                 return false;
 
-            Task<bool> task = Task.Run<bool>(async () => await _sftpCommunicator.UploadFile(reportFilePath + "/" + reportFileName, $"/{_parameters.HospitalName}/"));
+            Task<bool> task = Task.Run<bool>(async () => await _sftpCommunicator.UploadFile(reportFilePath + "/" + reportFileName, $"/PSW-uploads/{reportFileName}"));
             bool ret = false;
             try
             {

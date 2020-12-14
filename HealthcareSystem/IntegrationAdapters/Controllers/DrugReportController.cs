@@ -58,7 +58,7 @@ namespace IntegrationAdapters.Controllers
                 if (_adapterContext.SetPharmacySystemAdapter(ps) == null)
                     continue;
 
-                if (_adapterContext.PharmacySystemAdapter.SendDrugConsumptionRepor(reportFilePath, reportFileName))
+                if (_adapterContext.PharmacySystemAdapter.SendDrugConsumptionReport(reportFilePath, reportFileName))
                 {
                     TempData["Success"] = "Report successfully created and uploaded!";
                     Console.WriteLine("sent");

@@ -1,7 +1,10 @@
 variables:
   HEROKU_API_KEY: b7ace70d-3610-46cf-814c-9f05583dd82c
   e2etests: 'HealthcareSystem/E2ETests/E2ETests.csproj'
-
+  project: 'HealthcareSystem/PatientWebApp/PatientWebApp.csproj'
+  configuration: 'Release'
+  paths: "**/PatientWebApp/* **/PatientWebAppTests/* **/Backend/*"
+  
 pool:
   vmImage: 'ubuntu-18.04'
 

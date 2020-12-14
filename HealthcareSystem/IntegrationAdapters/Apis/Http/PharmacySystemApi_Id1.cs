@@ -6,9 +6,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using IntegrationAdapters.Dtos;
-using Microsoft.Extensions.Hosting.Internal;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.AspNetCore.Http;
 using System;
 
 namespace IntegrationAdapters.Apis.Http

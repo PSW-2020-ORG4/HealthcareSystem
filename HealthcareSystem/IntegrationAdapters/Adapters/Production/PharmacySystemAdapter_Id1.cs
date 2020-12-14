@@ -44,7 +44,7 @@ namespace IntegrationAdapters.Adapters.Production
             return _mapper.Map<List<DrugDto>>(ret);
         }
 
-        public bool SendDrugConsumptionRepor(string reportFilePath, string reportFileName)
+        public bool SendDrugConsumptionReport(string reportFilePath, string reportFileName)
         { 
             Task<bool> task = Task.Run<bool>(async () => await _api.SendDrugConsumptionRepor(_parameters.ApiKey, reportFilePath, reportFileName));
             bool ret = false;

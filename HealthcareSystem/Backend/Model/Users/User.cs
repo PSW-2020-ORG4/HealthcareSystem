@@ -13,7 +13,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Model.Users
 {
    public abstract class User
-   {     
+   {             
         [Key]
         public string Jmbg { get; set; }
         public string Name { get; set; }

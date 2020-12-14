@@ -1,0 +1,31 @@
+version: "3.8"
+services: 
+  database:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_USER: "org4"
+      POSTGRES_PASSWORD: "org4"
+      POSTGRES_DB: "organization4db"
+    volumes:
+      - data:/var/lib/postgresql/data
+
+  patientwebapp:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      HEROKU_DB_RETRY: 20
+      HEROKU_DB_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database/organization4db"
+
+  intergrationadapters:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      HEROKU_DB_RETRY: 20
+      HEROKU_DB_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database/organization4db"
+
+  editorserver:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      HEROKU_DB_RETRY: 20
+      HEROKU_DB_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database/organization4db"

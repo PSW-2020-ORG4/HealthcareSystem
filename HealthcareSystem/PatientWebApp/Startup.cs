@@ -38,6 +38,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Model.Enums;
+using Model.Users;
 using Repository;
 using Service.DrugAndTherapy;
 using Service.ExaminationAndPatientCard;
@@ -47,35 +49,65 @@ using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PatientWebApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
-
+        private readonly IWebHostEnvironment _env;
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
-            IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
-            DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
-
-            services.AddControllers();
-            services.AddDbContext<MyDbContext>(options =>
+            if (_env.IsDevelopment())
             {
-                options.UseMySql(
-                    dbSettings.ConnectionString,
-                    x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
-                        dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
-                    ).UseLazyLoadingProxies();
-            });
+                Console.WriteLine("Configuring for dev.");
+                IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
+                DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
+
+                Console.WriteLine(dbSettings.ConnectionString);
+
+                services.AddDbContext<MyDbContext>(options =>
+                {
+                    options.UseMySql(
+                        dbSettings.ConnectionString,
+                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                            dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
+                        ).UseLazyLoadingProxies();
+                });
+            }
+            else if (_env.EnvironmentName.ToLower().Equals("test"))
+            {
+                Console.WriteLine("Configuring for test.");
+                int retryCount = Configuration.GetValue<int>("HEROKU_DB_RETRY");
+                int retryWait = Configuration.GetValue<int>("HEROKU_DB_RETRY_WAIT");
+                string dbURL = Configuration.GetValue<string>("DATABASE_URL") ?? "postgres://dummy:dummy@dummy:5432/dummy";
+                DbConnectionSettings dbSettings = new DbConnectionSettings(dbURL, retryCount, retryWait);
+
+                Console.WriteLine(dbSettings.ConnectionString);
+
+                services.AddDbContext<MyDbContext>(options =>
+                {
+                    options.UseNpgsql(
+                        dbSettings.ConnectionString,
+                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                            dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
+                        ).UseLazyLoadingProxies();
+                });
+            }
+            else
+            {
+                Console.WriteLine("Not dev or test.");
+            }
 
             services.AddScoped<ICountryRepository, MySqlCountryRepository>();
             services.AddScoped<ICountryService, CountryService>();
@@ -140,12 +172,32 @@ namespace PatientWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            if (env.IsDevelopment() || env.EnvironmentName.ToLower().Equals("test"))
+            {
+                using (var scope = app.ApplicationServices.CreateScope())
+                using (var context = scope.ServiceProvider.GetService<MyDbContext>())
+                {
+                    try
+                    {
+                        Console.WriteLine("Data seeding started.");
+                        DataSeeder seeder = new DataSeeder(true);
+                        seeder.SeedAll(context);
+                        Console.WriteLine("Data seeding finished.");
+                    } catch(Exception e)
+                    {
+                        Console.WriteLine("Data seeding failed.");
+                        Console.WriteLine(e.Message);
+                        Console.WriteLine(e.StackTrace);
+                    }
+                }
             }
 
             app.UseStaticFiles();

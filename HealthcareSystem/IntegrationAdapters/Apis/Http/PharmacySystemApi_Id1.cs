@@ -5,6 +5,8 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using IntegrationAdapters.Dtos;
+using System;
 
 namespace IntegrationAdapters.Apis.Http
 {
@@ -46,7 +48,7 @@ namespace IntegrationAdapters.Apis.Http
                 { new StreamContent(stream), "file", fileName },
                 { new StringContent(apiKey), "apiKey" }
             };
-            var request = new HttpRequestMessage(HttpMethod.Post, _baseUrl+"/api/drugs/uploadReport");
+            var request = new HttpRequestMessage(HttpMethod.Post, _baseUrl+"/file/uploadFile");
             request.Content = formData;
 
             HttpResponseMessage response = await _client.SendAsync(request);
@@ -57,5 +59,45 @@ namespace IntegrationAdapters.Apis.Http
             return false;
         }
 
+        public async Task<List<DrugListDTO>> GetAllDrugs(string apiKey)
+        {
+            List<DrugListDTO> ret = new List<DrugListDTO>();
+            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + "/api/noAuth/drug/getAll");
+            HttpResponseMessage response = await _client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                ret.AddRange(JsonConvert.DeserializeObject<List<DrugListDTO>>(jsonResponse));
+            }
+
+            return ret;
+        }
+
+        public async Task<bool> GetDrugSpecificationsHttp(string apiKey, int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/drug/multipartdata/getById/{id}");
+            HttpResponseMessage response = await _client.SendAsync(request);
+            if (!response.IsSuccessStatusCode) return false;
+            
+            string jsonResponse = await response.Content.ReadAsStringAsync();
+            List<string> ret = JsonConvert.DeserializeObject<List<string>>(jsonResponse);
+            using (System.IO.FileStream reader = System.IO.File.Create("Resources/" + ret[0]))
+            {
+                byte[] buffer = Convert.FromBase64String(ret[1]);
+                reader.Write(buffer, 0, buffer.Length);
+            }
+            return true;
+            
+        }
+
+        public async Task<string> GetDrugSpecificationsSftp(string apiKey, int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/sftp/uploadJsch/{id}");
+            HttpResponseMessage response = await _client.SendAsync(request);
+            if (!response.IsSuccessStatusCode) return "";
+
+            return await response.Content.ReadAsStringAsync();
+        }
     }
 }

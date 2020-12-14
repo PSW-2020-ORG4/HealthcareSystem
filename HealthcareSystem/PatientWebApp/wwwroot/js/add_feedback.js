@@ -23,7 +23,7 @@
 
 		//I take the certain patient from the database, otherwise the currently logged in patient will be taken
 		$.ajax({
-			url: "/api/patient/7865201452301",
+			url: "/api/patient/1309998775018",
 			type: 'GET',
 			dataType: 'json',
 			processData: false,

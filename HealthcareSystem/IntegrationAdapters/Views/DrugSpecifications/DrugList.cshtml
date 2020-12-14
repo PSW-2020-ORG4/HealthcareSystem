@@ -1,0 +1,40 @@
+﻿@model List<DrugListDTO>
+@{
+    ViewData["Title"] = "Drugs";
+    Layout = "_Layout";
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        <h2 class="text-center">Choose a drug</h2>
+    </div>
+    
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><h5 class="card-title">Name</h5></th>
+                    <th><h5 class="card-title">Code</h5></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @item.Name
+                    </td>
+                    <td class="text-center">
+                        @item.Code
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("Request Specifications", "RequestSpecifications", new {pharmacyId = ViewBag.PharmacyId, drugId = item.Id })
+                    </td>
+                </tr>
+            }   
+            </tbody>
+        </table>
+    </div>
+</div>

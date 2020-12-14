@@ -82,22 +82,13 @@ namespace PatientWebApp
                             dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
                         ).UseLazyLoadingProxies();
                 });
-
-                var optionBuilder = new DbContextOptionsBuilder<MyDbContext>().UseMySql(
-                        dbSettings.ConnectionString,
-                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
-                            100, new TimeSpan(0, 0, 0, 30), new List<int>())
-                        ).UseLazyLoadingProxies();
-                DbContextWithTestData seederContext = new DbContextWithTestData(optionBuilder.Options);
-                seederContext.Database.EnsureDeleted();
-                seederContext.Database.EnsureCreated();
             }
             else if (_env.EnvironmentName.ToLower().Equals("test"))
             {
                 Console.WriteLine("Configuring for test.");
                 int retryCount = Configuration.GetValue<int>("HEROKU_DB_RETRY");
                 int retryWait = Configuration.GetValue<int>("HEROKU_DB_RETRY_WAIT");
-                string dbURL = Configuration.GetValue<string>("DATABASE_URL");
+                string dbURL = Configuration.GetValue<string>("DATABASE_URL") ?? "postgres://dummy:dummy@dummy:5432/dummy";
                 DbConnectionSettings dbSettings = new DbConnectionSettings(dbURL, retryCount, retryWait);
 
                 Console.WriteLine(dbSettings.ConnectionString);
@@ -110,15 +101,6 @@ namespace PatientWebApp
                             dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
                         ).UseLazyLoadingProxies();
                 });
-
-                var optionBuilder = new DbContextOptionsBuilder<MyDbContext>().UseNpgsql(
-                        dbSettings.ConnectionString,
-                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
-                            200, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
-                        ).UseLazyLoadingProxies();
-                DbContextWithTestData seederContext = new DbContextWithTestData(optionBuilder.Options);
-                seederContext.Database.EnsureDeleted();
-                seederContext.Database.EnsureCreated();
             }
             else
             {

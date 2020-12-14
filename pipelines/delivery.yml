@@ -69,6 +69,23 @@ jobs:
         echo '----- Releasing app. -----'
         heroku container:release web --app vlaksi-graphicaleditor
       pwsh: true
+  - task: PowerShell@2
+    displayName: "Deploy IntegrationAdapters"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Logging in to Heroku registry. -----"
+        heroku container:login
+        echo '----- Pulling image from DockerHub. -----'
+        docker pull pufke/integrationadapters
+        echo '----- Creating Heroku app. -----'
+        heroku create vlaksi-integrationadapters
+        echo '----- Pushing to Heroku registry. -----'
+        docker tag pufke/integrationadapters registry.heroku.com/vlaksi-integrationadapters/web
+        docker push registry.heroku.com/vlaksi-integrationadapters/web
+        echo '----- Releasing app. -----'
+        heroku container:release web --app vlaksi-integrationadapters
+      pwsh: true
 
 - job: Tests
   dependsOn: Deploy

@@ -106,7 +106,7 @@ jobs:
         arguments: '-c $(configuration)'
 
     - task: Bash@3
-      displayName: 'Run Smoke Test [vlaksi-patientwebapp]'
+      displayName: 'Run Smoke Test [patientwebapp]'
       inputs:
         targetType: 'inline'
         script: |
@@ -131,9 +131,38 @@ jobs:
               echo 'We try 10 time and there is no successful response'
               exit 1
             fi
-            sleep 5
+            sleep 15
           done
 
+    - task: Bash@3
+      displayName: 'Run Smoke Test [graphicaleditor]'
+      inputs:
+        targetType: 'inline'
+        script: |
+          i=0
+          while [[ $i -lt 10 ]]
+          do
+            if [ $( curl -s -o /dev/null -w "%{http_code}" https://vlaksi-graphicaleditor.herokuapp.com/api/drugs ) -eq 200 ]
+            then
+              if [ -n "$(curl -sb -H "Accept: application/json" "https://vlaksi-graphicaleditor.herokuapp.com/api/drugs")"  ]
+              then 
+                echo 'Smoke test[graphicaleditor]: DevOps on fire'
+                break
+              else
+                echo 'Smoke test[graphicaleditor]: There is still no fire [ without data in response ]'
+              fi
+            else
+              echo 'Smoke test[graphicaleditor]: There is still no fire [ code response is not 200 ]'
+            fi
+
+            ((i++))
+            if [[ $i -eq 10 ]]; then
+              echo 'Smoke test[graphicaleditor]: We try 10 time and there is no successful response'
+              exit 1
+            fi
+
+            sleep 15
+          done
     - task: PowerShell@2
       displayName: 'Run E2E tests'
       inputs:

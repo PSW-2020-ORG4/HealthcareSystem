@@ -9,6 +9,7 @@ using Backend.Model.Manager;
 using Model.Manager;
 using Model.PerformingExamination;
 using System.Linq;
+using Backend.Model.Pharmacies;
 
 namespace Backend.Model
 {
@@ -52,6 +53,10 @@ namespace Backend.Model
             SeedEquipmentInRooms(context);
             if (Verbose) Console.WriteLine("Seeding examinations.");
             SeedExaminations(context);
+            if (Verbose) Console.WriteLine("Seeding pharmacies.");
+            SeedPharmacies(context);
+            if (Verbose) Console.WriteLine("Seeding drug consumptions.");
+            SeedDrugConsumptions(context);
 
             context.SaveChanges();
         }
@@ -329,6 +334,39 @@ namespace Backend.Model
                     ExaminationStatus = (RandomGenerator.Next(10) > 7) ? ExaminationStatus.CREATED : ExaminationStatus.CANCELED
                 });
             }
+
+            context.SaveChanges();
+        }
+
+        private void SeedPharmacies(MyDbContext context)
+        {
+            context.Add(new PharmacySystem()
+            {
+                Name = "Jankovic",
+                ApiKey = "ApiKey1",
+                Url = "http://localhost:8080",
+                ActionsBenefitsExchangeName = "exchange",
+                ActionsBenefitsSubscribed = true,
+                GrpcHost = "localhost",
+                GrpcPort = 30051
+            });
+
+            context.SaveChanges();
+        }
+
+        private void SeedDrugConsumptions(MyDbContext context)
+        {
+            DateTime startDate = DateTime.Now;
+            DateTime endDate = DateTime.Now.AddDays(10);
+            for (DateTime current = startDate; current < endDate; current = current.AddDays(1))
+                foreach (Drug drug in context.Drugs)
+                    if (RandomGenerator.Next(2) == 1)
+                        context.Add(new DrugConsumption()
+                        {
+                            DrugId = drug.Id,
+                            Date = current,
+                            Quantity = RandomGenerator.Next(5, 20)
+                        });
 
             context.SaveChanges();
         }

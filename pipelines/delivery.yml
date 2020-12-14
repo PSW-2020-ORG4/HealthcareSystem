@@ -78,6 +78,20 @@ jobs:
         heroku container:release web --app vlaksi-graphicaleditor
       pwsh: true
       
+  - task: DotNetCoreCLI@2
+    displayName: 'Restore project'
+    inputs:
+      command: 'restore'
+      projects: '$(project)'
+      feedsToUse: 'select'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build project'
+    inputs:
+      command: 'build'
+      projects: '$(project)'
+      arguments: '-c $(configuration)'
+      
   - task: PowerShell@2
     displayName: 'Run tests'
     inputs:

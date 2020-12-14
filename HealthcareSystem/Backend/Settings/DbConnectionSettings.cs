@@ -1,4 +1,6 @@
-﻿namespace Backend.Settings
+﻿using System;
+
+namespace Backend.Settings
 {
     public class DbConnectionSettings
     {
@@ -14,6 +16,24 @@
         {
             get => $"server={Host} ;userid={User}; pwd={Password};"
                    + $"port={Port}; database={Database}";
+        }
+
+        public DbConnectionSettings()
+        {
+
+        }
+
+        public DbConnectionSettings(string herokuPostgresURL, int retryCount, int retryWaitInSeconds)
+        {
+            var databaseUri = new Uri(herokuPostgresURL);
+            var userInfo = databaseUri.UserInfo.Split(':');
+            Host = databaseUri.Host;
+            Port = databaseUri.Port.ToString();
+            User = userInfo[0];
+            Password = userInfo[1];
+            Database = databaseUri.LocalPath.TrimStart('/');
+            RetryCount = retryCount;
+            RetryWaitInSeconds = retryWaitInSeconds;
         }
     }
 }

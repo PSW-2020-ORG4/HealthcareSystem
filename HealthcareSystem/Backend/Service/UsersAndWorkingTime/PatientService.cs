@@ -25,6 +25,7 @@ namespace Backend.Service
         {
             try
             {
+                patient.DateOfRegistration = DateTime.Now;
                 _activePatientRepository.AddPatient(patient);
             }
             catch (Exception)

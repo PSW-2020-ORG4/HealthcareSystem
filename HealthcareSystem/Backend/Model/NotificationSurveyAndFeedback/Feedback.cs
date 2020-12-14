@@ -19,7 +19,6 @@ namespace Model.NotificationSurveyAndFeedback
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime SendingDate { get; set; }
         public string Comment { get; set; }
         public bool IsPublished { get; set; }

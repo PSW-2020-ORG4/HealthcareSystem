@@ -3,7 +3,7 @@ variables:
   e2etests: 'HealthcareSystem/E2ETests/E2ETests.csproj'
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-18.04'
 
 jobs:
 - job: Deploy
@@ -77,26 +77,37 @@ jobs:
         echo '----- Releasing app. -----'
         heroku container:release web --app vlaksi-graphicaleditor
       pwsh: true
-      
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Restore project'
-    inputs:
-      command: 'restore'
-      projects: '$(project)'
-      feedsToUse: 'select'
+- job: E2ETests
+  dependsOn: Deploy     
+  pool:
+    vmImage: 'windows-latest'
 
-  - task: DotNetCoreCLI@2
-    displayName: 'Build project'
-    inputs:
-      command: 'build'
-      projects: '$(project)'
-      arguments: '-c $(configuration)'
+  steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK 3.1.x for build'
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
 
-  - task: PowerShell@2
-    displayName: 'Run tests'
-    inputs:
-      targetType: 'inline'
-      script: |
-        #
-        dotnet test $(e2etests) --collect "Code Coverage" --results-directory "$(Agent.TempDirectory)"
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project'
+      inputs:
+        command: 'restore'
+        projects: '$(project)'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build project'
+      inputs:
+        command: 'build'
+        projects: '$(project)'
+        arguments: '-c $(configuration)'
+
+    - task: PowerShell@2
+      displayName: 'Run tests'
+      inputs:
+        targetType: 'inline'
+        script: |
+          #
+          dotnet test $(e2etests) --collect "Code Coverage" --results-directory "$(Agent.TempDirectory)"

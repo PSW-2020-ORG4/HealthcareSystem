@@ -1,0 +1,78 @@
+variables:
+  HEROKU_API_KEY: b7ace70d-3610-46cf-814c-9f05583dd82c
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+jobs:
+- job: Deploy
+  steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '3.1.x'
+  - task: PowerShell@2
+    displayName: "Generate SQL script"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Installing EF Core. -----"
+        dotnet tool install --global dotnet-ef --version 3.1.9
+
+        echo "----- Generating script. -----"
+        $Env:ASPNETCORE_ENVIRONMENT = "Test"
+        dotnet-ef dbcontext script -c "MyDbContext" -p "./HealthcareSystem/PatientWebApp/PatientWebApp.csproj" -o init.sql
+      pwsh: true
+  - task: PowerShell@2
+    displayName: "Initialize Heroku Postgres"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Reseting database. -----"
+        heroku pg:reset DATABASE_URL --app vlaksi-patientwebapp --confirm vlaksi-patientwebapp
+
+        echo "----- Initializing database. -----"
+        Get-Content init.sql | heroku pg:psql DATABASE_URL --app vlaksi-patientwebapp
+      pwsh: true
+  - task: PowerShell@2
+    displayName: "Deploy PatientWebApp"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Logging in to Heroku registry. -----"
+        heroku container:login
+
+        echo '----- Pulling image from DockerHub. -----'
+        docker pull pufke/patientwebapp
+
+        echo '----- Creating Heroku app. -----'
+        heroku create vlaksi-patientwebapp
+
+        echo '----- Pushing to Heroku registry. -----'
+        docker tag pufke/patientwebapp registry.heroku.com/vlaksi-patientwebapp/web
+        docker push registry.heroku.com/vlaksi-patientwebapp/web
+
+        echo '----- Releasing app. -----'
+        heroku container:release web --app vlaksi-patientwebapp
+      pwsh: true
+  - task: PowerShell@2
+    displayName: "Deploy GraphicalEditorServer"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Logging in to Heroku registry. -----"
+        heroku container:login
+
+        echo '----- Pulling image from DockerHub. -----'
+        docker pull pufke/graphicaleditor
+
+        echo '----- Creating Heroku app. -----'
+        heroku create vlaksi-graphicaleditor
+
+        echo '----- Pushing to Heroku registry. -----'
+        docker tag pufke/graphicaleditor registry.heroku.com/vlaksi-graphicaleditor/web
+        docker push registry.heroku.com/vlaksi-graphicaleditor/web
+
+        echo '----- Releasing app. -----'
+        heroku container:release web --app vlaksi-graphicaleditor
+      pwsh: true

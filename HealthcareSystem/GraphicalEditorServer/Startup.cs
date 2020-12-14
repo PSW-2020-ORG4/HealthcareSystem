@@ -75,8 +75,8 @@ namespace GraphicalEditorServer
             else if (_env.EnvironmentName.ToLower().Equals("test"))
             {
                 Console.WriteLine("Configuring for test.");
-                int retryCount = Configuration.GetValue<int>("HEROKU_DB_RETRY");
-                int retryWait = Configuration.GetValue<int>("HEROKU_DB_RETRY_WAIT");
+                int retryCount = Configuration.GetValue<int>("DATABASE_RETRY");
+                int retryWait = Configuration.GetValue<int>("DATABASE_RETRY_WAIT");
                 string dbURL = Configuration.GetValue<string>("DATABASE_URL");
                 DbConnectionSettings dbSettings = new DbConnectionSettings(dbURL, retryCount, retryWait);
 

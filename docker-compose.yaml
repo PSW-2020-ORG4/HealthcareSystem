@@ -28,11 +28,11 @@ services:
     ports:
     - "8282:80"
     environment:
-      RabbitMq:Hostname: "rabbitmq"
-      RabbitMq:Username: "org4"
-      RabbitMq:Password: "org4"
-      RabbitMq:RetryCount: 20
-      RabbitMq:RetryWait: 30000
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_USER: "org4"
+      RABBITMQ_PASSWORD: "org4"
+      RABBITMQ_RETRY: 20
+      RABBITMQ_RETRY_WAIT: 30000
     depends_on:      
       - database
       - rabbitmq

@@ -14,21 +14,43 @@ namespace Backend.Model
 {
     public class DataSeeder
     {
-        public Random RandomGenerator { get; set; }
-        public void SeedAll(MyDbContext context)
+        private Random RandomGenerator { get; set; }
+        private bool Verbose { get; set; }
+
+        public DataSeeder()
         {
             RandomGenerator = new Random();
+            Verbose = false;
+        }
+
+        public DataSeeder(bool verbose)
+        {
+            RandomGenerator = new Random();
+            Verbose = verbose;
+        }
+
+        public void SeedAll(MyDbContext context)
+        {
+            if (Verbose) Console.WriteLine("Seeding countries.");
             SeedCountries(context);
+            if (Verbose) Console.WriteLine("Seeding cities.");
             SeedCities(context);
+            if (Verbose) Console.WriteLine("Seeding patients.");
             SeedPatientsAndPatientsCard(context);
+            if (Verbose) Console.WriteLine("Seeding specialties.");
             SeedSpecialties(context);
+            if (Verbose) Console.WriteLine("Seeding doctors.");
             SeedDoctors(context);
+            if (Verbose) Console.WriteLine("Seeding rooms.");
             SeedRooms(context);
+            if (Verbose) Console.WriteLine("Seeding drugs.");
             SeedDrugTypes(context);
-            SeedEquipmentTypes(context);
             SeedDrugs(context);
             SeedDrugsInRooms(context);
+            if (Verbose) Console.WriteLine("Seeding equipment.");
+            SeedEquipmentTypes(context);
             SeedEquipmentInRooms(context);
+            if (Verbose) Console.WriteLine("Seeding examinations.");
             SeedExaminations(context);
 
             context.SaveChanges();
@@ -74,7 +96,7 @@ namespace Backend.Model
                 IsBlocked = false,
                 Phone = "065897520",
                 Username = "Ana"
-            });            
+            });
             context.Add(new Patient()
             {
                 Jmbg = "2711998896320",
@@ -254,7 +276,7 @@ namespace Backend.Model
 
             context.SaveChanges();
         }
-        
+
         private void SeedEquipmentInRooms(MyDbContext context)
         {
             foreach (Room room in context.Rooms)
@@ -283,7 +305,7 @@ namespace Backend.Model
             });
             context.SaveChanges();
         }
-                     
+
         private void SeedExaminations(MyDbContext context)
         {
             Doctor doctor = context.Doctors.First();
@@ -292,7 +314,7 @@ namespace Backend.Model
             DateTime start = new DateTime(2020, 12, 30, 7, 0, 0);
             DateTime end = new DateTime(2020, 12, 30, 16, 30, 0);
 
-            for(DateTime current = start; current < end; current = current.AddMinutes(30))
+            for (DateTime current = start; current < end; current = current.AddMinutes(30))
             {
                 context.Add(new Examination
                 {

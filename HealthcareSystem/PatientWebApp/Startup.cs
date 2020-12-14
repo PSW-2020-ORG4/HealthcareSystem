@@ -153,8 +153,16 @@ namespace PatientWebApp
                 using (var scope = app.ApplicationServices.CreateScope())
                 using (var context = scope.ServiceProvider.GetService<MyDbContext>())
                 {
-                    DataSeeder seeder = new DataSeeder();
-                    seeder.SeedAll(context);
+                    try
+                    {
+                        Console.WriteLine("Data seeding started.");
+                        DataSeeder seeder = new DataSeeder();
+                        seeder.SeedAll(context);
+                        Console.WriteLine("Data seeding finished.");
+                    } catch(Exception e)
+                    {
+                        Console.WriteLine("Data seeding failed.");
+                    }
                 }
             }
 

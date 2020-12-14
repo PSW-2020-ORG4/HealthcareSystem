@@ -30,7 +30,7 @@
                         @item.Code
                     </td>
                     <td class="text-center">
-                        <a asp-controller="DrugSpecifications" asp-action="DrugList" asp-route-idP=@ViewBag.PharmacyId asp-route-idD=@item.Id> </a>     
+                        @Html.ActionLink("Request Specifications", "RequestSpecifications", new {pharmacyId = ViewBag.PharmacyId, drugId = item.Id })
                     </td>
                 </tr>
             }   

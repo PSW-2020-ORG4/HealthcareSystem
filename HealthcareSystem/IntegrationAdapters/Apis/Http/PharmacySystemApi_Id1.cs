@@ -79,7 +79,7 @@ namespace IntegrationAdapters.Apis.Http
 
         public async Task<bool> GetDrugSpecificationsHttp(string apiKey, int id)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/multipartdata/getById/{id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/drug/multipartdata/getById/{id}");
             HttpResponseMessage response = await _client.SendAsync(request);
             if (!response.IsSuccessStatusCode) return false;
             
@@ -93,6 +93,14 @@ namespace IntegrationAdapters.Apis.Http
             return true;
             
         }
-        
+
+        public async Task<string> GetDrugSpecificationsSftp(string apiKey, int id)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/sftp/uploadJsch/{id}");
+            HttpResponseMessage response = await _client.SendAsync(request);
+            if (!response.IsSuccessStatusCode) return "";
+
+            return await response.Content.ReadAsStringAsync();
+        }
     }
 }

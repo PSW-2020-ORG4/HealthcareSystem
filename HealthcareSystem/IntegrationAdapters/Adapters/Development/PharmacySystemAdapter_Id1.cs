@@ -6,6 +6,7 @@ using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MapperProfiles;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using IntegrationAdapters.Apis.Http;
@@ -103,7 +104,22 @@ namespace IntegrationAdapters.Adapters.Development
 
         public bool GetDrugSpecifications(int id)
         {
-            throw new NotImplementedException();
+            var task = Task.Run<string>(async () => await _api.GetDrugSpecificationsSftp(_parameters.ApiKey, id));
+
+            var ret = "";
+            try
+            {
+                ret = task.Result;
+            }
+            catch (AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+
+            if (ret == "") return false;
+
+            _sftpCommunicator.DownloadFile(ret, $"Resources/{Path.GetFileName(ret)}");
+            return true;
         }
 
         private void InitializeGrpc()

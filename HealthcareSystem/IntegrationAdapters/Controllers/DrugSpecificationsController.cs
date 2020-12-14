@@ -36,12 +36,11 @@ namespace IntegrationAdapters.Controllers
             return View(drugList);
         }
 
-        [Route("DrugSpecifications/DrugList/{idP}/{idD}")]
-        public IActionResult RequestSpecifications(int idD, int idP)
+        public IActionResult RequestSpecifications(int pharmacyId, int drugId)
         {
-            var pharmacySystem = _pharmacyService.GetPharmacyById(idP);
+            var pharmacySystem = _pharmacyService.GetPharmacyById(pharmacyId);
             _adapterContext.SetPharmacySystemAdapter(pharmacySystem);
-            var success = _adapterContext.PharmacySystemAdapter.GetDrugSpecifications(idD);
+            var success = _adapterContext.PharmacySystemAdapter.GetDrugSpecifications(drugId);
 
             return RedirectToAction("Index");
         }

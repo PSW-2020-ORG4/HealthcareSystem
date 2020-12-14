@@ -1,33 +1,23 @@
-﻿using GraphicalEditor.Constants;
-using GraphicalEditor.Controllers;
+﻿using GraphicalEditor.Controllers;
 using GraphicalEditor.DTO;
 using GraphicalEditor.DTOForView;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models;
-using GraphicalEditor.Models.Equipments;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Service;
 using GraphicalEditor.Services;
-using GraphicalEditor.Services.Interface;
 using GraphicalEditorServer.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GraphicalEditor
@@ -185,25 +175,19 @@ namespace GraphicalEditor
             var a = new EquipmentTypeService().GetEquipmentTypes(); 
             //initializeDatabaseData.InitiliazeData();
 
-            /*EquipementService equipementService = new EquipementService();
+            EquipementService equipementService = new EquipementService();
             AppointmentService appointmentService = new AppointmentService();
 
             AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
-                new BasicAppointmentSearchDTO(1, "1234567891234", new List<int>(), new DateTime(2020, 12, 30, 8, 0, 0), new DateTime(2020, 12, 30, 22, 0, 0)), 
+                new BasicAppointmentSearchDTO(1, "1234567891234", new List<int>(), new DateTime(2020, 12, 30, 8, 0, 0), new DateTime(2020, 12, 30, 22, 0, 0)),
                 SearchPriority.Doctor, 1);
-*/
-            //List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
 
-            /*List<EquipmentWithRoomDTO> result = equipementService.GetEquipmentWithRoomForSearchTerm("bed");
-            foreach(EquipmentWithRoomDTO res in result)
-            {
-                Console.WriteLine(res.IdEquipment);
-                Console.WriteLine(res.RoomNumber);
-                Console.WriteLine("---");
-            }*/
+            List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
+            RemoveAppointmentsWithDuplicateTimes(freeAppointments);
 
             SetDataToUIControls();
         }
+        
 
         public MainWindow(string currentUserRole)
         {
@@ -272,6 +256,29 @@ namespace GraphicalEditor
             {
                 Console.WriteLine(eas.IsSelected);
             }
+        }
+
+        private List<ExaminationDTO> RemoveAppointmentsWithDuplicateTimes(List<ExaminationDTO> freeAppointments)
+        {
+            List<ExaminationDTO> appointmentsWithoutDuplicateTimes = new List<ExaminationDTO>();
+            foreach (ExaminationDTO appointment in freeAppointments)
+            {
+                bool found = appointmentsWithoutDuplicateTimes.Any(a => a.DateTime.Equals(appointment.DateTime));
+                if (!found)
+                    appointmentsWithoutDuplicateTimes.Add(appointment);
+            }
+
+            return appointmentsWithoutDuplicateTimes;
+        }
+
+        private ICollection<int> GetFreeRoomsByAppointment(List<ExaminationDTO> freeAppointments, ExaminationDTO appointment)
+        {
+            ICollection<int> freeRooms = new List<int>();
+            foreach (var e in freeAppointments.Where(e => e.DateTime.Equals(appointment.DateTime)))
+                freeRooms.Add(e.RoomId);
+
+            return freeRooms;
+
         }
 
         private void RestrictUsersAccessBasedOnRole()

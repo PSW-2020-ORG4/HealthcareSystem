@@ -44,7 +44,7 @@ namespace IntegrationAdapters.Adapters.Production
             return _mapper.Map<List<DrugDto>>(ret);
         }
 
-        public bool SendDrugConsumptionRepor(string reportFilePath, string reportFileName)
+        public bool SendDrugConsumptionReport(string reportFilePath, string reportFileName)
         { 
             Task<bool> task = Task.Run<bool>(async () => await _api.SendDrugConsumptionRepor(_parameters.ApiKey, reportFilePath, reportFileName));
             bool ret = false;
@@ -53,6 +53,39 @@ namespace IntegrationAdapters.Adapters.Production
                 ret = task.Result;
             }
             catch(AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+            return ret;
+        }
+
+        public List<DrugListDTO> GetAllDrugs()
+        {
+            var task =
+                Task.Run<List<DrugListDTO>>(async () => await _api.GetAllDrugs(_parameters.ApiKey));
+            var ret = new List<DrugListDTO>();
+
+            try
+            {
+                ret = task.Result;
+            }
+            catch (AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+
+            return ret;
+        }
+
+        public bool GetDrugSpecifications(int id)
+        {
+            var task = Task.Run<bool>(async () => await _api.GetDrugSpecificationsHttp(_parameters.ApiKey, id));
+            bool ret = false;
+            try
+            {
+                ret = task.Result;
+            }
+            catch (AggregateException agex)
             {
                 Console.WriteLine(agex);
             }

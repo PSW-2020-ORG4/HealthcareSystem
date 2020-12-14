@@ -32,6 +32,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
 
             patientStubRepository.Setup(m => m.GetPatientByJmbg("1234567891234")).Returns(patients[0]);
             patientStubRepository.Setup(m => m.AddPatient(new Patient()));
+            patientStubRepository.Setup(m => m.GetNumberOfCanceledExaminations("1234567891234")).Returns(3);
 
             return patientStubRepository.Object;
         }
@@ -82,11 +83,6 @@ namespace PatientWebAppTests.CreateObjectsForTests
             List<Examination> canceledExaminations = GetCanceledExamination(examinations);
             List<Examination> previousExaminations = GetPreviousExaminations(examinations);
 
-            List<Examination> searchExaminations = _objectFactory.GetExamination().CreateValidSearchTestObjects();
-            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
-            examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", It.IsAny<DateTime>())).Returns(new List<Examination>());
-            examinationStubRepository.Setup(m => m.GetExaminationsByPatientAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
-
             examinationStubRepository.Setup(m => m.AddExamination(new Examination()));
 
             examinationStubRepository.Setup(m => m.GetExaminationById(1)).Returns(examinationCanBeCanceled);
@@ -126,12 +122,11 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public IRoomRepository CreateRoomStubRepository()
         {
             var roomStubRepository = new Mock<IRoomRepository>();
-            var roomValidObject = new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM, capacity: 1, occupation: 1, renovation: false);
+            var roomValidObject = _objectFactory.GetRoom().CreateValidTestObject();
             var rooms = new List<Room>();
             rooms.Add(roomValidObject);
 
             roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(rooms[0]);
-            //roomStubRepository.Setup(m => m.GetRoomsByUsageAndEquipment(TypeOfUsage.CONSULTING_ROOM, new List<int>())).Returns(rooms);
             roomStubRepository.Setup(m => m.CheckIfRoomExists(1)).Returns(true);
 
             return roomStubRepository.Object;
@@ -139,10 +134,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
         public IDoctorRepository CreateDoctorStubRepository()
         {
             var doctorStubRepository = new Mock<IDoctorRepository>();
-            var doctorValidObject = new Doctor(jmbg: "0909965768767", name: "Ana", surname: "Markovic", dateOfBirth: DateTime.Now, gender: GenderType.F,
-            city: new City(zipCode: 21000, name: "Novi Sad", country: new Country(id: 1, name: "Serbia")), homeAddress: "Zmaj Jovina 10", phone: "065452102", email: "pera@gmail.com", username: "pera",
-            password: "12345678", numberOfLicence: "", doctorsOffice: new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM,
-            capacity: 1, occupation: 1, renovation: false), dateOfEmployment: DateTime.Now);
+            var doctorValidObject = _objectFactory.GetDoctor().CreateValidTestObject();
             var doctors = new List<Doctor>();
             doctors.Add(doctorValidObject);
 

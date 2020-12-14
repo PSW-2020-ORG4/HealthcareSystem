@@ -1,5 +1,6 @@
 variables:
   HEROKU_API_KEY: b7ace70d-3610-46cf-814c-9f05583dd82c
+  e2etests: 'HealthcareSystem/E2ETests/E2ETests.csproj'
 
 pool:
   vmImage: 'ubuntu-18.04'
@@ -76,3 +77,11 @@ jobs:
         echo '----- Releasing app. -----'
         heroku container:release web --app vlaksi-graphicaleditor
       pwsh: true
+      
+  - task: PowerShell@2
+    displayName: 'Run tests'
+    inputs:
+      targetType: 'inline'
+      script: |
+        #
+        dotnet test $(e2etests) --collect "Code Coverage" --results-directory "$(Agent.TempDirectory)"

@@ -57,8 +57,8 @@ namespace IntegrationAdapters
             else if (_env.EnvironmentName.ToLower().Equals("test"))
             {
                 Console.WriteLine("Configuring for test.");
-                int retryCount = Configuration.GetValue<int>("HEROKU_DB_RETRY");
-                int retryWait = Configuration.GetValue<int>("HEROKU_DB_RETRY_WAIT");
+                int retryCount = Configuration.GetValue<int>("DATABSE_RETRY");
+                int retryWait = Configuration.GetValue<int>("DATABASE_RETRY_WAIT");
                 string dbURL = Configuration.GetValue<string>("DATABASE_URL");
                 DbConnectionSettings dbSettings = new DbConnectionSettings(dbURL, retryCount, retryWait);
 
@@ -81,6 +81,7 @@ namespace IntegrationAdapters
             services.AddControllersWithViews();
 
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
+            services.Configure<RabbitMqConfiguration>(GetRabbitConfig);
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.AddSingleton<RabbitMqActionBenefitMessageingService>();
             services.AddSingleton<IHostedService, RabbitMqActionBenefitMessageingService>(ServiceProvider => ServiceProvider.GetService<RabbitMqActionBenefitMessageingService>());
@@ -96,6 +97,15 @@ namespace IntegrationAdapters
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHttpClient();
+        }
+
+        private void GetRabbitConfig(RabbitMqConfiguration conf)
+        {
+            conf.Hostname = Configuration.GetValue<string>("RABBITMQ_HOST") ?? "localhost";
+            conf.Username = Configuration.GetValue<string>("RABBITMQ_USER") ?? "guest";
+            conf.Password = Configuration.GetValue<string>("RABBITMQ_PASSWORD") ?? "guest";
+            conf.RetryCount = Configuration.GetValue<int>("RABBITMQ_RETRY");
+            conf.RetryWait = Configuration.GetValue<int>("RABBITMQ_RETRY_WAIT");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

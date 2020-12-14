@@ -42,7 +42,7 @@ namespace IntegrationAdapters.Controllers
             _adapterContext.SetPharmacySystemAdapter(pharmacySystem);
             _adapterContext.PharmacySystemAdapter.GetDrugSpecifications(drugId);
 
-            return RedirectToAction("DrugList", pharmacyId);
+            return RedirectToAction("DrugList", new { id = pharmacyId });
         }
     }
 }

@@ -101,11 +101,12 @@ namespace IntegrationAdapters
 
         private void GetRabbitConfig(RabbitMqConfiguration conf)
         {
-            conf.Hostname = Configuration.GetValue<string>("RABBITMQ_HOST") ?? "localhost";
+            conf.Host = Configuration.GetValue<string>("RABBITMQ_HOST") ?? "localhost";
+            conf.VHost = Configuration.GetValue<string>("RABBITMQ_VHOST") ?? "";
             conf.Username = Configuration.GetValue<string>("RABBITMQ_USER") ?? "guest";
             conf.Password = Configuration.GetValue<string>("RABBITMQ_PASSWORD") ?? "guest";
-            conf.RetryCount = Configuration.GetValue<int>("RABBITMQ_RETRY");
-            conf.RetryWait = Configuration.GetValue<int>("RABBITMQ_RETRY_WAIT");
+            conf.RetryCount = 5;
+            conf.RetryWait = 10000;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

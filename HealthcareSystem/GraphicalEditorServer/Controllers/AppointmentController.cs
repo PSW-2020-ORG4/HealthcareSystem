@@ -39,11 +39,9 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost]
         public ActionResult GetFreeAppointments(AppointmentSearchWithPrioritiesDTO appointmentDTO)
         {
-            Console.WriteLine("tu");
             List<Examination> examinations = (List<Examination>) _freeAppointmentSearchService.SearchWithPriorities(appointmentDTO);
             List<ExaminationDTO> allExaminations = new List<ExaminationDTO>();
-            foreach(Examination e in examinations)
-                allExaminations.Add(ExaminationMapper.Exmaination_To_ExaminationDTO(e));          
+            examinations.ForEach(e => allExaminations.Add(ExaminationMapper.Examination_To_ExaminationDTO(e))); 
             
             return Ok(allExaminations);
         }

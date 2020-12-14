@@ -3,7 +3,7 @@ services:
   database:
     restart: always
     networks:
-      - demo    
+      - demo  
     volumes:
       - sql-scripts:/docker-entrypoint-initdb.d/
 
@@ -21,48 +21,48 @@ services:
     volumes:
       - sql-scripts:/app/sql
 
-#  intergrationadapters:
-#    build:
-#      context: HealthcareSystem\
-#      dockerfile: Dockerfile.integration-adapters
-#    ports:
-#    - "8282:80"
-#    environment:
-#      RabbitMq:Hostname: "rabbitmq"
-#      RabbitMq:Username: "org4"
-#      RabbitMq:Password: "org4"
-#      RabbitMq:RetryCount: 20
-#      RabbitMq:RetryWait: 30000
-#    depends_on:
-#      - database
-#      - rabbitmq
-#    restart: on-failure
-#    networks:
-#      - demo
+  intergrationadapters:
+    build:
+      context: HealthcareSystem\
+      dockerfile: Dockerfile.integration-adapters
+    ports:
+    - "8282:80"
+    environment:
+      RabbitMq:Hostname: "rabbitmq"
+      RabbitMq:Username: "org4"
+      RabbitMq:Password: "org4"
+      RabbitMq:RetryCount: 20
+      RabbitMq:RetryWait: 30000
+    depends_on:      
+      - database
+      - rabbitmq
+    restart: on-failure
+    networks:
+      - demo
 
-#  editorserver:
-#    build:
-#      context: HealthcareSystem\
-#      dockerfile: Dockerfile.graphical-editorserver
-#    ports:
-#    - "5001:80"
-#    environment:
-#    depends_on:
-#      - database
-#    restart: on-failure
-#    networks:
-#      - demo
+  editorserver:
+    build:
+      context: HealthcareSystem\
+      dockerfile: Dockerfile.graphical-editorserver
+    ports:
+    - "5001:80"
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - demo
 
-#  rabbitmq:
-#    image: rabbitmq:3-management-alpine
-#    environment:
-#      RABBITMQ_DEFAULT_USER: "org4"
-#      RABBITMQ_DEFAULT_PASS: "org4"
-#    networks:
-#      - demo
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: "org4"
+      RABBITMQ_DEFAULT_PASS: "org4"
+    networks:
+      - demo
 
 volumes:
   sql-scripts:
+  data:
 
 networks:
   demo:

@@ -34,7 +34,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Backend\Backend.csproj" />
-	<Protobuf Include="Apis\Grpc\PharmacySystemApi_Id1.proto" />
+	<Protobuf Include="APIs\Grpc\PharmacySystemApi_Id1.proto" />
   </ItemGroup>
 
   <ItemGroup>

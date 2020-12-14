@@ -80,8 +80,8 @@ jobs:
         heroku container:release web --app vlaksi-graphicaleditor
       pwsh: true
 
-- job: E2E Tests
-
+- job: Tests
+  dependsOn: Deploy
   pool:
     vmImage: 'windows-latest'
   steps:
@@ -106,7 +106,7 @@ jobs:
         arguments: '-c $(configuration)'
 
     - task: PowerShell@2
-      displayName: 'Run tests'
+      displayName: 'Run E2E tests'
       inputs:
         targetType: 'inline'
         script: |

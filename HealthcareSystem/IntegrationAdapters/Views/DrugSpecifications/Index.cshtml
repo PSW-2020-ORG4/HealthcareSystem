@@ -1,0 +1,36 @@
+﻿@model List<Backend.Model.Pharmacies.PharmacySystem>
+@{
+    ViewData["Title"] = "Pharmacies";
+    Layout = "_Layout";
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        <h2 class="text-center">Choose a pharmacy</h2>
+    </div>
+
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><h5 class="card-title">Name</h5></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            @item.Name
+                        </td>
+                        <td class="text-center">
+                            @Html.ActionLink("Request Drug List", "DrugList", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -8,6 +8,7 @@ using Backend.Model.Enums;
 using Backend.Model.Manager;
 using Model.Manager;
 using Model.PerformingExamination;
+using System.Linq;
 
 namespace Backend.Model
 {
@@ -19,131 +20,18 @@ namespace Backend.Model
             RandomGenerator = new Random();
             SeedCountries(context);
             SeedCities(context);
+            SeedPatientsAndPatientsCard(context);
             SeedSpecialties(context);
             SeedDoctors(context);
-            SeedPatientsAndPatientsCard(context);
             SeedRooms(context);
-            SeedEquipmentTypes(context);
-            SeedEquipments(context);
-            SeedEquipmentInRooms(context);
             SeedDrugTypes(context);
+            SeedEquipmentTypes(context);
             SeedDrugs(context);
             SeedDrugsInRooms(context);
+            SeedEquipmentInRooms(context);
             SeedExaminations(context);
-        }
 
-        private void SeedDrugsInRooms(MyDbContext context)
-        {
-            for (int roomNumber = 1; roomNumber <= 34; roomNumber++)
-            {
-                context.Add(new DrugInRoom()
-                {
-                    DrugId = RandomGenerator.Next(1, 4),
-                    RoomNumber = roomNumber,
-                    Quantity = RandomGenerator.Next(1, 60)
-                });
-            }
-        }
-
-        private void SeedDrugs(MyDbContext context)
-        {
-            context.Add(new Drug()
-            {
-                DrugType_Id = 1,
-                Name = "Brufen",
-                Quantity = RandomGenerator.Next(5, 30),
-                ExpirationDate = new DateTime(2021, 12, 13, 1, 8, 57),
-                Producer = "Hemofarm"
-            });
-            context.Add(new Drug()
-            {
-                DrugType_Id = 2,
-                Name = "Metafeks",
-                Quantity = RandomGenerator.Next(5, 30),
-                ExpirationDate = new DateTime(2021, 12, 13, 1, 8, 57),
-                Producer = "Hemofarm"
-            });
-            context.Add(new Drug()
-            {
-                DrugType_Id = 1,
-                Name = "Aspirin",
-                Quantity = RandomGenerator.Next(5, 30),
-                ExpirationDate = new DateTime(2021, 12, 13, 1, 8, 57),
-                Producer = "Galenika"
-            });
-            context.Add(new Drug()
-            {
-                DrugType_Id = 3,
-                Name = "Bulardi",
-                Quantity = RandomGenerator.Next(5, 30),
-                ExpirationDate = new DateTime(2021, 12, 13, 1, 8, 57),
-                Producer = "Hemofarm"
-            });
-
-        }
-
-        private void SeedDrugTypes(MyDbContext context)
-        {
-            context.Add(new DrugType() { Type = "tableta", Purpose = "lek za glavu" });
-            context.Add(new DrugType() { Type = "tableta", Purpose = "lek za temperaturu" });
-            context.Add(new DrugType() { Type = "kapsula", Purpose = "probiotik" });
-        }
-
-        private void SeedEquipmentInRooms(MyDbContext context)
-        {
-            for (int roomNumber = 1; roomNumber <= 34; roomNumber++)
-            {
-                context.Add(new EquipmentInRooms()
-                {
-                    RoomNumber = roomNumber,
-                    Quantity = RandomGenerator.Next(1, 60)
-                });
-            }
-
-        }
-
-        private void SeedEquipments(MyDbContext context)
-        {
-            for (int equipmentIdx = 1; equipmentIdx < 35; equipmentIdx++)
-            {
-                context.Add(new Equipment()
-                {
-                    Quantity = RandomGenerator.Next(1, 45),
-                    TypeId = RandomGenerator.Next(1, 8)
-                });
-            }
-        }
-
-        private void SeedExaminations(MyDbContext context)
-        {
-            var evenCounter = 0;
-            var oddCounter = 0;
-            for (int examinationIdx = 1; examinationIdx < 22; examinationIdx++)
-            {
-                Examination newExamination = new Examination(){
-                    Id = examinationIdx,
-                    Type = TypeOfExamination.GENERAL,
-                    DoctorJmbg = "1234567891234",
-                    IdRoom = 9,
-                    IdPatientCard = 2,
-                    IsSurveyCompleted = false
-                };
-
-                if (examinationIdx % 2 == 0)
-                {
-                    newExamination.Anamnesis = "Glavobolja";
-                    newExamination.DateAndTime = new DateTime(2020, 12, 30, 7 + evenCounter++, 0, 0);
-                }
-                else
-                {
-                    newExamination.Anamnesis = "COVID 19";
-                    newExamination.DateAndTime = new DateTime(2020, 12, 30, 7 + oddCounter++, 30, 0);
-                }
-
-                if (examinationIdx % 3 == 0) newExamination.ExaminationStatus = ExaminationStatus.CANCELED;
-                else newExamination.ExaminationStatus = ExaminationStatus.CREATED;
-            }
-
+            context.SaveChanges();
         }
 
         private void SeedCountries(MyDbContext context)
@@ -168,17 +56,6 @@ namespace Backend.Model
             context.SaveChanges();
         }
 
-        private void SeedSpecialties(MyDbContext context)
-        {
-            context.Add(new Specialty() { Name = "Opšti" });
-            context.Add(new Specialty() { Name = "Kardiolog" });
-            context.Add(new Specialty() { Name = "Neurolog" });
-            context.Add(new Specialty() { Name = "Stomatolog" });
-            context.Add(new Specialty() { Name = "Ginekolog" });
-            context.Add(new Specialty() { Name = "Epidemiolog" });
-            context.SaveChanges();
-        }
-
         private void SeedPatientsAndPatientsCard(MyDbContext context)
         {
             context.Add(new Patient()
@@ -197,14 +74,7 @@ namespace Backend.Model
                 IsBlocked = false,
                 Phone = "065897520",
                 Username = "Ana"
-            });
-            context.Add(new PatientCard()
-            {
-                PatientJmbg = "1309998775018",
-                BloodType = BloodType.A,
-                RhFactor = RhFactorType.POSITIVE,
-                HasInsurance = false
-            });
+            });            
             context.Add(new Patient()
             {
                 Jmbg = "2711998896320",
@@ -222,6 +92,8 @@ namespace Backend.Model
                 Phone = "065897520",
                 Username = "pera",
             });
+            context.SaveChanges();
+
             context.Add(new PatientCard()
             {
                 PatientJmbg = "2711998896320",
@@ -229,6 +101,24 @@ namespace Backend.Model
                 RhFactor = RhFactorType.POSITIVE,
                 HasInsurance = false
             });
+            context.Add(new PatientCard()
+            {
+                PatientJmbg = "1309998775018",
+                BloodType = BloodType.A,
+                RhFactor = RhFactorType.POSITIVE,
+                HasInsurance = false
+            });
+            context.SaveChanges();
+        }
+
+        private void SeedSpecialties(MyDbContext context)
+        {
+            context.Add(new Specialty() { Name = "Opšti" });
+            context.Add(new Specialty() { Name = "Kardiolog" });
+            context.Add(new Specialty() { Name = "Neurolog" });
+            context.Add(new Specialty() { Name = "Stomatolog" });
+            context.Add(new Specialty() { Name = "Ginekolog" });
+            context.Add(new Specialty() { Name = "Epidemiolog" });
             context.SaveChanges();
         }
 
@@ -266,49 +156,36 @@ namespace Backend.Model
                 NumberOfLicence = "22222222",
                 Password = "DaraDara",
             });
+            context.SaveChanges();
 
             context.Add(new DoctorSpecialty() { DoctorJmbg = "8520147896320", SpecialtyId = 1 });
             context.Add(new DoctorSpecialty() { DoctorJmbg = "1234567891234", SpecialtyId = 2 });
-
             context.SaveChanges();
         }
 
         private void SeedRooms(MyDbContext context)
         {
+            List<int> consulting = new List<int> { 9, 12, 13, 20, 21, 25, 49, 50, 51, 52, 53, 54 };
+            List<int> operation = new List<int> { 14, 15, 16, 18, 19, 41, 42, 55, 56, 57, 58, 59, 60 };
+            List<int> sick = new List<int> { 32, 33, 34, 35, 36, 37, 38, 39, 40 };
 
-            for (int roomIdx = 1; roomIdx < 8; roomIdx++)
-            {
-                context.Add(new Room()
-                {
-                    Usage = TypeOfUsage.CONSULTING_ROOM,
-                    Capacity = RandomGenerator.Next(0, 10),
-                    Occupation = RandomGenerator.Next(0, 5),
-                    Renovation = false
-                });
-            }
+            foreach (int id in consulting)
+                context.Add(new Room { Id = id, Usage = TypeOfUsage.CONSULTING_ROOM });
+            foreach (int id in operation)
+                context.Add(new Room { Id = id, Usage = TypeOfUsage.OPERATION_ROOM });
+            foreach (int id in sick)
+                context.Add(new Room { Id = id, Usage = TypeOfUsage.SICKROOM });
 
-            for (int roomIdx = 1; roomIdx < 8; roomIdx++)
-            {
-                context.Add(new Room()
-                {
-                    Usage = TypeOfUsage.SICKROOM,
-                    Capacity = RandomGenerator.Next(0, 10),
-                    Occupation = RandomGenerator.Next(0, 5),
-                    Renovation = false
-                });
-            }
+            context.SaveChanges();
+        }
 
-            for (int roomIdx = 1; roomIdx < 8; roomIdx++)
-            {
-                context.Add(new Room()
-                {
-                    Usage = TypeOfUsage.OPERATION_ROOM,
-                    Capacity = RandomGenerator.Next(0, 10),
-                    Occupation = RandomGenerator.Next(0, 5),
-                    Renovation = false
-                });
-            }
+        private void SeedDrugTypes(MyDbContext context)
+        {
+            context.Add(new DrugType() { Type = "tableta", Purpose = "lek za glavu" });
+            context.Add(new DrugType() { Type = "tableta", Purpose = "lek za temperaturu" });
+            context.Add(new DrugType() { Type = "kapsula", Purpose = "probiotik" });
 
+            context.SaveChanges();
         }
 
         private void SeedEquipmentTypes(MyDbContext context)
@@ -321,6 +198,116 @@ namespace Backend.Model
             context.Add(new EquipmentType() { Name = "computer", IsConsumable = false });
             context.Add(new EquipmentType() { Name = "chair", IsConsumable = false });
             context.Add(new EquipmentType() { Name = "instrument", IsConsumable = false });
+
+            context.SaveChanges();
         }
+
+        private void SeedDrugs(MyDbContext context)
+        {
+            context.Add(new Drug()
+            {
+                DrugType_Id = 1,
+                Name = "Brufen",
+                Quantity = RandomGenerator.Next(5, 30),
+                ExpirationDate = new DateTime(2021, 12, 13, 1, 8, 57),
+                Producer = "Hemofarm"
+            });
+            context.Add(new Drug()
+            {
+                DrugType_Id = 2,
+                Name = "Metafeks",
+                Quantity = RandomGenerator.Next(5, 30),
+                ExpirationDate = new DateTime(2021, 12, 13, 1, 8, 57),
+                Producer = "Hemofarm"
+            });
+            context.Add(new Drug()
+            {
+                DrugType_Id = 1,
+                Name = "Aspirin",
+                Quantity = RandomGenerator.Next(5, 30),
+                ExpirationDate = new DateTime(2021, 12, 13, 1, 8, 57),
+                Producer = "Galenika"
+            });
+            context.Add(new Drug()
+            {
+                DrugType_Id = 3,
+                Name = "Bulardi",
+                Quantity = RandomGenerator.Next(5, 30),
+                ExpirationDate = new DateTime(2021, 12, 13, 1, 8, 57),
+                Producer = "Hemofarm"
+            });
+
+            context.SaveChanges();
+        }
+
+        private void SeedDrugsInRooms(MyDbContext context)
+        {
+            foreach (Room room in context.Rooms)
+                foreach (Drug drug in context.Drugs)
+                    if (RandomGenerator.Next(2) == 1)
+                        context.Add(new DrugInRoom()
+                        {
+                            DrugId = drug.Id,
+                            RoomNumber = room.Id,
+                            Quantity = RandomGenerator.Next(10, 20)
+                        });
+
+            context.SaveChanges();
+        }
+        
+        private void SeedEquipmentInRooms(MyDbContext context)
+        {
+            foreach (Room room in context.Rooms)
+                foreach (EquipmentType equipmentType in context.EquipmentTypes)
+                    if (RandomGenerator.Next(10) > 7)
+                        AddEquipmentToRoom(context, room, equipmentType);
+        }
+
+        private void AddEquipmentToRoom(MyDbContext context, Room room, EquipmentType equipmentType)
+        {
+            int id = context.Equipment.Count() + 1;
+            int quantity = RandomGenerator.Next(10, 20);
+
+            context.Add(new Equipment()
+            {
+                TypeId = equipmentType.Id,
+                Quantity = quantity
+            });
+            context.SaveChanges();
+
+            context.Add(new EquipmentInRooms()
+            {
+                IdEquipment = id,
+                RoomNumber = room.Id,
+                Quantity = quantity
+            });
+            context.SaveChanges();
+        }
+                     
+        private void SeedExaminations(MyDbContext context)
+        {
+            Doctor doctor = context.Doctors.First();
+            PatientCard patientCard = context.PatientCards.First();
+            Room room = context.Rooms.Where(r => r.Usage.Equals(TypeOfUsage.CONSULTING_ROOM)).First();
+            DateTime start = new DateTime(2020, 12, 30, 7, 0, 0);
+            DateTime end = new DateTime(2020, 12, 30, 16, 30, 0);
+
+            for(DateTime current = start; current < end; current = current.AddMinutes(30))
+            {
+                context.Add(new Examination
+                {
+                    Type = TypeOfExamination.GENERAL,
+                    DoctorJmbg = doctor.Jmbg,
+                    IdPatientCard = patientCard.Id,
+                    IdRoom = room.Id,
+                    DateAndTime = current,
+                    IsSurveyCompleted = false,
+                    ExaminationStatus = (RandomGenerator.Next(10) > 7) ? ExaminationStatus.CREATED : ExaminationStatus.CANCELED
+                });
+            }
+
+            context.SaveChanges();
+        }
+
     }
 }

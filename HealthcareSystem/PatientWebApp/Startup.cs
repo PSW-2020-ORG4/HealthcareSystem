@@ -140,12 +140,22 @@ namespace PatientWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            if (env.IsDevelopment() || env.EnvironmentName.ToLower().Equals("test"))
+            {
+                using (var scope = app.ApplicationServices.CreateScope())
+                using (var context = scope.ServiceProvider.GetService<MyDbContext>())
+                {
+                    DataSeeder seeder = new DataSeeder();
+                    seeder.SeedAll(context);
+                }
             }
 
             app.UseStaticFiles();

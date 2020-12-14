@@ -156,12 +156,13 @@ namespace PatientWebApp
                     try
                     {
                         Console.WriteLine("Data seeding started.");
-                        DataSeeder seeder = new DataSeeder();
+                        DataSeeder seeder = new DataSeeder(true);
                         seeder.SeedAll(context);
                         Console.WriteLine("Data seeding finished.");
                     } catch(Exception e)
                     {
                         Console.WriteLine("Data seeding failed.");
+                        Console.WriteLine(e.StackTrace);
                     }
                 }
             }

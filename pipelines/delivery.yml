@@ -78,7 +78,7 @@ jobs:
         heroku container:release web --app vlaksi-graphicaleditor
       pwsh: true
       
-- job: E2E Tests
+- job: E2ETests
 
   pool:
     vmImage: 'windows-latest'

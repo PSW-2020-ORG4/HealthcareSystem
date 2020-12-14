@@ -194,6 +194,7 @@ namespace PatientWebApp
                     } catch(Exception e)
                     {
                         Console.WriteLine("Data seeding failed.");
+                        Console.WriteLine(e.Message);
                         Console.WriteLine(e.StackTrace);
                     }
                 }

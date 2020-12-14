@@ -85,7 +85,7 @@ namespace Backend.Model
                 Jmbg = "1309998775018",
                 Name = "Ana",
                 Surname = "Anić",
-                DateOfBirth = new DateTime(1998, 13, 9),
+                DateOfBirth = new DateTime(1998, 9, 13),
                 Gender = GenderType.F,
                 CityZipCode = 1,
                 Email = "sladjasavkovic333@gmail.com",

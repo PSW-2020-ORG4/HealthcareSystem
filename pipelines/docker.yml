@@ -1,6 +1,9 @@
 trigger:
 - develop
 
+variables:
+  dockerRegistry: 'pufkedockerhub'
+
 pool:
   vmImage: 'ubuntu-18.04'
 
@@ -10,7 +13,6 @@ jobs:
     project: 'HealthcareSystem/PatientWebApp/PatientWebApp.csproj'
     configuration: 'Release'
     dockerfile: 'HealthcareSystem/PatientWebApp/Dockerfile'
-    dockerRegistry: 'pufkedockerhub'
     dockerRepository: 'pufke/patientwebapp'
     dir: 'pwaPublish'
   pool:
@@ -42,7 +44,6 @@ jobs:
     project: 'HealthcareSystem/GraphicalEditorServer/GraphicalEditorServer.csproj'
     configuration: 'Release'
     dockerfile: 'HealthcareSystem/GraphicalEditorServer/Dockerfile'
-    dockerRegistry: 'pufkedockerhub'
     dockerRepository: 'pufke/graphicaleditor'
     dir: 'esPublish'
   pool:
@@ -74,7 +75,6 @@ jobs:
     project: 'HealthcareSystem/IntegrationAdapters/IntegrationAdapters.csproj'
     configuration: 'Release'
     dockerfile: 'HealthcareSystem/IntegrationAdapters/Dockerfile'
-    dockerRegistry: 'pufkedockerhub'
     dockerRepository: 'pufke/integrationadapters'
     dir: 'iaPublish'
   pool:

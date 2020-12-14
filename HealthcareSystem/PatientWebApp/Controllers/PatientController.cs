@@ -188,6 +188,7 @@ namespace PatientWebApp.Controllers
                 return StatusCode(500, exception.Message);
             }
         }
+
         [HttpPut("blocked/{jmbg}")]
         public ActionResult BlockPatient(string jmbg)
         {

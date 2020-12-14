@@ -85,8 +85,8 @@ namespace Backend.Service.ExaminationAndPatientCard
 
         private ICollection<Examination> RelaxDates(AppointmentSearchWithPrioritiesDTO parameters)
         {
-            DateTime earliestDateTime = parameters.InitialParameters.EarliestDateTime.AddDays(-7);
-            DateTime latestDateTime = parameters.InitialParameters.LatestDateTime.AddDays(7);
+            DateTime earliestDateTime = parameters.InitialParameters.EarliestDateTime.AddDays(-5);
+            DateTime latestDateTime = parameters.InitialParameters.LatestDateTime.AddDays(5);
             parameters.InitialParameters.EarliestDateTime = earliestDateTime;
             parameters.InitialParameters.LatestDateTime = latestDateTime;
 
@@ -120,7 +120,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         {
             if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(7, 0, 0)) < 0)
                 return false;
-            if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(17, 0, 0)) > 0)
+            if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(17, 0, 0)) >= 0)
                 return false;
             return true;
         }

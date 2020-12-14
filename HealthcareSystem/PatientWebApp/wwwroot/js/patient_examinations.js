@@ -223,10 +223,17 @@ function step(id) {
             }
 
             let date = $('#dateOfExam').val();
+
+            if (!date) {
+                alert("Pick a date!");
+                location.reload();
+                return;
+            }
+
             let doctorJmbg = $('#doctor_name option:selected').val();
            
             var newData = {
-                "PatientCardId": 1,
+                "PatientCardId": 2,
                 "DoctorJmbg": doctorJmbg,
                 "RequiredEquipmentTypes": [],
                 "EarliestDateTime": date,
@@ -241,6 +248,10 @@ function step(id) {
                 data: JSON.stringify(newData),
                 success: function (appointments) {
                     newAppointments = appointments;
+                    if (appointments.length == 0) {
+                        document.getElementById('div_appointments').innerHTML = "";
+                        $('#div_appointments').append('<p> There are no free appointment </p>');
+                    }
                     for (let a of appointments) {
                         let appointment = $('<option value="' + i + '">' + a.dateAndTime + '</option>');
                         $('#free_appointments').append(appointment);

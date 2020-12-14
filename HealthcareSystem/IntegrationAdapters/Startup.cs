@@ -105,8 +105,8 @@ namespace IntegrationAdapters
             conf.VHost = Configuration.GetValue<string>("RABBITMQ_VHOST") ?? "";
             conf.Username = Configuration.GetValue<string>("RABBITMQ_USER") ?? "guest";
             conf.Password = Configuration.GetValue<string>("RABBITMQ_PASSWORD") ?? "guest";
-            conf.RetryCount = 5;
-            conf.RetryWait = 10000;
+            conf.RetryCount = Configuration.GetValue<int>("RABBITMQ_RETRY");
+            conf.RetryWait = Configuration.GetValue<int>("RABBITMQ_RETRY_WAIT");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

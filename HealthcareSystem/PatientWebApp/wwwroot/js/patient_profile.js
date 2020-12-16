@@ -8,58 +8,67 @@
         processData: false,
         contentType: false,
         success: function (data) {
-            let patientDTO = data
+            let patientDTO = data;
 
-            var imagePath = "/uploads/" + patientDTO.imageName;
-            $('#profile_image').attr('src', imagePath);
+            if (patientDTO.imageName) {
+                var imagePath = "/uploads/" + patientDTO.imageName;
+                $('#profile_image').attr('src', imagePath);
+            }
 
-            $('#name').val(patientDTO.name)
-            $('#surname').val(patientDTO.surname)
-            $('#jmbg').val(patientDTO.jmbg)
-            $('#dateOfBirth').val(patientDTO.dateOfBirth)
+            $('#name').append(patientDTO.name + ' ' + patientDTO.surname);
+            $('#jmbg').append(patientDTO.jmbg);
+            $('#dateOfBirth').append(patientDTO.dateOfBirth);
             if (patientDTO.gender == "0") {
-                $('#gender').val("MALE")
+                $('#gender').append("Male");
             } else {
-                $('#gender').val("FEMALE")
+                $('#gender').append("Female");
             }
-            $('#phone').val(patientDTO.phone)
-            $('#country').val(patientDTO.countryName)
-            $('#city').val(patientDTO.cityName)
-            $('#address').val(patientDTO.homeAddress)
+            $('#phone').append(patientDTO.phone);
+            $('#address').append(patientDTO.homeAddress + ', ' + patientDTO.cityName + ', ' + patientDTO.countryName);
+            $('#email').append(patientDTO.email)
+
+            let blood = '';
             if (patientDTO.bloodType == "0") {
-                $('#blood').val("A")
+                blood = 'A';
             } else if (patientDTO.bloodType == "1") {
-                $('#blood').val("B")
+                blood = 'B';
             } else if (patientDTO.bloodType == "2") {
-                $('#blood').val("AB")
+                blood = 'AB';
             } else if (patientDTO.bloodType == "3") {
-                $('#blood').val("0")
+                blood = '0';
             } else {
-                $('#blood').val(" ")
+                blood = 'Unknown';
             }
+
             if (patientDTO.rhFactor == "0") {
-                $('#rh').val("+")
+                blood = blood + '+';
             } else if (patientDTO.rhFactor == "1") {
-                $('#blood').val("-")
-            } else {
-                $('#rh').val(" ")
-            }
-            if (patientDTO.hasInsurance == "0") {
-                $('#insurance').val("YES")
-            } else {
-                $('#insurance').val("NO")
+                blood = blood + '-';
             }
 
-            $('#lbo').val(patientDTO.lbo)
-            $('#allergies').val(patientDTO.allergies)
-            $('#history').val(patientDTO.medicalHistory)
-            $('#email').val(patientDTO.email)
-            $('#password').val(patientDTO.password)
+            $('#blood').append(blood);
 
+            if (patientDTO.hasInsurance == "1") {
+                $('#insurance').empty();
+                $('#insurance').append(patientDTO.lbo);
+            } 
+
+            if (patientDTO.allergies) {
+                $('#allergies').empty();
+                $('#allergies').append(patientDTO.allergies);
+            }
+
+            if (patientDTO.medicalHistory) {
+                $('#history').empty();
+                $('#history').append(patientDTO.medicalHistory);
+            }
+
+            console.log("here");
 
         },
         error: function () {
-            console.log("Error getting patient")
+            let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+            $('#container').prepend(alert);
         }
     });
 });

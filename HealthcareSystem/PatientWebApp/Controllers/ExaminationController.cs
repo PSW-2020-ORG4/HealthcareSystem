@@ -62,9 +62,13 @@ namespace PatientWebApp.Controllers
                 _examinationService.AdvancedSearch(examinationSearchDTO).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
                 return Ok(examinationDTOs);
             }
-            catch (NotFoundException exception)
+            catch (ArgumentNullException)
             {
-                return NotFound(exception.Message);
+                return BadRequest("Patient's jmbg cannot be null.");
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
             }
 
         }

@@ -35,7 +35,7 @@ function addFeedback(feedback) {
     let new_feedback = $('<div class="row"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
         + feedback.sendingDate
         + '</div>'
-        + '<div class="card-body bg-light"><blockquote class="blockquote mb-0"><p>'
+        + '<div class="card-body"><blockquote class="blockquote mb-0"><p>'
         + feedback.comment + ' </p>'
         + '<footer class="blockquote-footer text-info"><cite>'
         + name_surname + '</cite></footer></blockquote></div></div></div></div>');

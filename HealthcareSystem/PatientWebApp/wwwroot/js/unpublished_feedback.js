@@ -9,7 +9,8 @@
 		success: function (data) {
 
 			if (data.length == 0) {
-				$('#title-active').text("There is no unpublished feedback");
+				let alert = $('<div class="alert alert-info m-4" role="alert">There is no unpublished feedback.</div >')
+				$('div#view_feedbacks').append(alert);
 			}
 			else {
 				for (let i = 0; i < data.length; i++) {
@@ -30,21 +31,32 @@ function addCommentTable(feedback) {
 		nameAndSurname = 'Anonymous';
 	}
 
-	let divElement = $('<div class="border_comment"><table class="table_comment">'
-		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Patient:</p></th><td>' + nameAndSurname + '</td></tr > '
-		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Date:</p></th><td>' + feedback.sendingDate + '</td></tr > '
-		+ ' <tr> <th style="width:250px;"><p  style="margin-left:50px;">Comment:</p></th><td><p style="margin-right:10px;"><i class="fas fa-quote-left pr-2"></i> ' + feedback.comment + '<p/></td></tr> '
-		+ ' </table ></div > ');
-
-	let trElement = $('<tr> <td style="width:250px;"><span></span></td> <td style = "width:250px;"><span></span></td> </tr>');
-
 	if (feedback.isAllowedToPublish) {
-		let tdElement = $('<td> <button class="submit_btn" style="margin-bottom:10px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Publish </button> </td>');
-		trElement.append(tdElement);
-	}
+		let new_feedback = $('<div class="row"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
+			+ feedback.sendingDate
+			+ '</div>'
+			+ '<div class="card-body bg-light"><blockquote class="blockquote mb-0"><p>'
+			+ feedback.comment + ' </p>'
+			+ '<footer class="blockquote-footer text-info"><cite>'
+			+ nameAndSurname + '</cite>'
+			+ '<button type="button" class="btn btn-success float-right" id="'
+			+ feedback.id
+			+ '" onclick="approveComment(this.id)">Publish</button>'
+			+ '</footer ></blockquote ></div ></div ></div ></div > ');
 
-	divElement.append(trElement);
-	$('div#div_comments').append(divElement);
+		$('div#view_feedbacks').append(new_feedback);
+	}
+	else {
+		let new_feedback = $('<div class="row"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
+			+ feedback.sendingDate
+			+ '</div>'
+			+ '<div class="card-body bg-light"><blockquote class="blockquote mb-0"><p>'
+			+ feedback.comment + ' </p>'
+			+ '<footer class="blockquote-footer text-info"><cite>'
+			+ nameAndSurname + '</cite></footer></blockquote></div></div></div></div>');
+
+		$('div#view_feedbacks').append(new_feedback);
+	}
 }
 
 function approveComment(feedbackId) {

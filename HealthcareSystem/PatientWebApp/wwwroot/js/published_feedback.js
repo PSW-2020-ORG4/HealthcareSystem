@@ -18,7 +18,8 @@
             }
         },
         error: function () {
-            console.log("Error getting published feedbacks")
+            let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+            $('div#view_feedbacks').append(alert);
         }
     });
 });

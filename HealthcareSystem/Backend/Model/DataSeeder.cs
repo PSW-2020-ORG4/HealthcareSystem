@@ -100,7 +100,8 @@ namespace Backend.Model
                 IsActive = true,
                 IsBlocked = false,
                 Phone = "065897520",
-                Username = "Ana"
+                Username = "Ana",
+                ImageName = "picture1.jpg"
             });
             context.Add(new Patient()
             {
@@ -118,6 +119,7 @@ namespace Backend.Model
                 IsBlocked = false,
                 Phone = "065897520",
                 Username = "pera",
+                ImageName = "profile_pic.jpg"
             });
             context.SaveChanges();
 

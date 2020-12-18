@@ -205,6 +205,11 @@ namespace PatientWebApp
                     }
                 }
             }
+            DefaultFilesOptions options = new DefaultFilesOptions();
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("/html/index.html");
+
+            app.UseDefaultFiles(options);
 
             app.UseStaticFiles();
 

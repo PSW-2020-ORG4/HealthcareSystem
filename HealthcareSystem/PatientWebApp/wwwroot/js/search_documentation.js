@@ -34,7 +34,7 @@
     let jmbg = "1309998775018";
 
     $.ajax({
-        url: '/api/examination/by-patient/' + jmbg,
+        url: '/api/examination/previous/' + jmbg,
         type: 'GET',
         dataType: 'json',
         processData: false,

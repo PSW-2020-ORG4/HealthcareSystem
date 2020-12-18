@@ -30,6 +30,11 @@ namespace Backend.Model
             Verbose = verbose;
         }
 
+        public Boolean IsAlreadySeeded(MyDbContext context)
+        {
+            return context.Countries.Where(c => c.Name.Equals("Srbija")).Count() > 0;
+        }
+
         public void SeedAll(MyDbContext context)
         {
             if (Verbose) Console.WriteLine("Seeding countries.");
@@ -320,8 +325,9 @@ namespace Backend.Model
             Doctor doctor = context.Doctors.First();
             PatientCard patientCard = context.PatientCards.First();
             Room room = context.Rooms.Where(r => r.Usage.Equals(TypeOfUsage.CONSULTING_ROOM)).First();
-            DateTime start = new DateTime(2020, 12, 30, 7, 0, 0);
-            DateTime end = new DateTime(2020, 12, 30, 16, 30, 0);
+            DateTime future = DateTime.Now.Date.AddDays(10);
+            DateTime start = future.AddHours(7);
+            DateTime end = future.AddHours(16).AddMinutes(30);
 
             for (DateTime current = start; current < end; current = current.AddMinutes(30))
             {
@@ -334,6 +340,25 @@ namespace Backend.Model
                     DateAndTime = current,
                     IsSurveyCompleted = false,
                     ExaminationStatus = (RandomGenerator.Next(10) > 7) ? ExaminationStatus.CREATED : ExaminationStatus.CANCELED
+                });
+            }
+
+            DateTime past = DateTime.Now.Date.AddDays(10);
+            DateTime startPast = future.AddHours(7);
+            DateTime endPast = future.AddHours(16).AddMinutes(30);
+
+            for (DateTime current = startPast; current < endPast; current = current.AddMinutes(30))
+            {
+                context.Add(new Examination
+                {
+                    Type = TypeOfExamination.GENERAL,
+                    DoctorJmbg = doctor.Jmbg,
+                    IdPatientCard = patientCard.Id,
+                    IdRoom = room.Id,
+                    DateAndTime = current,
+                    IsSurveyCompleted = false,
+                    ExaminationStatus = ExaminationStatus.FINISHED,
+                    Anamnesis = "Example anamnesis"
                 });
             }
 

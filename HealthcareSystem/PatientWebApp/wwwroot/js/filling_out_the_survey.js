@@ -2,6 +2,12 @@
 var id = params.get("id");
 
 $(document).ready(function () {
+	//radios = $('.custom-radio');
+	//for (var i = 0; i < radios.length; i++) {
+		//console.log(i);
+		//$($(radios[i]).children[0]).attr('id', i + 1);
+		//$($(radios[i]).children[1]).attr('for', i + 1);
+	//}
 
 	$.ajax({
 		url: '/api/examination/' + id,
@@ -10,9 +16,7 @@ $(document).ready(function () {
 		processData: false,
 		contentType: false,
 		success: function (examination) {
-			console.log('success - loading examination from database');
-
-				$('p#doctor_name_and_surname').append(' ' + examination.doctorName + ' ' + examination.doctorSurname);
+				$('#doctor_name_and_surname').append(' ' + examination.doctorName + ' ' + examination.doctorSurname);
 
 				$('#survey_form').submit(function (event) {
 
@@ -55,25 +59,22 @@ $(document).ready(function () {
 						contentType: 'application/json',
 						data: JSON.stringify(newSurvey),
 						success: function () {
-							alert("success");
-
-							setTimeout(function () {
-								window.location.href = 'patients_home_page.html';
-							}, 1000);
+							let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Your response has been recored. Thank you for filling out the survey!'
+								+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+							$('#alert').prepend(alert);
 						},
 						error: function (jqXHR) {
-							alert(jqXHR.responseText);
+							let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Survey submission failed.'
+								+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+							$('#alert').prepend(alert);
 						}
 					});
 				});
 			
 		},
 		error: function () {
-			alert('error getting examination');
-			console.log('error getting examination');
-			setTimeout(function () {
-				window.location.href = 'patients_home_page.html';
-			}, 1500);
+			let alert = $('<div class="alert alert-danger" role="alert">Error fetching data.</div >')
+			$('#alert').prepend(alert);
 		}
 	});
 });

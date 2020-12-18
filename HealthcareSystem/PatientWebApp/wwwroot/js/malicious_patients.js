@@ -65,8 +65,9 @@ function addPatient(patient, number) {
         + '<span class="text-danger align-middle" style="font-size:18px">' + noCanc + '</span>';
 
     if (patient.isBlocked == false) {
-        new_patient = new_patient + '<button type="button" class="btn btn-danger float-right" style="width:100px" id="'
-            + patient.jmbg + '" onclick="blockPatient(this.id)">Block</button>';
+        new_patient = new_patient + '<button type="button" class="btn btn-danger float-right" id="'
+            + patient.jmbg + '" onclick="blockPatient(this.id)">Block</button></div>'
+            + '<div class="card-footer bg-transpartent border-top-0" id="a' + patient.jmbg + '">';
     }
 
     new_patient = new_patient + '</div></div></div></div>';
@@ -81,15 +82,15 @@ function blockPatient(patientJmbg) {
         type: "PUT",
         url: "/api/patient/blocked/" + patientJmbg,
         success: function () {
-            let alert = $('<div class="alert alert-success alert-dismissible fade show m-4" role="alert">Patient was successfully blocked.'
+            let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Patient was successfully blocked.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-            $('div#div_patients').prepend(alert);
+            $('#a' + patientJmbg).prepend(alert);
             $('#' + patientJmbg).remove();
         },
         error: function (jqXHR) {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-4" role="alert">Blocking was not successful.'
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Blocking was not successful.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-            $('div#div_patients').prepend(alert);
+            $('#a' + patientJmbg).prepend(alert);
         }
     });
 };

@@ -11,7 +11,7 @@
 		var allowed = true;
 
 		if (!msg) {
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-4" role="alert">Feedback cannot be empty.'
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Feedback cannot be empty.'
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#alert').prepend(alert);
 
@@ -56,13 +56,13 @@
 					data: JSON.stringify(newData),
 					success: function () {
 						$('#text_area_id').val(null);
-						let alert = $('<div class="alert alert-success alert-dismissible fade show m-4" role="alert">You have successfuly left a feedback.'
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">You have successfuly left a feedback.'
 							+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#alert').prepend(alert);
 
 					},
 					error: function (jqXHR) {
-						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-4" role="alert">Leaving feedback was not successful.'
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Leaving feedback was not successful.'
 							+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#alert').prepend(alert);
 					}
@@ -70,7 +70,7 @@
 
 			},
 			error: function () {
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-4" role="alert">Error getting patient.'
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error getting patient.'
 					+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 				$('#alert').prepend(alert);
 			}

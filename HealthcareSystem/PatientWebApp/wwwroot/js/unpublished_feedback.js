@@ -33,7 +33,7 @@ function addCommentTable(feedback) {
 	}
 
 	if (feedback.isAllowedToPublish) {
-		let new_feedback = $('<div class="row" id="r' + feedback.id + '"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
+		let new_feedback = $('<div class="row"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
 			+ feedback.sendingDate
 			+ '</div>'
 			+ '<div class="card-body"><blockquote class="blockquote mb-0"><p>'
@@ -43,7 +43,9 @@ function addCommentTable(feedback) {
 			+ '<button type="button" class="btn btn-success float-right" id="'
 			+ feedback.id
 			+ '" onclick="approveComment(this.id)">Publish</button>'
-			+ '</footer ></blockquote ></div ></div ></div ></div > ');
+			+ '</footer ></blockquote ></div >'
+			+ '<div class="card-footer bg-transpartent border-top-0" id="a' + feedback.id + '">' 
+			+ '</div ></div ></div ></div >');
 
 		$('div#view_feedbacks').append(new_feedback);
 	}
@@ -66,15 +68,14 @@ function approveComment(feedbackId) {
 		type: "PUT",
 		url: "/api/feedback/" + feedbackId,
 		success: function () {
-			let alert = $('<div class="alert alert-success alert-dismissible fade show m-4" role="alert">Feedback was successfully published.'
-				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-			$('div#view_feedbacks').prepend(alert);
-			$('#r' + feedbackId).remove();
+			let alert = $('<div class="alert alert-success m-1" role="alert">Feedback successfully published.</div >')
+			$('#a' + feedbackId).prepend(alert);
+			$('#' + feedbackId).remove();
 		},
 		error: function (jqXHR) {
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-4" role="alert">Publishing was not successful.'
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Publishing was not successful.'
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-            $('div#view_feedbacks').prepend(alert);
+			$('#a' + feedbackId).prepend(alert);
 		}
 	});
 }

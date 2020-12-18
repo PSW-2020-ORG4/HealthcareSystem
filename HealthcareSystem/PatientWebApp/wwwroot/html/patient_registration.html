@@ -26,13 +26,16 @@
 
                     <div class="card-body p-3">
 
-                        <form id="form_image" method="post" action="" enctype="multipart/form-data">
+                        <form id="form_image" method="post" action="" enctype="multipart/form-data" class="was-validated">
                             <div class="form-row pt-3">
                                 <div id="imgholder" class="col-auto p-2">
                                     <img id="profile_image" width="150px" height="150px" class="rounded-circle" alt="No image selected" src="" style="display: none;" />
                                 </div>
                                 <div class="form-group col">
-                                    <input name="file" id="file" type="file" />
+                                    <input name="file" id="file" type="file" class="form-control" required />
+                                    <div class="invalid-feedback">
+                                        Please choose an image.
+                                    </div>
                                 </div>
                                 <input type="submit" value="Upload image" hidden />
                             </div>
@@ -48,7 +51,7 @@
             </div>
         </div>
 
-        <form id="registration">
+        <form id="registration" class="needs-validation" novalidate>
             <div class="row">
                 <div class="col p-4">
                     <div class="card">
@@ -62,8 +65,11 @@
 
                             <div class="form-row">
                                 <div class="form-group col">
-                                    <label for="email" class="text-secondary">Email *</label>
+                                    <label for="email" class="text-secondary form-label">Email *</label>
                                     <input placeholder="Enter Your email" type="email" class="form-control" id="email" name="email" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a email.
+                                    </div>
                                 </div>
                             </div>
 
@@ -71,6 +77,9 @@
                                 <div class="form-group col">
                                     <label for="password" class="text-secondary">Password *</label>
                                     <input type="password" placeholder="Enter Your password" class="form-control" name="password" id="password" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a password.
+                                    </div>
                                 </div>
                             </div>
 
@@ -78,6 +87,9 @@
                                 <div class="form-group col">
                                     <label for="rpt_password" class="text-secondary">Confirm password *</label>
                                     <input type="password" placeholder="Enter Your password" class="form-control" name="rpt_password" id="rpt_password" required>
+                                    <div class="invalid-feedback">
+                                        Please confirm a password.
+                                    </div>
                                 </div>
                             </div>
 
@@ -101,11 +113,17 @@
                                 <div class="form-group col">
                                     <label for="name" class="text-secondary">First name *</label>
                                     <input placeholder="Enter Your first name" type="text" class="form-control" id="name" name="name" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a first name.
+                                    </div>
                                 </div>
 
                                 <div class="form-group col">
                                     <label for="surname" class="text-secondary">Last name *</label>
                                     <input placeholder="Enter Your last name" type="text" class="form-control" id="surname" name="surname" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a last name.
+                                    </div>
                                 </div>
                             </div>
 
@@ -114,11 +132,17 @@
                                 <div class="form-group col">
                                     <label for="jmbg" class="text-secondary">JMBG *</label>
                                     <input placeholder="Enter Your JMBG" type="text" class="form-control" id="jmbg" name="jmbg" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a jmbg.
+                                    </div>
                                 </div>
 
                                 <div class="form-group col">
                                     <label for="dateOfBirth" class="text-secondary">Date of birth *</label>
                                     <input placeholder="Enter Your date of birth" type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a date of birth.
+                                    </div>
                                 </div>
                             </div>
 
@@ -130,11 +154,17 @@
                                         <option value="0">Male</option>
                                         <option value="1">Female</option>
                                     </select>
+                                    <div class="invalid-feedback">
+                                        Please choose a gender.
+                                    </div>
                                 </div>
 
                                 <div class="form-group col">
                                     <label for="phone" class="text-secondary">Phone number *</label>
                                     <input placeholder="Enter Your phone number" type="text" class="form-control" id="phone" name="phone" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a phone number.
+                                    </div>
                                 </div>
                             </div>
 
@@ -144,6 +174,9 @@
                                     <select id="countries" class="custom-select" required>
                                         <option value="" disabled selected hidden>Choose Your country</option>
                                     </select>
+                                    <div class="invalid-feedback">
+                                        Please choose a country.
+                                    </div>
                                 </div>
 
                                 <div class="form-group col">
@@ -151,6 +184,9 @@
                                     <select id="cities" class="custom-select" required>
                                         <option value="" disabled selected hidden>Choose Your city</option>
                                     </select>
+                                    <div class="invalid-feedback">
+                                        Please choose a city.
+                                    </div>
                                 </div>
                             </div>
 
@@ -158,6 +194,9 @@
                                 <div class="form-group col">
                                     <label for="address" class="text-secondary">Home address *</label>
                                     <input placeholder="Enter Your home address" type="text" class="form-control" id="address" name="address" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a home address.
+                                    </div>
                                 </div>
                             </div>
 
@@ -202,16 +241,20 @@
                             <div class="form-row">
                                 <div class="form-group col">
                                     <label for="insurance" class="text-secondary">Do You have medical insurance? *</label>
-                                    <select id="insurance" class="custom-select">
+                                    <select id="insurance" class="custom-select" required>
                                         <option value="" disabled selected hidden>Choose option</option>
                                         <option value="0">No</option>
                                         <option value="1">Yes</option>
                                     </select>
+                                    <div class="invalid-feedback">
+                                        Please choose an option.
+                                    </div>
                                 </div>
 
                                 <div class="form-group col">
                                     <label for="lbo" class="text-secondary" id="enter_lbo">Insurance number</label>
                                     <input placeholder="Enter Your insurance number" type="text" class="form-control" id="lbo" name="lbo">
+                                    <div class="invalid-feedback" id="insurance_validation" hidden>Fill personal number of the insured.</div>
                                 </div>
                             </div>
 
@@ -251,5 +294,26 @@
     <script type="text/javascript" src="../js/published_feedback.js"></script>
     <script type="text/javascript" src="../js/navbars/index.js"></script>
     <script type="text/javascript" src="../js/patient_registration.js"></script>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 </body>
 </html>

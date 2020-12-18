@@ -13,8 +13,8 @@
 	var maxDate = year + '-' + month + '-' + day;
 
 	$('#dateOfBirth').attr('max', maxDate);
-
 	$('#image_row').empty();
+	$('#confirm_pass_validation').attr("hidden", true);
 
 	/* Display the image on the html page */
 	var chosen_image = [];
@@ -84,15 +84,16 @@
 	$("#insurance").change(function () {
 		if ($('#insurance').val() == 1) {
 			$('#enter_lbo').text('Insurance number *');
-			$('#lbo').attr('required');
+			$('#lbo').attr('required', true);
+			$('#insurance_validation').attr('hidden', false);
 		}
 		else {
 			$('#enter_lbo').text('Insurance number');
-			$('#lbo').removeAttr('required');
-        }
-		
-	})
+			$('#lbo').attr('required', false);
+			$('#insurance_validation').attr('hidden', true);
+		}
 
+	});
 
 	/*Registrate patient on submit*/
 	$('form#registration').submit(function (event) {
@@ -121,11 +122,6 @@
 		let passwordRepeat = $('#rpt_password').val();
 		let file = $('#file').val()
 
-		if (file == null || file == '') {
-			alert('Please, upload a profile image');
-			return;
-		}
-
 		if (bloodType == null) {
 			bloodType = -1;
 		}
@@ -138,15 +134,15 @@
 			hasInsurance = true;
 		}
 
-		if (hasInsurance == true && (lbo == null || lbo == "")) {
-			alert("If You have medical insurance, fill personal number of the insured.");
+		if (password != passwordRepeat) {
+			//Ovdje treba dodati poruku 
 			return;
 		}
 
-		if (password != passwordRepeat) {
-			alert("Password and confirm password don't match.");
+		if (!$.isNumeric(jmbg) || jmbg.toString().length < 13) {
+			//Ovdje treba dodati poruku 
 			return;
-		}
+        }
 
 		var newPatient = {
 			"Jmbg": jmbg,

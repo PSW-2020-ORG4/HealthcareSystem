@@ -167,7 +167,7 @@ function findRecommendedAppointments() {
 				if (parseInt($('input[name=priority]:checked').val())) {
 					doctorNameAndSurname = a.doctorName + ' ' + a.doctorSurname;
 				}
-				let appointment = $('<option value="' + i + '">' + a.dateAndTime + ' ' + doctorNameAndSurname + '</option>');
+				let appointment = $('<option value="' + i + '">' + a.dateAndTime + ',  dr ' + doctorNameAndSurname + '</option>');
 				$('#free_appointments').append(appointment);
 				i = i + 1;
 			}

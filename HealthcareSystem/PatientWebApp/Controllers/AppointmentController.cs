@@ -8,6 +8,7 @@ using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
+using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 
@@ -75,8 +76,7 @@ namespace PatientWebApp.Controllers
                 parameters.InitialParameters.IsAppointmentValid();
                 freeAppointments = _freeAppointmentSearchService.SearchWithPriorities(parameters).ToList();
                 freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));
-                freeAppointmentsDTOs.ForEach(appointmentDTO => appointmentDTO.DoctorName = _doctorService.ViewProfile(appointmentDTO.DoctorJmbg).Name);
-                freeAppointmentsDTOs.ForEach(appointmentDTO => appointmentDTO.DoctorSurname = _doctorService.ViewProfile(appointmentDTO.DoctorJmbg).Surname);
+                SetDoctorNameAndSurname(freeAppointmentsDTOs);             
                 return Ok(freeAppointmentsDTOs);
             }
             catch (ValidationException exception)
@@ -92,6 +92,7 @@ namespace PatientWebApp.Controllers
                 return StatusCode(500, exception.Message);
             }
         }
+
         private DateTime InitializeEarliestTime(DateTime earliest)
         {
             return new DateTime(earliest.Year, earliest.Month, earliest.Day, 7, 0, 0);
@@ -101,5 +102,17 @@ namespace PatientWebApp.Controllers
         {
             return new DateTime(latest.Year, latest.Month, latest.Day, 17, 0, 0);
         }
+
+
+        private void SetDoctorNameAndSurname(List<ExaminationDTO> freeAppointmentsDTOs)
+        {
+            foreach (ExaminationDTO dto in freeAppointmentsDTOs)
+            {
+                Doctor doctor = _doctorService.GetDoctorByJmbg(dto.DoctorJmbg);
+                dto.DoctorSurname = doctor.Surname;
+                dto.DoctorName = doctor.Name;
+            }
+        }
+
     }
 }

@@ -54,7 +54,7 @@ namespace PatientWebApp.Controllers
         {
             try
             {
-                Doctor doctor = _doctorService.ViewProfile(jmbg);
+                Doctor doctor = _doctorService.GetDoctorByJmbg(jmbg);
                 return Ok(DoctorMapper.DoctorToDoctorDTO(doctor));
             }
             catch (DatabaseException e)

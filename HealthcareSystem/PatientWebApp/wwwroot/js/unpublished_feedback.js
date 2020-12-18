@@ -10,16 +10,19 @@
 
 			if (data.length == 0) {
 				let alert = $('<div class="alert alert-info m-4" role="alert">There is no unpublished feedback.</div >')
+				$('#loading').remove();
 				$('div#view_feedbacks').append(alert);
 			}
 			else {
 				for (let i = 0; i < data.length; i++) {
 					addCommentTable(data[i]);
 				}
+				$('#loading').remove();
 			}
 		},
 		error: function () {
 			let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+			$('#loading').remove();
 			$('div#view_feedbacks').prepend(alert);
 		}
 	});
@@ -63,18 +66,24 @@ function addCommentTable(feedback) {
 }
 
 function approveComment(feedbackId) {
+	let loading = $('<div class="alert alert-info m-1" role="alert">Publishing...</div >')
+	$('#' + feedbackId).prop("disabled", true);
+	$('#a' + feedbackId).prepend(loading);
 
 	$.ajax({
 		type: "PUT",
 		url: "/api/feedback/" + feedbackId,
 		success: function () {
 			let alert = $('<div class="alert alert-success m-1" role="alert">Feedback successfully published.</div >')
-			$('#a' + feedbackId).prepend(alert);
 			$('#' + feedbackId).remove();
+			$('#a' + feedbackId).empty();
+			$('#a' + feedbackId).prepend(alert);
 		},
 		error: function (jqXHR) {
 			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Publishing was not successful.'
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#a' + feedbackId).empty();
+			$('#' + feedbackId).prop("disabled", false);
 			$('#a' + feedbackId).prepend(alert);
 		}
 	});

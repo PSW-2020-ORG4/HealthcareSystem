@@ -63,11 +63,12 @@
                 $('#history').append(patientDTO.medicalHistory);
             }
 
-            console.log("here");
+            $('#loading').remove();
 
         },
         error: function () {
             let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+            $('#loading').remove();
             $('#container').prepend(alert);
         }
     });

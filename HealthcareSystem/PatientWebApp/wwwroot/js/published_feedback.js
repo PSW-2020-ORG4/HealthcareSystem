@@ -9,16 +9,19 @@
         success: function (data) {
             if (data.length == 0) {
                 let alert = $('<div class="alert alert-info m-4" role="alert">There is currently no feedback.</div >')
+                $('#loading').remove();
                 $('div#view_feedbacks').append(alert);
             }
             else {
                 for (let i = 0; i < data.length; i++) {
                     addFeedback(data[i]);
                 }
+                $('#loading').remove();
             }
         },
         error: function () {
             let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+            $('#loading').remove();
             $('div#view_feedbacks').append(alert);
         }
     });

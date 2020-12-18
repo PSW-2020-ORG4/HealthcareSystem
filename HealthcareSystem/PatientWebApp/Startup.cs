@@ -187,6 +187,8 @@ namespace PatientWebApp
                 {
                     try
                     {
+                        context.Database.EnsureDeleted();
+                        context.Database.EnsureCreated();
                         Console.WriteLine("Data seeding started.");
                         DataSeeder seeder = new DataSeeder(true);
                         if (seeder.IsAlreadySeeded(context))

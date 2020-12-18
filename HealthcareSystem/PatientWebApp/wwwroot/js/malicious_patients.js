@@ -24,9 +24,11 @@
                     }
                 });
             }
+            $('#loading').remove();
         },
         error: function () {
             let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+            $('#loading').remove();
             $('div#div_patients').prepend(alert);
         }
     });
@@ -77,6 +79,9 @@ function addPatient(patient, number) {
 
 
 function blockPatient(patientJmbg) {
+    let loading = $('<div class="alert alert-info m-1" role="alert">Blocking...</div >');
+    $('#' + patientJmbg).prop("disabled", true);
+    $('#a' + patientJmbg).prepend(loading);
 
     $.ajax({
         type: "PUT",
@@ -84,12 +89,15 @@ function blockPatient(patientJmbg) {
         success: function () {
             let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Patient was successfully blocked.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-            $('#a' + patientJmbg).prepend(alert);
             $('#' + patientJmbg).remove();
+            $('#a' + patientJmbg).empty();
+            $('#a' + patientJmbg).prepend(alert);
         },
         error: function (jqXHR) {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Blocking was not successful.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+            $('#a' + patientJmbg).empty();
+            $('#' + patientJmbg).prop("disabled", false);
             $('#a' + patientJmbg).prepend(alert);
         }
     });

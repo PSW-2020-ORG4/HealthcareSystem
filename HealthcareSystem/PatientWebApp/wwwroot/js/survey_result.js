@@ -150,6 +150,7 @@ function changeDoctor(event) {
 
 	var selectElement = document.getElementById("doctors");
 	var doctorValue = selectElement.options[selectElement.selectedIndex].value;
+	$('#loadingDoctor').show();
 	$('#survey_result_Doctor').empty();
 
 	$.ajax({
@@ -163,6 +164,7 @@ function changeDoctor(event) {
 				let alert = '<div class="alert alert-info mb-0" role="alert">'
 					+ 'No information available.'
 					+ '</div>';
+				$('#loadingDoctor').hide();
 				$('#survey_result_Doctor').append(alert);
 				$('#avgDoctor').text('');
 			}
@@ -175,6 +177,7 @@ function changeDoctor(event) {
 					table = table + tableRow(surveyResult[i]);
 				}
 				table = table + '</tbody></table>';
+				$('#loadingDoctor').hide();
 				$('#survey_result_Doctor').append(table);
 			}
 		},
@@ -182,6 +185,7 @@ function changeDoctor(event) {
 			let alert = '<div class="alert alert-info mb-0" role="alert">'
 				+ 'No information available.'
 				+ '</div>';
+			$('#loadingDoctor').hide();
 			$('#survey_result_Doctor').append(alert);
 			$('#avgDoctor').text('');
 		}

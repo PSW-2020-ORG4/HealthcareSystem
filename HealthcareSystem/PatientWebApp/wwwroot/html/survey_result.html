@@ -86,8 +86,11 @@
                         <select name="doctors" id="doctors" onchange="changeDoctor(event)" class="custom-select w-100" required>
                             <option value="" disabled selected hidden>Choose a doctor</option>
                         </select>
-
+                        <div id="loadingDoctor" class="alert alert-info mt-3 mb-0" role="alert" style="display:none;">
+                            Loading...
+                        </div>
                         <div id="survey_result_Doctor" class="pt-3 pb-0 mb-0">
+
                         </div>
                     </div>
 

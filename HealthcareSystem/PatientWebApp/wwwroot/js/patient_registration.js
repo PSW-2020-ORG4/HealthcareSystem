@@ -27,10 +27,8 @@
 			chosen_image.push(image);
 			var fileReader = new FileReader();
 			fileReader.onload = (function (event) {
-				var image_div = $("<div class=\"col-md-3\"><span class=\"pip\">" +
-					"<img class=\"imageThumb\" style='width:100%; height:90%; margin-top:10px;' src=\"" + event.target.result + "\" title=\"" + image.name + "\"/>"
-					+ "</span></div>");
-				$('#image_row').append(image_div);
+				$('#profile_image').attr('src', event.target.result);
+				$('#profile_image').show();
 			});
 			fileReader.readAsDataURL(image);
 		});
@@ -85,10 +83,12 @@
 	/*Select combo box about medical insurance*/
 	$("#insurance").change(function () {
 		if ($('#insurance').val() == 1) {
-			$('#enter_lbo').text('Personal number of the insured *');
+			$('#enter_lbo').text('Insurance number *');
+			$('#lbo').attr('required');
 		}
 		else {
-			$('#enter_lbo').text('Personal number of the insured');
+			$('#enter_lbo').text('Insurance number');
+			$('#lbo').removeAttr('required');
         }
 		
 	})

@@ -166,9 +166,6 @@ function findRecommendedAppointments() {
 				let appointment = $('<option value="' + i + '">' + a.dateAndTime + '</option>');
 				$('#free_appointments').append(appointment);
 				i = i + 1;
-				if (i == 10) {
-					break;
-                }
 			}
 		},
 		error: function (jqXHR) {

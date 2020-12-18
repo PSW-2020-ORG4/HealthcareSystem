@@ -38,6 +38,8 @@ namespace Backend.Service
         private void InitializeRabbitMqListener()
         {
             InitializeConnection();
+            if(_connection == null)
+                return;
             _channel = _connection.CreateModel();
             _channel.QueueDeclare(queue: _queueName,
                                   durable: true,

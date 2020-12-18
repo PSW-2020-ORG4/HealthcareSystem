@@ -1,3 +1,130 @@
-﻿
+﻿@model PrescriptionView
 
-INDEX
+
+<div class="card text-center">
+    <div class="card-header">
+        <h2 class="text-center">Prescription</h2>
+    </div>
+    <div class="card-body">
+        <form id="prescription" class="form" method="post" action="/Prescription/SendPrescription">
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="dropdown hierarchy-select" id="patient">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" id="patient-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="patient-button">
+                                <div class="hs-searchbox">
+                                    <input type="text" class="form-control" autocomplete="off">
+                                </div>
+                                <div class="hs-menu-inner">
+                                    <a class="dropdown-item" data-value="" data-default-selected="" href="#">Select Patient</a>
+                                    @foreach (var patient in Model.patients)
+                                    {
+                                        <a class="dropdown-item" data-value=@patient.Jmbg href="#">@patient.Name @patient.Surname</a>
+                                    }
+                                </div>
+                            </div>
+                            <input id="patientSelected" class="d-none" name="Patient" readonly="readonly" aria-hidden="true" type="text" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="dropdown hierarchy-select" id="pharmacySystem">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" id="pharmacySystem-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="pharmacySystem-button">
+                                <div class="hs-searchbox">
+                                    <input type="text" class="form-control" autocomplete="off">
+                                </div>
+                                <div class="hs-menu-inner">
+                                    <a class="dropdown-item" data-value="" data-default-selected="" href="#">Select Pharmacy System</a>
+                                    @foreach (var ps in Model.pharmacySystems)
+                                    {
+                                        <a class="dropdown-item" data-value=@ps.Id href="#">@ps.Name</a>
+                                    }
+                                </div>
+                            </div>
+                            <input id="pharmacySystemSelected" class="d-none" name="PharmacySystem" readonly="readonly" aria-hidden="true" type="text" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="dropdown hierarchy-select" id="drug">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" id="drug-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="drug-button">
+                                <div class="hs-searchbox">
+                                    <input type="text" class="form-control" autocomplete="off">
+                                </div>
+                                <div  class="hs-menu-inner">
+                                    <a id="drugsDefault" class="dropdown-item" data-value="" data-default-selected href="#">Select Drug</a>
+                                    <div id="drugs"></div>
+                                </div>
+                            </div>
+                            <input id="drugSelected" class="d-none" name="Drug" readonly="readonly" aria-hidden="true" type="text" />
+                        </div>
+                    </td>
+                    <td>
+                        <input onclick="return btnClick()" type="submit" value="Send Prescription" class="btn btn-primary">
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" id="PushEndpoint" name="PushEndpoint" />
+            <input type="hidden" id="PushP256DH" name="PushP256DH" />
+            <input type="hidden" id="PushAuth" name="PushAuth" />
+        </form>
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function btnClick() {
+            var message = "";
+            if ($('#patientSelected').val() == "")
+                message += "[Patient Not Selected]";
+            if ($('#pharmacySystemSelected').val() == ""){
+                if(message != "")
+                    message += "\n";
+                message += "[Pharmacy Not Selected]";
+            }
+            if ($('#drugSelected').val() == ""){
+                if(message != "")
+                    message += "\n";
+                message += "[Drug Not Selected]";
+            }
+            if (message == "")
+                return true;
+            alert(message);
+            return false;
+        }
+        $(document).ready(function () {
+            $('#patient').hierarchySelect({
+                hierarchy: false,
+                width: 'auto'
+            });
+            $('#pharmacySystem').hierarchySelect({
+                hierarchy: false,
+                width: 'auto'
+            });
+            $('#pharmacySystemSelected').on('change', function () {
+                var endpoint = 'http://localhost:5000/api/help/';
+                $("#drugs").empty();
+                $("#drugsDefault").removeClass("active").addClass("active");
+                $("#drug-button").text("Select Drug");
+                $.ajax({
+                    url: endpoint + $("#pharmacySystemSelected").val(),
+                    contentType: "application/json",
+                    dataType: 'json',
+                    success: function (result) {
+                        result.forEach(function (drug) {
+                            $("#drugs").append("<a class=\"dropdown-item\" data-value=" + "\""+drug.id+"\"" + " href=\"#\">" + drug.code + " " + drug.name + "</a>");
+                        });
+                    }
+                })
+            });
+            $('#drug').hierarchySelect({
+                hierarchy: false,
+                width: 'auto'
+            });
+
+        });
+    </script>
+}

@@ -29,6 +29,7 @@
 		<PrivateAssets>all</PrivateAssets>
 	</PackageReference>
 	<PackageReference Include="SSH.NET" Version="2016.1.0" />
+	<PackageReference Include="WebPush-NetCore" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,7 @@
 
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="wwwroot\dropdown-search\" />
   </ItemGroup>
 
 </Project>

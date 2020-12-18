@@ -69,7 +69,7 @@ function addPatient(patient, number) {
     if (patient.isBlocked == false) {
         new_patient = new_patient + '<button type="button" class="btn btn-danger float-right" id="'
             + patient.jmbg + '" onclick="blockPatient(this.id)">Block</button></div>'
-            + '<div class="card-footer bg-transpartent border-top-0" id="a' + patient.jmbg + '">';
+            + '<div class="card-footer bg-transpartent border-top-0 p-0" id="a' + patient.jmbg + '">';
     }
 
     new_patient = new_patient + '</div></div></div></div>';
@@ -79,7 +79,7 @@ function addPatient(patient, number) {
 
 
 function blockPatient(patientJmbg) {
-    let loading = $('<div class="alert alert-info m-1" role="alert">Blocking...</div >');
+    let loading = $('<div class="alert alert-info m-2" role="alert">Blocking...</div >');
     $('#' + patientJmbg).prop("disabled", true);
     $('#a' + patientJmbg).prepend(loading);
 
@@ -87,14 +87,14 @@ function blockPatient(patientJmbg) {
         type: "PUT",
         url: "/api/patient/blocked/" + patientJmbg,
         success: function () {
-            let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Patient was successfully blocked.'
+            let alert = $('<div class="alert alert-success alert-dismissible fade show m-2" role="alert">Patient was successfully blocked.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#' + patientJmbg).remove();
             $('#a' + patientJmbg).empty();
             $('#a' + patientJmbg).prepend(alert);
         },
         error: function (jqXHR) {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Blocking was not successful.'
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">Blocking was not successful.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#a' + patientJmbg).empty();
             $('#' + patientJmbg).prop("disabled", false);

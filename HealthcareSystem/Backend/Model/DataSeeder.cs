@@ -58,6 +58,8 @@ namespace Backend.Model
             SeedEquipmentInRooms(context);
             if (Verbose) Console.WriteLine("Seeding examinations.");
             SeedExaminations(context);
+            if (Verbose) Console.WriteLine("Seeding therapies.");
+            SeedTherapies(context);
             if (Verbose) Console.WriteLine("Seeding pharmacies.");
             SeedPharmacies(context);
             if (Verbose) Console.WriteLine("Seeding drug consumptions.");
@@ -344,8 +346,8 @@ namespace Backend.Model
             }
 
             DateTime past = DateTime.Now.Date.AddDays(10);
-            DateTime startPast = future.AddHours(7);
-            DateTime endPast = future.AddHours(16).AddMinutes(30);
+            DateTime startPast = past.AddHours(7);
+            DateTime endPast = past.AddHours(16).AddMinutes(30);
 
             for (DateTime current = startPast; current < endPast; current = current.AddMinutes(30))
             {
@@ -360,6 +362,28 @@ namespace Backend.Model
                     ExaminationStatus = ExaminationStatus.FINISHED,
                     Anamnesis = "Example anamnesis"
                 });
+            }
+
+            context.SaveChanges();
+        }
+
+        private void SeedTherapies(MyDbContext context)
+        {
+            List<Examination> previous = context.Examinations.Where(e => e.ExaminationStatus == ExaminationStatus.FINISHED).ToList();
+            int maxDrugId = context.Drugs.Count() + 1;
+
+            foreach (Examination e in previous)
+            {
+                if (RandomGenerator.Next(10) > 3)
+                    context.Add(new Therapy()
+                    {
+                        IdExamination = e.Id,
+                        Diagnosis = "Example diagnosis",
+                        StartDate = e.DateAndTime,
+                        EndDate = e.DateAndTime.AddDays(RandomGenerator.Next(1, 10)),
+                        DailyDose = RandomGenerator.Next(1, 5),
+                        IdDrug = RandomGenerator.Next(1, maxDrugId)
+                    });
             }
 
             context.SaveChanges();

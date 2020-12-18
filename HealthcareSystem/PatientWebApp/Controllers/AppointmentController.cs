@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.DTO;
 using Backend.Model.Exceptions;
+using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
@@ -17,10 +18,12 @@ namespace PatientWebApp.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IFreeAppointmentSearchService _freeAppointmentSearchService;
+        private readonly IDoctorService _doctorService;
 
-        public AppointmentController(IFreeAppointmentSearchService freeAppointmentSearchService)
+        public AppointmentController(IFreeAppointmentSearchService freeAppointmentSearchService, IDoctorService doctorService)
         {
             _freeAppointmentSearchService = freeAppointmentSearchService;
+            _doctorService = doctorService;
         }
 
         /// <summary>
@@ -72,6 +75,8 @@ namespace PatientWebApp.Controllers
                 parameters.InitialParameters.IsAppointmentValid();
                 freeAppointments = _freeAppointmentSearchService.SearchWithPriorities(parameters).ToList();
                 freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));
+                freeAppointmentsDTOs.ForEach(appointmentDTO => appointmentDTO.DoctorName = _doctorService.ViewProfile(appointmentDTO.DoctorJmbg).Name);
+                freeAppointmentsDTOs.ForEach(appointmentDTO => appointmentDTO.DoctorSurname = _doctorService.ViewProfile(appointmentDTO.DoctorJmbg).Surname);
                 return Ok(freeAppointmentsDTOs);
             }
             catch (ValidationException exception)

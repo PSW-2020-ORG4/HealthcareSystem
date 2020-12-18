@@ -345,7 +345,7 @@ namespace Backend.Model
                 });
             }
 
-            DateTime past = DateTime.Now.Date.AddDays(10);
+            DateTime past = DateTime.Now.Date.AddDays(-10);
             DateTime startPast = past.AddHours(7);
             DateTime endPast = past.AddHours(16).AddMinutes(30);
 

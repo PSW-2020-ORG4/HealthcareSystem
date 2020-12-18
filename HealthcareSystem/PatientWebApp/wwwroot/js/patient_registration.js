@@ -99,6 +99,7 @@
 	$('form#registration').submit(function (event) {
 
 		event.preventDefault();
+		$('#div_alert').empty();
 
 		let name = $('#name').val();
 		let surname = $('#surname').val();
@@ -122,6 +123,12 @@
 		let passwordRepeat = $('#rpt_password').val();
 		let file = $('#file').val()
 
+		if (file == null || file == '') {
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Please, upload a profile image.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+		}
+
 		if (bloodType == null) {
 			bloodType = -1;
 		}
@@ -135,12 +142,16 @@
 		}
 
 		if (password != passwordRepeat) {
-			//Ovdje treba dodati poruku 
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Password and confirm password don\'t match.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
 			return;
 		}
 
 		if (!$.isNumeric(jmbg) || jmbg.toString().length < 13) {
-			//Ovdje treba dodati poruku 
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">JMBG must have 13 digits.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
 			return;
         }
 
@@ -173,14 +184,15 @@
 			contentType: 'application/json',
 			data: JSON.stringify(newPatient),
 			success: function () {
-
 				var actionPath = '/api/patient/upload?patientJmbg=' + jmbg;
 				$('#form_image').attr('action', actionPath)
 				$('#form_image').submit();
-
 			},
-			error: function () {
-				console.log("error about patient registration");
+			error: function (jqXHR) {
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+					+ jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			}
 		});
 

@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
 	var dtToday = new Date();
 
 	var month = dtToday.getMonth() + 1;
@@ -177,24 +176,30 @@
 			"MedicalHistory": medHistory
 		};
 
-
-		$.ajax({
-			url: "/api/patient",
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(newPatient),
-			success: function () {
-				var actionPath = '/api/patient/upload?patientJmbg=' + jmbg;
-				$('#form_image').attr('action', actionPath)
-				$('#form_image').submit();
-			},
-			error: function (jqXHR) {
-				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
-					+ jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-				$('#div_alert').append(alert);
-				return;
-			}
-		});
+		if ($("form#registration").hasClass("unsuccessful")) {
+			return;
+        }
+		else
+		{
+			$("form#registration").removeClass("unsuccessful");
+			$.ajax({
+				url: "/api/patient",
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(newPatient),
+				success: function () {
+					var actionPath = '/api/patient/upload?patientJmbg=' + jmbg;
+					$('#form_image').attr('action', actionPath)
+					$('#form_image').submit();
+				},
+				error: function (jqXHR) {
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+						+ jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
+		}
 
 	});
 

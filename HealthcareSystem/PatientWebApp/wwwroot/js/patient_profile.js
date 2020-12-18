@@ -11,7 +11,7 @@
             let patientDTO = data;
 
             if (patientDTO.imageName) {
-                var imagePath = "/uploads/" + patientDTO.imageName;
+                var imagePath = "/Uploads/" + patientDTO.imageName;
                 $('#profile_image').attr('src', imagePath);
             }
 

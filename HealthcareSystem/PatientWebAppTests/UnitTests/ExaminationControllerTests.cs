@@ -66,7 +66,7 @@ namespace PatientWebAppTests.UnitTests
             var examinationSearchDTOInvalidObject = _objectFactory.GetExaminationSearchDTO().CreateInvalidTestObject();
             var result = examinationController.AdvanceSearchExaminations(examinationSearchDTOInvalidObject);
 
-            Assert.True(result is NotFoundObjectResult);
+            Assert.True(result is BadRequestObjectResult);
         }
 
         [Fact]

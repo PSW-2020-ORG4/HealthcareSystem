@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.DTO;
 using Backend.Model.Exceptions;
+using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
+using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 
@@ -17,10 +19,12 @@ namespace PatientWebApp.Controllers
     public class AppointmentController : ControllerBase
     {
         private readonly IFreeAppointmentSearchService _freeAppointmentSearchService;
+        private readonly IDoctorService _doctorService;
 
-        public AppointmentController(IFreeAppointmentSearchService freeAppointmentSearchService)
+        public AppointmentController(IFreeAppointmentSearchService freeAppointmentSearchService, IDoctorService doctorService)
         {
             _freeAppointmentSearchService = freeAppointmentSearchService;
+            _doctorService = doctorService;
         }
 
         /// <summary>
@@ -72,6 +76,7 @@ namespace PatientWebApp.Controllers
                 parameters.InitialParameters.IsAppointmentValid();
                 freeAppointments = _freeAppointmentSearchService.SearchWithPriorities(parameters).ToList();
                 freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));
+                SetDoctorNameAndSurname(freeAppointmentsDTOs);             
                 return Ok(freeAppointmentsDTOs);
             }
             catch (ValidationException exception)
@@ -87,6 +92,7 @@ namespace PatientWebApp.Controllers
                 return StatusCode(500, exception.Message);
             }
         }
+
         private DateTime InitializeEarliestTime(DateTime earliest)
         {
             return new DateTime(earliest.Year, earliest.Month, earliest.Day, 7, 0, 0);
@@ -96,5 +102,17 @@ namespace PatientWebApp.Controllers
         {
             return new DateTime(latest.Year, latest.Month, latest.Day, 17, 0, 0);
         }
+
+
+        private void SetDoctorNameAndSurname(List<ExaminationDTO> freeAppointmentsDTOs)
+        {
+            foreach (ExaminationDTO dto in freeAppointmentsDTOs)
+            {
+                Doctor doctor = _doctorService.GetDoctorByJmbg(dto.DoctorJmbg);
+                dto.DoctorSurname = doctor.Surname;
+                dto.DoctorName = doctor.Name;
+            }
+        }
+
     }
 }

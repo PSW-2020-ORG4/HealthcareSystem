@@ -40,8 +40,12 @@ namespace Backend.Service.ExaminationAndPatientCard
             ICollection<Examination> actuallyAvailableAppointments = new List<Examination>();
 
             foreach (Examination appointment in GetPotentiallyAvailableAppointments(parameters))
-                if (IsAvailable(appointment)) 
+            {
+                if (IsAvailable(appointment))
                     actuallyAvailableAppointments.Add(appointment);
+                if (actuallyAvailableAppointments.Count == 10)
+                    break;
+            }
 
             return actuallyAvailableAppointments;
         }

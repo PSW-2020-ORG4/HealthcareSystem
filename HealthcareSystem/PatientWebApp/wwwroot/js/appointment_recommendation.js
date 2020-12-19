@@ -162,13 +162,14 @@ function findRecommendedAppointments() {
 				$('#div_appointments').append('<p> There are no free appointment </p>');
             }
 
+			let doctorNameAndSurname = "";		
 			for (let a of appointments) {
-				let appointment = $('<option value="' + i + '">' + a.dateAndTime + '</option>');
+				if (parseInt($('input[name=priority]:checked').val())) {
+					doctorNameAndSurname = a.doctorName + ' ' + a.doctorSurname;
+				}
+				let appointment = $('<option value="' + i + '">' + a.dateAndTime + ',  dr ' + doctorNameAndSurname + '</option>');
 				$('#free_appointments').append(appointment);
 				i = i + 1;
-				if (i == 10) {
-					break;
-                }
 			}
 		},
 		error: function (jqXHR) {

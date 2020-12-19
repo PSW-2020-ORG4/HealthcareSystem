@@ -72,7 +72,7 @@ namespace Service.UsersAndWorkingTime
             }
         }
 
-        public Doctor ViewProfile(string jmbg)
+        public Doctor GetDoctorByJmbg(string jmbg)
         {
             return _doctorRepository.GetDoctorByJmbg(jmbg);
         }

@@ -168,22 +168,24 @@ namespace GraphicalEditor
             LoadInitialMapOnCanvas();
 
 
-            new AppointmentService().AddExamination(new ExaminationDTO(DateTime.Now, "1234567891234",1,1));
+            //new AppointmentService().AddExamination(new ExaminationDTO(DateTime.Now, "1234567891234",1,1));
             // uncomment only the first time you start the project in order
             // to populate DB with start data
+            var a = new EquipmentTypeService().GetEquipmentTypes();
+
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            var a = new EquipmentTypeService().GetEquipmentTypes(); 
             //initializeDatabaseData.InitiliazeData();
 
             EquipementService equipementService = new EquipementService();
             AppointmentService appointmentService = new AppointmentService();
 
+            /*
             AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
                 new BasicAppointmentSearchDTO(1, "1234567891234", new List<int>(), new DateTime(2020, 12, 30, 8, 0, 0), new DateTime(2020, 12, 30, 22, 0, 0)),
-                SearchPriority.Doctor, 1);
+                SearchPriority.Doctor, 1);*/
 
-            List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
-            RemoveAppointmentsWithDuplicateTimes(freeAppointments);
+            //List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
+            //RemoveAppointmentsWithDuplicateTimes(freeAppointments);
 
             SetDataToUIControls();
         }

@@ -45,10 +45,12 @@ namespace GraphicalEditorServer.Controllers
             try
             {
                 List<Equipment> equipmentsInRoom = _equipmentService.GetEquipmentByRoomNumber(roomNumber);
+                List<EquipmentDTO> equipmentsInRoomDTOs = new List<EquipmentDTO>();
                 if (equipmentsInRoom.Count==0) {
                     return NotFound("NotFound");
                 }
-                return Ok(equipmentsInRoom);
+                equipmentsInRoom.ForEach(equipment => equipmentsInRoomDTOs.Add(EquipmentMapper.EquipmentToEquipmentDTO(equipment)));
+                return Ok(equipmentsInRoomDTOs);
             }
             catch (Exception e) {
                 return NotFound(e.Message);

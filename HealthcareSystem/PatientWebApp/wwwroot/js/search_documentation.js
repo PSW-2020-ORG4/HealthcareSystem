@@ -205,15 +205,6 @@ function addExaminationRow(examination) {
     else
         type = "Surgery";
 
-    let button = '';
-    if (examination.examinationStatus == 2 && examination.isSurveyCompleted == 0) {
-        button = '<div class="card-footer">'
-            + '<button type = "button" class="btn btn-success float-right" '
-            + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
-            + '> Fill out the survey</button >'
-            + '</div >';
-    }
-
     let divElement = $(
         '<div class="row">'
         + '<div class="col mb-4">'
@@ -228,7 +219,7 @@ function addExaminationRow(examination) {
         + '<label>' + examination.doctorName + ' ' + examination.doctorSurname + '</label><br>'
         + '<label class="text-secondary mb-0">Anamnesis:</label><br>'
         + '<label>' + examination.anamnesis + '</label><br>'
-        + '</div>' + button + '</div></div></div>'
+        + '</div></div>'
     );
     $('div#div_prescriptions').append(divElement);
 

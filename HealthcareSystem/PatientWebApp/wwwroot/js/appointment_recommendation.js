@@ -12,7 +12,8 @@ $(document).ready(function () {
 
     var minDate = year + '-' + month + '-' + day;
 
-    $('#dateOfExam').attr('min', minDate);
+    $('#dateFrom').attr('min', minDate);
+    $('#dateTo').attr('min', minDate);
 
     $.ajax({
         url: '/api/doctor/all-specialty',

@@ -1,5 +1,5 @@
 variables:
-  HEROKU_API_KEY: b7ace70d-3610-46cf-814c-9f05583dd82c
+  HEROKU_API_KEY: 8418d6b4-7423-404b-81cf-23abcd968591
   e2etests: 'HealthcareSystem/E2ETests/E2ETests.csproj'
   project: 'HealthcareSystem/PatientWebApp/PatientWebApp.csproj'
   configuration: 'Release'

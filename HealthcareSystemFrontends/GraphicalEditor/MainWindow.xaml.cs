@@ -180,7 +180,8 @@ namespace GraphicalEditor
             EquipementService equipementService = new EquipementService();
             AppointmentService appointmentService = new AppointmentService();
 
-            /*AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
+            /*
+            AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
                 new BasicAppointmentSearchDTO(1, "1234567891234", new List<int>(), new DateTime(2020, 12, 30, 8, 0, 0), new DateTime(2020, 12, 30, 22, 0, 0)),
                 SearchPriority.Doctor, 1);
 
@@ -762,7 +763,41 @@ namespace GraphicalEditor
 
         private void ScheduleAppointmentButton_Click(object sender, RoutedEventArgs e)
         {
-           
+            if(AppointmentSearchResultsDataGrid.SelectedItem == null || SelectedAppointmentRoomComboBox.SelectedItem == null)
+                return;
+            
+
+            ExaminationDTO selectedExamination = (ExaminationDTO)AppointmentSearchResultsDataGrid.SelectedItem;
+            int selectedRoomForExaminationId = (int)SelectedAppointmentRoomComboBox.SelectedItem;
+            Console.WriteLine(selectedRoomForExaminationId);
+            selectedExamination.RoomId = selectedRoomForExaminationId;
+
+            new AppointmentService().AddExamination(selectedExamination);
+            InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
+            infoDialog.ShowDialog();
+
+            ClearAppointmentSearchFields();
+        }
+
+        private void ClearAppointmentSearchFields()
+        {
+            AppointmentSearchStartDatePicker.SelectedDate = null;
+            AppointmentSearchStartTimePicker.SelectedTime = null;
+            AppointmentSearchEndDatePicker.SelectedDate = null;
+            AppointmentSearchEndTimePicker.SelectedTime = null;
+            
+            AppointmentDoctorComboBox.SelectedItem = null;
+            AppointmentSearchTimePriorityRadioButton.IsChecked = false;
+            AppointmentSearchDoctorPriorityRadioButton.IsChecked = false;
+            
+
+            foreach(EquipmentTypeForViewDTO equipmentType in AllEquipmentTypes)
+            {
+                equipmentType.IsSelected = false;
+            }
+
+            AppointmentSearchResultsDataGrid.ItemsSource = new List<ExaminationDTO>();
+
         }
 
 

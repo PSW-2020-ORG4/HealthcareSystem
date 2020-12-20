@@ -87,6 +87,9 @@
     <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
     <Compile Include="Enumerations\SearchPriority.cs" />
+    <Compile Include="InfoDialog.xaml.cs">
+      <DependentUpon>InfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Drugs\Drug.cs" />
     <Compile Include="Models\Drugs\DrugInRoom.cs" />
     <Compile Include="Models\Drugs\DrugType.cs" />
@@ -111,6 +114,10 @@
     <Compile Include="Service\MapObjectServices.cs" />
     <Compile Include="Service\PatientService.cs" />
     <Compile Include="Service\RoomService.cs" />
+    <Page Include="InfoDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

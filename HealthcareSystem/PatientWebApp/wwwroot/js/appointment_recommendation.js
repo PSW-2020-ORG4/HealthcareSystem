@@ -59,7 +59,7 @@ $(document).ready(function () {
         $('#free_appointments').empty();
 
         var initialParameters = {
-            "PatientCardId": 2,
+            "PatientCardId": 1,
             "DoctorJmbg": doctorJmbg,
             "RequiredEquipmentTypes": [],
             "EarliestDateTime": earliestDateTime,

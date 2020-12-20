@@ -408,7 +408,6 @@ namespace Backend.Model
             DateTime start = DateTime.Now.Date.AddDays(10).AddHours(7);
             DateTime end = DateTime.Now.Date.AddDays(13).AddHours(17);
 
-            //Pacijent Pera zakazuje sve termine za datume 25. i 27. decembar
             for (DateTime current = start; current < end; current = current.AddMinutes(30))
             {
                 if (CheckIfTimeValid(current))
@@ -428,7 +427,6 @@ namespace Backend.Model
                 current = new DateTime(current.Year, current.Month, current.Day, 6, 30, 0);
                 current = current.AddDays(1);
             }
-            //Pacijent Pera je otkazao 3 pregleda u zadnjih mjesec dana, pa je maliciozni
             context.Add(new Examination
             {
                 Type = TypeOfExamination.GENERAL,
@@ -459,15 +457,11 @@ namespace Backend.Model
                 IsSurveyCompleted = false,
                 ExaminationStatus = ExaminationStatus.CANCELED
             });
-            //Izabrani parametri: specijalnost-Opsta, doktor-Dara Daric, interval-25. do 27.
-            //Prioritet je doktor -> Svi termini su zauzeti pa pretraga izbacuje termine izvan zadatog intervala
-            //Prioritet je interval -> Svi termini kod Dare su zauzeti, pa pretraga izbacuje termine kod doktora Milosa
 
-            patientCard = context.PatientCards.Find(1); //Ovo je pacijent Ana
-            Doctor doctor1 = context.Doctors.Find("0606988520123"); //Ovo je doktor Marija
-            Doctor doctor2 = context.Doctors.Find("0323970501235"); //Ovo je doktor Zika
+            patientCard = context.PatientCards.Find(1);
+            Doctor doctor1 = context.Doctors.Find("0606988520123"); 
+            Doctor doctor2 = context.Doctors.Find("0323970501235"); 
 
-            //Dodajem zavrsene preglede za Anu
             context.Add(new Examination
             {
                 Type = TypeOfExamination.GENERAL,
@@ -502,7 +496,6 @@ namespace Backend.Model
                 Anamnesis = "Upala pluća"
             });
 
-            //Dodajem zakazane preglede za Anu
             context.Add(new Examination
             {
                 Type = TypeOfExamination.GENERAL,
@@ -524,7 +517,6 @@ namespace Backend.Model
                 ExaminationStatus = ExaminationStatus.CREATED
             });
 
-            //Dodajem otkazane preglede za Anu
             context.Add(new Examination
             {
                 Type = TypeOfExamination.GENERAL,

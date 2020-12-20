@@ -75,7 +75,7 @@ $(document).ready(function () {
         $('#loadingSchedule').show();
         $('#free_appointments').empty();
         var newData = {
-            "PatientCardId": 2,
+            "PatientCardId": 1,
             "DoctorJmbg": doctorJmbg,
             "RequiredEquipmentTypes": [],
             "EarliestDateTime": date,
@@ -151,6 +151,7 @@ function scheduleExamination() {
             $('#centralModalSuccess').modal('hide');
             $('#modalLoading').hide();
             $('#modalButton').prop('disabled', false);
+            window.location.reload();
         },
         error: function (jqXHR) {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Examination scheduling failed.'
@@ -302,6 +303,7 @@ function cancelExamination(id) {
             $('#f' + id).remove();
             $('#a' + id).empty();
             $('#a' + id).prepend(alert);
+            window.location.reload();
         },
         error: function (jqXHR) {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">Cancelling was not successful.'

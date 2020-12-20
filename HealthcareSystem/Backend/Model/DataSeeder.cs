@@ -116,19 +116,19 @@ namespace Backend.Model
             context.Add(new Patient()
             {
                 Jmbg = "2711998896320",
-                Name = "Pera",
-                Surname = "Perić",
+                Name = "Žana",
+                Surname = "Žanić",
                 DateOfBirth = new DateTime(1998, 11, 27),
                 Gender = GenderType.M,
                 CityZipCode = 1,
-                Email = "peraperic@gmail.com",
+                Email = "zana998@gmail.com",
                 HomeAddress = "Bulevar Oslobođenja 100",
                 Password = "12345678",
                 DateOfRegistration = DateTime.Now,
                 IsActive = true,
                 IsBlocked = false,
                 Phone = "065897520",
-                Username = "peraperic@gmail.com",
+                Username = "zana998@gmail.com",
                 ImageName = "profile_pic.jpg"
             });
             context.SaveChanges();
@@ -152,11 +152,12 @@ namespace Backend.Model
 
         private void SeedSpecialties(MyDbContext context)
         {
-            context.Add(new Specialty() { Name = "Opšti" });
-            context.Add(new Specialty() { Name = "Kardiolog" });
-            context.Add(new Specialty() { Name = "Neurolog" });
-            context.Add(new Specialty() { Name = "Stomatolog" });
             context.Add(new Specialty() { Name = "Epidemiolog" });
+            context.Add(new Specialty() { Name = "Stomatolog" });
+            context.Add(new Specialty() { Name = "Neurolog" });
+            context.Add(new Specialty() { Name = "Kardiolog" });
+            context.Add(new Specialty() { Name = "Opšti" });
+
             context.SaveChanges();
         }
 
@@ -401,27 +402,31 @@ namespace Backend.Model
         private void SeedExaminations(MyDbContext context)
         {
             Doctor doctor = context.Doctors.Find("8520147896320"); //Ovo je doktor Dara
-            PatientCard patientCard = context.PatientCards.Find("2711998896320"); //Ovo je pacijent Pera
+            PatientCard patientCard = context.PatientCards.Find(2); //Ovo je pacijent Pera
             Room room = context.Rooms.Where(r => r.Usage.Equals(TypeOfUsage.CONSULTING_ROOM)).First();
 
-            DateTime start_future = DateTime.Now.Date.AddDays(5);
-            DateTime end_future = DateTime.Now.Date.AddDays(7);
-            DateTime start = start_future.AddHours(7);
-            DateTime end = end_future.AddHours(16).AddMinutes(30);
+            DateTime start = DateTime.Now.Date.AddDays(10).AddHours(7);
+            DateTime end = DateTime.Now.Date.AddDays(13).AddHours(17);
 
             //Pacijent Pera zakazuje sve termine za datume 25. i 27. decembar
             for (DateTime current = start; current < end; current = current.AddMinutes(30))
             {
-                context.Add(new Examination
+                if (CheckIfTimeValid(current))
                 {
-                    Type = TypeOfExamination.GENERAL,
-                    DoctorJmbg = doctor.Jmbg,
-                    IdPatientCard = patientCard.Id,
-                    IdRoom = room.Id,
-                    DateAndTime = current,
-                    IsSurveyCompleted = false,
-                    ExaminationStatus = ExaminationStatus.CREATED
-                });
+                    context.Add(new Examination
+                    {
+                        Type = TypeOfExamination.GENERAL,
+                        DoctorJmbg = doctor.Jmbg,
+                        IdPatientCard = patientCard.Id,
+                        IdRoom = room.Id,
+                        DateAndTime = current,
+                        IsSurveyCompleted = false,
+                        ExaminationStatus = ExaminationStatus.CREATED
+                    });
+                    continue;
+                }
+                current = new DateTime(current.Year, current.Month, current.Day, 6, 30, 0);
+                current = current.AddDays(1);
             }
             //Pacijent Pera je otkazao 3 pregleda u zadnjih mjesec dana, pa je maliciozni
             context.Add(new Examination
@@ -458,7 +463,7 @@ namespace Backend.Model
             //Prioritet je doktor -> Svi termini su zauzeti pa pretraga izbacuje termine izvan zadatog intervala
             //Prioritet je interval -> Svi termini kod Dare su zauzeti, pa pretraga izbacuje termine kod doktora Milosa
 
-            patientCard = context.PatientCards.Find("1309998775018"); //Ovo je pacijent Ana
+            patientCard = context.PatientCards.Find(1); //Ovo je pacijent Ana
             Doctor doctor1 = context.Doctors.Find("0606988520123"); //Ovo je doktor Marija
             Doctor doctor2 = context.Doctors.Find("0323970501235"); //Ovo je doktor Zika
 
@@ -541,16 +546,15 @@ namespace Backend.Model
 
             foreach (Examination e in previous)
             {
-                if (RandomGenerator.Next(10) > 3)
-                    context.Add(new Therapy()
-                    {
-                        IdExamination = e.Id,
-                        Diagnosis = e.Anamnesis,
-                        StartDate = e.DateAndTime,
-                        EndDate = e.DateAndTime.AddDays(RandomGenerator.Next(1, 10)),
-                        DailyDose = RandomGenerator.Next(1, 5),
-                        IdDrug = RandomGenerator.Next(1, maxDrugId)
-                    });
+                context.Add(new Therapy()
+                {
+                    IdExamination = e.Id,
+                    Diagnosis = e.Anamnesis,
+                    StartDate = e.DateAndTime,
+                    EndDate = e.DateAndTime.AddDays(RandomGenerator.Next(1, 10)),
+                    DailyDose = RandomGenerator.Next(1, 5),
+                    IdDrug = RandomGenerator.Next(1, maxDrugId)
+                });
             }
 
             context.SaveChanges();
@@ -596,45 +600,59 @@ namespace Backend.Model
                 CommentatorJmbg = "1309998775018",
                 Comment = "Sve je super.",
                 IsAllowedToPublish = true,
-                IsPublished = true
+                IsPublished = true,
+                SendingDate = new DateTime(2020,10,01)
             });
             context.Add(new Feedback()
             {
                 CommentatorJmbg = "1309998775018",
                 Comment = "Sviđa mi se Vaša bolnica.",
                 IsAllowedToPublish = true,
-                IsPublished = false
+                IsPublished = false,
+                SendingDate = new DateTime(2020, 10, 13)
             });
             context.Add(new Feedback()
             {
                 CommentatorJmbg = "2711998896320",
                 Comment = "Odlična usluga.",
                 IsAllowedToPublish = true,
-                IsPublished = true
+                IsPublished = true,
+                SendingDate = new DateTime(2020, 11, 05)
             });
             context.Add(new Feedback()
             {
                 CommentatorJmbg = "2711998896320",
                 Comment = "Zadovoljan sam uslugama.",
                 IsAllowedToPublish = true,
-                IsPublished = false
+                IsPublished = false,
+                SendingDate = new DateTime(2020, 11, 13)
             });
             context.Add(new Feedback()
             {
                 CommentatorJmbg = null,
                 Comment = "Najbolji ste, sve pohvale!",
                 IsAllowedToPublish = true,
-                IsPublished = true
+                IsPublished = true,
+                SendingDate = new DateTime(2020, 12, 06)
             });
             context.Add(new Feedback()
             {
                 CommentatorJmbg = null,
                 Comment = "Nisam zadovoljan.",
                 IsAllowedToPublish = false,
-                IsPublished = false
+                IsPublished = false,
+                SendingDate = new DateTime(2020, 12, 18)
             });
 
             context.SaveChanges();
+        }
+        private bool CheckIfTimeValid(DateTime dateTime)
+        {
+            if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(7, 0, 0)) < 0)
+                return false;
+            if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(17, 0, 0)) >= 0)
+                return false;
+            return true;
         }
 
     }

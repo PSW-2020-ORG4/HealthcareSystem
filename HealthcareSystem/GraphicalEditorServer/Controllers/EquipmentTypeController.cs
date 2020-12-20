@@ -37,7 +37,7 @@ namespace GraphicalEditorServer.Controllers
 
             foreach (EquipmentType equipmentType in _equipmentTypeService.GetEquipmentTypes())
             {
-                equipmentTypesDTO.Add(new EquipmentTypesMapper().EquipmentType_To_EquipmentTypeDTO(equipmentType));
+                equipmentTypesDTO.Add(EquipmentTypesMapper.EquipmentType_To_EquipmentTypeDTO(equipmentType));
             }
 
             return Ok(equipmentTypesDTO);

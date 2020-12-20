@@ -16,7 +16,7 @@ namespace E2ETests
             driver.Navigate().GoToUrl("https://vlaksi-patientwebapp.herokuapp.com/html/index.html");
 
             driver.FindElement(By.ClassName("nav-link")).Click();
-            driver.FindElement(By.ClassName("submit_btn")).Click();
+            driver.FindElement(By.Id("register")).Click();
         }
     }
 }

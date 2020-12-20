@@ -218,8 +218,8 @@ function getExaminations(path) {
         success: function (examinations) {
             if (examinations.length == 0) {
                 let alert = '<div id="loading" class="alert alert-info" role="alert" style="display:none">'
-                'No examinations found.'
-                '</div>';
+                    + 'No examinations found.'
+                    + '</div>';
                 $('#div_examinations').prepend(alert);
                 $('#loading').hide();
                 $('#search_examinations').find(":submit").prop('disabled', false);
@@ -234,8 +234,8 @@ function getExaminations(path) {
         },
         error: function () {
             let alert = '<div id="loading" class="alert alert-danger" role="alert" style="display:none">'
-            'Error fetching data.'
-            '</div>';
+                + 'Error fetching data.'
+                + '</div>';
             $('#div_examinations').prepend(alert);
             $('#loading').hide();
             $('#search_examinations').find(":submit").prop('disabled', false);

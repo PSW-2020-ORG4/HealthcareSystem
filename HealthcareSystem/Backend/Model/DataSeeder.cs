@@ -531,25 +531,6 @@ namespace Backend.Model
                 ExaminationStatus = ExaminationStatus.CANCELED
             });
 
-            DateTime past = DateTime.Now.Date.AddDays(-10);
-            DateTime startPast = past.AddHours(7);
-            DateTime endPast = past.AddHours(16).AddMinutes(30);
-
-            for (DateTime current = startPast; current < endPast; current = current.AddMinutes(30))
-            {
-                context.Add(new Examination
-                {
-                    Type = TypeOfExamination.GENERAL,
-                    DoctorJmbg = doctor.Jmbg,
-                    IdPatientCard = patientCard.Id,
-                    IdRoom = room.Id,
-                    DateAndTime = current,
-                    IsSurveyCompleted = false,
-                    ExaminationStatus = ExaminationStatus.FINISHED,
-                    Anamnesis = "Example anamnesis"
-                });
-            }
-
             context.SaveChanges();
         }
 
@@ -564,7 +545,7 @@ namespace Backend.Model
                     context.Add(new Therapy()
                     {
                         IdExamination = e.Id,
-                        Diagnosis = "Example diagnosis",
+                        Diagnosis = e.Anamnesis,
                         StartDate = e.DateAndTime,
                         EndDate = e.DateAndTime.AddDays(RandomGenerator.Next(1, 10)),
                         DailyDose = RandomGenerator.Next(1, 5),

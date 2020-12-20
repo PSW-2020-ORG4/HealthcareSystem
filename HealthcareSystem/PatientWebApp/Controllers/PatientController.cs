@@ -120,7 +120,7 @@ namespace PatientWebApp.Controllers
         {
             if (file == null || file.Length == 0)
             {
-                return RedirectPermanent("http://localhost:65117/html/patient_registration.html");
+                return RedirectPermanent("/html/patient_registration.html");
             }
             string directoryPath = _webHostEnvironment.WebRootPath + "\\Uploads\\";
             string imagePath = directoryPath + file.FileName;
@@ -154,7 +154,7 @@ namespace PatientWebApp.Controllers
             {
                 return NotFound(exception.Message);
             }
-            return RedirectPermanent("http://localhost:65117/html/patients_home_page.html");
+            return RedirectPermanent("/html/patients_home_page.html");
         }
         /// <summary>
         /// /getting malicious patients(who canceled examinations 3 or more times in the past month)

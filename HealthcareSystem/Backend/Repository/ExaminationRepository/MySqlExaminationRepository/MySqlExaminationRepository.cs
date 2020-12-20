@@ -116,7 +116,7 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             try
             {
-                return _context.Examinations.Where(e => e.DoctorJmbg == doctorJmbg && e.DateAndTime == dateTime).ToList();
+                return _context.Examinations.Where(e => e.DoctorJmbg == doctorJmbg && e.DateAndTime == dateTime && e.ExaminationStatus == ExaminationStatus.CREATED).ToList();
             }
             catch (Exception)
             {
@@ -128,7 +128,7 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             try
             {
-                return _context.Examinations.Where(e => e.IdRoom == roomId && e.DateAndTime == dateTime).ToList();
+                return _context.Examinations.Where(e => e.IdRoom == roomId && e.DateAndTime == dateTime && e.ExaminationStatus == ExaminationStatus.CREATED).ToList();
             }
             catch (Exception)
             {
@@ -140,7 +140,7 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             try
             {
-                return _context.Examinations.Where(e => e.IdPatientCard == patientCardId && e.DateAndTime == dateTime).ToList();
+                return _context.Examinations.Where(e => e.IdPatientCard == patientCardId && e.DateAndTime == dateTime && e.ExaminationStatus == ExaminationStatus.CREATED).ToList();
             }
             catch (Exception)
             {

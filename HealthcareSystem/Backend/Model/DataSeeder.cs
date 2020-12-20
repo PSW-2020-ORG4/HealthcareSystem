@@ -31,6 +31,11 @@ namespace Backend.Model
             Verbose = verbose;
         }
 
+        public Boolean IsAlreadySeeded(MyDbContext context)
+        {
+            return context.Countries.Where(c => c.Name.Equals("Srbija")).Count() > 0;
+        }
+
         public void SeedAll(MyDbContext context)
         {
             if (Verbose) Console.WriteLine("Seeding countries.");
@@ -54,6 +59,8 @@ namespace Backend.Model
             SeedEquipmentInRooms(context);
             if (Verbose) Console.WriteLine("Seeding examinations.");
             SeedExaminations(context);
+            if (Verbose) Console.WriteLine("Seeding therapies.");
+            SeedTherapies(context);
             if (Verbose) Console.WriteLine("Seeding pharmacies.");
             SeedPharmacies(context);
             if (Verbose) Console.WriteLine("Seeding drug consumptions.");
@@ -103,7 +110,8 @@ namespace Backend.Model
                 IsActive = true,
                 IsBlocked = false,
                 Phone = "065897520",
-                Username = "ana_anic98@gmail.com"
+                Username = "ana_anic98@gmail.com",
+                ImageName = "picture1.jpg"
             });
             context.Add(new Patient()
             {
@@ -121,6 +129,7 @@ namespace Backend.Model
                 IsBlocked = false,
                 Phone = "065897520",
                 Username = "peraperic@gmail.com",
+                ImageName = "profile_pic.jpg"
             });
             context.SaveChanges();
 
@@ -521,6 +530,47 @@ namespace Backend.Model
                 IsSurveyCompleted = false,
                 ExaminationStatus = ExaminationStatus.CANCELED
             });
+
+            DateTime past = DateTime.Now.Date.AddDays(-10);
+            DateTime startPast = past.AddHours(7);
+            DateTime endPast = past.AddHours(16).AddMinutes(30);
+
+            for (DateTime current = startPast; current < endPast; current = current.AddMinutes(30))
+            {
+                context.Add(new Examination
+                {
+                    Type = TypeOfExamination.GENERAL,
+                    DoctorJmbg = doctor.Jmbg,
+                    IdPatientCard = patientCard.Id,
+                    IdRoom = room.Id,
+                    DateAndTime = current,
+                    IsSurveyCompleted = false,
+                    ExaminationStatus = ExaminationStatus.FINISHED,
+                    Anamnesis = "Example anamnesis"
+                });
+            }
+
+            context.SaveChanges();
+        }
+
+        private void SeedTherapies(MyDbContext context)
+        {
+            List<Examination> previous = context.Examinations.Where(e => e.ExaminationStatus == ExaminationStatus.FINISHED).ToList();
+            int maxDrugId = context.Drugs.Count() + 1;
+
+            foreach (Examination e in previous)
+            {
+                if (RandomGenerator.Next(10) > 3)
+                    context.Add(new Therapy()
+                    {
+                        IdExamination = e.Id,
+                        Diagnosis = "Example diagnosis",
+                        StartDate = e.DateAndTime,
+                        EndDate = e.DateAndTime.AddDays(RandomGenerator.Next(1, 10)),
+                        DailyDose = RandomGenerator.Next(1, 5),
+                        IdDrug = RandomGenerator.Next(1, maxDrugId)
+                    });
+            }
 
             context.SaveChanges();
         }

@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
 	var dtToday = new Date();
 
 	var month = dtToday.getMonth() + 1;
@@ -13,8 +12,8 @@
 	var maxDate = year + '-' + month + '-' + day;
 
 	$('#dateOfBirth').attr('max', maxDate);
-
 	$('#image_row').empty();
+	$('#confirm_pass_validation').attr("hidden", true);
 
 	/* Display the image on the html page */
 	var chosen_image = [];
@@ -27,10 +26,8 @@
 			chosen_image.push(image);
 			var fileReader = new FileReader();
 			fileReader.onload = (function (event) {
-				var image_div = $("<div class=\"col-md-3\"><span class=\"pip\">" +
-					"<img class=\"imageThumb\" style='width:100%; height:90%; margin-top:10px;' src=\"" + event.target.result + "\" title=\"" + image.name + "\"/>"
-					+ "</span></div>");
-				$('#image_row').append(image_div);
+				$('#profile_image').attr('src', event.target.result);
+				$('#profile_image').show();
 			});
 			fileReader.readAsDataURL(image);
 		});
@@ -85,19 +82,23 @@
 	/*Select combo box about medical insurance*/
 	$("#insurance").change(function () {
 		if ($('#insurance').val() == 1) {
-			$('#enter_lbo').text('Personal number of the insured *');
+			$('#enter_lbo').text('Insurance number *');
+			$('#lbo').attr('required', true);
+			$('#insurance_validation').attr('hidden', false);
 		}
 		else {
-			$('#enter_lbo').text('Personal number of the insured');
-        }
-		
-	})
+			$('#enter_lbo').text('Insurance number');
+			$('#lbo').attr('required', false);
+			$('#insurance_validation').attr('hidden', true);
+		}
 
+	});
 
 	/*Registrate patient on submit*/
 	$('form#registration').submit(function (event) {
 
 		event.preventDefault();
+		$('#div_alert').empty();
 
 		let name = $('#name').val();
 		let surname = $('#surname').val();
@@ -122,8 +123,9 @@
 		let file = $('#file').val()
 
 		if (file == null || file == '') {
-			alert('Please, upload a profile image');
-			return;
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Please, upload a profile image.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
 		}
 
 		if (bloodType == null) {
@@ -138,15 +140,19 @@
 			hasInsurance = true;
 		}
 
-		if (hasInsurance == true && (lbo == null || lbo == "")) {
-			alert("If You have medical insurance, fill personal number of the insured.");
+		if (password != passwordRepeat) {
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Password and confirm password don\'t match.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
 			return;
 		}
 
-		if (password != passwordRepeat) {
-			alert("Password and confirm password don't match.");
+		if (!$.isNumeric(jmbg) || jmbg.toString().length < 13) {
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">JMBG must have 13 digits.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
 			return;
-		}
+        }
 
 		var newPatient = {
 			"Jmbg": jmbg,
@@ -170,23 +176,30 @@
 			"MedicalHistory": medHistory
 		};
 
-
-		$.ajax({
-			url: "/api/patient",
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(newPatient),
-			success: function () {
-
-				var actionPath = '/api/patient/upload?patientJmbg=' + jmbg;
-				$('#form_image').attr('action', actionPath)
-				$('#form_image').submit();
-
-			},
-			error: function () {
-				console.log("error about patient registration");
-			}
-		});
+		if ($("form#registration").hasClass("unsuccessful")) {
+			return;
+        }
+		else
+		{
+			$("form#registration").removeClass("unsuccessful");
+			$.ajax({
+				url: "/api/patient",
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(newPatient),
+				success: function () {
+					var actionPath = '/api/patient/upload?patientJmbg=' + jmbg;
+					$('#form_image').attr('action', actionPath)
+					$('#form_image').submit();
+				},
+				error: function (jqXHR) {
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+						+ jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					$('#div_alert').append(alert);
+					return;
+				}
+			});
+		}
 
 	});
 

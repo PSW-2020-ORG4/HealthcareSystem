@@ -4,9 +4,6 @@
     $('#doctor_surname').val("");
     $('#drug_exam_name').val("");
 
-    $('#examination_search').prop("selected", true);
-    $("#drug_exam_name").attr("placeholder", "Anamnesis").blur();
-
     var dtToday = new Date();
 
     var month = dtToday.getMonth() + 1;
@@ -26,10 +23,11 @@
 
         let doc_type = $('#doc_type option:selected').val();
         if (doc_type == "prescription") {
-
-            $("#drug_exam_name").attr("placeholder", "Drug name").blur();
+            $("#drug_exam_name").attr("placeholder", "Enter drug name");
+            $("#drug_exam_label").text("Drug name");
         } else {
-            $("#drug_exam_name").attr("placeholder", "Anamnesis").blur();
+            $("#drug_exam_name").attr("placeholder", "Enter anamnesis");
+            $("#drug_exam_label").text("Anamnesis");
         }
     });
 
@@ -43,22 +41,33 @@
         contentType: false,
         success: function (data) {
             if (data.length == 0) {
-                $('#not_found').text('There are no such examination reports.');
-                $('#not_found').attr("hidden", false);
+                let alert = '<div id="loading" class="alert alert-info" role="alert">'
+                    + 'No examinations found.'
+                    + '</div>';
+                $("#loading").hide();
+                $("#div_prescriptions").prepend(alert);
             }
-            for (let i = 0; i < data.length; i++) {
-                addExaminationRow(data[i],i);
+            else {
+                for (let i = 0; i < data.length; i++) {
+                    addExaminationRow(data[i]);
+                }
+                $("#loading").hide();
             }
         },
         error: function () {
-            console.log("Error getting examination reports")
+            let alert = '<div id="loading" class="alert alert-danger" role="alert">'
+                + 'Error fetching data.'
+                + '</div>';
+            $("#loading").hide();
+            $("#div_prescriptions").prepend(alert);
         }
     });
     $('form#search_prescription').submit(function (event) {
+        $('#search_prescription').find(":submit").prop('disabled', true);
         event.preventDefault()
+        $("#loading").show();
         $("#div_prescriptions").empty();
 
-        var j = 0;
         let start_date = $('#start_date').val();
         let end_date = $('#end_date').val();
         let doctor = $('#doctor_surname').val();
@@ -96,14 +105,31 @@
                 contentType: 'application/json',
                 data: JSON.stringify(newData),
                 success: function (data) {
-                    for (let i = 0; i < data.length; i++) {
-                        addExaminationRow(data[i], i);
+                    if (data.length == 0) {
+                        let alert = '<div id="loading" class="alert alert-info" role="alert">'
+                            + 'No examinations found.'
+                            + '</div>';
+                        $("#loading").hide();
+                        $("#div_prescriptions").prepend(alert);
+                        $('#search_prescription').find(":submit").prop('disabled', false);
+                    }
+                    else {
+                        for (let i = 0; i < data.length; i++) {
+                            addExaminationRow(data[i]);
+                        }
+                        $("#loading").hide();
+                        $('#search_prescription').find(":submit").prop('disabled', false);
                     }
                 },
-                error: function (error) {
-                    alert("Error getting examinations")
+                error: function () {
+                    let alert = '<div id="loading" class="alert alert-danger" role="alert">'
+                        + 'Error fetching data.'
+                        + '</div>';
+                    $("#loading").hide();
+                    $("#div_prescriptions").prepend(alert);
+                    $('#search_prescription').find(":submit").prop('disabled', false);
                 }
-            }); 
+            });
 
         } else {
             var newData = {
@@ -116,50 +142,85 @@
                 "DrugNameOperator": operator,
                 "DrugName": anamnesis_or_drug
             };
-            
+
             $.ajax({
-               url: "/api/therapy/advance-search",
-               type: 'POST',
-               contentType: 'application/json',
-               data: JSON.stringify(newData),
-               success: function (therapies) {
-                    for (let i = 0; i < therapies.length; i++) {
-                        j = j + 1;
-                        addPrescriptionTable(therapies[i], j);
+                url: "/api/therapy/advance-search",
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(newData),
+                success: function (therapies) {
+                    if (therapies.length == 0) {
+                        let alert = '<div id="loading" class="alert alert-info" role="alert">'
+                            + 'No therapies found.'
+                            + '</div>';
+                        $("#loading").hide();
+                        $("#div_prescriptions").prepend(alert);
+                        $('#search_prescription').find(":submit").prop('disabled', false);
                     }
-               },
-               error: function (error) {
-                    alert("Error getting therapies")
-               }
-             });
+                    else {
+                        for (let i = 0; i < therapies.length; i++) {
+                            addPrescriptionTable(therapies[i]);
+                        }
+                        $("#loading").hide();
+                        $('#search_prescription').find(":submit").prop('disabled', false);
+                    }
+                },
+                error: function (error) {
+                    let alert = '<div id="loading" class="alert alert-danger" role="alert">'
+                        + 'Error fetching data.'
+                        + '</div>';
+                    $("#loading").hide();
+                    $("#div_prescriptions").prepend(alert);
+                    $('#search_prescription').find(":submit").prop('disabled', false);
+                }
+            });
 
         }
     });
 });
-function addPrescriptionTable(therapy, j) {
-    let divElement = $('<div style="margin-top: 40px; margin-left: 21%; margin-bottom:20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 40px;left: 450px; top: 200px; width:600px;">'
-        + '<table><tr><td>'
-        + '<table style="height: 220px; margin-left: 30px; margin-bottom: 20px; width: 350px;">'
-        + '<tr><td colspan="2"><h5>Prescription information '+ j +'</h5></td></tr>'
-        + ' <tr> <th>Start date:</th><td>' + therapy.startDate + '</td></tr > '
-        + ' <tr> <th>End date:</th><td>' + therapy.endDate + '</td></tr > '
-        + ' <tr> <th>Daily dose:</th><td>' + therapy.dailyDose + '</td></tr > '
-        + '<tr><th >Doctor:</th><td>' + therapy.doctorName + ' ' + therapy.doctorSurname + '</td></tr>'
-        + ' <tr> <th>Drug:</th><td>' + therapy.drugName + '</td></tr></br> '
-        + ' </table ></div > ');
+function addPrescriptionTable(therapy) {
+    let divElement = $(
+        '<div class="row">'
+        + '<div class="col mb-4">'
+        + '<div class="card">'
+        + '<div class="card-header bg-info text-white">'
+        + '<h4 class="card-title mb-0"><strong>'
+        + therapy.drugName + '</strong> <span class="badge badge-light">' + therapy.dailyDose + ' daily</span>'
+        + ' from <span class= "badge badge-light"> ' + therapy.startDate + ' </span >'
+        + ' to <span class= "badge badge-light"> ' + therapy.endDate + '</span >'
+        + '</h4> '
+        + '</div>'
+        + '<div class="card-body p-3">'
+        + '<label class="text-secondary mb-0">Prescribed by</label><br>'
+        + '<label id="jmbg">' + therapy.doctorName + ' ' + therapy.doctorSurname + '</label><br>'
+        + ' </div></div></div></div>'
+    );
+    $('div#div_prescriptions').append(divElement);
+}
+
+function addExaminationRow(examination) {
+    let type = '';
+    if (examination.type == "GENERAL")
+        type = "Examination";
+    else
+        type = "Surgery";
+
+    let divElement = $(
+        '<div class="row">'
+        + '<div class="col mb-4">'
+        + '<div class="card">'
+        + '<div class="card-header bg-info text-white">'
+        + '<h4 class="card-title mb-0">'
+        + type + ' on <span class="badge badge-light">' + examination.dateAndTime + '</span> '
+        + '</h4>'
+        + '</div>'
+        + '<div class="card-body p-3">'
+        + '<label class="text-secondary mb-0">Doctor:</label><br>'
+        + '<label>' + examination.doctorName + ' ' + examination.doctorSurname + '</label><br>'
+        + '<label class="text-secondary mb-0">Anamnesis:</label><br>'
+        + '<label>' + examination.anamnesis + '</label><br>'
+        + '</div></div>'
+    );
     $('div#div_prescriptions').append(divElement);
 
-}
-function addExaminationRow(examination, i) {
-    i = i + 1;
-    let divElement = $('<div style="margin-top: 40px; margin-left: 21%; margin-bottom:20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 40px;left: 450px; top: 200px; width:600px;">'
-        + '<table><tr><td>'
-        + '<table style="height: 220px; margin-left: 30px; margin-bottom: 20px; width: 350px;">'
-        + '<tr><td colspan="2"><h5>Examination report information '+ i +'</h5></td></tr>'
-        + '<tr><th>Date:</th><td>' + examination.dateAndTime + '</td></tr>'
-        + '<tr><th>Doctor:</th><td>' + examination.doctorName + ' ' + examination.doctorSurname + '</td></tr>'
-        + '<tr><th>Type:</th><td>' + examination.type + '</td></tr>'
-        + '<tr><th>Anamnesis:</th><td>' + examination.anamnesis + '</td></tr></br>'+ ' </table ></div > ');
-    $('div#div_prescriptions').append(divElement);
-    
 }

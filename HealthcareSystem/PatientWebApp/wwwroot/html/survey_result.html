@@ -9,63 +9,100 @@
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="../lib/jquery-ui-bootstrap/assets/css/bootstrap.min.css">
-    <!-- Material Design Bootstrap -->
-    <link rel="stylesheet" href="../lib/mdbootstrap/css/mdb.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../lib/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/survey_result.js"></script>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="../lib/mdb/css/mdb.min.css" rel="stylesheet">
     <title>Survey result</title>
 </head>
-<body style="background-color: rgb(125, 208, 230)">
+<body>
 
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-        <a href="admins_home_page.html"><h4 class="navbar-brand" id="title" style="margin-right: 50px;"> HOSPITAL</h4></a>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="unpublished_feedback.html">Publish feedback</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="survey_results.html">Survey result </a>
-            </li>
-        </ul>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="malicious_patients.html">Malicious patients</a>
-            </li>
-        </ul>
-    </nav>
+    <div id="container" class="container w-50 mt-5 pt-3 mb-4">
 
-    <div class="text-center border border-light p-4">
-        <p class="h3 mb-3"> Survey result </p>
-    </div>
+        <div class="row">
+            <div class="col p-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <div class="row align-items-center">
+                            <h4 class="card-title mb-0 col">
+                                Opinion about the medical staff
+                            </h4>
+                            <h4 class="card-title mb-0 col-auto pr-3 pl-3">
+                                <span class="badge badge-light"><span id="avgStaff"></span>/5</span>
+                            </h4>
+                        </div>
+                    </div>
 
-    <div id="survey_result">
-        <div id="survey_result_MedicalStaff" style="background-color: rgb(125, 208, 250)" class="container p-3 my-3 border">
-            <p class="text-center h4 mb-4"> Opinion about the medical staff  </p>
-        </div>
-        <div id="survey_result_Hospital" style="background-color: rgb(125, 208, 250)" class="container p-3 my-3 border">
-            <p class="text-center h4 mb-4"> Opinion about the hospital  </p>
-        </div>
-        <div style="background-color: rgb(125, 208, 250)" class="container p-3 my-3 border">
-            <div id="choosing_doctor" class="text-center container">
-                <p class="text-center h4 "> Choose a doctor </p>
-                <select name="doctors" id="doctors" onchange="changeDoctor(event)">
-                    <option value="none" selected disabled hidden>
-                        Select an Option
-                    </option>
-                </select>
-            </div>
-            <p class="text-center h4 mb-4  my-3"> Opinion about the doctor  </p>
-            <div id="survey_result_Doctor">
+                    <div class="card-body p-3" id="survey_result_MedicalStaff">
+
+                        <div id="loadingStaff" class="alert alert-info mb-0" role="alert">
+                            Loading...
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col p-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <div class="row align-items-center">
+                            <h4 class="card-title mb-0 col">
+                                Opinion about the hospital
+                            </h4>
+                            <h4 class="card-title mb-0 col-auto pr-3 pl-3">
+                                <span class="badge badge-light"><span id="avgHospital"></span>/5</span>
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-3" id="survey_result_Hospital">
+
+                        <div id="loadingHospital" class="alert alert-info mb-0" role="alert">
+                            Loading...
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col p-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <div class="row align-items-center">
+                            <h4 class="card-title mb-0 col">
+                                Opinion about the doctor
+                            </h4>
+                            <h4 class="card-title mb-0 col-auto pr-3 pl-3">
+                                <span class="badge badge-light"><span id="avgDoctor"></span>/5</span>
+                            </h4>
+                        </div>
+                    </div>
+
+                    <div class="card-body p-3">
+                        <select name="doctors" id="doctors" onchange="changeDoctor(event)" class="custom-select w-100" required>
+                            <option value="" disabled selected hidden>Choose a doctor</option>
+                        </select>
+                        <div id="loadingDoctor" class="alert alert-info mt-3 mb-0" role="alert" style="display:none;">
+                            Loading...
+                        </div>
+                        <div id="survey_result_Doctor" class="pt-3 pb-0 mb-0">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script type="text/javascript" src="../lib/mdb/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="../js/survey_result.js"></script>
+    <script type="text/javascript" src="../js/navbars/admin.js"></script>
 </body>
 </html>

@@ -1,7 +1,8 @@
 ﻿$(document).ready(function () {
 
 	$('#add_feedback_form').submit(function (event) {
-
+		$('#loading').show();
+		$('#add_feedback_form').find(":submit").prop('disabled', true);
 		event.preventDefault();
 
 		var msg = $('#text_area_id').val();
@@ -11,13 +12,11 @@
 		var allowed = true;
 
 		if (!msg) {
-			$('#ap_error_msg').text('Enter a feedback message!');
-			$('#ap_error_msg').attr("hidden", false);
-
-			setTimeout(function () {
-				$('#ap_error_msg').attr("hidden", true);
-			}, 2000);
-
+			$('#loading').hide();
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Feedback cannot be empty.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#alert').prepend(alert);
+			$('#add_feedback_form').find(":submit").prop('disabled', false);
 			return;
 		}
 
@@ -58,25 +57,30 @@
 					contentType: 'application/json',
 					data: JSON.stringify(newData),
 					success: function () {
-
-						$('#ap_success_msg').text('You have successfully left a feedback!');
-						$('#ap_success_msg').attr("hidden", false);
-
-						setTimeout(function () {
-							window.location.href = 'patients_home_page.html';
-						}, 2000);
+						$('#text_area_id').val(null);
+						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">You have successfuly left a feedback.'
+							+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#loading').hide();
+						$('#add_feedback_form').find(":submit").prop('disabled', false);
+						$('#alert').prepend(alert);
 
 					},
 					error: function (jqXHR) {
-
-						alert(jqXHR.responseText);
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Leaving feedback was not successful.'
+							+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						$('#loading').hide();
+						$('#add_feedback_form').find(":submit").prop('disabled', false);
+						$('#alert').prepend(alert);
 					}
 				});
 
 			},
 			error: function () {
-
-				console.log("Error getting patients");
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error getting patient.'
+					+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#loading').hide();
+				$('#add_feedback_form').find(":submit").prop('disabled', false);
+				$('#alert').prepend(alert);
 			}
 		});
 

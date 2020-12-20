@@ -7,65 +7,98 @@
         processData: false,
         contentType: false,
         success: function (data) {
-            for (let i = 0; i < data.length; i++) {
 
-                
+
+            for (let i = 0; i < data.length; i++) {
                 $.ajax({
-                    url: '/api/patient/' + data[i].jmbg +'/canceled-examinations',
+                    url: '/api/patient/' + data[i].jmbg + '/canceled-examinations',
                     type: 'GET',
                     dataType: 'json',
                     processData: false,
                     contentType: false,
                     success: function (number) {
-                        addPatient(data[i],number);
+                        addPatient(data[i], number);
                     },
                     error: function () {
-                        console.log("Error getting number of canceled examinations")
+                        addPatient(data[i], null);
                     }
                 });
             }
+            $('#loading').remove();
         },
         error: function () {
-            console.log("Error getting malicious patients")
+            let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+            $('#loading').remove();
+            $('div#div_patients').prepend(alert);
         }
     });
 });
 
 function addPatient(patient, number) {
-    let btn_type = '';
-    if (patient.isBlocked == false) {
-        btn_type = '<button name="button_block" class="btn btn-danger" style="margin-left:80px;margin-bottom:40px; width:150px" id="' + patient.jmbg
-            + '" onclick="blockPatient(this.id)">Block</button>';
+    let noCanc = '';
+    if (number)
+        noCanc = '<strong>' + number + '</strong> cancellations';
+    else
+        noCanc = 'Error fetching number of cancellations.';
+
+    let patientName = patient.name + ' ' + patient.surname;
+    let address = patient.homeAddress + ', ' + patient.cityName + ', ' + patient.countryName;
+
+    let image = '';
+    if (patient.imageName) {
+        image = "/Uploads/" + patient.imageName;
+    } else {
+        image = "/images/Blank-profile.png";
     }
 
-    let new_patient = $('<div style="margin-top:0px; margin-left: 21%; margin-bottom:20px; border-style: solid; border-color: black; border-width: 1px; background-color: #cce6ff; padding-top: 20px;left: 450px; top: 200px; width:600px;">'
-        + '<table style="height: 100px; margin-left: 30px; margin-bottom: 20px; width: 450px;">'
-        + '<tr><td><th>Name:</th></td><td>' + ' ' + patient.name + '</td><td></td></tr>'
-        + '<tr><td><th>Surname:</th></td><td style=" margin-left: 30px;">' + ' ' + patient.surname + '</td><td></td></tr>'
-        + '<tr><td><th>Number of canceled examinations:</th></td><td style=" margin-left: 30px;" width="30px">' + ' ' + number + '</td > <td>' + btn_type + '</td></tr > '
-        + '<tr><td><th>Email:</th></td><td style=" margin-left: 30px;">' + ' ' + patient.email + '</td><td></td></tr></br>'
-        + '<tr><td><th>Phone:</th></td><td width="30px" style=" margin-left: 30px;">' + ' ' + patient.phone + '</td><td></td></tr></br>'
-        +'</table ></div > ');
-	
+    let new_patient = '<div class="row"><div class="col p-4"><div class="card">'
+        + '<div class="card-header bg-info text-white pt-0 pb-0">'
+        + '<div class="row align-items-center"><div class="col-auto p-1">'
+        + '<img width="75px" height="75px" class="rounded-circle border border-white p-1" alt="No image" src="' + image + '">'
+        + '</div><div class="col"><h4 class="card-title mb-0">'
+        + patientName + '</h4></div></div></div>'
+        + '<div class="card-body p-3"><label class="text-secondary mb-0">JMBG:</label><label class="text-secondary float-right mb-0">Email:</label><br>'
+        + '<label>' + patient.jmbg + '</label>'
+        + '<label class="float-right">' + patient.email + '</label><br>'
+        + '<label class="text-secondary mb-0">Address:</label><label class="text-secondary float-right mb-0">Phone number:</label><br>'
+        + '<label>' + address + '</label>'
+        + '<label class="float-right">' + patient.phone + '</label><br>'
+        + '</div><div class="card-footer">'
+        + '<span class="text-danger align-middle" style="font-size:18px">' + noCanc + '</span>';
 
-    $('div#div_patients').append(new_patient);
+    if (patient.isBlocked == false) {
+        new_patient = new_patient + '<button type="button" class="btn btn-danger float-right" id="'
+            + patient.jmbg + '" onclick="blockPatient(this.id)">Block</button></div>'
+            + '<div class="card-footer bg-transpartent border-top-0 p-0" id="a' + patient.jmbg + '">';
+    }
+
+    new_patient = new_patient + '</div></div></div></div>';
+
+    $('div#div_patients').append($(new_patient));
 }
 
 
 function blockPatient(patientJmbg) {
+    let loading = $('<div class="alert alert-info m-2" role="alert">Blocking...</div >');
+    $('#' + patientJmbg).prop("disabled", true);
+    $('#a' + patientJmbg).prepend(loading);
 
     $.ajax({
         type: "PUT",
         url: "/api/patient/blocked/" + patientJmbg,
         success: function () {
-            console.log('You have successfully blocked the patient.');
-            setTimeout(function () {
-                location.reload();
-            }, 500);
+            let alert = $('<div class="alert alert-success alert-dismissible fade show m-2" role="alert">Patient was successfully blocked.'
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+            $('#' + patientJmbg).remove();
+            $('#a' + patientJmbg).empty();
+            $('#a' + patientJmbg).prepend(alert);
         },
         error: function (jqXHR) {
-            alert("Error");
-            alert(jqXHR.responseText);
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">Blocking was not successful.'
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+            $('#a' + patientJmbg).empty();
+            $('#' + patientJmbg).prop("disabled", false);
+            $('#a' + patientJmbg).prepend(alert);
         }
     });
 };

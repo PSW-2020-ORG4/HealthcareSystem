@@ -13,6 +13,12 @@ namespace Backend.Service.ExaminationAndPatientCard
         public ScheduleAppointmentService(IExaminationRepository examinationRepository) {
             _examinationRepository = examinationRepository;
         }
+
+        public Examination GetExaminationById(int id)
+        {
+            return _examinationRepository.GetExaminationById(id);
+        }
+
         public void ScheduleAnAppointmentByDoctor(Examination scheduleExamination)
         {
             _examinationRepository.AddExamination(scheduleExamination);

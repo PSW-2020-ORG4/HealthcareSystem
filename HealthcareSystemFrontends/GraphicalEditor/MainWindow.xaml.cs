@@ -147,6 +147,7 @@ namespace GraphicalEditor
 
         public ObservableCollection<EquipmentTypeForViewDTO> AllEquipmentTypes { get; set; }
         
+        public List<ExaminationDTO> ExaminationSearchResults { get; set; }
 
         public MainWindow()
         {
@@ -171,21 +172,20 @@ namespace GraphicalEditor
             //new AppointmentService().AddExamination(new ExaminationDTO(DateTime.Now, "1234567891234",1,1));
             // uncomment only the first time you start the project in order
             // to populate DB with start data
-            var a = new EquipmentTypeService().GetEquipmentTypes();
-
             InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
             //initializeDatabaseData.InitiliazeData();
+
+            //var a = new EquipmentTypeService().GetEquipmentTypes();
 
             EquipementService equipementService = new EquipementService();
             AppointmentService appointmentService = new AppointmentService();
 
-            /*
-            AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
+            /*AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
                 new BasicAppointmentSearchDTO(1, "1234567891234", new List<int>(), new DateTime(2020, 12, 30, 8, 0, 0), new DateTime(2020, 12, 30, 22, 0, 0)),
-                SearchPriority.Doctor, 1);*/
+                SearchPriority.Doctor, 1);
 
-            //List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);
-            //RemoveAppointmentsWithDuplicateTimes(freeAppointments);
+            List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);*/
+            
 
             SetDataToUIControls();
         }
@@ -252,13 +252,6 @@ namespace GraphicalEditor
             }
         }
 
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            foreach (EquipmentTypeForViewDTO eas in AllEquipmentTypes)
-            {
-                Console.WriteLine(eas.IsSelected);
-            }
-        }
 
         private List<ExaminationDTO> RemoveAppointmentsWithDuplicateTimes(List<ExaminationDTO> freeAppointments)
         {
@@ -275,13 +268,20 @@ namespace GraphicalEditor
 
         private ICollection<int> GetFreeRoomsByAppointment(List<ExaminationDTO> freeAppointments, ExaminationDTO appointment)
         {
+           if(appointment == null)
+           {
+                return new List<int>();
+           }
+    
             ICollection<int> freeRooms = new List<int>();
+
             foreach (var e in freeAppointments.Where(e => e.DateTime.Equals(appointment.DateTime)))
                 freeRooms.Add(e.RoomId);
 
             return freeRooms;
-
         }
+
+      
 
         private void RestrictUsersAccessBasedOnRole()
         {
@@ -686,10 +686,11 @@ namespace GraphicalEditor
             ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
+       
         private void AppointmentDoctorSpecializationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DoctorService doctorService = new DoctorService();
-
+           
             SpecialtyDTO selectedSpecialty = (SpecialtyDTO)AppointmentDoctorSpecializationComboBox.SelectedItem;
             List<DoctorDTO> doctorsWithSelectedSpecialty = doctorService.GetDoctorsBySpecialty(selectedSpecialty.Id);
             AppointmentDoctorComboBox.ItemsSource = doctorsWithSelectedSpecialty;
@@ -697,26 +698,74 @@ namespace GraphicalEditor
 
         private void SearchAppointmentsButton_Click(object sender, RoutedEventArgs e)
         {
-            //AppointmentSearchResultsDataGrid.BringIntoView();
+            DateTime startDate = AppointmentSearchStartDatePicker.SelectedDate.Value.Date;
+            DateTime startTime = AppointmentSearchStartTimePicker.SelectedTime.Value;
+           
+            DateTime endDate = AppointmentSearchEndDatePicker.SelectedDate.Value.Date;
+            DateTime endTime = AppointmentSearchEndTimePicker.SelectedTime.Value;
+
+            DateTime appointmentSearchStartDateTime = new DateTime(startDate.Year, startDate.Month, startDate.Day, startTime.Hour, startTime.Minute, startTime.Second);
+            DateTime appointmentSearchEndDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day, endTime.Hour, endTime.Minute, endTime.Second);
+            
+            string doctorJmbg = ((DoctorDTO)AppointmentDoctorComboBox.SelectedItem).Jmbg;
+            int patientCardId = ((PatientBasicDTO)AppointmentSearchPatientComboBox.SelectedItem).PatientCardId;
+
+            int doctorSpecialtyId = ((SpecialtyDTO)AppointmentDoctorSpecializationComboBox.SelectedItem).Id;
+
+            SearchPriority searchPriority;
+            if ((bool)AppointmentSearchDoctorPriorityRadioButton.IsChecked)
+            {
+                searchPriority = SearchPriority.Doctor;
+            }
+            else
+            {
+                searchPriority = SearchPriority.Date;
+            }
+         
+
+            List<int> appointmentRequiredEquipmentTypes = new List<int>();
+            foreach (EquipmentTypeForViewDTO equipmentType in AllEquipmentTypes)
+            {
+                if(equipmentType.IsSelected)
+                {
+                    appointmentRequiredEquipmentTypes.Add(equipmentType.EquipmentType.Id);
+                }
+            }
+
+            AppointmentService appointmentService = new AppointmentService();
+            AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO(new BasicAppointmentSearchDTO(patientCardId, doctorJmbg, appointmentRequiredEquipmentTypes, new DateTime(appointmentSearchStartDateTime.Ticks, DateTimeKind.Utc), new DateTime(appointmentSearchEndDateTime.Ticks, DateTimeKind.Utc)), searchPriority, doctorSpecialtyId);
+            List<ExaminationDTO> examinationDTOs =  appointmentService.GetFreeAppointments(appointmentSearchParametersDTO);
+            ExaminationSearchResults = examinationDTOs;
+            List<ExaminationDTO>  examinationDTOsWithoutDuplicates = RemoveAppointmentsWithDuplicateTimes(examinationDTOs);
+            
+            AppointmentSearchResultsDataGrid.ItemsSource = examinationDTOsWithoutDuplicates;
+
             AppointmentSearchScrollViewer.ScrollToBottom();
         }
 
         private void AppointmentSearchResultsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ExaminationDTO selectedExaminationAppointment = (ExaminationDTO)AppointmentSearchResultsDataGrid.SelectedItem;
 
+            SelectedAppointmentRoomComboBox.ItemsSource =  GetFreeRoomsByAppointment(ExaminationSearchResults, selectedExaminationAppointment);
         }
 
         private void SelectedAppointmentRoomComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if(SelectedAppointmentRoomComboBox.SelectedItem != null)
+            {
+                int selectedAppointmentRoomId = (int)SelectedAppointmentRoomComboBox.SelectedItem;
+                MapObject selectedAppointmentRoomMapObject = _mapObjectController.GetMapObjectById(selectedAppointmentRoomId);
+                ShowSelectedSearchResultObjectOnMap(selectedAppointmentRoomMapObject);
+            }
         }
 
         private void ScheduleAppointmentButton_Click(object sender, RoutedEventArgs e)
         {
-
+           
         }
 
-        
+
         private void AppointmentSectionBackToTopButton_Click(object sender, RoutedEventArgs e)
         {
             AppointmentSearchScrollViewer.ScrollToTop();

@@ -17,6 +17,15 @@ namespace GraphicalEditorServer.Mappers
             doctorDTO.Jmbg = doctor.Jmbg;
             return doctorDTO;
         }
+
+        public static Doctor DoctorDTOToDoctor(DoctorDTO doctorDTO)
+        {
+            Doctor doctor = new Doctor();
+            doctor.Name = doctorDTO.Name;
+            doctor.Surname = doctorDTO.Surname;
+            doctor.Jmbg = doctorDTO.Jmbg;
+            return doctor;
+        }
     }
 
 }

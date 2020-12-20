@@ -10,6 +10,7 @@ using Model.Manager;
 using Model.PerformingExamination;
 using System.Linq;
 using Backend.Model.Pharmacies;
+using Model.NotificationSurveyAndFeedback;
 
 namespace Backend.Model
 {
@@ -57,6 +58,8 @@ namespace Backend.Model
             SeedPharmacies(context);
             if (Verbose) Console.WriteLine("Seeding drug consumptions.");
             SeedDrugConsumptions(context);
+            if (Verbose) Console.WriteLine("Seeding feedback.");
+            SeedFeedback(context);
 
             context.SaveChanges();
         }
@@ -93,14 +96,14 @@ namespace Backend.Model
                 DateOfBirth = new DateTime(1998, 9, 13),
                 Gender = GenderType.F,
                 CityZipCode = 1,
-                Email = "sladjasavkovic333@gmail.com",
+                Email = "ana_anic98@gmail.com",
                 HomeAddress = "Tolstojeva 12",
                 Password = "11111111",
                 DateOfRegistration = DateTime.Now,
                 IsActive = true,
                 IsBlocked = false,
                 Phone = "065897520",
-                Username = "Ana"
+                Username = "ana_anic98@gmail.com"
             });
             context.Add(new Patient()
             {
@@ -110,14 +113,14 @@ namespace Backend.Model
                 DateOfBirth = new DateTime(1998, 11, 27),
                 Gender = GenderType.M,
                 CityZipCode = 1,
-                Email = "sladjasavkovic333@gmail.com",
-                HomeAddress = "Tolstojeva 12",
-                Password = "11111111",
+                Email = "peraperic@gmail.com",
+                HomeAddress = "Bulevar Oslobođenja 100",
+                Password = "12345678",
                 DateOfRegistration = DateTime.Now,
                 IsActive = true,
                 IsBlocked = false,
                 Phone = "065897520",
-                Username = "pera",
+                Username = "peraperic@gmail.com",
             });
             context.SaveChanges();
 
@@ -144,7 +147,6 @@ namespace Backend.Model
             context.Add(new Specialty() { Name = "Kardiolog" });
             context.Add(new Specialty() { Name = "Neurolog" });
             context.Add(new Specialty() { Name = "Stomatolog" });
-            context.Add(new Specialty() { Name = "Ginekolog" });
             context.Add(new Specialty() { Name = "Epidemiolog" });
             context.SaveChanges();
         }
@@ -161,7 +163,7 @@ namespace Backend.Model
                 Email = "mira.miric@gmail.com",
                 HomeAddress = "Maršala Tita 102",
                 Username = "mira.miric@gmail.com",
-                DateOfEmployment = DateTime.Now,
+                DateOfEmployment = new DateTime(2018,05,06),
                 CityZipCode = 1,
                 Gender = GenderType.F,
                 NumberOfLicence = "11111111",
@@ -178,17 +180,91 @@ namespace Backend.Model
                 Email = "dara@gmail.com",
                 HomeAddress = "Maršala Tita 102",
                 Username = "dara@gmail.com",
-                DateOfEmployment = DateTime.Now,
+                DateOfEmployment = new DateTime(2010,11, 15),
                 CityZipCode = 1,
                 Gender = GenderType.F,
                 NumberOfLicence = "22222222",
                 Password = "DaraDara",
                 DoctorsOfficeId = 12
             });
+            context.Add(new Doctor()
+            {
+                Jmbg = "0110983520145",
+                Name = "Miloš",
+                Surname = "Milošević",
+                DateOfBirth = new DateTime(1983, 01, 10),
+                Phone = "021852145",
+                Email = "mmilosevic@gmail.com",
+                HomeAddress = "Balzakova 18",
+                Username = "mmilosevic@gmail.com",
+                DateOfEmployment = new DateTime(2019, 04, 30),
+                CityZipCode = 2,
+                Gender = GenderType.M,
+                NumberOfLicence = "11111111",
+                Password = "milosevicm",
+                DoctorsOfficeId = 20
+            });
+            context.Add(new Doctor()
+            {
+                Jmbg = "0323970501235",
+                Name = "Žika",
+                Surname = "Žikić",
+                DateOfBirth = new DateTime(1970, 03, 23),
+                Phone = "021752032",
+                Email = "zikazikic@gmail.com",
+                HomeAddress = "Narodnog Fronta 7",
+                Username = "zikiczile@gmail.com",
+                DateOfEmployment = new DateTime(2008, 10, 01),
+                CityZipCode = 2,
+                Gender = GenderType.M,
+                NumberOfLicence = "11111111",
+                Password = "zikiczile",
+                DoctorsOfficeId = 25
+            });
+            context.Add(new Doctor()
+            {
+                Jmbg = "0606988520123",
+                Name = "Marija",
+                Surname = "Marić",
+                DateOfBirth = new DateTime(1988, 06, 06),
+                Phone = "021954201",
+                Email = "marija988@gmail.com",
+                HomeAddress = "Narodnog Fronta 45",
+                Username = "marija988@gmail.com",
+                DateOfEmployment = new DateTime(2020, 02, 05),
+                CityZipCode = 1,
+                Gender = GenderType.F,
+                NumberOfLicence = "11111111",
+                Password = "marija988",
+                DoctorsOfficeId = 49
+            });
+            context.Add(new Doctor()
+            {
+                Jmbg = "2007975521021",
+                Name = "Sara",
+                Surname = "Sarić",
+                DateOfBirth = new DateTime(1975, 07, 20),
+                Phone = "021954201",
+                Email = "sarasaric@gmail.com",
+                HomeAddress = "Futoška 5",
+                Username = "sarasaric@gmail.com",
+                DateOfEmployment = new DateTime(2018, 05, 11),
+                CityZipCode = 2,
+                Gender = GenderType.F,
+                NumberOfLicence = "11111111",
+                Password = "sarasaric",
+                DoctorsOfficeId = 51
+            });
+
+
             context.SaveChanges();
 
             context.Add(new DoctorSpecialty() { DoctorJmbg = "8520147896320", SpecialtyId = 1 });
+            context.Add(new DoctorSpecialty() { DoctorJmbg = "0110983520145", SpecialtyId = 1 });
             context.Add(new DoctorSpecialty() { DoctorJmbg = "1234567891234", SpecialtyId = 2 });
+            context.Add(new DoctorSpecialty() { DoctorJmbg = "0323970501235", SpecialtyId = 2 });
+            context.Add(new DoctorSpecialty() { DoctorJmbg = "0606988520123", SpecialtyId = 3 });
+            context.Add(new DoctorSpecialty() { DoctorJmbg = "2007975521021", SpecialtyId = 4 });
             context.SaveChanges();
         }
 
@@ -315,12 +391,16 @@ namespace Backend.Model
 
         private void SeedExaminations(MyDbContext context)
         {
-            Doctor doctor = context.Doctors.First();
-            PatientCard patientCard = context.PatientCards.First();
+            Doctor doctor = context.Doctors.Find("8520147896320"); //Ovo je doktor Dara
+            PatientCard patientCard = context.PatientCards.Find("2711998896320"); //Ovo je pacijent Pera
             Room room = context.Rooms.Where(r => r.Usage.Equals(TypeOfUsage.CONSULTING_ROOM)).First();
-            DateTime start = new DateTime(2020, 12, 30, 7, 0, 0);
-            DateTime end = new DateTime(2020, 12, 30, 16, 30, 0);
 
+            DateTime start_future = DateTime.Now.Date.AddDays(5);
+            DateTime end_future = DateTime.Now.Date.AddDays(7);
+            DateTime start = start_future.AddHours(7);
+            DateTime end = end_future.AddHours(16).AddMinutes(30);
+
+            //Pacijent Pera zakazuje sve termine za datume 25. i 27. decembar
             for (DateTime current = start; current < end; current = current.AddMinutes(30))
             {
                 context.Add(new Examination
@@ -331,9 +411,116 @@ namespace Backend.Model
                     IdRoom = room.Id,
                     DateAndTime = current,
                     IsSurveyCompleted = false,
-                    ExaminationStatus = (RandomGenerator.Next(10) > 7) ? ExaminationStatus.CREATED : ExaminationStatus.CANCELED
+                    ExaminationStatus = ExaminationStatus.CREATED
                 });
             }
+            //Pacijent Pera je otkazao 3 pregleda u zadnjih mjesec dana, pa je maliciozni
+            context.Add(new Examination
+            {
+                Type = TypeOfExamination.GENERAL,
+                DoctorJmbg = doctor.Jmbg,
+                IdPatientCard = patientCard.Id,
+                IdRoom = room.Id,
+                DateAndTime = DateTime.Now.Date.AddDays(-10).AddHours(8).AddMinutes(30),
+                IsSurveyCompleted = false,
+                ExaminationStatus = ExaminationStatus.CANCELED
+            });
+            context.Add(new Examination
+            {
+                Type = TypeOfExamination.GENERAL,
+                DoctorJmbg = doctor.Jmbg,
+                IdPatientCard = patientCard.Id,
+                IdRoom = room.Id,
+                DateAndTime = DateTime.Now.Date.AddDays(-12).AddHours(10),
+                IsSurveyCompleted = false,
+                ExaminationStatus = ExaminationStatus.CANCELED
+            });
+            context.Add(new Examination
+            {
+                Type = TypeOfExamination.GENERAL,
+                DoctorJmbg = doctor.Jmbg,
+                IdPatientCard = patientCard.Id,
+                IdRoom = room.Id,
+                DateAndTime = DateTime.Now.Date.AddDays(-15).AddHours(12).AddMinutes(30),
+                IsSurveyCompleted = false,
+                ExaminationStatus = ExaminationStatus.CANCELED
+            });
+            //Izabrani parametri: specijalnost-Opsta, doktor-Dara Daric, interval-25. do 27.
+            //Prioritet je doktor -> Svi termini su zauzeti pa pretraga izbacuje termine izvan zadatog intervala
+            //Prioritet je interval -> Svi termini kod Dare su zauzeti, pa pretraga izbacuje termine kod doktora Milosa
+
+            patientCard = context.PatientCards.Find("1309998775018"); //Ovo je pacijent Ana
+            Doctor doctor1 = context.Doctors.Find("0606988520123"); //Ovo je doktor Marija
+            Doctor doctor2 = context.Doctors.Find("0323970501235"); //Ovo je doktor Zika
+
+            //Dodajem zavrsene preglede za Anu
+            context.Add(new Examination
+            {
+                Type = TypeOfExamination.GENERAL,
+                DoctorJmbg = doctor.Jmbg,
+                IdPatientCard = patientCard.Id,
+                IdRoom = room.Id,
+                DateAndTime = DateTime.Now.Date.AddDays(-15).AddHours(14),
+                IsSurveyCompleted = true,
+                ExaminationStatus = ExaminationStatus.FINISHED,
+                Anamnesis = "Sinuzitis"
+            });
+            context.Add(new Examination
+            {
+                Type = TypeOfExamination.GENERAL,
+                DoctorJmbg = doctor1.Jmbg,
+                IdPatientCard = patientCard.Id,
+                IdRoom = room.Id,
+                DateAndTime = DateTime.Now.Date.AddDays(-10).AddHours(9).AddMinutes(30),
+                IsSurveyCompleted = false,
+                ExaminationStatus = ExaminationStatus.FINISHED,
+                Anamnesis = "Upala uha"
+            });
+            context.Add(new Examination
+            {
+                Type = TypeOfExamination.GENERAL,
+                DoctorJmbg = doctor2.Jmbg,
+                IdPatientCard = patientCard.Id,
+                IdRoom = room.Id,
+                DateAndTime = DateTime.Now.Date.AddDays(-5).AddHours(11).AddMinutes(30),
+                IsSurveyCompleted = false,
+                ExaminationStatus = ExaminationStatus.FINISHED,
+                Anamnesis = "Upala pluća"
+            });
+
+            //Dodajem zakazane preglede za Anu
+            context.Add(new Examination
+            {
+                Type = TypeOfExamination.GENERAL,
+                DoctorJmbg = doctor1.Jmbg,
+                IdPatientCard = patientCard.Id,
+                IdRoom = room.Id,
+                DateAndTime = DateTime.Now.Date.AddDays(1).AddHours(10).AddMinutes(30),
+                IsSurveyCompleted = false,
+                ExaminationStatus = ExaminationStatus.CREATED
+            });
+            context.Add(new Examination
+            {
+                Type = TypeOfExamination.GENERAL,
+                DoctorJmbg = doctor.Jmbg,
+                IdPatientCard = patientCard.Id,
+                IdRoom = room.Id,
+                DateAndTime = DateTime.Now.Date.AddDays(13).AddHours(7),
+                IsSurveyCompleted = false,
+                ExaminationStatus = ExaminationStatus.CREATED
+            });
+
+            //Dodajem otkazane preglede za Anu
+            context.Add(new Examination
+            {
+                Type = TypeOfExamination.GENERAL,
+                DoctorJmbg = doctor1.Jmbg,
+                IdPatientCard = patientCard.Id,
+                IdRoom = room.Id,
+                DateAndTime = DateTime.Now.Date.AddDays(-2).AddHours(10),
+                IsSurveyCompleted = false,
+                ExaminationStatus = ExaminationStatus.CANCELED
+            });
 
             context.SaveChanges();
         }
@@ -367,6 +554,54 @@ namespace Backend.Model
                             Date = current,
                             Quantity = RandomGenerator.Next(5, 20)
                         });
+
+            context.SaveChanges();
+        }
+
+        private void SeedFeedback(MyDbContext context)
+        {
+            context.Add(new Feedback()
+            {
+                CommentatorJmbg = "1309998775018",
+                Comment = "Sve je super.",
+                IsAllowedToPublish = true,
+                IsPublished = true
+            });
+            context.Add(new Feedback()
+            {
+                CommentatorJmbg = "1309998775018",
+                Comment = "Sviđa mi se Vaša bolnica.",
+                IsAllowedToPublish = true,
+                IsPublished = false
+            });
+            context.Add(new Feedback()
+            {
+                CommentatorJmbg = "2711998896320",
+                Comment = "Odlična usluga.",
+                IsAllowedToPublish = true,
+                IsPublished = true
+            });
+            context.Add(new Feedback()
+            {
+                CommentatorJmbg = "2711998896320",
+                Comment = "Zadovoljan sam uslugama.",
+                IsAllowedToPublish = true,
+                IsPublished = false
+            });
+            context.Add(new Feedback()
+            {
+                CommentatorJmbg = null,
+                Comment = "Najbolji ste, sve pohvale!",
+                IsAllowedToPublish = true,
+                IsPublished = true
+            });
+            context.Add(new Feedback()
+            {
+                CommentatorJmbg = null,
+                Comment = "Nisam zadovoljan.",
+                IsAllowedToPublish = false,
+                IsPublished = false
+            });
 
             context.SaveChanges();
         }

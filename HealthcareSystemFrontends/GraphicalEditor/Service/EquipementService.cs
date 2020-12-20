@@ -1,4 +1,5 @@
-﻿using GraphicalEditor.Models;
+﻿using GraphicalEditor.DTO;
+using GraphicalEditor.Models;
 using GraphicalEditor.Models.Equipments;
 using GraphicalEditorServer.DTO;
 using RestSharp;
@@ -32,9 +33,9 @@ namespace GraphicalEditor.Service
             return JSONContent;
         }
 
-        public List<Equipment> GetEquipmentByRoomNumber(int roomNumber)
+        public List<EquipmentDTO> GetEquipmentByRoomNumber(int roomNumber)
         {
-            return (List<Equipment>)HTTPGetRequest<Equipment>("equipment/byRoomNumber/ " + roomNumber);
+            return (List<EquipmentDTO>)HTTPGetRequest<EquipmentDTO>("equipment/byRoomNumber/ " + roomNumber);
         }
 
         public List<EquipmentWithRoomDTO> GetEquipmentWithRoomForSearchTerm(String searchTerm)

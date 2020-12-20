@@ -78,6 +78,7 @@
     <Compile Include="DTO\DrugWithRoomDTO.cs" />
     <Compile Include="Converters\CapitalizeStringConverter.cs" />
     <Compile Include="Converters\NegativeEquipmentQuantityConverter.cs" />
+    <Compile Include="DTO\EquipmentDTO.cs" />
     <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="DTO\PatientBasicDTO.cs" />

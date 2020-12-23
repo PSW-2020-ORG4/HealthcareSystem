@@ -23,6 +23,8 @@ namespace Backend.Service.ExaminationAndPatientCard
         private readonly IDoctorRepository _doctorRepository;
         private readonly IActivePatientCardRepository _activePatientCardRepository;
 
+        private readonly int PRIORITY_DATE_INTERVAL = 5;
+
         public FreeAppointmentSearchService(IRoomService roomService, 
                                             IExaminationRepository examinationRepository,
                                             IDoctorRepository doctorRepository,
@@ -43,8 +45,6 @@ namespace Backend.Service.ExaminationAndPatientCard
             {
                 if (IsAvailable(appointment))
                     actuallyAvailableAppointments.Add(appointment);
-                if (actuallyAvailableAppointments.Count == 10)
-                    break;
             }
 
             return actuallyAvailableAppointments;
@@ -89,12 +89,40 @@ namespace Backend.Service.ExaminationAndPatientCard
 
         private ICollection<Examination> RelaxDates(AppointmentSearchWithPrioritiesDTO parameters)
         {
-            DateTime earliestDateTime = parameters.InitialParameters.EarliestDateTime.AddDays(-5);
-            DateTime latestDateTime = parameters.InitialParameters.LatestDateTime.AddDays(5);
-            parameters.InitialParameters.EarliestDateTime = earliestDateTime;
-            parameters.InitialParameters.LatestDateTime = latestDateTime;
+            for (int i = 0; i < PRIORITY_DATE_INTERVAL; i++)
+            {
+                BasicAppointmentSearchDTO initialParameters = SetupDates(parameters.InitialParameters, i);
 
-            return BasicSearch(parameters.InitialParameters);
+                ICollection<Examination> freeAppointments = BasicSearch(initialParameters);
+
+                if (freeAppointments.Count != 0)
+                    return freeAppointments;
+            }
+
+            return new List<Examination>();
+        }
+
+        private BasicAppointmentSearchDTO SetupDates(BasicAppointmentSearchDTO initialParameters, int datePeriod)
+        {
+            DateTime earliestDateTime = initialParameters.EarliestDateTime.AddDays(-datePeriod);
+            DateTime fixedEarliestDateTime = GetFixedEarliestDateTime(earliestDateTime);
+            DateTime latestDateTime = initialParameters.LatestDateTime.AddDays(datePeriod);
+            initialParameters.EarliestDateTime = fixedEarliestDateTime;
+            initialParameters.LatestDateTime = latestDateTime;
+
+            return initialParameters;
+        }
+
+        private DateTime GetFixedEarliestDateTime(DateTime earliestDateTime)
+        {
+            if (CheckIfDatePassed(earliestDateTime))
+                return earliestDateTime.AddDays(1);
+            return earliestDateTime;
+        }
+
+        private bool CheckIfDatePassed(DateTime earliestDateTime)
+        {
+            return earliestDateTime.CompareTo(DateTime.Now) == -1 ? true : false;
         }
 
         private ICollection<Room> GenerateRooms(TypeOfUsage typeOfUsage, ICollection<int> equipmentTypeIds)

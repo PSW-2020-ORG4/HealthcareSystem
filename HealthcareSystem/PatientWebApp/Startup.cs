@@ -164,6 +164,9 @@ namespace PatientWebApp
 
             services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
 
+            services.AddScoped<IAdminRepository, MySqlAdminRepository>();
+            services.AddScoped<IAdminService, AdminService>();
+
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.AddTransient<IMailService, MailService>();

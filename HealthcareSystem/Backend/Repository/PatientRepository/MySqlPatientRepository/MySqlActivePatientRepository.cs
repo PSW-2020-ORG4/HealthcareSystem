@@ -76,5 +76,20 @@ namespace Repository
                 throw new DatabaseException("The database connection is down.");
             }
         }
+        public Patient GetPatientByUsernameAndPassword(string username, string password)
+        {
+            Patient patient;
+            try
+            {
+                patient = _context.Patients.Where(p => p.Username == username && p.Password == password).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+            if (patient == null)
+                throw new NotFoundException("Patient doesn't exist in database.");
+            return patient;
+        }
     }
 }

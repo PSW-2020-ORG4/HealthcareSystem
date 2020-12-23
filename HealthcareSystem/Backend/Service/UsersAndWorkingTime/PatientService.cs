@@ -108,5 +108,9 @@ namespace Backend.Service
         {
             return _activePatientRepository.GetPatientByJmbg(jmbg);
         }
+        public Patient GetPatientByUsernameAndPassword(string username, string password)
+        {
+            return _activePatientRepository.GetPatientByUsernameAndPassword(username, password);
+        }
     }
 }

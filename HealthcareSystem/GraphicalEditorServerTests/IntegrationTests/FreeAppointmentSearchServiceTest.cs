@@ -47,7 +47,7 @@ namespace GraphicalEditorServerTests.IntegrationTests
                 SpecialtyId = 1
             });
 
-            Assert.Equal(34, freeAppointments.Count);
+            Assert.Equal(4, freeAppointments.Count);
         }
 
         [Fact]

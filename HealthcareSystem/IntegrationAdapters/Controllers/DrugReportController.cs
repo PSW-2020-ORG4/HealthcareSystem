@@ -75,12 +75,12 @@ namespace IntegrationAdapters.Controllers
                 if (_adapterContext.PharmacySystemAdapter.SendDrugConsumptionReport(reportFilePath, reportFileName))
                 {
                     pushPayload.Title = "Success";
-                    pushPayload.Message = "Report successfully created and uploaded!";
+                    pushPayload.Message = "Report successfully created and uploaded to " + ps.Name + "!";
                 }
                 else
                 {
                     pushPayload.Title = "Unsuccess";
-                    pushPayload.Message = "Report upload to " + ps.Name + @" unsuccessfull!";
+                    pushPayload.Message = "Report upload to " + ps.Name + " unsuccessfull!";
                 }
                 _pushNotificationService.SendNotification(pushSubscription, pushPayload);
             }

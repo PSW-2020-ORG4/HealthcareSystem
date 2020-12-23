@@ -27,7 +27,7 @@ function initialiseServiceWorker() {
     } else {
         errorHandler('[initialiseServiceWorker] Service workers are not supported in this browser.');
     }
-};
+}
 
 function handleSWRegistration(reg) {
     if (reg.installing) {

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Backend.Model.Pharmacies;
-using Backend.Service;
 using Backend.Service.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
@@ -15,13 +11,11 @@ namespace IntegrationAdapters.Controllers
     [Route("api/[controller]")]
     public class HelpController : ControllerBase
     {
-        private readonly IPatientService _patientService;
         private readonly IPharmacyService _pharmacyService;
         private readonly IAdapterContext _adapterContext;
 
-        public HelpController(IPatientService patientService, IPharmacyService pharmacyService, IAdapterContext adapterContext)
+        public HelpController(IPharmacyService pharmacyService, IAdapterContext adapterContext)
         {
-            _patientService = patientService;
             _pharmacyService = pharmacyService;
             _adapterContext = adapterContext;
         }

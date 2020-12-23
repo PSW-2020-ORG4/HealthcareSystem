@@ -7,8 +7,8 @@ namespace IntegrationAdapters.Services
 {
     public class PushNotificationService : IPushNotificationService
     {
-        private VapidDetails _vapidDetails;
-        private WebPushClient _webPushClient = new WebPushClient();
+        private readonly VapidDetails _vapidDetails;
+        private readonly WebPushClient _webPushClient = new WebPushClient();
 
         public PushNotificationService()
         {

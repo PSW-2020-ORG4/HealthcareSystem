@@ -91,7 +91,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         {
             for (int i = 0; i < PRIORITY_DATE_INTERVAL; i++)
             {
-                BasicAppointmentSearchDTO initialParameters = SetupDates(parameters.InitialParameters, i);
+                BasicAppointmentSearchDTO initialParameters = SetupDates(parameters.InitialParameters);
 
                 ICollection<Examination> freeAppointments = BasicSearch(initialParameters);
 
@@ -102,11 +102,11 @@ namespace Backend.Service.ExaminationAndPatientCard
             return new List<Examination>();
         }
 
-        private BasicAppointmentSearchDTO SetupDates(BasicAppointmentSearchDTO initialParameters, int datePeriod)
+        private BasicAppointmentSearchDTO SetupDates(BasicAppointmentSearchDTO initialParameters)
         {
-            DateTime earliestDateTime = initialParameters.EarliestDateTime.AddDays(-datePeriod);
+            DateTime earliestDateTime = initialParameters.EarliestDateTime.AddDays(-1);
             DateTime fixedEarliestDateTime = GetFixedEarliestDateTime(earliestDateTime);
-            DateTime latestDateTime = initialParameters.LatestDateTime.AddDays(datePeriod);
+            DateTime latestDateTime = initialParameters.LatestDateTime.AddDays(1);
             initialParameters.EarliestDateTime = fixedEarliestDateTime;
             initialParameters.LatestDateTime = latestDateTime;
 
@@ -116,7 +116,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         private DateTime GetFixedEarliestDateTime(DateTime earliestDateTime)
         {
             if (CheckIfDatePassed(earliestDateTime))
-                return earliestDateTime.AddDays(1);
+                return DateTime.Now.AddDays(1);
             return earliestDateTime;
         }
 

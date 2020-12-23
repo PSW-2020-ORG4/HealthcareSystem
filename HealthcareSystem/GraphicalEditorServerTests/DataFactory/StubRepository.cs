@@ -112,7 +112,8 @@ namespace GraphicalEditorServerTests.DataFactory
             examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 5, 7, 30, 0))).Returns(_createExamination.CreateInvalidTestObject2);
             examinationStubRepository.Setup(m => m.GetExaminationsByDoctorAndDateTime("0909965768767", new DateTime(2020, 12, 5, 8, 0, 0))).Returns(_createExamination.CreateInvalidTestObject3);
             examinationStubRepository.Setup(m => m.GetExaminationsByPatientAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
-
+            examinationStubRepository.Setup(m => m.AddExamination(_createExamination.CreateValidTestObjectForMakingAnAppointemnt()));
+            examinationStubRepository.Setup(m => m.GetExaminationById(2)).Returns(_createExamination.CreateValidTestObjectForMakingAnAppointemnt());
             return examinationStubRepository.Object;
         }
         public IDoctorRepository CreateDoctorStubRepository()

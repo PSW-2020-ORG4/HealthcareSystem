@@ -48,7 +48,7 @@ namespace IntegrationAdapters.Adapters
                     
                     PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
                 }
-                else if(_environment == "Production")
+                else if(_environment == "Production" || _environment == "Test")
                 {
                     PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
                 }

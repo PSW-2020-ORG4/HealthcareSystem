@@ -1,14 +1,9 @@
 version: "3.8"
 services: 
   database:
-    image: mysql:8.0.22
-    environment:
-      MYSQL_ROOT_PASSWORD: "password"
-      MYSQL_USER: "org4"
-      MYSQL_PASSWORD: "org4"
-      MYSQL_DATABASE: "organization4db"
+    restart: always
     networks:
-      - demo
+      - demo  
     volumes:
       - sql-scripts:/docker-entrypoint-initdb.d/
 
@@ -18,22 +13,13 @@ services:
       dockerfile: Dockerfile.patient-webapp
     ports:
     - "8181:80"
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      DbConnectionSettings:Host: "database"
-      DbConnectionSettings:Port: "3306"
-      DbConnectionSettings:User: "org4"
-      DbConnectionSettings:Password: "org4"
-      DbConnectionSettings:Database: "organization4db"
-      DbConnectionSettings:RetryCount: 100
-      DbConnectionSettings:RetryWaitInSeconds: 30
     depends_on:
       - database
     restart: on-failure
-    volumes:
-      - sql-scripts:/app/sql
     networks:
       - demo
+    volumes:
+      - sql-scripts:/app/sql
 
   intergrationadapters:
     build:
@@ -42,20 +28,12 @@ services:
     ports:
     - "8282:80"
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      DbConnectionSettings:Host: "database"
-      DbConnectionSettings:Port: "3306"
-      DbConnectionSettings:User: "org4"
-      DbConnectionSettings:Password: "org4"
-      DbConnectionSettings:Database: "organization4db"
-      DbConnectionSettings:RetryCount: 100
-      DbConnectionSettings:RetryWaitInSeconds: 30
-      RabbitMq:Hostname: "rabbitmq"
-      RabbitMq:Username: "org4"
-      RabbitMq:Password: "org4"
-      RabbitMq:RetryCount: 20
-      RabbitMq:RetryWait: 30000
-    depends_on:
+      RABBITMQ_HOST: "rabbitmq"
+      RABBITMQ_USER: "org4"
+      RABBITMQ_PASSWORD: "org4"
+      RABBITMQ_RETRY: 20
+      RABBITMQ_RETRY_WAIT: 30000
+    depends_on:      
       - database
       - rabbitmq
     restart: on-failure
@@ -68,15 +46,6 @@ services:
       dockerfile: Dockerfile.graphical-editorserver
     ports:
     - "5001:80"
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      DbConnectionSettings:Host: "database"
-      DbConnectionSettings:Port: "3306"
-      DbConnectionSettings:User: "org4"
-      DbConnectionSettings:Password: "org4"
-      DbConnectionSettings:Database: "organization4db"
-      DbConnectionSettings:RetryCount: 100
-      DbConnectionSettings:RetryWaitInSeconds: 30
     depends_on:
       - database
     restart: on-failure
@@ -93,6 +62,7 @@ services:
 
 volumes:
   sql-scripts:
+  data:
 
 networks:
   demo:

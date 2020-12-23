@@ -9,16 +9,21 @@
 		success: function (data) {
 
 			if (data.length == 0) {
-				$('#title-active').text("There is no unpublished feedback");
+				let alert = $('<div class="alert alert-info m-4" role="alert">There is no unpublished feedback.</div >')
+				$('#loading').remove();
+				$('div#view_feedbacks').append(alert);
 			}
 			else {
 				for (let i = 0; i < data.length; i++) {
 					addCommentTable(data[i]);
 				}
+				$('#loading').remove();
 			}
 		},
 		error: function () {
-			console.log('error getting comments');
+			let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+			$('#loading').remove();
+			$('div#view_feedbacks').prepend(alert);
 		}
 	});
 
@@ -30,38 +35,56 @@ function addCommentTable(feedback) {
 		nameAndSurname = 'Anonymous';
 	}
 
-	let divElement = $('<div class="border_comment"><table class="table_comment">'
-		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Patient:</p></th><td>' + nameAndSurname + '</td></tr > '
-		+ ' <tr> <th style="width:250px;"><p style="margin-left:50px;">Date:</p></th><td>' + feedback.sendingDate + '</td></tr > '
-		+ ' <tr> <th style="width:250px;"><p  style="margin-left:50px;">Comment:</p></th><td><p style="margin-right:10px;"><i class="fas fa-quote-left pr-2"></i> ' + feedback.comment + '<p/></td></tr> '
-		+ ' </table ></div > ');
-
-	let trElement = $('<tr> <td style="width:250px;"><span></span></td> <td style = "width:250px;"><span></span></td> </tr>');
-
 	if (feedback.isAllowedToPublish) {
-		let tdElement = $('<td> <button class="submit_btn" style="margin-bottom:10px;" id="' + feedback.id + '" onclick="approveComment(this.id)"> Publish </button> </td>');
-		trElement.append(tdElement);
-	}
+		let new_feedback = $('<div class="row"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
+			+ feedback.sendingDate
+			+ '</div>'
+			+ '<div class="card-body"><blockquote class="blockquote mb-0"><p>'
+			+ feedback.comment + ' </p>'
+			+ '<footer class="blockquote-footer text-info"><cite>'
+			+ nameAndSurname + '</cite>'
+			+ '<button type="button" class="btn btn-success float-right" id="'
+			+ feedback.id
+			+ '" onclick="approveComment(this.id)">Publish</button>'
+			+ '</footer ></blockquote ></div >'
+			+ '<div class="card-footer bg-transpartent border-top-0" id="a' + feedback.id + '">' 
+			+ '</div ></div ></div ></div >');
 
-	divElement.append(trElement);
-	$('div#div_comments').append(divElement);
+		$('div#view_feedbacks').append(new_feedback);
+	}
+	else {
+		let new_feedback = $('<div class="row"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
+			+ feedback.sendingDate
+			+ '</div>'
+			+ '<div class="card-body"><blockquote class="blockquote mb-0"><p>'
+			+ feedback.comment + ' </p>'
+			+ '<footer class="blockquote-footer text-info"><cite>'
+			+ nameAndSurname + '</cite></footer></blockquote></div></div></div></div>');
+
+		$('div#view_feedbacks').append(new_feedback);
+	}
 }
 
 function approveComment(feedbackId) {
+	let loading = $('<div class="alert alert-info m-1" role="alert">Publishing...</div >')
+	$('#' + feedbackId).prop("disabled", true);
+	$('#a' + feedbackId).prepend(loading);
 
 	$.ajax({
 		type: "PUT",
 		url: "/api/feedback/" + feedbackId,
 		success: function () {
-
-			console.log('You have successfully approved a feedback!');
-			setTimeout(function () {
-				location.reload();
-			}, 500);
+			let alert = $('<div class="alert alert-success m-1" role="alert">Feedback successfully published.</div >')
+			$('#' + feedbackId).remove();
+			$('#a' + feedbackId).empty();
+			$('#a' + feedbackId).prepend(alert);
 		},
 		error: function (jqXHR) {
-
-			alert(jqXHR.responseText);
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Publishing was not successful.'
+				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#a' + feedbackId).empty();
+			$('#' + feedbackId).prop("disabled", false);
+			$('#a' + feedbackId).prepend(alert);
 		}
 	});
 }

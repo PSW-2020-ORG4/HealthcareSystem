@@ -38,7 +38,7 @@ namespace Backend.Service
         private void InitializeRabbitMqListener()
         {
             InitializeConnection();
-            if(_connection == null)
+            if (_connection is null)
                 return;
             _channel = _connection.CreateModel();
             _channel.QueueDeclare(queue: _queueName,
@@ -61,13 +61,16 @@ namespace Backend.Service
 
         private void InitializeConnection()
         {
+            Console.WriteLine($"Host: {_configuration.Host}, VHost: {_configuration.VHost}, User: {_configuration.Username}");
+            Console.WriteLine($"Retry: {_configuration.RetryCount}, Retry wait: {_configuration.RetryWait}");
             for (int i = 0; i <= _configuration.RetryCount; i++)
             {
                 try
                 {
                     var factory = new ConnectionFactory()
                     {
-                        HostName = _configuration.Hostname,
+                        HostName = _configuration.Host,
+                        VirtualHost = _configuration.VHost,
                         UserName = _configuration.Username,
                         Password = _configuration.Password
                     };

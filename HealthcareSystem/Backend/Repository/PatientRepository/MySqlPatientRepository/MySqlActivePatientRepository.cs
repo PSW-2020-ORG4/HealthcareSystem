@@ -99,8 +99,16 @@ namespace Repository
             {
                 throw new DatabaseException("The database connection is down.");
             }
+
             if (patient == null)
                 throw new NotFoundException("Patient doesn't exist in database.");
+
+            if (patient.IsBlocked)
+                throw new BadRequestException("Patient is blocked.");
+
+            if(!patient.IsActive)
+                throw new BadRequestException("Patient didn't activate account.");
+
             return patient;
         }
     }

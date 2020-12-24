@@ -51,10 +51,15 @@ namespace PatientWebApp.Controllers
                     return Ok(adminToken);
                 }
             }
+            catch (BadRequestException exception)
+            {
+                return BadRequest(exception.Message);
+            }
             catch (DatabaseException exception)
             {
                 return StatusCode(500, exception.Message);
             }
+            
         }
 
         //This method will be corrected by a colleague Jelena Budisa

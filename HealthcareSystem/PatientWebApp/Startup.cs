@@ -26,6 +26,7 @@ using Backend.Service;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.NotificationSurveyAndFeedback;
+using Backend.Service.Pharmacies;
 using Backend.Service.PlacementInARoomAndRenovationPeriod;
 using Backend.Service.RoomAndEquipment;
 using Backend.Service.SendingMail;
@@ -169,6 +170,13 @@ namespace PatientWebApp
             services.AddTransient<IMailService, MailService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
+            services.AddScoped<IPharmacyService, PharmacyService>();
+
+            services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
+            services.AddScoped<IActionBenefitService, ActionBenefitService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

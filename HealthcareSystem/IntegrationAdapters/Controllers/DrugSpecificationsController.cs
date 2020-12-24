@@ -3,7 +3,9 @@ using System.Linq;
 using Backend.Service.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
+using IntegrationAdapters.Services;
 using Microsoft.AspNetCore.Mvc;
+using WebPush;
 
 namespace IntegrationAdapters.Controllers
 {
@@ -11,12 +13,16 @@ namespace IntegrationAdapters.Controllers
     {
         private readonly IPharmacyService _pharmacyService;
         private readonly IAdapterContext _adapterContext;
-
-        public DrugSpecificationsController(IPharmacyService pharmacyService, IAdapterContext adapterContext)
+        private readonly IPushNotificationService _pushNotificationService;
+        public DrugSpecificationsController(IPharmacyService pharmacyService,
+                                            IAdapterContext adapterContext,
+                                            IPushNotificationService pushNotificationService)
         {
             _pharmacyService = pharmacyService;
             _adapterContext = adapterContext;
+            _pushNotificationService = pushNotificationService;
         }
+
         public IActionResult Index()
         {
             return View(_pharmacyService.GetAllPharmacies().ToList());
@@ -36,13 +42,38 @@ namespace IntegrationAdapters.Controllers
             return View(drugList);
         }
 
-        public IActionResult RequestSpecifications(int pharmacyId, int drugId)
+        [HttpPost]
+        public IActionResult RequestSpecifications()
         {
-            var pharmacySystem = _pharmacyService.GetPharmacyById(pharmacyId);
-            _adapterContext.SetPharmacySystemAdapter(pharmacySystem);
-            _adapterContext.PharmacySystemAdapter.GetDrugSpecifications(drugId);
+            PushSubscription pushSubscription = new PushSubscription() { Endpoint = Request.Form["PushEndpoint"], P256DH = Request.Form["PushP256DH"], Auth = Request.Form["PushAuth"] };
+            PushPayload pushPayload = new PushPayload();
 
-            return RedirectToAction("DrugList", pharmacyId);
+            int pharmacyId = int.Parse(Request.Form["pharmacyId"]);
+            int drugId = int.Parse(Request.Form["drugId"]);
+
+            var pharmacySystem = _pharmacyService.GetPharmacyById(pharmacyId);
+            if (_adapterContext.SetPharmacySystemAdapter(pharmacySystem) == null)
+            {
+                pushPayload.Title = "Unsuccess";
+                pushPayload.Message = "Error occured while downloading specification!";
+                _pushNotificationService.SendNotification(pushSubscription, pushPayload);
+                return RedirectToAction("DrugList", new { id = pharmacyId });
+            }
+
+            if (_adapterContext.PharmacySystemAdapter.GetDrugSpecifications(drugId))
+            {
+                pushPayload.Title = "Success";
+                pushPayload.Message = "Specification successfully downloaded!";
+            }
+            else
+            {
+                pushPayload.Title = "Unuccess";
+                pushPayload.Message = "Error occured while downloading specification!";
+                
+            }
+            _pushNotificationService.SendNotification(pushSubscription, pushPayload);
+
+            return RedirectToAction("DrugList", new { id = pharmacyId });
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using GraphicalEditor.DTO;
 using GraphicalEditor.Enumerations;
-using GraphicalEditor.Models.Drugs;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Service;
 using Newtonsoft.Json;

@@ -7,7 +7,7 @@
 using System;
 
 
-namespace GraphicalEditor.Models.Drugs
+namespace GraphicalEditor.DTO
 {
     public class DrugTypeDTO
     {
@@ -16,28 +16,12 @@ namespace GraphicalEditor.Models.Drugs
         public string Type { get; set; }
         public string Purpose { get; set; }
 
-        public DrugTypeDTO() { }
-
-        public DrugTypeDTO(string type, string purpose)
-        {
-
-            this.Type = type;
-            this.Purpose = purpose;
-        }
-
+        public DrugTypeDTO() { }       
         public DrugTypeDTO(int id,string type, string purpose)
         {
             this.Id = id;
             this.Type = type;
             this.Purpose = purpose;
-        }
-
-        public DrugTypeDTO(DrugTypeDTO drugType)
-        {
-
-            this.Type = drugType.Type;
-            this.Purpose = drugType.Purpose;
-        }
-
+        }       
     }
 }

@@ -11,7 +11,13 @@ namespace GraphicalEditorServer.Mappers
     {
         public static DrugDTO DrugToDrugDTO(Drug drug)
         {
-            return new DrugDTO(DrugTypeMapper.DrugTypeTODrugTypeDTO(drug.DrugType), drug.Name, drug.Quantity, drug.ExpirationDate, drug.Producer);
+            DrugDTO drugDTO = new DrugDTO();
+            drugDTO.Name = drug.Name;
+            drugDTO.Quantity = drug.Quantity;
+            drugDTO.ExpirationDate = drug.ExpirationDate;
+            drugDTO.Producer = drug.Producer;
+            drugDTO.DrugTypeDTO = DrugTypeMapper.DrugTypeTODrugTypeDTO(drug.DrugType);
+            return drugDTO;
         }
 
         public static Drug DrugDTOToDrug(DrugDTO drugDTO) {

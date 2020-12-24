@@ -12,8 +12,7 @@ namespace GraphicalEditor.Service
     {
         protected RestClient GetClient()
         {
-            var client = new RestSharp.RestClient("http://localhost:" + ServerConstants.PORT);
-            
+            var client = new RestSharp.RestClient("http://localhost:" + ServerConstants.PORT);            
             return client;
         }       
        

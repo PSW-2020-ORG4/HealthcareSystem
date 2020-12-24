@@ -10,7 +10,7 @@ namespace GraphicalEditorServer.Mappers
     public class DrugTypeMapper
     {
         public static DrugTypeDTO DrugTypeTODrugTypeDTO(DrugType drugType) {
-            return new DrugTypeDTO(drugType.Type,drugType.Purpose);
+            return new DrugTypeDTO(drugType.Id,drugType.Type,drugType.Purpose);
         } 
 
         public static DrugType DrugTypeDTOToDrugType(DrugTypeDTO drugTypeDTO) {

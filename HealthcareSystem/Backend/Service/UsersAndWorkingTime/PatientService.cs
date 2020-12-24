@@ -23,15 +23,8 @@ namespace Backend.Service
         }
         public void RegisterPatient(Patient patient)
         {
-            try
-            {
-                patient.DateOfRegistration = DateTime.Now;
-                _activePatientRepository.AddPatient(patient);
-            }
-            catch (Exception)
-            {
-                throw new DatabaseException("Patient with jmbg=" + patient.Jmbg + " already exists in database.");
-            }
+            patient.DateOfRegistration = DateTime.Now;
+            _activePatientRepository.AddPatient(patient);
         }
         public List<Patient> ViewPatients()
         {

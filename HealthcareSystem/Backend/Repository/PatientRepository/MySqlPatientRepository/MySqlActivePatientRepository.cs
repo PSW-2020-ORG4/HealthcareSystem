@@ -1,6 +1,7 @@
 ﻿using Backend.Model;
 using Backend.Model.Enums;
 using Backend.Model.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,19 @@ namespace Repository
         }
         public void AddPatient(Patient patient)
         {
-            _context.Patients.Add(patient);
-            _context.SaveChanges();
+            try
+            {
+                _context.Patients.Add(patient);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                throw new BadRequestException("Username or jmbg already exists.");
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
 
         }
         public Patient CheckUsernameAndPassword(string username, string password)

@@ -81,6 +81,10 @@ namespace PatientWebApp.Controllers
             {
                 return BadRequest(exception.Message);
             }
+            catch (BadRequestException exception)
+            {
+                return BadRequest(exception.Message);
+            }
             catch (DatabaseException exception)
             {
                 return BadRequest(exception.Message);

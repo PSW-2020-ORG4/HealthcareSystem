@@ -1,7 +1,6 @@
 ﻿using GraphicalEditor.DTO;
 using GraphicalEditor.Enumerations;
 using GraphicalEditor.Models.Drugs;
-using GraphicalEditor.Models.Equipments;
 using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Service;
 using Newtonsoft.Json;
@@ -115,10 +114,10 @@ namespace GraphicalEditor.Models
             return equipmentInObject;
         }
 
-        public List<Drug> GetMedicineInObject()
+        public List<DrugDTO> GetMedicineInObject()
         {
             DrugService drugService = new DrugService();
-            List<Drug> medicinetInObject = drugService.GetDrugsByRoomNumber((int)MapObjectEntity.Id);
+            List<DrugDTO> medicinetInObject = drugService.GetDrugsByRoomNumber((int)MapObjectEntity.Id);
             return medicinetInObject;
         }
 

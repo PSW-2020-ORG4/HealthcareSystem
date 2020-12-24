@@ -13,34 +13,10 @@ using System.Threading.Tasks;
 namespace GraphicalEditor.Service
 {
    public class DrugService : GenericHTTPService
-    {
-        public string AddDrug(Drug drug)
+    {       
+        public List<DrugDTO> GetDrugsByRoomNumber(int roomNumber)
         {
-            IRestResponse response = AddHTTPPostRequest("drugs", drug);
-            return response.Content;
-        }
-
-        private string DrugInRoomToJSONConverter(MapObject mapObject, Drug drug)
-        {
-            String JSONContent = "'DrugId': " + drug.Id;
-            JSONContent += ",'RoomNumber': " + mapObject.MapObjectEntity.Id;
-            JSONContent += ",'Quantity': " + drug.Quantity;
-
-            return JSONContent;
-        }
-
-        public void AddDrugToRoom(MapObject mapObject, Drug drug)
-        {
-            if (mapObject.CheckIfDBAddableRoom())
-            {
-                String JSONContent = DrugInRoomToJSONConverter(mapObject, drug);
-                AddHTTPPostRequest("drugInRoom", JSONContent);
-            }
-        }
-
-        public List<Drug> GetDrugsByRoomNumber(int roomNumber)
-        {
-            return (List<Drug>)HTTPGetRequest<Drug>("drugs/byRoomNumber/ " + roomNumber);
+            return (List<DrugDTO>)HTTPGetRequest<DrugDTO>("drugs/byRoomNumber/ " + roomNumber);
         }
         public List<DrugWithRoomDTO> GetDrugsWithRoomForSearchTerm(String searchTerm)
         {

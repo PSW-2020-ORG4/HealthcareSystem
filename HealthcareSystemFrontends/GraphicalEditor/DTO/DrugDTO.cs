@@ -5,35 +5,33 @@
  ***********************************************************************/
 
 using System;
-using System.Collections.Generic;
 
 namespace GraphicalEditor.Models.Drugs
 {
-    public class Drug
+    public class DrugDTO
     {
         public int DrugType_Id { get; set; }
-        public DrugType DrugType { get; set; }
+        public DrugTypeDTO DrugTypeDTO { get; set; }
         public string Name { get; set; }
         public int Id { get; set; }
         public int Quantity { get; set; }
         public DateTime ExpirationDate { get; set; }
         public string Producer { get; set; }
 
-        public Drug() { }
+        public DrugDTO() { }
 
-        public Drug(DrugType drugType, string name, int quantity, DateTime expirationDate, string producer)
+        public DrugDTO(DrugTypeDTO drugTypeDTO, string name, int quantity, DateTime expirationDate, string producer)
         {
-            this.DrugType = drugType;
+            this.DrugTypeDTO = drugTypeDTO;
             this.Name = name;
             this.Quantity = quantity;
             this.ExpirationDate = expirationDate;
             this.Producer = producer;
         }
 
-
-        public Drug(Drug drug)
+        public DrugDTO(DrugDTO drug)
         {
-            this.DrugType = drug.DrugType;
+            this.DrugTypeDTO = drug.DrugTypeDTO;
             this.Name = drug.Name;
             this.Id = drug.Id;
             this.Quantity = drug.Quantity;

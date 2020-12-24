@@ -90,12 +90,8 @@
     <Compile Include="InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Drugs\Drug.cs" />
-    <Compile Include="Models\Drugs\DrugInRoom.cs" />
-    <Compile Include="Models\Drugs\DrugType.cs" />
-    <Compile Include="Models\Equipments\Equipment.cs" />
-    <Compile Include="Models\Equipments\EquipmentType.cs" />
-    <Compile Include="Models\Equipments\TypeOfEquipment.cs" />
+    <Compile Include="DTO\DrugDTO.cs" />
+    <Compile Include="DTO\DrugTypeDTO.cs" />
     <Compile Include="Models\MapObjectRelated\BuildingLayersButtons.cs" />
     <Compile Include="Models\MapObjectRelated\MockupObjects.cs" />
     <Compile Include="Models\MapObjectRelated\Road.cs" />
@@ -107,7 +103,6 @@
     <Compile Include="Service\DrugService.cs" />
     <Compile Include="Service\DrugTypeService.cs" />
     <Compile Include="Service\EquipmentTypeService.cs" />
-    <Compile Include="Service\InitializeDatabaseData.cs" />
     <Compile Include="Service\EquipementService.cs" />
     <Compile Include="Service\GenericHTTPService.cs" />
     <Compile Include="Service\Interface\IMapObjectServices.cs" />

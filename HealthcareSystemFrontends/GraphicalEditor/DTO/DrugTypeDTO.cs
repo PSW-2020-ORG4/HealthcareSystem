@@ -9,23 +9,30 @@ using System;
 
 namespace GraphicalEditor.Models.Drugs
 {
-    public class DrugType
+    public class DrugTypeDTO
     {
 
         public int Id { get; set; }
         public string Type { get; set; }
         public string Purpose { get; set; }
 
-        public DrugType() { }
+        public DrugTypeDTO() { }
 
-        public DrugType(string type, string purpose)
+        public DrugTypeDTO(string type, string purpose)
         {
 
             this.Type = type;
             this.Purpose = purpose;
         }
 
-        public DrugType(DrugType drugType)
+        public DrugTypeDTO(int id,string type, string purpose)
+        {
+            this.Id = id;
+            this.Type = type;
+            this.Purpose = purpose;
+        }
+
+        public DrugTypeDTO(DrugTypeDTO drugType)
         {
 
             this.Type = drugType.Type;

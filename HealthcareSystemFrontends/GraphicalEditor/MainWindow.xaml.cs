@@ -164,30 +164,9 @@ namespace GraphicalEditor
             ChangeEditButtonVisibility();
 
             // uncomment only when you want to save the map for the first time
-            //saveMap();
+            saveMap();
 
-            LoadInitialMapOnCanvas();
-
-
-            //new AppointmentService().AddExamination(new ExaminationDTO(DateTime.Now, "1234567891234",1,1));
-            // uncomment only the first time you start the project in order
-            // to populate DB with start data
-            InitializeDatabaseData initializeDatabaseData = new InitializeDatabaseData();
-            //initializeDatabaseData.InitiliazeData();
-
-            //var a = new EquipmentTypeService().GetEquipmentTypes();
-
-            EquipementService equipementService = new EquipementService();
-            AppointmentService appointmentService = new AppointmentService();
-
-            /*
-            AppointmentSearchWithPrioritiesDTO appointment = new AppointmentSearchWithPrioritiesDTO(
-                new BasicAppointmentSearchDTO(1, "1234567891234", new List<int>(), new DateTime(2020, 12, 30, 8, 0, 0), new DateTime(2020, 12, 30, 22, 0, 0)),
-                SearchPriority.Doctor, 1);
-
-            List<ExaminationDTO> freeAppointments = appointmentService.GetFreeAppointments(appointment);*/
-            
-
+            LoadInitialMapOnCanvas();           
             SetDataToUIControls();
         }
         

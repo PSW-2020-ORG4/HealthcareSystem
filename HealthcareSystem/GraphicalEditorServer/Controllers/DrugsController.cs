@@ -42,7 +42,11 @@ namespace GraphicalEditorServer.Controllers
             try
             {
                 List<Drug> drugsInRoom = _drugService.GetDrugsByRoomNumber(roomNumber);
-                return Ok(drugsInRoom);
+                List<DrugDTO> drugsInRoomDTO = new List<DrugDTO>();
+                foreach (var drugInRoom in drugsInRoom) {
+                    drugsInRoomDTO.Add(DrugMapper.DrugToDrugDTO(drugInRoom));
+                }
+                return Ok(drugsInRoomDTO);
             }
             catch (NotFoundException exception)
             {
@@ -73,7 +77,11 @@ namespace GraphicalEditorServer.Controllers
             try
             {
                 List<Drug> drugs = _drugService.ViewConfirmedDrugs();
-                return Ok(drugs);
+                List<DrugDTO> drugsDTO = new List<DrugDTO>();
+                foreach (var drug in drugs) {
+                    drugsDTO.Add(DrugMapper.DrugToDrugDTO(drug));
+                }
+                return Ok(drugsDTO);
             }
             catch (NotFoundException exception)
             {

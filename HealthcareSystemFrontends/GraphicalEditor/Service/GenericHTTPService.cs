@@ -1,5 +1,4 @@
 ﻿using GraphicalEditor.Constants;
-using GraphicalEditor.Models.Equipments;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -16,26 +15,18 @@ namespace GraphicalEditor.Service
             var client = new RestSharp.RestClient("http://localhost:" + ServerConstants.PORT);
             
             return client;
-        }
-
-        public IRestResponse AddHTTPPostRequest(String requestURL, String JSONContent)
+        }       
+       
+        public List<T> HTTPGetRequestWithObjectAsParam<T>(string requestURL, object objectParam)
         {
             var client = GetClient();
-            var request = new RestRequest("api/" + requestURL);
-            request.AddJsonBody(JSONContent);
-            IRestResponse response = client.Post(request);
-            return response;
-        }
-
-        public List<T> HTTPGetRequestWithObjectAsParqm<T>(string requestURL, object objectParam)
-        {
-            var client = GetClient();
-            var request = new RestRequest("api/" + requestURL, Method.PUT);
+            var request = new RestRequest("api/" + requestURL, Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.AddBody(objectParam);
             var response = client.Execute<List<T>>(request);
             return response.Data;
         }
+
         public IRestResponse AddHTTPPostRequest(String requestURL, object objectToPost)
         {
             var client = GetClient();
@@ -62,24 +53,8 @@ namespace GraphicalEditor.Service
             return response.Data;
         }
 
-        public void AddHTTPGetRequest(String requestURL, String JSONContent)
-        {
-            var client = GetClient();
-            var request = new RestRequest("api/" + requestURL);
-            request.AddJsonBody(JSONContent);
-            IRestResponse response = client.Post(request);
-        }
-
-        public List<T> HTTPGetRequestWithObjectAsParam<T>(string requestURL, object objectParam)
-        {
-            var client = GetClient();
-            var request = new RestRequest("api/" + requestURL, Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddBody(objectParam);
-            var response = client.Execute<List<T>>(request);
-            return response.Data;
-        }
-
+       
+       
 
 
     }

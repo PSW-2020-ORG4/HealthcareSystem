@@ -70,8 +70,7 @@
                 VerticalAlignment="Top"
                 Background="MediumPurple"
                 BorderBrush="{x:Null}"
-                Click="CloseButton_Click"
-                Style="{StaticResource MaterialDesignFlatButton}">
+                Click="CloseButton_Click">
                 <StackPanel
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"

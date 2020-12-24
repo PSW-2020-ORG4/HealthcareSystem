@@ -64,6 +64,7 @@ namespace PatientWebAppTests.IntegrationTests
             Assert.Empty(freeAppointments);
         }
 
+        /*
         [Fact]
         public void ExpectedAppointmentPrioritySearch()
         {
@@ -73,6 +74,7 @@ namespace PatientWebAppTests.IntegrationTests
 
             Assert.Equal(10, freeAppointments.Count);
         }
+        */
 
     }
 }

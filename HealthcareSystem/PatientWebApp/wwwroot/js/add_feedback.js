@@ -1,4 +1,31 @@
-﻿$(document).ready(function () {
+﻿var jmbg = "";
+$(document).ready(function () {
+	var token = window.localStorage.getItem('token');
+	if (token != null) {
+		$.ajax({
+			url: "/api/user/logged",
+			type: 'GET',
+			dataType: 'json',
+			processData: false,
+			contentType: 'application/json',
+			data: JSON.stringify(token),
+			//headers: { "Authorization": 'Bearer ' + token },
+			success: function (loggedUser) {
+				if (loggedUser.role != "Patient") {
+					alert('Access denied!');
+					return;
+				}
+				jmbg = loggedUser.jmbg;
+			},
+			error: function () {
+				alert('Error getting logged user!');
+			}
+		});
+	}
+	else {
+		alert('Unlogged user!');
+		return;
+	}
 
 	$('#add_feedback_form').submit(function (event) {
 		$('#loading').show();
@@ -6,7 +33,6 @@
 		event.preventDefault();
 
 		var msg = $('#text_area_id').val();
-		var jmbg = "";
 		var name = "";
 		var surname = "";
 		var allowed = true;
@@ -20,9 +46,9 @@
 			return;
 		}
 
-		//I take the certain patient from the database, otherwise the currently logged in patient will be taken
+		//I take the certain patient 1309998775018 from the database, otherwise the currently logged in patient will be taken
 		$.ajax({
-			url: "/api/patient/1309998775018",
+			url: "/api/patient/jmbg",
 			type: 'GET',
 			dataType: 'json',
 			processData: false,

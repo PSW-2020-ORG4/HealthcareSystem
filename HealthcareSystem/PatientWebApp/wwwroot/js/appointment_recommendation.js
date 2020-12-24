@@ -1,6 +1,32 @@
 ﻿var newAppointments = [];
-
+var jmbg = "";
 $(document).ready(function () {
+    var token = window.localStorage.getItem('token');
+    if (token != null) {
+        $.ajax({
+            url: "/api/user/logged",
+            type: 'GET',
+            dataType: 'json',
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify(token),
+            success: function (loggedUser) {
+                if (loggedUser.role != "Patient") {
+                    alert('Access denied!');
+                    return;
+                }
+                jmbg = loggedUser.jmbg;
+            },
+            error: function () {
+                alert('Error getting logged user!');
+            }
+        });
+    }
+    else {
+        alert('Unlogged user!');
+        return;
+    }
+
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
     var day = dtToday.getDate() + 1;
@@ -172,7 +198,7 @@ function scheduleExamination() {
         "IdRoom": appointment.idRoom,
         "Anamnesis": "",
         "PatientCardId": appointment.patientCardId,
-        "PatientJmbg": "1309998775018",
+        "PatientJmbg": jmbg,
         "ExaminationStatus": 0,
         "IsSurveyCompleted": false
     };

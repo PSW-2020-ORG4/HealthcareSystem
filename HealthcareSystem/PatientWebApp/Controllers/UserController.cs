@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PatientWebApp.Controllers
 {
@@ -62,27 +63,27 @@ namespace PatientWebApp.Controllers
             
         }
 
-        //This method will be corrected by a colleague Jelena Budisa
-        /*
-          public LoggedUserDTO GetLoggedUser(string token)
-        {
-            var key = Encoding.ASCII.GetBytes(_tokenKey);
-            var handler = new JwtSecurityTokenHandler();
-            var validations = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
-            var claims = handler.ValidateToken(token, validations, out var tokenSecure);
+       [AllowAnonymous]
+       [HttpGet("logged")]
+       public IActionResult GetLoggedUser([FromBody] string token)
+       {
+           var key = Encoding.ASCII.GetBytes(token);
+           var handler = new JwtSecurityTokenHandler();
+           var validations = new TokenValidationParameters
+           {
+               ValidateIssuerSigningKey = true,
+               IssuerSigningKey = new SymmetricSecurityKey(key),
+               ValidateIssuer = false,
+               ValidateAudience = false
+           };
+           var claims = handler.ValidateToken(token, validations, out var tokenSecure);
 
-            string username = claims.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-            string role = claims.Claims.First(c => c.Type == ClaimTypes.Role).Value;
-            string jmbg = claims.Claims.First(c => c.Type == "Jmbg").Value;
+           string username = claims.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+           string role = claims.Claims.First(c => c.Type == ClaimTypes.Role).Value;
+           string jmbg = claims.Claims.First(c => c.Type == "Jmbg").Value;
 
-            return new LoggedUserDTO(username, jmbg, role);
-        }*/
+           return Ok(new LoggedUserDTO(username, jmbg, role));
+       }
 
         private string TryToLoginPatient(string username, string password)
         {

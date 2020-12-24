@@ -30,8 +30,8 @@ namespace IntegrationAdapters.Adapters.Production
 
         public List<DrugDto> DrugAvailibility(string name)
         {
-            Task<List<Drug>> task = Task.Run<List<Drug>>(async () => await _api.SearchDrugs(_parameters.ApiKey, name));
-            List<Drug> ret = new List<Drug>();
+            Task<List<DrugDto>> task = Task.Run<List<DrugDto>>(async () => await _api.SearchDrugs(_parameters.ApiKey, name));
+            List<DrugDto> ret = new List<DrugDto>();
             try
             {
                 ret = task.Result;
@@ -41,7 +41,7 @@ namespace IntegrationAdapters.Adapters.Production
                 Console.WriteLine(agex);
             }
             
-            return _mapper.Map<List<DrugDto>>(ret);
+            return ret;
         }
 
         public bool SendDrugConsumptionReport(string reportFilePath, string reportFileName)

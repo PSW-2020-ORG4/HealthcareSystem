@@ -10,7 +10,7 @@
 <div class="form-horizontal">
     <h4>Choose dates for report</h4>
     <hr />
-    
+
     <div class="form-group">
         @if (TempData["Success"] != null)
         {
@@ -25,7 +25,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Start Date</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.From, new {@class = "ui-datepicker-calendar", id = "from-date" })
+            @Html.EditorFor(model => model.From, new { @class = "ui-datepicker-calendar", id = "from-date" })
         </div>
     </div>
 
@@ -41,5 +41,8 @@
         <input type="submit" value="Send Report" class="btn btn-primary" />
     </div>
 
+    <input type="hidden" id="PushEndpoint" name="PushEndpoint" />
+    <input type="hidden" id="PushP256DH" name="PushP256DH" />
+    <input type="hidden" id="PushAuth" name="PushAuth" />
 </div>
 }

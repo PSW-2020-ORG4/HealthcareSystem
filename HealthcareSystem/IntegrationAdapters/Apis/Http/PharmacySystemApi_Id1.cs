@@ -1,9 +1,7 @@
-﻿using IntegrationAdapters.Apis.Grpc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using IntegrationAdapters.Dtos;
 using System;
@@ -21,20 +19,17 @@ namespace IntegrationAdapters.Apis.Http
             _baseUrl = baseUrl;
         }
 
-        public async Task<List<Drug>> SearchDrugs(string apiKey, string search)
+        public async Task<List<DrugDto>> SearchDrugs(string apiKey, string search)
         {
-            List<Drug> ret = new List<Drug>();
-            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl+"/api/drugs/search");
-            FindDrugRequest findDrugRequest = new FindDrugRequest() { ApiKey = apiKey, Name = search };
-            string jsonContent = JsonConvert.SerializeObject(findDrugRequest);
-            request.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            List<DrugDto> ret = new List<DrugDto>();
+            var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/pharmacyDrugDetails/getAllWithSameName?name={search}");
 
             HttpResponseMessage response = await _client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
             {
                 string jsonResponse = await response.Content.ReadAsStringAsync();
-                ret.AddRange(JsonConvert.DeserializeObject<List<Drug>>(jsonResponse));
+                ret.AddRange(JsonConvert.DeserializeObject<List<DrugDto>>(jsonResponse));
             }
             
             return ret;

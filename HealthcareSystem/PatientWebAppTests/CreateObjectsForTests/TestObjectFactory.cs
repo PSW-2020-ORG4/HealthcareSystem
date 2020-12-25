@@ -87,5 +87,9 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return new CreateRoom();
         }
 
+        public CreateAdmin GetAdmin()
+        {
+            return new CreateAdmin();
+        }
     }
 }

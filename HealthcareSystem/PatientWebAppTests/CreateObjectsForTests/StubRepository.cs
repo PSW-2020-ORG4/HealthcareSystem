@@ -33,6 +33,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
             patientStubRepository.Setup(m => m.GetPatientByJmbg("1234567891234")).Returns(patients[0]);
             patientStubRepository.Setup(m => m.AddPatient(new Patient()));
             patientStubRepository.Setup(m => m.GetNumberOfCanceledExaminations("1234567891234")).Returns(3);
+            patientStubRepository.Setup(m => m.GetPatientByUsernameAndPassword("pera", "12345678")).Returns(patients[0]);
 
             return patientStubRepository.Object;
         }
@@ -142,6 +143,18 @@ namespace PatientWebAppTests.CreateObjectsForTests
             doctorStubRepository.Setup(m => m.CheckIfDoctorExists("0909965768767")).Returns(true);
 
             return doctorStubRepository.Object;
+        }
+
+        public IAdminRepository CreateAdminStubRepository()
+        {
+            var adminStubRepository = new Mock<IAdminRepository>();
+            var doctorValidObject = _objectFactory.GetAdmin().CreateValidTestObject();
+            var admins = new List<Admin>();
+            admins.Add(doctorValidObject);
+
+            adminStubRepository.Setup(m => m.GetAdminByUsernameAndPassword("milic_milan@gmail.com", "milanmilic965")).Returns(admins[0]);
+
+            return adminStubRepository.Object;
         }
     }
 }

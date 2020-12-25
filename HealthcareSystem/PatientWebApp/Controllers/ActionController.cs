@@ -35,12 +35,5 @@ namespace PatientWebApp.Controllers
             return Ok(actionBenefitDTOs);
             
         }
-
-        [HttpGet("{pharmacyId}")]
-        public IActionResult GetPharmacyById(int pharmacyId)
-        {
-            PharmacySystem pharmacy = _pharmacyService.GetPharmacyById(pharmacyId);
-            return Ok(PharmacyMapper.PharmacyToPharmacyDTO(pharmacy));
-        }
     }
 }

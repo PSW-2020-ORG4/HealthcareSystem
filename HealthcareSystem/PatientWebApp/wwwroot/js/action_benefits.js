@@ -22,18 +22,8 @@
 });
 
 function addAction(action, i) {
-    var pharmacyName = "";
-    let pharmacyId = action.pharmacyId;
-    $.ajax({
-        url: '/api/action/' + pharmacyId,
-        type: 'GET',
-        dataType: 'json',
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            pharmacyName = data.name;
 
-            let new_action = $('<h1 style="margin-left:140px;"><b>APOTEKA ' + pharmacyName + '</b></h1><h1 style="margin-left:160px;"><b>' + action.subject + '</b></h1><h3 style="margin-left:290px;"><b>' + action.message + '</b><h3>');
+    let new_action = $('<h1 style="margin-left:140px;"><b>APOTEKA ' + action.pharmacyName + '</b></h1><h1 style="margin-left:160px;"><b>' + action.subject + '</b></h1><h3 style="margin-left:290px;"><b>' + action.message + '</b><h3>');
 
             if (i == 0) {
                 $('div#action_first_div').append(new_action);
@@ -44,11 +34,4 @@ function addAction(action, i) {
             if (i == 2) {
                 $('div#action_third_div').append(new_action);
             }
-        },
-        error: function () {
-            console.log('error getting pharmacy');
-        }
-    });
-
-    
 }

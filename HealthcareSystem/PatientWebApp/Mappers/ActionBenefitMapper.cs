@@ -13,7 +13,7 @@ namespace PatientWebApp.Mappers
         {
             ActionBenefit actionBenefit = new ActionBenefit();
             actionBenefit.Id = actionBenefitDTO.Id;
-            actionBenefit.IsPublic = actionBenefitDTO.IsPublic;
+            actionBenefit.PharmacyId = actionBenefitDTO.PharmacyId;
             actionBenefit.Message = actionBenefitDTO.Message;
             actionBenefit.PharmacyId = actionBenefitDTO.PharmacyId;
             actionBenefit.Subject = actionBenefitDTO.Subject;
@@ -24,7 +24,8 @@ namespace PatientWebApp.Mappers
         {
             ActionBenefitDTO actionBenefitDTO = new ActionBenefitDTO();
             actionBenefitDTO.Id = actionBenefit.Id;
-            actionBenefitDTO.IsPublic = actionBenefit.IsPublic;
+            actionBenefitDTO.PharmacyId = actionBenefit.PharmacyId;
+            actionBenefitDTO.PharmacyName = actionBenefit.Pharmacy.Name;
             actionBenefitDTO.Message = actionBenefit.Message;
             actionBenefitDTO.PharmacyId = actionBenefit.PharmacyId;
             actionBenefitDTO.Subject = actionBenefit.Subject;

@@ -1,12 +1,13 @@
-﻿using Backend.Communication.SftpCommunicator;
-using Backend.Model.Pharmacies;
+﻿using Backend.Model.Pharmacies;
 using Backend.Service.DrugConsumptionService;
 using Backend.Service.Pharmacies;
 using IntegrationAdapters.Adapters;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
-using System.IO;
+using WebPush;
+using IntegrationAdapters.Services;
+using IntegrationAdapters.Dtos;
 
 namespace IntegrationAdapters.Controllers
 {
@@ -15,14 +16,17 @@ namespace IntegrationAdapters.Controllers
         private readonly IAdapterContext _adapterContext;
         private readonly IDrugConsumptionService _drugConsumptionService;
         private readonly IPharmacyService _pharmacyService;
+        private readonly IPushNotificationService _pushNotificationService;
 
         public DrugReportController(IAdapterContext adapterContext, 
                                     IDrugConsumptionService drugConsumptionService, 
-                                    IPharmacyService pharmacyService)
+                                    IPharmacyService pharmacyService,
+                                    IPushNotificationService pushNotificationService)
         {
             _adapterContext = adapterContext;
             _drugConsumptionService = drugConsumptionService;
             _pharmacyService = pharmacyService;
+            _pushNotificationService = pushNotificationService;
         }
 
         public IActionResult Index()
@@ -33,10 +37,16 @@ namespace IntegrationAdapters.Controllers
         [HttpPost]
         public IActionResult Index(DateRange dateRange)
         {
+            PushSubscription pushSubscription = new PushSubscription() { Endpoint = Request.Form["PushEndpoint"], P256DH = Request.Form["PushP256DH"], Auth = Request.Form["PushAuth"] };
+            PushPayload pushPayload = new PushPayload();
+
             var reports = _drugConsumptionService.GetDrugConsumptionForDate(dateRange);
             if(reports.Count == 0)
             {
-                TempData["Unsuccess"] = "Nothing found in given data range!";
+                pushPayload.Title = "Unsuccess";
+                pushPayload.Message = "Nothing found in given data range!";
+                _pushNotificationService.SendNotification(pushSubscription, pushPayload);
+
                 return RedirectToAction("Index");
             }
             var json = JsonConvert.SerializeObject(reports, Formatting.Indented);
@@ -49,7 +59,11 @@ namespace IntegrationAdapters.Controllers
             catch(Exception dnfe)
             {
                 Console.WriteLine(dnfe);
-                TempData["Unsuccess"] = "Error occured while creating report file!";
+
+                pushPayload.Title = "Unsuccess";
+                pushPayload.Message = "Error occured while creating report file!";
+                _pushNotificationService.SendNotification(pushSubscription, pushPayload);
+
                 return RedirectToAction("Index");
             }
             var pharmacySystems = _pharmacyService.GetAllPharmacies();
@@ -60,13 +74,15 @@ namespace IntegrationAdapters.Controllers
 
                 if (_adapterContext.PharmacySystemAdapter.SendDrugConsumptionReport(reportFilePath, reportFileName))
                 {
-                    TempData["Success"] = "Report successfully created and uploaded!";
-                    Console.WriteLine("sent");
+                    pushPayload.Title = "Success";
+                    pushPayload.Message = "Report successfully created and uploaded to " + ps.Name + "!";
                 }
                 else
                 {
-                    TempData["Unsuccess"] = $"Report upload to {ps.Name} was unsuccessfull!";
+                    pushPayload.Title = "Unsuccess";
+                    pushPayload.Message = "Report upload to " + ps.Name + " unsuccessfull!";
                 }
+                _pushNotificationService.SendNotification(pushSubscription, pushPayload);
             }
 
             return RedirectToAction("Index");

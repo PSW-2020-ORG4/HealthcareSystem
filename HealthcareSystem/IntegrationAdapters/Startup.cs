@@ -10,13 +10,17 @@ using Backend.Service.DrugConsumptionService;
 using Backend.Service.Pharmacies;
 using Backend.Settings;
 using IntegrationAdapters.Adapters;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Repository;
 using System;
+using IntegrationAdapters.Services;
 using System.Collections.Generic;
 
 namespace IntegrationAdapters
@@ -37,9 +41,9 @@ namespace IntegrationAdapters
         {
             services.AddControllers();
 
-            if (_env.IsDevelopment())
+            if (_env.IsDevelopment() || _env.IsProduction())
             {
-                Console.WriteLine("Configuring for dev.");
+                Console.WriteLine("Configuring for " + _env.EnvironmentName + ".");
                 IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
                 DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
 
@@ -94,6 +98,9 @@ namespace IntegrationAdapters
             services.AddScoped<IDrugConsumptionRepository, MySqlDrugConsumptionRepository>();
             services.AddScoped<IDrugConsumptionService, DrugConsumptionService>();
             services.AddScoped<IAdapterContext, AdapterContext>();
+            services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
+            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IPushNotificationService, PushNotificationService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHttpClient();
@@ -102,7 +109,7 @@ namespace IntegrationAdapters
         private void GetRabbitConfig(RabbitMqConfiguration conf)
         {
             conf.Host = Configuration.GetValue<string>("RABBITMQ_HOST") ?? "localhost";
-            conf.VHost = Configuration.GetValue<string>("RABBITMQ_VHOST") ?? "";
+            conf.VHost = Configuration.GetValue<string>("RABBITMQ_VHOST") ?? "/";
             conf.Username = Configuration.GetValue<string>("RABBITMQ_USER") ?? "guest";
             conf.Password = Configuration.GetValue<string>("RABBITMQ_PASSWORD") ?? "guest";
             conf.RetryCount = Configuration.GetValue<int>("RABBITMQ_RETRY");
@@ -110,8 +117,22 @@ namespace IntegrationAdapters
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context, IAntiforgery antiforgery)
         {
+            app.Use(next => context =>
+            {
+                string path = context.Request.Path.Value;
+
+                if (
+                    string.Equals(path, "/", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(path, "/index.html", StringComparison.OrdinalIgnoreCase))
+                {
+                    context.Response.Cookies.Append("VapidPublicKey", Configuration.GetSection("VapidKeys")["PublicKey"], new CookieOptions() { HttpOnly = false });
+                }
+
+                return next(context);
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

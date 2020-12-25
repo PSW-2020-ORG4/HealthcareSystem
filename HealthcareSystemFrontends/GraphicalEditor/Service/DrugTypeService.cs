@@ -1,4 +1,4 @@
-﻿using GraphicalEditor.Models.Drugs;
+﻿using GraphicalEditor.DTO;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -10,15 +10,9 @@ namespace GraphicalEditor.Service
 {
    public class DrugTypeService : GenericHTTPService
     {
-        public string AddDrugType(DrugType drugType)
+        public List<DrugTypeDTO> GetDrugTypes()
         {
-            IRestResponse response = AddHTTPPostRequest("drugType", drugType);
-            return response.Content;
-        }
-
-        public List<DrugType> GetDrugTypes()
-        {
-            return (List<DrugType>)HTTPGetRequest<DrugType>("drugType");
+            return (List<DrugTypeDTO>)HTTPGetRequest<DrugTypeDTO>("drugType");
         }
     }
 }

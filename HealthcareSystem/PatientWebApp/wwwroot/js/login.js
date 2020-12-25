@@ -9,20 +9,12 @@
 		let username = $('#username').val();
 		let password = $('#password').val();
 
-		if (username == "") {
-			return;
-		}
-
-		if (password == "") {
-			return;
-		}
-
 		var userCredentialsDTO = {
 			"Username": username,
 			"Password": password,
 		};
 
-		if ($("form#logging_in").hasClass("unsuccessful")) {
+		if ((username == "") || (password == "")) {
 			return;
 		}
 		else {
@@ -37,8 +29,8 @@
 					window.location.href = "patients_home_page.html";
 				},
 				error: function (jqXHR) {
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
-						+ jqXHR.responseText + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert"> Incorrect username and password'
+						+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}

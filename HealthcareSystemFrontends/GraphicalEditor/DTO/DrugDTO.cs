@@ -1,10 +1,7 @@
-/***********************************************************************
- * Module:  Drug.cs
- * Author:  Jelena Budisa
- * Purpose: Definition of the Class Drug
- ***********************************************************************/
-
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GraphicalEditor.DTO
 {

@@ -8,7 +8,7 @@ namespace E2ETests
 {
     public class E2EPatientWebAppRegistration
     {
-        [Fact]
+       /* [Fact]
         public void TestSubmitRegistration()
         {
             IWebDriver driver = new FirefoxDriver();
@@ -17,6 +17,6 @@ namespace E2ETests
 
             driver.FindElement(By.ClassName("nav-link")).Click();
             driver.FindElement(By.Id("register")).Click();
-        }
+        }*/
     }
 }

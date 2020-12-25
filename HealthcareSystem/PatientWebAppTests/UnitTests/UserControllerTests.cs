@@ -28,7 +28,7 @@ namespace PatientWebAppTests.UnitTests
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
             AdminService adminService = new AdminService(_stubRepository.CreateAdminStubRepository());
 
-            UserController userController = new UserController(null, patientService, adminService);
+            UserController userController = new UserController(patientService, adminService);
 
             return userController;
         }
@@ -45,7 +45,27 @@ namespace PatientWebAppTests.UnitTests
             Assert.True(result is OkObjectResult);
         }
 
+        [Fact]
+        public void Login_valid_patient()
+        {
+            UserController userController = SetupUserController();
 
+            var userCredentialsDTOValidObject = new UserCredentialsDTO { Username = "pera", Password = "12345678" };
+            var result = userController.Authenticate(userCredentialsDTOValidObject);
+
+            Assert.True(result is OkObjectResult);
+        }
+
+        [Fact]
+        public void Login_invalid_user()
+        {
+            UserController userController = SetupUserController();
+
+            var userCredentialsDTOValidObject = new UserCredentialsDTO { Username = "tamara", Password = "33345678" };
+            var result = userController.Authenticate(userCredentialsDTOValidObject);
+
+            Assert.True(result is BadRequestObjectResult);
+        }
 
 
     }

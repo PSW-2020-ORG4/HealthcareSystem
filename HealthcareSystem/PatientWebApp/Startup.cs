@@ -173,7 +173,7 @@ namespace PatientWebApp
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            var tokenKey = Configuration.GetValue<string>("TokenKey");
+            var tokenKey = "This is my private key";
             var key = Encoding.ASCII.GetBytes(tokenKey);
 
             services.AddAuthentication(x =>

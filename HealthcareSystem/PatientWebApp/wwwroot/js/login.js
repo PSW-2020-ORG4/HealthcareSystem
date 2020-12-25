@@ -9,6 +9,14 @@
 		let username = $('#username').val();
 		let password = $('#password').val();
 
+		if (username == "") {
+			return;
+		}
+
+		if (password == "") {
+			return;
+		}
+
 		var userCredentialsDTO = {
 			"Username": username,
 			"Password": password,

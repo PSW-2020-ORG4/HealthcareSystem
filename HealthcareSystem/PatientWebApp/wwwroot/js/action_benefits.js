@@ -33,7 +33,7 @@ function addAction(action, i) {
         success: function (data) {
             pharmacyName = data.name;
 
-            let new_action = $('<h1 style="margin-left:140px;">APOTEKA ' + pharmacyName + '</h1><h1 style="margin-left:160px;">' + action.subject + '</h1><h3 style="margin-left:290px;">' + action.message + '<h3>');
+            let new_action = $('<h1 style="margin-left:140px;"><b>APOTEKA ' + pharmacyName + '</b></h1><h1 style="margin-left:160px;"><b>' + action.subject + '</b></h1><h3 style="margin-left:290px;"><b>' + action.message + '</b><h3>');
 
             if (i == 0) {
                 $('div#action_first_div').append(new_action);

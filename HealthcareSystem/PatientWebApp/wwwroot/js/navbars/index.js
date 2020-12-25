@@ -11,7 +11,7 @@
         + '  <a class="nav-link" href="/html/patient_registration.html">Register</a>'
         + ' </li>'
         + '  <li class="nav-item">'
-        + '  <a class="nav-link" href="">Sign in</a>'
+        + '  <a class="nav-link" href="">Login</a>'
         + '  </li>'
         + ' </ul>'
         + ' </div>'

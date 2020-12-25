@@ -25,8 +25,8 @@ namespace IntegrationAdaptersTests.IntegrationTests
             var adapterContext = new Mock<IAdapterContext>();
             adapterContext.Setup(c => c.PharmacySystemAdapter.DrugAvailibility(It.Is<string>(name => name == "droga"))).Returns(
                 new List<DrugDto>() {
-                    new DrugDto() { Id = 1, Name = "droga", Quantity = 5, Pharmacy = new PharmacyDto {Id = 1, Name = "lokacija-1" } },
-                    new DrugDto() { Id = 4, Name = "drogaricin", Quantity = 5, Pharmacy = new PharmacyDto {Id = 3, Name = "lokacija-3" } }
+                    new DrugDto() { Id = 1, Name = "droga", Quantity = 5, PharmacyDto = new PharmacyDto {Id = 1, Name = "lokacija-1" } },
+                    new DrugDto() { Id = 4, Name = "drogaricin", Quantity = 5, PharmacyDto = new PharmacyDto {Id = 3, Name = "lokacija-3" } }
                 }
                 );
             adapterContext.Setup(c => c.PharmacySystemAdapter.DrugAvailibility(It.Is<string>(name => name != "droga"))).Returns(new List<DrugDto>());

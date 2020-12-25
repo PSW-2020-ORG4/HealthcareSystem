@@ -30,7 +30,14 @@
                         @item.Code
                     </td>
                     <td class="text-center">
-                        @Html.ActionLink("Request Specifications", "RequestSpecifications", new {pharmacyId = ViewBag.PharmacyId, drugId = item.Id })
+                        <form method="post" action="/DrugSpecifications/RequestSpecifications">
+                            <input type="submit" value="Request Specifications" class="btn btn-primary">
+                            <input type="hidden" name="pharmacyId" value=@ViewBag.PharmacyId />
+                            <input type="hidden" name="drugId" value=@item.Id />
+                            <input type="hidden" id="PushEndpoint" name="PushEndpoint" />
+                            <input type="hidden" id="PushP256DH" name="PushP256DH" />
+                            <input type="hidden" id="PushAuth" name="PushAuth" />
+                        </form>
                     </td>
                 </tr>
             }   

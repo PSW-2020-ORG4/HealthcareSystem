@@ -1,9 +1,3 @@
-/***********************************************************************
- * Module:  DrugType.cs
- * Author:  Dragana Carapic
- * Purpose: Definition of the Class Manager.DrugType
- ***********************************************************************/
-
 using System;
 
 

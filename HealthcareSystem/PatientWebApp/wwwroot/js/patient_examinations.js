@@ -39,6 +39,9 @@ $(document).ready(function () {
     $.ajax({
         url: '/api/doctor/all-specialty',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -107,6 +110,9 @@ $(document).ready(function () {
             url: "/api/appointment/basic-search",
             type: 'POST',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            },
             data: JSON.stringify(newData),
             success: function (appointments) {
                 newAppointments = appointments;
@@ -163,6 +169,9 @@ function scheduleExamination() {
         url: "/api/examination",
         type: 'POST',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         data: JSON.stringify(newData),
         success: function () {
             let alert = $('<div class="alert alert-success alert-dismissible fade show mb-0 mt-2" role="alert">Examination successfully scheduled.'
@@ -195,6 +204,9 @@ function changeSpecialty() {
     $.ajax({
         url: '/api/doctor/doctor-specialty/' + select_specialty,
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -205,6 +217,9 @@ function changeSpecialty() {
                 $.ajax({
                     url: '/api/doctor/' + doctorJmbg,
                     type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                    },
                     dataType: 'json',
                     processData: false,
                     contentType: false,
@@ -323,6 +338,12 @@ function cancelExamination(id) {
     $.ajax({
         type: "PUT",
         url: "/api/examination/cancel/" + id,
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
         success: function () {
             let alert = $('<div class="alert alert-success m-2" role="alert">Examination successfully cancelled.</div >')
             $('#f' + id).remove();

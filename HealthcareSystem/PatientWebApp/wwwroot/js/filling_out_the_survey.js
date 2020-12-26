@@ -7,6 +7,9 @@ $(document).ready(function () {
 	$.ajax({
 		url: '/api/examination/' + id,
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
@@ -53,6 +56,9 @@ $(document).ready(function () {
 					url: "/api/survey",
 					type: 'POST',
 					contentType: 'application/json',
+					headers: {
+						'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+					},
 					data: JSON.stringify(newSurvey),
 					success: function () {
 						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Your response has been recored. Thank you for filling out the survey!'

@@ -4,6 +4,9 @@
 	$.ajax({
 		url: "/api/survey/surveyResultAboutMedicalStaff",
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
@@ -41,6 +44,9 @@
 	$.ajax({
 		url: "/api/survey/surveyResultAboutHospital",
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
@@ -78,6 +84,9 @@
 	$.ajax({
 		url: "/api/doctor",
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
@@ -157,6 +166,9 @@ function changeDoctor(event) {
 	$.ajax({
 		url: "/api/survey/surveyResultAboutDoctor/" + doctorValue,
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,

@@ -4,6 +4,9 @@
 	$.ajax({
 		url: "/api/feedback/unpublished-feedbacks",
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
@@ -74,6 +77,12 @@ function approveComment(feedbackId) {
 	$.ajax({
 		type: "PUT",
 		url: "/api/feedback/" + feedbackId,
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
+		dataType: 'json',
+		processData: false,
+		contentType: false,
 		success: function () {
 			let alert = $('<div class="alert alert-success m-1" role="alert">Feedback successfully published.</div >')
 			$('#' + feedbackId).remove();

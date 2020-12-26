@@ -60,6 +60,9 @@
 					url: "/api/feedback",
 					type: 'POST',
 					contentType: 'application/json',
+					headers: {
+						'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+					},
 					data: JSON.stringify(newData),
 					success: function () {
 						$('#text_area_id').val(null);

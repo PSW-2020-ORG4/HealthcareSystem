@@ -111,6 +111,9 @@ $(document).ready(function () {
                 url: '/api/examination/advance-search',
                 type: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
                 data: JSON.stringify(newData),
                 success: function (data) {
                     if (data.length == 0) {
@@ -155,6 +158,9 @@ $(document).ready(function () {
                 url: "/api/therapy/advance-search",
                 type: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
                 data: JSON.stringify(newData),
                 success: function (therapies) {
                     if (therapies.length == 0) {

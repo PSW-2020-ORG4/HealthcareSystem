@@ -3,6 +3,9 @@
     $.ajax({
         url: '/api/patient/malicious-patients',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -13,6 +16,9 @@
                 $.ajax({
                     url: '/api/patient/' + data[i].jmbg + '/canceled-examinations',
                     type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                    },
                     dataType: 'json',
                     processData: false,
                     contentType: false,
@@ -86,6 +92,12 @@ function blockPatient(patientJmbg) {
     $.ajax({
         type: "PUT",
         url: "/api/patient/blocked/" + patientJmbg,
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
         success: function () {
             let alert = $('<div class="alert alert-success alert-dismissible fade show m-2" role="alert">Patient was successfully blocked.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')

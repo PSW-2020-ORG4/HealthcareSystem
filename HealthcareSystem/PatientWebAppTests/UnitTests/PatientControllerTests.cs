@@ -31,6 +31,12 @@ namespace PatientWebAppTests.UnitTests
             _encryptionService = new EncryptionService();
         }
 
+        private PatientService SetupPatientService()
+        {
+            PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
+            return patientService;
+        }
+
         private PatientController SetupPatientController(Mock<IMailService> mailMockService)
         {
             PatientService patientService = new PatientService(_stubRepository.CreatePatientStubRepository());
@@ -45,21 +51,21 @@ namespace PatientWebAppTests.UnitTests
         [Fact]
         public void Get_existent_patient_by_jmbg()
         {
-            PatientController patientController = SetupPatientController(new Mock<IMailService>());
+            PatientService patientService = SetupPatientService();
 
-            var result = patientController.GetPatientByJmbg("1234567891234");
+            var result = patientService.GetPatientByJmbg("1234567891234");
 
-            Assert.True(result is OkObjectResult);
+            Assert.True(result is Patient);
         }
 
         [Fact]
         public void Get_non_existent_patient_by_jmbg()
         {
-            PatientController patientController = SetupPatientController(new Mock<IMailService>());
+            PatientService patientService = SetupPatientService();
 
-            var result = patientController.GetPatientByJmbg("1054789652001");
+            var result = patientService.GetPatientByJmbg("8752102145951");
 
-            Assert.True(result is NotFoundObjectResult);
+            Assert.True(result is null);
         }
 
         [Fact]

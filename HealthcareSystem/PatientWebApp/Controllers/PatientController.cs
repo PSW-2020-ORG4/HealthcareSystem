@@ -16,6 +16,7 @@ using Model.Users;
 using PatientWebApp.Adapters;
 using PatientWebApp.DTOs;
 using PatientWebApp.Validators;
+using System.Security.Claims;
 
 namespace PatientWebApp.Controllers
 {
@@ -45,11 +46,12 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="jmbg">jmbg of the wanted patient</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{jmbg}")]
-        public IActionResult GetPatientByJmbg(string jmbg)
+        [HttpGet]
+        public IActionResult GetPatientByJmbg()
         {
             try
             {
+                var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
                 Patient patient = _patientService.ViewProfile(jmbg);
                 PatientCard patientCard = _patientCardService.ViewPatientCard(jmbg);
                 return Ok(PatientMapper.PatientAndPatientCardToPatientDTO(patient, patientCard));

@@ -20,7 +20,7 @@
         + '  <a class="nav-link" href="/html/patient_profile.html">Profile</a>'
         + '  </li>'
         + ' <li class="nav-item">'
-        + '  <a class="nav-link" href="/html/index.html">Log out</a>'
+        + '  <a href="javascript:logOut();" class="nav-link">Log out</a>'
         + '  </li>'
         + ' </ul>'
         + ' </div>'

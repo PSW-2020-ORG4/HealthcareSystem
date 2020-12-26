@@ -1,7 +1,7 @@
 ﻿var token = "";
 $(document).ready(function () {
     token = window.localStorage.getItem('token');
-    if (token == null) {
+    if (token == null && window.location.pathname != "/html/login.html") {
         window.location.href = "login.html";
     }
 });
@@ -27,4 +27,20 @@ function checkUserRole(trueRole) {
             window.location.href = "login.html";
         }
     }
+}
+function redirectUser(new_token) {
+    token = new_token;
+    var role = getRoleFromToken();
+
+    if (role == "Patient") {
+        window.location.href = "patients_home_page.html";
+    }
+    if (role == "Admin") {
+        window.location.href = "admins_home_page.html";
+    }
+}
+
+function logOut() {
+    window.localStorage.clear();
+    window.location.href = "index.html";
 }

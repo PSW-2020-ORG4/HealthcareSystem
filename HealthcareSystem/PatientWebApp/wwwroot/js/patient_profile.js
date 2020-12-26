@@ -1,31 +1,7 @@
-﻿var jmbg = "";
-$(document).ready(function () {
-    var token = window.localStorage.getItem('token');
-    if (token != null) {
-        $.ajax({
-            url: "/api/user/logged",
-            type: 'GET',
-            dataType: 'json',
-            processData: false,
-            contentType: 'application/json',
-            data: JSON.stringify(token),
-            success: function (loggedUser) {
-                if (loggedUser.role != "Patient") {
-                    alert('Access denied!');
-                    return;
-                }
-                jmbg = loggedUser.jmbg;
-            },
-            error: function () {
-                alert('Error getting logged user!');
-            }
-        });
-    }
-    else {
-        alert('Unlogged user!');
-        return;
-    }
+﻿$(document).ready(function () {
+    checkUserRole("Patient");
 
+    let jmbg = "1309998775018";
     $.ajax({
         url: "/api/patient/" + jmbg,
         type: 'GET',
@@ -76,7 +52,7 @@ $(document).ready(function () {
             if (patientDTO.hasInsurance == "1") {
                 $('#insurance').empty();
                 $('#insurance').append(patientDTO.lbo);
-            } 
+            }
 
             if (patientDTO.allergies) {
                 $('#allergies').empty();

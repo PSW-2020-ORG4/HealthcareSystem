@@ -62,29 +62,6 @@ namespace PatientWebApp.Controllers
             }
             
         }
-
-       [AllowAnonymous]
-       [HttpGet("logged")]
-       public IActionResult GetLoggedUser([FromBody] string token)
-       {
-           var key = Encoding.ASCII.GetBytes(token);
-           var handler = new JwtSecurityTokenHandler();
-           var validations = new TokenValidationParameters
-           {
-               ValidateIssuerSigningKey = true,
-               IssuerSigningKey = new SymmetricSecurityKey(key),
-               ValidateIssuer = false,
-               ValidateAudience = false
-           };
-           var claims = handler.ValidateToken(token, validations, out var tokenSecure);
-
-           string username = claims.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-           string role = claims.Claims.First(c => c.Type == ClaimTypes.Role).Value;
-           string jmbg = claims.Claims.First(c => c.Type == "Jmbg").Value;
-
-           return Ok(new LoggedUserDTO(username, jmbg, role));
-       }
-
         private string TryToLoginPatient(string username, string password)
         {
             Patient patient;

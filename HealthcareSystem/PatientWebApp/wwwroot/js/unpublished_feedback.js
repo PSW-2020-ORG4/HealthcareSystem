@@ -1,30 +1,5 @@
-﻿var jmbg = "";
-$(document).ready(function () {
-	var token = window.localStorage.getItem('token');
-	if (token != null) {
-		$.ajax({
-			url: "/api/user/logged",
-			type: 'GET',
-			dataType: 'json',
-			processData: false,
-			contentType: 'application/json',
-			data: JSON.stringify(token),
-			success: function (loggedUser) {
-				if (loggedUser.role != "Admin") {
-					alert('Access denied!');
-					return;
-				}
-				jmbg = loggedUser.jmbg;
-			},
-			error: function () {
-				alert('Error getting logged user!');
-			}
-		});
-	}
-	else {
-		alert('Unlogged user!');
-		return;
-	}
+﻿$(document).ready(function () {
+	checkUserRole("Admin");
 
 	$.ajax({
 		url: "/api/feedback/unpublished-feedbacks",
@@ -73,7 +48,7 @@ function addCommentTable(feedback) {
 			+ feedback.id
 			+ '" onclick="approveComment(this.id)">Publish</button>'
 			+ '</footer ></blockquote ></div >'
-			+ '<div class="card-footer bg-transpartent border-top-0" id="a' + feedback.id + '">' 
+			+ '<div class="card-footer bg-transpartent border-top-0" id="a' + feedback.id + '">'
 			+ '</div ></div ></div ></div >');
 
 		$('div#view_feedbacks').append(new_feedback);

@@ -3,6 +3,8 @@ using Xunit;
 using Microsoft.AspNetCore.Mvc;
 using PatientWebAppTests.CreateObjectsForTests;
 using Service.ExaminationAndPatientCard;
+using Model.PerformingExamination;
+using System.Collections.Generic;
 
 namespace PatientWebAppTests.UnitTests
 {
@@ -25,6 +27,13 @@ namespace PatientWebAppTests.UnitTests
 
             return examinationController;
         }
+
+        private ExaminationService SetupExaminationService()
+        {
+            ExaminationService examinationService = new ExaminationService(_stubRepository.CreateExaminationStubRepository());
+            return examinationService;
+        }
+
 
         [Fact]
         public void Get_existent_examination_by_patient_jmbg()
@@ -72,61 +81,61 @@ namespace PatientWebAppTests.UnitTests
         [Fact]
         public void Get_canceled_examination_by_valid_patient_jmbg()
         {
-            ExaminationController examinationController = SetupExaminationController();
+            ExaminationService examinationService = SetupExaminationService();
 
-            var result = examinationController.GetCanceledExaminationsByPatient("1309998775018");
+            var result = examinationService.GetCanceledExaminationsByPatient("1309998775018");
 
-            Assert.True(result is OkObjectResult);
+            Assert.True(result is List<Examination>);
         }
 
         [Fact]
         public void Get_canceled_examination_by_invalid_patient_jmbg()
         {
-            ExaminationController examinationController = SetupExaminationController();
+            ExaminationService examinationService = SetupExaminationService();
 
-            var result = examinationController.GetCanceledExaminationsByPatient(null);
+            var result = examinationService.GetCanceledExaminationsByPatient(null);
 
-            Assert.True(result is BadRequestObjectResult);
+            Assert.True(result is null);
         }
 
         [Fact]
         public void Get_previous_examination_by_valid_patient_jmbg()
         {
-            ExaminationController examinationController = SetupExaminationController();
+            ExaminationService examinationService = SetupExaminationService();
 
-            var result = examinationController.GetPreviousExaminationsByPatient("1309998775018");
+            var result = examinationService.GetPreviousExaminationsByPatient("1309998775018");
 
-            Assert.True(result is OkObjectResult);
+            Assert.True(result is List<Examination>);
         }
 
         [Fact]
         public void Get_previous_examination_by_invalid_patient_jmbg()
         {
-            ExaminationController examinationController = SetupExaminationController();
+            ExaminationService examinationService = SetupExaminationService();
 
-            var result = examinationController.GetPreviousExaminationsByPatient(null);
+            var result = examinationService.GetPreviousExaminationsByPatient(null);
 
-            Assert.True(result is BadRequestObjectResult);
+            Assert.True(result is null);
         }
 
         [Fact]
         public void Get_following_examination_by_valid_patient_jmbg()
         {
-            ExaminationController examinationController = SetupExaminationController();
+            ExaminationService examinationService = SetupExaminationService();
 
-            var result = examinationController.GetFollowingExaminationsByPatient("1309998775018");
+            var result = examinationService.GetFollowingExaminationsByPatient("1309998775018");
 
-            Assert.True(result is OkObjectResult);
+            Assert.True(result is List<Examination>);
         }
 
         [Fact]
         public void Get_following_examination_by_invalid_patient_jmbg()
         {
-            ExaminationController examinationController = SetupExaminationController();
+            ExaminationService examinationService = SetupExaminationService();
 
-            var result = examinationController.GetFollowingExaminationsByPatient(null);
+            var result = examinationService.GetFollowingExaminationsByPatient(null);
 
-            Assert.True(result is BadRequestObjectResult);
+            Assert.True(result is null);
         }
 
         [Fact]

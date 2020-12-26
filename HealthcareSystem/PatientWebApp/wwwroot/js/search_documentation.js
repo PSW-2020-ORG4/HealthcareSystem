@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿var jmbg = "";
+$(document).ready(function () {
     checkUserRole("Patient");
 
     $('#start_date').val("");
@@ -33,11 +34,12 @@
         }
     });
 
-    let jmbg = "1309998775018";
-
     $.ajax({
-        url: '/api/examination/previous/' + jmbg,
+        url: '/api/examination/previous',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -51,6 +53,7 @@
             }
             else {
                 for (let i = 0; i < data.length; i++) {
+                    jmbg = data[i].patientJmbg;
                     addExaminationRow(data[i]);
                 }
                 $("#loading").hide();

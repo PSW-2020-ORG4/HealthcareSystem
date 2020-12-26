@@ -26,7 +26,7 @@
 				data: JSON.stringify(userCredentialsDTO),
 				success: function (tokenUser) {
 					localStorage.setItem('token', tokenUser);
-					redirectUser(token = window.localStorage.getItem('token'));
+					redirectUser(window.localStorage.getItem('token'));
 				},
 				error: function (jqXHR) {
 					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert"> Incorrect username and password'

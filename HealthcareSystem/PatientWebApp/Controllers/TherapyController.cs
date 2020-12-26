@@ -7,14 +7,17 @@ using Backend.Model.Exceptions;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.SearchSpecification.TherapySearch;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
+using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TherapyController : ControllerBase
@@ -30,6 +33,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("{patientJmbg}")]
         public ActionResult GetTherapiesByPatient(string patientJmbg)
         {
@@ -50,6 +55,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="therapySearchDTO">an object need be find in the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(not found)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost("advance-search")]
         public ActionResult AdvanceSearchTherapies(TherapySearchDTO therapySearchDTO)
         {

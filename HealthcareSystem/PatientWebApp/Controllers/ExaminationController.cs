@@ -7,15 +7,18 @@ using Backend.Model.Exceptions;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.SearchSpecification;
 using Backend.Service.SearchSpecification.ExaminationSearch;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
+using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 using PatientWebApp.Validators;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ExaminationController : ControllerBase
@@ -33,6 +36,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("by-patient/{patientJmbg}")]
         public ActionResult GetExaminationsByPatient(string patientJmbg)
         {
@@ -53,6 +58,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="examinationSearchDTO">an object need be find in the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(not found)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost("advance-search")]
         public ActionResult AdvanceSearchExaminations(ExaminationSearchDTO examinationSearchDTO)
         {
@@ -78,6 +85,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request), if connection lost returns 500</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPut("cancel/{id}")]
         public ActionResult CancelExamination(int id)
         {
@@ -106,6 +115,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("cancelled")]
         public ActionResult GetCanceledExaminationsByPatient()
         {
@@ -131,6 +142,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("previous")]
         public ActionResult GetPreviousExaminationsByPatient()
         {
@@ -156,6 +169,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("following")]
         public ActionResult GetFollowingExaminationsByPatient()
         {
@@ -181,6 +196,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">examination id</param>
         /// <returns>if alright returns code 200(Ok), if returned value is null returns 404, if connection lost returns 500</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("{id}")]
         public IActionResult GetExaminationById(int id)
         {
@@ -205,6 +222,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="examinationDTO">an object to be added to the database</param>
         /// <returns>if alright returns code 201(Created), if validation isn't successful return 400, if connection lost returns 500</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost]
         public IActionResult AddExamination(ExaminationDTO examinationDTO)
         {

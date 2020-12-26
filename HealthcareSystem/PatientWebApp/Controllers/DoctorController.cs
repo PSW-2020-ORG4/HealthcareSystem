@@ -6,6 +6,7 @@ using Backend.Model.Exceptions;
 using Backend.Model.Users;
 using Backend.Service;
 using Backend.Service.UsersAndWorkingTime;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Users;
@@ -14,6 +15,7 @@ using PatientWebApp.Mappers;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DoctorController : ControllerBase
@@ -29,6 +31,7 @@ namespace PatientWebApp.Controllers
             _doctorSpecialtyService = doctorSpecialtyService;
         }
 
+        [Authorize(Roles = UserRoles.Patient + "," + UserRoles.Admin)]
         [HttpGet]
         public ActionResult GetAllDoctors()
         {
@@ -49,6 +52,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="jmbg">id of the wanted object</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found), if connection lost returns 500</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient + "," + UserRoles.Admin)]
         [HttpGet("{jmbg}")]
         public IActionResult GetDoctorByJmbg(string jmbg)
         {
@@ -71,6 +76,8 @@ namespace PatientWebApp.Controllers
         /// /getting specialtes
         /// </summary>
         /// <returns>if alright returns code 200(Ok), if connection lost returns 500</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("all-specialty")]
         public IActionResult GetAllSpecialtes()
         {
@@ -91,6 +98,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the wanted object</param>
         /// <returns>if alright returns code 200(Ok), if connection lost returns 500</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("doctor-specialty/{id}")]
         public IActionResult GetDoctorSpecialtyBySpecialtyId(int id)
         {

@@ -6,14 +6,17 @@ using Backend.Model;
 using Backend.Model.Exceptions;
 using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 using PatientWebApp.Validators;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SurveyController : ControllerBase
@@ -33,7 +36,7 @@ namespace PatientWebApp.Controllers
             _examinationValidator = new ExaminationValidator(_examinationService);
         }
 
-
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost]
         public ActionResult AddSurvey(SurveyDTO surveyDTO)
         {
@@ -60,7 +63,7 @@ namespace PatientWebApp.Controllers
             }
         }
 
-
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutMedicalStaff")]
         public IActionResult GetSurveyResultAboutMedicalStaff()
         {
@@ -76,7 +79,7 @@ namespace PatientWebApp.Controllers
             }
         }
 
-
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutDoctor/{jmbg}")]
         public IActionResult GetSurveyResultAboutDoctor(string jmbg)
         {
@@ -92,7 +95,7 @@ namespace PatientWebApp.Controllers
             }
         }
 
-
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutHospital")]
         public IActionResult GetSurveyResultAboutHospital()
         {

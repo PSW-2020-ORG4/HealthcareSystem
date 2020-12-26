@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.Exceptions;
 using Backend.Service.NotificationSurveyAndFeedback;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.NotificationSurveyAndFeedback;
@@ -14,6 +15,7 @@ using PatientWebApp.Validators;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FeedbackController : ControllerBase
@@ -30,6 +32,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the wanted object</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+        /// 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public IActionResult GetFeedbackById(int id)
         {
@@ -48,6 +52,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="feedbackDTO">an object to be added to the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost]
         public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
         {
@@ -68,6 +74,8 @@ namespace PatientWebApp.Controllers
         /// / getting all published feedbacks
         /// </summary>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+        /// 
+        [AllowAnonymous]
         [HttpGet("published-feedbacks")]
         public ActionResult GetPublishedFeedbacks()
         {
@@ -86,6 +94,8 @@ namespace PatientWebApp.Controllers
         /// /getting all unpublished feedbacks
         /// </summary>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("unpublished-feedbacks")]
         public ActionResult GetUnpublishedFeedbacks()
         {
@@ -105,6 +115,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("{id}")]
         public ActionResult PublishFeedback(int id)
         {

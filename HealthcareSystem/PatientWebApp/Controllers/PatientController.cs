@@ -17,9 +17,11 @@ using PatientWebApp.Adapters;
 using PatientWebApp.DTOs;
 using PatientWebApp.Validators;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PatientController : ControllerBase
@@ -46,6 +48,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="jmbg">jmbg of the wanted patient</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient + "," + UserRoles.Admin)]
         [HttpGet]
         public IActionResult GetPatientByJmbg()
         {
@@ -67,6 +71,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientDTO">an object to be added to the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bad request)</returns>
+        /// 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> AddPatient(PatientDTO patientDTO)
         {
@@ -99,6 +105,8 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
+        /// 
+        [AllowAnonymous]
         [HttpPut("activate/{jmbg}")]
         public ActionResult ActivatePatient(string jmbg)
         {
@@ -120,6 +128,8 @@ namespace PatientWebApp.Controllers
         /// <param name="file">uploaded file ie image</param>
         /// <param name="patientJmbg">jmbg of patient who uploads file</param>
         /// <returns>if alright makes redirection to new action, if not stay at current page</returns>
+        /// 
+        [AllowAnonymous]
         [HttpPost]
         [Route("upload")]
         public IActionResult UploadImage([FromForm] IFormFile file, [FromQuery] string patientJmbg)
@@ -148,6 +158,8 @@ namespace PatientWebApp.Controllers
         /// <param name="jmbg">jmbg of patient</param>
         /// <param name="name">image name</param>
         /// <returns>if alright makes redirection to patient home page, if not return 404(Not found patient)</returns>
+        /// 
+        [AllowAnonymous]
         [HttpGet("{jmbg}/{name}")]
         public IActionResult ChangeImagePathForPatent(string jmbg, string name)
         {
@@ -166,6 +178,8 @@ namespace PatientWebApp.Controllers
         /// /getting malicious patients(who canceled examinations 3 or more times in the past month)
         /// </summary>
         /// <returns>list of patients</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("malicious-patients")]
         public IActionResult GetMaliciousPatients()
         {
@@ -181,6 +195,7 @@ namespace PatientWebApp.Controllers
             }
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("{jmbg}/canceled-examinations")]
         public IActionResult GetNumberOfCanceledExaminations(string jmbg)
         {
@@ -195,6 +210,7 @@ namespace PatientWebApp.Controllers
             }
         }
 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPut("blocked/{jmbg}")]
         public ActionResult BlockPatient(string jmbg)
         {

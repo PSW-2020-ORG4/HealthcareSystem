@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-
+    checkUserRole("Patient");
     $.ajax({
         url: '/api/action',
         type: 'GET',

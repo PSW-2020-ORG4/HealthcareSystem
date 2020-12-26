@@ -106,11 +106,12 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
-        [HttpGet("cancelled/{patientJmbg}")]
-        public ActionResult GetCanceledExaminationsByPatient(string patientJmbg)
+        [HttpGet("cancelled")]
+        public ActionResult GetCanceledExaminationsByPatient()
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
                 List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
                 _examinationService.GetCanceledExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
                 return Ok(examinationDTOs);
@@ -130,11 +131,12 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
-        [HttpGet("previous/{patientJmbg}")]
-        public ActionResult GetPreviousExaminationsByPatient(string patientJmbg)
+        [HttpGet("previous")]
+        public ActionResult GetPreviousExaminationsByPatient()
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
                 List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
                 _examinationService.GetPreviousExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
                 return Ok(examinationDTOs);
@@ -154,11 +156,12 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if patientJmbg is null returns 400, if connection lost returns 500</returns>
-        [HttpGet("following/{patientJmbg}")]
-        public ActionResult GetFollowingExaminationsByPatient(string patientJmbg)
+        [HttpGet("following")]
+        public ActionResult GetFollowingExaminationsByPatient()
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
                 List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
                 _examinationService.GetFollowingExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
                 return Ok(examinationDTOs);

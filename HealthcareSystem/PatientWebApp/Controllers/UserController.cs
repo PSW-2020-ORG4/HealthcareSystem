@@ -20,12 +20,10 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IConfiguration _config;
         private readonly IPatientService _patientService;
         private readonly IAdminService _adminService;
-        public UserController(IConfiguration config, IPatientService patientService, IAdminService adminService)
+        public UserController(IPatientService patientService, IAdminService adminService)
         {
-            _config = config;
             _patientService = patientService;
             _adminService = adminService;
         }
@@ -93,7 +91,7 @@ namespace PatientWebApp.Controllers
 
         private string GenerateJWT(string username, string jmbg, string role)
         {
-            var tokenKey = _config.GetValue<string>("TokenKey");
+            var tokenKey = "This is my private key";
             var key = Encoding.ASCII.GetBytes(tokenKey);
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor

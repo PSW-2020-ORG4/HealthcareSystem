@@ -24,8 +24,11 @@
 
 		//I take the certain patient from the database, otherwise the currently logged in patient will be taken
 		$.ajax({
-			url: "/api/patient/1309998775018",
+			url: "/api/patient",
 			type: 'GET',
+			headers: {
+				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			},
 			dataType: 'json',
 			processData: false,
 			contentType: false,

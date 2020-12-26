@@ -8,7 +8,7 @@ namespace IntegrationAdapters.MapperProfiles
     {
         public PharmacySystemProfile_Id1()
         {
-            CreateMap<Drug, DrugDto>();
+            CreateMap<Drug, DrugDto>().ForMember(dest => dest.PharmacyDto, opt => opt.MapFrom(src => src.Pharmacy));
             CreateMap<Pharmacy, PharmacyDto>();
         }
     }

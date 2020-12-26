@@ -1,6 +1,6 @@
 ﻿using GraphicalEditor.DTO;
 using GraphicalEditor.Models;
-using GraphicalEditor.Models.Drugs;
+using GraphicalEditor.DTO;
 using RestSharp;
 using System;
 using System.Collections.Generic;

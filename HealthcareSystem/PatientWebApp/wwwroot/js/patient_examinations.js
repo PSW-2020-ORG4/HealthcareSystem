@@ -286,6 +286,8 @@ function addExaminationRow(examination) {
         + '<div class="card-body p-3">'
         + '<label class="text-secondary mb-0">Doctor:</label><br>'
         + '<label>' + examination.doctorName + ' ' + examination.doctorSurname + '</label><br>'
+        + '<label class="text-secondary mb-0">Room:</label><br>'
+        + '<label>' + examination.idRoom + '</label><br>'
         + '</div>' + button + '</div></div></div>'
     );
 

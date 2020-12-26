@@ -43,7 +43,8 @@ namespace PatientWebApp.Controllers
             {
                 parameters.IsAppointmentValid();
                 freeAppointments = _freeAppointmentSearchService.BasicSearch(parameters).ToList();
-                freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));
+                freeAppointments = ReduceFreeAppointments(freeAppointments);
+                freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));          
                 return Ok(freeAppointmentsDTOs);
             }
             catch(ValidationException exception)
@@ -75,8 +76,9 @@ namespace PatientWebApp.Controllers
             {
                 parameters.InitialParameters.IsAppointmentValid();
                 freeAppointments = _freeAppointmentSearchService.SearchWithPriorities(parameters).ToList();
+                freeAppointments = ReduceFreeAppointments(freeAppointments);
                 freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));
-                SetDoctorNameAndSurname(freeAppointmentsDTOs);             
+                SetDoctorNameAndSurname(freeAppointmentsDTOs);
                 return Ok(freeAppointmentsDTOs);
             }
             catch (ValidationException exception)
@@ -112,6 +114,20 @@ namespace PatientWebApp.Controllers
                 dto.DoctorSurname = doctor.Surname;
                 dto.DoctorName = doctor.Name;
             }
+        }
+
+        private List<Examination> ReduceFreeAppointments(List<Examination> freeAppointments)
+        {
+            List<Examination> reduceFreeAppointments = new List<Examination>();
+            foreach(Examination e in freeAppointments)
+            {
+                if (!reduceFreeAppointments.Where(r => DateTime.Compare(r.DateAndTime, e.DateAndTime) == 0).Any())
+                {
+                    reduceFreeAppointments.Add(e);
+                }
+            }
+            return reduceFreeAppointments;
+
         }
 
     }

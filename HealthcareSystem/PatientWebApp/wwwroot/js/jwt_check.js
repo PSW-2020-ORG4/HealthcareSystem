@@ -4,16 +4,38 @@ $(document).ready(function () {
     if (token == null && window.location.pathname != "/html/login.html") {
         window.location.href = "login.html";
     }
+    else {
+        checkExpirationDateFromToken();
+        return;
+    }
 });
-function getRoleFromToken() {
+
+function checkExpirationDateFromToken() {
+    const now = Date.now().valueOf() / 1000
+    isExpire = getExpirationDateFromToken() < now;
+    if (isExpire == true) {
+        logOut();
+    }
+}
+
+function decodeToken() {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
 
-    return (JSON.parse(jsonPayload)).role;
+    return jsonPayload;
 }
+
+function getRoleFromToken() {
+    return (JSON.parse(decodeToken())).role;
+}
+
+function getExpirationDateFromToken() {
+    return (JSON.parse(decodeToken())).exp;
+}
+
 function checkUserRole(trueRole) {
     var role = getRoleFromToken();
     if (role != trueRole) {

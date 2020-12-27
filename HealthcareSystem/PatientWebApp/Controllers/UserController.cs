@@ -100,7 +100,7 @@ namespace PatientWebApp.Controllers
                 {
                     new Claim(ClaimTypes.NameIdentifier, username), new Claim("Jmbg",jmbg) , new Claim(ClaimTypes.Role, role)
                 }),
-                Expires = DateTime.UtcNow.AddHours(1),
+                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)

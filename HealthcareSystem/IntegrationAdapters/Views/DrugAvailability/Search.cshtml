@@ -29,23 +29,34 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th colspan="4"><h5 class="card-title">Pharmacy system: @searchResult.pharmacySystem.Name</h5></th>
+                        <th colspan="6"><h5 class="card-title">Pharmacy system: @searchResult.pharmacySystem.Name</h5></th>
                     </tr>
                     <tr>
-                        <th>Id</th>
                         <th>Name</th>
                         <th>Quantity</th>
+                        <th>Code</th>
                         <th>Pharmacy name</th>
+                        <th>Address</th>
+                        <th>Order</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var drug in searchResult.drugs)
                     {
                         <tr>
-                            <td>@drug.Id</td>
                             <td>@drug.Name</td>
                             <td>@drug.Quantity</td>
+                            <td>@drug.Code</td>
                             <td>@drug.PharmacyDto.Name</td>
+                            <td>@drug.PharmacyDto.Address</td>
+                            <td>@Html.ActionLink("Order", "Index", "DrugProcurement", new 
+                                {
+                                    PharmacySystemId = searchResult.pharmacySystem.Id, 
+                                    PharmacyId = drug.PharmacyDto.Id, 
+                                    DrugId = drug.Id, 
+                                    DrugName = drug.Name, 
+                                    Quantity = drug.Quantity
+                                }, new { @class = "btn btn-primary" })</td>
                         </tr>
                     }
                 </tbody>

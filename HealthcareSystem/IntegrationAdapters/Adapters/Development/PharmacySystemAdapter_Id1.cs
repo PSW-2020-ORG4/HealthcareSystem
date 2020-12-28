@@ -142,5 +142,10 @@ namespace IntegrationAdapters.Adapters.Development
 
             _sftpCommunicator = new SftpCommunicator(_parameters.SftpConfig);
         }
+
+        public bool OrderDrugs(int pharmacyId, int drugId, int quantity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

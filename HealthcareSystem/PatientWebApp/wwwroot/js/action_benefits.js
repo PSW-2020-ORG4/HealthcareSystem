@@ -31,21 +31,21 @@ function addAction(action, i) {
     if (i == 0) {
         text_image = $('<div class="carousel-item" style="background-image: url(/images/4.jpg);">'
             + '< img class= "d-block" src = "/images/4.jpg" alt = "First slide" >'
-            + '<div class="carousel-caption trickcenter"><h1 style="margin-left:140px;"><b>APOTEKA ' + action.pharmacyName + '</b></h1><h1 style="margin-left:160px;"><b>' + action.subject + '</b></h1><h3 style="margin-left:250px;"><b>' + action.message + '</b><h3></div></div>');
+            + '<div class="carousel-caption text-dark rounded"><h1 class="display-4" style="font-size:40px">APOTEKA ' + action.pharmacyName + '</h1><h1 class="display-4" style="font-size:40px">' + action.subject + '</h1><h3 class="lead"><b>' + action.message + '</b></h3></div></div>');
 
         $('div#action_benefit_div').append(text_image);
     }
     if (i == 1) {
         text_image = $('<div class="carousel-item" style="background-image: url(/images/5.jpg);">'
             + '< img class= "d-block" src = "/images/5.jpg" alt = "First slide" >'
-            + '<div class="carousel-caption trickcenter"><h1 style="margin-left:140px;"><b>APOTEKA ' + action.pharmacyName + '</b></h1><h1 style="margin-left:160px;"><b>' + action.subject + '</b></h1><h3 style="margin-left:250px;"><b>' + action.message + '</b><h3></div></div>');
+            + '<div class="carousel-caption text-dark rounded"><h1 class="display-4" style="font-size:40px">APOTEKA ' + action.pharmacyName + '</h1><h1 class="display-4" style="font-size:40px">' + action.subject + '</h1><h3 class="lead"><b>' + action.message + '</b></h3></div></div>');
 
         $('div#action_benefit_div').append(text_image);
     }
     if (i == 2) {
         text_image = $('<div class="carousel-item" style="background-image: url(/images/6.jpg);">'
             + '< img class= "d-block" src = "/images/6.jpg" alt = "First slide" >'
-            + '<div class="carousel-caption trickcenter"><h1 style="margin-left:140px;"><b>APOTEKA ' + action.pharmacyName + '</b></h1><h1 style="margin-left:160px;"><b>' + action.subject + '</b></h1><h3 style="margin-left:250px;"><b>' + action.message + '</b><h3></div></div>');
+            + '<div class="carousel-caption text-dark rounded"><h1 class="display-4" style="font-size:40px">APOTEKA ' + action.pharmacyName + '</h1><h1 class="display-4" style="font-size:40px">' + action.subject + '</h1><h3 class="lead"><b>' + action.message + '</b></h3></div></div>');
 
         $('div#action_benefit_div').append(text_image);
     }

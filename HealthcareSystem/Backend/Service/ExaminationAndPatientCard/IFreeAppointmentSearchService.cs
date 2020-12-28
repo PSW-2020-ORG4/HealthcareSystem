@@ -10,5 +10,7 @@ namespace Backend.Service.ExaminationAndPatientCard
     {
         ICollection<Examination> BasicSearch(BasicAppointmentSearchDTO parameters);
         ICollection<Examination> SearchWithPriorities(AppointmentSearchWithPrioritiesDTO parameters);
+        ICollection<Examination> GetUnchangedAppointmentsForEmergency(BasicAppointmentSearchDTO parameters);
+        ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(BasicAppointmentSearchDTO parameters);
     }
 }

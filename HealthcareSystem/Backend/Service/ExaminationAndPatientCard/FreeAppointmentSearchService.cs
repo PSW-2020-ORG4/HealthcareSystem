@@ -12,6 +12,7 @@ using Model.Users;
 using Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Backend.Service.ExaminationAndPatientCard
 {
@@ -48,6 +49,68 @@ namespace Backend.Service.ExaminationAndPatientCard
             }
 
             return actuallyAvailableAppointments;
+        }
+
+        public ICollection<Examination> GetUnchangedAppointmentsForEmergency(BasicAppointmentSearchDTO parameters)
+        {
+            List<Examination> allUnchangedAppointments = (List<Examination>) GetPotentiallyAvailableAppointments(parameters);
+
+            foreach (Examination appointment in allUnchangedAppointments)
+            {
+                if (IsAvailable(appointment))
+                    appointment.ExaminationStatus = ExaminationStatus.AVAILABLE;
+                else appointment.ExaminationStatus = ExaminationStatus.CREATED;
+            }        
+
+            return allUnchangedAppointments;
+        }
+
+        public ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(BasicAppointmentSearchDTO parameters)
+        {
+            List<Examination> unchangedAppointments = (List<Examination>)GetPotentiallyAvailableAppointments(parameters);
+
+            ICollection<Examination> shiftedAppointments = new List<Examination>();
+            foreach(Examination examination in unchangedAppointments)
+                shiftedAppointments.Add(GetShiftedAppointmentForEmergency(parameters,examination));
+
+            shiftedAppointments.OrderBy(e => e.DateAndTime);
+            return shiftedAppointments;
+        }
+
+        private Examination GetShiftedAppointmentForEmergency(BasicAppointmentSearchDTO parameters, Examination examination)
+        {
+            DateTime startDateTime = GetNewStartTime();
+            DateTime endDateTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 17, 0, 0);
+
+            for (int i = 1; i <= 13; i++)
+            {
+                parameters = new BasicAppointmentSearchDTO(
+                    examination.IdPatientCard, 
+                    examination.DoctorJmbg,
+                    requiredEquipmentTypes,
+                    startDateTime,
+                    endDateTime
+                );
+
+                List<Examination> potentialAppointments = (List<Examination>)BasicSearch(parameters);
+                if (potentialAppointments.Count != 0)
+                    return potentialAppointments[0];
+
+                startDateTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 7, 0, 0);
+                startDateTime = startDateTime.AddDays(1);
+                endDateTime = endDateTime.AddDays(1);
+            }
+            return null;
+        }
+
+        private DateTime GetNewStartTime()
+        {
+            DateTime newStartTime = DateTime.Now;
+            int minutes = newStartTime.Minute % _appointmentDuration.Minutes;
+            int addition = _appointmentDuration.Minutes - minutes;
+            newStartTime.AddMinutes(addition);
+
+            return newStartTime;
         }
 
         private ICollection<Examination> GetPotentiallyAvailableAppointments(BasicAppointmentSearchDTO parameters)

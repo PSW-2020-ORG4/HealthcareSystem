@@ -11,7 +11,10 @@ namespace UserService.Model
         protected override void Validate()
         {
             base.Validate();
-            throw new NotImplementedException();
+            if (DateOfEmployment.CompareTo(DateTime.Now) > 0)
+            {
+                throw new Exception("Date of employment not valid.");
+            }
         }
     }
 }

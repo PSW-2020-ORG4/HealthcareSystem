@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace UserService.Model
 {
@@ -25,7 +26,16 @@ namespace UserService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
+            if (IsRegular(Value))
+            {
+                throw new Exception();
+            }
+        }
+
+        private bool IsRegular(string Value)
+        {
+            Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{5,13}[a-zA-Z0-9\.\-_]{5,13}$");
+            return regex.Match(Value).Success;
         }
     }
 }

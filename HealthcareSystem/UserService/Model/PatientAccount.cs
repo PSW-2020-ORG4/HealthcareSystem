@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
     public class PatientAccount : UserAccount
     {
-        private DateTime DateOfRegistration { get; }
         private bool IsActivated { get; set; }
         private bool IsBlocked { get; set; }
         private string ImageName { get; }
@@ -13,23 +13,33 @@ namespace UserService.Model
         
         public void Activate()
         {
-            throw new NotImplementedException();
+            if (IsBlocked) throw new ValidationException("Activation isn't possible because the patient is blocked.");
+            if (IsActivated) throw new ValidationException("Patient account is already activated.");
+            
+            IsActivated = true;
         }
 
         public void Block()
         {
-            throw new NotImplementedException();
+            if (!IsActivated) throw new ValidationException("Blocking unactivated patient account isn't possible.");
+            if (IsBlocked) throw new ValidationException("Patient account is already blocked.");
+
+            IsBlocked = true;
         }
 
         public bool IsMalicious()
         {
-            throw new NotImplementedException();
+            if (MaliciousActions.Count() >= 3)
+                return true;
+
+            return false;
         }
 
         protected override void Validate()
         {
             base.Validate();
-            throw new NotImplementedException();
+            
+            if (string.IsNullOrEmpty(ImageName)) throw new ValidationException("Image name cannot be null or empty.");
         }
     }
 }

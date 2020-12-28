@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace UserService.Model
 {
-    public class User
+    public class UserAccount
     {
         protected Jmbg Jmbg { get; }
         protected string Name { get; }
@@ -19,7 +16,7 @@ namespace UserService.Model
         protected Password Password { get; }
         protected UserType UserType { get; }
 
-        public User()
+        public UserAccount()
         {
             Validate();
         }

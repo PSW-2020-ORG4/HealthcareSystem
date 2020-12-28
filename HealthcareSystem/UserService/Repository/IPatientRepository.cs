@@ -7,7 +7,7 @@ using UserService.Repository.CRUD;
 
 namespace UserService.Repository
 {
-    public interface IPatientRepository : IRead<Patient, string>, ICreate<Patient>, IUpdate<Patient>
+    public interface IPatientRepository : IRead<PatientAccount, string>, ICreate<PatientAccount>, IUpdate<PatientAccount>
     {
     }
 }

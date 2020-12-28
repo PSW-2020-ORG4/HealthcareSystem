@@ -11,8 +11,8 @@ namespace UserService.Service
         void Register();
         void Activate(string jmbg);
         void Block(string jmbg);
-        IEnumerable<Patient> GetMalicious();
-        IEnumerable<Patient> GetAll();
-        Patient GetByJmbg(string jmbg);
+        IEnumerable<PatientAccount> GetMalicious();
+        IEnumerable<PatientAccount> GetAll();
+        PatientAccount GetByJmbg(string jmbg);
     }
 }

@@ -8,6 +8,6 @@ namespace UserService.Repository
 {
     public interface UserRepository
     {
-        User GetByEmailAndPassword(string email, string password);
+        UserAccount GetByEmailAndPassword(string email, string password);
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace UserService.Model
 {
-    public class Doctor : User
+    public class DoctorAccount : UserAccount
     {
         private DateTime DateOfEmployment { get; }
         private IEnumerable<Specialty> Specialties { get; }

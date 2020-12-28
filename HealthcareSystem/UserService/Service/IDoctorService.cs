@@ -5,6 +5,6 @@ namespace UserService.Service
 {
     interface IDoctorService
     {
-        IEnumerable<Doctor> GetBySpecialty(int specialtyId);
+        IEnumerable<DoctorAccount> GetBySpecialty(int specialtyId);
     }
 }

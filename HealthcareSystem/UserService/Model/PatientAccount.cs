@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace UserService.Model
 {
-    public class Patient : User
+    public class PatientAccount : UserAccount
     {
         private DateTime DateOfRegistration { get; }
-        private bool IsActive { get; set; }
+        private bool IsActivated { get; set; }
         private bool IsBlocked { get; set; }
         private string ImageName { get; }
+        private IEnumerable<MaliciousAction> MaliciousActions { get; }
         
         public void Activate()
         {
@@ -18,6 +17,11 @@ namespace UserService.Model
         }
 
         public void Block()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsMalicious()
         {
             throw new NotImplementedException();
         }

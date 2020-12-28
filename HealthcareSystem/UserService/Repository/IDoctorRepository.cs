@@ -8,6 +8,6 @@ namespace UserService.Repository
 {
     public interface IDoctorRepository
     {
-        IEnumerable<Doctor> GetBySpecialty(int specialtyId);
+        IEnumerable<DoctorAccount> GetBySpecialty(int specialtyId);
     }
 }

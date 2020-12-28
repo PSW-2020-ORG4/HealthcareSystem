@@ -38,5 +38,28 @@ namespace GraphicalEditorServer.Controllers
             }
             return Ok(addedEquipmentInExaminationDTOs);
         }
+        [HttpGet("{examinationID}")]
+        public IActionResult GetEquipmentByExaminationId(int examinationID)
+        {
+            try
+            {
+                List<EquipmentInExamination> equipmentInExamination = _equipmentInExaminationService.GetEquipmentInExaminationFromExaminationID(examinationID);
+                List<EquipmentInExaminationDTO> equipmentInExaminationDTOs = new List<EquipmentInExaminationDTO>();
+                foreach (var singleEquipmentInExamination in equipmentInExamination) {
+                    equipmentInExaminationDTOs.Add(EquipmentInExaminationMapper.EquipmentInExaminationToEquipmentInExaminationDTO(singleEquipmentInExamination));
+                }
+                return Ok(equipmentInExaminationDTOs);
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+
+
     }
 }

@@ -35,8 +35,8 @@ namespace GraphicalEditorServer.Controllers
         public ActionResult ScheduleAppointmentByDoctor([FromBody] ExaminationDTO scheduleExaminationDTO)
         {
             Examination scheduleExamination = ExaminationMapper.ExmainationDTO_To_Examination(scheduleExaminationDTO);
-            _scheduleAppintmentService.ScheduleAnAppointmentByDoctor(scheduleExamination);
-            return Ok();
+            int idExamination = _scheduleAppintmentService.ScheduleAnAppointmentByDoctor(scheduleExamination);
+            return Ok(idExamination);
         }
 
         [HttpPost]
@@ -50,7 +50,7 @@ namespace GraphicalEditorServer.Controllers
             return Ok(allExaminations);
         }
 
-        [HttpPost("emergency")]
+       /* [HttpPost("emergency")]
         public ActionResult GetEmergencyAppointments(BasicAppointmentSearchDTO parameters)
         {
             List<Examination> unchangedExaminations = (List<Examination>)_freeAppointmentSearchService.GetUnchangedAppointmentsForEmergency(parameters);
@@ -63,6 +63,6 @@ namespace GraphicalEditorServer.Controllers
             List<Examination> shiftedExaminations = (List<Examination>)_freeAppointmentSearchService.GetShiftedAndSortedAppoinmentsForEmergency(parameters);
 
             return Ok(EmergencyExaminationMapper.Examinations_To_EmergencyExaminationDTO(unchangedExaminations, shiftedExaminations));
-        }
+        }*/
     }
 }

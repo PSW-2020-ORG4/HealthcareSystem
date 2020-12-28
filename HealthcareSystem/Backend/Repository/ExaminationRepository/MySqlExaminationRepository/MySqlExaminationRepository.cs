@@ -20,12 +20,13 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             _context = context;
         }
-        public void AddExamination(Examination examination)
+        public int AddExamination(Examination examination)
         {
             try
             {
                 _context.Examinations.Add(examination);
                 _context.SaveChanges();
+                return examination.Id;
             }
             catch (Exception)
             {

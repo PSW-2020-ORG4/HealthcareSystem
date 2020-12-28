@@ -65,7 +65,7 @@ namespace Backend.Service.ExaminationAndPatientCard
             return allUnchangedAppointments;
         }
 
-        public ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(BasicAppointmentSearchDTO parameters)
+        /*public ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(BasicAppointmentSearchDTO parameters)
         {
             List<Examination> unchangedAppointments = (List<Examination>)GetPotentiallyAvailableAppointments(parameters);
 
@@ -75,9 +75,9 @@ namespace Backend.Service.ExaminationAndPatientCard
 
             shiftedAppointments.OrderBy(e => e.DateAndTime);
             return shiftedAppointments;
-        }
+        }*/
 
-        private Examination GetShiftedAppointmentForEmergency(BasicAppointmentSearchDTO parameters, Examination examination)
+       /* private Examination GetShiftedAppointmentForEmergency(BasicAppointmentSearchDTO parameters, Examination examination)
         {
             DateTime startDateTime = GetNewStartTime();
             DateTime endDateTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 17, 0, 0);
@@ -101,7 +101,7 @@ namespace Backend.Service.ExaminationAndPatientCard
                 endDateTime = endDateTime.AddDays(1);
             }
             return null;
-        }
+        }*/
 
         private DateTime GetNewStartTime()
         {

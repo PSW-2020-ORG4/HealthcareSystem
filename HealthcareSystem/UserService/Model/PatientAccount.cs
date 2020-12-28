@@ -23,6 +23,7 @@ namespace UserService.Model
         {
             if (!IsActivated) throw new ValidationException("Blocking unactivated patient account isn't possible.");
             if (IsBlocked) throw new ValidationException("Patient account is already blocked.");
+            if (!IsMalicious()) throw new ValidationException("Patient isn't malicious.");
 
             IsBlocked = true;
         }

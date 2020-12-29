@@ -90,14 +90,12 @@ function blockPatient(patientJmbg) {
     $('#a' + patientJmbg).prepend(loading);
 
     $.ajax({
-        type: "PUT",
+        type: "POST",
         url: "/api/patient/blocked/" + patientJmbg,
+        contentType: 'application/json',
         headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
-        dataType: 'json',
-        processData: false,
-        contentType: false,
         success: function () {
             let alert = $('<div class="alert alert-success alert-dismissible fade show m-2" role="alert">Patient was successfully blocked.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')

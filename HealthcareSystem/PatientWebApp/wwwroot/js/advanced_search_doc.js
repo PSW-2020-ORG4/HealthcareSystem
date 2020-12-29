@@ -94,7 +94,6 @@ $(document).ready(function () {
             anamnesis_or_drug = null;
         }
 
-        let operator = 0;
         let doc_type = $('#doc_type option:selected').val();
         if (doc_type == "report") {
             var newData = {
@@ -106,6 +105,7 @@ $(document).ready(function () {
                 "AnamnesisOperator": parseInt(third_operator),
                 "Anamnesis": anamnesis_or_drug
             };
+            
             $.ajax({
                 url: '/api/examination/advance-search',
                 type: 'POST',
@@ -143,7 +143,6 @@ $(document).ready(function () {
 
         } else {
             var newData = {
-                "Jmbg": jmbg,
                 "StartDate": start_date,
                 "EndDateOperator": parseInt(first_operator),
                 "EndDate": end_date,

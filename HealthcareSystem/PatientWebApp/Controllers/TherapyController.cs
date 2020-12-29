@@ -35,11 +35,12 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
         /// 
         [Authorize(Roles = UserRoles.Patient)]
-        [HttpGet("{patientJmbg}")]
-        public ActionResult GetTherapiesByPatient(string patientJmbg)
+        [HttpGet]
+        public ActionResult GetTherapiesByPatient()
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
                 List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
                 _therapyService.GetTherapyByPatient(patientJmbg).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
                 return Ok(therapyDTOs);
@@ -62,6 +63,7 @@ namespace PatientWebApp.Controllers
         {
             try
             {
+                therapySearchDTO.Jmbg = HttpContext.User.FindFirst("Jmbg").Value;
                 List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
                 _therapyService.AdvancedSearch(therapySearchDTO).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
                 return Ok(therapyDTOs);

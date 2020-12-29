@@ -75,14 +75,12 @@ function approveComment(feedbackId) {
 	$('#a' + feedbackId).prepend(loading);
 
 	$.ajax({
-		type: "PUT",
+		type: "POST",
 		url: "/api/feedback/" + feedbackId,
+		contentType: 'application/json',
 		headers: {
 			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 		},
-		dataType: 'json',
-		processData: false,
-		contentType: false,
 		success: function () {
 			let alert = $('<div class="alert alert-success m-1" role="alert">Feedback successfully published.</div >')
 			$('#' + feedbackId).remove();

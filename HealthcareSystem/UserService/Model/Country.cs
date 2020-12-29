@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserService.Model.Memento;
 
 namespace UserService.Model
 {
-    public class Country
+    public class Country : IOriginator<CountryMemento>
     {
         private int Id { get; }
         private string Name { get; }
@@ -15,6 +16,22 @@ namespace UserService.Model
             Id = id;
             Name = name;
             Validate();
+        }
+
+        public Country(CountryMemento memento)
+        {
+            Id = memento.Id;
+            Name = memento.Name;
+            Validate();
+        }
+
+        public CountryMemento GetMemento()
+        {
+            return new CountryMemento()
+            {
+                Id = Id,
+                Name = Name
+            };
         }
 
         private void Validate()

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using UserService.CustomException;
+using UserService.Model;
+using UserService.Service;
 
 namespace UserService.Controllers
 {
@@ -11,6 +14,13 @@ namespace UserService.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
+        private readonly IPatientService _patientService;
+
+        public PatientController(IPatientService patientService)
+        {
+            _patientService = patientService;
+        }
+
         [HttpPost]
         public IActionResult Register()
         {
@@ -20,31 +30,88 @@ namespace UserService.Controllers
         [HttpPost("{jmbg}/block")]
         public IActionResult Block(string jmbg)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _patientService.Block(jmbg);
+                return NoContent();
+            }
+            catch (DataStorageException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (ExternalConnectionException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
         }
 
         [HttpPost("{jmbg}/activate")]
         public IActionResult Activate(string jmbg)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _patientService.Activate(jmbg);
+                return NoContent();
+            }
+            catch (DataStorageException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (ExternalConnectionException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Ok(_patientService.GetAll());
+            }
+            catch (DataStorageException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (ExternalConnectionException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
         }
 
         [HttpGet("malicious")]
         public IActionResult GetMalicious()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Ok(_patientService.GetMalicious());
+            }
+            catch (DataStorageException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (ExternalConnectionException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
         }
 
         [HttpGet("{jmbg}")]
         public IActionResult GetByJmbg(string jmbg)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return Ok(_patientService.GetByJmbg(jmbg));
+            }
+            catch (DataStorageException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (ExternalConnectionException exception)
+            {
+                return StatusCode(500, exception.Message);
+            }
         }
     }
 }

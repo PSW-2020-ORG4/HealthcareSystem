@@ -87,7 +87,7 @@ namespace Backend.Service.ExaminationAndPatientCard
             DateTime endDateTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 17, 0, 0);
             List<int> requiredEquipmentTypes = new List<int>();
             foreach(EquipmentInExamination e in _equipmentInExaminationService.GetEquipmentInExaminationFromExaminationID(examination.Id)){
-                requiredEquipmentTypes.Add(e.EquipmentID);
+                requiredEquipmentTypes.Add(e.EquipmentTypeID);
             }
 
             for (int i = 1; i <= 13; i++)

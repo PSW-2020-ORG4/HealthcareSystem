@@ -12,7 +12,7 @@ namespace GraphicalEditorServer.Mappers
         public static EquipmentInExaminationDTO EquipmentInExaminationToEquipmentInExaminationDTO(EquipmentInExamination equipmentInExamination)
         {
             EquipmentInExaminationDTO equipmentInExaminationDTO = new EquipmentInExaminationDTO();
-            equipmentInExaminationDTO.EquipmentID = equipmentInExamination.EquipmentID;
+            equipmentInExaminationDTO.EquipmentID = equipmentInExamination.EquipmentTypeID;
             equipmentInExaminationDTO.ExaminationId = equipmentInExamination.ExaminationId;            
             return equipmentInExaminationDTO;
         }
@@ -20,7 +20,7 @@ namespace GraphicalEditorServer.Mappers
         public static EquipmentInExamination EquipmentInExaminationDTOToEquipmentInExamination(EquipmentInExaminationDTO equipmentInExaminationDTO)
         {
             EquipmentInExamination equipmentInExamination = new EquipmentInExamination();
-            equipmentInExamination.EquipmentID = equipmentInExaminationDTO.EquipmentID;
+            equipmentInExamination.EquipmentTypeID = equipmentInExaminationDTO.EquipmentID;
             equipmentInExamination.ExaminationId = equipmentInExaminationDTO.ExaminationId;            
             return equipmentInExamination;
         }

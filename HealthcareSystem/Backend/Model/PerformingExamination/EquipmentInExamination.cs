@@ -6,16 +6,16 @@ namespace Backend.Model.PerformingExamination
 {
     public class EquipmentInExamination
     {
-        public int EquipmentID { get; set; }
+        public int EquipmentTypeID { get; set; }
         public int ExaminationId { get; set; }
 
         public EquipmentInExamination()
         {
         }
 
-        public EquipmentInExamination(int equipmentID, int examinationId)
+        public EquipmentInExamination(int equipmentTypeID, int examinationId)
         {
-            this.EquipmentID = equipmentID;
+            this.EquipmentTypeID = equipmentTypeID;
             this.ExaminationId = examinationId;
         }
     }

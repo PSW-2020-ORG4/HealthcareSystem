@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -25,7 +27,13 @@ namespace UserService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Password cannot be null or empty.!");
+            if (!IsValidFormat(Value)) throw new ValidationException("Invalid password.");
+        }
+        private bool IsValidFormat(string Value)
+        {
+            Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{8,20}$");
+            return regex.IsMatch(Value);
         }
     }
 }

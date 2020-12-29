@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -19,7 +20,7 @@ namespace UserService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
+            if (!Type.Equals(MaliciousActionType.AppointmentCancellation)) throw new ValidationException("Type of malicious action must be appointment cancellation.");
         }
     }
 }

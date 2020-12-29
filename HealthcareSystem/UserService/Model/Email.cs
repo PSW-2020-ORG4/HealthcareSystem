@@ -26,16 +26,13 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (IsRegular(Value))
-            {
-                throw new Exception();
-            }
+            if (!IsRegular(Value)) throw new Exception("Invalid email");
         }
 
         private bool IsRegular(string Value)
         {
-            Regex regex = new Regex(@"^[a-zA-Z0-9\.\-_]{5,13}[a-zA-Z0-9\.\-_]{5,13}$");
-            return regex.Match(Value).Success;
+            Regex regex = new Regex(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+            return regex.IsMatch(Value);
         }
     }
 }

@@ -26,16 +26,13 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (IsRegular(Value))
-            {
-                throw new Exception();
-            }         
+            if (!IsRegular(Value))  throw new Exception("Invalid jmbg");       
         }
 
         private bool IsRegular(string Value)
         {
             Regex regex = new Regex(@"^[0-9]{13}$");
-            return regex.Match(Value).Success;
+            return regex.IsMatch(Value);
         }
     }
 }

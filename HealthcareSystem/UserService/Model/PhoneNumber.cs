@@ -26,16 +26,13 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (IsRegular(Value))
-            {
-                throw new Exception();
-            }
+            if (!IsRegular(Value)) throw new Exception("Invalid phone number");
         }
 
         private bool IsRegular(string Value)
         {
-            Regex regex = new Regex(@"^[0-9]{5,10}$");
-            return regex.Match(Value).Success;
+            Regex regex = new Regex(@"^[0-9]{6,16}$");
+            return regex.IsMatch(Value);
         }
     }
 }

@@ -36,6 +36,11 @@ namespace GraphicalEditorServerTests.DataFactory
             _createExamination = new CreateExamination();
         }
 
+       /* public IExaminationRepository CreateExaminationRepository() {
+            var examinationStubRepository = new Mock<IExaminationRepository>();         
+        
+        }*/
+
         public IEquipmentRepository CreateEquipmentStubRepository() {
             var equipmentStubRepository = new Mock<IEquipmentRepository>();
             var equipment = new List<Equipment>();

@@ -1,6 +1,7 @@
 ﻿using Backend.Model.DTO;
 using Backend.Model.Enums;
 using Backend.Model.Exceptions;
+using Backend.Model.PerformingExamination;
 using Backend.Repository;
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RoomRepository;
@@ -23,6 +24,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         private readonly IExaminationRepository _examinationRepository;
         private readonly IDoctorRepository _doctorRepository;
         private readonly IActivePatientCardRepository _activePatientCardRepository;
+        private readonly IEquipmentInExaminationService _equipmentInExaminationService;
 
         private readonly int PRIORITY_DATE_INTERVAL = 5;
 
@@ -65,27 +67,31 @@ namespace Backend.Service.ExaminationAndPatientCard
             return allUnchangedAppointments;
         }
 
-        /*public ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(BasicAppointmentSearchDTO parameters)
+        public ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(BasicAppointmentSearchDTO parameters)
         {
             List<Examination> unchangedAppointments = (List<Examination>)GetPotentiallyAvailableAppointments(parameters);
 
             ICollection<Examination> shiftedAppointments = new List<Examination>();
-            foreach(Examination examination in unchangedAppointments)
-                shiftedAppointments.Add(GetShiftedAppointmentForEmergency(parameters,examination));
+            foreach (Examination examination in unchangedAppointments)
+                shiftedAppointments.Add(GetShiftedAppointmentForEmergency(parameters, examination));
 
             shiftedAppointments.OrderBy(e => e.DateAndTime);
             return shiftedAppointments;
-        }*/
+        }
 
-       /* private Examination GetShiftedAppointmentForEmergency(BasicAppointmentSearchDTO parameters, Examination examination)
+        private Examination GetShiftedAppointmentForEmergency(BasicAppointmentSearchDTO parameters, Examination examination)
         {
             DateTime startDateTime = GetNewStartTime();
             DateTime endDateTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 17, 0, 0);
+            List<int> requiredEquipmentTypes = new List<int>();
+            foreach(EquipmentInExamination e in _equipmentInExaminationService.GetEquipmentInExaminationFromExaminationID(examination.Id)){
+                requiredEquipmentTypes.Add(e.EquipmentID);
+            }
 
             for (int i = 1; i <= 13; i++)
             {
                 parameters = new BasicAppointmentSearchDTO(
-                    examination.IdPatientCard, 
+                    examination.IdPatientCard,
                     examination.DoctorJmbg,
                     requiredEquipmentTypes,
                     startDateTime,
@@ -101,7 +107,7 @@ namespace Backend.Service.ExaminationAndPatientCard
                 endDateTime = endDateTime.AddDays(1);
             }
             return null;
-        }*/
+        }
 
         private DateTime GetNewStartTime()
         {

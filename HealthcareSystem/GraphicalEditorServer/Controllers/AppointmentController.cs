@@ -50,11 +50,11 @@ namespace GraphicalEditorServer.Controllers
             return Ok(allExaminations);
         }
 
-       /* [HttpPost("emergency")]
+        [HttpPost("emergency")]
         public ActionResult GetEmergencyAppointments(BasicAppointmentSearchDTO parameters)
         {
             List<Examination> unchangedExaminations = (List<Examination>)_freeAppointmentSearchService.GetUnchangedAppointmentsForEmergency(parameters);
-            foreach(Examination e in unchangedExaminations)
+            foreach (Examination e in unchangedExaminations)
             {
                 if (e.ExaminationStatus == Backend.Model.Enums.ExaminationStatus.AVAILABLE)
                     return Ok(ExaminationMapper.Examination_To_ExaminationDTO(e));
@@ -63,6 +63,6 @@ namespace GraphicalEditorServer.Controllers
             List<Examination> shiftedExaminations = (List<Examination>)_freeAppointmentSearchService.GetShiftedAndSortedAppoinmentsForEmergency(parameters);
 
             return Ok(EmergencyExaminationMapper.Examinations_To_EmergencyExaminationDTO(unchangedExaminations, shiftedExaminations));
-        }*/
+        }
     }
 }

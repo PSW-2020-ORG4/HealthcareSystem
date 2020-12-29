@@ -27,26 +27,7 @@ namespace PatientWebApp.Controllers
             _feedbackService = feedbackService;
             _feedbackValidator = new FeedbackValidator(_feedbackService);
         }
-        /// <summary>
-        /// /getting feedback by id
-        /// </summary>
-        /// <param name="id">id of the wanted object</param>
-        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        /// 
-        [AllowAnonymous]
-        [HttpGet("{id}")]
-        public IActionResult GetFeedbackById(int id)
-        {
-            try
-            {
-                Feedback feedback = _feedbackService.GetFeedbackById(id);
-                return Ok(FeedbackMapper.FeedbackToFeedbackDTO(feedback));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-        }
+        
         /// <summary>
         /// /adding new feedback to database
         /// </summary>
@@ -57,6 +38,15 @@ namespace PatientWebApp.Controllers
         [HttpPost]
         public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
         {
+            if (!feedbackDTO.IsAnonymous)
+            {
+                feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            }
+            //else
+            //{
+              //  feedbackDTO.CommentatorJmbg = null;
+            //}
+
             try
             {
                 _feedbackValidator.validateFeedbacksFields(feedbackDTO);
@@ -65,6 +55,7 @@ namespace PatientWebApp.Controllers
             {
                 return BadRequest(exception.Message);
             }
+
             Feedback feedback = FeedbackMapper.FeedbackDTOToFeedback(feedbackDTO);
             _feedbackService.AddFeedback(feedback);
             return Ok();
@@ -117,7 +108,7 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
         /// 
         [Authorize(Roles = UserRoles.Admin)]
-        [HttpPut("{id}")]
+        [HttpPost("{id}")]
         public ActionResult PublishFeedback(int id)
         {
             try

@@ -49,7 +49,7 @@ namespace PatientWebApp.Controllers
         /// <param name="jmbg">jmbg of the wanted patient</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
         /// 
-        [Authorize(Roles = UserRoles.Patient + "," + UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpGet]
         public IActionResult GetPatientByJmbg()
         {
@@ -211,7 +211,7 @@ namespace PatientWebApp.Controllers
         }
 
         [Authorize(Roles = UserRoles.Admin)]
-        [HttpPut("blocked/{jmbg}")]
+        [HttpPost("blocked/{jmbg}")]
         public ActionResult BlockPatient(string jmbg)
         {
             try

@@ -73,8 +73,15 @@ namespace Repository
 
         public void UpdatePatient(Patient patient)
         {
-            _context.Patients.Update(patient);
-            _context.SaveChanges();
+            try
+            {
+                _context.Patients.Update(patient);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
         public int GetNumberOfCanceledExaminations(string jmbg)
         {

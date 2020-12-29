@@ -9,6 +9,7 @@ using Backend.Service.ExaminationAndPatientCard;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Model.PerformingExamination;
 using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
@@ -47,6 +48,8 @@ namespace PatientWebApp.Controllers
                 _examinationValidator.CheckIfSurveyAboutExaminationIsCompleted(surveyDTO.ExaminationId);
                 _surveyService.AddSurvey(SurveyMapper.SurveyDTOToSurvey(surveyDTO));
                 _examinationService.CompleteSurveyAboutExamination(surveyDTO.ExaminationId);
+                if(!_examinationService.GetExaminationById(surveyDTO.ExaminationId).PatientCard.PatientJmbg.Equals(HttpContext.User.FindFirst("Jmbg").Value))    
+                    return BadRequest("Patient can only fill out the survey for their own examinations.");
                 return Ok();
             }         
             catch (NotFoundException exception)

@@ -141,7 +141,6 @@ $(document).ready(function () {
 
         } else {
             var newData = {
-                "Jmbg": jmbg,
                 "StartDate": start_date,
                 "EndDateOperator": operator,
                 "EndDate": end_date,

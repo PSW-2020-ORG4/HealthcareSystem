@@ -8,10 +8,10 @@
 		event.preventDefault();
 
 		var msg = $('#text_area_id').val();
-		var jmbg = "";
 		var name = "";
 		var surname = "";
 		var allowed = true;
+		var anonymous = false;
 
 		if (!msg) {
 			$('#loading').hide();
@@ -34,12 +34,11 @@
 			contentType: false,
 			success: function (patient) {
 
-				jmbg = patient.jmbg;
 				name = patient.name;
 				surname = patient.surname;
 
 				if ($('#yes_anonymous').is(":checked")) {
-					jmbg = null;
+					anonymous = true;
 					name = "";
 					surname = "";
 				}
@@ -50,10 +49,10 @@
 
 				var newData = {
 					"Comment": msg,
-					"CommentatorJmbg": jmbg,
 					"CommentatorName": name,
 					"CommentatorSurname": surname,
-					"IsAllowedToPublish": allowed
+					"IsAllowedToPublish": allowed,
+					"IsAnonymous": anonymous
 				};
 
 				$.ajax({

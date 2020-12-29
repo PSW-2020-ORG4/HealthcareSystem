@@ -27,11 +27,11 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Jmbg does not exist!");
-            if (!IsGoodFormat(Value))  throw new ValidationException("Invalid jmbg");       
+            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Jmbg can't be empty!");
+            if (!IsValidFormat(Value))  throw new ValidationException("Invalid jmbg");       
         }
 
-        private bool IsGoodFormat(string Value)
+        private bool IsValidFormat(string Value)
         {
             Regex regex = new Regex(@"^[0-9]{13}$");
             return regex.IsMatch(Value);

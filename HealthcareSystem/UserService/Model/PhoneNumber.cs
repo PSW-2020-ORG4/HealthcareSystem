@@ -27,11 +27,11 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Phone number does not exist!");
-            if (!IsGoodFormat(Value)) throw new ValidationException("Invalid phone number");
+            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Phone number can't be empty!");
+            if (!IsValidFormat(Value)) throw new ValidationException("Invalid phone number");
         }
 
-        private bool IsGoodFormat(string Value)
+        private bool IsValidFormat(string Value)
         {
             Regex regex = new Regex(@"^[0-9]{6,16}$");
             return regex.IsMatch(Value);

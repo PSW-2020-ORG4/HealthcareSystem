@@ -27,11 +27,11 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Email does not exist!");
-            if (!IsGoodFormat(Value)) throw new ValidationException("Invalid email");
+            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Email can't be empty!");
+            if (!IsValidFormat(Value)) throw new ValidationException("Invalid email");
         }
 
-        private bool IsGoodFormat(string Value)
+        private bool IsValidFormat(string Value)
         {
             Regex regex = new Regex(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
             return regex.IsMatch(Value);

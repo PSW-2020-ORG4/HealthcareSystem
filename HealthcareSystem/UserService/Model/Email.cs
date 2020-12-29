@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -26,10 +27,11 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (!IsRegular(Value)) throw new Exception("Invalid email");
+            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Email does not exist!");
+            if (!IsGoodFormat(Value)) throw new ValidationException("Invalid email");
         }
 
-        private bool IsRegular(string Value)
+        private bool IsGoodFormat(string Value)
         {
             Regex regex = new Regex(@"^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
             return regex.IsMatch(Value);

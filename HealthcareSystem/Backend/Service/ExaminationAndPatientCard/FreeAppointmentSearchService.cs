@@ -31,13 +31,15 @@ namespace Backend.Service.ExaminationAndPatientCard
         public FreeAppointmentSearchService(IRoomService roomService, 
                                             IExaminationRepository examinationRepository,
                                             IDoctorRepository doctorRepository,
-                                            IActivePatientCardRepository activePatientCardRepository)
+                                            IActivePatientCardRepository activePatientCardRepository,
+                                            IEquipmentInExaminationService equipmentInExaminationService)
         {
             _roomService = roomService;
             _examinationRepository = examinationRepository;
             _doctorRepository = doctorRepository;
             _activePatientCardRepository = activePatientCardRepository;
             _appointmentDuration = new TimeSpan(0,30,0);
+            _equipmentInExaminationService = equipmentInExaminationService;
         }
 
         public ICollection<Examination> BasicSearch(BasicAppointmentSearchDTO parameters)

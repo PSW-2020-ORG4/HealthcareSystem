@@ -20,10 +20,7 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Name))
-            {
-                throw new ValidationException("Specialty does not exist!");
-            }
+            if (string.IsNullOrEmpty(Name)) throw new ValidationException("Specialty does not exist!");
         }
     }
 }

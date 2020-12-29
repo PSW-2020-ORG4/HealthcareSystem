@@ -38,11 +38,12 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
         /// 
         [Authorize(Roles = UserRoles.Patient)]
-        [HttpGet("by-patient/{patientJmbg}")]
-        public ActionResult GetExaminationsByPatient(string patientJmbg)
+        [HttpGet("by-patient")]
+        public ActionResult GetExaminationsByPatient()
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
                 List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
                 _examinationService.GetExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
                 return Ok(examinationDTOs);
@@ -65,6 +66,8 @@ namespace PatientWebApp.Controllers
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+                examinationSearchDTO.Jmbg = patientJmbg;
                 List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
                 _examinationService.AdvancedSearch(examinationSearchDTO).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
                 return Ok(examinationDTOs);
@@ -87,11 +90,16 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 400(bed request), if connection lost returns 500</returns>
         /// 
         [Authorize(Roles = UserRoles.Patient)]
-        [HttpPut("cancel/{id}")]
+        [HttpPost("cancel/{id}")]
         public ActionResult CancelExamination(int id)
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+                Examination examination= _examinationService.GetExaminationById(id);
+                if (!patientJmbg.Equals(examination.PatientCard.PatientJmbg)) {
+                    return StatusCode(400, "Patient tried to cancel someone else's examination");
+                }
                 _examinationValidator.CheckIfExaminationCanBeCanceled(id);
                 _examinationService.CancelExamination(id);
                 return Ok();
@@ -203,6 +211,12 @@ namespace PatientWebApp.Controllers
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+                Examination examination = _examinationService.GetExaminationById(id);
+                if (!patientJmbg.Equals(examination.PatientCard.PatientJmbg))
+                {
+                    return StatusCode(400, "Patient tried to get someone else's examination");
+                }
                 ExaminationDTO examinationDTO = new ExaminationDTO();
                 examinationDTO = ExaminationMapper.ExaminationToExaminationDTO(_examinationService.GetExaminationById(id));
                 return Ok(examinationDTO);
@@ -229,6 +243,8 @@ namespace PatientWebApp.Controllers
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+                examinationDTO.PatientJmbg = patientJmbg;
                 _examinationValidator.ValidateExaminationFields(examinationDTO);
                 _examinationService.AddExamination(ExaminationMapper.ExaminationDTOToExamination(examinationDTO));
                 return StatusCode(201);

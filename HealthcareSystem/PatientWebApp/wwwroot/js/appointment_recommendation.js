@@ -196,7 +196,6 @@ function scheduleExamination() {
                 "IdRoom": appointment.idRoom,
                 "Anamnesis": "",
                 "PatientCardId": appointment.patientCardId,
-                "PatientJmbg": jmbg,
                 "ExaminationStatus": 0,
                 "IsSurveyCompleted": false
             };

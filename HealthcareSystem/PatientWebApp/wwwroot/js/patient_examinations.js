@@ -160,7 +160,6 @@ function scheduleExamination() {
         "IdRoom": appointment.idRoom,
         "Anamnesis": "",
         "PatientCardId": appointment.patientCardId,
-        "PatientJmbg": jmbg,
         "ExaminationStatus": 0,
         "IsSurveyCompleted": false
     };
@@ -336,14 +335,12 @@ function cancelExamination(id) {
     $('#a' + id).prepend(loading);
 
     $.ajax({
-        type: "PUT",
+        type: "POST",
         url: "/api/examination/cancel/" + id,
+        contentType: 'application/json',
         headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
-        dataType: 'json',
-        processData: false,
-        contentType: false,
         success: function () {
             let alert = $('<div class="alert alert-success m-2" role="alert">Examination successfully cancelled.</div >')
             $('#f' + id).remove();

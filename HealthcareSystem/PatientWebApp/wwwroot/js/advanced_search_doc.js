@@ -98,7 +98,6 @@ $(document).ready(function () {
         let doc_type = $('#doc_type option:selected').val();
         if (doc_type == "report") {
             var newData = {
-                "Jmbg": jmbg,
                 "StartDate": start_date,
                 "EndDateOperator": parseInt(first_operator),
                 "EndDate": end_date,

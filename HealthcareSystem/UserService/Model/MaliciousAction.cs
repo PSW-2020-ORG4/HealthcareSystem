@@ -20,7 +20,7 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (!Type.Equals(MaliciousActionType.AppointmentCancellation)) throw new ValidationException("Type of malicious action must be appointment cancellation.");
+            throw new NotImplementedException();
         }
     }
 }

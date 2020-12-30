@@ -30,88 +30,33 @@ namespace UserService.Controllers
         [HttpPost("{jmbg}/block")]
         public IActionResult Block(string jmbg)
         {
-            try
-            {
-                _patientService.Block(jmbg);
-                return NoContent();
-            }
-            catch (DataStorageException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (ExternalConnectionException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            _patientService.Block(jmbg);
+            return NoContent();
         }
 
         [HttpPost("{jmbg}/activate")]
         public IActionResult Activate(string jmbg)
         {
-            try
-            {
-                _patientService.Activate(jmbg);
-                return NoContent();
-            }
-            catch (DataStorageException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (ExternalConnectionException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            _patientService.Activate(jmbg);
+            return NoContent();
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            try
-            {
-                return Ok(_patientService.GetAll());
-            }
-            catch (DataStorageException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (ExternalConnectionException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            return Ok(_patientService.GetAll());
         }
 
         [HttpGet("malicious")]
         public IActionResult GetMalicious()
         {
-            try
-            {
-                return Ok(_patientService.GetMalicious());
-            }
-            catch (DataStorageException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (ExternalConnectionException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            return Ok(_patientService.GetMalicious());
         }
 
         [HttpGet("{jmbg}")]
         public IActionResult GetByJmbg(string jmbg)
         {
-            try
-            {
-                return Ok(_patientService.GetByJmbg(jmbg));
-            }
-            catch (DataStorageException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (ExternalConnectionException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            return Ok(_patientService.GetByJmbg(jmbg));
         }
     }
 }

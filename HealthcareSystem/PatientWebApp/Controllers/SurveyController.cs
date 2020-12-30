@@ -46,10 +46,10 @@ namespace PatientWebApp.Controllers
                 _surveyValidator.ValidateSurveyFields(surveyDTO);
                 _examinationValidator.CheckIfExaminationIsFinished(surveyDTO.ExaminationId);
                 _examinationValidator.CheckIfSurveyAboutExaminationIsCompleted(surveyDTO.ExaminationId);
+                if (!_examinationService.GetExaminationById(surveyDTO.ExaminationId).PatientCard.PatientJmbg.Equals(HttpContext.User.FindFirst("Jmbg").Value))
+                    return BadRequest("Patient can only fill out the survey for their own examinations.");
                 _surveyService.AddSurvey(SurveyMapper.SurveyDTOToSurvey(surveyDTO));
                 _examinationService.CompleteSurveyAboutExamination(surveyDTO.ExaminationId);
-                if(!_examinationService.GetExaminationById(surveyDTO.ExaminationId).PatientCard.PatientJmbg.Equals(HttpContext.User.FindFirst("Jmbg").Value))    
-                    return BadRequest("Patient can only fill out the survey for their own examinations.");
                 return Ok();
             }         
             catch (NotFoundException exception)

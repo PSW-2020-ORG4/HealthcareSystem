@@ -1,4 +1,5 @@
 ﻿using System;
+using Backend.Model.Exceptions;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.Pharmacies;
 using IntegrationAdapters.Adapters;
@@ -33,8 +34,15 @@ namespace IntegrationAdapters.Controllers
             if (_adapterContext.PharmacySystemAdapter.OrderDrugs(drugProcurementDto.PharmacyId,
                 drugProcurementDto.DrugId, drugProcurementDto.Quantity))
             {
-                //_drugService.UpdateConfirmedDrug();
-                TempData["Success"] = "Order successful!";
+                try
+                {
+                    _drugService.AddDrugQuantity(drugProcurementDto.Code, drugProcurementDto.Quantity);
+                    TempData["Success"] = "Order successful!";
+                }
+                catch (NotFoundException ex)
+                {
+                    TempData["Failure"] = "Drug procured but does not exsist in our database, contact administrator!";
+                }
             }
             else
             {

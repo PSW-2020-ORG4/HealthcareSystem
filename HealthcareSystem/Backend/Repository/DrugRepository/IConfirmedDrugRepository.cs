@@ -13,6 +13,7 @@ namespace Backend.Repository.DrugRepository
         int getLastId();
         Drug GetDrugById(int id);
         List<Drug> GetAllDrugs();
+        Drug GetDrugByCode(string code);
         Drug SetDrug(Drug drug);
         void DeleteDrug(int id);
         Drug AddDrug(Drug drug);

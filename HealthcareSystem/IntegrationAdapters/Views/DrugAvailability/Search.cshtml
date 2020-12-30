@@ -54,7 +54,8 @@
                                     PharmacySystemId = searchResult.pharmacySystem.Id, 
                                     PharmacyId = drug.PharmacyDto.Id, 
                                     DrugId = drug.Id, 
-                                    DrugName = drug.Name, 
+                                    DrugName = drug.Name,
+                                    Code = drug.Code,
                                     Quantity = drug.Quantity
                                 }, new { @class = "btn btn-primary" })</td>
                         </tr>

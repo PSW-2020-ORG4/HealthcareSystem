@@ -24,14 +24,15 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Name</label>
+            <label class="control-label col-md-2">@Model.DrugName - @Model.Code</label>
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
-                <input type="hidden" name="pharmacySystemId" value="@Model.PharmacySystemId"/>
-                <input type="hidden" name="pharmacyId" value="@Model.PharmacyId"/>
-                <input type="hidden" name="drugId" value="@Model.DrugId"/>
-                <input type="hidden" name="drugName" value="@Model.DrugName"/>
+                <input type="hidden" name="pharmacySystemId" value="@Model.PharmacySystemId" />
+                <input type="hidden" name="pharmacyId" value="@Model.PharmacyId" />
+                <input type="hidden" name="drugId" value="@Model.DrugId" />
+                <input type="hidden" name="drugName" value="@Model.DrugName" />
+                <input type="hidden" name="code" value="@Model.Code" />
             </div>
         </div>
 

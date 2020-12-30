@@ -25,7 +25,7 @@ namespace UserService.Notifications
             }
             catch (Exception)
             {
-                throw new ExternalConnectionException();
+                throw new ConnectionFailureException();
             }
         }
 

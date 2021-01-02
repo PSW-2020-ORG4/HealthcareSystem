@@ -6,7 +6,7 @@ namespace UserService.Model
 {
     public class PhoneNumber
     {
-        private string Value { get; }
+        public string Value { get; }
 
         public PhoneNumber(string value)
         {

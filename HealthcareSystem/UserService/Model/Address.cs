@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace UserService.Model
 {
     public class Address
     {
-        private string Value { get; }
+        public string Value { get; }
 
         public Address(string value)
         {

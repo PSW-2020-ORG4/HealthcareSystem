@@ -6,7 +6,7 @@ namespace UserService.Model
 {
     public class Jmbg
     {
-        private string Value { get; }
+        public string Value { get; }
 
         public Jmbg(string value)
         {

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UserService.Model;
 
 namespace UserService.Service
 {
     public interface IPatientService
     {
-        void Register();
+        void Register(PatientAccount patientAccount);
         void Activate(string jmbg);
         void Block(string jmbg);
         IEnumerable<PatientAccount> GetMalicious();

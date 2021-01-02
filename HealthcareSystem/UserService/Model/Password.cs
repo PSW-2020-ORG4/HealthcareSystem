@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -25,7 +27,8 @@ namespace UserService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Password cannot be null or empty.!");
         }
+       
     }
 }

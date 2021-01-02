@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserService.CustomException;
+using UserService.Model;
 using UserService.Service;
 
 namespace UserService.Controllers
@@ -13,6 +14,13 @@ namespace UserService.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
+        private readonly IPatientService _patientService;
+
+        public PatientController(IPatientService patientService)
+        {
+            _patientService = patientService;
+        }
+
         [HttpPost]
         public IActionResult Register()
         {
@@ -22,31 +30,33 @@ namespace UserService.Controllers
         [HttpPost("{jmbg}/block")]
         public IActionResult Block(string jmbg)
         {
-            throw new NotImplementedException();
+            _patientService.Block(jmbg);
+            return NoContent();
         }
 
         [HttpPost("{jmbg}/activate")]
         public IActionResult Activate(string jmbg)
         {
-            throw new NotImplementedException();
+            _patientService.Activate(jmbg);
+            return NoContent();
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            throw new NotImplementedException();
+            return Ok(_patientService.GetAll());
         }
 
         [HttpGet("malicious")]
         public IActionResult GetMalicious()
         {
-            throw new NotImplementedException();
+            return Ok(_patientService.GetMalicious());
         }
 
         [HttpGet("{jmbg}")]
         public IActionResult GetByJmbg(string jmbg)
         {
-            throw new NotImplementedException();
+            return Ok(_patientService.GetByJmbg(jmbg));
         }
     }
 }

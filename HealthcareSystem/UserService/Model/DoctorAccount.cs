@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -11,7 +12,10 @@ namespace UserService.Model
         protected override void Validate()
         {
             base.Validate();
-            throw new NotImplementedException();
+            if (DateOfEmployment.CompareTo(DateTime.Now) > 0)
+            {
+                throw new ValidationException("Date of employment not valid.");
+            }
         }
     }
 }

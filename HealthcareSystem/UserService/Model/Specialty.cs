@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -19,7 +20,7 @@ namespace UserService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(Name)) throw new ValidationException("Specialty name can't be empty!");
         }
     }
 }

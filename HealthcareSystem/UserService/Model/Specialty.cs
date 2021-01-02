@@ -42,7 +42,7 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Name)) 
+            if (string.IsNullOrWhiteSpace(Name)) 
                 throw new ValidationException("Specialty name cannot be empty.");
         }
     }

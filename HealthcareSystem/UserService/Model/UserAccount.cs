@@ -53,9 +53,9 @@ namespace UserService.Model
 
         protected virtual void Validate()
         {
-            if (string.IsNullOrEmpty(Name)) 
+            if (string.IsNullOrWhiteSpace(Name)) 
                 throw new ValidationException("Name cannot be empty.");
-            if (string.IsNullOrEmpty(Surname)) 
+            if (string.IsNullOrWhiteSpace(Surname)) 
                 throw new ValidationException("Surname cannot be empty.");
         }
     }

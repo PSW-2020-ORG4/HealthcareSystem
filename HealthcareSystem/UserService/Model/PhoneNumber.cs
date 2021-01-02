@@ -27,7 +27,7 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Value)) 
+            if (string.IsNullOrWhiteSpace(Value)) 
                 throw new ValidationException("Phone number cannot be empty.");
             if (!IsValidFormat(Value)) 
                 throw new ValidationException("Phone number format is not valid.");

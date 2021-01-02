@@ -26,7 +26,7 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (String.IsNullOrEmpty(Value))
+            if (String.IsNullOrWhiteSpace(Value))
                 throw new ValidationException("Address cannot be empty.");
         }
     }

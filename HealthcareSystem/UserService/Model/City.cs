@@ -41,7 +41,7 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Name))
+            if (string.IsNullOrWhiteSpace(Name))
                 throw new ValidationException("City name cannot be empty.");
         }
     }

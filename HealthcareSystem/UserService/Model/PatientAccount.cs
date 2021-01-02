@@ -83,7 +83,7 @@ namespace UserService.Model
         {
             base.Validate();
 
-            if (string.IsNullOrEmpty(ImageName))
+            if (string.IsNullOrWhiteSpace(ImageName))
                 throw new ValidationException("Image name cannot be empty.");
         }
     }

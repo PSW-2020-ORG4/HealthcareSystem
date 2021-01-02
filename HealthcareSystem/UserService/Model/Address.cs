@@ -1,4 +1,5 @@
 ﻿using System;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -25,7 +26,8 @@ namespace UserService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
+            if (String.IsNullOrEmpty(Value))
+                throw new ValidationException("Address cannot be empty.");
         }
     }
 }

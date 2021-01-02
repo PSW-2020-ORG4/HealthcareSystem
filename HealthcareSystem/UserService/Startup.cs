@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using UserService.Notifications;
+using UserService.Service;
 
 namespace UserService
 {
@@ -22,6 +23,15 @@ namespace UserService
             services.AddScoped<ITemplateRepository, TemplateFileRepository>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<INotificationSender, EmailAdapter>();
+
+            services.AddScoped<IGeographicalService, GeographicalService>();
+
+            services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<ISpecialtyService, SpecialtyService>();
+
+            services.AddScoped<IPatientService, PatientService>();
+
+            services.AddScoped<IUserService, Service.UserService>();
 
             services.AddControllers();
         }

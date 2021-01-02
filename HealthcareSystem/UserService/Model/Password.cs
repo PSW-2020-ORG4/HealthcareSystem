@@ -27,8 +27,9 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Password cannot be null or empty.!");
+            if (string.IsNullOrEmpty(Value))
+                throw new ValidationException("Password cannot be empty.");
         }
-       
+
     }
 }

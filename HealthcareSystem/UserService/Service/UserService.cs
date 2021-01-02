@@ -15,6 +15,7 @@ namespace UserService.Service
         {
             _userRepository = userRepository;
         }
+
         public UserAccount GetByEmailAndPassword(string email, string password)
         {
             return _userRepository.GetByEmailAndPassword(email, password);

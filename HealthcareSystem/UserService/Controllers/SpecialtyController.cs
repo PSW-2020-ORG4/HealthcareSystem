@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using UserService.Service;
 
 namespace UserService.Controllers
 {
@@ -11,6 +12,13 @@ namespace UserService.Controllers
     [ApiController]
     public class SpecialtyController : ControllerBase
     {
+        private readonly ISpecialtyService _specialtyService;
+
+        public SpecialtyController(ISpecialtyService specialtyService)
+        {
+            _specialtyService = specialtyService;
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {

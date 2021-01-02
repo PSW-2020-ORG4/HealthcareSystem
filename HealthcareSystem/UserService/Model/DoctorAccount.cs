@@ -45,9 +45,7 @@ namespace UserService.Model
         {
             base.Validate();
             if (DateOfEmployment.CompareTo(DateTime.Now) > 0)
-            {
                 throw new ValidationException("Date of employment not valid.");
-            }
         }
     }
 }

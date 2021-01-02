@@ -41,7 +41,6 @@ namespace UserService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
         }
     }
 }

@@ -9,8 +9,15 @@ namespace UserService.Service
 {
     public class GeographicalService : IGeographicalService
     {
-        private ICityRepository _cityRepository;
-        private ICountryRepository _countryRepository;
+        private readonly ICityRepository _cityRepository;
+        private readonly ICountryRepository _countryRepository;
+
+        public GeographicalService(ICityRepository cityRepository, ICountryRepository countryRepository)
+        {
+            _cityRepository = cityRepository;
+            _countryRepository = countryRepository;
+        }
+
         public IEnumerable<City> GetAllCities()
         {
             return _cityRepository.GetAll();

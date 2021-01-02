@@ -27,8 +27,10 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Email can't be empty!");
-            if (!IsValidFormat(Value)) throw new ValidationException("Invalid email");
+            if (string.IsNullOrEmpty(Value))
+                throw new ValidationException("Email cannot be empty.");
+            if (!IsValidFormat(Value)) 
+                throw new ValidationException("Email format is not valid.");
         }
 
         private bool IsValidFormat(string Value)

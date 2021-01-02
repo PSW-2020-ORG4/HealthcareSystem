@@ -3,7 +3,7 @@ using UserService.Model;
 
 namespace UserService.Service
 {
-    interface IDoctorService
+    public interface IDoctorService
     {
         IEnumerable<DoctorAccount> GetBySpecialty(int specialtyId);
     }

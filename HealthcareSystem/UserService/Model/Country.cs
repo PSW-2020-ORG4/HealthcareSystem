@@ -37,7 +37,8 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrEmpty(Name)) throw new ValidationException("County name can't be empty!");
+            if (string.IsNullOrEmpty(Name))
+                throw new ValidationException("County name cannot be empty.");
         }
     }
 }

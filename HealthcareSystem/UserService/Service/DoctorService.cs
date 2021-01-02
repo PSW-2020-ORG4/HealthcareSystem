@@ -9,7 +9,7 @@ namespace UserService.Service
 {
     public class DoctorService : IDoctorService
     {
-        private IDoctorRepository _doctorRepository;
+        private readonly IDoctorRepository _doctorRepository;
 
         public DoctorService(IDoctorRepository doctorRepository)
         {

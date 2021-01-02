@@ -7,10 +7,12 @@ namespace UserService.Service
     public class PatientService : IPatientService
     {
         private readonly IPatientRepository _patientRepository;
+
         public PatientService(IPatientRepository patientRepository)
         {
             _patientRepository = patientRepository;
         }
+
         public void Activate(string jmbg)
         {
             PatientAccount patientAccount = GetByJmbg(jmbg);
@@ -43,7 +45,7 @@ namespace UserService.Service
             foreach (PatientAccount patientAccount in patientAccounts)
                 if (patientAccount.IsMalicious())
                     maliciousPatients.Add(patientAccount);
-            
+
             return maliciousPatients;
         }
 

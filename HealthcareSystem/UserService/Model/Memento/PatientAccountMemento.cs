@@ -7,7 +7,6 @@ namespace UserService.Model.Memento
 {
     public class PatientAccountMemento : UserAccountMemento
     {
-        public DateTime DateOfRegistration { get; set; }
         public bool IsActivated { get; set; }
         public bool IsBlocked { get; set; }
         public string ImageName { get; set; }

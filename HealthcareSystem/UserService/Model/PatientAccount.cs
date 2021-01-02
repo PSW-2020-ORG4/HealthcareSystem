@@ -15,7 +15,6 @@ namespace UserService.Model
 
         public PatientAccount(PatientAccountMemento memento) : base(memento)
         {
-            DateOfRegistration = memento.DateOfRegistration;
             IsActivated = memento.IsActivated;
             IsBlocked = memento.IsBlocked;
             ImageName = memento.ImageName;
@@ -25,17 +24,22 @@ namespace UserService.Model
 
         public void Activate()
         {
-            if (IsBlocked) throw new ValidationException("Activation isn't possible because the patient is blocked.");
-            if (IsActivated) throw new ValidationException("Patient account is already activated.");
-            
+            if (IsBlocked)
+                throw new ValidationException("Activation isn't possible because the patient is blocked.");
+            if (IsActivated)
+                throw new ValidationException("Patient account is already activated.");
+
             IsActivated = true;
         }
 
         public void Block()
         {
-            if (!IsActivated) throw new ValidationException("Blocking unactivated patient account isn't possible.");
-            if (IsBlocked) throw new ValidationException("Patient account is already blocked.");
-            if (!IsMalicious()) throw new ValidationException("Patient isn't malicious.");
+            if (!IsActivated)
+                throw new ValidationException("Blocking unactivated patient account isn't possible.");
+            if (IsBlocked)
+                throw new ValidationException("Patient account is already blocked.");
+            if (!IsMalicious())
+                throw new ValidationException("Patient isn't malicious.");
 
             IsBlocked = true;
         }
@@ -63,7 +67,6 @@ namespace UserService.Model
                 Email = Email.Value,
                 Password = Password.Value,
                 UserType = UserType,
-                DateOfRegistration = DateOfRegistration,
                 IsBlocked = IsBlocked,
                 IsActivated = IsActivated,
                 ImageName = ImageName,
@@ -79,8 +82,9 @@ namespace UserService.Model
         protected override void Validate()
         {
             base.Validate();
-            
-            if (string.IsNullOrEmpty(ImageName)) throw new ValidationException("Image name cannot be null or empty.");
+
+            if (string.IsNullOrEmpty(ImageName))
+                throw new ValidationException("Image name cannot be empty.");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using UserService.Model.Memento;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -52,7 +53,8 @@ namespace UserService.Model
 
         protected virtual void Validate()
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(Name)) throw new ValidationException("Name cannot be null or empty.");
+            if (string.IsNullOrEmpty(Surname)) throw new ValidationException("Surname cannot be null or empty.");
         }
     }
 }

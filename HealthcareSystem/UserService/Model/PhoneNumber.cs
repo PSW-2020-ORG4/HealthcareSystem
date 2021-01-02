@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -25,7 +27,14 @@ namespace UserService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(Value)) throw new ValidationException("Phone number can't be empty!");
+            if (!IsValidFormat(Value)) throw new ValidationException("Invalid phone number");
+        }
+
+        private bool IsValidFormat(string Value)
+        {
+            Regex regex = new Regex(@"^[0-9]{6,16}$");
+            return regex.IsMatch(Value);
         }
     }
 }

@@ -22,7 +22,8 @@ namespace UserService.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            throw new NotImplementedException();
+            var specialties = _specialtyService.GetAll().Select(s => s.GetMemento());
+            return Ok(specialties);
         }
     }
 }

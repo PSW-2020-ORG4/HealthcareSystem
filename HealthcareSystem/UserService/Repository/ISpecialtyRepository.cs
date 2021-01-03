@@ -7,7 +7,7 @@ using UserService.Repository.CRUD;
 
 namespace UserService.Repository
 {
-    public interface ISpecialtyRepository : IRead<Specialty, int>
+    public interface ISpecialtyRepository : IReadCollection<Specialty>
     {
     }
 }

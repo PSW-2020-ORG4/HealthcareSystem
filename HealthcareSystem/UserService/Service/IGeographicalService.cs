@@ -9,6 +9,6 @@ namespace UserService.Service
     public interface IGeographicalService
     {
         IEnumerable<Country> GetAllCountries();
-        IEnumerable<City> GetAllCities();
+        IEnumerable<City> GetCitiesByCountry(int countryId);
     }
 }

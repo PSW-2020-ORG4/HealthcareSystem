@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using UserService.Mapper;
 using UserService.Service;
 
 namespace UserService.Controllers
@@ -19,10 +20,11 @@ namespace UserService.Controllers
             _geographicalService = geographicalService;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpGet("country/{countryId}")]
+        public IActionResult GetByCountry(int countryId)
         {
-            throw new NotImplementedException();
+            var cities = _geographicalService.GetCitiesByCountry(countryId).Select(c => c.ToCityDTO());
+            return Ok(cities);
         }
     }
 }

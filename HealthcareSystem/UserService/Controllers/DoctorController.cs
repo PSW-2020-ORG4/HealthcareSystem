@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using UserService.Mapper;
 using UserService.Service;
 
 namespace UserService.Controllers
@@ -19,10 +20,11 @@ namespace UserService.Controllers
             _doctorService = doctorService;
         }
 
-        [HttpGet("specialty/{id}")]
+        [HttpGet("specialty/{specialtyId}")]
         public IActionResult GetBySpecialty(int specialtyId)
         {
-            throw new NotImplementedException();
+            var doctors = _doctorService.GetBySpecialty(specialtyId).Select(d => d.ToDoctorDTO());
+            return Ok(doctors);
         }
     }
 }

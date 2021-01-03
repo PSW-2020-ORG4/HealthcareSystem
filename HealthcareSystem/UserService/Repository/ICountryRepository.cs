@@ -7,7 +7,7 @@ using UserService.Repository.CRUD;
 
 namespace UserService.Repository
 {
-    public interface ICountryRepository : IRead<Country, int>
+    public interface ICountryRepository : IReadCollection<Country>
     {
     }
 }

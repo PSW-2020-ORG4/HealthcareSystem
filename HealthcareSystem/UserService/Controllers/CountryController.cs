@@ -22,7 +22,8 @@ namespace UserService.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            throw new NotImplementedException();
+            var countries = _geographicalService.GetAllCountries().Select(c => c.GetMemento());
+            return Ok(countries);
         }
     }
 }

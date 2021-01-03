@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace UserService.Repository.CRUD
 {
-    public interface IRead<T, K> : IReadCollection<T>
+    public interface IReadCollection<T>
     {
-        T Get(K id);
+        IEnumerable<T> GetAll();
     }
 }

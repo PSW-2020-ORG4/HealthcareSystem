@@ -18,14 +18,14 @@ namespace UserService.Service
             _countryRepository = countryRepository;
         }
 
-        public IEnumerable<City> GetAllCities()
-        {
-            return _cityRepository.GetAll();
-        }
-
         public IEnumerable<Country> GetAllCountries()
         {
             return _countryRepository.GetAll();
+        }
+
+        public IEnumerable<City> GetCitiesByCountry(int countryId)
+        {
+            return _cityRepository.GetByCountry(countryId);
         }
     }
 }

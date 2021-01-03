@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Backend.Model.Exceptions;
 using Backend.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using PatientWebApp.Constants;
 using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -15,25 +18,13 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
-        private readonly ICountryService _countryService;
-        public CountryController(ICountryService countryService)
-        {
-            _countryService = countryService;
-        }
-
         [HttpGet]
         public IActionResult GetCountries()
         {
-            List<CountryDTO> countryDTOs = new List<CountryDTO>();
-            try
-            {
-                _countryService.GetCountries().ForEach(country => countryDTOs.Add(CountryMapper.CountryToCountryDTO(country)));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            return Ok(countryDTOs);
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/country");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
     }
 }

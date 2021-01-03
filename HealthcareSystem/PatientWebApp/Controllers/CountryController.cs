@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Service;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using PatientWebApp.Constants;
-using PatientWebApp.DTOs;
 using RestSharp;
 
 namespace PatientWebApp.Controllers

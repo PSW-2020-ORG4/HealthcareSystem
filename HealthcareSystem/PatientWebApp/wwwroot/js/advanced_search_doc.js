@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿var jmbg = "";
+$(document).ready(function () {
+    checkUserRole("Patient");
+
     $('#start_date').val("");
     $('#end_date').val("");
     $('#doctor_surname').val("");
@@ -31,11 +34,12 @@
         }
     });
 
-    let jmbg = "1309998775018";
-
     $.ajax({
-        url: '/api/examination/previous/' + jmbg,
+        url: '/api/examination/previous',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -49,6 +53,7 @@
             }
             else {
                 for (let i = 0; i < data.length; i++) {
+                    jmbg = data[i].patientJmbg;
                     addExaminationRow(data[i]);
                 }
                 $("#loading").hide();
@@ -89,11 +94,9 @@
             anamnesis_or_drug = null;
         }
 
-        let operator = 0;
         let doc_type = $('#doc_type option:selected').val();
         if (doc_type == "report") {
             var newData = {
-                "Jmbg": jmbg,
                 "StartDate": start_date,
                 "EndDateOperator": parseInt(first_operator),
                 "EndDate": end_date,
@@ -102,10 +105,14 @@
                 "AnamnesisOperator": parseInt(third_operator),
                 "Anamnesis": anamnesis_or_drug
             };
+            
             $.ajax({
                 url: '/api/examination/advance-search',
                 type: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
                 data: JSON.stringify(newData),
                 success: function (data) {
                     if (data.length == 0) {
@@ -136,7 +143,6 @@
 
         } else {
             var newData = {
-                "Jmbg": jmbg,
                 "StartDate": start_date,
                 "EndDateOperator": parseInt(first_operator),
                 "EndDate": end_date,
@@ -150,6 +156,9 @@
                 url: "/api/therapy/advance-search",
                 type: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
                 data: JSON.stringify(newData),
                 success: function (therapies) {
                     if (therapies.length == 0) {
@@ -213,7 +222,7 @@ function addExaminationRow(examination) {
         button = '<div class="card-footer">'
             + '<button type = "button" class="btn btn-success float-right" '
             + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
-            +'> Fill out the survey</button >'
+            + '> Fill out the survey</button >'
             + '</div >';
     }
 

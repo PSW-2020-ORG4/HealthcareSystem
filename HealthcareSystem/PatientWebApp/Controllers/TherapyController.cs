@@ -7,14 +7,17 @@ using Backend.Model.Exceptions;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.SearchSpecification.TherapySearch;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
+using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TherapyController : ControllerBase
@@ -30,11 +33,14 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{patientJmbg}")]
-        public ActionResult GetTherapiesByPatient(string patientJmbg)
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet]
+        public ActionResult GetTherapiesByPatient()
         {
             try
             {
+                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
                 List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
                 _therapyService.GetTherapyByPatient(patientJmbg).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
                 return Ok(therapyDTOs);
@@ -50,11 +56,14 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="therapySearchDTO">an object need be find in the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(not found)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost("advance-search")]
         public ActionResult AdvanceSearchTherapies(TherapySearchDTO therapySearchDTO)
         {
             try
             {
+                therapySearchDTO.Jmbg = HttpContext.User.FindFirst("Jmbg").Value;
                 List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
                 _therapyService.AdvancedSearch(therapySearchDTO).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
                 return Ok(therapyDTOs);

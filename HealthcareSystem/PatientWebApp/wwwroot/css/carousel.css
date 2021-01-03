@@ -13,6 +13,9 @@
     background-position: 50% 50%;
     width: 100%;
     height: 100%;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
 }
 
 .carousel-item img {
@@ -20,23 +23,9 @@
 }
 
 .carousel-caption {
-    position: absolute;
-    z-index: 1;
-    display: table;
-    width: 100%;
-    height: 100%;
-    color: black;
+    background: rgba(255, 255, 255, 0.6);
+    top: 70%;
+    transform: translateY(-70%);
+    bottom: initial;
 }
 
-.carousel-caption div {
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-}
-
-.trickcenter {
-    position: fixed;
-    top: 84%;
-    // 50% for perfect centering left: 50%;
-    transform: translate(-50%, -50%);
-}

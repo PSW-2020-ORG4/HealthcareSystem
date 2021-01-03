@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿var jmbg = "";
+$(document).ready(function () {
+    checkUserRole("Patient");
+
     $('#start_date').val("");
     $('#end_date').val("");
     $('#doctor_surname').val("");
@@ -31,11 +34,12 @@
         }
     });
 
-    let jmbg = "1309998775018";
-
     $.ajax({
-        url: '/api/examination/previous/' + jmbg,
+        url: '/api/examination/previous',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -49,6 +53,7 @@
             }
             else {
                 for (let i = 0; i < data.length; i++) {
+                    jmbg = data[i].patientJmbg;
                     addExaminationRow(data[i]);
                 }
                 $("#loading").hide();
@@ -103,6 +108,9 @@
                 url: '/api/examination/advance-search',
                 type: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
                 data: JSON.stringify(newData),
                 success: function (data) {
                     if (data.length == 0) {
@@ -133,7 +141,6 @@
 
         } else {
             var newData = {
-                "Jmbg": jmbg,
                 "StartDate": start_date,
                 "EndDateOperator": operator,
                 "EndDate": end_date,
@@ -147,6 +154,9 @@
                 url: "/api/therapy/advance-search",
                 type: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
                 data: JSON.stringify(newData),
                 success: function (therapies) {
                     if (therapies.length == 0) {

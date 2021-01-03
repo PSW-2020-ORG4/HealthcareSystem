@@ -65,7 +65,7 @@ namespace PatientWebAppTests.IntegrationTests
         }
 
         
-        [Fact]
+       /* [Fact]
         public void ExpectedAppointmentPrioritySearch()
         {
             FreeAppointmentSearchService freeAppointmentService = SetupRepositoriesAndServices();
@@ -74,7 +74,7 @@ namespace PatientWebAppTests.IntegrationTests
 
             Assert.Equal(38, freeAppointments.Count);
         }
-        
+        */
 
     }
 }

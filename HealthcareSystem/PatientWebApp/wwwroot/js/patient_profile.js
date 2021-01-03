@@ -1,9 +1,12 @@
 ﻿$(document).ready(function () {
+    checkUserRole("Patient");
 
-    let jmbg = "1309998775018";
     $.ajax({
-        url: "/api/patient/" + jmbg,
+        url: "/api/patient",
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -51,7 +54,7 @@
             if (patientDTO.hasInsurance == "1") {
                 $('#insurance').empty();
                 $('#insurance').append(patientDTO.lbo);
-            } 
+            }
 
             if (patientDTO.allergies) {
                 $('#allergies').empty();

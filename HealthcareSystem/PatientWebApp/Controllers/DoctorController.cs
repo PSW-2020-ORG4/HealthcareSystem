@@ -68,25 +68,6 @@ namespace PatientWebApp.Controllers
         }
 
         /// <summary>
-        /// /getting specialtes
-        /// </summary>
-        /// <returns>if alright returns code 200(Ok), if connection lost returns 500</returns>
-        [HttpGet("all-specialty")]
-        public IActionResult GetAllSpecialtes()
-        {
-            List<SpecialtyDTO> specialtyDTOs = new List<SpecialtyDTO>();
-            try
-            {
-                _specialtyService.GetSpecialties().ForEach(specialty => specialtyDTOs.Add(SpecialtyMapper.SpecialtyToSpecialtyDTO(specialty)));
-                return Ok(specialtyDTOs);
-            }
-            catch (DatabaseException e)
-            {
-                return StatusCode(500, e.Message);
-            }
-        }
-
-        /// <summary>
         /// /getting doctorSpecialty by idSpecilaty
         /// </summary>
         /// <param name="id">id of the wanted object</param>

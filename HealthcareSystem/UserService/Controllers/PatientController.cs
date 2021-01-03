@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserService.CustomException;
+using UserService.Mapper;
 using UserService.Model;
 using UserService.Service;
 
@@ -44,19 +45,22 @@ namespace UserService.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_patientService.GetAll());
+            var patients = _patientService.GetAll().Select(p => p.ToPatientDTO());
+            return Ok(patients);
         }
 
         [HttpGet("malicious")]
         public IActionResult GetMalicious()
         {
-            return Ok(_patientService.GetMalicious());
+            var maliciousPatients = _patientService.GetMalicious().Select(p => p.ToMaliciousPatientDTO());
+            return Ok(maliciousPatients);
         }
 
         [HttpGet("{jmbg}")]
         public IActionResult GetByJmbg(string jmbg)
         {
-            return Ok(_patientService.GetByJmbg(jmbg));
+            var patient = _patientService.GetByJmbg(jmbg).ToPatientDTO();
+            return Ok(patient);
         }
     }
 }

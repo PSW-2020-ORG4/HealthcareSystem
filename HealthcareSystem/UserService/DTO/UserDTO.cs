@@ -10,6 +10,6 @@ namespace UserService.DTO
     {
         public string Email { get; set; }
         public string Jmbg { get; set; }
-        public UserType Type { get; set; }
+        public string Type { get; set; }
     }
 }

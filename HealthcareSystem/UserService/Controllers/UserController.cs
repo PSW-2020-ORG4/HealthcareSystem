@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserService.DTO;
 using UserService.Mapper;
+using UserService.Model;
+using UserService.Model.Memento;
 using UserService.Service;
 
 namespace UserService.Controllers
@@ -24,7 +26,7 @@ namespace UserService.Controllers
         [HttpGet]
         public IActionResult GetByEmailAndPassword(UserInfoDTO userInfo)
         {
-            var user = _userService.GetByEmailAndPassword(userInfo.Email, userInfo.Password);
+            var user = _userService.GetByEmailAndPassword(userInfo.Email, userInfo.Password);            
             return Ok(user.ToUserDTO());
         }
     }

@@ -26,5 +26,12 @@ namespace UserService.Controllers
             var doctors = _doctorService.GetBySpecialty(specialtyId).Select(d => d.ToDoctorDTO());
             return Ok(doctors);
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var doctors = _doctorService.GetAll().Select(d => d.ToDoctorDTO());
+            return Ok(doctors);
+        }
     }
 }

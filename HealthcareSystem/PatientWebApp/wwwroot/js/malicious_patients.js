@@ -84,8 +84,8 @@ function blockPatient(patientJmbg) {
     $('#a' + patientJmbg).prepend(loading);
 
     $.ajax({
-        type: "PUT",
-        url: "/api/patient/blocked/" + patientJmbg,
+        type: "POST",
+        url: "/api/patient/" + patientJmbg + "/block",
         success: function () {
             let alert = $('<div class="alert alert-success alert-dismissible fade show m-2" role="alert">Patient was successfully blocked.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
@@ -94,7 +94,7 @@ function blockPatient(patientJmbg) {
             $('#a' + patientJmbg).prepend(alert);
         },
         error: function (jqXHR) {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">Blocking was not successful.'
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">' + jqXHR.responseJSON +
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#a' + patientJmbg).empty();
             $('#' + patientJmbg).prop("disabled", false);

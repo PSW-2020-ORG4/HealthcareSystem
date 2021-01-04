@@ -6,17 +6,21 @@ namespace UserService.Model
 {
     public class UserAccount : IOriginator<UserAccountMemento>
     {
-        protected Jmbg Jmbg { get; }
-        protected string Name { get; }
-        protected string Surname { get; }
-        protected Gender Gender { get; }
-        protected DateTime DateOfBirth { get; }
-        protected PhoneNumber Phone { get; }
-        protected Address HomeAddress { get; }
-        protected City City { get; }
-        protected Email Email { get; }
-        protected Password Password { get; }
-        protected UserType UserType { get; }
+        protected Jmbg Jmbg { get; set; }
+        protected string Name { get; set; }
+        protected string Surname { get; set; }
+        protected Gender Gender { get; set; }
+        protected DateTime DateOfBirth { get; set; }
+        protected PhoneNumber Phone { get; set; }
+        protected Address HomeAddress { get; set; }
+        protected City City { get; set; }
+        protected Email Email { get; set; }
+        protected Password Password { get; set; }
+        protected UserType UserType { get; set; }
+
+        public UserAccount()
+        {
+        }
 
         public UserAccount(UserAccountMemento memento)
         {

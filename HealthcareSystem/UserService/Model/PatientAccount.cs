@@ -13,8 +13,18 @@ namespace UserService.Model
         private string ImageName { get; }
         private IEnumerable<MaliciousAction> MaliciousActions { get; }
 
-        public PatientAccount(PatientAccountMemento memento) : base(memento)
+        public PatientAccount(PatientAccountMemento memento)
         {
+            Jmbg = new Jmbg(memento.Jmbg);
+            Name = memento.Name;
+            Surname = memento.Surname;
+            Gender = memento.Gender;
+            DateOfBirth = memento.DateOfBirth;
+            Phone = new PhoneNumber(memento.Phone);
+            HomeAddress = new Address(memento.HomeAddress);
+            City = new City(memento.City);
+            Email = new Email(memento.Email);
+            Password = new Password(memento.Password);
             IsActivated = memento.IsActivated;
             IsBlocked = memento.IsBlocked;
             ImageName = memento.ImageName;

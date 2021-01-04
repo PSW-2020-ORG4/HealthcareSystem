@@ -9,8 +9,10 @@ using Backend.Service.UsersAndWorkingTime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Users;
+using PatientWebApp.Constants;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -73,18 +75,12 @@ namespace PatientWebApp.Controllers
         /// <param name="id">id of the wanted object</param>
         /// <returns>if alright returns code 200(Ok), if connection lost returns 500</returns>
         [HttpGet("doctor-specialty/{id}")]
-        public IActionResult GetDoctorSpecialtyBySpecialtyId(int id)
-        {
-            List<DoctorSpecialtyDTO> doctorSpecialtyDTOs = new List<DoctorSpecialtyDTO>();
-            try
-            {
-                _doctorSpecialtyService.GetDoctorSpecialtyBySpecialtyId(id).ForEach(doctorSpecialty => doctorSpecialtyDTOs.Add(DoctorSpecialtyMapper.DoctorSpecialtyToDoctorSpecialtyDTO(doctorSpecialty)));
-                return Ok(doctorSpecialtyDTOs);
-            }
-            catch (DatabaseException e)
-            {
-                return StatusCode(500, e.Message);
-            }
+        public IActionResult GetSpecialistDoctorsBySpecialtyId(int id)
+        {          
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/doctor/specialty/" + id);
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
     }
 }

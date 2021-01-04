@@ -50,16 +50,10 @@ namespace PatientWebApp.Controllers
         [HttpGet("{jmbg}")]
         public IActionResult GetPatientByJmbg(string jmbg)
         {
-            try
-            {
-                Patient patient = _patientService.ViewProfile(jmbg);
-                PatientCard patientCard = _patientCardService.ViewPatientCard(jmbg);
-                return Ok(PatientMapper.PatientAndPatientCardToPatientDTO(patient, patientCard));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/patient/" + jmbg);
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 
         /// <summary>
@@ -162,19 +156,13 @@ namespace PatientWebApp.Controllers
         /// /getting malicious patients(who canceled examinations 3 or more times in the past month)
         /// </summary>
         /// <returns>list of patients</returns>
-        [HttpGet("malicious-patients")]
+        [HttpGet("malicious")]
         public IActionResult GetMaliciousPatients()
         {
-            try
-            {
-                List<PatientDTO> patientDTOs = new List<PatientDTO>();
-                _patientService.ViewMaliciousPatients().ForEach(patient => patientDTOs.Add(PatientMapper.PatientToPatientDTO(patient)));
-                return Ok(patientDTOs);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/patient/malicious");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 
         [HttpGet("{jmbg}/canceled-examinations")]

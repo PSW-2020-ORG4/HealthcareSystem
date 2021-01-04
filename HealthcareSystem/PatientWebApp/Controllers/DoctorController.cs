@@ -34,39 +34,10 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public ActionResult GetAllDoctors()
         {
-            List<DoctorDTO> doctorDTOs = new List<DoctorDTO>();
-            try
-            {
-                _doctorService.ViewDoctors().ForEach(doctor => doctorDTOs.Add(DoctorMapper.DoctorToDoctorDTO(doctor)));
-                return Ok(doctorDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-        }
-
-        /// <summary>
-        /// /getting doctor by jmbg
-        /// </summary>
-        /// <param name="jmbg">id of the wanted object</param>
-        /// <returns>if alright returns code 200(Ok), if not 404(not found), if connection lost returns 500</returns>
-        [HttpGet("{jmbg}")]
-        public IActionResult GetDoctorByJmbg(string jmbg)
-        {
-            try
-            {
-                Doctor doctor = _doctorService.GetDoctorByJmbg(jmbg);
-                return Ok(DoctorMapper.DoctorToDoctorDTO(doctor));
-            }
-            catch (DatabaseException e)
-            {
-                return StatusCode(500, e.Message);
-            }
-            catch (NotFoundException e)
-            {
-                return NotFound(e.Message);
-            }
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/doctor");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 
         /// <summary>

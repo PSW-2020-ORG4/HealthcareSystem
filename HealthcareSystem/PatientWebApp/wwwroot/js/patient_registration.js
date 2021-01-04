@@ -46,14 +46,11 @@
 
 			for (let i = 0; i < countries.length; i++) {
 				addCountryInComboBox(countries[i]);
-            }
+			}
 		},
-		error: function (jqXHR) {
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
-				+ jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
-			$('#div_alert').append(alert);
-			return;
-        }
+		error: function () {
+			console.log("Error getting countries from database");
+		}
 	});
 
 	/*Get all cities from database*/
@@ -62,7 +59,7 @@
 		var id = $(this).children(":selected").attr("id");
 
 		$.ajax({
-			url: "/api/city/" + id,
+			url: "/api/city/country/" + id,
 			type: 'GET',
 			dataType: 'json',
 			processData: false,
@@ -75,8 +72,9 @@
 					addCityInComboBox(cities[i]);
 				}
 			},
-			error: function () {
-				console.log("Error getting cities from database");
+			error: function (jqXHR) {
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#alertSchedule').prepend(alert);
 			}
 		});
 
@@ -155,7 +153,7 @@
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#div_alert').append(alert);
 			return;
-        }
+		}
 
 		var newPatient = {
 			"Jmbg": jmbg,
@@ -181,9 +179,8 @@
 
 		if ($("form#registration").hasClass("unsuccessful")) {
 			return;
-        }
-		else
-		{
+		}
+		else {
 			$("form#registration").removeClass("unsuccessful");
 			$.ajax({
 				url: "/api/patient",
@@ -209,12 +206,11 @@
 });
 
 function addCountryInComboBox(country) {
-	let country_option = $('<option id="' + country.id + '" value="' + country.name +'">' + country.name + '</option>');
+	let country_option = $('<option id="' + country.id + '" value="' + country.name + '">' + country.name + '</option>');
 	$('select#countries').append(country_option);
 };
 
 function addCityInComboBox(city) {
-	let city_option = $('<option id="' + city.zipCode + '" value = "' + city.name +'">' + city.name + '</option>');
+	let city_option = $('<option id="' + city.id + '" value = "' + city.name + '">' + city.name + '</option>');
 	$('select#cities').append(city_option);
 };
-

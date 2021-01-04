@@ -7,8 +7,10 @@ using Backend.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Users;
+using PatientWebApp.Constants;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -16,40 +18,14 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly ICityService _cityService;
-        public CityController(ICityService cityService)
-        {
-            _cityService = cityService;
-        }
 
-        [HttpGet]
-        public IActionResult GetCities()
-        {
-            List<CityDTO> cityDTOs = new List<CityDTO>();
-            try
-            {
-                _cityService.GetCities().ForEach(city => cityDTOs.Add(CityMapper.CityToCityDTO(city)));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            return Ok(cityDTOs);
-        }
-
-        [HttpGet("{countryId}")]
+        [HttpGet("country/{countryId}")]
         public IActionResult GetCitiesByCountryId(int countryId)
         {
-            List<CityDTO> cityDTOs = new List<CityDTO>();
-            try
-            {
-                _cityService.GetCitiesByCountryId(countryId).ForEach(city => cityDTOs.Add(CityMapper.CityToCityDTO(city)));
-                return Ok(cityDTOs);
-            }
-            catch(NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-        }
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/city/country/" + countryId);
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
+        } 
     }
 }

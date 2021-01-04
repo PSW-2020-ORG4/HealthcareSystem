@@ -14,8 +14,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Users;
 using PatientWebApp.Adapters;
+using PatientWebApp.Constants;
 using PatientWebApp.DTOs;
 using PatientWebApp.Validators;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -189,22 +191,13 @@ namespace PatientWebApp.Controllers
             }
         }
 
-        [HttpPut("blocked/{jmbg}")]
+        [HttpPost("{jmbg}/block")]
         public ActionResult BlockPatient(string jmbg)
         {
-            try
-            {
-                _patientService.BlockPatient(jmbg);
-                return Ok();
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/patient/"+jmbg+"/block");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
 
         }
     }

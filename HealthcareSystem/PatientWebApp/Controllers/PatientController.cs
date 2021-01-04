@@ -92,17 +92,11 @@ namespace PatientWebApp.Controllers
         [HttpPut("activate/{jmbg}")]
         public ActionResult ActivatePatient(string jmbg)
         {
-            try
-            {
-                string decryptedJmbg = _encryptionService.DecryptString(jmbg);
-                _patientService.ActivatePatientStatus(decryptedJmbg);
-                return Ok();
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-
+            string decryptedJmbg = _encryptionService.DecryptString(jmbg);
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/patient/" + decryptedJmbg + "/activate");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 		
         /// /upload patient image in memory

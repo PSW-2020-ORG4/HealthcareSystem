@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FeedbackAndSurveyService.CustomException;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,8 +8,8 @@ namespace FeedbackAndSurveyService.FeedbackService.Model
 {
     public class Content
     {
-        private DateTime DateOfCreation { get; }
-        private string Comment { get; }
+        public DateTime DateOfCreation { get; }
+        public string Comment { get; }
 
         public Content(DateTime dateOfCreation, string comment)
         {
@@ -31,7 +32,8 @@ namespace FeedbackAndSurveyService.FeedbackService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
+            if (String.IsNullOrWhiteSpace(Comment))
+                throw new ValidationException("Feedback content cannot be empty.");
         }
     }
 }

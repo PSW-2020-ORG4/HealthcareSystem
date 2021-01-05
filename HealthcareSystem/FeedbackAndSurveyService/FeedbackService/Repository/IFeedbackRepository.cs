@@ -11,5 +11,7 @@ namespace FeedbackAndSurveyService.FeedbackService.Repository
         IEnumerable<Feedback> GetUnpublished();
         IEnumerable<Feedback> GetPublished();
         Feedback Get(int id);
+        void Add(Feedback entity);
+        void Update(Feedback entity);
     }
 }

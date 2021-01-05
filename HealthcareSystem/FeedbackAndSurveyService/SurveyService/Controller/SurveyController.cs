@@ -12,6 +12,13 @@ namespace FeedbackAndSurveyService.SurveyService.Controller
     [ApiController]
     public class SurveyController : ControllerBase
     {
+        private readonly Service.SurveyService _surveyService;
+
+        public SurveyController(Service.SurveyService surveyService)
+        {
+            _surveyService = surveyService;
+        }
+
         [HttpPost("patient/{jmbg}/permission/{id}")]
         public IActionResult RespondToSurvey(string jmbg, int id, SurveyResponseDTO response)
         {

@@ -3,7 +3,7 @@ using FeedbackAndSurveyService.SurveyService.Model;
 using System;
 using System.Collections.Generic;
 
-namespace FeedbackAndSurveyService.SurveyService.SurveyService
+namespace FeedbackAndSurveyService.SurveyService.Service
 {
     public class SurveyService : ISurveyService
     {

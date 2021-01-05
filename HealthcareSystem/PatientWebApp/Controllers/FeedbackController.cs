@@ -35,8 +35,7 @@ namespace PatientWebApp.Controllers
         /// <param name="feedbackDTO">an object to be added to the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
         /// 
-        // [Authorize(Roles = UserRoles.Patient)]
-        [AllowAnonymous]
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost]
         public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
         {
@@ -81,8 +80,7 @@ namespace PatientWebApp.Controllers
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
         /// 
-        // [Authorize(Roles = UserRoles.Admin)]
-        [AllowAnonymous]
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpPost("{id}")]
         public ActionResult PublishFeedback(int id)
         {

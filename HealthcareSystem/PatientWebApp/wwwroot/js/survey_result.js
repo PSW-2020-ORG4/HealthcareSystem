@@ -34,7 +34,7 @@
 		},
 		error: function (jqXHR) {
 			let alert = '<div class="alert alert-info mb-0" role="alert">'
-				+ jqXHR.responseText
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#loadingStaff').remove();
 			$('#survey_result_MedicalStaff').append(alert);
@@ -73,7 +73,7 @@
 		},
 		error: function (jqXHR) {
 			let alert = '<div class="alert alert-info mb-0" role="alert">'
-				+ jqXHR.responseText
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#loadingHospital').remove();
 			$('#survey_result_Hospital').append(alert);
@@ -105,7 +105,7 @@
 		},
 		error: function (jqXHR) {
 			let alert = '<div class="alert alert-danger mb-0" role="alert">'
-				+ jqXHR.responseText
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#survey_result_Doctor').append(alert);
 		}

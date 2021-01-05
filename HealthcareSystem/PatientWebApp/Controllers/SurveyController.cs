@@ -72,7 +72,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetSurveyResultAboutMedicalStaff()
         {
             var client = new RestClient("http://localhost:56701");
-            var request = new RestRequest("/api/report/staff");
+            var request = new RestRequest("/api/survey/report/staff");
             var response = client.Execute(request);
             return StatusCode((int)response.StatusCode, response.Content);
         }
@@ -82,7 +82,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetSurveyResultAboutDoctor(string jmbg)
         {
             var client = new RestClient("http://localhost:56701");
-            var request = new RestRequest("/api/report/doctor/" + jmbg);
+            var request = new RestRequest("/api/survey/report/doctor/" + jmbg);
             var response = client.Execute(request);
             return StatusCode((int)response.StatusCode, response.Content);
         }
@@ -92,7 +92,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetSurveyResultAboutHospital()
         {
             var client = new RestClient("http://localhost:56701");
-            var request = new RestRequest("/api/report/hospital");
+            var request = new RestRequest("/api/survey/report/hospital");
             var response = client.Execute(request);
             return StatusCode((int)response.StatusCode, response.Content);
         }

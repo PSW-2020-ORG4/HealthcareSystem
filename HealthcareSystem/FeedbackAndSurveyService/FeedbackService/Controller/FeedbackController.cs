@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FeedbackAndSurveyService.FeedbackService.DTO;
+using FeedbackAndSurveyService.FeedbackService.Mapper;
 using FeedbackAndSurveyService.FeedbackService.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,11 @@ namespace FeedbackAndSurveyService.FeedbackService.Controller
     {
         private IFeedbackService _service;
 
+        public FeedbackController(IFeedbackService service)
+        {
+            _service = service;
+        }
+
         [HttpPost]
         public IActionResult Add(AddFeedbackDTO feedback)
         {
@@ -25,13 +31,15 @@ namespace FeedbackAndSurveyService.FeedbackService.Controller
         [HttpGet("published")]
         public IActionResult GetPublished()
         {
-            throw new NotImplementedException();
+            var published = _service.GetPublished().Select(f => f.ToFeedbackDTO());
+            return Ok(published);
         }
 
         [HttpGet("unpublished")]
         public IActionResult GetUnpublished()
         {
-            throw new NotImplementedException();
+            var unpublished = _service.GetUnpublished().Select(f => f.ToFeedbackDTO());
+            return Ok(unpublished);
         }
 
         [HttpPost("{id}/publish")]

@@ -15,7 +15,6 @@ namespace FeedbackAndSurveyService.SurveyService.Model
         
         public SurveyResponse(SurveyPermission permission, SurveyResponseDTO reponse)
         {
-
         }
     }
 }

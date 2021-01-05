@@ -31,9 +31,9 @@ namespace FeedbackAndSurveyService
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+                app.UseExceptionHandler("/error/dev");
+            else
+                app.UseExceptionHandler("/error");
 
             app.UseRouting();
 

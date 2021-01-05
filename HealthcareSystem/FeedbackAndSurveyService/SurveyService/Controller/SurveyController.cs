@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FeedbackAndSurveyService.SurveyService.DTO;
-using Microsoft.AspNetCore.Http;
+﻿using FeedbackAndSurveyService.SurveyService.DTO;
+using FeedbackAndSurveyService.SurveyService.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FeedbackAndSurveyService.SurveyService.Controller
@@ -12,9 +8,9 @@ namespace FeedbackAndSurveyService.SurveyService.Controller
     [ApiController]
     public class SurveyController : ControllerBase
     {
-        private readonly Service.SurveyService _surveyService;
+        private readonly ISurveyService _surveyService;
 
-        public SurveyController(Service.SurveyService surveyService)
+        public SurveyController(ISurveyService surveyService)
         {
             _surveyService = surveyService;
         }

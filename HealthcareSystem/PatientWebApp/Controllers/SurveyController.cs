@@ -14,6 +14,7 @@ using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 using PatientWebApp.Validators;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -70,48 +71,30 @@ namespace PatientWebApp.Controllers
         [HttpGet("surveyResultAboutMedicalStaff")]
         public IActionResult GetSurveyResultAboutMedicalStaff()
         {
-            List<SurveyResult> surveyResult = new List<SurveyResult>();
-            try
-            {
-                surveyResult = _surveyService.GetSurveyResultsAboutMedicalStaff();
-                return Ok(surveyResult);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var client = new RestClient("http://localhost:56701");
+            var request = new RestRequest("/api/report/staff");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutDoctor/{jmbg}")]
         public IActionResult GetSurveyResultAboutDoctor(string jmbg)
         {
-            List<SurveyResult> surveyResult = new List<SurveyResult>();
-            try
-            {
-                surveyResult = _surveyService.GetSurveyResultsAboutDoctor(jmbg);
-                return Ok(surveyResult);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var client = new RestClient("http://localhost:56701");
+            var request = new RestRequest("/api/report/doctor/" + jmbg);
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutHospital")]
         public IActionResult GetSurveyResultAboutHospital()
         {
-            List<SurveyResult> surveyResult = new List<SurveyResult>();
-            try
-            {
-                surveyResult = _surveyService.GetSurveyResultsAboutHospital();
-                return Ok(surveyResult);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var client = new RestClient("http://localhost:56701");
+            var request = new RestRequest("/api/report/hospital");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 
     }

@@ -14,7 +14,9 @@ namespace FeedbackAndSurveyService.SurveyService.Model
 
         public void RespondToSurvey(int permissionId, SurveyResponseDTO surveyResponse)
         {
-            throw new NotImplementedException();
+            SurveyPermission surveyPermission = (SurveyPermission)Permissions.Where(p => p.Id == permissionId);
+            Permissions.Remove(surveyPermission);
+            Responses.Add(new SurveyResponse(surveyPermission, surveyResponse));
         }
     }
 }

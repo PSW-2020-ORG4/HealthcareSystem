@@ -7,7 +7,8 @@ namespace FeedbackAndSurveyService.SurveyService.Model
 {
     public class SurveyPermission
     {
-        private int Id { get; }
+        public int Id { get; }
         private Jmbg DoctorJmbg { get; }
+
     }
 }

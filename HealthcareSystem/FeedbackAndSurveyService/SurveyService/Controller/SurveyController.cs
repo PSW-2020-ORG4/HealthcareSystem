@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FeedbackAndSurveyService.SurveyService.DTO;
-using Microsoft.AspNetCore.Http;
+﻿using FeedbackAndSurveyService.SurveyService.DTO;
+using FeedbackAndSurveyService.SurveyService.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FeedbackAndSurveyService.SurveyService.Controller
@@ -12,34 +8,42 @@ namespace FeedbackAndSurveyService.SurveyService.Controller
     [ApiController]
     public class SurveyController : ControllerBase
     {
+        private readonly ISurveyService _surveyService;
+
+        public SurveyController(ISurveyService surveyService)
+        {
+            _surveyService = surveyService;
+        }
+
         [HttpPost("patient/{jmbg}/permission/{id}")]
         public IActionResult RespondToSurvey(string jmbg, int id, SurveyResponseDTO response)
         {
-            throw new NotImplementedException();
+            _surveyService.RecordResponse(jmbg, id, response);
+            return NoContent();
         }
 
         [HttpGet("patient/{jmbg}/permission")]
         public IActionResult GetPermission(string jmbg)
         {
-            throw new NotImplementedException();
+            return Ok(_surveyService.GetPermissions(jmbg));
         }
 
         [HttpGet("report/doctor/{jmbg}")]
         public IActionResult GetDoctorSurveyReport(string jmbg)
         {
-            throw new NotImplementedException();
+            return Ok(_surveyService.GetDoctorSurveyReport(jmbg));
         }
 
         [HttpGet("report/staff")]
         public IActionResult GetMedicalStaffSurveyReport()
         {
-            throw new NotImplementedException();
+            return Ok(_surveyService.GetMedicalStaffSurveyReport());
         }
 
         [HttpGet("report/hospital")]
         public IActionResult GetHospitalSurveyReport()
         {
-            throw new NotImplementedException();
+            return Ok(_surveyService.GetHospitalSurveyReport());
         }
     }
 }

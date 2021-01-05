@@ -11,5 +11,13 @@ namespace FeedbackAndSurveyService.SurveyService.Model
         private Grade Cleanliness { get; }
         private Grade General { get; }
         private Grade MedicationAndInstrumments { get; }
+
+        public HospitalSurveyResponse(int nursing, int cleanliness, int general, int medicationAndInstrumments)
+        {
+            Nursing = new Grade(nursing);
+            Cleanliness = new Grade(cleanliness);
+            General = new Grade(general);
+            MedicationAndInstrumments = new Grade(medicationAndInstrumments);
+        }
     }
 }

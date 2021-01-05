@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FeedbackAndSurveyService.SurveyService.Model
 {
     public class SurveyReportGeneratorItem
     {
-        private string Name { get; }
+        public string Name { get; }
         private IEnumerable<Grade> Responses { get; }
 
         public double GetAverage()
         {
-            throw new NotImplementedException();
+            return Responses.Select(r => r.Value).Average();
         }
 
         public int GetGradeCount(Grade grade)
         {
-            throw new NotImplementedException();
+            return Responses.Where(r => r.Equals(grade)).Count();
         }
     }
 }

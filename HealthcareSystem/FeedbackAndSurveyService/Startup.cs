@@ -6,6 +6,7 @@ using Backend.Model;
 using Backend.Settings;
 using FeedbackAndSurveyService.FeedbackService.Repository;
 using FeedbackAndSurveyService.FeedbackService.Service;
+using FeedbackAndSurveyService.SurveyService.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,8 @@ namespace FeedbackAndSurveyService
             services.AddScoped<IFeedbackService, FeedbackService.Service.FeedbackService>();
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<ICommentatorRepository, CommentatorRepository>();
+            
+            services.AddScoped<ISurveyService, SurveyService.Service.SurveyService>();
 
             services.AddControllers();
         }

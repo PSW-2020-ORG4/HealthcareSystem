@@ -7,7 +7,8 @@ namespace FeedbackAndSurveyService.SurveyService.Model
 {
     public class SurveyResult
     {
-        public IEnumerable<SurveyResultItem> Items { get; }
-        public double TotalAverage { get; }
+        public ICollection<SurveyResultItem> Items { get; }
+        public double TotalAverage { get; set; }
+
     }
 }

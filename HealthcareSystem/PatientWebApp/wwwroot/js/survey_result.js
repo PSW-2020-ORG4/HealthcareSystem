@@ -32,9 +32,9 @@
 				$('#survey_result_MedicalStaff').append(table);
 			}
 		},
-		error: function () {
+		error: function (jqXHR) {
 			let alert = '<div class="alert alert-info mb-0" role="alert">'
-				+ 'No information available.'
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#loadingStaff').remove();
 			$('#survey_result_MedicalStaff').append(alert);
@@ -71,9 +71,9 @@
 				$('#survey_result_Hospital').append(table);
 			}
 		},
-		error: function () {
+		error: function (jqXHR) {
 			let alert = '<div class="alert alert-info mb-0" role="alert">'
-				+ 'No information available.'
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#loadingHospital').remove();
 			$('#survey_result_Hospital').append(alert);
@@ -103,9 +103,9 @@
 				}
 			}
 		},
-		error: function () {
+		error: function (jqXHR) {
 			let alert = '<div class="alert alert-danger mb-0" role="alert">'
-				+ 'Error fetching doctors.'
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#survey_result_Doctor').append(alert);
 		}
@@ -196,7 +196,7 @@ function changeDoctor(event) {
 		},
 		error: function (jqXHR) {
 			let alert = '<div class="alert alert-info mb-0" role="alert">'
-				+ 'No information available.'
+				+ jqXHR.responseText
 				+ '</div>';
 			$('#loadingDoctor').hide();
 			$('#survey_result_Doctor').append(alert);

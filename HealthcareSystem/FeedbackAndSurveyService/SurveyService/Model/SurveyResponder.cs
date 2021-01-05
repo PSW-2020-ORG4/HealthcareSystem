@@ -14,15 +14,9 @@ namespace FeedbackAndSurveyService.SurveyService.Model
 
         public void RespondToSurvey(int permissionId, SurveyResponseDTO surveyResponse)
         {
-            foreach (SurveyPermission surveyPermission in Permissions)
-            {
-                if (surveyPermission.IsExistId(permissionId))
-                {
-                    Permissions.Remove(surveyPermission);
-                    Responses.Add(new SurveyResponse(surveyPermission, surveyResponse));
-                    return;
-                }
-            }          
+            SurveyPermission surveyPermission = (SurveyPermission)Permissions.Where(p => p.Id == permissionId);
+            Permissions.Remove(surveyPermission);
+            Responses.Add(new SurveyResponse(surveyPermission, surveyResponse));
         }
     }
 }

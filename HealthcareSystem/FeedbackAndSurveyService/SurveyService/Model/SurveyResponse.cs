@@ -13,8 +13,21 @@ namespace FeedbackAndSurveyService.SurveyService.Model
         private DoctorSurveyResponse DoctorSurveyResponse;
         private HospitalSurveyResponse HospitalSurveyResponse;    
         
-        public SurveyResponse(SurveyPermission permission, SurveyResponseDTO reponse)
+        public SurveyResponse(SurveyPermission permission, SurveyResponseDTO response)
         {
+            UsedPermission = permission;
+            MedicalStaffSurveyResponse = new MedicalStaffSurveyResponse(response.BehaviorOfMedicalStaff, 
+                                                                        response.MedicalStaffProfessionalism,
+                                                                        response.GettingAdviceByMedicalStaff,
+                                                                        response.EaseInObtainingFollowUpInformation);
+            DoctorSurveyResponse = new DoctorSurveyResponse(response.BehaviorOfDoctor,
+                                                            response.DoctorProfessionalism,
+                                                            response.GettingAdviceByDoctor,
+                                                            response.AvailabilityOfDoctor);
+            HospitalSurveyResponse = new HospitalSurveyResponse(response.Nursing,
+                                                                response.Cleanliness,
+                                                                response.OverallRating,
+                                                                response.SatisfiedWithDrugAndInstrument);
         }
     }
 }

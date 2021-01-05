@@ -1,8 +1,12 @@
 ﻿$(document).ready(function () {
+	checkUserRole("Admin");
 
 	$.ajax({
 		url: "/api/feedback/unpublished-feedbacks",
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
@@ -47,7 +51,7 @@ function addCommentTable(feedback) {
 			+ feedback.id
 			+ '" onclick="approveComment(this.id)">Publish</button>'
 			+ '</footer ></blockquote ></div >'
-			+ '<div class="card-footer bg-transpartent border-top-0" id="a' + feedback.id + '">' 
+			+ '<div class="card-footer bg-transpartent border-top-0" id="a' + feedback.id + '">'
 			+ '</div ></div ></div ></div >');
 
 		$('div#view_feedbacks').append(new_feedback);
@@ -71,8 +75,12 @@ function approveComment(feedbackId) {
 	$('#a' + feedbackId).prepend(loading);
 
 	$.ajax({
-		type: "PUT",
+		type: "POST",
 		url: "/api/feedback/" + feedbackId,
+		contentType: 'application/json',
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		success: function () {
 			let alert = $('<div class="alert alert-success m-1" role="alert">Feedback successfully published.</div >')
 			$('#' + feedbackId).remove();

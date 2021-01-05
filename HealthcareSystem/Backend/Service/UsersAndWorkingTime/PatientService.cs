@@ -23,15 +23,8 @@ namespace Backend.Service
         }
         public void RegisterPatient(Patient patient)
         {
-            try
-            {
-                patient.DateOfRegistration = DateTime.Now;
-                _activePatientRepository.AddPatient(patient);
-            }
-            catch (Exception)
-            {
-                throw new DatabaseException("Patient with jmbg=" + patient.Jmbg + " already exists in database.");
-            }
+            patient.DateOfRegistration = DateTime.Now;
+            _activePatientRepository.AddPatient(patient);
         }
         public List<Patient> ViewPatients()
         {
@@ -107,6 +100,10 @@ namespace Backend.Service
         public Patient GetPatientByJmbg(string jmbg)
         {
             return _activePatientRepository.GetPatientByJmbg(jmbg);
+        }
+        public Patient GetPatientByUsernameAndPassword(string username, string password)
+        {
+            return _activePatientRepository.GetPatientByUsernameAndPassword(username, password);
         }
     }
 }

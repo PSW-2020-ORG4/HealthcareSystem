@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.Exceptions;
 using Backend.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Users;
@@ -14,11 +15,12 @@ using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CityController : ControllerBase
-    {
-
+    {      
+        [AllowAnonymous]
         [HttpGet("country/{countryId}")]
         public IActionResult GetCitiesByCountryId(int countryId)
         {

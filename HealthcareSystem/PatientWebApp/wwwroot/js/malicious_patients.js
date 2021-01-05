@@ -1,8 +1,11 @@
 ﻿$(document).ready(function () {
-
+    checkUserRole("Admin");
     $.ajax({
         url: '/api/patient/malicious',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -13,6 +16,9 @@
                 $.ajax({
                     url: '/api/patient/' + data[i].jmbg + '/canceled-examinations',
                     type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                    },
                     dataType: 'json',
                     processData: false,
                     contentType: false,
@@ -87,6 +93,10 @@ function blockPatient(patientJmbg) {
     $.ajax({
         type: "POST",
         url: "/api/patient/" + patientJmbg + "/block",
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         success: function () {
             let alert = $('<div class="alert alert-success alert-dismissible fade show m-2" role="alert">Patient was successfully blocked.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')

@@ -10,7 +10,7 @@
             success: function () {
 
                 setTimeout(function () {
-                    window.location.href = 'patients_home_page.html';
+                    window.location.href = 'login.html';
                 }, 500);
 
 
@@ -34,7 +34,7 @@
         success: function () {
 
             setTimeout(function () {
-                window.location.href = 'patients_home_page.html';
+                window.location.href = 'login.html';
             }, 500);
 
 

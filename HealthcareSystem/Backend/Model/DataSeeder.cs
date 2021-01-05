@@ -67,6 +67,8 @@ namespace Backend.Model
             SeedDrugConsumptions(context);
             if (Verbose) Console.WriteLine("Seeding feedback.");
             SeedFeedback(context);
+            if (Verbose) Console.WriteLine("Seeding admins.");
+            SeedAdmins(context);
             if (Verbose) Console.WriteLine("Seeding actions.");
             SeedActionBenefits(context);
 
@@ -647,6 +649,25 @@ namespace Backend.Model
             if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(17, 0, 0)) >= 0)
                 return false;
             return true;
+        }
+        private void SeedAdmins(MyDbContext context)
+        {
+            context.Add(new Admin()
+            {
+                Jmbg = "0811965521021",
+                Name = "Milan",
+                Surname = "Milić",
+                DateOfBirth = new DateTime(1965, 11, 08),
+                Phone = "021954201",
+                Email = "milic_milan@gmail.com",
+                HomeAddress = "Aleja Svetog Save 100",
+                Username = "milic_milan@gmail.com",
+                CityZipCode = 3,
+                Gender = GenderType.M,
+                Password = "milanmilic965"
+            });
+
+            context.SaveChanges();
         }
 
         private void SeedActionBenefits(MyDbContext context)

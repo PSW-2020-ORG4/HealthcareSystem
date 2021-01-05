@@ -16,5 +16,6 @@ namespace Backend.Repository
         void DeletePatient(string jmbg);
         Patient CheckUsernameAndPassword(string username, string password);
         int GetNumberOfCanceledExaminations(string jmbg);
+        public Patient GetPatientByUsernameAndPassword(string username, string password);
     }
 }

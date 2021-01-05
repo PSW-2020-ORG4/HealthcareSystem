@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.Exceptions;
 using Backend.Service.NotificationSurveyAndFeedback;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.NotificationSurveyAndFeedback;
@@ -14,6 +15,7 @@ using PatientWebApp.Validators;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FeedbackController : ControllerBase
@@ -25,32 +27,26 @@ namespace PatientWebApp.Controllers
             _feedbackService = feedbackService;
             _feedbackValidator = new FeedbackValidator(_feedbackService);
         }
-        /// <summary>
-        /// /getting feedback by id
-        /// </summary>
-        /// <param name="id">id of the wanted object</param>
-        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{id}")]
-        public IActionResult GetFeedbackById(int id)
-        {
-            try
-            {
-                Feedback feedback = _feedbackService.GetFeedbackById(id);
-                return Ok(FeedbackMapper.FeedbackToFeedbackDTO(feedback));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-        }
+        
         /// <summary>
         /// /adding new feedback to database
         /// </summary>
         /// <param name="feedbackDTO">an object to be added to the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost]
         public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
         {
+            if (!feedbackDTO.IsAnonymous)
+            {
+                feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            }
+            //else
+            //{
+              //  feedbackDTO.CommentatorJmbg = null;
+            //}
+
             try
             {
                 _feedbackValidator.validateFeedbacksFields(feedbackDTO);
@@ -59,6 +55,7 @@ namespace PatientWebApp.Controllers
             {
                 return BadRequest(exception.Message);
             }
+
             Feedback feedback = FeedbackMapper.FeedbackDTOToFeedback(feedbackDTO);
             _feedbackService.AddFeedback(feedback);
             return Ok();
@@ -68,6 +65,8 @@ namespace PatientWebApp.Controllers
         /// / getting all published feedbacks
         /// </summary>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+        /// 
+        [AllowAnonymous]
         [HttpGet("published-feedbacks")]
         public ActionResult GetPublishedFeedbacks()
         {
@@ -86,6 +85,8 @@ namespace PatientWebApp.Controllers
         /// /getting all unpublished feedbacks
         /// </summary>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("unpublished-feedbacks")]
         public ActionResult GetUnpublishedFeedbacks()
         {
@@ -105,7 +106,9 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
-        [HttpPut("{id}")]
+        /// 
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpPost("{id}")]
         public ActionResult PublishFeedback(int id)
         {
             try

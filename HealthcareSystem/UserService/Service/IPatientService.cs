@@ -10,6 +10,6 @@ namespace UserService.Service
         void Block(string jmbg);
         IEnumerable<PatientAccount> GetMalicious();
         IEnumerable<PatientAccount> GetAll();
-        PatientAccount GetByJmbg(string jmbg);
+        PatientAccount Get(string jmbg);
     }
 }

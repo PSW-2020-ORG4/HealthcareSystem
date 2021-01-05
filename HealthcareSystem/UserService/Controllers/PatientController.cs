@@ -59,7 +59,7 @@ namespace UserService.Controllers
         [HttpGet("{jmbg}")]
         public IActionResult GetByJmbg(string jmbg)
         {
-            var patient = _patientService.GetByJmbg(jmbg).ToPatientDTO();
+            var patient = _patientService.Get(jmbg).ToPatientDTO();
             return Ok(patient);
         }
     }

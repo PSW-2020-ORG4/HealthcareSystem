@@ -9,5 +9,7 @@ namespace UserService.Repository
 {
     public interface IPatientRepository : IRead<PatientAccount, string>, ICreate<PatientAccount>, IUpdate<PatientAccount>
     {
+        IEnumerable<PatientAccount> GetAll(DateTime earliestMaliciousActionDate);
+        PatientAccount Get(string id, DateTime earliestMaliciousActionDate);
     }
 }

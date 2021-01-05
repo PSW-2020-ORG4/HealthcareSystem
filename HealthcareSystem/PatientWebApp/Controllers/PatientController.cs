@@ -32,7 +32,7 @@ namespace PatientWebApp.Controllers
         private readonly IPatientCardService _patientCardService;
         private readonly IMailService _mailService;
         private readonly PatientValidator _patientValidator;
-		public static IWebHostEnvironment _webHostEnvironment;
+        public static IWebHostEnvironment _webHostEnvironment;
         private readonly EncryptionService _encryptionService;
 
         public PatientController(IPatientService patientService, IPatientCardService patientCardService, IWebHostEnvironment webHostEnvironment, IMailService mailService)
@@ -55,6 +55,7 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public IActionResult GetPatientByJmbg()
         {
+            var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
             var client = new RestClient("http://localhost:" + ServerConstants.PORT);
             var request = new RestRequest("/api/patient/" + jmbg);
             var response = client.Execute(request);
@@ -111,7 +112,7 @@ namespace PatientWebApp.Controllers
             var response = client.Execute(request);
             return StatusCode((int)response.StatusCode, response.Content);
         }
-		
+
         /// /upload patient image in memory
         /// </summary>
         /// <param name="file">uploaded file ie image</param>
@@ -155,7 +156,7 @@ namespace PatientWebApp.Controllers
             try
             {
                 _patientService.SavePatientImageName(jmbg, name);
-                
+
             }
             catch (NotFoundException exception)
             {
@@ -178,13 +179,13 @@ namespace PatientWebApp.Controllers
             var response = client.Execute(request);
             return StatusCode((int)response.StatusCode, response.Content);
         }
-        
+
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPost("{jmbg}/block")]
         public ActionResult BlockPatient(string jmbg)
         {
             var client = new RestClient("http://localhost:" + ServerConstants.PORT);
-            var request = new RestRequest("/api/patient/"+jmbg+"/block");
+            var request = new RestRequest("/api/patient/" + jmbg + "/block");
             var response = client.Execute(request);
             return StatusCode((int)response.StatusCode, response.Content);
 

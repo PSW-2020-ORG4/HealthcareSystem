@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UserService.Model;
 using UserService.Repository;
 
@@ -15,14 +17,15 @@ namespace UserService.Service
 
         public void Activate(string jmbg)
         {
-            PatientAccount patientAccount = GetByJmbg(jmbg);
+            PatientAccount patientAccount = Get(jmbg);
             patientAccount.Activate();
             _patientRepository.Update(patientAccount);
         }
 
         public void Block(string jmbg)
         {
-            PatientAccount patientAccount = GetByJmbg(jmbg);
+            DateTime earliestMaliciousAction = DateTime.Now.AddMonths(-1);
+            PatientAccount patientAccount = _patientRepository.Get(jmbg, earliestMaliciousAction);
             patientAccount.Block();
             _patientRepository.Update(patientAccount);
         }
@@ -32,21 +35,17 @@ namespace UserService.Service
             return _patientRepository.GetAll();
         }
 
-        public PatientAccount GetByJmbg(string jmbg)
+        public PatientAccount Get(string jmbg)
         {
             return _patientRepository.Get(jmbg);
         }
 
         public IEnumerable<PatientAccount> GetMalicious()
         {
-            List<PatientAccount> maliciousPatients = new List<PatientAccount>();
-            IEnumerable<PatientAccount> patientAccounts = GetAll();
+            DateTime earliestMaliciousAction = DateTime.Now.AddMonths(-1);
+            IEnumerable<PatientAccount> patientAccounts = _patientRepository.GetAll(earliestMaliciousAction);
 
-            foreach (PatientAccount patientAccount in patientAccounts)
-                if (patientAccount.IsMalicious())
-                    maliciousPatients.Add(patientAccount);
-
-            return maliciousPatients;
+            return patientAccounts.Where(patient => patient.IsMalicious());
         }
 
         public void Register(PatientAccount patientAccount)

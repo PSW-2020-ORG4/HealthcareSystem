@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Backend.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,18 +11,18 @@ namespace UserService.Repository
 {
     public class SpecialtyRepository : ISpecialtyRepository
     {
-        private readonly Backend.Repository.SpecialtyRepository.ISpecialtyRepository _repository;
+        private readonly MyDbContext _context;
 
-        public SpecialtyRepository(Backend.Repository.SpecialtyRepository.ISpecialtyRepository repository)
+        public SpecialtyRepository(MyDbContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         public IEnumerable<Specialty> GetAll()
         {
             try
             {
-                return _repository.GetSpecialties().Select(s => new Specialty(s.Id, s.Name));
+                return _context.Specialties.Select(s => new Specialty(s.Id, s.Name));
             }
             catch (Exception e)
             {

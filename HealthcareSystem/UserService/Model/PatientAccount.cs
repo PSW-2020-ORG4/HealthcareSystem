@@ -62,6 +62,11 @@ namespace UserService.Model
             return false;
         }
 
+        public override bool CanLogIn()
+        {
+            return IsActivated && !IsBlocked;
+        }
+
         public PatientAccountMemento GetPatientMemento()
         {
             return new PatientAccountMemento()
@@ -95,6 +100,8 @@ namespace UserService.Model
 
             if (string.IsNullOrWhiteSpace(ImageName))
                 throw new ValidationException("Image name cannot be empty.");
+            if (!IsActivated && IsBlocked)
+                throw new ValidationException("Patient account that hasn't been activated cannot be blocked.");
         }
     }
 }

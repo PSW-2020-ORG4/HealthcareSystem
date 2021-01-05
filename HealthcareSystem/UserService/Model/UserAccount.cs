@@ -55,6 +55,11 @@ namespace UserService.Model
             };
         }
 
+        public virtual bool CanLogIn()
+        {
+            return true;
+        }
+
         protected virtual void Validate()
         {
             if (string.IsNullOrWhiteSpace(Name)) 

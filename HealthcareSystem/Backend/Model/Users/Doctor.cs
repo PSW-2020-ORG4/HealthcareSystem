@@ -1,6 +1,6 @@
 using Backend.Model;
+using Backend.Model.Enums;
 using Backend.Model.Users;
-using Model.Enums;
 using Model.Manager;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Users
 {
-   public class Doctor : User
+    public class Doctor : User
    {
         public string NumberOfLicence { get; set; }
         public virtual ICollection<DoctorSpecialty> DoctorSpecialties { get; set; }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Backend.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,18 +10,18 @@ namespace UserService.Repository
 {
     public class CountryRepository : ICountryRepository
     {
-        private readonly Backend.Repository.ICountryRepository _repository;
+        private readonly MyDbContext _context;
 
-        public CountryRepository(Backend.Repository.ICountryRepository repository)
+        public CountryRepository(MyDbContext context)
         {
-            _repository = repository;
+            _context = context;
         }
 
         public IEnumerable<Country> GetAll()
         {
             try
             {
-                return _repository.GetCountries().Select(c => new Country(c.Id, c.Name));
+                return _context.Countries.Select(c => new Country(c.Id, c.Name));
             }
             catch (Exception e)
             {

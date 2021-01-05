@@ -16,7 +16,8 @@ namespace UserService.Mapper
             {
                 Email = memento.Email,
                 Jmbg = memento.Jmbg,
-                Type = memento.UserType.ToString()
+                Type = memento.UserType.ToString(),
+                CanLogIn = user.CanLogIn()
             };
         }
     }

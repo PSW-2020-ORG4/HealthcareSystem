@@ -88,13 +88,6 @@ namespace UserService
             services.AddScoped<IUserService, Service.UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
 
-            // BACKEND
-            services.AddScoped<Backend.Repository.ICityRepository, Backend.Repository.MySqlCityRepository>();
-            services.AddScoped<Backend.Repository.ICountryRepository, Backend.Repository.MySqlCountryRepository>();
-            services.AddScoped<Backend.Repository.IDoctorRepository, Backend.Repository.MySqlDoctorRepository>();
-            services.AddScoped<Backend.Repository.SpecialtyRepository.ISpecialtyRepository,
-                               Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository.MySqlSpecialtyRepository>();
-
             services.AddControllers();
         }
 

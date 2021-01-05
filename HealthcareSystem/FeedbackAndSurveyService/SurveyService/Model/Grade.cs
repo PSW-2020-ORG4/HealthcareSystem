@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FeedbackAndSurveyService.CustomException;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace FeedbackAndSurveyService.SurveyService.Model
 
         private void Validate()
         {
-            throw new NotImplementedException();
+            if (Value > 5 || Value < 1) throw new ValidationException("Grade is out of range");
         }
     }
 }

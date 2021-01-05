@@ -9,5 +9,10 @@ namespace FeedbackAndSurveyService.SurveyService.Model
     {
         private int Id { get; }
         private Jmbg DoctorJmbg { get; }
+
+        public bool IsExistId(int id)
+        {
+            return Id == id;
+        }
     }
 }

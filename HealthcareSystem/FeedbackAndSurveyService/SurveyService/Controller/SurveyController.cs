@@ -22,13 +22,14 @@ namespace FeedbackAndSurveyService.SurveyService.Controller
         [HttpPost("patient/{jmbg}/permission/{id}")]
         public IActionResult RespondToSurvey(string jmbg, int id, SurveyResponseDTO response)
         {
-            throw new NotImplementedException();
+            _surveyService.RecordResponse(jmbg, id, response);
+            return NoContent();
         }
 
         [HttpGet("patient/{jmbg}/permission")]
         public IActionResult GetPermission(string jmbg)
         {
-            throw new NotImplementedException();
+            return Ok(_surveyService.GetPermissions(jmbg));
         }
 
         [HttpGet("report/doctor/{jmbg}")]

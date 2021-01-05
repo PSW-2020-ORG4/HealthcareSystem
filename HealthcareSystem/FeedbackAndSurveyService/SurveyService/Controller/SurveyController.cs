@@ -34,19 +34,19 @@ namespace FeedbackAndSurveyService.SurveyService.Controller
         [HttpGet("report/doctor/{jmbg}")]
         public IActionResult GetDoctorSurveyReport(string jmbg)
         {
-            throw new NotImplementedException();
+            return Ok(_surveyService.GetDoctorSurveyReport(jmbg));
         }
 
         [HttpGet("report/staff")]
         public IActionResult GetMedicalStaffSurveyReport()
         {
-            throw new NotImplementedException();
+            return Ok(_surveyService.GetMedicalStaffSurveyReport());
         }
 
         [HttpGet("report/hospital")]
         public IActionResult GetHospitalSurveyReport()
         {
-            throw new NotImplementedException();
+            return Ok(_surveyService.GetHospitalSurveyReport());
         }
     }
 }

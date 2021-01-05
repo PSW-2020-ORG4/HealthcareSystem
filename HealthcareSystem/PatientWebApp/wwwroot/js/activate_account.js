@@ -17,7 +17,7 @@
             },
             error: function (jqXHR) {
 
-                alert(jqXHR.responseText);
+                alert(jqXHR.responseJSON);
             }
         });
 

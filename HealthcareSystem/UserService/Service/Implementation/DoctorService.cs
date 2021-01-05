@@ -20,5 +20,10 @@ namespace UserService.Service
         {
             return _doctorRepository.GetBySpecialty(specialtyId);
         }
+
+        public IEnumerable<DoctorAccount> GetAll()
+        {
+            return _doctorRepository.GetAll();
+        }
     }
 }

@@ -93,9 +93,9 @@
 				}
 			}
 		},
-		error: function () {
+		error: function (jqXHR) {
 			let alert = '<div class="alert alert-danger mb-0" role="alert">'
-				+ 'Error fetching doctors.'
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#survey_result_Doctor').append(alert);
 		}

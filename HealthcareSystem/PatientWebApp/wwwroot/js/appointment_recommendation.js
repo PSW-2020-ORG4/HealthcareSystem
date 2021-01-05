@@ -16,7 +16,7 @@ $(document).ready(function () {
     $('#dateTo').attr('min', minDate);
 
     $.ajax({
-        url: '/api/doctor/all-specialty',
+        url: '/api/specialty',
         type: 'GET',
         dataType: 'json',
         processData: false,
@@ -30,9 +30,8 @@ $(document).ready(function () {
                 changeSpecialty();
             }
         },
-        error: function () {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching specialties.'
-                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+        error: function (jqXHR) {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">' + jqXHR.responseJSON +  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#alertSchedule').prepend(alert);
         }
     });
@@ -127,27 +126,10 @@ function changeSpecialty() {
         processData: false,
         contentType: false,
         success: function (doctorSpecialtes) {
-            for (let ds of doctorSpecialtes) {
-                let doctorJmbg = ds.doctorJmbg;
-
-                $.ajax({
-                    url: '/api/doctor/' + doctorJmbg,
-                    type: 'GET',
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    success: function (doctor) {
-                        let doctorName = $('<option value="' + doctor.jmbg + '">' + doctor.name + ' ' + doctor.surname + '</option>');
-                        $('#doctor_name').append(doctorName);
-                    },
-                    error: function () {
-                        let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching doctors.'
-                            + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-                        $('#alertSchedule').prepend(alert);
-                    }
-                });
+            for (let doctor of doctorSpecialtes) {
+                let doctorName = $('<option value="' + doctor.jmbg + '">' + doctor.name + ' ' + doctor.surname + '</option>');
+                $('#doctor_name').append(doctorName);
             }
-
         },
         error: function () {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching doctors.'

@@ -14,8 +14,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Users;
 using PatientWebApp.Adapters;
+using PatientWebApp.Constants;
 using PatientWebApp.DTOs;
 using PatientWebApp.Validators;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -48,16 +50,10 @@ namespace PatientWebApp.Controllers
         [HttpGet("{jmbg}")]
         public IActionResult GetPatientByJmbg(string jmbg)
         {
-            try
-            {
-                Patient patient = _patientService.ViewProfile(jmbg);
-                PatientCard patientCard = _patientCardService.ViewPatientCard(jmbg);
-                return Ok(PatientMapper.PatientAndPatientCardToPatientDTO(patient, patientCard));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/patient/" + jmbg);
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 
         /// <summary>
@@ -96,17 +92,11 @@ namespace PatientWebApp.Controllers
         [HttpPut("activate/{jmbg}")]
         public ActionResult ActivatePatient(string jmbg)
         {
-            try
-            {
-                string decryptedJmbg = _encryptionService.DecryptString(jmbg);
-                _patientService.ActivatePatientStatus(decryptedJmbg);
-                return Ok();
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-
+            string decryptedJmbg = _encryptionService.DecryptString(jmbg);
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/patient/" + decryptedJmbg + "/activate");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 		
         /// /upload patient image in memory
@@ -160,19 +150,13 @@ namespace PatientWebApp.Controllers
         /// /getting malicious patients(who canceled examinations 3 or more times in the past month)
         /// </summary>
         /// <returns>list of patients</returns>
-        [HttpGet("malicious-patients")]
+        [HttpGet("malicious")]
         public IActionResult GetMaliciousPatients()
         {
-            try
-            {
-                List<PatientDTO> patientDTOs = new List<PatientDTO>();
-                _patientService.ViewMaliciousPatients().ForEach(patient => patientDTOs.Add(PatientMapper.PatientToPatientDTO(patient)));
-                return Ok(patientDTOs);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/patient/malicious");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 
         [HttpGet("{jmbg}/canceled-examinations")]
@@ -189,22 +173,13 @@ namespace PatientWebApp.Controllers
             }
         }
 
-        [HttpPut("blocked/{jmbg}")]
+        [HttpPost("{jmbg}/block")]
         public ActionResult BlockPatient(string jmbg)
         {
-            try
-            {
-                _patientService.BlockPatient(jmbg);
-                return Ok();
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var request = new RestRequest("/api/patient/"+jmbg+"/block");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
 
         }
     }

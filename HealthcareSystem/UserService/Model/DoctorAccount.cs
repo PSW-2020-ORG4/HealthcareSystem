@@ -11,8 +11,18 @@ namespace UserService.Model
         private DateTime DateOfEmployment { get; }
         private IEnumerable<Specialty> Specialties { get; }
 
-        public DoctorAccount(DoctorAccountMemento memento) : base(memento)
+        public DoctorAccount(DoctorAccountMemento memento)
         {
+            Jmbg = new Jmbg(memento.Jmbg);
+            Name = memento.Name;
+            Surname = memento.Surname;
+            Gender = memento.Gender;
+            DateOfBirth = memento.DateOfBirth;
+            Phone = new PhoneNumber(memento.Phone);
+            HomeAddress = new Address(memento.HomeAddress);
+            City = new City(memento.City);
+            Email = new Email(memento.Email);
+            Password = new Password(memento.Password);
             Specialties = memento.Specialties.Select(s => new Specialty(s));
             Validate();
         }

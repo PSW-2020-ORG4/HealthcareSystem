@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
 
     $.ajax({
-        url: '/api/patient/malicious-patients',
+        url: '/api/patient/malicious',
         type: 'GET',
         dataType: 'json',
         processData: false,
@@ -26,8 +26,9 @@
             }
             $('#loading').remove();
         },
-        error: function () {
-            let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+        error: function (jqXHR) {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+                + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#loading').remove();
             $('div#div_patients').prepend(alert);
         }
@@ -84,8 +85,8 @@ function blockPatient(patientJmbg) {
     $('#a' + patientJmbg).prepend(loading);
 
     $.ajax({
-        type: "PUT",
-        url: "/api/patient/blocked/" + patientJmbg,
+        type: "POST",
+        url: "/api/patient/" + patientJmbg + "/block",
         success: function () {
             let alert = $('<div class="alert alert-success alert-dismissible fade show m-2" role="alert">Patient was successfully blocked.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
@@ -94,7 +95,7 @@ function blockPatient(patientJmbg) {
             $('#a' + patientJmbg).prepend(alert);
         },
         error: function (jqXHR) {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">Blocking was not successful.'
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">' + jqXHR.responseJSON +
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#a' + patientJmbg).empty();
             $('#' + patientJmbg).prop("disabled", false);

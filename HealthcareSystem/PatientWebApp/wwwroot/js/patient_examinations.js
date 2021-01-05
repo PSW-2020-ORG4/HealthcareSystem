@@ -1,6 +1,28 @@
 ﻿var newAppointments = [];
-
+var jmbg = "";
 $(document).ready(function () {
+    checkUserRole("Patient");
+    $.ajax({
+        url: "/api/patient",
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (patient) {
+            jmbg = patient.jmbg;
+        },
+        error: function () {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error getting patient.'
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+            $('#loading').hide();
+            $('#add_feedback_form').find(":submit").prop('disabled', false);
+            $('#alert').prepend(alert);
+        }
+    });
+
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
     var day = dtToday.getDate() + 1;
@@ -17,6 +39,9 @@ $(document).ready(function () {
     $.ajax({
         url: '/api/doctor/all-specialty',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -38,9 +63,7 @@ $(document).ready(function () {
 
     $('#specialty_name').change(changeSpecialty);
 
-    let jmbg = "1309998775018";
-
-    getExaminations('/api/examination/following/' + jmbg);
+    getExaminations('/api/examination/following');
 
     $('form#search_examinations').submit(function (event) {
         event.preventDefault();
@@ -51,13 +74,13 @@ $(document).ready(function () {
         let exam_status = $('#examination_status option:selected').val();
 
         if (exam_status == "following") {
-            getExaminations('/api/examination/following/' + jmbg);
+            getExaminations('/api/examination/following');
         }
         else if (exam_status == "previous") {
-            getExaminations('/api/examination/previous/' + jmbg);
+            getExaminations('/api/examination/previous');
         }
         else {
-            getExaminations('/api/examination/cancelled/' + jmbg);
+            getExaminations('/api/examination/cancelled');
         }
     });
 
@@ -87,6 +110,9 @@ $(document).ready(function () {
             url: "/api/appointment/basic-search",
             type: 'POST',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            },
             data: JSON.stringify(newData),
             success: function (appointments) {
                 newAppointments = appointments;
@@ -134,7 +160,6 @@ function scheduleExamination() {
         "IdRoom": appointment.idRoom,
         "Anamnesis": "",
         "PatientCardId": appointment.patientCardId,
-        "PatientJmbg": "1309998775018",
         "ExaminationStatus": 0,
         "IsSurveyCompleted": false
     };
@@ -143,6 +168,9 @@ function scheduleExamination() {
         url: "/api/examination",
         type: 'POST',
         contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         data: JSON.stringify(newData),
         success: function () {
             let alert = $('<div class="alert alert-success alert-dismissible fade show mb-0 mt-2" role="alert">Examination successfully scheduled.'
@@ -175,6 +203,9 @@ function changeSpecialty() {
     $.ajax({
         url: '/api/doctor/doctor-specialty/' + select_specialty,
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -185,6 +216,9 @@ function changeSpecialty() {
                 $.ajax({
                     url: '/api/doctor/' + doctorJmbg,
                     type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                    },
                     dataType: 'json',
                     processData: false,
                     contentType: false,
@@ -213,6 +247,9 @@ function getExaminations(path) {
     $.ajax({
         url: path,
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -298,8 +335,12 @@ function cancelExamination(id) {
     $('#a' + id).prepend(loading);
 
     $.ajax({
-        type: "PUT",
+        type: "POST",
         url: "/api/examination/cancel/" + id,
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         success: function () {
             let alert = $('<div class="alert alert-success m-2" role="alert">Examination successfully cancelled.</div >')
             $('#f' + id).remove();

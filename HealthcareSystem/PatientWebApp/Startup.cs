@@ -32,6 +32,7 @@ using Backend.Service.RoomAndEquipment;
 using Backend.Service.SendingMail;
 using Backend.Service.UsersAndWorkingTime;
 using Backend.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,8 +40,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Model.Enums;
-using Model.Users;
+using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Service.DrugAndTherapy;
 using Service.ExaminationAndPatientCard;
@@ -50,7 +50,7 @@ using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 
 namespace PatientWebApp
 {
@@ -165,11 +165,34 @@ namespace PatientWebApp
 
             services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
 
+            services.AddScoped<IAdminRepository, MySqlAdminRepository>();
+            services.AddScoped<IAdminService, AdminService>();
+
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
 
             services.AddTransient<IMailService, MailService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            var tokenKey = "This is my private key";
+            var key = Encoding.ASCII.GetBytes(tokenKey);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
             services.AddScoped<IPharmacyService, PharmacyService>();
@@ -220,6 +243,8 @@ namespace PatientWebApp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

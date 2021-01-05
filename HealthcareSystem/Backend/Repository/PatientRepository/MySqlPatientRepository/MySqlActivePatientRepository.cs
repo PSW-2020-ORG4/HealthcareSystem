@@ -1,6 +1,7 @@
 ﻿using Backend.Model;
 using Backend.Model.Enums;
 using Backend.Model.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,19 @@ namespace Repository
         }
         public void AddPatient(Patient patient)
         {
-            _context.Patients.Add(patient);
-            _context.SaveChanges();
+            try
+            {
+                _context.Patients.Add(patient);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                throw new BadRequestException("Username or jmbg already exists.");
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
 
         }
         public Patient CheckUsernameAndPassword(string username, string password)
@@ -61,8 +73,15 @@ namespace Repository
 
         public void UpdatePatient(Patient patient)
         {
-            _context.Patients.Update(patient);
-            _context.SaveChanges();
+            try
+            {
+                _context.Patients.Update(patient);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
         public int GetNumberOfCanceledExaminations(string jmbg)
         {
@@ -75,6 +94,29 @@ namespace Repository
             {
                 throw new DatabaseException("The database connection is down.");
             }
+        }
+        public Patient GetPatientByUsernameAndPassword(string username, string password)
+        {
+            Patient patient;
+            try
+            {
+                patient = _context.Patients.Where(p => p.Username == username && p.Password == password).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+
+            if (patient == null)
+                throw new NotFoundException("Patient doesn't exist in database.");
+
+            if (patient.IsBlocked)
+                throw new BadRequestException("Patient is blocked.");
+
+            if(!patient.IsActive)
+                throw new BadRequestException("Patient didn't activate account.");
+
+            return patient;
         }
     }
 }

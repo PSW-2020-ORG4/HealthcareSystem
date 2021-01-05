@@ -28,39 +28,24 @@ namespace PatientWebApp.Controllers
             _feedbackService = feedbackService;
             _feedbackValidator = new FeedbackValidator(_feedbackService);
         }
-        
+
         /// <summary>
         /// /adding new feedback to database
         /// </summary>
         /// <param name="feedbackDTO">an object to be added to the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
         /// 
-        [Authorize(Roles = UserRoles.Patient)]
+        // [Authorize(Roles = UserRoles.Patient)]
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
         {
-           if (!feedbackDTO.IsAnonymous)
-            {
-                feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            }
-            //else
-            //{
-              //  feedbackDTO.CommentatorJmbg = null;
-            //}
-
-            try
-            {
-                _feedbackValidator.validateFeedbacksFields(feedbackDTO);
-            }
-            catch (ValidationException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-
-            Feedback feedback = FeedbackMapper.FeedbackDTOToFeedback(feedbackDTO);
-            _feedbackService.AddFeedback(feedback);
-            return Ok();
-
+            var client = new RestClient("http://localhost:" + 56701);
+            var request = new RestRequest("/api/feedback", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddJsonBody(feedbackDTO);
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
         /// <summary>
         /// / getting all published feedbacks
@@ -96,12 +81,13 @@ namespace PatientWebApp.Controllers
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
         /// 
-        [Authorize(Roles = UserRoles.Admin)]
+        // [Authorize(Roles = UserRoles.Admin)]
+        [AllowAnonymous]
         [HttpPost("{id}")]
         public ActionResult PublishFeedback(int id)
         {
             var client = new RestClient("http://localhost:" + 56701);
-            var request = new RestRequest("/api/feedback/" + id + "/publish");
+            var request = new RestRequest("/api/feedback/" + id + "/publish", Method.POST);
             var response = client.Execute(request);
             return StatusCode((int)response.StatusCode, response.Content);
         }

@@ -36,7 +36,7 @@
 
 function addCommentTable(feedback) {
 	let nameAndSurname = feedback.commentatorName + ' ' + feedback.commentatorSurname;
-	if (feedback.commentatorName == '') {
+	if (feedback.commentatorName == null) {
 		nameAndSurname = 'Anonymous';
 	}
 

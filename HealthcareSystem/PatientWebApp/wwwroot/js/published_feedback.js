@@ -36,7 +36,7 @@ function addFeedback(feedback) {
 
     let name_surname = feedback.commentatorName + " " + feedback.commentatorSurname;
 
-    if (feedback.commentatorName == "") {
+    if (feedback.commentatorName == null) {
         name_surname = "Anonymous";
     }    
 

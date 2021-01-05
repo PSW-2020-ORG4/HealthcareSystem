@@ -9,9 +9,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.NotificationSurveyAndFeedback;
 using Model.Users;
-using PatientWebApp.Adapters;
 using PatientWebApp.DTOs;
 using PatientWebApp.Validators;
+using PatientWebApp.Adapters;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -38,7 +39,7 @@ namespace PatientWebApp.Controllers
         [HttpPost]
         public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
         {
-            if (!feedbackDTO.IsAnonymous)
+           if (!feedbackDTO.IsAnonymous)
             {
                 feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
             }
@@ -67,19 +68,13 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
         /// 
         [AllowAnonymous]
-        [HttpGet("published-feedbacks")]
+        [HttpGet("published")]
         public ActionResult GetPublishedFeedbacks()
         {
-            List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            try
-            {
-                _feedbackService.GetPublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-                return Ok(feedbackDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var client = new RestClient("http://localhost:" + 56701);
+            var request = new RestRequest("/api/feedback/published");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
         /// <summary>
         /// /getting all unpublished feedbacks
@@ -87,19 +82,13 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
         /// 
         [Authorize(Roles = UserRoles.Admin)]
-        [HttpGet("unpublished-feedbacks")]
+        [HttpGet("unpublished")]
         public ActionResult GetUnpublishedFeedbacks()
         {
-            List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            try
-            {      
-                _feedbackService.GetUnpublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-                return Ok(feedbackDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }         
+            var client = new RestClient("http://localhost:" + 56701);
+            var request = new RestRequest("/api/feedback/unpublished");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
         /// <summary>
         /// / updating feedbacks status (property: IsPublished) to published
@@ -111,20 +100,10 @@ namespace PatientWebApp.Controllers
         [HttpPost("{id}")]
         public ActionResult PublishFeedback(int id)
         {
-            try
-            {
-                _feedbackValidator.checkIfFeedbacksIsAllowedToPublish(id);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            catch (ValidationException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            _feedbackService.PublishFeedback(id);
-            return Ok();
+            var client = new RestClient("http://localhost:" + 56701);
+            var request = new RestRequest("/api/feedback/" + id + "/publish");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
     }
 }

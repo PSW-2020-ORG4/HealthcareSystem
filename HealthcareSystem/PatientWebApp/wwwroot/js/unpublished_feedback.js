@@ -2,7 +2,7 @@
 	checkUserRole("Admin");
 
 	$.ajax({
-		url: "/api/feedback/unpublished-feedbacks",
+		url: "/api/feedback/unpublished",
 		type: "GET",
 		headers: {
 			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
@@ -24,8 +24,9 @@
 				$('#loading').remove();
 			}
 		},
-		error: function () {
-			let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+		error: function (jqXHR) {
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+				+ jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#loading').remove();
 			$('div#view_feedbacks').prepend(alert);
 		}

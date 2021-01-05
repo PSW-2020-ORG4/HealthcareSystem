@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FeedbackAndSurveyService.SurveyService.Model
 {
@@ -11,7 +9,24 @@ namespace FeedbackAndSurveyService.SurveyService.Model
 
         public SurveyResult GenerateReport()
         {
-            throw new NotImplementedException();
+            SurveyResult surveyResult = new SurveyResult();
+
+            foreach (SurveyReportGeneratorItem item in Items)
+            {
+                surveyResult.Items.Add(new SurveyResultItem()
+                {
+                    RatedItem = item.Name,
+                    AverageRating = item.GetAverage(),
+                    NumberOfGradesOne = item.GetGradeCount(new Grade(1)),
+                    NumberOfGradesTwo = item.GetGradeCount(new Grade(2)),
+                    NumberOfGradesThree = item.GetGradeCount(new Grade(3)),
+                    NumberOfGradesFour = item.GetGradeCount(new Grade(4)),
+                    NumberOfGradesFive = item.GetGradeCount(new Grade(5))
+                });
+            }  
+            surveyResult.TotalAverage = surveyResult.Items.Select(i => i.AverageRating).Average();
+
+            return surveyResult;
         }
     }
 }

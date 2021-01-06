@@ -23,7 +23,7 @@ namespace UserService.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult GetByEmailAndPassword(UserInfoDTO userInfo)
         {
             var user = _userService.GetByEmailAndPassword(userInfo.Email, userInfo.Password);            

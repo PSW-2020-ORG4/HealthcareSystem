@@ -10,10 +10,8 @@
         processData: false,
         contentType: false,
         success: function (data) {
-
-
             for (let i = 0; i < data.length; i++) {
-                $.ajax({
+                /*$.ajax({
                     url: '/api/patient/' + data[i].jmbg + '/canceled-examinations',
                     type: 'GET',
                     headers: {
@@ -28,7 +26,8 @@
                     error: function () {
                         addPatient(data[i], null);
                     }
-                });
+                });*/
+                addPatient(data[i]);
             }
             $('#loading').remove();
         },
@@ -41,10 +40,10 @@
     });
 });
 
-function addPatient(patient, number) {
+function addPatient(patient) {
     let noCanc = '';
-    if (number)
-        noCanc = '<strong>' + number + '</strong> cancellations';
+    if (patient.numberOfMaliciousActions)
+        noCanc = '<strong>' + patient.numberOfMaliciousActions + '</strong> cancellations';
     else
         noCanc = 'Error fetching number of cancellations.';
 

@@ -59,7 +59,13 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:" + ServerConstants.PORT);
             var request = new RestRequest("/api/patient/" + jmbg);
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
 
         /// <summary>
@@ -103,14 +109,20 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
         /// 
         [AllowAnonymous]
-        [HttpPut("activate/{jmbg}")]
+        [HttpPost("{jmbg}/activate")]
         public ActionResult ActivatePatient(string jmbg)
         {
             string decryptedJmbg = _encryptionService.DecryptString(jmbg);
             var client = new RestClient("http://localhost:" + ServerConstants.PORT);
-            var request = new RestRequest("/api/patient/" + decryptedJmbg + "/activate");
+            var request = new RestRequest("/api/patient/" + decryptedJmbg + "/activate", Method.POST);
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
 
         /// /upload patient image in memory
@@ -177,7 +189,13 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:" + ServerConstants.PORT);
             var request = new RestRequest("/api/patient/malicious");
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
 
         [Authorize(Roles = UserRoles.Admin)]
@@ -185,10 +203,15 @@ namespace PatientWebApp.Controllers
         public ActionResult BlockPatient(string jmbg)
         {
             var client = new RestClient("http://localhost:" + ServerConstants.PORT);
-            var request = new RestRequest("/api/patient/" + jmbg + "/block");
+            var request = new RestRequest("/api/patient/" + jmbg + "/block", Method.POST);
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+            var contentResult = new ContentResult();
 
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
     }
 }

@@ -43,7 +43,6 @@
 		processData: false,
 		contentType: false,
 		success: function (countries) {
-
 			for (let i = 0; i < countries.length; i++) {
 				addCountryInComboBox(countries[i]);
 			}

@@ -23,7 +23,13 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:" + ServerConstants.PORT);
             var request = new RestRequest("/api/country");
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+            
+            return contentResult;
         }
     }
 }

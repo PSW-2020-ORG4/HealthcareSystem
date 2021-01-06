@@ -24,18 +24,12 @@ namespace PatientWebApp.Controllers
     public class SurveyController : ControllerBase
     {
         private readonly ISurveyService _surveyService;
-        private readonly SurveyValidator _surveyValidator;
-
         private readonly IExaminationService _examinationService;
-        private readonly ExaminationValidator _examinationValidator;
-
 
         public SurveyController(ISurveyService surveyService, IExaminationService examinationService)
         {
             _surveyService = surveyService;
-            _surveyValidator = new SurveyValidator(surveyService);
             _examinationService = examinationService;
-            _examinationValidator = new ExaminationValidator(_examinationService);
         }
 
         [Authorize(Roles = UserRoles.Patient)]
@@ -43,15 +37,18 @@ namespace PatientWebApp.Controllers
         public ActionResult AddSurvey(SurveyDTO surveyDTO)
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            if (!_examinationService.GetExaminationById(surveyDTO.ExaminationId).PatientCard.PatientJmbg.Equals(patientJmbg))
-                return BadRequest("Patient can only fill out the survey for their own examinations.");
-
+            
             var client = new RestClient("http://localhost:56701");
             var request = new RestRequest("/api/survey/patient/" + patientJmbg + "/permission/" + surveyDTO.ExaminationId, Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.AddJsonBody(surveyDTO);
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+            return contentResult;
         }
 
         [Authorize(Roles = UserRoles.Admin)]
@@ -61,7 +58,11 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:56701");
             var request = new RestRequest("/api/survey/report/staff");
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.StatusCode = (int)response.StatusCode;
+            return contentResult;
         }
 
         [Authorize(Roles = UserRoles.Admin)]
@@ -71,7 +72,11 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:56701");
             var request = new RestRequest("/api/survey/report/doctor/" + jmbg);
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.StatusCode = (int)response.StatusCode;
+            return contentResult;
         }
 
         [Authorize(Roles = UserRoles.Admin)]
@@ -81,8 +86,11 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:56701");
             var request = new RestRequest("/api/survey/report/hospital");
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
-        }
 
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.StatusCode = (int)response.StatusCode;
+            return contentResult;
+        }
     }
 }

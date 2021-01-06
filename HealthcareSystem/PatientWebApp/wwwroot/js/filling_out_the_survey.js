@@ -68,7 +68,7 @@ $(document).ready(function () {
 						$('#alert').prepend(alert);
 					},
 					error: function (jqXHR) {
-						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Survey submission failed. ' + jqXHR.responseText +
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert"> ' + jqXHR.responseJSON +
  							+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#loading').hide();
 						$('#survey_form').find(":submit").prop('disabled', false);
@@ -78,8 +78,8 @@ $(document).ready(function () {
 			});
 
 		},
-		error: function () {
-			let alert = $('<div class="alert alert-danger m-1" role="alert">Error fetching data.</div >')
+		error: function (jqXHR) {
+			let alert = $('<div class="alert alert-danger m-1" role="alert">' + jqXHR.responseJSON + '.</div >')
 			$('#alert').prepend(alert);
 		}
 	});

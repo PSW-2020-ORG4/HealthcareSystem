@@ -59,10 +59,9 @@ $(document).ready(function () {
                 $("#loading").hide();
             }
         },
-        error: function () {
+        error: function (jqXHR) {
             let alert = '<div id="loading" class="alert alert-danger" role="alert">'
-                + 'Error fetching data.'
-                + '</div>';
+                + jqXHR.responseJSON + '</div>';
             $("#loading").hide();
             $("#div_prescriptions").prepend(alert);
         }
@@ -95,7 +94,6 @@ $(document).ready(function () {
         let doc_type = $('#doc_type option:selected').val();
         if (doc_type == "report") {
             var newData = {
-                "Jmbg": jmbg,
                 "StartDate": start_date,
                 "EndDateOperator": operator,
                 "EndDate": end_date,
@@ -129,10 +127,9 @@ $(document).ready(function () {
                         $('#search_prescription').find(":submit").prop('disabled', false);
                     }
                 },
-                error: function () {
+                error: function (jqXHR) {
                     let alert = '<div id="loading" class="alert alert-danger" role="alert">'
-                        + 'Error fetching data.'
-                        + '</div>';
+                        + jqXHR.responseJSON + '</div>';
                     $("#loading").hide();
                     $("#div_prescriptions").prepend(alert);
                     $('#search_prescription').find(":submit").prop('disabled', false);
@@ -175,10 +172,9 @@ $(document).ready(function () {
                         $('#search_prescription').find(":submit").prop('disabled', false);
                     }
                 },
-                error: function (error) {
+                error: function (jqXHR) {
                     let alert = '<div id="loading" class="alert alert-danger" role="alert">'
-                        + 'Error fetching data.'
-                        + '</div>';
+                        + jqXHR.responseJSON + '</div>';
                     $("#loading").hide();
                     $("#div_prescriptions").prepend(alert);
                     $('#search_prescription').find(":submit").prop('disabled', false);

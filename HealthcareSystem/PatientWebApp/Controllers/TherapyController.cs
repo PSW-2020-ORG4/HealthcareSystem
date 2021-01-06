@@ -12,8 +12,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
 using Model.Users;
+using Newtonsoft.Json;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -38,17 +40,17 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public ActionResult GetTherapiesByPatient()
         {
-            try
-            {
-                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
-                _therapyService.GetTherapyByPatient(patientJmbg).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
-                return Ok(therapyDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient("http://localhost:" + 65428);
+            var request = new RestRequest("/api/patient/" + patientJmbg + "/therapy");
+            var response = client.Execute(request);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
 
         /// <summary>
@@ -61,17 +63,19 @@ namespace PatientWebApp.Controllers
         [HttpPost("advance-search")]
         public ActionResult AdvanceSearchTherapies(TherapySearchDTO therapySearchDTO)
         {
-            try
-            {
-                therapySearchDTO.Jmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
-                _therapyService.AdvancedSearch(therapySearchDTO).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
-                return Ok(therapyDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient("http://localhost:" + 65428);
+            var request = new RestRequest("/api/patient/" + patientJmbg + "/therapy/search", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddJsonBody(therapySearchDTO);
+            var response = client.Execute(request);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
 
         }
     }

@@ -35,7 +35,7 @@ namespace PatientService.Controller
             return Ok(examinations);
         }
 
-        [HttpGet("{jmbg}/examination/search")]
+        [HttpPost("{jmbg}/examination/search")]
         public IActionResult GetExaminations(string jmbg, ExaminationSearchDTO examinationSearchDTO)
         {
             var examinations = _service.GetExaminations(jmbg, examinationSearchDTO).Select(e => e.ToExaminationDTO());
@@ -49,7 +49,7 @@ namespace PatientService.Controller
             return Ok(therapies);
         }
 
-        [HttpGet("{jmbg}/therapy/search")]
+        [HttpPost("{jmbg}/therapy/search")]
         public IActionResult GetTherapies(string jmbg, TherapySearchDTO therapySearchDTO)
         {
             var therapies = _service.GetTherapies(jmbg, therapySearchDTO).Select(t => t.ToTherapyDTO());

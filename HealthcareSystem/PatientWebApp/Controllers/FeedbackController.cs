@@ -37,14 +37,24 @@ namespace PatientWebApp.Controllers
         /// 
         [Authorize(Roles = UserRoles.Patient)]
         [HttpPost]
-        public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
+        public ActionResult AddFeedback(AddFeedbackDTO feedbackDTO)
         {
+            var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            feedbackDTO.CommentatorJmbg = jmbg;
+
             var client = new RestClient("http://localhost:" + 56701);
             var request = new RestRequest("/api/feedback", Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.AddJsonBody(feedbackDTO);
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
         /// <summary>
         /// / getting all published feedbacks
@@ -58,7 +68,13 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:" + 56701);
             var request = new RestRequest("/api/feedback/published");
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
         /// <summary>
         /// /getting all unpublished feedbacks
@@ -72,7 +88,13 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:" + 56701);
             var request = new RestRequest("/api/feedback/unpublished");
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
         /// <summary>
         /// / updating feedbacks status (property: IsPublished) to published
@@ -87,7 +109,13 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:" + 56701);
             var request = new RestRequest("/api/feedback/" + id + "/publish", Method.POST);
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
     }
 }

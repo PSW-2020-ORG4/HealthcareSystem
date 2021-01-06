@@ -7,7 +7,7 @@ variables:
   paths: "**/NotificationService/*"
   project: 'HealthcareSystem/NotificationService/NotificationService.csproj'
   configuration: 'Release'
-  sonarProjectKey: 'psw-2020-org4_NotificationService
+  sonarProjectKey: 'psw-2020-org4_NotificationService'
   sonarProjectName: 'NotificationService'
   sonarOrganization: 'psw-2020-org4'  
   dockerfile: 'HealthcareSystem/NotificationService/Dockerfile'

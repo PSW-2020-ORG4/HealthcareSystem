@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.PerformingExamination;
 using Model.Users;
+using Newtonsoft.Json;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 using PatientWebApp.Validators;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -64,22 +66,13 @@ namespace PatientWebApp.Controllers
         [HttpPost("advance-search")]
         public ActionResult AdvanceSearchExaminations(ExaminationSearchDTO examinationSearchDTO)
         {
-            try
-            {
-                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                examinationSearchDTO.Jmbg = patientJmbg;
-                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
-                _examinationService.AdvancedSearch(examinationSearchDTO).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
-                return Ok(examinationDTOs);
-            }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Patient's jmbg cannot be null.");
-            }
-            catch (DatabaseException e)
-            {
-                return StatusCode(500, e.Message);
-            }
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient("http://localhost:" + 65428);
+            var request = new RestRequest("/api/patient/" + patientJmbg + "/examination/search", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddJsonBody(examinationSearchDTO);
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, JsonConvert.DeserializeObject<IEnumerable<ExaminationDTO>>(response.Content));
 
         }
 
@@ -155,21 +148,11 @@ namespace PatientWebApp.Controllers
         [HttpGet("previous")]
         public ActionResult GetPreviousExaminationsByPatient()
         {
-            try
-            {
-                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
-                _examinationService.GetPreviousExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
-                return Ok(examinationDTOs);
-            }
-            catch (NullReferenceException)
-            {
-                return BadRequest("Patient's jmbg cannot be null.");
-            }
-            catch (DatabaseException e)
-            {
-                return StatusCode(500, e.Message);
-            }
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient("http://localhost:" + 65428);
+            var request = new RestRequest("/api/patient/" + patientJmbg + "/examination");
+            var response = client.Execute(request);
+            return StatusCode((int)response.StatusCode, response.Content);
         }
 
         /// <summary>

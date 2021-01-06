@@ -103,7 +103,7 @@ jobs:
         projects: '$(project)'
         arguments: '-c $(configuration)'
 
-   - task: DotNetCoreInstaller@0
+    - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core SDK 2.2.103 for SonarCloud'
       inputs:
         version: '2.2.103'

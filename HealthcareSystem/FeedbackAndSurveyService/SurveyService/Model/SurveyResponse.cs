@@ -8,15 +8,15 @@ namespace FeedbackAndSurveyService.SurveyService.Model
 {
     public class SurveyResponse
     {
-        private SurveyPermission UsedPermission;
-        private MedicalStaffSurveyResponse MedicalStaffSurveyResponse;
-        private DoctorSurveyResponse DoctorSurveyResponse;
-        private HospitalSurveyResponse HospitalSurveyResponse;    
-        
+        public SurveyPermission UsedPermission;
+        public MedicalStaffSurveyResponse MedicalStaffSurveyResponse;
+        public DoctorSurveyResponse DoctorSurveyResponse;
+        public HospitalSurveyResponse HospitalSurveyResponse;
+
         public SurveyResponse(SurveyPermission permission, SurveyResponseDTO response)
         {
             UsedPermission = permission;
-            MedicalStaffSurveyResponse = new MedicalStaffSurveyResponse(response.BehaviorOfMedicalStaff, 
+            MedicalStaffSurveyResponse = new MedicalStaffSurveyResponse(response.BehaviorOfMedicalStaff,
                                                                         response.MedicalStaffProfessionalism,
                                                                         response.GettingAdviceByMedicalStaff,
                                                                         response.EaseInObtainingFollowUpInformation);

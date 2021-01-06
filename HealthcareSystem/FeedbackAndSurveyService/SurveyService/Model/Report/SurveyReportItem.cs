@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FeedbackAndSurveyService.SurveyService.Model
 {
-    public class SurveyResultItem
+    public class SurveyReportItem
     {
         public string RatedItem { get; set; }
         public double AverageRating { get; set; }

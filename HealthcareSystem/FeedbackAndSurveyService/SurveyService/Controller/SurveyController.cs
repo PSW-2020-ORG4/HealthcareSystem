@@ -1,6 +1,7 @@
 ﻿using FeedbackAndSurveyService.SurveyService.DTO;
 using FeedbackAndSurveyService.SurveyService.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace FeedbackAndSurveyService.SurveyService.Controller
 {
@@ -8,42 +9,46 @@ namespace FeedbackAndSurveyService.SurveyService.Controller
     [ApiController]
     public class SurveyController : ControllerBase
     {
-        private readonly ISurveyService _surveyService;
+        private readonly ISurveyReportService _reportService;
+        private readonly ISurveyResponseService _responseService;
 
-        public SurveyController(ISurveyService surveyService)
+        public SurveyController(ISurveyReportService reportService, ISurveyResponseService responseService)
         {
-            _surveyService = surveyService;
+            _reportService = reportService;
+            _responseService = responseService;
         }
 
         [HttpPost("patient/{jmbg}/permission/{id}")]
         public IActionResult RespondToSurvey(string jmbg, int id, SurveyResponseDTO response)
         {
-            _surveyService.RecordResponse(jmbg, id, response);
+            _responseService.RecordResponse(jmbg, id, response);
             return NoContent();
         }
 
         [HttpGet("patient/{jmbg}/permission")]
         public IActionResult GetPermission(string jmbg)
         {
-            return Ok(_surveyService.GetPermissions(jmbg));
+            var permissions = _responseService.GetPermissions(jmbg).Select(
+                p => new SurveyPermissionDTO(p.Id, p.DoctorJmbg.Value));
+            return Ok(permissions);
         }
 
         [HttpGet("report/doctor/{jmbg}")]
         public IActionResult GetDoctorSurveyReport(string jmbg)
         {
-            return Ok(_surveyService.GetDoctorSurveyReport(jmbg));
+            return Ok(_reportService.GetDoctorSurveyReport(jmbg));
         }
 
         [HttpGet("report/staff")]
         public IActionResult GetMedicalStaffSurveyReport()
         {
-            return Ok(_surveyService.GetMedicalStaffSurveyReport());
+            return Ok(_reportService.GetMedicalStaffSurveyReport());
         }
 
         [HttpGet("report/hospital")]
         public IActionResult GetHospitalSurveyReport()
         {
-            return Ok(_surveyService.GetHospitalSurveyReport());
+            return Ok(_reportService.GetHospitalSurveyReport());
         }
     }
 }

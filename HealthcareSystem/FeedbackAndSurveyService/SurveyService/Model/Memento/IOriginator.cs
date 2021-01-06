@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace FeedbackAndSurveyService.SurveyService.Model.Memento
 {
-    public interface IMemento
+    public interface IOriginator<T> where T : IMemento
     {
+        T GetMemento();
     }
 }

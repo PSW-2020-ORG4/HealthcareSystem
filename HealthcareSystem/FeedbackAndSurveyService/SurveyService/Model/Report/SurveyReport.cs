@@ -5,10 +5,14 @@ using System.Threading.Tasks;
 
 namespace FeedbackAndSurveyService.SurveyService.Model
 {
-    public class SurveyResult
+    public class SurveyReport
     {
-        public ICollection<SurveyResultItem> Items { get; }
+        public ICollection<SurveyReportItem> Items { get; }
         public double TotalAverage { get; set; }
 
+        public SurveyReport()
+        {
+            Items = new List<SurveyReportItem>();
+        }
     }
 }

@@ -8,6 +8,12 @@ namespace FeedbackAndSurveyService.SurveyService.Model
         public string Name { get; }
         private IEnumerable<Grade> Responses { get; }
 
+        public SurveyReportGeneratorItem(string name, IEnumerable<Grade> responses)
+        {
+            Name = name;
+            Responses = responses;
+        }
+
         public double GetAverage()
         {
             return Responses.Select(r => r.Value).Average();

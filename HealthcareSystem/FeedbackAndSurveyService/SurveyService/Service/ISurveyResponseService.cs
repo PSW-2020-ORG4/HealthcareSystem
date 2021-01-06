@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace FeedbackAndSurveyService.SurveyService.Service
 {
-    public interface ISurveyService
+    public interface ISurveyResponseService
     {
-        void RecordResponse(string jmbg, int permissionId, SurveyResponseDTO reponse);
+        void RecordResponse(string jmbg, int permissionId, SurveyResponseDTO response);
         IEnumerable<SurveyPermission> GetPermissions(string jmbg);
-        SurveyReportGenerator GetDoctorSurveyReport(string jmbg);
-        SurveyReportGenerator GetHospitalSurveyReport();
-        SurveyReportGenerator GetMedicalStaffSurveyReport();
     }
 }

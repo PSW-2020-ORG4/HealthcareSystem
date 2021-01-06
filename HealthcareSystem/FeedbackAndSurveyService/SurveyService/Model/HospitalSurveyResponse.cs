@@ -7,10 +7,10 @@ namespace FeedbackAndSurveyService.SurveyService.Model
 {
     public class HospitalSurveyResponse
     {
-        private Grade Nursing { get; }
-        private Grade Cleanliness { get; }
-        private Grade General { get; }
-        private Grade MedicationAndInstrumments { get; }
+        public Grade Nursing { get; }
+        public Grade Cleanliness { get; }
+        public Grade General { get; }
+        public Grade MedicationAndInstrumments { get; }
 
         public HospitalSurveyResponse(int nursing, int cleanliness, int general, int medicationAndInstrumments)
         {

@@ -19,7 +19,5 @@ namespace FeedbackAndSurveyService.SurveyService.DTO
         public int Cleanliness { get; set; }
         public int OverallRating { get; set; }
         public int SatisfiedWithDrugAndInstrument { get; set; }
-
-        public int ExaminationId { get; set; }
     }
 }

@@ -7,13 +7,18 @@ namespace FeedbackAndSurveyService.SurveyService.Model
     {
         private IEnumerable<SurveyReportGeneratorItem> Items { get; }
 
-        public SurveyResult GenerateReport()
+        public SurveyReportGenerator(IEnumerable<SurveyReportGeneratorItem> items)
         {
-            SurveyResult surveyResult = new SurveyResult();
+            Items = items;
+        }
+
+        public SurveyReport GenerateReport()
+        {
+            SurveyReport surveyResult = new SurveyReport();
 
             foreach (SurveyReportGeneratorItem item in Items)
             {
-                surveyResult.Items.Add(new SurveyResultItem()
+                surveyResult.Items.Add(new SurveyReportItem()
                 {
                     RatedItem = item.Name,
                     AverageRating = item.GetAverage(),
@@ -23,7 +28,7 @@ namespace FeedbackAndSurveyService.SurveyService.Model
                     NumberOfGradesFour = item.GetGradeCount(new Grade(4)),
                     NumberOfGradesFive = item.GetGradeCount(new Grade(5))
                 });
-            }  
+            }
             surveyResult.TotalAverage = surveyResult.Items.Select(i => i.AverageRating).Average();
 
             return surveyResult;

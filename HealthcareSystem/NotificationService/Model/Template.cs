@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using UserService.CustomException;
 
-namespace UserService.Notifications
+namespace NotificationService
 {
     class Template
     {

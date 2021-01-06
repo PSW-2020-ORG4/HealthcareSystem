@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UserService.Notifications
+namespace NotificationService
 {
     interface INotificationSender
     {

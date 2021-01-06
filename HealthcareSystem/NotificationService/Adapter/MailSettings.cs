@@ -1,4 +1,4 @@
-﻿namespace UserService.Notifications
+﻿namespace NotificationService
 {
     class MailSettings
     {

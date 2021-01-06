@@ -1,4 +1,4 @@
-﻿namespace UserService.Notifications
+﻿namespace NotificationService
 {
     public interface INotificationService
     {

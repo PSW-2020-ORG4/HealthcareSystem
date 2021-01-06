@@ -3,9 +3,8 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using System;
-using UserService.CustomException;
 
-namespace UserService.Notifications
+namespace NotificationService
 {
     class EmailAdapter : INotificationSender
     {
@@ -25,7 +24,7 @@ namespace UserService.Notifications
             }
             catch (Exception)
             {
-                throw new ConnectionFailureException();
+                throw new ConnectionFailureException("Email sending failed.");
             }
         }
 

@@ -42,7 +42,7 @@ function addCommentTable(feedback) {
 
 	if (feedback.isAllowedToPublish) {
 		let new_feedback = $('<div class="row"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
-			+ feedback.sendingDate
+			+ feedback.sendingDate.split('T')[0]
 			+ '</div>'
 			+ '<div class="card-body"><blockquote class="blockquote mb-0"><p>'
 			+ feedback.comment + ' </p>'
@@ -59,7 +59,7 @@ function addCommentTable(feedback) {
 	}
 	else {
 		let new_feedback = $('<div class="row"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
-			+ feedback.sendingDate
+			+ feedback.sendingDate.split('T')[0]
 			+ '</div>'
 			+ '<div class="card-body"><blockquote class="blockquote mb-0"><p>'
 			+ feedback.comment + ' </p>'
@@ -89,7 +89,7 @@ function approveComment(feedbackId) {
 			$('#a' + feedbackId).prepend(alert);
 		},
 		error: function (jqXHR) {
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Publishing was not successful.'
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + jqXHR.responseJSON +
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#a' + feedbackId).empty();
 			$('#' + feedbackId).prop("disabled", false);

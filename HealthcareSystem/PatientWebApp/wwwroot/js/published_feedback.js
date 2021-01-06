@@ -41,7 +41,7 @@ function addFeedback(feedback) {
     }    
 
     let new_feedback = $('<div class="row"><div class="col p-4"><div class="card"><div class="card-header bg-info text-white">'
-        + feedback.sendingDate
+        + feedback.sendingDate.split('T')[0]
         + '</div>'
         + '<div class="card-body"><blockquote class="blockquote mb-0"><p>'
         + feedback.comment + ' </p>'

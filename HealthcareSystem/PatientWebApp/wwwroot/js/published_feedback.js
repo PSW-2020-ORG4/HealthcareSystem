@@ -3,6 +3,9 @@
     $.ajax({
         url: '/api/feedback/published-feedbacks',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,

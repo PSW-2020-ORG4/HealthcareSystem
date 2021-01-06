@@ -67,6 +67,10 @@ namespace Backend.Model
             SeedDrugConsumptions(context);
             if (Verbose) Console.WriteLine("Seeding feedback.");
             SeedFeedback(context);
+            if (Verbose) Console.WriteLine("Seeding admins.");
+            SeedAdmins(context);
+            if (Verbose) Console.WriteLine("Seeding actions.");
+            SeedActionBenefits(context);
 
             context.SaveChanges();
         }
@@ -556,7 +560,7 @@ namespace Backend.Model
         {
             context.Add(new PharmacySystem()
             {
-                Name = "Jankovic",
+                Name = "Janković",
                 ApiKey = "ApiKey1",
                 Url = "http://localhost:8080",
                 ActionsBenefitsExchangeName = "exchange",
@@ -645,6 +649,57 @@ namespace Backend.Model
             if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(17, 0, 0)) >= 0)
                 return false;
             return true;
+        }
+        private void SeedAdmins(MyDbContext context)
+        {
+            context.Add(new Admin()
+            {
+                Jmbg = "0811965521021",
+                Name = "Milan",
+                Surname = "Milić",
+                DateOfBirth = new DateTime(1965, 11, 08),
+                Phone = "021954201",
+                Email = "milic_milan@gmail.com",
+                HomeAddress = "Aleja Svetog Save 100",
+                Username = "milic_milan@gmail.com",
+                CityZipCode = 3,
+                Gender = GenderType.M,
+                Password = "milanmilic965"
+            });
+
+            context.SaveChanges();
+        }
+
+        private void SeedActionBenefits(MyDbContext context)
+        {
+            context.Add(new ActionBenefit()
+            {
+                Id = 1,
+                PharmacyId = 1,
+                Subject = "Novogodišnji popust",
+                Message = "Kapi za oči Proculin Tears na popustu 30%",
+                IsPublic = true
+            });
+
+            context.Add(new ActionBenefit()
+            {
+                Id = 2,
+                PharmacyId = 1,
+                Subject = "Popust na penzionere",
+                Message = "Renomal gel za zglobove na popustu 40%",
+                IsPublic = true
+            });
+
+            context.Add(new ActionBenefit()
+            {
+                Id = 3,
+                PharmacyId = 1,
+                Subject = "Novogodišnji popust",
+                Message = "Corega pasta za protezu na popustu 50%",
+                IsPublic = true
+            });
+
+            context.SaveChanges();
         }
 
     }

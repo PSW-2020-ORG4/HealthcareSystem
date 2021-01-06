@@ -1,15 +1,17 @@
 ﻿$(document).ready(function () {
 
+	checkUserRole("Patient");
+
 	$('#add_feedback_form').submit(function (event) {
 		$('#loading').show();
 		$('#add_feedback_form').find(":submit").prop('disabled', true);
 		event.preventDefault();
 
 		var msg = $('#text_area_id').val();
-		var jmbg = "";
 		var name = "";
 		var surname = "";
 		var allowed = true;
+		var anonymous = false;
 
 		if (!msg) {
 			$('#loading').hide();
@@ -22,19 +24,21 @@
 
 		//I take the certain patient from the database, otherwise the currently logged in patient will be taken
 		$.ajax({
-			url: "/api/patient/1309998775018",
+			url: "/api/patient",
 			type: 'GET',
+			headers: {
+				'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+			},
 			dataType: 'json',
 			processData: false,
 			contentType: false,
 			success: function (patient) {
 
-				jmbg = patient.jmbg;
 				name = patient.name;
 				surname = patient.surname;
 
 				if ($('#yes_anonymous').is(":checked")) {
-					jmbg = null;
+					anonymous = true;
 					name = "";
 					surname = "";
 				}
@@ -45,16 +49,19 @@
 
 				var newData = {
 					"Comment": msg,
-					"CommentatorJmbg": jmbg,
 					"CommentatorName": name,
 					"CommentatorSurname": surname,
-					"IsAllowedToPublish": allowed
+					"IsAllowedToPublish": allowed,
+					"IsAnonymous": anonymous
 				};
 
 				$.ajax({
 					url: "/api/feedback",
 					type: 'POST',
 					contentType: 'application/json',
+					headers: {
+						'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+					},
 					data: JSON.stringify(newData),
 					success: function () {
 						$('#text_area_id').val(null);

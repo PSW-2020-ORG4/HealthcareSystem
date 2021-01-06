@@ -13,8 +13,19 @@
     background-position: 50% 50%;
     width: 100%;
     height: 100%;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
 }
 
 .carousel-item img {
     visibility: hidden;
 }
+
+.carousel-caption {
+    background: rgba(255, 255, 255, 0.6);
+    top: 70%;
+    transform: translateY(-70%);
+    bottom: initial;
+}
+

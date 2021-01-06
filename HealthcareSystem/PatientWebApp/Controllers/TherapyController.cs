@@ -44,7 +44,13 @@ namespace PatientWebApp.Controllers
             var client = new RestClient("http://localhost:" + 65428);
             var request = new RestRequest("/api/patient/" + patientJmbg + "/therapy");
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, response.Content);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
 
         /// <summary>
@@ -63,7 +69,13 @@ namespace PatientWebApp.Controllers
             request.RequestFormat = DataFormat.Json;
             request.AddJsonBody(therapySearchDTO);
             var response = client.Execute(request);
-            return StatusCode((int)response.StatusCode, JsonConvert.DeserializeObject<IEnumerable<TherapyDTO>>(response.Content));
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
 
         }
     }

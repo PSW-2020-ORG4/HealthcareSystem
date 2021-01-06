@@ -7,9 +7,11 @@ using Backend.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using PatientWebApp.Settings;
 
 namespace PatientWebApp.Controllers
 {
@@ -19,9 +21,12 @@ namespace PatientWebApp.Controllers
     public class CityController : ControllerBase
     {
         private readonly ICityService _cityService;
-        public CityController(ICityService cityService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public CityController(ICityService cityService, IOptions<ServiceSettings> serviceSettings)
         {
             _cityService = cityService;
+            _serviceSettings = serviceSettings.Value;
         }
 
         [AllowAnonymous]
@@ -50,7 +55,7 @@ namespace PatientWebApp.Controllers
                 _cityService.GetCitiesByCountryId(countryId).ForEach(city => cityDTOs.Add(CityMapper.CityToCityDTO(city)));
                 return Ok(cityDTOs);
             }
-            catch(NotFoundException exception)
+            catch (NotFoundException exception)
             {
                 return NotFound(exception.Message);
             }

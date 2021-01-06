@@ -10,11 +10,13 @@ using Backend.Service.SearchSpecification.ExaminationSearch;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Model.PerformingExamination;
 using Model.Users;
 using Newtonsoft.Json;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using PatientWebApp.Settings;
 using PatientWebApp.Validators;
 using RestSharp;
 
@@ -27,10 +29,13 @@ namespace PatientWebApp.Controllers
     {
         private readonly IExaminationService _examinationService;
         private readonly ExaminationValidator _examinationValidator;
-        public ExaminationController(IExaminationService examinationService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public ExaminationController(IExaminationService examinationService, IOptions<ServiceSettings> serviceSettings)
         {
             _examinationService = examinationService;
             _examinationValidator = new ExaminationValidator(_examinationService);
+            _serviceSettings = serviceSettings.Value;
         }
 
         /// <summary>
@@ -67,7 +72,7 @@ namespace PatientWebApp.Controllers
         public ActionResult AdvanceSearchExaminations(ExaminationSearchDTO examinationSearchDTO)
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient("http://localhost:" + 65428);
+            var client = new RestClient(_serviceSettings.PatientServiceUrl);
             var request = new RestRequest("/api/patient/" + patientJmbg + "/examination/search", Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.AddJsonBody(examinationSearchDTO);
@@ -80,7 +85,6 @@ namespace PatientWebApp.Controllers
             contentResult.StatusCode = (int)response.StatusCode;
 
             return contentResult;
-
         }
 
         /// <summary>
@@ -96,8 +100,9 @@ namespace PatientWebApp.Controllers
             try
             {
                 var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                Examination examination= _examinationService.GetExaminationById(id);
-                if (!patientJmbg.Equals(examination.PatientCard.PatientJmbg)) {
+                Examination examination = _examinationService.GetExaminationById(id);
+                if (!patientJmbg.Equals(examination.PatientCard.PatientJmbg))
+                {
                     return StatusCode(403, "Patient tried to cancel someone else's examination");
                 }
                 _examinationValidator.CheckIfExaminationCanBeCanceled(id);
@@ -116,7 +121,7 @@ namespace PatientWebApp.Controllers
             {
                 return StatusCode(500, exception.Message);
             }
-            
+
         }
 
         /// /getting canceled examinations linked to a certain patient
@@ -156,7 +161,7 @@ namespace PatientWebApp.Controllers
         public ActionResult GetPreviousExaminationsByPatient()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient("http://localhost:" + 65428);
+            var client = new RestClient(_serviceSettings.PatientServiceUrl);
             var request = new RestRequest("/api/patient/" + patientJmbg + "/examination");
             var response = client.Execute(request);
 
@@ -245,7 +250,7 @@ namespace PatientWebApp.Controllers
                 _examinationService.AddExamination(ExaminationMapper.ExaminationDTOToExamination(examinationDTO));
                 return StatusCode(201);
             }
-            catch(ValidationException exception)
+            catch (ValidationException exception)
             {
                 return BadRequest(exception.Message);
             }

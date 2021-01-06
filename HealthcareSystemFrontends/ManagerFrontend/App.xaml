@@ -163,6 +163,22 @@
             </Style>
 
 
+            <!--  VALIDATION ERROR STYLE  -->
+            <ControlTemplate x:Key="ValidationErrorTemplate">
+                <Grid>
+                    <AdornedElementPlaceholder x:Name="ErrorMessageTextBox" />
+                    <TextBlock
+                        MaxWidth="230"
+                        Margin="0,32,60,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontFamily="Roboto"
+                        FontSize="10"
+                        Foreground="Red"
+                        Text="{Binding [0].ErrorContent}"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </ControlTemplate>
 
         </ResourceDictionary>
     </Application.Resources>

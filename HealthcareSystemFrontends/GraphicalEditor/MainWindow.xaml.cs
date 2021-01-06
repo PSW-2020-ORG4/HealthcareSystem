@@ -784,6 +784,12 @@ namespace GraphicalEditor
         {
             AppointmentSearchScrollViewer.ScrollToTop();
         }
+
+        private void CreatePatientAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreatePatientGuestAccountDialog createPatientGuestAccountDialog = new CreatePatientGuestAccountDialog();
+            createPatientGuestAccountDialog.ShowDialog();
+        }
     }
 }
 

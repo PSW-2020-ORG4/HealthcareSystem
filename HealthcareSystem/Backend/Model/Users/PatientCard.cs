@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Model.PerformingExamination;
+using Backend.Model.Enums;
 
 namespace Model.Users
 {
@@ -30,7 +31,7 @@ namespace Model.Users
 
         public PatientCard() { }
 
-        public PatientCard(int id,BloodType bloodType, RhFactorType rhFactor, string alergies, 
+        public PatientCard(int id, BloodType bloodType, RhFactorType rhFactor, string alergies,
                             string medicalHistory, bool hasInsurance, string lbo, string patientJmbg)
         {
             Id = id;

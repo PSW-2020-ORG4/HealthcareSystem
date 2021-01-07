@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository
+namespace Backend.Repository
 {
     public class MySqlActivePatientCardRepository : IActivePatientCardRepository
     {

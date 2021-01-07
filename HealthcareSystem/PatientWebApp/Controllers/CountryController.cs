@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using PatientWebApp.DTOs;
+using PatientWebApp.Mappers;
+using PatientWebApp.Settings;
 
 namespace PatientWebApp.Controllers
 {
@@ -16,6 +20,13 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
+        private readonly ServiceSettings _serviceSettings;
+
+        public CountryController(IOptions<ServiceSettings> serviceSettings)
+        {
+            _serviceSettings = serviceSettings.Value;
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public IActionResult GetCountries()

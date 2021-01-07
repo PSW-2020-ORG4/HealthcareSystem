@@ -20,6 +20,8 @@ using PatientWebApp.Validators;
 using RestSharp;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
+using PatientWebApp.Settings;
 
 namespace PatientWebApp.Controllers
 {
@@ -34,8 +36,13 @@ namespace PatientWebApp.Controllers
         private readonly PatientValidator _patientValidator;
         public static IWebHostEnvironment _webHostEnvironment;
         private readonly EncryptionService _encryptionService;
+        private readonly ServiceSettings _serviceSettings;
 
-        public PatientController(IPatientService patientService, IPatientCardService patientCardService, IWebHostEnvironment webHostEnvironment, IMailService mailService)
+        public PatientController(IPatientService patientService,
+                                 IPatientCardService patientCardService,
+                                 IWebHostEnvironment webHostEnvironment,
+                                 IMailService mailService,
+                                 IOptions<ServiceSettings> serviceSettings)
         {
             _patientService = patientService;
             _patientCardService = patientCardService;
@@ -43,6 +50,7 @@ namespace PatientWebApp.Controllers
             _patientValidator = new PatientValidator();
             _webHostEnvironment = webHostEnvironment;
             _encryptionService = new EncryptionService();
+            _serviceSettings = serviceSettings.Value;
         }
 
         /// <summary>

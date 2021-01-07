@@ -9,11 +9,13 @@ using Backend.Service.UsersAndWorkingTime;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Model.Users;
 using PatientWebApp.Constants;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 using RestSharp;
+using PatientWebApp.Settings;
 
 namespace PatientWebApp.Controllers
 {
@@ -22,15 +24,11 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class DoctorController : ControllerBase
     {
-        private readonly IDoctorService _doctorService;
-        private readonly ISpecialtyService _specialtyService;
-        private readonly IDoctorSpecialtyService _doctorSpecialtyService;
+        private readonly ServiceSettings _serviceSettings;
 
-        public DoctorController(IDoctorService doctorService, ISpecialtyService specialtyService, IDoctorSpecialtyService doctorSpecialtyService)
+        public DoctorController(IOptions<ServiceSettings> serviceSettings)
         {
-            _doctorService = doctorService;
-            _specialtyService = specialtyService;
-            _doctorSpecialtyService = doctorSpecialtyService;
+            _serviceSettings = serviceSettings.Value;
         }
 
         [Authorize(Roles = UserRoles.Patient + "," + UserRoles.Admin)]

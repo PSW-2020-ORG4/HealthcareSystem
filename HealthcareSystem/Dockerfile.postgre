@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS sql-script
+ENV PATH $PATH:/root/.dotnet/tools
+ENV ASPNETCORE_ENVIRONMENT Test
+RUN dotnet tool install -g dotnet-ef --version 3.1.9
+WORKDIR /src/Backend
+COPY Backend/ .
+WORKDIR /src/PatientWebApp
+COPY PatientWebApp/ .
+RUN dotnet-ef dbcontext script -c "MyDbContext" -p "/src/PatientWebApp/PatientWebApp.csproj" -o /init.sql
+
+FROM postgres:13-alpine
+COPY --from=sql-script /init.sql /docker-entrypoint-initdb.d/init.sql

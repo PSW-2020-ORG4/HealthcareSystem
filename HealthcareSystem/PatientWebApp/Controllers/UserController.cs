@@ -12,6 +12,11 @@ using Newtonsoft.Json;
 using Backend.Service;
 using Backend.Model.Exceptions;
 using Model.Users;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Extensions.Options;
+using PatientWebApp.Settings;
 
 namespace PatientWebApp.Controllers
 {
@@ -20,6 +25,12 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly ServiceSettings _serviceSettings;
+
+        public UserController(IOptions<ServiceSettings> serviceSettings)
+        {
+            _serviceSettings = serviceSettings.Value;
+        }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
@@ -42,12 +53,10 @@ namespace PatientWebApp.Controllers
             }
             catch (Exception) { }
 
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            if ((int)response.StatusCode == 500)
+                return Problem();
+            else
+                return Unauthorized();
         }
 
         private string GenerateJWT(string email, string jmbg, string type)

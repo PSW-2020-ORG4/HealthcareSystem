@@ -62,7 +62,7 @@ namespace Service.ExaminationAndPatientCard
 
         public List<Examination> AdvancedSearch(ExaminationSearchDTO parameters)
         {
-            List<Examination> examinations = GetPreviousExaminationsByPatient(parameters.Jmbg);
+            List<Examination> examinations = GetPreviousExaminationsByPatient("");
 
             ISpecification<Examination> filter = new ExaminationStartDateSpecification(parameters.StartDate);
             filter = filter.BinaryOperation(parameters.EndDateOperator, new ExaminationEndDateSpecification(parameters.EndDate));

@@ -20,7 +20,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
                             password: "12345678", numberOfLicence: "", doctorsOffice: new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM,
                 capacity: 1, occupation: 1, renovation: false), dateOfEmployment: DateTime.Now), room: new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM,
                 capacity: 1, occupation: 1, renovation: false),
-                patientCard: new PatientCard(id: 1, bloodType: Model.Enums.BloodType.A, rhFactor: RhFactorType.NEGATIVE, alergies: "", medicalHistory: "",
+                patientCard: new PatientCard(id: 1, bloodType: BloodType.A, rhFactor: RhFactorType.NEGATIVE, alergies: "", medicalHistory: "",
                 hasInsurance: true, lbo: "", patientJmbg: "1309998775018")), id: 1, diagnosis: "Angina", startDate: new DateTime(2020, 11, 11), endDate: DateTime.Now, dailyDose:3);
         }
 
@@ -28,7 +28,7 @@ namespace PatientWebAppTests.CreateObjectsForTests
         {
             return new Therapy(drug: new Drug(), examination: new Examination(id: 1, typeOfExamination: TypeOfExamination.GENERAL, dateAndTime: DateTime.Now, anamnesis: "Bol u grlu", doctor: new Doctor(), room: new Room(number: 1, typeOfUsage: TypeOfUsage.CONSULTING_ROOM,
                 capacity: 1, occupation: 1, renovation: false),
-                patientCard: new PatientCard(id: 1, bloodType: Model.Enums.BloodType.A, rhFactor: RhFactorType.NEGATIVE, alergies: "", medicalHistory: "",
+                patientCard: new PatientCard(id: 1, bloodType: BloodType.A, rhFactor: RhFactorType.NEGATIVE, alergies: "", medicalHistory: "",
                 hasInsurance: true, lbo: "", patientJmbg: null)), id: 1, diagnosis: "Angina", startDate: DateTime.Now, endDate: DateTime.Now, dailyDose: 3);
         }
     }

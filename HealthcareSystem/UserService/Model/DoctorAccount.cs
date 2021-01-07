@@ -49,12 +49,5 @@ namespace UserService.Model
         {
             return GetDoctorMemento();
         }
-
-        protected override void Validate()
-        {
-            base.Validate();
-            if (DateOfEmployment.CompareTo(DateTime.Now) > 0)
-                throw new ValidationException("Date of employment not valid.");
-        }
     }
 }

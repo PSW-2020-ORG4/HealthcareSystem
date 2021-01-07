@@ -8,5 +8,6 @@ namespace PatientWebApp.Settings
     public class ServiceSettings
     {
         public string PatientServiceUrl { get; set; }
+        public string FeedbackAndSurveyServiceUrl { get; set; }
     }
 }

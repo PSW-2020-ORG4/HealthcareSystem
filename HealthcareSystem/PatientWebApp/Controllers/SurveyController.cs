@@ -25,16 +25,10 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class SurveyController : ControllerBase
     {
-        private readonly ISurveyService _surveyService;
-        private readonly IExaminationService _examinationService;
         private readonly ServiceSettings _serviceSettings;
 
-        public SurveyController(ISurveyService surveyService,
-                                IExaminationService examinationService,
-                                IOptions<ServiceSettings> serviceSettings)
+        public SurveyController(IOptions<ServiceSettings> serviceSettings)
         {
-            _surveyService = surveyService;
-            _examinationService = examinationService;
             _serviceSettings = serviceSettings.Value;
         }
 
@@ -43,8 +37,8 @@ namespace PatientWebApp.Controllers
         public ActionResult AddSurvey(SurveyDTO surveyDTO)
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            
-            var client = new RestClient("http://localhost:56701");
+
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
             var request = new RestRequest("/api/survey/patient/" + patientJmbg + "/permission/" + surveyDTO.ExaminationId, Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.AddJsonBody(surveyDTO);
@@ -61,7 +55,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("surveyResultAboutMedicalStaff")]
         public IActionResult GetSurveyResultAboutMedicalStaff()
         {
-            var client = new RestClient("http://localhost:56701");
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
             var request = new RestRequest("/api/survey/report/staff");
             var response = client.Execute(request);
 
@@ -76,7 +70,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("surveyResultAboutDoctor/{jmbg}")]
         public IActionResult GetSurveyResultAboutDoctor(string jmbg)
         {
-            var client = new RestClient("http://localhost:56701");
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
             var request = new RestRequest("/api/survey/report/doctor/" + jmbg);
             var response = client.Execute(request);
 
@@ -91,7 +85,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("surveyResultAboutHospital")]
         public IActionResult GetSurveyResultAboutHospital()
         {
-            var client = new RestClient("http://localhost:56701");
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
             var request = new RestRequest("/api/survey/report/hospital");
             var response = client.Execute(request);
 

@@ -120,9 +120,6 @@ namespace PatientWebApp
             services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
             services.AddScoped<ISpecialtyService, SpecialtyService>();
 
-            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();
-            services.AddScoped<IFeedbackService, FeedbackService>();
-
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IPatientService, PatientService>();
 
@@ -131,9 +128,6 @@ namespace PatientWebApp
 
             services.AddScoped<IDoctorSpecialtyRepository, MySqlDoctorSpecialtyRepository>();
             services.AddScoped<IDoctorSpecialtyService, DoctorSpecialtyService>();
-
-            services.AddScoped<ISurveyRepository, MySqlSurveyRepository>();
-            services.AddScoped<ISurveyService, SurveyService>();
 
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
             services.AddScoped<IPatientCardService, PatientCardService>();
@@ -207,6 +201,7 @@ namespace PatientWebApp
         private void GetServiceSettings(ServiceSettings conf)
         {
             conf.PatientServiceUrl = Configuration.GetValue<string>("PATIENT_SERVICE_URL");
+            conf.FeedbackAndSurveyServiceUrl = Configuration.GetValue<string>("FEEDBACK_SURVEY_SERVICE_URL");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

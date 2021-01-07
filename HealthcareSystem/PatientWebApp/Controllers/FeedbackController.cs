@@ -23,14 +23,10 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class FeedbackController : ControllerBase
     {
-        private readonly IFeedbackService _feedbackService;
-        private readonly FeedbackValidator _feedbackValidator;
         private readonly ServiceSettings _serviceSettings;
 
-        public FeedbackController(IFeedbackService feedbackService, IOptions<ServiceSettings> serviceSettings)
+        public FeedbackController(IOptions<ServiceSettings> serviceSettings)
         {
-            _feedbackService = feedbackService;
-            _feedbackValidator = new FeedbackValidator(_feedbackService);
             _serviceSettings = serviceSettings.Value;
         }
 
@@ -49,7 +45,7 @@ namespace PatientWebApp.Controllers
                 feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
             }
 
-            var client = new RestClient("http://localhost:" + 56701);
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
             var request = new RestRequest("/api/feedback", Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.AddJsonBody(feedbackDTO);
@@ -72,7 +68,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("published")]
         public ActionResult GetPublishedFeedbacks()
         {
-            var client = new RestClient("http://localhost:" + 56701);
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
             var request = new RestRequest("/api/feedback/published");
             var response = client.Execute(request);
             var contentResult = new ContentResult();
@@ -92,7 +88,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("unpublished")]
         public ActionResult GetUnpublishedFeedbacks()
         {
-            var client = new RestClient("http://localhost:" + 56701);
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
             var request = new RestRequest("/api/feedback/unpublished");
             var response = client.Execute(request);
             var contentResult = new ContentResult();
@@ -113,7 +109,7 @@ namespace PatientWebApp.Controllers
         [HttpPost("{id}")]
         public ActionResult PublishFeedback(int id)
         {
-            var client = new RestClient("http://localhost:" + 56701);
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
             var request = new RestRequest("/api/feedback/" + id + "/publish", Method.POST);
             var response = client.Execute(request);
             var contentResult = new ContentResult();

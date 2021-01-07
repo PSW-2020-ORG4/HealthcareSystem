@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UserService.Notifications
+namespace NotificationService
 {
     class NotificationService : INotificationService
     {
@@ -20,7 +20,7 @@ namespace UserService.Notifications
         {
             Template activationTemplate = _templateRepository.Get("ActivationTemplate.html");
             string notification = activationTemplate.Apply(activationRequest.ToDictionary());
-            _notificationSender.SendNotification(notification, activationRequest.Email);
+            _notificationSender.SendNotification(notification, activationRequest.Email.Value);
         }
     }
 }

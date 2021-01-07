@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
-using UserService.Notifications;
 using UserService.Repository;
 using UserService.Service;
 
@@ -67,11 +66,7 @@ namespace UserService
             else
             {
                 Console.WriteLine("Not dev or test.");
-            }
-
-            services.AddScoped<ITemplateRepository, TemplateFileRepository>();
-            services.AddScoped<INotificationService, NotificationService>();
-            services.AddScoped<INotificationSender, EmailAdapter>();
+            }           
 
             services.AddScoped<IGeographicalService, GeographicalService>();
             services.AddScoped<ICityRepository, CityRepository>();

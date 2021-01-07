@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using UserService.CustomException;
 
-namespace UserService.Notifications
+namespace NotificationService
 {
     class TemplateFileRepository : ITemplateRepository
     {
@@ -28,7 +27,7 @@ namespace UserService.Notifications
             }
             catch (Exception)
             {
-                throw new DataStorageException();
+                throw new DataStorageException("Template loading failed.");
             }
             return new Template(text, "[", "]");
         }

@@ -7,9 +7,11 @@ using Backend.Service.NotificationSurveyAndFeedback;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using PatientWebApp.DTOs;
+using PatientWebApp.Settings;
 using PatientWebApp.Validators;
 using PatientWebApp.Adapters;
 using RestSharp;
@@ -23,10 +25,13 @@ namespace PatientWebApp.Controllers
     {
         private readonly IFeedbackService _feedbackService;
         private readonly FeedbackValidator _feedbackValidator;
-        public FeedbackController(IFeedbackService feedbackService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public FeedbackController(IFeedbackService feedbackService, IOptions<ServiceSettings> serviceSettings)
         {
             _feedbackService = feedbackService;
             _feedbackValidator = new FeedbackValidator(_feedbackService);
+            _serviceSettings = serviceSettings.Value;
         }
 
         /// <summary>
@@ -39,8 +44,10 @@ namespace PatientWebApp.Controllers
         [HttpPost]
         public ActionResult AddFeedback(AddFeedbackDTO feedbackDTO)
         {
-            var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            feedbackDTO.CommentatorJmbg = jmbg;
+            if (!feedbackDTO.IsAnonymous)
+            {
+                feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            }
 
             var client = new RestClient("http://localhost:" + 56701);
             var request = new RestRequest("/api/feedback", Method.POST);

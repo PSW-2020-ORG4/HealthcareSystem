@@ -16,7 +16,7 @@ namespace PatientWebAppTests.UnitTests
     {
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
-
+        /*
         public UserControllerTests()
         {
             _objectFactory = new TestObjectFactory();
@@ -66,7 +66,7 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is BadRequestObjectResult);
         }
-
+        */
 
     }
 }

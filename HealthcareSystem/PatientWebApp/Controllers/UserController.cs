@@ -12,6 +12,8 @@ using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Options;
+using PatientWebApp.Settings;
 
 namespace PatientWebApp.Controllers
 {
@@ -22,10 +24,15 @@ namespace PatientWebApp.Controllers
     {
         private readonly IPatientService _patientService;
         private readonly IAdminService _adminService;
-        public UserController(IPatientService patientService, IAdminService adminService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public UserController(IPatientService patientService,
+                              IAdminService adminService,
+                              IOptions<ServiceSettings> serviceSettings)
         {
             _patientService = patientService;
             _adminService = adminService;
+            _serviceSettings = serviceSettings.Value;
         }
 
         [AllowAnonymous]
@@ -58,7 +65,7 @@ namespace PatientWebApp.Controllers
             {
                 return StatusCode(500, exception.Message);
             }
-            
+
         }
         private string TryToLoginPatient(string username, string password)
         {

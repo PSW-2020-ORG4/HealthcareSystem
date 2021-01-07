@@ -8,7 +8,6 @@ namespace Backend.Service.SearchSpecification.ExaminationSearch
 {
     public class ExaminationSearchDTO
     {
-        public string Jmbg { get; set; }
         public DateTime? StartDate { get; set; }
         public LogicalOperator EndDateOperator { get; set; }
         public DateTime? EndDate { get; set; }
@@ -19,9 +18,8 @@ namespace Backend.Service.SearchSpecification.ExaminationSearch
 
         public ExaminationSearchDTO() { 
         }
-        public ExaminationSearchDTO(string jmbg, DateTime startDate, LogicalOperator endOperator, DateTime endDate, LogicalOperator doctorOperator, string doctorSurname, LogicalOperator anamnesisOperator, string anamnesis) {
+        public ExaminationSearchDTO(DateTime startDate, LogicalOperator endOperator, DateTime endDate, LogicalOperator doctorOperator, string doctorSurname, LogicalOperator anamnesisOperator, string anamnesis) {
 
-            Jmbg = jmbg;
             StartDate = startDate;
             EndDateOperator = endOperator;
             EndDate = endDate;

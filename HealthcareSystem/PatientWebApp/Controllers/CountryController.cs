@@ -7,8 +7,10 @@ using Backend.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using PatientWebApp.Settings;
 
 namespace PatientWebApp.Controllers
 {
@@ -18,9 +20,12 @@ namespace PatientWebApp.Controllers
     public class CountryController : ControllerBase
     {
         private readonly ICountryService _countryService;
-        public CountryController(ICountryService countryService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public CountryController(ICountryService countryService, IOptions<ServiceSettings> serviceSettings)
         {
             _countryService = countryService;
+            _serviceSettings = serviceSettings.Value;
         }
 
         [AllowAnonymous]

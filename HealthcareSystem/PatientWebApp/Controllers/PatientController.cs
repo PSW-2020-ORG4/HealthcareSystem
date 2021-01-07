@@ -18,6 +18,8 @@ using PatientWebApp.DTOs;
 using PatientWebApp.Validators;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
+using PatientWebApp.Settings;
 
 namespace PatientWebApp.Controllers
 {
@@ -30,10 +32,15 @@ namespace PatientWebApp.Controllers
         private readonly IPatientCardService _patientCardService;
         private readonly IMailService _mailService;
         private readonly PatientValidator _patientValidator;
-		public static IWebHostEnvironment _webHostEnvironment;
+        public static IWebHostEnvironment _webHostEnvironment;
         private readonly EncryptionService _encryptionService;
+        private readonly ServiceSettings _serviceSettings;
 
-        public PatientController(IPatientService patientService, IPatientCardService patientCardService, IWebHostEnvironment webHostEnvironment, IMailService mailService)
+        public PatientController(IPatientService patientService,
+                                 IPatientCardService patientCardService,
+                                 IWebHostEnvironment webHostEnvironment,
+                                 IMailService mailService,
+                                 IOptions<ServiceSettings> serviceSettings)
         {
             _patientService = patientService;
             _patientCardService = patientCardService;
@@ -41,6 +48,7 @@ namespace PatientWebApp.Controllers
             _patientValidator = new PatientValidator();
             _webHostEnvironment = webHostEnvironment;
             _encryptionService = new EncryptionService();
+            _serviceSettings = serviceSettings.Value;
         }
 
         /// <summary>
@@ -122,7 +130,7 @@ namespace PatientWebApp.Controllers
             }
 
         }
-		
+
         /// /upload patient image in memory
         /// </summary>
         /// <param name="file">uploaded file ie image</param>
@@ -166,7 +174,7 @@ namespace PatientWebApp.Controllers
             try
             {
                 _patientService.SavePatientImageName(jmbg, name);
-                
+
             }
             catch (NotFoundException exception)
             {

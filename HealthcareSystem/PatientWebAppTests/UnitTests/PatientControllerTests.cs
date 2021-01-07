@@ -23,7 +23,7 @@ namespace PatientWebAppTests.UnitTests
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
         private readonly EncryptionService _encryptionService;
-
+        /*
         public PatientControllerTests()
         {
             _objectFactory = new TestObjectFactory();
@@ -167,6 +167,6 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is NotFoundObjectResult);
         }
-
+        */
     }
 }

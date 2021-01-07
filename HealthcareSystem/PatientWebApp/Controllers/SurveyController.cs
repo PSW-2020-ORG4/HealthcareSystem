@@ -9,10 +9,12 @@ using Backend.Service.ExaminationAndPatientCard;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Model.PerformingExamination;
 using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using PatientWebApp.Settings;
 using PatientWebApp.Validators;
 using RestSharp;
 
@@ -25,11 +27,15 @@ namespace PatientWebApp.Controllers
     {
         private readonly ISurveyService _surveyService;
         private readonly IExaminationService _examinationService;
+        private readonly ServiceSettings _serviceSettings;
 
-        public SurveyController(ISurveyService surveyService, IExaminationService examinationService)
+        public SurveyController(ISurveyService surveyService,
+                                IExaminationService examinationService,
+                                IOptions<ServiceSettings> serviceSettings)
         {
             _surveyService = surveyService;
             _examinationService = examinationService;
+            _serviceSettings = serviceSettings.Value;
         }
 
         [Authorize(Roles = UserRoles.Patient)]

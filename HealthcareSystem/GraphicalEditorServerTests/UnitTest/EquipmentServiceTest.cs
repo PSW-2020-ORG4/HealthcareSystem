@@ -58,14 +58,6 @@ namespace GraphicalEditorServerTests.UnitTest
             int result = equipmentService.InitializeEquipmentTransfer(_createTransferEqupmentDTO.CreateInvalidTestObjectForInitializingEquipmentTransfer2());
             Assert.Equal(15, result);
         }
-        /*
-        [Fact]
-        public void Initialize_equipment_transfer_return_starting_room_number_because_of_equpment_unavailability()
-        {
-            EquipmentService equipmentService = SetupEquipmentService();
-            int result = equipmentService.InitializeEquipmentTransfer(_createTransferEqupmentDTO.CreateInalidTestObjectForInitializingEquipmentTransfer3());
-            Assert.Equal(20, result);
-        }  */
 
         [Fact]
         public void Initialize_equipment_transfer_valid()

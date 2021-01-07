@@ -24,7 +24,7 @@ namespace FeedbackAndSurveyService.SurveyService.Repository
             try
             {
                 var examinations = _context.Examinations.Where(e => e.PatientCard.Patient.Jmbg == id &&
-                                                                   e.ExaminationStatus == ExaminationStatus.CANCELED &&
+                                                                   e.ExaminationStatus == ExaminationStatus.FINISHED &&
                                                                    !e.IsSurveyCompleted);
                 var permissions = examinations.Select(e => new SurveyPermission(e.Id, e.DoctorJmbg));
                 return new SurveyResponder(id, permissions.ToList());

@@ -70,6 +70,23 @@ namespace PatientWebApp.Controllers
             return contentResult;
         }
 
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet("medical-info")]
+        public IActionResult GetPatientMedicalInfo()
+        {
+            var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient(_serviceSettings.PatientServiceUrl);
+            var request = new RestRequest("/api/patient/" + jmbg + "/medical-info");
+            var response = client.Execute(request);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
+        }
+
         /// <summary>
         /// /adding new patient and patient card to database
         /// </summary>

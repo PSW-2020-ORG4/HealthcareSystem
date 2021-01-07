@@ -34,6 +34,7 @@ namespace UserService.Model
             City = new City(memento.City);
             Email = new Email(memento.Email);
             Password = new Password(memento.Password);
+            UserType = memento.UserType;
             Validate();
         }
 
@@ -62,9 +63,9 @@ namespace UserService.Model
 
         protected virtual void Validate()
         {
-            if (string.IsNullOrWhiteSpace(Name)) 
+            if (string.IsNullOrWhiteSpace(Name))
                 throw new ValidationException("Name cannot be empty.");
-            if (string.IsNullOrWhiteSpace(Surname)) 
+            if (string.IsNullOrWhiteSpace(Surname))
                 throw new ValidationException("Surname cannot be empty.");
         }
     }

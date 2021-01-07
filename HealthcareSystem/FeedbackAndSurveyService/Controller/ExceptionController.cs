@@ -22,7 +22,7 @@ namespace FeedbackAndSurveyService.Controller
             else if (context.Error is NotFoundException)
                 return NotFound(context.Error.Message);
             else if (context.Error is ActionNotPermittedException)
-                return Forbidden(context.Error.Message);
+                return Forbid(context.Error.Message);
             else
                 return Problem();
         }

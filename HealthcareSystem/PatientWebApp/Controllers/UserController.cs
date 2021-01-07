@@ -47,9 +47,9 @@ namespace PatientWebApp.Controllers
             catch (Exception) { }
 
             if ((int)response.StatusCode == 500)
-                return Problem();
+                return Problem("An internal error occured.");
             else
-                return Unauthorized();
+                return Unauthorized("Credentials not valid.");
         }
 
         private string GenerateJWT(string email, string jmbg, string type)

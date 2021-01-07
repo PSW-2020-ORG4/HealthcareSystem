@@ -9,7 +9,7 @@ variables:
   sonarProjectKey: 'psw-2020-org4_FeedbackAndSurveyService'
   sonarProjectName: 'FeedbackAndSurveyService'
   sonarOrganization: 'psw-2020-org4'  
-  dockerfile: 'HealthcareSystem/PatientService/Dockerfile'
+  dockerfile: 'HealthcareSystem/FeedbackAndSurveyService/Dockerfile'
   dockerRegistry: 'pufkedockerhub'
   dockerRepository: 'pufke/feedbackandsurveyservice'
 

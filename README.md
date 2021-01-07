@@ -14,7 +14,7 @@
 <details>
   <summary><b>PatientWebApp</b> </summary> 
 <br>  
-<i>Necessary components:</i> PatientWebApp, PatientService, database (MySQL for Development environment, Postgres for Test environment)<br><br>
+<i>Necessary components:</i> PatientWebApp, PatientService, UserService, NotificationService, FeedbackAndSurveyService, ScheduleService, database (MySQL for Development environment, Postgres for Test environment)<br><br>
   
 Quick launch methods are currently provided for the Test environment (both will run the PatientWebApp on port 8181):
 - <b>PowerShell scripts</b><br>

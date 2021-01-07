@@ -13,7 +13,7 @@ namespace PatientWebAppTests.UnitTests
     {
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
-
+        /*
         public ExaminationControllerTests()
         {
             _objectFactory = new TestObjectFactory();
@@ -47,7 +47,7 @@ namespace PatientWebAppTests.UnitTests
         }
 
 
-      /*  [Fact]
+        [Fact]
         public void Get_existent_examination_by_non_patient_jmbg()
         {
             ExaminationService examinationService = SetupExaminationService();
@@ -55,9 +55,9 @@ namespace PatientWebAppTests.UnitTests
             var result = examinationService.GetExaminationsByPatient("0000000000000");
 
             Assert.True(result is NotFoundObjectResult);
-        } */
+        } 
 
-      /*  [Fact]
+        [Fact]
         public void Advanced_search_examination()
         {
             ExaminationController examinationController = SetupExaminationController();
@@ -66,9 +66,9 @@ namespace PatientWebAppTests.UnitTests
             var result = examinationController.AdvanceSearchExaminations(examinationSearchDTOValidObject);
 
             Assert.True(result is OkObjectResult); 
-        } */
+        } 
 
-        /*[Fact]
+        [Fact]
         public void Advanced_search_non_exitent_examination()
         {
             ExaminationController examinationController = SetupExaminationController();
@@ -77,7 +77,7 @@ namespace PatientWebAppTests.UnitTests
             var result = examinationController.AdvanceSearchExaminations(examinationSearchDTOInvalidObject);
 
             Assert.True(result is BadRequestObjectResult);
-        } */
+        } 
 
         [Fact]
         public void Get_canceled_examination_by_valid_patient_jmbg()
@@ -147,9 +147,9 @@ namespace PatientWebAppTests.UnitTests
             var result = examinationController.CancelExamination(1);
 
             Assert.True(result is OkResult);
-        } */
+        } 
 
-        /*[Fact]
+        [Fact]
         public void Cancel_already_canceled_examination()
         {
             ExaminationController examinationController = SetupExaminationController();
@@ -157,9 +157,9 @@ namespace PatientWebAppTests.UnitTests
             var result = examinationController.CancelExamination(2);
 
             Assert.True(result is BadRequestObjectResult);
-        } */
+        } 
 
-      /*  [Fact]
+        [Fact]
         public void Add_valid_examination()
         {
             ExaminationController examinationController = SetupExaminationController();
@@ -168,9 +168,9 @@ namespace PatientWebAppTests.UnitTests
             var result = examinationController.AddExamination(examinationDTOValidObject);
 
             Assert.True(result is StatusCodeResult);
-        } */
+        } 
 
-       /* [Fact]
+        [Fact]
         public void Add_invalid_examination()
         {
             ExaminationController examinationController = SetupExaminationController();
@@ -179,7 +179,8 @@ namespace PatientWebAppTests.UnitTests
             var result = examinationController.AddExamination(examinationDTOInvalidObject);
 
             Assert.True(result is BadRequestObjectResult);
-        } */
+        } 
+        */
 
     }
 }

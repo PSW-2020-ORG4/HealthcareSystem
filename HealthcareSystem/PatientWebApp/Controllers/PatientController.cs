@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Backend.Model.Exceptions;
+﻿using Backend.Model.Exceptions;
 using Backend.Model.Users;
 using Backend.Service;
 using Backend.Service.Encryption;
 using Backend.Service.SendingMail;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model.Users;
+using Microsoft.Extensions.Options;
 using PatientWebApp.Adapters;
-using PatientWebApp.Constants;
+using PatientWebApp.Auth;
 using PatientWebApp.DTOs;
+using PatientWebApp.Settings;
 using PatientWebApp.Validators;
 using RestSharp;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
-using PatientWebApp.Settings;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace PatientWebApp.Controllers
 {
@@ -64,7 +58,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetPatientByJmbg()
         {
             var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/patient/" + jmbg);
             var response = client.Execute(request);
             var contentResult = new ContentResult();
@@ -121,7 +115,7 @@ namespace PatientWebApp.Controllers
         public ActionResult ActivatePatient(string jmbg)
         {
             string decryptedJmbg = _encryptionService.DecryptString(jmbg);
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/patient/" + decryptedJmbg + "/activate", Method.POST);
             var response = client.Execute(request);
             var contentResult = new ContentResult();
@@ -194,7 +188,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("malicious")]
         public IActionResult GetMaliciousPatients()
         {
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/patient/malicious");
             var response = client.Execute(request);
             var contentResult = new ContentResult();
@@ -210,7 +204,7 @@ namespace PatientWebApp.Controllers
         [HttpPost("{jmbg}/block")]
         public ActionResult BlockPatient(string jmbg)
         {
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/patient/" + jmbg + "/block", Method.POST);
             var response = client.Execute(request);
             var contentResult = new ContentResult();

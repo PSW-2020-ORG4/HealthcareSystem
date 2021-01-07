@@ -1,17 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using PatientWebApp.Constants;
-using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
 using PatientWebApp.Settings;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -31,7 +22,7 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public IActionResult GetCountries()
         {
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/country");
             var response = client.Execute(request);
             var contentResult = new ContentResult();

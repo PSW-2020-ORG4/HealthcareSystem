@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using PatientWebApp.Constants;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using PatientWebApp.Settings;
 using RestSharp;
 
 namespace PatientWebApp.Controllers
@@ -13,10 +9,17 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class SpecialtyController : ControllerBase
     {
+        private readonly ServiceSettings _serviceSettings;
+
+        public SpecialtyController(IOptions<ServiceSettings> serviceSettings)
+        {
+            _serviceSettings = serviceSettings.Value;
+        }
+
         [HttpGet]
         public IActionResult GetSpecialities()
         {
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/specialty");
             var response = client.Execute(request);
             var contentResult = new ContentResult();

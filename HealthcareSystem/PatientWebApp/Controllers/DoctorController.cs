@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Model.Users;
-using Backend.Service;
-using Backend.Service.UsersAndWorkingTime;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Model.Users;
-using PatientWebApp.Constants;
-using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
-using RestSharp;
+using PatientWebApp.Auth;
 using PatientWebApp.Settings;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -35,7 +23,7 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public ActionResult GetAllDoctors()
         {
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/doctor");
             var response = client.Execute(request);
             var contentResult = new ContentResult();
@@ -57,7 +45,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("doctor-specialty/{id}")]
         public IActionResult GetSpecialistDoctorsBySpecialtyId(int id)
         {          
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/doctor/specialty/" + id);
             var response = client.Execute(request);
             var contentResult = new ContentResult();

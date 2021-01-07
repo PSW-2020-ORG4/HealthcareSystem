@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Service;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Model.Users;
-using PatientWebApp.Constants;
-using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
-using RestSharp;
 using PatientWebApp.Settings;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -33,7 +22,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("country/{countryId}")]
         public IActionResult GetCitiesByCountryId(int countryId)
         {
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/city/country/" + countryId);
             var response = client.Execute(request);
             var contentResult = new ContentResult();

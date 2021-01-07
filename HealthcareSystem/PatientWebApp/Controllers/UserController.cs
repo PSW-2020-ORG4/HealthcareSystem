@@ -1,22 +1,15 @@
-﻿using System;
-using System.Text;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PatientWebApp.DTOs;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using PatientWebApp.DTOs;
+using PatientWebApp.Settings;
+using RestSharp;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using PatientWebApp.Constants;
-using RestSharp;
-using Newtonsoft.Json;
-using Backend.Service;
-using Backend.Model.Exceptions;
-using Model.Users;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.Options;
-using PatientWebApp.Settings;
+using System.Text;
 
 namespace PatientWebApp.Controllers
 {
@@ -36,7 +29,7 @@ namespace PatientWebApp.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] UserInfoDTO userInfoDTO)
         {
-            var client = new RestClient("http://localhost:" + ServerConstants.PORT);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
             var request = new RestRequest("/api/user", Method.POST);
             request.RequestFormat = DataFormat.Json;
             request.AddJsonBody(userInfoDTO);

@@ -61,6 +61,7 @@ namespace PatientWebApp.Controllers
 
             var contentResult = new ContentResult();
             contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
             contentResult.StatusCode = (int)response.StatusCode;
             return contentResult;
         }
@@ -75,6 +76,7 @@ namespace PatientWebApp.Controllers
 
             var contentResult = new ContentResult();
             contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
             contentResult.StatusCode = (int)response.StatusCode;
             return contentResult;
         }
@@ -89,6 +91,7 @@ namespace PatientWebApp.Controllers
 
             var contentResult = new ContentResult();
             contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
             contentResult.StatusCode = (int)response.StatusCode;
             return contentResult;
         }

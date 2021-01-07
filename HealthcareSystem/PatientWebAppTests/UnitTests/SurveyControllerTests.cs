@@ -18,7 +18,7 @@ namespace PatientWebAppTests.UnitTests
     {
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
-
+        /*
         public SurveyControllerTests()
         {
             _objectFactory = new TestObjectFactory();
@@ -35,7 +35,7 @@ namespace PatientWebAppTests.UnitTests
             return surveyController;
         }
 
-       /* [Fact]
+        [Fact]
         public void Add_valid_survey()
         {
             SurveyController surveyController = SetupSurveyController();
@@ -44,7 +44,7 @@ namespace PatientWebAppTests.UnitTests
             var result = surveyController.AddSurvey(surveyDTOValidObject);
 
             Assert.True(result is BadRequestResult);
-        }*/
+        }
 
         [Fact]
         public void Add_invalid_survey()
@@ -96,6 +96,6 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is OkObjectResult);
         }
-
+        */
     }
 }

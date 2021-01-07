@@ -7,10 +7,12 @@ using Backend.Service.NotificationSurveyAndFeedback;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Model.NotificationSurveyAndFeedback;
 using Model.Users;
 using PatientWebApp.Adapters;
 using PatientWebApp.DTOs;
+using PatientWebApp.Settings;
 using PatientWebApp.Validators;
 
 namespace PatientWebApp.Controllers
@@ -22,12 +24,15 @@ namespace PatientWebApp.Controllers
     {
         private readonly IFeedbackService _feedbackService;
         private readonly FeedbackValidator _feedbackValidator;
-        public FeedbackController(IFeedbackService feedbackService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public FeedbackController(IFeedbackService feedbackService, IOptions<ServiceSettings> serviceSettings)
         {
             _feedbackService = feedbackService;
             _feedbackValidator = new FeedbackValidator(_feedbackService);
+            _serviceSettings = serviceSettings.Value;
         }
-        
+
         /// <summary>
         /// /adding new feedback to database
         /// </summary>
@@ -44,7 +49,7 @@ namespace PatientWebApp.Controllers
             }
             //else
             //{
-              //  feedbackDTO.CommentatorJmbg = null;
+            //  feedbackDTO.CommentatorJmbg = null;
             //}
 
             try
@@ -92,14 +97,14 @@ namespace PatientWebApp.Controllers
         {
             List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
             try
-            {      
+            {
                 _feedbackService.GetUnpublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
                 return Ok(feedbackDTOs);
             }
             catch (NotFoundException exception)
             {
                 return NotFound(exception.Message);
-            }         
+            }
         }
         /// <summary>
         /// / updating feedbacks status (property: IsPublished) to published

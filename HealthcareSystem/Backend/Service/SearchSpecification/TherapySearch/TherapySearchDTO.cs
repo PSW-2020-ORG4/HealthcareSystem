@@ -8,7 +8,6 @@ namespace Backend.Service.SearchSpecification.TherapySearch
 {
     public class TherapySearchDTO
     {
-        public string Jmbg { get; set; }
         public DateTime? StartDate { get; set; }
         public LogicalOperator EndDateOperator { get; set; }
         public DateTime? EndDate { get; set; }
@@ -20,9 +19,8 @@ namespace Backend.Service.SearchSpecification.TherapySearch
         public TherapySearchDTO(){
         }
 
-        public TherapySearchDTO(string jmbg, DateTime startDate, LogicalOperator endOperator, DateTime endDate, LogicalOperator doctorOperator, string doctorSurname, LogicalOperator drugOperator, string drugName) {
+        public TherapySearchDTO(DateTime startDate, LogicalOperator endOperator, DateTime endDate, LogicalOperator doctorOperator, string doctorSurname, LogicalOperator drugOperator, string drugName) {
 
-            Jmbg = jmbg;
             StartDate = startDate;
             EndDateOperator = endOperator;
             EndDate = endDate;

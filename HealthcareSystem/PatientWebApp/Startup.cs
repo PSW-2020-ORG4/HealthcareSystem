@@ -41,6 +41,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using PatientWebApp.Settings;
 using Repository;
 using Service.DrugAndTherapy;
 using Service.ExaminationAndPatientCard;
@@ -169,6 +170,7 @@ namespace PatientWebApp
             services.AddScoped<IAdminService, AdminService>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.Configure<ServiceSettings>(GetServiceSettings);
 
             services.AddTransient<IMailService, MailService>();
 
@@ -200,6 +202,11 @@ namespace PatientWebApp
             services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();
 
+        }
+
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.PatientServiceUrl = Configuration.GetValue<string>("PATIENT_SERVICE_URL");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

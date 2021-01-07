@@ -16,7 +16,7 @@ namespace PatientWebAppTests.UnitTests
     {
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
-
+        /*
         public TherapyControllerTests()
         {
             _objectFactory = new TestObjectFactory();
@@ -50,7 +50,7 @@ namespace PatientWebAppTests.UnitTests
             Assert.True(result is List<Therapy>);
         }
 
-        /*[Fact]
+        [Fact]
         public void Get_therapy_by_non_existent_patient_jmbg()
         {
             TherapyService therapyService = SetupTherapyService();
@@ -58,7 +58,7 @@ namespace PatientWebAppTests.UnitTests
             var result = therapyService.GetTherapyByPatient("0000000000000");
 
             Assert.True(result is NotFoundObjectResult);
-        }*/
+        }
 
         [Fact]
         public void Advanced_search_therapy()
@@ -71,7 +71,7 @@ namespace PatientWebAppTests.UnitTests
             Assert.True(result is List<Therapy>);
         }
 
-        /*[Fact]
+        [Fact]
         public void Advanced_search_non_exitent_therapy()
         {
             TherapyService therapyService = SetupTherapyService();

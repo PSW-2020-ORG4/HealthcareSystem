@@ -9,10 +9,12 @@ using Backend.Service.ExaminationAndPatientCard;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Model.PerformingExamination;
 using Model.Users;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using PatientWebApp.Settings;
 using PatientWebApp.Validators;
 
 namespace PatientWebApp.Controllers
@@ -27,14 +29,17 @@ namespace PatientWebApp.Controllers
 
         private readonly IExaminationService _examinationService;
         private readonly ExaminationValidator _examinationValidator;
+        private readonly ServiceSettings _serviceSettings;
 
-
-        public SurveyController(ISurveyService surveyService, IExaminationService examinationService)
+        public SurveyController(ISurveyService surveyService,
+                                IExaminationService examinationService,
+                                IOptions<ServiceSettings> serviceSettings)
         {
             _surveyService = surveyService;
             _surveyValidator = new SurveyValidator(surveyService);
             _examinationService = examinationService;
             _examinationValidator = new ExaminationValidator(_examinationService);
+            _serviceSettings = serviceSettings.Value;
         }
 
         [Authorize(Roles = UserRoles.Patient)]
@@ -51,7 +56,7 @@ namespace PatientWebApp.Controllers
                 _surveyService.AddSurvey(SurveyMapper.SurveyDTOToSurvey(surveyDTO));
                 _examinationService.CompleteSurveyAboutExamination(surveyDTO.ExaminationId);
                 return Ok();
-            }         
+            }
             catch (NotFoundException exception)
             {
                 return NotFound(exception.Message);

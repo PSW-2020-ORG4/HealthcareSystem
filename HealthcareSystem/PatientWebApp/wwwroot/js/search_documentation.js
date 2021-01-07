@@ -205,19 +205,13 @@ function addPrescriptionTable(therapy) {
 }
 
 function addExaminationRow(examination) {
-    let type = '';
-    if (examination.type == "GENERAL")
-        type = "Examination";
-    else
-        type = "Surgery";
-
     let divElement = $(
         '<div class="row">'
         + '<div class="col mb-4">'
         + '<div class="card">'
         + '<div class="card-header bg-info text-white">'
         + '<h4 class="card-title mb-0">'
-        + type + ' on <span class="badge badge-light">' + examination.dateAndTime + '</span> '
+        + 'Examination on <span class="badge badge-light">' + examination.dateAndTime + '</span> '
         + '</h4>'
         + '</div>'
         + '<div class="card-body p-3">'

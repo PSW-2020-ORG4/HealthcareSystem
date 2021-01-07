@@ -79,7 +79,7 @@ $(document).ready(function () {
 
 		},
 		error: function (jqXHR) {
-			let alert = $('<div class="alert alert-danger m-1" role="alert">' + jqXHR.responseJSON + '.</div >')
+			let alert = $('<div class="alert alert-danger m-1" role="alert">' + jqXHR.responseJSON + '</div >')
 			$('#alert').prepend(alert);
 		}
 	});

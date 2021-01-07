@@ -89,7 +89,7 @@ function approveComment(feedbackId) {
 			$('#a' + feedbackId).prepend(alert);
 		},
 		error: function (jqXHR) {
-			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + jqXHR.responseJSON +
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">' + jqXHR.responseJSON
 				+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 			$('#a' + feedbackId).empty();
 			$('#' + feedbackId).prop("disabled", false);

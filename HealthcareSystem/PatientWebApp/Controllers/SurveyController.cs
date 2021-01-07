@@ -51,6 +51,23 @@ namespace PatientWebApp.Controllers
             return contentResult;
         }
 
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet("permission")]
+        public ActionResult GetPermissions()
+        {
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
+            var request = new RestRequest("/api/survey/patient/" + patientJmbg + "/permission", Method.GET);
+            var response = client.Execute(request);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+            return contentResult;
+        }
+
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutMedicalStaff")]
         public IActionResult GetSurveyResultAboutMedicalStaff()

@@ -162,7 +162,20 @@ namespace GraphicalEditor
             MockupObjects mockupObjects = new MockupObjects();
             _allMapObjects = mockupObjects.AllMapObjects;
             ChangeEditButtonVisibility();
-
+            EquipementService service = new EquipementService();
+            TransferEquipmentDTO dto = new TransferEquipmentDTO(2, 9, 10, new DateTime(2020, 12, 10, 15, 30, 0, DateTimeKind.Utc), 15);
+            int number = service.InitializeEquipmentTransfer(dto);
+            if(number != -1)
+            {
+                foreach(DateTime date in service.GetAlternativeAppointments(dto))
+                {
+                    Console.WriteLine(date);
+                } 
+            }
+            else
+            {
+                service.ScheduleEquipmentTransfer(dto);
+            }
             // uncomment only when you want to save the map for the first time
             saveMap();
 

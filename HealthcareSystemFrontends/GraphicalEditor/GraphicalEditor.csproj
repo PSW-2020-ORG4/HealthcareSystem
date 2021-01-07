@@ -79,26 +79,27 @@
       <DependentUpon>CreatePatientGuestAccountDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="DTOForView\EquipmentTypeForViewDTO.cs" />
-    <Compile Include="DTO\DoctorDTO.cs" />
-    <Compile Include="DTO\AppointmentSearchWithPrioritiesDTO.cs" />
-    <Compile Include="DTO\BasicAppointmentSearchDTO.cs" />
-    <Compile Include="DTO\DrugWithRoomDTO.cs" />
     <Compile Include="Converters\CapitalizeStringConverter.cs" />
     <Compile Include="Converters\NegativeEquipmentQuantityConverter.cs" />
+    <Compile Include="DTO\AppointmentSearchWithPrioritiesDTO.cs" />
+    <Compile Include="DTO\BasicAppointmentSearchDTO.cs" />
+    <Compile Include="DTO\DoctorDTO.cs" />
+    <Compile Include="DTO\DrugDTO.cs" />
+    <Compile Include="DTO\DrugTypeDTO.cs" />
+    <Compile Include="DTO\DrugWithRoomDTO.cs" />
     <Compile Include="DTO\EquipmentDTO.cs" />
     <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
-    <Compile Include="DTO\PatientBasicDTO.cs" />
-    <Compile Include="DTO\SpecialtyDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />
     <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />
+    <Compile Include="DTO\PatientBasicDTO.cs" />
+    <Compile Include="DTO\SpecialtyDTO.cs" />
+    <Compile Include="DTO\TransferEquipmentDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
     <Compile Include="Enumerations\SearchPriority.cs" />
     <Compile Include="InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DTO\DrugDTO.cs" />
-    <Compile Include="DTO\DrugTypeDTO.cs" />
     <Compile Include="Models\MapObjectRelated\BuildingLayersButtons.cs" />
     <Compile Include="Models\MapObjectRelated\MockupObjects.cs" />
     <Compile Include="Models\MapObjectRelated\Road.cs" />

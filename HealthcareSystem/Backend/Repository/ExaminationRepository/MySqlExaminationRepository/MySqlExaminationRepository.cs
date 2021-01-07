@@ -148,5 +148,16 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
             }
         }
 
+        public ICollection<Examination> GetFollowingExaminationsByRoom(int roomId)
+        {
+            try
+            {
+                return _context.Examinations.Where(e => e.IdRoom == roomId && e.ExaminationStatus == ExaminationStatus.CREATED).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
     }
 }

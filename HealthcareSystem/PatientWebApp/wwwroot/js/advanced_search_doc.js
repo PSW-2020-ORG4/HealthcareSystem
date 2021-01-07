@@ -208,12 +208,6 @@ function addPrescriptionTable(therapy) {
 }
 
 function addExaminationRow(examination) {
-    let type = '';
-    if (examination.type == "GENERAL")
-        type = "Examination";
-    else
-        type = "Surgery";
-
     let button = '';
     if (examination.examinationStatus == 2 && examination.isSurveyCompleted == 0) {
         button = '<div class="card-footer">'
@@ -229,7 +223,7 @@ function addExaminationRow(examination) {
         + '<div class="card">'
         + '<div class="card-header bg-info text-white">'
         + '<h4 class="card-title mb-0">'
-        + type + ' on <span class="badge badge-light">' + examination.dateAndTime + '</span> '
+        + 'Examination on <span class="badge badge-light">' + examination.dateAndTime + '</span> '
         + '</h4>'
         + '</div>'
         + '<div class="card-body p-3">'

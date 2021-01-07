@@ -10,10 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Model.NotificationSurveyAndFeedback;
 using Model.Users;
-using PatientWebApp.Adapters;
 using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
 using PatientWebApp.Validators;
+using PatientWebApp.Adapters;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -22,14 +23,10 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class FeedbackController : ControllerBase
     {
-        private readonly IFeedbackService _feedbackService;
-        private readonly FeedbackValidator _feedbackValidator;
         private readonly ServiceSettings _serviceSettings;
 
-        public FeedbackController(IFeedbackService feedbackService, IOptions<ServiceSettings> serviceSettings)
+        public FeedbackController(IOptions<ServiceSettings> serviceSettings)
         {
-            _feedbackService = feedbackService;
-            _feedbackValidator = new FeedbackValidator(_feedbackService);
             _serviceSettings = serviceSettings.Value;
         }
 
@@ -41,30 +38,26 @@ namespace PatientWebApp.Controllers
         /// 
         [Authorize(Roles = UserRoles.Patient)]
         [HttpPost]
-        public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
+        public ActionResult AddFeedback(AddFeedbackDTO feedbackDTO)
         {
             if (!feedbackDTO.IsAnonymous)
             {
                 feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
             }
-            //else
-            //{
-            //  feedbackDTO.CommentatorJmbg = null;
-            //}
 
-            try
-            {
-                _feedbackValidator.validateFeedbacksFields(feedbackDTO);
-            }
-            catch (ValidationException exception)
-            {
-                return BadRequest(exception.Message);
-            }
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
+            var request = new RestRequest("/api/feedback", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddJsonBody(feedbackDTO);
+            var response = client.Execute(request);
 
-            Feedback feedback = FeedbackMapper.FeedbackDTOToFeedback(feedbackDTO);
-            _feedbackService.AddFeedback(feedback);
-            return Ok();
+            var contentResult = new ContentResult();
 
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
         /// <summary>
         /// / getting all published feedbacks
@@ -72,19 +65,19 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
         /// 
         [AllowAnonymous]
-        [HttpGet("published-feedbacks")]
+        [HttpGet("published")]
         public ActionResult GetPublishedFeedbacks()
         {
-            List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            try
-            {
-                _feedbackService.GetPublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-                return Ok(feedbackDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
+            var request = new RestRequest("/api/feedback/published");
+            var response = client.Execute(request);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
         /// <summary>
         /// /getting all unpublished feedbacks
@@ -92,19 +85,19 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
         /// 
         [Authorize(Roles = UserRoles.Admin)]
-        [HttpGet("unpublished-feedbacks")]
+        [HttpGet("unpublished")]
         public ActionResult GetUnpublishedFeedbacks()
         {
-            List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            try
-            {
-                _feedbackService.GetUnpublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-                return Ok(feedbackDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
+            var request = new RestRequest("/api/feedback/unpublished");
+            var response = client.Execute(request);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
         /// <summary>
         /// / updating feedbacks status (property: IsPublished) to published
@@ -116,20 +109,16 @@ namespace PatientWebApp.Controllers
         [HttpPost("{id}")]
         public ActionResult PublishFeedback(int id)
         {
-            try
-            {
-                _feedbackValidator.checkIfFeedbacksIsAllowedToPublish(id);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            catch (ValidationException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            _feedbackService.PublishFeedback(id);
-            return Ok();
+            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
+            var request = new RestRequest("/api/feedback/" + id + "/publish", Method.POST);
+            var response = client.Execute(request);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
     }
 }

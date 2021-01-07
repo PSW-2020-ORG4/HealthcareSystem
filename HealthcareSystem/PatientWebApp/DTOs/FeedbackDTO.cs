@@ -16,6 +16,5 @@ namespace PatientWebApp.DTOs
         public string CommentatorSurname { get; set; }
         public bool IsAllowedToPublish { get; set; }
 
-        public FeedbackDTO() { }
     }
 }

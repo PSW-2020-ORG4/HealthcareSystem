@@ -1,6 +1,24 @@
 # HealthcareSystem
 
-## Our members
+HealthcareSystem is a student project for the PSW course in 2020/2021 at FTN Novi Sad. The course focuses on topics such as Agile Software Development, Test Driven Development, and Domain Driven Design, which are applied in this project. The goal of the project is to create a software system for a hospital, consisting of three parts:
+- *PatientWebApp*, a web application for patients which would provide features such as online appointment scheduling,
+- *GraphicalEditor*, a desktop application which provides a map view of the hospital for easy visualization and management of resources and schedule,
+- *IntegrationAdapters*, which provide integration with pharmacy systems. 
+
+ 
+## Demo
+[<img alt="Click to watch!" src="https://j.gifs.com/91J614.gif" width="500">](https://www.youtube.com/watch?v=CgkcbH9RLQU&ab_channel=NemanjaPualic)
+
+## Try out the project
+
+* [PatientWebApp Test environment on Heroku](https://vlaksi-patientwebapp.herokuapp.com/)
+<br>*Credentials for patient:* ana_anic98@gmail.com, 11111111
+<br>*Credentials for administrator:* milic_milan@gmail.com, milanmilic965
+* [GraphicalEditorServer Test environment on Heroku](https://vlaksi-graphicaleditor.herokuapp.com/api/drugs)
+<br>The deployed server can be used to test out the GraphicalEditor desktop app locally without launching the backend.
+* [Wiki page with explanations for how to run the project locally](https://github.com/PSW-2020-ORG4/HealthcareSystem/wiki/Running-the-project-locally)
+
+## Members
 
 | DevOps               | Web App          | Integration Adapters | Graphical Editor  |
 | -------------------- | ---------------- | -------------------- | ----------------- | 
@@ -8,29 +26,4 @@
 | Milana Todorović     | Dragana Čarapić  | Stefan Kitanović 	 | Vasilije Bursać   |
 | Nemanja Pualić       | Slađana Savković | Dionizij Malačko 	 | Milena Kovačević  |
 | Vladislav Maksimović | Jelena Zeljko    | Darijan Mićić    	 | Marko Đurišić     |
-
-
-## Running the project locally
-<details>
-  <summary><b>PatientWebApp</b> </summary> 
-<br>  
-<i>Necessary components:</i> PatientWebApp, PatientService, UserService, NotificationService, FeedbackAndSurveyService, ScheduleService, database (MySQL for Development environment, Postgres for Test environment)<br><br>
-  
-Quick launch methods are currently provided for the Test environment (both will run the PatientWebApp on port 8181):
-- <b>PowerShell scripts</b><br>
-  Scripts for launch (<i>pwa-up.ps1</i>) and shutdown (<i>pwa-down.ps1</i>) are in the repository root.
-  - <i>Prerequisites:</i>  PowerShell, Docker, Docker Compose, .NET Core CLI, free port 8181 (or edit Compose file locally to change port)
-  - <i>Usage</i>:  <br><code>.\pwa-up [-noDbBuild] [-noServiceBuild]</code>
-  <br>Use the <code>-noDbBuild</code> flag if the Docker image for the initialized database has already been built and there have been no changes to the data model. It's recommended to use this whenever possible since building the database image slows down the launch significantly. 
-  <br>Use the <code>-noServiceBuild</code> flag if the service Docker images have already been built and there have been no changes.
-  <br><code>.\pwa-down [-rmi]</code>
-  <br>Use the <code>-rmi</code> flag to remove the service Docker images during shutdown.
-- <b>Docker Compose file</b> (<i>HealthcareSystem/docker-compose.pwa.yaml</i>)
-  <br>If the PowerShell scripts are inconvenient, use the Compose file directly.
-  - <i>Prerequisites:</i> Docker, Docker Compose, free port 8181 (or edit Compose file locally to change port)
-  - <i>Usage</i>: See the PowerShell scripts for an example of usage. In order for the Compose file to work correctly, the solution needs to be published with the Release configuration, and the Docker image for the database (<i>HealthcareSystem/Dockerfile.postgre</i>) with needs to be built separately with the name <i>seeded-database</i>.
-</details> 
-
-## Help
-Aditional help find [here](https://github.com/PSW-2020-ORG4/Organization-Help)
 

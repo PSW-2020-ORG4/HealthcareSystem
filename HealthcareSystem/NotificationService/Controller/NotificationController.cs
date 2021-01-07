@@ -11,7 +11,7 @@ namespace NotificationService
     [ApiController]
     public class NotificationController : ControllerBase
     {
-        private INotificationService _service;
+        private readonly INotificationService _service;
 
         public NotificationController(INotificationService service)
         {

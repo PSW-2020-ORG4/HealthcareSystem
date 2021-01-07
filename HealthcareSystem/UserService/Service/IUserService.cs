@@ -8,6 +8,6 @@ namespace UserService.Service
 {
     public interface IUserService
     {
-        UserAccount GetByEmailAndPassword(string Email, string Password);
+        UserAccount GetByEmailAndPassword(string email, string password);
     }
 }

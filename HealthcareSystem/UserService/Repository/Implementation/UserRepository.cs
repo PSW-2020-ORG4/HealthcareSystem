@@ -34,7 +34,7 @@ namespace UserService.Repository
                     return user;
                 throw new NotFoundException("User with selected email and password not found.");
             }
-            catch (UserServiceException e)
+            catch (UserServiceException)
             {
                 throw;
             }

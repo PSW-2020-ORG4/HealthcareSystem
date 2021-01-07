@@ -10,7 +10,7 @@ namespace UserService.Repository
 {
     public class CityRepository : ICityRepository
     {
-        private MyDbContext _context;
+        private readonly MyDbContext _context;
 
         public CityRepository(MyDbContext context)
         {

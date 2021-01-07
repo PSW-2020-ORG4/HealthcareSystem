@@ -18,7 +18,7 @@ namespace UserService.Model
         protected Password Password { get; set; }
         protected UserType UserType { get; set; }
 
-        public UserAccount()
+        protected UserAccount()
         {
         }
 

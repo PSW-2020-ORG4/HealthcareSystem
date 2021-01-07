@@ -8,7 +8,7 @@ namespace NotificationService
 {
     class TemplateFileRepository : ITemplateRepository
     {
-        private string DirectoryPath;
+        private readonly string DirectoryPath;
 
         public TemplateFileRepository()
         {

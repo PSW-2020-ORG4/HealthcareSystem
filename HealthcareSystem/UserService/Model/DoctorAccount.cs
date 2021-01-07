@@ -8,7 +8,6 @@ namespace UserService.Model
 {
     public class DoctorAccount : UserAccount
     {
-        private DateTime DateOfEmployment { get; }
         private IEnumerable<Specialty> Specialties { get; }
 
         public DoctorAccount(DoctorAccountMemento memento)

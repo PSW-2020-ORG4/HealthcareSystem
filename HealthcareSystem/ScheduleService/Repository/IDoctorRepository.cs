@@ -8,6 +8,7 @@ namespace ScheduleService.Repository
 {
     public interface IDoctorRepository
     {
+        Doctor Get(string id);
         Doctor Get(string id, DateTime startDate, DateTime endDate);
         IEnumerable<Doctor> GetBySpecialty(int specialtyId, DateTime startDate, DateTime endDate);
     }

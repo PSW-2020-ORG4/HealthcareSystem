@@ -9,12 +9,11 @@ namespace ScheduleService.Model.DomainServices
         {
             ICollection<Examination> examinations = new List<Examination>();
             ICollection<Appointment> appointments = GenerateAppointments(examinationDTO.StartDate, examinationDTO.EndDate);
-            int id = 1;
 
             foreach (Appointment app in appointments)
                 foreach (Room room in examinationDTO.Rooms)
                 {
-                    Examination examination = new Examination(id, app, ExaminationType.General, ExaminationStatus.Created,
+                    Examination examination = new Examination(app, ExaminationType.General, ExaminationStatus.Created, 
                                                               examinationDTO.Patient, examinationDTO.Doctor, room);
 
                     if (examination.IsAvailable()) 

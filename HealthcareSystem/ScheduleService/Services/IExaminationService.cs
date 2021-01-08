@@ -1,4 +1,5 @@
-﻿using ScheduleService.Model;
+﻿using ScheduleService.DTO;
+using ScheduleService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ScheduleService.Services
         IEnumerable<Examination> GetFinishedByPatient(string jmbg);
         IEnumerable<Examination> GetCanceledByPatient(string jmbg);
         IEnumerable<Examination> GetCreatedByPatient(string jmbg);
-        void Schedule();
+        void Schedule(ExaminationDTO examinationDTO);
         void Cancel(int id);
 
     }

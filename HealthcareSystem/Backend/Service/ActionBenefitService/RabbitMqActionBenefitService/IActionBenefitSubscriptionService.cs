@@ -1,6 +1,6 @@
 ﻿namespace Backend.Service
 {
-    public interface IActionBenefitMessageingService
+    public interface IActionBenefitSubscriptionService
     {
         void Subscribe(string exchangeName);
         void Unsubscribe(string exchangeName);

@@ -22,6 +22,15 @@ using Repository;
 using System;
 using IntegrationAdapters.Services;
 using System.Collections.Generic;
+using Backend.Repository.DrugInRoomRepository;
+using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
+using Backend.Repository.DrugRepository;
+using Backend.Repository.DrugRepository.MySQLDrugRepository;
+using Backend.Repository.TenderRepository;
+using Backend.Repository.TenderRepository.MySqlTenderRepository;
+using Backend.Service.DrugAndTherapy;
+using Backend.Service.Tendering;
+using Service.DrugAndTherapy;
 
 namespace IntegrationAdapters
 {
@@ -101,6 +110,12 @@ namespace IntegrationAdapters
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IPushNotificationService, PushNotificationService>();
+            services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
+            services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
+            services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
+            services.AddScoped<IDrugService, DrugService>();
+            services.AddScoped<ITenderRepository, MySqlTenderRepository>();
+            services.AddScoped<ITenderService, TenderService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHttpClient();

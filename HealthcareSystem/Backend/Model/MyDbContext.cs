@@ -42,6 +42,8 @@ namespace Backend.Model
         public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DbSet<DrugConsumption> DrugConsumptions { get; set; }
 	    public DbSet<DrugInRoom> DrugsInRooms { get; set; }
+        public DbSet<Tender> Tenders { get; set; }
+        public DbSet<TenderDrug> TenderDrugs { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 

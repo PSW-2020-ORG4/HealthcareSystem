@@ -1,0 +1,54 @@
+﻿@model List<Backend.Model.Pharmacies.Tender>
+@{
+    ViewData["Title"] = "Tender";
+    Layout = "_Layout";
+}
+
+<div>
+    @Html.ActionLink("New Tender", "NewTender", "Tender", null, new { @class = "btn btn-primary" })
+</div>
+<br/>
+<div class="card text-center">
+    <div class="card-header">
+        <h2 class="text-center">Tenders</h2>
+    </div>
+
+    <div class="card-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th><h5 class="card-title">Name</h5></th>
+                <th><h5 class="card-title">Exchange Name</h5></th>
+                <th><h5 class="card-title">Open?</h5></th>
+                <th><h5 class="card-title">End Date</h5></th>
+                <th><h5 class="card-title">Drugs</h5></th>
+                <th><h5 class="card-title">View Offers</h5></th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @item.Name
+                    </td>
+                    <td class="text-center">
+                        @item.ExchangeName
+                    </td>
+                    <td class="text-center">
+                        @((item.IsClosed) ? "No" : "Yes")
+                    </td>
+                    <td class="text-center">
+                        @item.EndDate
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("View Drugs", "Drugs", "Tender", new { tenderId = item.Id }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

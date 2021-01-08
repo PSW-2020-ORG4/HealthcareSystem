@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ScheduleService.Model
 {
@@ -15,9 +12,21 @@ namespace ScheduleService.Model
         private Doctor Doctor { get; }
         private Room Room { get; }
 
+        public Examination(int id, Appointment appointment, ExaminationType examinationType, 
+                           ExaminationStatus examinationStatus, Patient patient, Doctor doctor, Room room)
+        {
+            Id = id;
+            Appointment = appointment;
+            ExaminationType = examinationType;
+            ExaminationStatus = examinationStatus;
+            Patient = patient;
+            Doctor = doctor;
+            Room = room;
+        }
+
         public bool IsAvailable()
         {
-            throw new NotImplementedException();
+            return Patient.IsAvailable(Appointment) && Doctor.IsAvailable(Appointment) && Room.IsAvailable(Appointment);
         }
     }
 }

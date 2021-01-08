@@ -13,7 +13,8 @@ namespace ScheduleService.Model
 
         public bool IsAvailable(Appointment appointment)
         {
-            throw new NotImplementedException();
+            if (UnavailableAppointments.Contains(appointment)) return false;
+            return true;
         }
 
     }

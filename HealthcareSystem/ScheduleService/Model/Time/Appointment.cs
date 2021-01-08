@@ -17,12 +17,14 @@ namespace ScheduleService.Model
 
         private DateTime Normalize(DateTime value)
         {
-            return value;
+            TimeSpan timeSpan = new TimeSpan(0, 30, 0);
+            long ticks = (value.Ticks + timeSpan.Ticks - 1) / timeSpan.Ticks;
+            return new DateTime(ticks * timeSpan.Ticks);
         }
 
         public Appointment NextAppointment()
         {
-            throw new NotImplementedException();
+            return new Appointment(Value.AddMinutes(30));
         }
 
         public override bool Equals(object obj)

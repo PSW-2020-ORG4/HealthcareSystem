@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Korisnik.User
  ***********************************************************************/
 
-using Model.Enums;
+using Backend.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Users
 {
-   public abstract class User
+    public abstract class User
    {             
         [Key]
         public string Jmbg { get; set; }

@@ -1,10 +1,14 @@
 ﻿var token = "";
 $(document).ready(function () {
     token = window.localStorage.getItem('token');
-    if (token == null && window.location.pathname != "/html/login.html") {
-        window.location.href = "login.html";
+
+    if (token == null) {
+        if (window.location.pathname != "/html/login.html")
+            window.location.href = "login.html";
+        return;
     }
-    else {
+    else
+    {
         checkExpirationDateFromToken();
         return;
     }

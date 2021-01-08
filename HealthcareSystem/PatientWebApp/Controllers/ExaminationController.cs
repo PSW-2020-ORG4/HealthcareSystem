@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.DTO;
-using Backend.Model.Exceptions;
+﻿using Backend.Model.Exceptions;
 using Backend.Service.ExaminationAndPatientCard;
-using Backend.Service.SearchSpecification;
 using Backend.Service.SearchSpecification.ExaminationSearch;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Model.PerformingExamination;
-using Model.Users;
-using Newtonsoft.Json;
+using PatientWebApp.Auth;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 using PatientWebApp.Settings;
 using PatientWebApp.Validators;
 using RestSharp;
+using System;
+using System.Collections.Generic;
 
 namespace PatientWebApp.Controllers
 {

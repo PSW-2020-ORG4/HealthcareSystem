@@ -1,19 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Service.NotificationSurveyAndFeedback;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Model.NotificationSurveyAndFeedback;
-using Model.Users;
+using PatientWebApp.Auth;
 using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
-using PatientWebApp.Validators;
-using PatientWebApp.Adapters;
 using RestSharp;
 
 namespace PatientWebApp.Controllers

@@ -20,11 +20,15 @@ namespace ScheduleService.Services.AdvancedSearchStrategy
 
         public BasicSearchDTO GetSearchParameters()
         {
-            if (counter == 0) return SearchDTO;
-            if (counter == 5) return null;
-            counter++;
+            if (counter == 0)
+            {
+                counter++;
+                return SearchDTO;
+            }              
+            if (counter > 5) return null;          
             SetupEarliestDate();
             SetupLatestDate();
+            counter++;
             return SearchDTO;
         }
 

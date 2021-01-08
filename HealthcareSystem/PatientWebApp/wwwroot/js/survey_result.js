@@ -1,13 +1,17 @@
 ﻿$(document).ready(function () {
+	checkUserRole("Admin");
 
 	$.ajax({
 		url: "/api/survey/surveyResultAboutMedicalStaff",
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
-		success: function (surveyResult) {
-			if (surveyResult.length == 0) {
+		success: function (medicalStaffSurveyReport) {
+			if (medicalStaffSurveyReport.items.length == 0) {
 				let alert = '<div class="alert alert-info mb-0" role="alert">'
 					+ 'No information available.'
 					+ '</div>';
@@ -15,12 +19,11 @@
 				$('#survey_result_MedicalStaff').append(alert);
 			}
 			else {
-				let overallAverageRating = calculateOverallAverageRating(surveyResult);
-				$('#avgStaff').text(overallAverageRating);
+				$('#avgStaff').text(medicalStaffSurveyReport.totalAverage.toFixed(2));
 
 				let table = '<table class="table table-bordered mb-0">' + tableHeader() + '<tbody>';
-				for (let i = 0; i < surveyResult.length; i++) {
-					table = table + tableRow(surveyResult[i]);
+				for (let i = 0; i < medicalStaffSurveyReport.items.length; i++) {
+					table = table + tableRow(medicalStaffSurveyReport.items[i]);
 				}
 				table = table + '</tbody></table>';
 
@@ -28,9 +31,9 @@
 				$('#survey_result_MedicalStaff').append(table);
 			}
 		},
-		error: function () {
+		error: function (jqXHR) {
 			let alert = '<div class="alert alert-info mb-0" role="alert">'
-				+ 'No information available.'
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#loadingStaff').remove();
 			$('#survey_result_MedicalStaff').append(alert);
@@ -40,11 +43,14 @@
 	$.ajax({
 		url: "/api/survey/surveyResultAboutHospital",
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
-		success: function (surveyResult) {
-			if (surveyResult.length == 0) {
+		success: function (hospitalSurveyReport) {
+			if (hospitalSurveyReport.items.length == 0) {
 				let alert = '<div class="alert alert-info mb-0" role="alert">'
 					+ 'No information available.'
 					+ '</div>';
@@ -52,21 +58,20 @@
 				$('#survey_result_Hospital').append(alert);
 			}
 			else {
-				let overallAverageRating = calculateOverallAverageRating(surveyResult);
-				$('#avgHospital').text(overallAverageRating);
+				$('#avgHospital').text(hospitalSurveyReport.totalAverage.toFixed(2));
 
 				let table = '<table class="table table-bordered mb-0">' + tableHeader() + '<tbody>';
-				for (let i = 0; i < surveyResult.length; i++) {
-					table = table + tableRow(surveyResult[i]);
+				for (let i = 0; i < hospitalSurveyReport.items.length; i++) {
+					table = table + tableRow(hospitalSurveyReport.items[i]);
 				}
 				table = table + '</tbody></table>';
 				$('#loadingHospital').remove();
 				$('#survey_result_Hospital').append(table);
 			}
 		},
-		error: function () {
+		error: function (jqXHR) {
 			let alert = '<div class="alert alert-info mb-0" role="alert">'
-				+ 'No information available.'
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#loadingHospital').remove();
 			$('#survey_result_Hospital').append(alert);
@@ -77,6 +82,9 @@
 	$.ajax({
 		url: "/api/doctor",
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
@@ -93,9 +101,9 @@
 				}
 			}
 		},
-		error: function () {
+		error: function (jqXHR) {
 			let alert = '<div class="alert alert-danger mb-0" role="alert">'
-				+ 'Error fetching doctors.'
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#survey_result_Doctor').append(alert);
 		}
@@ -137,15 +145,6 @@ function tableRow(surveyResult) {
 };
 
 
-function calculateOverallAverageRating(surveyResult) {
-	let overallAverageRating = 0;
-	for (let i = 0; i < surveyResult.length; i++) {
-		overallAverageRating += surveyResult[i].averageRating;
-	}
-	return (overallAverageRating / surveyResult.length).toFixed(2);
-}
-
-
 function changeDoctor(event) {
 
 	var selectElement = document.getElementById("doctors");
@@ -156,11 +155,14 @@ function changeDoctor(event) {
 	$.ajax({
 		url: "/api/survey/surveyResultAboutDoctor/" + doctorValue,
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
-		success: function (surveyResult) {
-			if (surveyResult.length == 0) {
+		success: function (doctorSurveyReport) {
+			if (doctorSurveyReport.items.length == 0) {
 				let alert = '<div class="alert alert-info mb-0" role="alert">'
 					+ 'No information available.'
 					+ '</div>';
@@ -169,12 +171,11 @@ function changeDoctor(event) {
 				$('#avgDoctor').text('');
 			}
 			else {
-				let overallAverageRating = calculateOverallAverageRating(surveyResult);
-				$('#avgDoctor').text(overallAverageRating);
+				$('#avgDoctor').text(doctorSurveyReport.totalAverage.toFixed(2));
 
 				let table = '<table class="table table-bordered mb-0">' + tableHeader() + '<tbody>';
-				for (let i = 0; i < surveyResult.length; i++) {
-					table = table + tableRow(surveyResult[i]);
+				for (let i = 0; i < doctorSurveyReport.items.length; i++) {
+					table = table + tableRow(doctorSurveyReport.items[i]);
 				}
 				table = table + '</tbody></table>';
 				$('#loadingDoctor').hide();
@@ -183,7 +184,7 @@ function changeDoctor(event) {
 		},
 		error: function (jqXHR) {
 			let alert = '<div class="alert alert-info mb-0" role="alert">'
-				+ 'No information available.'
+				+ jqXHR.responseJSON
 				+ '</div>';
 			$('#loadingDoctor').hide();
 			$('#survey_result_Doctor').append(alert);

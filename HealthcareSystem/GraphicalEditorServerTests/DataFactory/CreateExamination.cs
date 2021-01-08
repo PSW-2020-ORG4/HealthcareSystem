@@ -10,7 +10,7 @@ using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {
-   public class CreateExamination
+    public class CreateExamination
     {
         public List<Examination> CreateInvalidTestObject1()
         {     

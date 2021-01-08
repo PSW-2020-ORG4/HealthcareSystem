@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Service.DrugAndTherapy;
-using Backend.Service.ExaminationAndPatientCard;
-using Backend.Service.SearchSpecification.TherapySearch;
+﻿using Backend.Service.SearchSpecification.TherapySearch;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model.PerformingExamination;
-using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
+using Microsoft.Extensions.Options;
+using PatientWebApp.Auth;
+using PatientWebApp.Settings;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TherapyController : ControllerBase
     {
-        private readonly ITherapyService _therapyService;
-        public TherapyController(ITherapyService therapyService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public TherapyController(IOptions<ServiceSettings> serviceSettings)
         {
-            _therapyService = therapyService;
+            _serviceSettings = serviceSettings.Value;
         }
 
         /// <summary>
@@ -30,19 +26,22 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{patientJmbg}")]
-        public ActionResult GetTherapiesByPatient(string patientJmbg)
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet]
+        public ActionResult GetTherapiesByPatient()
         {
-            try
-            {
-                List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
-                _therapyService.GetTherapyByPatient(patientJmbg).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
-                return Ok(therapyDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient(_serviceSettings.PatientServiceUrl);
+            var request = new RestRequest("/api/patient/" + patientJmbg + "/therapy");
+            var response = client.Execute(request);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
 
         /// <summary>
@@ -50,19 +49,24 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="therapySearchDTO">an object need be find in the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(not found)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost("advance-search")]
         public ActionResult AdvanceSearchTherapies(TherapySearchDTO therapySearchDTO)
         {
-            try
-            {
-                List<TherapyDTO> therapyDTOs = new List<TherapyDTO>();
-                _therapyService.AdvancedSearch(therapySearchDTO).ForEach(therapy => therapyDTOs.Add(TherapyMapper.TherapyToTherapyDTO(therapy)));
-                return Ok(therapyDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient(_serviceSettings.PatientServiceUrl);
+            var request = new RestRequest("/api/patient/" + patientJmbg + "/therapy/search", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddJsonBody(therapySearchDTO);
+            var response = client.Execute(request);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
 
         }
     }

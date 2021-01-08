@@ -4,6 +4,7 @@ using System.Text;
 using Backend.Service.SearchSpecification;
 using Backend.Service.SearchSpecification.TherapySearch;
 using Microsoft.AspNetCore.Mvc;
+using Model.PerformingExamination;
 using PatientWebApp.Controllers;
 using PatientWebAppTests.CreateObjectsForTests;
 using Service.DrugAndTherapy;
@@ -15,7 +16,7 @@ namespace PatientWebAppTests.UnitTests
     {
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
-
+        /*
         public TherapyControllerTests()
         {
             _objectFactory = new TestObjectFactory();
@@ -31,22 +32,30 @@ namespace PatientWebAppTests.UnitTests
             return therapyController;
         }
 
+        private TherapyService SetupTherapyService()
+        {
+            TherapyService therapyService = new TherapyService(_stubRepository.CreateTherapyStubRepository());
+
+            return therapyService;
+        }
+
         [Fact]
         public void Get_existent_therapy_by_patient_jmbg()
         {
-            TherapyController therapyController = SetupTherapyController();
+            TherapyService therapyService = SetupTherapyService();
 
-            var result = therapyController.GetTherapiesByPatient("1309998775018");
+            //var result = therapyController.GetTherapiesByPatient("1309998775018");
+            var result = therapyService.GetTherapyByPatient("1309998775018");
 
-            Assert.True(result is OkObjectResult);
+            Assert.True(result is List<Therapy>);
         }
 
         [Fact]
         public void Get_therapy_by_non_existent_patient_jmbg()
         {
-            TherapyController therapyController = SetupTherapyController();
+            TherapyService therapyService = SetupTherapyService();
 
-            var result = therapyController.GetTherapiesByPatient("0000000000000");
+            var result = therapyService.GetTherapyByPatient("0000000000000");
 
             Assert.True(result is NotFoundObjectResult);
         }
@@ -54,23 +63,23 @@ namespace PatientWebAppTests.UnitTests
         [Fact]
         public void Advanced_search_therapy()
         {
-            TherapyController therapyController = SetupTherapyController();
+            TherapyService therapyService = SetupTherapyService();
 
             var therapySearchDTOValidObject = _objectFactory.GetTherapySearchDTO().CreateValidTestObject();
-            var result = therapyController.AdvanceSearchTherapies(therapySearchDTOValidObject);
+            var result = therapyService.AdvancedSearch(therapySearchDTOValidObject);
 
-            Assert.True(result is OkObjectResult);
+            Assert.True(result is List<Therapy>);
         }
 
         [Fact]
         public void Advanced_search_non_exitent_therapy()
         {
-            TherapyController therapyController = SetupTherapyController();
+            TherapyService therapyService = SetupTherapyService();
 
             var therapySearchDTOInvalidObject = _objectFactory.GetTherapySearchDTO().CreateInvalidTestObject();
-            var result = therapyController.AdvanceSearchTherapies(therapySearchDTOInvalidObject);
+            var result = therapyService.AdvancedSearch(therapySearchDTOInvalidObject);
 
-            Assert.True(result is NotFoundObjectResult);
-        }
+            Assert.True(result is null);
+        }*/
     }
 }

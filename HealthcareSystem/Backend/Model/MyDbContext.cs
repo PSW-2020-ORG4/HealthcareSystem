@@ -56,6 +56,9 @@ namespace Backend.Model
             builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Specialty).WithMany(s => s.DoctorSpecialties).HasForeignKey(ds => ds.SpecialtyId);
 
             builder.Entity<DrugInRoom>().HasKey(o => new { o.RoomNumber, o.DrugId });
+
+            builder.Entity<Patient>().HasIndex(u => u.Username).IsUnique();
+            builder.Entity<Admin>().HasIndex(u => u.Username).IsUnique();
         }
     }
 }

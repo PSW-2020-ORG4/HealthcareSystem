@@ -87,7 +87,7 @@ namespace Service.DrugAndTherapy
 
         public List<Therapy> AdvancedSearch(TherapySearchDTO parameters)
         {
-            List<Therapy> therapies = GetTherapyByPatient(parameters.Jmbg);
+            List<Therapy> therapies = GetTherapyByPatient("");
 
             ISpecification<Therapy> filter = new TherapyStartDateSpecification(parameters.StartDate);
             filter = filter.BinaryOperation(parameters.EndDateOperator, new TherapyEndDateSpecification(parameters.EndDate));

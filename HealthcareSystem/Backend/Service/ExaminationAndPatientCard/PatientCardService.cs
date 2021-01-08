@@ -5,9 +5,9 @@
  ***********************************************************************/
 
 using Backend.Model.Exceptions;
+using Backend.Repository;
 using Backend.Service;
 using Model.Users;
-using Repository;
 using System;
 
 namespace Backend.Service

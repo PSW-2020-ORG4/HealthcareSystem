@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿var jmbg = "";
+$(document).ready(function () {
+    checkUserRole("Patient");
+
     $('#start_date').val("");
     $('#end_date').val("");
     $('#doctor_surname').val("");
@@ -31,11 +34,12 @@
         }
     });
 
-    let jmbg = "1309998775018";
-
     $.ajax({
-        url: '/api/examination/previous/' + jmbg,
+        url: '/api/examination/previous',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -49,15 +53,15 @@
             }
             else {
                 for (let i = 0; i < data.length; i++) {
+                    jmbg = data[i].patientJmbg;
                     addExaminationRow(data[i]);
                 }
                 $("#loading").hide();
             }
         },
-        error: function () {
+        error: function (jqXHR) {
             let alert = '<div id="loading" class="alert alert-danger" role="alert">'
-                + 'Error fetching data.'
-                + '</div>';
+                + jqXHR.responseJSON + '</div>';
             $("#loading").hide();
             $("#div_prescriptions").prepend(alert);
         }
@@ -89,11 +93,9 @@
             anamnesis_or_drug = null;
         }
 
-        let operator = 0;
         let doc_type = $('#doc_type option:selected').val();
         if (doc_type == "report") {
             var newData = {
-                "Jmbg": jmbg,
                 "StartDate": start_date,
                 "EndDateOperator": parseInt(first_operator),
                 "EndDate": end_date,
@@ -102,10 +104,14 @@
                 "AnamnesisOperator": parseInt(third_operator),
                 "Anamnesis": anamnesis_or_drug
             };
+            
             $.ajax({
                 url: '/api/examination/advance-search',
                 type: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
                 data: JSON.stringify(newData),
                 success: function (data) {
                     if (data.length == 0) {
@@ -124,10 +130,9 @@
                         $('#search_prescription').find(":submit").prop('disabled', false);
                     }
                 },
-                error: function () {
+                error: function (jqXHR) {
                     let alert = '<div id="loading" class="alert alert-danger" role="alert">'
-                        + 'Error fetching data.'
-                        + '</div>';
+                        + jqXHR.responseJSON + '</div>';
                     $("#loading").hide();
                     $("#div_prescriptions").prepend(alert);
                     $('#search_prescription').find(":submit").prop('disabled', false);
@@ -136,7 +141,6 @@
 
         } else {
             var newData = {
-                "Jmbg": jmbg,
                 "StartDate": start_date,
                 "EndDateOperator": parseInt(first_operator),
                 "EndDate": end_date,
@@ -150,6 +154,9 @@
                 url: "/api/therapy/advance-search",
                 type: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
                 data: JSON.stringify(newData),
                 success: function (therapies) {
                     if (therapies.length == 0) {
@@ -168,10 +175,9 @@
                         $('#search_prescription').find(":submit").prop('disabled', false);
                     }
                 },
-                error: function (error) {
+                error: function (jqXHR) {
                     let alert = '<div id="loading" class="alert alert-danger" role="alert">'
-                        + 'Error fetching data.'
-                        + '</div>';
+                        + jqXHR.responseJSON + '</div>';
                     $("#loading").hide();
                     $("#div_prescriptions").prepend(alert);
                     $('#search_prescription').find(":submit").prop('disabled', false);
@@ -202,18 +208,12 @@ function addPrescriptionTable(therapy) {
 }
 
 function addExaminationRow(examination) {
-    let type = '';
-    if (examination.type == "GENERAL")
-        type = "Examination";
-    else
-        type = "Surgery";
-
     let button = '';
     if (examination.examinationStatus == 2 && examination.isSurveyCompleted == 0) {
         button = '<div class="card-footer">'
             + '<button type = "button" class="btn btn-success float-right" '
             + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
-            +'> Fill out the survey</button >'
+            + '> Fill out the survey</button >'
             + '</div >';
     }
 
@@ -223,7 +223,7 @@ function addExaminationRow(examination) {
         + '<div class="card">'
         + '<div class="card-header bg-info text-white">'
         + '<h4 class="card-title mb-0">'
-        + type + ' on <span class="badge badge-light">' + examination.dateAndTime + '</span> '
+        + 'Examination on <span class="badge badge-light">' + examination.dateAndTime + '</span> '
         + '</h4>'
         + '</div>'
         + '<div class="card-body p-3">'

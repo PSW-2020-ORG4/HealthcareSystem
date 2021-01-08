@@ -32,6 +32,7 @@ using Backend.Service.RoomAndEquipment;
 using Backend.Service.SendingMail;
 using Backend.Service.UsersAndWorkingTime;
 using Backend.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,8 +40,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Model.Enums;
-using Model.Users;
+using Microsoft.IdentityModel.Tokens;
+using PatientWebApp.Settings;
 using Repository;
 using Service.DrugAndTherapy;
 using Service.ExaminationAndPatientCard;
@@ -50,7 +51,7 @@ using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 
 namespace PatientWebApp
 {
@@ -110,41 +111,15 @@ namespace PatientWebApp
                 Console.WriteLine("Not dev or test.");
             }
 
-            services.AddScoped<ICountryRepository, MySqlCountryRepository>();
-            services.AddScoped<ICountryService, CountryService>();
-
-            services.AddScoped<ICityRepository, MySqlCityRepository>();
-            services.AddScoped<ICityService, CityService>();
-
             services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
-            services.AddScoped<ISpecialtyService, SpecialtyService>();
-
-            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();
-            services.AddScoped<IFeedbackService, FeedbackService>();
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IPatientService, PatientService>();
 
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
-            services.AddScoped<IDoctorService, DoctorService>();
-
-            services.AddScoped<IDoctorSpecialtyRepository, MySqlDoctorSpecialtyRepository>();
-            services.AddScoped<IDoctorSpecialtyService, DoctorSpecialtyService>();
-
-            services.AddScoped<ISurveyRepository, MySqlSurveyRepository>();
-            services.AddScoped<ISurveyService, SurveyService>();
 
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
             services.AddScoped<IPatientCardService, PatientCardService>();
-
-            services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
-            services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
-            services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
-            services.AddScoped<IDrugService, DrugService>();
-
-            services.AddScoped<IDrugTypeRepository, MySqlDrugTypeRepository>();
-            services.AddScoped<IIngridientRepository, MySqlIngridientRepository>();
-            services.AddScoped<IDrugTypeAndIngridientService, DrugTypeAndIngridientService>();
 
             services.AddScoped<IRoomRepository, MySqlRoomRepository>();
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
@@ -152,9 +127,6 @@ namespace PatientWebApp
 
             services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
             services.AddScoped<IExaminationService, ExaminationService>();
-
-            services.AddScoped<ITherapyRepository, MySqlTherapyRepository>();
-            services.AddScoped<ITherapyService, TherapyService>();
 
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
@@ -166,10 +138,31 @@ namespace PatientWebApp
             services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.Configure<ServiceSettings>(GetServiceSettings);
 
             services.AddTransient<IMailService, MailService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            var tokenKey = "This is my private key";
+            var key = Encoding.ASCII.GetBytes(tokenKey);
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
             services.AddScoped<IPharmacyService, PharmacyService>();
@@ -177,6 +170,14 @@ namespace PatientWebApp
             services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();
 
+        }
+
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.PatientServiceUrl = Configuration.GetValue<string>("PATIENT_SERVICE_URL");
+            conf.FeedbackAndSurveyServiceUrl = Configuration.GetValue<string>("FEEDBACK_SURVEY_SERVICE_URL");
+            conf.UserServiceUrl = Configuration.GetValue<string>("USER_SERVICE_URL");
+            conf.NotificationServiceUrl = Configuration.GetValue<string>("NOTIFICATION_SERVICE_URL");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -220,6 +221,8 @@ namespace PatientWebApp
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

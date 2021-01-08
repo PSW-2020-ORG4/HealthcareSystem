@@ -2,9 +2,14 @@
 var id = params.get("id");
 
 $(document).ready(function () {
+	checkUserRole("Patient");
+
 	$.ajax({
 		url: '/api/examination/' + id,
 		type: "GET",
+		headers: {
+			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+		},
 		dataType: 'json',
 		processData: false,
 		contentType: false,
@@ -51,6 +56,9 @@ $(document).ready(function () {
 					url: "/api/survey",
 					type: 'POST',
 					contentType: 'application/json',
+					headers: {
+						'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+					},
 					data: JSON.stringify(newSurvey),
 					success: function () {
 						let alert = $('<div class="alert alert-success alert-dismissible fade show m-1" role="alert">Your response has been recored. Thank you for filling out the survey!'
@@ -60,8 +68,8 @@ $(document).ready(function () {
 						$('#alert').prepend(alert);
 					},
 					error: function (jqXHR) {
-						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Survey submission failed.'
-							+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+						let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert"> ' + jqXHR.responseJSON +
+ 							+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 						$('#loading').hide();
 						$('#survey_form').find(":submit").prop('disabled', false);
 						$('#alert').prepend(alert);
@@ -70,10 +78,9 @@ $(document).ready(function () {
 			});
 
 		},
-		error: function () {
-			let alert = $('<div class="alert alert-danger m-1" role="alert">Error fetching data.</div >')
+		error: function (jqXHR) {
+			let alert = $('<div class="alert alert-danger m-1" role="alert">' + jqXHR.responseJSON + '</div >')
 			$('#alert').prepend(alert);
 		}
 	});
 });
-

@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Patient
  ***********************************************************************/
 
-using Model.Enums;
+using Backend.Model.Enums;
 using Model.NotificationSurveyAndFeedback;
 using System;
 using System.Collections.Generic;

@@ -6,15 +6,15 @@
 		event.preventDefault();
 		$('#div_alert').empty();
 
-		let username = $('#username').val();
+		let email = $('#email').val();
 		let password = $('#password').val();
 
-		var userCredentialsDTO = {
-			"Username": username,
-			"Password": password,
+		var userInfoDTO = {
+			"Email": email,
+			"Password": password
 		};
 
-		if ((username == "") || (password == "")) {
+		if ((email == "") || (password == "")) {
 			return;
 		}
 		else {
@@ -23,14 +23,14 @@
 				url: "/api/user/authenticate",
 				type: 'POST',
 				contentType: 'application/json',
-				data: JSON.stringify(userCredentialsDTO),
-				success: function (tokenUser) {
-					localStorage.setItem('token', tokenUser);
+				data: JSON.stringify(userInfoDTO),
+				success: function (token) {
+					localStorage.setItem('token', token);
 					redirectUser(window.localStorage.getItem('token'));
 				},
 				error: function (jqXHR) {
-					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert"> Incorrect username and password'
-						+ '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+					let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+						+ jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
 					$('#div_alert').append(alert);
 					return;
 				}

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.DTO;
+﻿using Backend.Model.DTO;
 using Backend.Model.Exceptions;
 using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
@@ -11,9 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Model.PerformingExamination;
 using Model.Users;
+using PatientWebApp.Auth;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
 using PatientWebApp.Settings;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PatientWebApp.Controllers
 {

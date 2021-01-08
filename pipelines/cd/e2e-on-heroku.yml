@@ -19,7 +19,7 @@ stages:
           targetType: 'inline'
           script: |
             echo "----- Installing EF Core. -----"
-            dotnet tool install --global dotnet-ef --version 3.1.9
+            dotnet tool install dotnet-ef --version 3.1.9
             echo "----- Generating script. -----"
             dotnet-ef dbcontext script -c "TestDbContext" -p "./HealthcareSystem/Backend/Backend.csproj" -o init.sql
           pwsh: true
@@ -34,6 +34,7 @@ stages:
             Get-Content init.sql | heroku pg:psql DATABASE_URL --app vlaksi-patient-service
           pwsh: true     
   - job: Wait
+    dependsOn: ResetDb
     displayName: Wait for component redeployments
     pool: Server
     steps:

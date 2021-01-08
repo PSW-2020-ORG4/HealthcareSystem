@@ -7,6 +7,8 @@ pr: none
 stages:
 - stage: Prepare
   displayName: Prepare for tests
+  variables:
+    HEROKU_API_KEY: 8418d6b4-7423-404b-81cf-23abcd968591
   jobs:  
   - job: ResetDb
     displayName: Reset database

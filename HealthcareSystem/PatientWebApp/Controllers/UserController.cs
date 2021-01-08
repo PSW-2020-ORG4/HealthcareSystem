@@ -1,19 +1,15 @@
-﻿using System;
-using System.Text;
-using Backend.Model.Exceptions;
-using Backend.Service;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Model.Users;
-using PatientWebApp.DTOs;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using PatientWebApp.DTOs;
+using PatientWebApp.Settings;
+using RestSharp;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.Options;
-using PatientWebApp.Settings;
+using System.Text;
 
 namespace PatientWebApp.Controllers
 {
@@ -22,81 +18,41 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IPatientService _patientService;
-        private readonly IAdminService _adminService;
         private readonly ServiceSettings _serviceSettings;
 
-        public UserController(IPatientService patientService,
-                              IAdminService adminService,
-                              IOptions<ServiceSettings> serviceSettings)
+        public UserController(IOptions<ServiceSettings> serviceSettings)
         {
-            _patientService = patientService;
-            _adminService = adminService;
             _serviceSettings = serviceSettings.Value;
         }
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody] UserCredentialsDTO userCredentialsDTO)
+        public IActionResult Authenticate([FromBody] UserInfoDTO userInfoDTO)
         {
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
+            var request = new RestRequest("/api/user", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddJsonBody(userInfoDTO);
+            var response = client.Execute(request);
+
             try
             {
-                string patientToken = TryToLoginPatient(userCredentialsDTO.Username, userCredentialsDTO.Password);
-                string adminToken = TryToLoginAdmin(userCredentialsDTO.Username, userCredentialsDTO.Password);
-
-                if (patientToken == null && adminToken == null)
+                UserDTO userDTO = JsonConvert.DeserializeObject<UserDTO>(response.Content);
+                if (userDTO.CanLogIn)
                 {
-                    return Unauthorized();
-                }
-                else if (patientToken != null)
-                {
-                    return Ok(patientToken);
-                }
-                else
-                {
-                    return Ok(adminToken);
+                    var token = GenerateJWT(userDTO.Email, userDTO.Jmbg, userDTO.Type);
+                    return Ok(token);
                 }
             }
-            catch (BadRequestException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            catch (Exception) { }
 
-        }
-        private string TryToLoginPatient(string username, string password)
-        {
-            Patient patient;
-            try
-            {
-                patient = _patientService.GetPatientByUsernameAndPassword(username, password);
-                string token = GenerateJWT(patient.Username, patient.Jmbg, UserRoles.Patient);
-                return token;
-            }
-            catch (NotFoundException)
-            {
-                return null;
-            }
-        }
-        private string TryToLoginAdmin(string username, string password)
-        {
-            Admin admin;
-            try
-            {
-                admin = _adminService.GetAdminByUsernameAndPassword(username, password);
-                string token = GenerateJWT(admin.Username, admin.Jmbg, UserRoles.Admin);
-                return token;
-            }
-            catch (NotFoundException)
-            {
-                return null;
-            }
+            if ((int)response.StatusCode == 500)
+                return Problem("An internal error occured.");
+            else
+                return Unauthorized("Credentials not valid.");
         }
 
-        private string GenerateJWT(string username, string jmbg, string role)
+        private string GenerateJWT(string email, string jmbg, string type)
         {
             var tokenKey = "This is my private key";
             var key = Encoding.ASCII.GetBytes(tokenKey);
@@ -105,7 +61,7 @@ namespace PatientWebApp.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, username), new Claim("Jmbg",jmbg) , new Claim(ClaimTypes.Role, role)
+                    new Claim(ClaimTypes.NameIdentifier, email), new Claim("Jmbg",jmbg) , new Claim(ClaimTypes.Role, type)
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(

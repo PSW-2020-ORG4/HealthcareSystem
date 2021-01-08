@@ -1,5 +1,5 @@
 ﻿using Backend;
-using Model.Enums;
+using Backend.Model.Enums;
 using Model.Manager;
 using Model.Users;
 using System;
@@ -8,7 +8,7 @@ using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {
-   public class CreateDoctor
+    public class CreateDoctor
     {
         private readonly CreateRoom _createRoom = new CreateRoom();
         public CreateDoctor(CreateRoom createRoom)

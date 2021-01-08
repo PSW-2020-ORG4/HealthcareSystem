@@ -10,26 +10,24 @@ namespace ScheduleService.Services.AdvancedSearchStrategy
     {
         private BasicSearchDTO SearchDTO { get; }
 
-        private int counter;
+        private int _dateInterval;
 
-        public DoctorHasPriorityStrategy(BasicSearchDTO searchDTO)
+        public DoctorHasPriorityStrategy(BasicSearchDTO searchDTO, int dateInterval)
         {
             SearchDTO = searchDTO;
-            counter = 0;
+            _dateInterval = dateInterval;
         }
 
         public BasicSearchDTO GetSearchParameters()
         {
-            if (counter == 0)
+            if (_dateInterval != 0)
             {
-                counter++;
+                SetupEarliestDate();
+                SetupLatestDate();
+                _dateInterval--;
                 return SearchDTO;
-            }              
-            if (counter > 5) return null;          
-            SetupEarliestDate();
-            SetupLatestDate();
-            counter++;
-            return SearchDTO;
+            }
+            return null;
         }
 
         private void SetupEarliestDate()

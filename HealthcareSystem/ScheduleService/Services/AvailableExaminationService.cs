@@ -34,7 +34,7 @@ namespace ScheduleService.Services
             }
             else if (!examinations.Any() && advancedSearchDTO.Priority == SearchPriority.Doctor)
             {
-                DoctorHasPriorityStrategy doctorPriority = new DoctorHasPriorityStrategy(advancedSearchDTO.InitialParameters);
+                DoctorHasPriorityStrategy doctorPriority = new DoctorHasPriorityStrategy(advancedSearchDTO.InitialParameters, 5);
 
                 return SearchAvailableExaminationsByDoctorPriority(doctorPriority);
             }

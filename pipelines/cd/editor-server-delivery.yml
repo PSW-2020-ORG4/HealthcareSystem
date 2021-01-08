@@ -77,6 +77,6 @@ stages:
       - task: PowerShell@2
         displayName: "Ping test"
         inputs:
-          filePath: 'smoke.ps1'
+          filePath: 'pipelines/cd/smoke.ps1'
           arguments: '-uri https://$(herokuProject).herokuapp.com/api/ping -code 200'
           pwsh: true

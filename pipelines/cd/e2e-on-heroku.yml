@@ -59,13 +59,13 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://$vlaksi-user-service.herokuapp.com/api/ping -code 200'
+          arguments: '-uri "https://$vlaksi-user-service.herokuapp.com/api/ping" -code 200'
           pwsh: true
       - task: PowerShell@2
         displayName: "Database connection test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://$vlaksi-user-service.herokuapp.com/api/countries -code 200'
+          arguments: '-uri "https://$vlaksi-user-service.herokuapp.com/api/countries" -code 200'
           pwsh: true
 
   - job: FeedbackAndSurveyService
@@ -74,13 +74,13 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://$vlaksi-feedback-and-survey.herokuapp.com/api/ping -code 200'
+          arguments: '-uri "https://$vlaksi-feedback-and-survey.herokuapp.com/api/ping" -code 200'
           pwsh: true
       - task: PowerShell@2
         displayName: "Database connection test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://$vlaksi-feedback-and-survey.herokuapp.com/api/feedback/published -code 200'
+          arguments: '-uri "https://$vlaksi-feedback-and-survey.herokuapp.com/api/feedback/published" -code 200'
           pwsh: true
 
   - job: NotificationService
@@ -89,7 +89,7 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://$vlaksi-notification-service.herokuapp.com/api/ping -code 200'
+          arguments: '-uri "https://$vlaksi-notification-service.herokuapp.com/api/ping" -code 200'
           pwsh: true
 
   - job: PatientService
@@ -98,7 +98,7 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://$vlaksi-patient-service.herokuapp.com/api/ping -code 200'
+          arguments: '-uri "https://$vlaksi-patient-service.herokuapp.com/api/ping" -code 200'
           pwsh: true
 
   - job: ApiGateway
@@ -107,7 +107,7 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://$vlaksi-patientwebapp.herokuapp.com/api/ping -code 200'
+          arguments: '-uri "https://$vlaksi-patientwebapp.herokuapp.com/api/ping" -code 200'
           pwsh: true
 
 

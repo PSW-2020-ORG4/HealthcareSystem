@@ -13,13 +13,17 @@ stages:
     pool:
       vmImage: 'ubuntu-18.04'
     steps:
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '3.1.x'
       - task: PowerShell@2
         displayName: "Generate SQL script"
         inputs:
           targetType: 'inline'
           script: |
             echo "----- Installing EF Core. -----"
-            dotnet tool install dotnet-ef --version 3.1.9
+            dotnet tool install --global dotnet-ef --version 3.1.9
             echo "----- Generating script. -----"
             dotnet-ef dbcontext script -c "TestDbContext" -p "./HealthcareSystem/Backend/Backend.csproj" -o init.sql
           pwsh: true

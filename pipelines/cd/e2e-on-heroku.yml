@@ -4,6 +4,9 @@ trigger:
     - develop
 pr: none
 
+pool:
+  vmImage: 'ubuntu-18.04'
+
 stages:
 - stage: Prepare
   displayName: Prepare for tests
@@ -12,8 +15,6 @@ stages:
   jobs:  
   - job: ResetDb
     displayName: Reset database
-    pool:
-      vmImage: 'ubuntu-18.04'
     steps:
       - task: UseDotNet@2
         inputs:
@@ -50,8 +51,6 @@ stages:
 
 - stage: Smoke
   displayName: Run smoke tests
-  pool:
-    vmImage: 'ubuntu-18.04'
   jobs:
   - job: UserService
     steps:
@@ -113,8 +112,6 @@ stages:
 
 - stage: E2E
   displayName: Run E2E tests
-  pool:
-    vmImage: 'ubuntu-18.04'
   variables:
     e2etests: 'HealthcareSystem/E2ETests/E2ETests.csproj'
   jobs:

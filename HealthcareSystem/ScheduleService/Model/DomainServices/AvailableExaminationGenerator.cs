@@ -19,7 +19,6 @@ namespace ScheduleService.Model.DomainServices
                     if (examination.IsAvailable()) 
                         examinations.Add(examination);
                 }
-            
 
             return examinations;
         }

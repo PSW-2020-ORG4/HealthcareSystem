@@ -1,8 +1,6 @@
 ﻿using ScheduleService.Model;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ScheduleService.Repository
 {
@@ -10,6 +8,6 @@ namespace ScheduleService.Repository
     {
         Doctor Get(string id);
         Doctor Get(string id, DateTime startDate, DateTime endDate);
-        IEnumerable<Doctor> GetBySpecialty(int specialtyId, DateTime startDate, DateTime endDate);
+        ICollection<string> GetIdsBySpecialty(int specialtyId);
     }
 }

@@ -12,5 +12,15 @@ namespace ScheduleService.Model.DomainServices
         public IEnumerable<Room> Rooms { get; }
         public DateTime StartDate { get; }
         public DateTime EndDate { get; }
+
+        public ExaminationGeneratorDTO() { }
+        public ExaminationGeneratorDTO(Patient patient, Doctor doctor, IEnumerable<Room> rooms, DateTime startDate, DateTime endDate)
+        {
+            Patient = patient;
+            Doctor = doctor;
+            Rooms = rooms;
+            StartDate = startDate;
+            EndDate = endDate;
+        }
     }
 }

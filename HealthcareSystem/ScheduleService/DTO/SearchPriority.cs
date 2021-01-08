@@ -8,6 +8,6 @@ namespace ScheduleService.DTO
     public enum SearchPriority
     {
         Doctor,
-        Date
+        Time
     }
 }

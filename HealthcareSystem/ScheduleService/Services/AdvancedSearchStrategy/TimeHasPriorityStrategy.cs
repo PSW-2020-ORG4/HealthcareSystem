@@ -9,6 +9,12 @@ namespace ScheduleService.Services.AdvancedSearchStrategy
         private BasicSearchDTO SearchDTO { get; }
         private ICollection<string> PotentiallyAvailableDoctors { get; }
 
+        public TimeHasPriorityStrategy(BasicSearchDTO searchDTO, ICollection<string> potentiallyAvailableDoctors)
+        {
+            SearchDTO = searchDTO;
+            PotentiallyAvailableDoctors = potentiallyAvailableDoctors;
+        }
+
         public BasicSearchDTO GetSearchParameters()
         {
             if (PotentiallyAvailableDoctors.Count > 0)

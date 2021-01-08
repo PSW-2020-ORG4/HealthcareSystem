@@ -23,7 +23,7 @@ namespace PatientWebAppTests.UnitTests
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
         private readonly EncryptionService _encryptionService;
-
+        /*
         public PatientControllerTests()
         {
             _objectFactory = new TestObjectFactory();
@@ -137,16 +137,6 @@ namespace PatientWebAppTests.UnitTests
             Assert.True(result is NotFoundObjectResult);
         }
 
-        [Fact]
-        public void Get_number_of_canceled_examinations()
-        {
-            PatientController patientController = SetupPatientController(new Mock<IMailService>());
-
-            var result = patientController.GetNumberOfCanceledExaminations("1234567891234");
-
-            Assert.True(result is OkObjectResult);
-        }
-
 
         [Fact]
         public void Block_existent_patient()
@@ -167,6 +157,6 @@ namespace PatientWebAppTests.UnitTests
 
             Assert.True(result is NotFoundObjectResult);
         }
-
+        */
     }
 }

@@ -41,6 +41,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using PatientWebApp.Settings;
 using Repository;
 using Service.DrugAndTherapy;
 using Service.ExaminationAndPatientCard;
@@ -110,41 +111,15 @@ namespace PatientWebApp
                 Console.WriteLine("Not dev or test.");
             }
 
-            services.AddScoped<ICountryRepository, MySqlCountryRepository>();
-            services.AddScoped<ICountryService, CountryService>();
-
-            services.AddScoped<ICityRepository, MySqlCityRepository>();
-            services.AddScoped<ICityService, CityService>();
-
             services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
-            services.AddScoped<ISpecialtyService, SpecialtyService>();
-
-            services.AddScoped<IFeedbackRepository, MySqlFeedbackRepository>();
-            services.AddScoped<IFeedbackService, FeedbackService>();
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IPatientService, PatientService>();
 
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
-            services.AddScoped<IDoctorService, DoctorService>();
-
-            services.AddScoped<IDoctorSpecialtyRepository, MySqlDoctorSpecialtyRepository>();
-            services.AddScoped<IDoctorSpecialtyService, DoctorSpecialtyService>();
-
-            services.AddScoped<ISurveyRepository, MySqlSurveyRepository>();
-            services.AddScoped<ISurveyService, SurveyService>();
 
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
             services.AddScoped<IPatientCardService, PatientCardService>();
-
-            services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
-            services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
-            services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
-            services.AddScoped<IDrugService, DrugService>();
-
-            services.AddScoped<IDrugTypeRepository, MySqlDrugTypeRepository>();
-            services.AddScoped<IIngridientRepository, MySqlIngridientRepository>();
-            services.AddScoped<IDrugTypeAndIngridientService, DrugTypeAndIngridientService>();
 
             services.AddScoped<IRoomRepository, MySqlRoomRepository>();
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
@@ -152,9 +127,6 @@ namespace PatientWebApp
 
             services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
             services.AddScoped<IExaminationService, ExaminationService>();
-
-            services.AddScoped<ITherapyRepository, MySqlTherapyRepository>();
-            services.AddScoped<ITherapyService, TherapyService>();
 
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
             services.AddScoped<IRenovationPeriodService, RenovationPeriodService>();
@@ -165,10 +137,8 @@ namespace PatientWebApp
 
             services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
 
-            services.AddScoped<IAdminRepository, MySqlAdminRepository>();
-            services.AddScoped<IAdminService, AdminService>();
-
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.Configure<ServiceSettings>(GetServiceSettings);
 
             services.AddTransient<IMailService, MailService>();
 
@@ -200,6 +170,14 @@ namespace PatientWebApp
             services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();
 
+        }
+
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.PatientServiceUrl = Configuration.GetValue<string>("PATIENT_SERVICE_URL");
+            conf.FeedbackAndSurveyServiceUrl = Configuration.GetValue<string>("FEEDBACK_SURVEY_SERVICE_URL");
+            conf.UserServiceUrl = Configuration.GetValue<string>("USER_SERVICE_URL");
+            conf.NotificationServiceUrl = Configuration.GetValue<string>("NOTIFICATION_SERVICE_URL");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

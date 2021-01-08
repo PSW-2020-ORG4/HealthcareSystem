@@ -1,20 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.DTO;
-using Backend.Model.Exceptions;
+﻿using Backend.Model.Exceptions;
 using Backend.Service.ExaminationAndPatientCard;
-using Backend.Service.SearchSpecification;
 using Backend.Service.SearchSpecification.ExaminationSearch;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Model.PerformingExamination;
-using Model.Users;
+using PatientWebApp.Auth;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;
+using PatientWebApp.Settings;
 using PatientWebApp.Validators;
+using RestSharp;
+using System;
+using System.Collections.Generic;
 
 namespace PatientWebApp.Controllers
 {
@@ -25,10 +24,13 @@ namespace PatientWebApp.Controllers
     {
         private readonly IExaminationService _examinationService;
         private readonly ExaminationValidator _examinationValidator;
-        public ExaminationController(IExaminationService examinationService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public ExaminationController(IExaminationService examinationService, IOptions<ServiceSettings> serviceSettings)
         {
             _examinationService = examinationService;
             _examinationValidator = new ExaminationValidator(_examinationService);
+            _serviceSettings = serviceSettings.Value;
         }
 
         /// <summary>
@@ -64,23 +66,20 @@ namespace PatientWebApp.Controllers
         [HttpPost("advance-search")]
         public ActionResult AdvanceSearchExaminations(ExaminationSearchDTO examinationSearchDTO)
         {
-            try
-            {
-                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                examinationSearchDTO.Jmbg = patientJmbg;
-                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
-                _examinationService.AdvancedSearch(examinationSearchDTO).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
-                return Ok(examinationDTOs);
-            }
-            catch (ArgumentNullException)
-            {
-                return BadRequest("Patient's jmbg cannot be null.");
-            }
-            catch (DatabaseException e)
-            {
-                return StatusCode(500, e.Message);
-            }
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient(_serviceSettings.PatientServiceUrl);
+            var request = new RestRequest("/api/patient/" + patientJmbg + "/examination/search", Method.POST);
+            request.RequestFormat = DataFormat.Json;
+            request.AddJsonBody(examinationSearchDTO);
 
+            var response = client.Execute(request);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
 
         /// <summary>
@@ -96,8 +95,9 @@ namespace PatientWebApp.Controllers
             try
             {
                 var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                Examination examination= _examinationService.GetExaminationById(id);
-                if (!patientJmbg.Equals(examination.PatientCard.PatientJmbg)) {
+                Examination examination = _examinationService.GetExaminationById(id);
+                if (!patientJmbg.Equals(examination.PatientCard.PatientJmbg))
+                {
                     return StatusCode(403, "Patient tried to cancel someone else's examination");
                 }
                 _examinationValidator.CheckIfExaminationCanBeCanceled(id);
@@ -116,7 +116,7 @@ namespace PatientWebApp.Controllers
             {
                 return StatusCode(500, exception.Message);
             }
-            
+
         }
 
         /// /getting canceled examinations linked to a certain patient
@@ -155,21 +155,17 @@ namespace PatientWebApp.Controllers
         [HttpGet("previous")]
         public ActionResult GetPreviousExaminationsByPatient()
         {
-            try
-            {
-                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
-                _examinationService.GetPreviousExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
-                return Ok(examinationDTOs);
-            }
-            catch (NullReferenceException)
-            {
-                return BadRequest("Patient's jmbg cannot be null.");
-            }
-            catch (DatabaseException e)
-            {
-                return StatusCode(500, e.Message);
-            }
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient(_serviceSettings.PatientServiceUrl);
+            var request = new RestRequest("/api/patient/" + patientJmbg + "/examination");
+            var response = client.Execute(request);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
 
         /// <summary>
@@ -249,7 +245,7 @@ namespace PatientWebApp.Controllers
                 _examinationService.AddExamination(ExaminationMapper.ExaminationDTOToExamination(examinationDTO));
                 return StatusCode(201);
             }
-            catch(ValidationException exception)
+            catch (ValidationException exception)
             {
                 return BadRequest(exception.Message);
             }

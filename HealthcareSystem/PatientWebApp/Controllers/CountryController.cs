@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Service;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
+using Microsoft.Extensions.Options;
+using PatientWebApp.Settings;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -17,26 +11,27 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class CountryController : ControllerBase
     {
-        private readonly ICountryService _countryService;
-        public CountryController(ICountryService countryService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public CountryController(IOptions<ServiceSettings> serviceSettings)
         {
-            _countryService = countryService;
+            _serviceSettings = serviceSettings.Value;
         }
 
         [AllowAnonymous]
         [HttpGet]
         public IActionResult GetCountries()
         {
-            List<CountryDTO> countryDTOs = new List<CountryDTO>();
-            try
-            {
-                _countryService.GetCountries().ForEach(country => countryDTOs.Add(CountryMapper.CountryToCountryDTO(country)));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            return Ok(countryDTOs);
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
+            var request = new RestRequest("/api/country");
+            var response = client.Execute(request);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+            
+            return contentResult;
         }
     }
 }

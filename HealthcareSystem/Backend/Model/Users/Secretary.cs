@@ -6,12 +6,12 @@
 
 
 
-using Model.Enums;
+using Backend.Model.Enums;
 using System;
 
 namespace Model.Users
 {
-   public class Secretary : User
+    public class Secretary : User
    {
         public TypeOfQualifications Qualifications { get; set; }
         public DateTime DateOfEmployment { get; set; }

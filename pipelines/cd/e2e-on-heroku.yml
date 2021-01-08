@@ -29,9 +29,9 @@ stages:
           targetType: 'inline'
           script: |
             echo "----- Reseting database. -----"
-            heroku pg:reset DATABASE_URL --app vlaksi-patientwebapp --confirm vlaksi-patientwebapp
+            heroku pg:reset DATABASE_URL --app vlaksi-patient-service --confirm vlaksi-patient-service
             echo "----- Initializing database. -----"
-            Get-Content init.sql | heroku pg:psql DATABASE_URL --app vlaksi-patientwebapp
+            Get-Content init.sql | heroku pg:psql DATABASE_URL --app vlaksi-patient-service
           pwsh: true     
   - job: Wait
     displayName: Wait for component redeployments

@@ -55,40 +55,83 @@ namespace Backend.Service.ExaminationAndPatientCard
             return actuallyAvailableAppointments;
         }
 
-        public ICollection<Examination> GetUnchangedAppointmentsForEmergency(BasicAppointmentSearchDTO parameters)
+        public ICollection<Examination> GetUnchangedAppointmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters)
         {
-            List<Examination> allUnchangedAppointments = (List<Examination>) GetPotentiallyAvailableAppointments(parameters);
+            parameters.InitialParameters.EarliestDateTime = GetNewStartTime(parameters.InitialParameters.EarliestDateTime);
+            parameters.InitialParameters.LatestDateTime = parameters.InitialParameters.EarliestDateTime.AddHours(2);
 
-            foreach (Examination appointment in allUnchangedAppointments)
+            ICollection<Doctor> allDoctors = _doctorRepository.GetDoctorsBySpecialty(parameters.SpecialtyId);
+            List<Examination> allUnchangedAppointments = new List<Examination>();
+            foreach (Doctor doctor in allDoctors)
             {
-                if (IsAvailable(appointment))
-                    appointment.ExaminationStatus = ExaminationStatus.AVAILABLE;
-                else appointment.ExaminationStatus = ExaminationStatus.CREATED;
-            }        
+                parameters.InitialParameters.DoctorJmbg = doctor.Jmbg;
+                allUnchangedAppointments.AddRange(BasicSearch(parameters.InitialParameters));
+            }
+            allUnchangedAppointments.ForEach(e => e.ExaminationStatus = ExaminationStatus.AVAILABLE);  
 
             return allUnchangedAppointments;
         }
 
-        public ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(BasicAppointmentSearchDTO parameters)
+        public ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters)
         {
-            List<Examination> unchangedAppointments = (List<Examination>)GetPotentiallyAvailableAppointments(parameters);
+            parameters.InitialParameters.EarliestDateTime = GetNewStartTime(parameters.InitialParameters.EarliestDateTime);
+            parameters.InitialParameters.LatestDateTime = parameters.InitialParameters.EarliestDateTime.AddHours(2);
+
+            List<Examination> unavailableAppointments = GetUnavailableAppointments(parameters.InitialParameters);
+            List<Examination> adequateAppoinments = GetOnlyAdequateAppointments(unavailableAppointments, parameters);
 
             ICollection<Examination> shiftedAppointments = new List<Examination>();
-            foreach (Examination examination in unchangedAppointments)
-                shiftedAppointments.Add(GetShiftedAppointmentForEmergency(parameters, examination));
+            foreach (Examination examination in unavailableAppointments)
+            {
+                List<Examination> availableAppointments = GetShiftedAppointmentForEmergency(parameters.InitialParameters, examination);
+                availableAppointments = availableAppointments.OrderBy(e => e.DateAndTime).ToList();
+                foreach (Examination appointment in availableAppointments)
+                {
+                    if (IsShiftedAppoinmentAvailable(appointment, shiftedAppointments))
+                    {
+                        shiftedAppointments.Add(appointment);
+                        break;
+                    }
+                }
+            }
 
-            shiftedAppointments.OrderBy(e => e.DateAndTime);
             return shiftedAppointments;
         }
 
-        private Examination GetShiftedAppointmentForEmergency(BasicAppointmentSearchDTO parameters, Examination examination)
+        private bool IsShiftedAppoinmentAvailable(Examination appointment, ICollection<Examination> shiftedAppointments)
         {
-            DateTime startDateTime = GetNewStartTime();
-            DateTime endDateTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 17, 0, 0);
-            List<int> requiredEquipmentTypes = new List<int>();
-            foreach(EquipmentInExamination e in _equipmentInExaminationService.GetEquipmentInExaminationFromExaminationID(examination.Id)){
-                requiredEquipmentTypes.Add(e.EquipmentTypeID);
+            foreach(Examination shiftedAppointment in shiftedAppointments)
+            {
+                if (shiftedAppointment.DateAndTime.Equals(appointment.DateAndTime)
+                    && (shiftedAppointment.IdPatientCard == appointment.IdPatientCard
+                        || shiftedAppointment.DoctorJmbg == appointment.DoctorJmbg))
+                    return false;
             }
+            return true;
+        }
+
+        private List<Examination> GetOnlyAdequateAppointments(List<Examination> unavailableAppointments, AppointmentSearchWithPrioritiesDTO parameters)
+        {
+            foreach (Examination examination in unavailableAppointments.ToList())
+            {
+                if (!_roomService.CheckIfRoomHasRequiredEquipment(examination.IdRoom, parameters.InitialParameters.RequiredEquipmentTypes)
+                    || !IsPatientAvailable(parameters.InitialParameters.PatientCardId, examination.DateAndTime)
+                    || !examination.Doctor.CheckIfDoctorHasSpecialty(parameters.SpecialtyId))
+                    unavailableAppointments.Remove(examination);
+            }
+            return unavailableAppointments;
+        }
+
+        private List<Examination> GetUnavailableAppointments(BasicAppointmentSearchDTO parameters)
+        {
+            return (List<Examination>) _examinationRepository.GetExaminationsForPeriod(parameters.EarliestDateTime, parameters.LatestDateTime);
+        }
+
+        private List<Examination> GetShiftedAppointmentForEmergency(BasicAppointmentSearchDTO parameters, Examination examination)
+        {
+            DateTime startDateTime = parameters.LatestDateTime;
+            DateTime endDateTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 17, 0, 0);
+            List<int> requiredEquipmentTypes = GetRequiredEquipmentForExamination(examination);            
 
             for (int i = 1; i <= 13; i++)
             {
@@ -102,7 +145,7 @@ namespace Backend.Service.ExaminationAndPatientCard
 
                 List<Examination> potentialAppointments = (List<Examination>)BasicSearch(parameters);
                 if (potentialAppointments.Count != 0)
-                    return potentialAppointments[0];
+                    return potentialAppointments;
 
                 startDateTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 7, 0, 0);
                 startDateTime = startDateTime.AddDays(1);
@@ -111,14 +154,21 @@ namespace Backend.Service.ExaminationAndPatientCard
             return null;
         }
 
-        private DateTime GetNewStartTime()
+        private List<int> GetRequiredEquipmentForExamination(Examination examination)
         {
-            DateTime newStartTime = DateTime.Now;
-            int minutes = newStartTime.Minute % _appointmentDuration.Minutes;
-            int addition = _appointmentDuration.Minutes - minutes;
-            newStartTime.AddMinutes(addition);
+            List<int> requiredEquipmentTypes = new List<int>();
+            foreach (EquipmentInExamination e in _equipmentInExaminationService.GetEquipmentInExaminationFromExaminationID(examination.Id))
+                requiredEquipmentTypes.Add(e.EquipmentTypeID);
+            return requiredEquipmentTypes;
+        }
 
-            return newStartTime;
+        private DateTime GetNewStartTime(DateTime startTime)
+        {
+            int minutes = startTime.Minute % _appointmentDuration.Minutes;
+            if (minutes == 0)
+                return startTime;
+            int addition = _appointmentDuration.Minutes - minutes;
+            return startTime.AddMinutes(addition);
         }
 
         private ICollection<Examination> GetPotentiallyAvailableAppointments(BasicAppointmentSearchDTO parameters)
@@ -187,7 +237,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         private DateTime GetFixedEarliestDateTime(DateTime earliestDateTime)
         {
             if (CheckIfDatePassed(earliestDateTime))
-                return DateTime.Now.AddDays(1);
+                return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0, DateTimeKind.Utc);
             return earliestDateTime;
         }
 

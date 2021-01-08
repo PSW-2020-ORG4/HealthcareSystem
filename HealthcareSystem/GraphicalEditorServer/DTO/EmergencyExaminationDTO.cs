@@ -10,12 +10,15 @@ namespace GraphicalEditorServer.DTO
         public List<ExaminationDTO> UnchangedExaminations { get; private set; }
         public List<ExaminationDTO> ShiftedExaminations { get; private set; }
 
+        public bool Shifted { get; private set; }
+
         public EmergencyExaminationDTO() { }
 
-        public EmergencyExaminationDTO(List<ExaminationDTO> unchangedExaminations, List<ExaminationDTO> shiftedExaminations)
+        public EmergencyExaminationDTO(List<ExaminationDTO> unchangedExaminations, List<ExaminationDTO> shiftedExaminations, bool shifted)
         {
             UnchangedExaminations = unchangedExaminations;
             ShiftedExaminations = shiftedExaminations;
+            Shifted = shifted;
         }
     }
 }

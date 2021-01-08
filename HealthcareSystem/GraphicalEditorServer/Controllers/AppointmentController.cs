@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.DTO;
+using Backend.Model.Enums;
 using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
 using GraphicalEditor.DTO;
@@ -51,18 +52,18 @@ namespace GraphicalEditorServer.Controllers
         }
 
         [HttpPost("emergency")]
-        public ActionResult GetEmergencyAppointments(BasicAppointmentSearchDTO parameters)
+        public ActionResult GetEmergencyAppointments(AppointmentSearchWithPrioritiesDTO parameters)
         {
             List<Examination> unchangedExaminations = (List<Examination>)_freeAppointmentSearchService.GetUnchangedAppointmentsForEmergency(parameters);
             foreach (Examination e in unchangedExaminations)
             {
-                if (e.ExaminationStatus == Backend.Model.Enums.ExaminationStatus.AVAILABLE)
-                    return Ok(ExaminationMapper.Examination_To_ExaminationDTO(e));
+                if (e.ExaminationStatus == ExaminationStatus.AVAILABLE)
+                    return Ok(EmergencyExaminationMapper.Examination_To_EmergencyExaminationDTO(e));
             }
 
             List<Examination> shiftedExaminations = (List<Examination>)_freeAppointmentSearchService.GetShiftedAndSortedAppoinmentsForEmergency(parameters);
 
-            return Ok(EmergencyExaminationMapper.Examinations_To_EmergencyExaminationDTO(unchangedExaminations, shiftedExaminations));
+            return Ok(EmergencyExaminationMapper.Examinations_To_EmergencyExaminationDTO(unchangedExaminations, shiftedExaminations, true));
         }
     }
 }

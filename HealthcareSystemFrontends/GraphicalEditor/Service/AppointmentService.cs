@@ -34,5 +34,10 @@ namespace GraphicalEditor.Service
             List<ExaminationDTO> response = HTTPGetRequestWithObjectAsParam<ExaminationDTO>("appointment", appointmentSearchWithPrioritiesDTO);
             return response;
         }
+
+        public void GetEmergencyAppointments(AppointmentSearchWithPrioritiesDTO appointmentSearchWithPrioritiesDTO)
+        {
+            List<ExaminationDTO> response = HTTPGetRequestWithObjectAsParam<ExaminationDTO>("appointment/emergency", appointmentSearchWithPrioritiesDTO);
+        }
     }
 }

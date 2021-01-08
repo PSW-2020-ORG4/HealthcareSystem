@@ -90,7 +90,9 @@ namespace GraphicalEditorServerTests.DataFactory
             var roomStubRepository = new Mock<IRoomRepository>();
             roomStubRepository.Setup(x => x.GetAllRooms()).Returns(_createRooms.CreateRooms());
             roomStubRepository.Setup(m => m.CheckIfRoomExists(0)).Returns(true);
-            roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(_createRooms.CreateRooms()[0]);
+            roomStubRepository.Setup(m => m.GetRoomByNumber(0)).Returns(_createRooms.CreateRooms()[0]);
+            roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(_createRooms.CreateRooms()[1]);
+            roomStubRepository.Setup(m => m.GetRoomByNumber(2)).Returns(_createRooms.CreateRooms()[2]);
             return roomStubRepository.Object;
         }
 

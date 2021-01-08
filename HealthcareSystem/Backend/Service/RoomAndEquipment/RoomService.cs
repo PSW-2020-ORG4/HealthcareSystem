@@ -112,12 +112,23 @@ namespace Service.RoomAndEquipment
             ICollection<Room> validRooms = new List<Room>();
             foreach (Room room in allRooms)
             {
-                ICollection<int> availableEquipmentTypes = GetAvailableEquipmentTypesInRoom(room);
-                if (CheckIfRoomHasRequiredEquipment(requiredEquipmentTypeIds, availableEquipmentTypes))
+                if (CheckIfRoomHasRequiredEquipment(room.Id, requiredEquipmentTypeIds))
                     validRooms.Add(room);
             }
 
             return validRooms;
+        }
+
+        public bool CheckIfRoomHasRequiredEquipment(int roomId, ICollection<int> requiredEquipmentTypeIds)
+        {
+            Room room = _roomRepository.GetRoomByNumber(roomId);
+            ICollection<int> availableEquipmentTypes = GetAvailableEquipmentTypesInRoom(room);
+            foreach (int requiredEquipmentTypeId in requiredEquipmentTypeIds)
+            {
+                if (!availableEquipmentTypes.Contains(requiredEquipmentTypeId))
+                    return false;
+            }
+            return true;
         }
 
         private ICollection<int> GetAvailableEquipmentTypesInRoom(Room room)
@@ -133,17 +144,6 @@ namespace Service.RoomAndEquipment
             }
 
             return availableEquipmentTypes;
-        }
-
-        private bool CheckIfRoomHasRequiredEquipment(ICollection<int> requiredEquipmentTypeIds, ICollection<int> availableEquipmentTypes)
-        {
-            foreach (int requiredEquipmentTypeId in requiredEquipmentTypeIds)
-            {
-                if (!availableEquipmentTypes.Contains(requiredEquipmentTypeId))
-                    return false;
-            }
-
-            return true;
         }
 
         public bool CheckIfRoomExists(int roomId)

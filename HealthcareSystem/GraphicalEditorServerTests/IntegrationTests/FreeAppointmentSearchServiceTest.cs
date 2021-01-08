@@ -44,12 +44,13 @@ namespace GraphicalEditorServerTests.IntegrationTests
             List<Examination> freeAppointments = (List<Examination>)freeAppointmentService.SearchWithPriorities(new AppointmentSearchWithPrioritiesDTO
             {
                 InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 1, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
-                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0,DateTimeKind.Utc), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 8, 0, 0,DateTimeKind.Utc)),
+                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0,DateTimeKind.Utc), 
+                latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 8, 0, 0,DateTimeKind.Utc)),
                 Priority = SearchPriority.Doctor,
                 SpecialtyId = 1
             });
 
-            Assert.Equal(74, freeAppointments.Count);
+            Assert.Equal(34, freeAppointments.Count);
         }
 
         [Fact]

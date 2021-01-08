@@ -45,7 +45,7 @@ namespace ScheduleService.Services.AdvancedSearchStrategy
 
         private bool CheckIfDatePassed(DateTime earliestDateTime)
         {
-            return earliestDateTime.CompareTo(DateTime.Now) == -1 ? true : false;
+            return earliestDateTime.CompareTo(DateTime.Now) <= 0 ? true : false;
         }
 
         private void SetupLatestDate()

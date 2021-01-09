@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Service;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Model.Users;
-using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
 using PatientWebApp.Settings;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -20,45 +11,27 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        private readonly ICityService _cityService;
         private readonly ServiceSettings _serviceSettings;
 
-        public CityController(ICityService cityService, IOptions<ServiceSettings> serviceSettings)
+        public CityController(IOptions<ServiceSettings> serviceSettings)
         {
-            _cityService = cityService;
             _serviceSettings = serviceSettings.Value;
         }
 
         [AllowAnonymous]
-        [HttpGet]
-        public IActionResult GetCities()
-        {
-            List<CityDTO> cityDTOs = new List<CityDTO>();
-            try
-            {
-                _cityService.GetCities().ForEach(city => cityDTOs.Add(CityMapper.CityToCityDTO(city)));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            return Ok(cityDTOs);
-        }
-
-        [AllowAnonymous]
-        [HttpGet("{countryId}")]
+        [HttpGet("country/{countryId}")]
         public IActionResult GetCitiesByCountryId(int countryId)
         {
-            List<CityDTO> cityDTOs = new List<CityDTO>();
-            try
-            {
-                _cityService.GetCitiesByCountryId(countryId).ForEach(city => cityDTOs.Add(CityMapper.CityToCityDTO(city)));
-                return Ok(cityDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-        }
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
+            var request = new RestRequest("/api/city/country/" + countryId);
+            var response = client.Execute(request);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
+        } 
     }
 }

@@ -6,12 +6,12 @@
 
 using System;
 
-namespace Model.Enums
+namespace Backend.Model.Enums
 {
-   public enum GenderType
-   {
-      M = 0,
-      F = 1
-   
-   }
+    public enum GenderType
+    {
+        M = 0,
+        F = 1
+
+    }
 }

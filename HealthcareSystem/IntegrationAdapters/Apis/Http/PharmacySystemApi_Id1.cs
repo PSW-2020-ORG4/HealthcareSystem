@@ -94,5 +94,12 @@ namespace IntegrationAdapters.Apis.Http
 
             return await response.Content.ReadAsStringAsync();
         }
+
+        public async Task<bool> OrderDrugs(string apiKey, int pharmacyId, int drugId, int quantity)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Put, _baseUrl + $"/api/noAuth/pharmacyDrugDetails/getAllByDrugIdAndPharmacyId?idPharmacy={pharmacyId}&idDrug={drugId}&quantity={quantity}");
+            HttpResponseMessage response = await _client.SendAsync(request);
+            return response.IsSuccessStatusCode;
+        }
     }
 }

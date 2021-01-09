@@ -91,5 +91,21 @@ namespace IntegrationAdapters.Adapters.Production
             }
             return ret;
         }
+
+        public bool OrderDrugs(int pharmacyId, int drugId, int quantity)
+        {
+            var task = Task.Run<bool>(async () =>
+                await _api.OrderDrugs(_parameters.ApiKey, pharmacyId, drugId, quantity));
+            bool ret = false;
+            try
+            {
+                ret = task.Result;
+            }
+            catch (AggregateException agex)
+            {
+                Console.WriteLine(agex);
+            }
+            return ret;
+        }
     }
 }

@@ -169,6 +169,13 @@ namespace GraphicalEditor
             LoadInitialMapOnCanvas();           
             SetDataToUIControls();
 
+            ExaminationForReschedulingDTO examinationForReschedulingDTO = new ExaminationForReschedulingDTO(new DateTime(), new DateTime(), 9);
+            List<ExaminationForReschedulingDTO> examinationsForReschedunling = new List<ExaminationForReschedulingDTO>();
+
+            examinationsForReschedunling.Add(examinationForReschedulingDTO);
+            EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;
+
+
             AppointmentSearchWithPrioritiesDTO appointmentSearch = new AppointmentSearchWithPrioritiesDTO
             {
                 InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 2, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
@@ -179,6 +186,7 @@ namespace GraphicalEditor
 
             AppointmentService app = new AppointmentService();
             app.GetEmergencyAppointments(appointmentSearch);
+
         }
         
 
@@ -804,6 +812,22 @@ namespace GraphicalEditor
         private void AppointmentSectionBackToTopButton_Click(object sender, RoutedEventArgs e)
         {
             AppointmentSearchScrollViewer.ScrollToTop();
+        }
+
+        private void CreatePatientAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            CreatePatientGuestAccountDialog createPatientGuestAccountDialog = new CreatePatientGuestAccountDialog();
+            createPatientGuestAccountDialog.ShowDialog();
+        }
+
+        private void EmergencyAppointmentSearchResultsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ScheduleEmergencyAppointmentButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

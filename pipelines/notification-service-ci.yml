@@ -1,0 +1,151 @@
+trigger:
+- none
+pr:
+- develop
+
+variables:
+  paths: "**/NotificationService/*"
+  project: 'HealthcareSystem/NotificationService/NotificationService.csproj'
+  configuration: 'Release'
+  sonarProjectKey: 'psw-2020-org4_NotificationService'
+  sonarProjectName: 'NotificationService'
+  sonarOrganization: 'psw-2020-org4'  
+  dockerfile: 'HealthcareSystem/NotificationService/Dockerfile'
+  dockerRegistry: 'pufkedockerhub'
+  dockerRepository: 'pufke/notificationservice'
+
+jobs:
+- job: Check
+  pool:
+    vmImage: 'ubuntu-18.04'
+  steps:
+  - task: PowerShell@2
+    displayName: 'Check if build is needed'
+    name: CheckChangedFiles
+    inputs:
+      targetType: 'inline'
+      script: |
+        $reason = "$(Build.Reason)"
+        if($reason -eq "PullRequest")
+        {
+            echo "Pipeline triggered by PR: checking which files were changed."
+
+            $files=$(git diff HEAD HEAD~ --name-only)
+            $paths = $env:PATHS -split ' '
+            
+            $shouldBuild = $false
+            foreach ($path in $paths) 
+            { 
+                if($files -like $path) 
+                {
+                    $shouldBuild = $true
+                    break
+                } 
+            }
+            if ($shouldBuild)
+            {
+                echo "Watched files were changed."
+                echo "Build will execute."
+                Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]Yes"
+            }
+            else
+            {
+                echo "Watched files were not changed."
+                echo "Build will not execute."
+                Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]No"
+            }
+        }
+        else
+        {
+            echo "Pipeline not triggered by PR."
+            echo "Build will execute."
+            Write-Host "##vso[task.setvariable variable=shouldBuild;isOutput=true]Yes"
+        }
+      pwsh: true
+
+- job: Build
+  dependsOn: Check
+  condition: eq(dependencies.Check.outputs['CheckChangedFiles.shouldBuild'], 'Yes')
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core SDK 2.2.103 for SonarCloud'
+      inputs:
+        version: '2.2.103'
+
+    - task: SonarCloudPrepare@1
+      displayName: 'Prepare SonarCloud analysis'
+      inputs:
+        SonarCloud: 'SonarCloud'
+        organization: '$(sonarOrganization)'
+        scannerMode: 'MSBuild'
+        projectKey: '$(sonarProjectKey)'
+        projectName: '$(sonarProjectName)'
+        
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK 3.1.x for build'
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project'
+      inputs:
+        command: 'restore'
+        projects: '$(project)'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build project'
+      inputs:
+        command: 'build'
+        projects: '$(project)'
+        arguments: '-c $(configuration)'
+
+    - task: DotNetCoreInstaller@0
+      displayName: 'Use .NET Core SDK 2.2.103 for SonarCloud'
+      inputs:
+        version: '2.2.103'
+
+    - task: SonarCloudAnalyze@1
+      displayName: 'SonarCloud analysis'
+
+    - task: SonarCloudPublish@1
+      displayName: 'Publish SonarCloud results'
+      inputs:
+        pollingTimeoutSec: '300'
+    
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK 3.1.x for build'
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
+
+- job: Docker
+  dependsOn: Check
+  condition: eq(dependencies.Check.outputs['CheckChangedFiles.shouldBuild'], 'Yes')
+  pool:
+    vmImage: 'ubuntu-18.04'
+  steps:
+    - task: Bash@3
+      displayName: 'Prepare context for Docker'
+      inputs:
+        targetType: 'inline'
+        script: |
+          docker --version
+          dotnet publish $(project) -c $(configuration) -o publish
+          cp $(dockerfile) publish/Dockerfile  
+
+    - task: Docker@2
+      displayName: 'Build Docker image'
+      inputs:
+        containerRegistry: '$(dockerRegistry)'
+        repository: '$(dockerRepository)'
+        command: 'build'
+        Dockerfile: 'publish/Dockerfile'
+        buildContext: 'publish'
+        tags: |
+          $(Build.BuildId)
+          latest
+

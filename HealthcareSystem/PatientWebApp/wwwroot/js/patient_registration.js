@@ -43,13 +43,15 @@
 		processData: false,
 		contentType: false,
 		success: function (countries) {
-
 			for (let i = 0; i < countries.length; i++) {
 				addCountryInComboBox(countries[i]);
 			}
 		},
-		error: function () {
-			console.log("Error getting countries from database");
+		error: function (jqXHR) {
+			let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+				+ jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+			$('#div_alert').append(alert);
+			return;
 		}
 	});
 
@@ -59,7 +61,7 @@
 		var id = $(this).children(":selected").attr("id");
 
 		$.ajax({
-			url: "/api/city/" + id,
+			url: "/api/city/country/" + id,
 			type: 'GET',
 			dataType: 'json',
 			processData: false,
@@ -72,8 +74,11 @@
 					addCityInComboBox(cities[i]);
 				}
 			},
-			error: function () {
-				console.log("Error getting cities from database");
+			error: function (jqXHR) {
+				let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+					+ jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+				$('#div_alert').append(alert);
+				return;
 			}
 		});
 
@@ -210,6 +215,6 @@ function addCountryInComboBox(country) {
 };
 
 function addCityInComboBox(city) {
-	let city_option = $('<option id="' + city.zipCode + '" value = "' + city.name + '">' + city.name + '</option>');
+	let city_option = $('<option id="' + city.id + '" value = "' + city.name + '">' + city.name + '</option>');
 	$('select#cities').append(city_option);
 };

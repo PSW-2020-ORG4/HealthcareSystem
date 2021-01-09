@@ -37,7 +37,7 @@ $(document).ready(function () {
     $('#dateOfExam').attr('min', minDate);
 
     $.ajax({
-        url: '/api/doctor/all-specialty',
+        url: '/api/specialty',
         type: 'GET',
         headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
@@ -54,9 +54,8 @@ $(document).ready(function () {
                 changeSpecialty();
             }
         },
-        error: function () {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching specialties.'
-                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+        error: function (jqXHR) {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">' + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#alertSchedule').prepend(alert);
         }
     });
@@ -77,7 +76,7 @@ $(document).ready(function () {
             getExaminations('/api/examination/following');
         }
         else if (exam_status == "previous") {
-            getExaminations('/api/examination/previous');
+            getPreviousExaminations('/api/examination/previous');
         }
         else {
             getExaminations('/api/examination/cancelled');
@@ -210,30 +209,10 @@ function changeSpecialty() {
         processData: false,
         contentType: false,
         success: function (doctorSpecialtes) {
-            for (let ds of doctorSpecialtes) {
-                let doctorJmbg = ds.doctorJmbg;
-
-                $.ajax({
-                    url: '/api/doctor/' + doctorJmbg,
-                    type: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-                    },
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    success: function (doctor) {
-                        let doctorName = $('<option value="' + doctor.jmbg + '">' + doctor.name + ' ' + doctor.surname + '</option>');
-                        $('#doctor_name').append(doctorName);
-                    },
-                    error: function () {
-                        let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching doctors.'
-                            + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-                        $('#alertSchedule').prepend(alert);
-                    }
-                });
+            for (let doctor of doctorSpecialtes) {
+                let doctorName = $('<option value="' + doctor.jmbg + '">' + doctor.name + ' ' + doctor.surname + '</option>');
+                $('#doctor_name').append(doctorName);
             }
-
         },
         error: function () {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching doctors.'
@@ -281,6 +260,67 @@ function getExaminations(path) {
     });
 }
 
+function getPreviousExaminations(path) {
+    $.ajax({
+        url: path,
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (examinations) {
+            if (examinations.length == 0) {
+                let alert = '<div id="loading" class="alert alert-info" role="alert" style="display:none">'
+                    + 'No examinations found.'
+                    + '</div>';
+                $('#div_examinations').prepend(alert);
+                $('#loading').hide();
+                $('#search_examinations').find(":submit").prop('disabled', false);
+            }
+            else {
+                $.ajax({
+                    url: '/api/survey/permission',
+                    type: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                    },
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    success: function (permissions) {
+                        for (let i = 0; i < examinations.length; i++) {
+                            examinations[i].type = "GENERAL";
+                            examinations[i].examinationStatus = 2;
+                            examinations[i].isSurveyCompleted = isCompleted(examinations[i], permissions)
+                            addExaminationRow(examinations[i]);
+                        }
+                        $('#loading').hide();
+                        $('#search_examinations').find(":submit").prop('disabled', false);
+                    }
+                });
+            }
+        },
+        error: function () {
+            let alert = '<div id="loading" class="alert alert-danger" role="alert" style="display:none">'
+                + 'Error fetching data.'
+                + '</div>';
+            $('#div_examinations').prepend(alert);
+            $('#loading').hide();
+            $('#search_examinations').find(":submit").prop('disabled', false);
+        }
+    });
+}
+
+function isCompleted(examination, permissions) {
+    for (let i = 0; i < permissions.length; i++) {
+        if (permissions[i].id == examination.id)
+            return 0;
+    }
+    return 1;
+}
+
 
 function addExaminationRow(examination) {
     let type = '';
@@ -309,6 +349,11 @@ function addExaminationRow(examination) {
             + '<div class="card-footer border-top-0 p-0" id="a' + examination.id + '"></div>';
     }
 
+    let room = '';
+    if (examination.examinationStatus != 2)
+        room = '<label class="text-secondary mb-0">Room:</label><br>'
+            + '<label>' + examination.idRoom + '</label><br>';
+
     let divElement = $(
         '<div class="row">'
         + '<div class="col mb-4">'
@@ -321,8 +366,7 @@ function addExaminationRow(examination) {
         + '<div class="card-body p-3">'
         + '<label class="text-secondary mb-0">Doctor:</label><br>'
         + '<label>' + examination.doctorName + ' ' + examination.doctorSurname + '</label><br>'
-        + '<label class="text-secondary mb-0">Room:</label><br>'
-        + '<label>' + examination.idRoom + '</label><br>'
+        + room
         + '</div>' + button + '</div></div></div>'
     );
 

@@ -1,4 +1,5 @@
 ﻿using EventSourcingService.Model;
+using EventSourcingService.Repository;
 using EventSourcingService.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,26 +9,32 @@ namespace EventSourcingService.Controllers
     [ApiController]
     public class EventStoreController : ControllerBase
     {
-        private readonly IEventStoreService _eventStoreService;
+        private readonly IDomainEventRepository<ExampleEvent> _exampleEventRepository;
 
-        public EventStoreController(IEventStoreService eventStoreService)
+        public EventStoreController(IDomainEventRepository<ExampleEvent> exampleEventRepository)
         {
-            _eventStoreService = eventStoreService;
+            _exampleEventRepository = exampleEventRepository;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var eventStores = _eventStoreService.GetAllEvents();
-            return Ok(eventStores);
+            var exampleEventStores = _exampleEventRepository.GetAll();
+            return Ok(exampleEventStores);
+            //var eventStores = _eventStoreService.GetAllEvents();
+            //return Ok(eventStores);
         }
 
         [HttpPost]
-        public ActionResult Add(DomainEvent domainEvent)
+        public ActionResult Add(ExampleEvent exampleEvent)
         {
-            _eventStoreService.Add(domainEvent);
+            _exampleEventRepository.Add(exampleEvent);
+
+            //_eventStoreService.Add(domainEvent);
             return NoContent();
         }
+
+
 
     }
 }

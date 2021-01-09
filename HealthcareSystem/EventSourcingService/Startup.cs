@@ -39,8 +39,8 @@ namespace EventSourcingService
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddScoped<IEventStoreService, EventStoreService>();
-            services.AddScoped<IEventStoreRepository, EventStoreRepository>();
+            //services.AddScoped<IEventStoreService, EventStoreService>();
+            services.AddScoped<IDomainEventRepository<ExampleEvent>, DomainEventRepository<ExampleEvent>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

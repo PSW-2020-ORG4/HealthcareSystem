@@ -342,7 +342,7 @@ function addExaminationRow(examination) {
     }
     else if (examination.examinationStatus == 0 && current_date < restrict_date) {
         button = '<div class="card-footer" id="f' + examination.id + '">'
-            + '<button type = "button" class="btn btn-danger float-right" '
+            + '<button name="cancelButton" type = "button" class="btn btn-danger float-right" '
             + 'id="' + examination.id + '" onclick="cancelExamination(this.id)"'
             + '> Cancel examination</button >'
             + '</div >'

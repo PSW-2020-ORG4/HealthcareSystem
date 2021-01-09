@@ -64,7 +64,7 @@ namespace SeleniumTests
             loginPage.InsertEmail("ana_anic98@gmail.com");
             loginPage.InsertPassword("11111111");
             loginPage.SubmitForm();
-            loginPage.WaitForFormSubmit();
+            loginPage.WaitForLoginPatient();
 
             addFeedbackPage = new Pages.AddFeedbackPage(driver);
             addFeedbackPage.Navigate();
@@ -86,7 +86,7 @@ namespace SeleniumTests
             loginPage.InsertEmail("ana_anic98@gmail.com");
             loginPage.InsertPassword("11111111");
             loginPage.SubmitForm();
-            loginPage.WaitForFormSubmit();
+            loginPage.WaitForLoginPatient();
 
             addFeedbackPage = new Pages.AddFeedbackPage(driver);
             addFeedbackPage.Navigate();

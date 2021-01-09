@@ -48,12 +48,17 @@ namespace SeleniumTests.Pages
             SubmitButtonElement.Click();
         }
 
-        public void WaitForFormSubmit()
+        public void WaitForLoginPatient()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("http://localhost:65117/html/patients_home_page.html"));
         }
 
+        public void WaitForLoginAdmin()
+        {
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("http://localhost:65117/html/admins_home_page.html"));
+        }
 
         public void Navigate() => driver.Navigate().GoToUrl(URI);
     }

@@ -42,7 +42,7 @@ namespace IntegrationAdaptersTests.UnitTests
                 ["Success"] = "Registration successful!"
             };
 
-            var mockRabbit = new Mock<Backend.Service.RabbitMqActionBenefitMessageingService>();
+            var mockRabbit = new Mock<Backend.Service.RabbitMqActionBenefitBackgroundService>();
             return new PharmacyController(mockService.Object, mockRabbit.Object)
             {
                 TempData = tempData

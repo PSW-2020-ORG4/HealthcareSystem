@@ -10,6 +10,8 @@ namespace Backend.Repository.TenderRepository
     {
         IEnumerable<Tender> GetAllTenders();
         Tender GetTenderById(int id);
+        IEnumerable<Tender> GetAllNotClosedTenders();
         List<TenderDrugDTO> GetDrugsForTender(int id);
+        Tender GetTenderByRoutingKey(string routingKey);
     }
 }

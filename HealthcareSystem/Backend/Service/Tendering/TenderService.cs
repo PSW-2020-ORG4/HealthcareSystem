@@ -29,5 +29,15 @@ namespace Backend.Service.Tendering
         {
             return _tenderRepository.GetDrugsForTender(id);
         }
+
+        public IEnumerable<Tender> GetAllNotClosedTenders()
+        {
+            return _tenderRepository.GetAllNotClosedTenders();
+        }
+
+        public Tender GetTenderByRoutingKey(string routingKey)
+        {
+            return _tenderRepository.GetTenderByRoutingKey(routingKey);
+        }
     }
 }

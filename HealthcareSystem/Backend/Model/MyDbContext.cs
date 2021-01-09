@@ -44,6 +44,8 @@ namespace Backend.Model
 	    public DbSet<DrugInRoom> DrugsInRooms { get; set; }
         public DbSet<Tender> Tenders { get; set; }
         public DbSet<TenderDrug> TenderDrugs { get; set; }
+        public DbSet<TenderOffer> TenderOffers { get; set; }
+        public DbSet<TenderMessage> TenderMessages { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
@@ -51,6 +53,7 @@ namespace Backend.Model
         {
             builder.Entity<PharmacySystem>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
             builder.Entity<EquipmentInRooms>().HasKey(o => new { o.RoomNumber, o.IdEquipment });
+            builder.Entity<TenderOffer>().HasOne(to => to.TenderMessage).WithMany(tm => tm.Offers);
 
             builder.Entity<DoctorSpecialty>().HasKey(ds => new { ds.DoctorJmbg, ds.SpecialtyId });
             builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Doctor).WithMany(d => d.DoctorSpecialties).HasForeignKey(ds => ds.DoctorJmbg);

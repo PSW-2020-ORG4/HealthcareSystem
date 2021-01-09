@@ -11,6 +11,10 @@ namespace Backend.Model.Pharmacies
         public int Id { get; set; }
         public string Name { get; set; }
         public string ExchangeName { get; set; }
+        [Required]
+        public string QueueName { get; set; }
+        [Required]
+        public string RoutingKey { get; set; }
         public bool IsClosed { get; set; }
         public DateTime EndDate { get; set; }
         public virtual List<TenderDrug> Drugs { get; set; }

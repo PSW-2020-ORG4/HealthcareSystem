@@ -53,5 +53,26 @@ namespace Backend.Repository.TenderRepository.MySqlTenderRepository
 
             return drugs;
         }
+
+        public IEnumerable<Tender> GetAllNotClosedTenders()
+        {
+            var tenders = _context.Tenders.Where(x => x.IsClosed == false).ToList();
+            if (tenders == null)
+                return new List<Tender>();
+            foreach(var tender in tenders)
+            {
+                tender.Drugs = _context.TenderDrugs.Where(x => x.TenderId == tender.Id).ToList();
+            }
+            return tenders;
+        }
+
+        public Tender GetTenderByRoutingKey(string routingKey)
+        {
+            var tender = _context.Tenders.FirstOrDefault(x => x.RoutingKey == routingKey);
+            if (tender == null)
+                return null;
+            tender.Drugs = _context.TenderDrugs.Where(x => x.TenderId == tender.Id).ToList();
+            return tender;
+        }
     }
 }

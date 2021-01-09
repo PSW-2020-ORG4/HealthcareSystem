@@ -14,17 +14,17 @@ using System.Threading.Tasks;
 
 namespace Backend.Service
 {
-    public class RabbitMqActionBenefitMessageingService : BackgroundService
+    public class RabbitMqActionBenefitBackgroundService : BackgroundService
     {
         private IModel _channel;
         private readonly IServiceProvider _service;
         private readonly String _queueName;
 
-        public RabbitMqActionBenefitMessageingService()
+        public RabbitMqActionBenefitBackgroundService()
         {
         }
 
-        public RabbitMqActionBenefitMessageingService(IServiceProvider service, IRabbitMqConnection connection)
+        public RabbitMqActionBenefitBackgroundService(IServiceProvider service, IRabbitMqConnection connection)
         {
             _service = service;
             if(connection.Connection != null)

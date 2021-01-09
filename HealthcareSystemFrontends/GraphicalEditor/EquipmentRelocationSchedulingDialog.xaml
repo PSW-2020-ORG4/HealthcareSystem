@@ -24,6 +24,7 @@
     mc:Ignorable="d">
 
     <Window.Resources>
+        <converters:CapitalizeStringConverter x:Key="CapitalizeStringConverter" />
         <converters:InvertAndBooleansToBooleanConverter x:Key="InvertAndBooleansToBooleanConverter" />
         <converters:LengthToBooleanConverter x:Key="LengthToBooleanCoverter" />
     </Window.Resources>
@@ -83,7 +84,16 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Izaberite opremu."
             FontSize="16"
-            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+            IsEnabled="False"
+            IsTextSearchEnabled="True"
+            SelectedIndex="0"
+            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource CapitalizeStringConverter}}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
         <!--  Quantity of Equipment for Relocation  -->
         <TextBlock
@@ -129,6 +139,9 @@
             VerticalAlignment="Top"
             materialDesign:HintAssist.Hint="Izaberite odakle se premešta."
             FontSize="16"
+            IsEnabled="False"
+            IsTextSearchEnabled="True"
+            SelectedIndex="0"
             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
 
@@ -142,7 +155,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="MediumPurple"
-            Kind="ArrowCollapseRight" />
+            Kind="ArrowRight" />
 
 
         <!--  Destination Room  -->
@@ -246,7 +259,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Foreground="White"
-                    Kind="CursorMove" />
+                    Kind="ArrowRightBox" />
                 <TextBlock
                     Margin="5"
                     HorizontalAlignment="Right"

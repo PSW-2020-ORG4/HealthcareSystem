@@ -14,9 +14,6 @@ namespace E2ETests
             IWebDriver driver = new FirefoxDriver();
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             driver.Navigate().GoToUrl("https://vlaksi-patientwebapp.herokuapp.com/html/index.html");
-
-            driver.FindElement(By.ClassName("nav-link")).Click();
-            driver.FindElement(By.Id("register")).Click();
         }
     }
 }

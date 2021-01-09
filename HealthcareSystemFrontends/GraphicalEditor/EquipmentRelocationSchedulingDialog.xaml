@@ -29,7 +29,8 @@
         <converters:LengthToBooleanConverter x:Key="LengthToBooleanCoverter" />
     </Window.Resources>
 
-    <Grid>
+    <!--  MAIN CONTAINER GRID  -->
+    <Grid x:Name="MainContainerGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="*" />
@@ -39,12 +40,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="6*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -62,185 +58,321 @@
             TextWrapping="Wrap" />
 
 
-        <!--  ENTRY DATA FOR EQUIPMENT RELOCATION  -->
-        <!--  Equipment for Relocation  -->
-        <TextBlock
+        <!--  ENTRY DATA FOR EQUIPMENT RELOCATION AND ALTERNATIVE EQUIPMENT RELOCATION APPOINTMENTS GRID  -->
+        <Grid
+            x:Name="EquipmentRelocationDataAndAlternativeAppointmentsGrid"
             Grid.Row="1"
-            Grid.Column="0"
-            Grid.ColumnSpan="1"
-            Margin="20,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            FontSize="16"
-            Foreground="Black"
-            Text="Oprema koja se prebacuje: " />
+            Grid.ColumnSpan="4">
+            <ScrollViewer
+                x:Name="EquipmentRelocationScrollViewer"
+                Grid.Row="1"
+                MaxHeight="{Binding Path=ActualHeight, ElementName=EquipmentRelocationDataAndAlternativeAppointmentsGrid, Mode=OneWay}"
+                VerticalScrollBarVisibility="Visible">
 
-        <ComboBox
-            x:Name="EquipmentForRelocationComboBox"
-            Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="1"
-            Margin="20,0,10,0"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Izaberite opremu."
-            FontSize="16"
-            IsEnabled="False"
-            IsTextSearchEnabled="True"
-            SelectedIndex="0"
-            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Converter={StaticResource CapitalizeStringConverter}}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
 
-        <!--  Quantity of Equipment for Relocation  -->
-        <TextBlock
-            Grid.Row="1"
-            Grid.Column="2"
-            Grid.ColumnSpan="2"
-            Margin="20,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            FontSize="16"
-            Foreground="Black"
-            Text="Količina opreme koja se prebacuje: " />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="5*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-        <ComboBox
-            x:Name="EquipmentQuantityForRelocationComboBox"
-            Grid.Row="2"
-            Grid.Column="2"
-            Grid.ColumnSpan="1"
-            Margin="20,0,10,0"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Izaberite količinu."
-            FontSize="16"
-            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                    <!--  ENTRY DATA FOR EQUIPMENT RELOCATION  -->
+                    <!--  Equipment for Relocation  -->
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Oprema koja se prebacuje: " />
 
-        <!--  Starting Point Room  -->
-        <TextBlock
-            Grid.Row="3"
-            Grid.Column="0"
-            Grid.ColumnSpan="1"
-            Margin="20,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            FontSize="16"
-            Foreground="Black"
-            Text="Polazna soba: " />
+                    <ComboBox
+                        x:Name="EquipmentForRelocationComboBox"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite opremu."
+                        FontSize="16"
+                        IsEnabled="False"
+                        IsTextSearchEnabled="True"
+                        SelectedIndex="0"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource CapitalizeStringConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
-        <ComboBox
-            x:Name="RelocationStartingPointRoomComboBox"
-            Grid.Row="4"
-            Grid.Column="0"
-            Grid.ColumnSpan="1"
-            Margin="20,0,10,0"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Izaberite odakle se premešta."
-            FontSize="16"
-            IsEnabled="False"
-            IsTextSearchEnabled="True"
-            SelectedIndex="0"
-            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+                    <!--  Quantity of Equipment for Relocation  -->
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Količina opreme koja se prebacuje: " />
 
+                    <ComboBox
+                        x:Name="EquipmentQuantityForRelocationComboBox"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite količinu."
+                        FontSize="16"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
-        <!--  Icon between room numbers  -->
-        <materialDesign:PackIcon
-            Grid.Row="4"
-            Grid.Column="1"
-            Width="40"
-            Height="40"
-            Margin="0,0,0,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Foreground="MediumPurple"
-            Kind="ArrowRight" />
+                    <!--  Starting Point Room  -->
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Polazna soba: " />
 
-
-        <!--  Destination Room  -->
-        <TextBlock
-            Grid.Row="3"
-            Grid.Column="2"
-            Grid.ColumnSpan="1"
-            Margin="20,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            FontSize="16"
-            Foreground="Black"
-            Text="Odredišna soba: " />
-
-        <ComboBox
-            x:Name="RelocationDestinationRoomComboBox"
-            Grid.Row="4"
-            Grid.Column="2"
-            Grid.ColumnSpan="1"
-            Margin="20,0,10,0"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Izaberite gde se premešta"
-            FontSize="16"
-            Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
-
-        <!--  Equipment Relocation Date  -->
-        <TextBlock
-            Grid.Row="5"
-            Grid.Column="0"
-            Grid.ColumnSpan="1"
-            Margin="20,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            FontSize="16"
-            Foreground="Black"
-            Text="Datum premeštanja opreme: " />
-
-        <DatePicker
-            x:Name="EquipmentRelocationDatePicker"
-            Grid.Row="6"
-            Grid.Column="0"
-            Grid.ColumnSpan="1"
-            Margin="20,0,10,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Dan/Mes/God"
-            BorderBrush="MediumPurple"
-            DisplayDateStart="{x:Static sys:DateTime.Today}"
-            FontSize="16"
-            Foreground="Black" />
+                    <ComboBox
+                        x:Name="RelocationStartingPointRoomComboBox"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite odakle se premešta."
+                        FontSize="16"
+                        IsEnabled="False"
+                        IsTextSearchEnabled="True"
+                        SelectedIndex="0"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
 
 
-        <!--  Equipment Relocation Time  -->
-        <TextBlock
-            Grid.Row="5"
-            Grid.Column="2"
-            Grid.ColumnSpan="1"
-            Margin="20,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            FontSize="16"
-            Foreground="Black"
-            Text="Vreme premeštanja opreme: " />
-
-        <materialDesign:TimePicker
-            x:Name="EquipmentRelocationTimePicker"
-            Grid.Row="6"
-            Grid.Column="2"
-            Margin="20,0,10,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Sati:Minuti"
-            BorderBrush="MediumPurple"
-            FontSize="16"
-            Foreground="Black"
-            Is24Hours="True"
-            SelectedTimeFormat="Long" />
+                    <!--  Icon between room numbers  -->
+                    <materialDesign:PackIcon
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Width="40"
+                        Height="40"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="MediumPurple"
+                        Kind="ArrowRight" />
 
 
-        <!--  Buttons  -->
+                    <!--  Destination Room  -->
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Odredišna soba: " />
 
-        <!--  Save Button  -->
+                    <ComboBox
+                        x:Name="RelocationDestinationRoomComboBox"
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite gde se premešta"
+                        FontSize="16"
+                        IsTextSearchEnabled="True"
+                        TextSearch.TextPath="Id"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Id}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <!--  Equipment Relocation Date  -->
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Datum premeštanja opreme: " />
+
+                    <DatePicker
+                        x:Name="EquipmentRelocationDatePicker"
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Dan/Mes/God"
+                        BorderBrush="MediumPurple"
+                        DisplayDateStart="{x:Static sys:DateTime.Today}"
+                        FontSize="16"
+                        Foreground="Black" />
+
+
+                    <!--  Equipment Relocation Time  -->
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Vreme premeštanja opreme: " />
+
+                    <materialDesign:TimePicker
+                        x:Name="EquipmentRelocationTimePicker"
+                        Grid.Row="6"
+                        Grid.Column="2"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Sati:Minuti"
+                        BorderBrush="MediumPurple"
+                        FontSize="16"
+                        Foreground="Black"
+                        Is24Hours="True"
+                        SelectedTimeFormat="Long" />
+
+                    <!--  ALTERNATIVE RELOCATION APPOINTMENTS SECTION  -->
+                    <TextBlock
+                        x:Name="AlternativeRelocationAppointmentsTextBlock"
+                        Grid.Row="9"
+                        Grid.ColumnSpan="4"
+                        Margin="20,30,0,10"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        FontWeight="Normal"
+                        Foreground="Black">
+                        Alternativni termini za premeštanje opreme:
+                    </TextBlock>
+
+                    <!--  ALTERNATIVE RELOCATION APPOINTMENTS TABLE  -->
+                    <DataGrid
+                        x:Name="AlternativeRelocationAppointmentsDataGrid"
+                        Grid.Row="10"
+                        Grid.ColumnSpan="3"
+                        Height="200"
+                        Margin="20,0,10,0"
+                        SelectionChanged="AlternativeRelocationAppointmentsDataGrid_SelectionChanged"
+                        Style="{StaticResource SidePanelDataGrid}">
+                        <DataGrid.Resources>
+                            <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <TextBlock Text="Kliknite na termin koji želite da zakažete." />
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <!--  Table Column Headers Names and Binding  -->
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding DateTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
+                                Header="Termin">
+
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="TextAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Width="2*" Header="Lekar">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding StringFormat="{}Dr {0} {1}">
+                                        <Binding Path="Doctor.Name" />
+                                        <Binding Path="Doctor.Surname" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!--  EQUIPMEN RELOCATION BACK TO TOP BUTTON  -->
+                    <Button
+                        x:Name="EquipmentRelocationBackToTopButton"
+                        Grid.Row="11"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Height="Auto"
+                        Margin="0,30,10,0"
+                        Padding="5"
+                        BorderBrush="{x:Null}"
+                        Click="EquipmentRelocationBackToTopButton_Click"
+                        FontSize="18"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="25"
+                                Height="25"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Foreground="MediumPurple"
+                                Kind="ArrowTop" />
+                            <TextBlock
+                                Margin="5"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Foreground="MediumPurple"
+                                Text="Povratak na unos podataka za premeštanje opreme" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+
+        <!--  BUTTONS  -->
+
+        <!--  Schedule Equipment Relocation Button  -->
         <Button
-            x:Name="SaveButton"
-            Grid.Row="8"
+            x:Name="ScheduleEquipmentRelocationButton"
+            Grid.Row="3"
             Grid.Column="2"
             Height="Auto"
             Margin="0,0,10,0"
@@ -248,6 +380,7 @@
             VerticalAlignment="Top"
             Background="MediumPurple"
             BorderBrush="{x:Null}"
+            Click="ScheduleEquipmentRelocationButton_Click"
             FontSize="16">
             <StackPanel
                 HorizontalAlignment="Center"
@@ -272,7 +405,7 @@
         <!--  Close Button  -->
         <Button
             x:Name="CloseButton"
-            Grid.Row="8"
+            Grid.Row="3"
             Grid.Column="3"
             Height="Auto"
             Margin="0,0,10,0"

@@ -90,6 +90,7 @@
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="DTO\ExaminationForReschedulingDTO.cs" />
     <Compile Include="DTO\PatientBasicDTO.cs" />
+    <Compile Include="DTO\RoomDTO.cs" />
     <Compile Include="DTO\SpecialtyDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />
     <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />

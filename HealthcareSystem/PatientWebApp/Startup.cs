@@ -178,6 +178,7 @@ namespace PatientWebApp
             conf.FeedbackAndSurveyServiceUrl = Configuration.GetValue<string>("FEEDBACK_SURVEY_SERVICE_URL");
             conf.UserServiceUrl = Configuration.GetValue<string>("USER_SERVICE_URL");
             conf.NotificationServiceUrl = Configuration.GetValue<string>("NOTIFICATION_SERVICE_URL");
+            conf.ScheduleServiceUrl = Configuration.GetValue<string>("SCHEDULE_SERVICE_URL");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -45,21 +45,23 @@ namespace Backend.Model
         public DbSet<DrugConsumption> DrugConsumptions { get; set; }
 	    public DbSet<DrugInRoom> DrugsInRooms { get; set; }
 
+        public DbSet<EquipmentTransfer> EqupmentTransfer { get; set; }
+	    public DbSet<EquipmentInExamination> EquipmentInExamination { get; set; }
+
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<PharmacySystem>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
             builder.Entity<EquipmentInRooms>().HasKey(o => new { o.RoomNumber, o.IdEquipment });
-
+            builder.Entity<EquipmentInExamination>().HasKey(o => new { o.EquipmentTypeID, o.ExaminationId });
+            builder.Entity<Drug>().HasIndex(d => d.Code).IsUnique();
             builder.Entity<DoctorSpecialty>().HasKey(ds => new { ds.DoctorJmbg, ds.SpecialtyId });
             builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Doctor).WithMany(d => d.DoctorSpecialties).HasForeignKey(ds => ds.DoctorJmbg);
             builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Specialty).WithMany(s => s.DoctorSpecialties).HasForeignKey(ds => ds.SpecialtyId);
 
             builder.Entity<DrugInRoom>().HasKey(o => new { o.RoomNumber, o.DrugId });
 
-            builder.Entity<Patient>().HasIndex(u => u.Username).IsUnique();
-            builder.Entity<Admin>().HasIndex(u => u.Username).IsUnique();
         }
     }
 }

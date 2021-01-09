@@ -8,6 +8,7 @@ namespace Backend.Model.Enums
     {
         CREATED = 0,
         CANCELED = 1,
-        FINISHED = 2
+        FINISHED = 2,
+        AVAILABLE = 3
     }
 }

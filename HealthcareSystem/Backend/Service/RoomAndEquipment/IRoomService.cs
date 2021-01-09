@@ -18,6 +18,7 @@ namespace Backend.Service.RoomAndEquipment
         Room ViewRoomByNumber(int number);
         List<Room> ViewRoomByUsage(TypeOfUsage usage, DateTime beginDate, DateTime endDate);
         ICollection<Room> GetRoomsByUsageAndEquipment(TypeOfUsage usage, ICollection<int> equipmentTypeIds);
+        bool CheckIfRoomHasRequiredEquipment(int roomId, ICollection<int> requiredEquipmentTypeIds);
         bool CheckIfRoomExists(int roomId);
 
     }

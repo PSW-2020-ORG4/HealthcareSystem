@@ -25,6 +25,7 @@ namespace Model.Manager
         public int Quantity { get; set; }
         public DateTime ExpirationDate { get; set; }
         public string Producer { get; set; }
+        public string Code { get; set; }
 
         public Drug() { }
 	

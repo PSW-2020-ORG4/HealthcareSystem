@@ -7,7 +7,6 @@ using GraphicalEditor.Models.MapObjectRelated;
 using GraphicalEditor.Repository;
 using GraphicalEditor.Service;
 using GraphicalEditor.Services;
-using GraphicalEditorServer.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -828,6 +827,15 @@ namespace GraphicalEditor
         private void ScheduleEmergencyAppointmentButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void OpenEquipmentRelocationDialogButton_Click(object sender, RoutedEventArgs e)
+        {
+            EquipmentDTO selectedEquipment = (EquipmentDTO)ObjectEquipmentDataGrid.SelectedItem;
+            EquipmentWithRoomDTO equipmentWithRoomForRelocationDTO = new EquipmentWithRoomDTO(selectedEquipment.Id, (int)SelectedMapObject.MapObjectEntity.Id, selectedEquipment.Quantity, selectedEquipment.Type.Name);
+
+            EquipmentRelocationSchedulingDialog equipmentRelocationSchedulingDialog = new EquipmentRelocationSchedulingDialog(equipmentWithRoomForRelocationDTO);
+            equipmentRelocationSchedulingDialog.ShowDialog();
         }
     }
 }

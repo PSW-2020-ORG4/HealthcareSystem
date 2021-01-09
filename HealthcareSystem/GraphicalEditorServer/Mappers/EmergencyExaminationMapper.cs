@@ -1,4 +1,5 @@
-﻿using GraphicalEditorServer.DTO;
+﻿using Backend.Model.PerformingExamination;
+using GraphicalEditorServer.DTO;
 using Model.PerformingExamination;
 using System;
 using System.Collections.Generic;

@@ -49,6 +49,18 @@ stages:
       inputs:
         delayForMinutes: '5' 
 
+- stage: OneSmoke
+  displayName: Run smoke tests
+  jobs:
+  - job: UserService
+    steps:
+      - task: PowerShell@2
+        displayName: "Ping test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://$vlaksi-user-service.herokuapp.com/api/ping -code 200'
+          pwsh: true
+
 - stage: Smoke
   displayName: Run smoke tests
   jobs:

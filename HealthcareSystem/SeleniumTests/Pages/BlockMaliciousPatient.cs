@@ -8,9 +8,6 @@ namespace SeleniumTests.Pages
     {
         private readonly IWebDriver driver;
         public const string URI = "http://localhost:65117/html/malicious_patients.html";
-        private IWebElement BlockButtonElement => driver.FindElement(By.Name("block_malicious"));
-        private IWebElement AlertMessageElement => driver.FindElement(By.Name("alert_container"));
-        private int NumberOfBlockButtons => driver.FindElements(By.Name("block_malicious")).Count;
 
         public BlockMaliciousPatient(IWebDriver driver)
         {
@@ -19,13 +16,13 @@ namespace SeleniumTests.Pages
 
         public string BlockPatient()
         {
-            BlockButtonElement.Click();
-            return AlertMessageElement.FindElement(By.Name("alert_msg")).Text;
+            driver.FindElement(By.Name("block_malicious")).Click();
+            return driver.FindElement(By.Name("alert_container")).FindElement(By.Name("alert_msg")).Text;
         }
 
-        public int GetNumberOfMaliciousPatients()
+        public int GetNumberOfUnblockedMaliciousPatients()
         {
-            return NumberOfBlockButtons;
+            return driver.FindElements(By.Name("block_malicious")).Count;
         }
 
         public void WaitForFormSubmit()

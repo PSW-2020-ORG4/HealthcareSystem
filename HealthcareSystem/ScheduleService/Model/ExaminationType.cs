@@ -7,7 +7,7 @@ namespace ScheduleService.Model
 {
     public enum ExaminationType
     {
-        General,
+        Examination,
         Surgery
     }
 }

@@ -35,6 +35,7 @@ namespace ScheduleService.Model
             if (!IsValidFormat(Value))
                 throw new ValidationException("Jmbg format is not valid.");
         }
+
         private bool IsValidFormat(string Value)
         {
             Regex regex = new Regex(@"^[0-9]{13}$");

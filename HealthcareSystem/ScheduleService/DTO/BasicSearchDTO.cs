@@ -12,5 +12,10 @@ namespace ScheduleService.DTO
         public ICollection<int> RequiredEquipmentTypes { get; set; }
         public DateTime EarliestDateTime { get; set; }
         public DateTime LatestDateTime { get; set; }
+
+        public BasicSearchDTO()
+        {
+            RequiredEquipmentTypes = new List<int>();
+        }
     }
 }

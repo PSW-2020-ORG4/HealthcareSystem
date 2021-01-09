@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Backend.Model;
 using Backend.Model.Enums;
 using Backend.Model.Exceptions;
+using Backend.Model.PerformingExamination;
 using Model.Manager;
-using Model.PerformingExamination;
 using Model.Users;
 
 namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository

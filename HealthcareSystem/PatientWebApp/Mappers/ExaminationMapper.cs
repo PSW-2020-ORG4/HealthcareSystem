@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Model.Enums;
-using Model.PerformingExamination;
+using Backend.Model.Enums;
+using Backend.Model.PerformingExamination;
 using Model.Users;
 using PatientWebApp.DTOs;
 

@@ -3,6 +3,7 @@ using ScheduleService.Model;
 using ScheduleService.Model.DomainServices;
 using ScheduleService.Repository;
 using ScheduleService.Services.AdvancedSearchStrategy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,83 +15,90 @@ namespace ScheduleService.Services
         private readonly IDoctorRepository _doctorRepository;
         private readonly IRoomRepository _roomRepository;
         private readonly AvailableExaminationGenerator _availableExaminationGenerator;
-        public AvailableExaminationService(IPatientRepository patientRepository, IDoctorRepository doctorRepository, IRoomRepository roomRepository)
+        private readonly IClock _clock;
+
+        public AvailableExaminationService(IPatientRepository patientRepository,
+                                           IDoctorRepository doctorRepository,
+                                           IRoomRepository roomRepository,
+                                           IClock clock)
         {
             _patientRepository = patientRepository;
             _doctorRepository = doctorRepository;
             _roomRepository = roomRepository;
+            _clock = clock;
             _availableExaminationGenerator = new AvailableExaminationGenerator();
         }
-        public IEnumerable<Examination> AdvancedSearch(AdvancedSearchDTO advancedSearchDTO)
-        {
-            IEnumerable<Examination> examinations = BasicSearch(advancedSearchDTO.InitialParameters);
-
-            if (!examinations.Any() && advancedSearchDTO.Priority == SearchPriority.Time)
-            {
-                ICollection<string> doctors = _doctorRepository.GetIdsBySpecialty(advancedSearchDTO.SpecialtyId);
-                TimeHasPriorityStrategy timePriority = new TimeHasPriorityStrategy(advancedSearchDTO.InitialParameters, doctors);
-               
-                return SearchAvailableExaminationsByTimePriority(timePriority);
-            }
-            else if (!examinations.Any() && advancedSearchDTO.Priority == SearchPriority.Doctor)
-            {
-                DoctorHasPriorityStrategy doctorPriority = new DoctorHasPriorityStrategy(advancedSearchDTO.InitialParameters, 5);
-
-                return SearchAvailableExaminationsByDoctorPriority(doctorPriority);
-            }
-
-            return examinations;
-        }
-
         public IEnumerable<Examination> BasicSearch(BasicSearchDTO basicSearchDTO)
         {
             return _availableExaminationGenerator.Generate(GetExaminationGeneratorDTO(basicSearchDTO));
         }
 
-        private IEnumerable<Examination> SearchAvailableExaminationsByDoctorPriority(DoctorHasPriorityStrategy doctorPriority)
+        public IEnumerable<Examination> AdvancedSearch(AdvancedSearchDTO advancedSearchDTO)
         {
-            BasicSearchDTO searchParameters = doctorPriority.GetSearchParameters();
+            IEnumerable<Examination> examinations = BasicSearch(advancedSearchDTO.InitialParameters);
 
-            while (searchParameters != null)
-            {
-                IEnumerable<Examination> availableExaminations = BasicSearch(searchParameters);
+            if (examinations.Any())
+                return examinations;
 
-                if (availableExaminations.Any())
-                    return availableExaminations;
-
-                searchParameters = doctorPriority.GetSearchParameters();
-            }
-            return Enumerable.Empty<Examination>();
+            IAdvancedSearchStrategy strategy = GetAdvancedSearchStrategy(advancedSearchDTO);
+            return ApplyStrategy(strategy);
         }
 
-        private IEnumerable<Examination> SearchAvailableExaminationsByTimePriority(TimeHasPriorityStrategy timePriority)
+        private IAdvancedSearchStrategy GetAdvancedSearchStrategy(AdvancedSearchDTO advancedSearchDTO)
         {
-            BasicSearchDTO searchParameters = timePriority.GetSearchParameters();
-
-            while (searchParameters != null)
+            if (advancedSearchDTO.Priority == SearchPriority.Time)
             {
-                IEnumerable<Examination> availableExaminations = BasicSearch(searchParameters);
+                ICollection<string> doctors = _doctorRepository.GetIdsBySpecialty(advancedSearchDTO.SpecialtyId);
+                return new TimeHasPriorityStrategy(advancedSearchDTO.InitialParameters, doctors);
+            }
+            else
+            {
+                return new DoctorHasPriorityStrategy(advancedSearchDTO.InitialParameters, 5);
+            }
+        }
+
+        private IEnumerable<Examination> ApplyStrategy(IAdvancedSearchStrategy strategy)
+        {
+            for (BasicSearchDTO parameters = strategy.GetSearchParameters();
+                 parameters != null;
+                 parameters = strategy.GetSearchParameters())
+            {
+                IEnumerable<Examination> availableExaminations = BasicSearch(parameters);
 
                 if (availableExaminations.Any())
                     return availableExaminations;
-
-                searchParameters = timePriority.GetSearchParameters();
             }
+
             return Enumerable.Empty<Examination>();
         }
 
         private ExaminationGeneratorDTO GetExaminationGeneratorDTO(BasicSearchDTO basicSearchDTO)
         {
-            Patient patient = _patientRepository.Get(basicSearchDTO.PatientJmbg, basicSearchDTO.EarliestDateTime, basicSearchDTO.LatestDateTime);
-            Doctor doctor = _doctorRepository.Get(basicSearchDTO.DoctorJmbg, basicSearchDTO.EarliestDateTime, basicSearchDTO.LatestDateTime);
-            IEnumerable<Room> rooms = _roomRepository.GetByEquipmentTypes(basicSearchDTO.RequiredEquipmentTypes, 
-                                                      basicSearchDTO.EarliestDateTime, basicSearchDTO.LatestDateTime);
-            
-
-            ExaminationGeneratorDTO examinationGeneratorDTO = new ExaminationGeneratorDTO(patient, doctor, rooms, 
-                                                                  basicSearchDTO.EarliestDateTime, basicSearchDTO.LatestDateTime);
-
+            Patient patient = _patientRepository.Get(basicSearchDTO.PatientJmbg,
+                                                     basicSearchDTO.EarliestDateTime,
+                                                     basicSearchDTO.LatestDateTime);
+            Doctor doctor = _doctorRepository.Get(basicSearchDTO.DoctorJmbg,
+                                                  basicSearchDTO.EarliestDateTime,
+                                                  basicSearchDTO.LatestDateTime);
+            IEnumerable<Room> rooms = _roomRepository.GetByEquipmentTypes(RoomType.Examination,
+                                                                          basicSearchDTO.RequiredEquipmentTypes,
+                                                                          basicSearchDTO.EarliestDateTime,
+                                                                          basicSearchDTO.LatestDateTime);
+            ExaminationGeneratorDTO examinationGeneratorDTO = new ExaminationGeneratorDTO(
+                                                              patient,
+                                                              doctor,
+                                                              rooms,
+                                                              FixTime(basicSearchDTO.EarliestDateTime),
+                                                              FixTime(basicSearchDTO.LatestDateTime));
             return examinationGeneratorDTO;
+        }
+
+        private DateTime FixTime(DateTime time)
+        {
+            if (time < _clock.GetTimeLimit())
+                return _clock.GetTimeLimit();
+            else
+                return time;
         }
     }
 }

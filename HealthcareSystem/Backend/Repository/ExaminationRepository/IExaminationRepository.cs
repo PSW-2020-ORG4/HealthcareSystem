@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Model.PerformingExamination;
 using Model.Manager;
-using Model.PerformingExamination;
 using Model.Users;
 
 namespace Backend.Repository.ExaminationRepository

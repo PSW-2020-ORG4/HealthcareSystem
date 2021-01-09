@@ -2,15 +2,15 @@
 using Backend.Model.DTO;
 using Backend.Model.Enums;
 using Backend.Model.Exceptions;
+using Backend.Model.PerformingExamination;
 using Backend.Repository;
 using Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository;
 using Backend.Repository.ExaminationRepository.MySqlExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.ExaminationAndPatientCard;
-using Model.PerformingExamination;
+using Backend.Service.RoomAndEquipment;
 using Repository;
-using Service.RoomAndEquipment;
 using System;
 using System.Collections.Generic;
 using Xunit;

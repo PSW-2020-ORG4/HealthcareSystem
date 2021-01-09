@@ -7,6 +7,6 @@ namespace ScheduleService.Model.DomainServices
 {
     public interface IAvailableExaminationGenerator
     {
-        ICollection<Examination> Generate(ExaminationGeneratorDTO examinationDTO);
+        IEnumerable<Examination> Generate(ExaminationGeneratorDTO examinationDTO);
     }
 }

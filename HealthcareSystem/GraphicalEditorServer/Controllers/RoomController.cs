@@ -1,8 +1,8 @@
 ﻿using System;
+using Backend.Model.Enums;
 using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Model.Enums;
 using Newtonsoft.Json;
 
 namespace GraphicalEditorServer.Controllers

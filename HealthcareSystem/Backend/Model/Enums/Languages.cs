@@ -6,13 +6,13 @@
 
 using System;
 
-namespace Model.Users
+namespace Model.Enums
 {
-   public enum Languages
-   {
-      ENGLISH = 0,
-      GERMAN = 1,
-      SERBIAN = 2
-   
-   }
+    public enum Languages
+    {
+        ENGLISH = 0,
+        GERMAN = 1,
+        SERBIAN = 2
+
+    }
 }

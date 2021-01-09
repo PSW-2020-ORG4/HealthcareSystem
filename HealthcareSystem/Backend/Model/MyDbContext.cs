@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Backend.Model.Manager;
 using Backend.Model.Users;
+using Backend.Model.PerformingExamination;
+
 namespace Backend.Model
 {
     public class MyDbContext : DbContext

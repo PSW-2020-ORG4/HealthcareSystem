@@ -6,14 +6,14 @@
 
 using Model.Manager;
 using Model.Users;
-using Model.Enums;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 using Backend.Model.Enums;
 using Backend.Model;
+using Model.PerformingExamination;
 
-namespace Model.PerformingExamination
+namespace Backend.Model.PerformingExamination
 {
     public class Examination
     {
@@ -41,7 +41,7 @@ namespace Model.PerformingExamination
         public virtual SurveyAboutMedicalStaff SurveyAboutMedicalStaff { get; set; }
         public virtual SurveyAboutHospital SurveyAboutHospital { get; set; }
 
-        public Examination() {}
+        public Examination() { }
 
         public Examination(int id, TypeOfExamination typeOfExamination, DateTime dateAndTime, string anamnesis, Doctor doctor, Room room,
                             PatientCard patientCard, bool isSurveyCompleted = false, ExaminationStatus examinationStatus = ExaminationStatus.CREATED)

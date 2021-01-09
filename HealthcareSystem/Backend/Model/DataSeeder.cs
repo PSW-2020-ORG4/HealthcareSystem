@@ -1,5 +1,4 @@
 ﻿using Backend.Model.Users;
-using Model.Enums;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ using Model.PerformingExamination;
 using System.Linq;
 using Backend.Model.Pharmacies;
 using Model.NotificationSurveyAndFeedback;
+using Backend.Model.PerformingExamination;
 
 namespace Backend.Model
 {

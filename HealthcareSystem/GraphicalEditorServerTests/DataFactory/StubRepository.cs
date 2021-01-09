@@ -1,11 +1,11 @@
 ﻿using Backend.Model.Manager;
+using Backend.Model.PerformingExamination;
 using Backend.Repository;
 using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
 using Model.Manager;
-using Model.PerformingExamination;
 using Model.Users;
 using Moq;
 using Repository;

@@ -18,13 +18,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientWebAppTests", "Patie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E2ETests", "E2ETests\E2ETests.csproj", "{D2D101AC-A7F2-4699-8E08-EF47A4149F55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleService", "ScheduleService\ScheduleService.csproj", "{C2B652CD-3A72-4884-B5C3-642755FCDDFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleService", "ScheduleService\ScheduleService.csproj", "{C2B652CD-3A72-4884-B5C3-642755FCDDFE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserService", "UserService\UserService.csproj", "{9AC793D8-7281-41F2-A9F5-235892188B65}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserServiceTests", "UserServiceTests\UserServiceTests.csproj", "{724F7D01-69A8-46FC-961F-62FA1DF03C7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "NotificationService\NotificationService.csproj", "{5F40A419-F85A-4EE3-9E5A-045640836616}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationService", "NotificationService\NotificationService.csproj", "{5F40A419-F85A-4EE3-9E5A-045640836616}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedbackAndSurveyService", "FeedbackAndSurveyService\FeedbackAndSurveyService.csproj", "{6511D7BD-D217-4F4A-9F98-C81F30F78F16}"
 EndProject
@@ -32,7 +32,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientService", "PatientSe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatientServiceTests", "PatientServiceTests\PatientServiceTests.csproj", "{B01733C4-A682-4405-A48A-60B9E5FB9EB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeedbackAndSurveyTests", "FeedbackAndSurveyTests\FeedbackAndSurveyTests.csproj", "{7A26FFFA-1A29-471D-8CC6-A7784F26FCA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedbackAndSurveyTests", "FeedbackAndSurveyTests\FeedbackAndSurveyTests.csproj", "{7A26FFFA-1A29-471D-8CC6-A7784F26FCA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleServiceTests", "ScheduleServiceTests\ScheduleServiceTests.csproj", "{5949BC12-6693-4AA9-B1CB-4EC32E3DA21F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +106,10 @@ Global
 		{7A26FFFA-1A29-471D-8CC6-A7784F26FCA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A26FFFA-1A29-471D-8CC6-A7784F26FCA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A26FFFA-1A29-471D-8CC6-A7784F26FCA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5949BC12-6693-4AA9-B1CB-4EC32E3DA21F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5949BC12-6693-4AA9-B1CB-4EC32E3DA21F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5949BC12-6693-4AA9-B1CB-4EC32E3DA21F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5949BC12-6693-4AA9-B1CB-4EC32E3DA21F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

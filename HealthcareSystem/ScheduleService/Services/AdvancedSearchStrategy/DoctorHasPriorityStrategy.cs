@@ -32,20 +32,7 @@ namespace ScheduleService.Services.AdvancedSearchStrategy
 
         private void SetupEarliestDate()
         {
-            DateTime earliestDateTime = SearchDTO.EarliestDateTime.AddDays(-1);
-            SearchDTO.EarliestDateTime = GetFixedEarliestDateTime(earliestDateTime);
-        }
-
-        private DateTime GetFixedEarliestDateTime(DateTime earliestDateTime)
-        {
-            if (CheckIfDatePassed(earliestDateTime))
-                return DateTime.Now.AddDays(1);
-            return earliestDateTime;
-        }
-
-        private bool CheckIfDatePassed(DateTime earliestDateTime)
-        {
-            return earliestDateTime.CompareTo(DateTime.Now) <= 0 ? true : false;
+            SearchDTO.EarliestDateTime = SearchDTO.EarliestDateTime.AddDays(-1);
         }
 
         private void SetupLatestDate()

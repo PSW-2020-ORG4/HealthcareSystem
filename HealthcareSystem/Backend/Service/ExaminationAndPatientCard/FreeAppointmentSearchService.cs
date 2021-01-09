@@ -1,13 +1,12 @@
 ﻿using Backend.Model.DTO;
 using Backend.Model.Enums;
 using Backend.Model.Exceptions;
+using Backend.Model.PerformingExamination;
 using Backend.Repository;
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Service.RoomAndEquipment;
-using Model.Enums;
 using Model.Manager;
-using Model.PerformingExamination;
 using Model.Users;
 using Repository;
 using System;

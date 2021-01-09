@@ -12,7 +12,7 @@ namespace ScheduleService.Services
         IEnumerable<Examination> GetFinishedByPatient(string jmbg);
         IEnumerable<Examination> GetCanceledByPatient(string jmbg);
         IEnumerable<Examination> GetCreatedByPatient(string jmbg);
-        void Schedule(ExaminationDTO examinationDTO);
+        void Schedule(ScheduleExaminationDTO examinationDTO);
         void Cancel(int id);
 
     }

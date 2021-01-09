@@ -1,5 +1,5 @@
-﻿using GraphicalEditorServer.DTO;
-using Model.Enums;
+﻿using Backend.Model.Enums;
+using GraphicalEditorServer.DTO;
 using Model.Manager;
 using System;
 

@@ -8,7 +8,6 @@ namespace ScheduleService.Repository
         Examination Get(int id);
         IEnumerable<Examination> GetByExaminationStatusAndPatient(ExaminationStatus examinationStatus, string patientId);
         void Update(Examination examination);
-        void Add(Examination examination);
-        
+        void Add(Examination examination);        
     }
 }

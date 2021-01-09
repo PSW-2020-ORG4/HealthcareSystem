@@ -1,11 +1,11 @@
 ﻿using Backend.Model.Exceptions;
+using Backend.Model.PerformingExamination;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.SearchSpecification.ExaminationSearch;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Model.PerformingExamination;
 using PatientWebApp.Auth;
 using PatientWebApp.DTOs;
 using PatientWebApp.Mappers;

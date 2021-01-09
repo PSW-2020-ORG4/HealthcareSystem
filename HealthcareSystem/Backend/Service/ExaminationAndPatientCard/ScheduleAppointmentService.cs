@@ -1,6 +1,6 @@
 ﻿using Backend.Model.DTO;
+using Backend.Model.PerformingExamination;
 using Backend.Repository.ExaminationRepository;
-using Model.PerformingExamination;
 using System;
 using System.Collections.Generic;
 using System.Text;

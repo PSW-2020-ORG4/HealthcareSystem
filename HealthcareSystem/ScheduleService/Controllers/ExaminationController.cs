@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ScheduleService.DTO;
+using ScheduleService.Mapper;
 using ScheduleService.Services;
 
 namespace ScheduleService.Controllers
@@ -25,23 +26,26 @@ namespace ScheduleService.Controllers
         [HttpGet("finished/patient/{jmbg}")]
         public IActionResult GetFinishedExaminationByPatient(string jmbg)
         {
-            return Ok(_examinationService.GetFinishedByPatient(jmbg));
+            var examinations = _examinationService.GetFinishedByPatient(jmbg).Select(e => e.ToScheduledExaminationDTO());
+            return Ok(examinations);
         }
 
         [HttpGet("canceled/patient/{jmbg}")]
         public IActionResult GetCanceledExaminationByPatient(string jmbg)
         {
-            return Ok(_examinationService.GetCanceledByPatient(jmbg));
+            var examinations = _examinationService.GetCanceledByPatient(jmbg).Select(e => e.ToScheduledExaminationDTO());
+            return Ok(examinations);
         }
 
         [HttpGet("created/patient/{jmbg}")]
         public IActionResult GetCreatedExaminationByPatient(string jmbg)
         {
-            return Ok(_examinationService.GetCreatedByPatient(jmbg));
+            var examinations = _examinationService.GetCreatedByPatient(jmbg).Select(e => e.ToScheduledExaminationDTO());
+            return Ok(examinations);
         }
 
         [HttpPost]
-        public IActionResult ScheduleExamination(ExaminationDTO examinationDTO)
+        public IActionResult ScheduleExamination(ScheduleExaminationDTO examinationDTO)
         {
             _examinationService.Schedule(examinationDTO);
             return NoContent();
@@ -57,13 +61,17 @@ namespace ScheduleService.Controllers
         [HttpPost("search-free/basic")]
         public IActionResult BasicSearchExamination(BasicSearchDTO basicSearchDTO)
         {
-            return Ok(_availableExaminationService.BasicSearch(basicSearchDTO));
+            var available = _availableExaminationService.BasicSearch(basicSearchDTO).Select(
+                e => e.ToUnscheduledExaminationDTO());
+            return Ok(available);
         }
 
         [HttpPost("search-free/advanced")]
         public IActionResult AdvancedSearchExamination(AdvancedSearchDTO advancedSearchDTO)
         {
-            return Ok(_availableExaminationService.AdvancedSearch(advancedSearchDTO));
+            var available = _availableExaminationService.AdvancedSearch(advancedSearchDTO).Select(
+                e => e.ToUnscheduledExaminationDTO());
+            return Ok(available);
         }
     }
 }

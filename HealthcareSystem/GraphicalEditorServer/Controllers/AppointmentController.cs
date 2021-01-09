@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.DTO;
+using Backend.Model.PerformingExamination;
 using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
 using GraphicalEditor.DTO;
@@ -10,7 +11,6 @@ using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model.PerformingExamination;
 
 namespace GraphicalEditorServer.Controllers
 {

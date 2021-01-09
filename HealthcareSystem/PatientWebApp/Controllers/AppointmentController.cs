@@ -1,11 +1,11 @@
 ﻿using Backend.Model.DTO;
 using Backend.Model.Exceptions;
+using Backend.Model.PerformingExamination;
 using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Model.PerformingExamination;
 using Model.Users;
 using PatientWebApp.Auth;
 using PatientWebApp.DTOs;

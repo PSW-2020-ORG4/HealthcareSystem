@@ -5,18 +5,21 @@ namespace ScheduleService.Model.DomainServices
 {
     public class AvailableExaminationGenerator : IAvailableExaminationGenerator
     {
-        public ICollection<Examination> Generate(ExaminationGeneratorDTO examinationDTO)
+        public IEnumerable<Examination> Generate(ExaminationGeneratorDTO examinationDTO)
         {
             ICollection<Examination> examinations = new List<Examination>();
-            ICollection<Appointment> appointments = GenerateAppointments(examinationDTO.StartDate, examinationDTO.EndDate);
+            ICollection<Appointment> appointments = GenerateAppointments(examinationDTO.StartDate,
+                                                                         examinationDTO.EndDate);
 
             foreach (Appointment app in appointments)
                 foreach (Room room in examinationDTO.Rooms)
                 {
-                    Examination examination = new Examination(app, ExaminationType.General, ExaminationStatus.Created, 
-                                                              examinationDTO.Patient, examinationDTO.Doctor, room);
+                    Examination examination = new Examination(app,
+                                                              examinationDTO.Patient,
+                                                              examinationDTO.Doctor,
+                                                              room);
 
-                    if (examination.IsAvailable()) 
+                    if (examination.IsAvailable())
                         examinations.Add(examination);
                 }
 

@@ -1,6 +1,8 @@
-﻿using ScheduleService.DTO;
+﻿using ScheduleService.CustomException;
+using ScheduleService.DTO;
 using ScheduleService.Model;
 using ScheduleService.Repository;
+using System;
 using System.Collections.Generic;
 
 namespace ScheduleService.Services
@@ -11,20 +13,19 @@ namespace ScheduleService.Services
         private readonly IPatientRepository _patientRepository;
         private readonly IDoctorRepository _doctorRepository;
         private readonly IRoomRepository _roomRepository;
+        private readonly IClock _clock;
 
-        public ExaminationService(IExaminationRepository examinationRepository, IPatientRepository patientRepository,
-                                  IDoctorRepository doctorRepository, IRoomRepository roomRepository)
+        public ExaminationService(IExaminationRepository examinationRepository,
+                                  IPatientRepository patientRepository,
+                                  IDoctorRepository doctorRepository,
+                                  IRoomRepository roomRepository,
+                                  IClock clock)
         {
             _examinationRepository = examinationRepository;
             _patientRepository = patientRepository;
             _doctorRepository = doctorRepository;
             _roomRepository = roomRepository;
-        }
-        public void Cancel(int id)
-        {
-            Examination examination = _examinationRepository.Get(id);
-            examination.Cancel();
-            _examinationRepository.Update(examination);
+            _clock = clock;
         }
 
         public IEnumerable<Examination> GetCanceledByPatient(string jmbg)
@@ -42,12 +43,26 @@ namespace ScheduleService.Services
             return _examinationRepository.GetByExaminationStatusAndPatient(ExaminationStatus.Finished, jmbg);
         }
 
-        public void Schedule(ExaminationDTO examinationDTO)
+        public void Cancel(int id)
         {
-            Patient patient = _patientRepository.Get(examinationDTO.PatientJmbg);
-            Doctor doctor = _doctorRepository.Get(examinationDTO.DoctorJmbg);
-            Room room = _roomRepository.Get(examinationDTO.RoomId);
+            Examination examination = _examinationRepository.Get(id);
+            examination.Cancel(_clock.GetTimeLimit());
+            _examinationRepository.Update(examination);
+        }
+
+        public void Schedule(ScheduleExaminationDTO examinationDTO)
+        {
+            DateTime startTime = examinationDTO.StartTime.AddHours(-1);
+            DateTime endTime = examinationDTO.StartTime.AddHours(1);
+            Patient patient = _patientRepository.Get(examinationDTO.PatientJmbg, startTime, endTime);
+            Doctor doctor = _doctorRepository.Get(examinationDTO.DoctorJmbg, startTime, endTime);
+            Room room = _roomRepository.Get(examinationDTO.RoomId, startTime, endTime);
             Examination examination = new Examination(examinationDTO.StartTime, patient, doctor, room);
+
+            if (!examination.IsAvailable())
+                throw new ValidationException("Examination is not available.");
+            if (examination.IsBefore(_clock.GetTimeLimit()))
+                throw new ValidationException("The time limit for scheduling the examinaton has passed.");
 
             _examinationRepository.Add(examination);
         }

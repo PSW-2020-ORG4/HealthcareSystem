@@ -7,8 +7,8 @@ namespace ScheduleService.Model
 {
     public enum RoomType
     {
-        EXAMINATION_ROOM,
-        OPERATION_ROOM,
-        HOSPITALIZATION_ROOM
+        Examination,
+        Surgery,
+        Hospitalization
     }
 }

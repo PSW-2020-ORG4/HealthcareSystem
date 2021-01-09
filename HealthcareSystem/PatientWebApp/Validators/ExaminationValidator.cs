@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.Exceptions;
+using Backend.Model.PerformingExamination;
 using Backend.Service.ExaminationAndPatientCard;
-using Model.PerformingExamination;
 using PatientWebApp.DTOs;
 
 namespace PatientWebApp.Validators

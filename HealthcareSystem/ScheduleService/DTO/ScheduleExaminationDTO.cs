@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ScheduleService.DTO
 {
-    public class ExaminationDTO
+    public class ScheduleExaminationDTO
     {
         public DateTime StartTime { get; set; }
         public string DoctorJmbg { get; set; }

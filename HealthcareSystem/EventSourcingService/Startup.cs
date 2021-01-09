@@ -39,7 +39,7 @@ namespace EventSourcingService
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            //services.AddScoped<IEventStoreService, EventStoreService>();
+            services.AddScoped<IEventStoreExampleService, EventStoreExampleService>();
             services.AddScoped<IDomainEventRepository<ExampleEvent>, DomainEventRepository<ExampleEvent>>();
         }
 

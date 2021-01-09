@@ -14,14 +14,11 @@ using System.Text;
 
 namespace Backend.Model
 {
-    class TestDbContext : MyDbContext
+    class DataSeededDbContext : MyDbContext
     {
-        private static readonly DbContextOptions<MyDbContext> options =
-            new DbContextOptionsBuilder<MyDbContext>().UseNpgsql(
-                "server=dummy;userid=dummy;pwd=dummy;port=5432;database=dummy").Options;
         private Random RandomGenerator { get; set; }
 
-        public TestDbContext() : base(options)
+        public DataSeededDbContext(DbContextOptions<MyDbContext> options) : base(options)
         {
             RandomGenerator = new Random();
         }

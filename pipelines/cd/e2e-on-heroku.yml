@@ -28,7 +28,7 @@ stages:
             echo "----- Installing EF Core. -----"
             dotnet tool install --global dotnet-ef --version 3.1.9
             echo "----- Generating script. -----"
-            dotnet-ef dbcontext script -c "TestDbContext" -p "./HealthcareSystem/Backend/Backend.csproj" -o init.sql
+            dotnet-ef dbcontext script -c "PostgreSeededDbContext" -p "./HealthcareSystem/Backend/Backend.csproj" -o init.sql
           pwsh: true
       - task: PowerShell@2
         displayName: "Initialize Heroku Postgres"

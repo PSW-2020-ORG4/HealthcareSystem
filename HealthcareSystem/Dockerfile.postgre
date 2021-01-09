@@ -4,7 +4,7 @@ ENV ASPNETCORE_ENVIRONMENT Test
 RUN dotnet tool install -g dotnet-ef --version 3.1.9
 WORKDIR /src/Backend
 COPY Backend/ .
-RUN dotnet-ef dbcontext script -c "TestDbContext" -p "/src/Backend/Backend.csproj" -o /init.sql
+RUN dotnet-ef dbcontext script -c "PostgreSeededDbContext" -p "/src/Backend/Backend.csproj" -o /init.sql
 
 FROM postgres:13-alpine
 COPY --from=sql-script /init.sql /docker-entrypoint-initdb.d/init.sql

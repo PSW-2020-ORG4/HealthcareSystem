@@ -14,6 +14,7 @@ namespace SeleniumTests.Pages
         private IWebElement IsAnonymousElement => driver.FindElement(By.XPath("//input[@id = 'no_anonymous']"));
         private IWebElement IsAllowedElement => driver.FindElement(By.XPath(".//div[contains(.,'I don't want my feedback to be published')]/input"));
         private IWebElement SubmitButtonElement => driver.FindElement(By.Id("submit_button"));
+        private IWebElement AlertElement => driver.FindElement(By.Id("alert"));
         public string Title => driver.Title;
         public const string InvalidCommentMessage = "Not success";
         public const string ValidCommentMessage = "Success";
@@ -77,12 +78,7 @@ namespace SeleniumTests.Pages
 
         public string GetDialogMessage()
         {
-            return driver.SwitchTo().Alert().Text;
-        }
-
-        public void ResolveAlertDialog()
-        {
-            driver.SwitchTo().Alert().Accept();
+            return AlertElement.Text;
         }
 
         public void WaitForFormSubmit()

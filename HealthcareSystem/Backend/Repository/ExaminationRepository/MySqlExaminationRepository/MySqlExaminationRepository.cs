@@ -20,12 +20,13 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             _context = context;
         }
-        public void AddExamination(Examination examination)
+        public int AddExamination(Examination examination)
         {
             try
             {
                 _context.Examinations.Add(examination);
                 _context.SaveChanges();
+                return examination.Id;
             }
             catch (Exception)
             {
@@ -148,5 +149,16 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
             }
         }
 
+        public ICollection<Examination> GetExaminationsForPeriod(DateTime startDate, DateTime endDate)
+        {
+            try
+            {
+                return _context.Examinations.Where(e => DateTime.Compare(e.DateAndTime, startDate) >= 0 && DateTime.Compare(e.DateAndTime, endDate) <= 0).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
     }
 }

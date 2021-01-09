@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Model.DTO;
+using Backend.Model.Enums;
 using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
 using GraphicalEditor.DTO;
@@ -35,8 +36,8 @@ namespace GraphicalEditorServer.Controllers
         public ActionResult ScheduleAppointmentByDoctor([FromBody] ExaminationDTO scheduleExaminationDTO)
         {
             Examination scheduleExamination = ExaminationMapper.ExmainationDTO_To_Examination(scheduleExaminationDTO);
-            _scheduleAppintmentService.ScheduleAnAppointmentByDoctor(scheduleExamination);
-            return Ok();
+            int idExamination = _scheduleAppintmentService.ScheduleAnAppointmentByDoctor(scheduleExamination);
+            return Ok(idExamination);
         }
 
         [HttpPost]
@@ -48,6 +49,21 @@ namespace GraphicalEditorServer.Controllers
             examinations.ForEach(e => allExaminations.Add(ExaminationMapper.Examination_To_ExaminationDTO(e))); 
             
             return Ok(allExaminations);
+        }
+
+        [HttpPost("emergency")]
+        public ActionResult GetEmergencyAppointments(AppointmentSearchWithPrioritiesDTO parameters)
+        {
+            List<Examination> unchangedExaminations = (List<Examination>)_freeAppointmentSearchService.GetUnchangedAppointmentsForEmergency(parameters);
+            foreach (Examination e in unchangedExaminations)
+            {
+                if (e.ExaminationStatus == ExaminationStatus.AVAILABLE)
+                    return Ok(EmergencyExaminationMapper.Examination_To_EmergencyExaminationDTO(e));
+            }
+
+            List<Examination> shiftedExaminations = (List<Examination>)_freeAppointmentSearchService.GetShiftedAndSortedAppoinmentsForEmergency(parameters);
+
+            return Ok(EmergencyExaminationMapper.Examinations_To_EmergencyExaminationDTO(unchangedExaminations, shiftedExaminations, true));
         }
     }
 }

@@ -24,6 +24,6 @@ namespace Backend.Service.DrugAndTherapy
  	    public List<Drug> GetDrugsByRoomNumber(int roomNumber);
         void AddConfirmedDrug(Drug drug);
         List<Drug> GetDrugWithRoomForSearchTerm(string searchTerm);
-
+        void AddDrugQuantity(string code, int quantity);
     }
 }

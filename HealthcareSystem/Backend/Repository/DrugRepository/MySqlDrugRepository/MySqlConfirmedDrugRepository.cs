@@ -51,5 +51,11 @@ namespace Backend.Repository.DrugRepository.MySQLDrugRepository
             _context.SaveChanges();
             return drug;
         }
+
+        public Drug GetDrugByCode(string code)
+        {
+            return _context.Drugs.SingleOrDefault(x => x.Code == code);
+        }
+
     }
 }

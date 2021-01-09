@@ -8,8 +8,8 @@ namespace EventSourcingService.Repository
 {
     public interface IEventStoreRepository
     {
-        IEnumerable<CustomEvent> GetAllEvents();
+        IEnumerable<DomainEvent> GetAllEvents();
 
-        void Add(CustomEvent customEvent);
+        void Add(DomainEvent domainEvent);
     }
 }

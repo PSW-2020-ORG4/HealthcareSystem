@@ -34,7 +34,7 @@ namespace EventSourcingService
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
-            services.AddDbContext<CustomDbContext>(options =>
+            services.AddDbContext<EventSourcingDbContext>(options =>
             {
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
             });

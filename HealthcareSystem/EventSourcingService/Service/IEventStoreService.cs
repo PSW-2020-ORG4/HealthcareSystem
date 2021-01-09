@@ -5,8 +5,8 @@ namespace EventSourcingService.Service
 {
     public interface IEventStoreService
     {
-        public IEnumerable<CustomEvent> GetAllEvents();
+        public IEnumerable<DomainEvent> GetAllEvents();
 
-        public void Add(CustomEvent customEvent);
+        public void Add(DomainEvent domainEvent);
     }
 }

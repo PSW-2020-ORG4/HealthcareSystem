@@ -13,14 +13,14 @@ namespace EventSourcingService.Service
             _eventStoreRepository = eventStoreRepository;
         }
 
-        public IEnumerable<CustomEvent> GetAllEvents()
+        public IEnumerable<DomainEvent> GetAllEvents()
         {
             return _eventStoreRepository.GetAllEvents();
         }
 
-        public void Add(CustomEvent customEvent)
+        public void Add(DomainEvent domainEvent)
         {
-            _eventStoreRepository.Add(customEvent);
+            _eventStoreRepository.Add(domainEvent);
         }
     }
 }

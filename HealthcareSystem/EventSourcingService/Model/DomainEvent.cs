@@ -4,7 +4,7 @@ using EventSourcingService.Model.EventTypes;
 
 namespace EventSourcingService.Model
 {
-    public class CustomEvent
+    public class DomainEvent
     {
 
         [Key]

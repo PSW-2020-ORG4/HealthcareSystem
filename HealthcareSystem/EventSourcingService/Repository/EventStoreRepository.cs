@@ -8,20 +8,20 @@ namespace EventSourcingService.Repository
 {
     public class EventStoreRepository : IEventStoreRepository
     {
-        private readonly CustomDbContext _context;
-        public EventStoreRepository(CustomDbContext context)
+        private readonly EventSourcingDbContext _context;
+        public EventStoreRepository(EventSourcingDbContext context)
         {
             _context = context;
         }
 
-        public IEnumerable<CustomEvent> GetAllEvents()
+        public IEnumerable<DomainEvent> GetAllEvents()
         {
            return _context.CustomEvents.ToList();
         }
 
-        public void Add(CustomEvent customEvent)
+        public void Add(DomainEvent domainEvent)
         {
-            _context.CustomEvents.Add(customEvent);
+            _context.CustomEvents.Add(domainEvent);
             _context.SaveChanges();
         }
     }

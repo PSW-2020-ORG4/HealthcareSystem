@@ -23,9 +23,9 @@ namespace EventSourcingService.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(CustomEvent customEvent)
+        public ActionResult Add(DomainEvent domainEvent)
         {
-            _eventStoreService.Add(customEvent);
+            _eventStoreService.Add(domainEvent);
             return NoContent();
         }
 

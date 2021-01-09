@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventSourcingService.Model
 {
-    public class CustomDbContext : DbContext
+    public class EventSourcingDbContext : DbContext
     {
 
-        public DbSet<CustomEvent> CustomEvents { get; set; }
+        public DbSet<DomainEvent> CustomEvents { get; set; }
 
-        public CustomDbContext(DbContextOptions<CustomDbContext> options) : base(options) { }
+        public EventSourcingDbContext(DbContextOptions<EventSourcingDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

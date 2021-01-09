@@ -40,14 +40,6 @@ stages:
             echo "----- Initializing database. -----"
             Get-Content init.sql | heroku pg:psql DATABASE_URL --app vlaksi-patient-service
           pwsh: true     
-  - job: Wait
-    dependsOn: ResetDb
-    displayName: Wait for component redeployments
-    pool: Server
-    steps:
-    - task: Delay@1
-      inputs:
-        delayForMinutes: '5' 
 
 - stage: OneSmoke
   displayName: Run smoke tests

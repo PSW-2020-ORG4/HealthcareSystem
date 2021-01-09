@@ -1,7 +1,4 @@
 ﻿using GraphicalEditor.DTO;
-using GraphicalEditor.Models;
-using GraphicalEditorServer.DTO;
-using RestSharp;
 using System;
 using System.Collections.Generic;
 

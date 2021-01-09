@@ -14,7 +14,7 @@ namespace Backend.Repository.ExaminationRepository
         Examination GetExaminationById(int id);
         List<Examination> GetAllExaminations();
         void UpdateExamination(Examination examination);
-        void AddExamination(Examination examination);
+        int AddExamination(Examination examination);
         List<Examination> GetExaminationsByDate(DateTime date);
         List<Examination> GetExaminationsByPatient(string patientJmbg);
         List<Examination> GetExaminationsByRoomAndDates(int numberOfRoom, DateTime beginDate, DateTime endDate);       
@@ -24,5 +24,6 @@ namespace Backend.Repository.ExaminationRepository
         ICollection<Examination> GetExaminationsByDoctorAndDateTime(string doctorJmbg, DateTime dateTime);
         ICollection<Examination> GetExaminationsByRoomAndDateTime(int roomId, DateTime dateTime);
         ICollection<Examination> GetExaminationsByPatientAndDateTime(int patientCardId, DateTime dateTime);
+        ICollection<Examination> GetExaminationsForPeriod(DateTime startDate, DateTime endDate);
     }
 }

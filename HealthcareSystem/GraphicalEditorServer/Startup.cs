@@ -8,6 +8,8 @@ using Backend.Repository.DrugRepository;
 using Backend.Repository.DrugRepository.MySQLDrugRepository;
 using Backend.Repository.DrugTypeRepository;
 using Backend.Repository.DrugTypeRepository.MySqlDrugTypeRepository;
+using Backend.Repository.EquipmentInExaminationRepository;
+using Backend.Repository.EquipmentInExaminationRepository.MySqlEquipmentInExaminationRepository;
 using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository;
 using Backend.Repository.ExaminationRepository;
@@ -102,6 +104,7 @@ namespace GraphicalEditorServer
             services.AddScoped<IEquipmentTypeService, EquipmentTypeService>();
 
             services.AddScoped<IEquipmentTypeRepository, MySqlEquipmentTypeRepository>();
+            services.AddScoped<IEquipmentInExaminationRepository, MySqlEquipmentInExaminationRepository>();
 
             services.AddScoped<IEquipmentInRoomsService, EquipmentInRoomsService>();
 
@@ -122,7 +125,7 @@ namespace GraphicalEditorServer
             services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
 
             services.AddScoped<IDrugTypeService, DrugTypeService>();
-
+            services.AddScoped<IEquipmentInExaminationService, EquipmentInExaminationService>();
             services.AddScoped<IDrugTypeRepository, MySqlDrugTypeRepository>();
 
             services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();

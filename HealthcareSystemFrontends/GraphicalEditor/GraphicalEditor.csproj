@@ -87,6 +87,7 @@
     <Compile Include="DTO\DrugDTO.cs" />
     <Compile Include="DTO\DrugTypeDTO.cs" />
     <Compile Include="DTO\DrugWithRoomDTO.cs" />
+    <Compile Include="DTO\EmergencyExaminationDTO.cs" />
     <Compile Include="DTO\EquipmentDTO.cs" />
     <Compile Include="DTO\EquipmentInExaminationDTO.cs" />
     <Compile Include="DTO\EquipmentTypeDTO.cs" />

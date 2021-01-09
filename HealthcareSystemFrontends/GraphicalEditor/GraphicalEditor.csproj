@@ -94,6 +94,9 @@
     <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
     <Compile Include="Enumerations\SearchPriority.cs" />
+    <Compile Include="EquipmentRelocationSchedulingDialog.xaml.cs">
+      <DependentUpon>EquipmentRelocationSchedulingDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
@@ -122,6 +125,10 @@
     <Compile Include="Validations\SimpleDateValidationRule.cs" />
     <Compile Include="Validations\WordsValidationRule.cs" />
     <Page Include="CreatePatientGuestAccountDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EquipmentRelocationSchedulingDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

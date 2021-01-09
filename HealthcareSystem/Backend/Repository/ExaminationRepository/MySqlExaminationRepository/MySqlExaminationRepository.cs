@@ -149,11 +149,25 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
             }
         }
 
+
+        public ICollection<Examination> GetFollowingExaminationsByRoom(int roomId)
+        {
+            try
+            {
+                return _context.Examinations.Where(e => e.IdRoom == roomId && e.ExaminationStatus == ExaminationStatus.CREATED).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
+
         public ICollection<Examination> GetExaminationsForPeriod(DateTime startDate, DateTime endDate)
         {
             try
             {
                 return _context.Examinations.Where(e => DateTime.Compare(e.DateAndTime, startDate) >= 0 && DateTime.Compare(e.DateAndTime, endDate) <= 0).ToList();
+
             }
             catch (Exception)
             {

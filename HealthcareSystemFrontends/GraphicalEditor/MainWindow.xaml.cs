@@ -161,7 +161,7 @@ namespace GraphicalEditor
             MockupObjects mockupObjects = new MockupObjects();
             _allMapObjects = mockupObjects.AllMapObjects;
             ChangeEditButtonVisibility();
-
+           
             // uncomment only when you want to save the map for the first time
             saveMap();
 
@@ -175,6 +175,16 @@ namespace GraphicalEditor
             EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;
 
 
+            AppointmentSearchWithPrioritiesDTO appointmentSearch = new AppointmentSearchWithPrioritiesDTO
+            {
+                InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 2, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
+                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 9, 0, 0, DateTimeKind.Utc)),
+                Priority = SearchPriority.Date,
+                SpecialtyId = 1
+            };
+
+            AppointmentService app = new AppointmentService();
+            app.GetEmergencyAppointments(appointmentSearch);
 
         }
         
@@ -194,7 +204,7 @@ namespace GraphicalEditor
             _allMapObjects = mockupObjects.AllMapObjects;
             ChangeEditButtonVisibility();
             // uncomment only when you want to save the map for the first time
-            //saveMap();
+            saveMap();
 
             LoadInitialMapOnCanvas();
 
@@ -753,13 +763,23 @@ namespace GraphicalEditor
             if(AppointmentSearchResultsDataGrid.SelectedItem == null || SelectedAppointmentRoomComboBox.SelectedItem == null)
                 return;
             
+           
 
             ExaminationDTO selectedExamination = (ExaminationDTO)AppointmentSearchResultsDataGrid.SelectedItem;
+            List<EquipmentInExaminationDTO> equipmentInExaminationDTOs = new List<EquipmentInExaminationDTO>();
+            List<int> appointmentRequiredEquipmentTypes = new List<int>();
+            foreach (EquipmentTypeForViewDTO equipmentType in AllEquipmentTypes)
+            {
+                if (equipmentType.IsSelected)
+                {
+                    appointmentRequiredEquipmentTypes.Add(equipmentType.EquipmentType.Id);
+                   // equipmentInExaminationDTOs.Add(new EquipmentInExaminationDTO(equipmentType.EquipmentType.Id,selectedExamination.))
+                }
+            }
             int selectedRoomForExaminationId = (int)SelectedAppointmentRoomComboBox.SelectedItem;
-            Console.WriteLine(selectedRoomForExaminationId);
             selectedExamination.RoomId = selectedRoomForExaminationId;
 
-            new AppointmentService().AddExamination(selectedExamination);
+            new AppointmentService().AddExamination(selectedExamination, appointmentRequiredEquipmentTypes);
             InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
             infoDialog.ShowDialog();
 

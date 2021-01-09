@@ -164,5 +164,14 @@ namespace Service.DrugAndTherapy
             else return false;
         }
 
+        public void AddDrugQuantity(string code, int quantity)
+        {
+            Drug drug = _confirmedDrugRepository.GetDrugByCode(code);
+            if (drug == null)
+                throw new NotFoundException();
+
+            drug.Quantity += quantity;
+            _confirmedDrugRepository.SetDrug(drug);
+        }
     }
 }

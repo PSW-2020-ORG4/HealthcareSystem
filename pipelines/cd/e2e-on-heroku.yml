@@ -65,7 +65,7 @@ stages:
         displayName: "Database connection test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://vlaksi-user-service.herokuapp.com/api/countries -code 200'
+          arguments: '-uri https://vlaksi-user-service.herokuapp.com/api/country -code 200'
           pwsh: true
 
   - job: FeedbackAndSurveyService

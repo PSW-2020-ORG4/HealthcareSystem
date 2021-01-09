@@ -8,9 +8,25 @@ namespace GraphicalEditorServer.Mappers
     public class RoomMapper
     {
 
-        public static RoomDTO BackendRoomToGraphicalEditorRoom(Room beckendRoom)
+        public static RoomDTO BackendRoomToGraphicalEditorRoom(Room backendRoom)
         {
-            throw new NotImplementedException();
+            RoomDTO roomDTO = new RoomDTO();
+            roomDTO.Id = (long)backendRoom.Id;
+            switch (backendRoom.Usage)
+            {
+                case TypeOfUsage.CONSULTING_ROOM:
+                    roomDTO.Usage = TypeOfMapObject.EXAMINATION_ROOM;
+                    break;
+                case TypeOfUsage.SICKROOM:
+                    roomDTO.Usage = TypeOfMapObject.HOSPITALIZATION_ROOM;
+                    break;
+                case TypeOfUsage.OPERATION_ROOM:
+                    roomDTO.Usage = TypeOfMapObject.OPERATION_ROOM;
+                    break;
+                default:
+                    break;
+            }
+            return roomDTO;
         }
 
         public static Room GraphicalEditorRoomToBackendRoom(RoomDTO room)
@@ -33,5 +49,7 @@ namespace GraphicalEditorServer.Mappers
             }
             return backendRoom;
         }
+
+       
     }
 }

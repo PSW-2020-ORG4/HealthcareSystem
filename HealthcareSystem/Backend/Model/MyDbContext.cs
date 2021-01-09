@@ -44,6 +44,8 @@ namespace Backend.Model
         public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DbSet<DrugConsumption> DrugConsumptions { get; set; }
 	    public DbSet<DrugInRoom> DrugsInRooms { get; set; }
+
+        public DbSet<EquipmentTransfer> EqupmentTransfer { get; set; }
 	    public DbSet<EquipmentInExamination> EquipmentInExamination { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
@@ -60,8 +62,6 @@ namespace Backend.Model
 
             builder.Entity<DrugInRoom>().HasKey(o => new { o.RoomNumber, o.DrugId });
 
-            builder.Entity<Patient>().HasIndex(u => u.Username).IsUnique();
-            builder.Entity<Admin>().HasIndex(u => u.Username).IsUnique();
         }
     }
 }

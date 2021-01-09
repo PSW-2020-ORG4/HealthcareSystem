@@ -1,4 +1,5 @@
-﻿using Model.Manager;
+﻿using Backend.Model.DTO;
+using Model.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,9 @@ namespace Backend.Service.RoomAndEquipment
         void DeleteEquipment(int id);
         List<Equipment> GetEquipmentWithRoomForSearchTerm(string searchTerm);
         List<Equipment> GetEquipmentByRoomNumber(int roomNumber);
+        int InitializeEquipmentTransfer(TransferEquipmentDTO transferEquipmentDTO);
+        void ScheduleEquipmentTrasfer(TransferEquipmentDTO transferEquipmentDTO);
+        List<DateTime> GetAlternativeAppointments(TransferEquipmentDTO transferEquipmentDTO);
+
     }
 }

@@ -162,7 +162,7 @@ namespace GraphicalEditor
             MockupObjects mockupObjects = new MockupObjects();
             _allMapObjects = mockupObjects.AllMapObjects;
             ChangeEditButtonVisibility();
-
+           
             // uncomment only when you want to save the map for the first time
             saveMap();
 

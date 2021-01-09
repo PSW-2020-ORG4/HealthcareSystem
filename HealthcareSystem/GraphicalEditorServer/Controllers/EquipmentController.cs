@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Model.Manager;
 using Backend.Model.Manager;
 using GraphicalEditorServer.Mappers;
+using Backend.Model.DTO;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -72,6 +73,25 @@ namespace GraphicalEditorServer.Controllers
             }
 
             return Ok(allEquipmentWithRoomDTOs);
+        }
+
+        [HttpPost("initilizeTransfer")]
+        public ActionResult InitializeEquipmentTransfer(TransferEquipmentDTO transferEquipmentDTO)
+        {
+            return Ok(_equipmentService.InitializeEquipmentTransfer(transferEquipmentDTO));
+        }
+
+        [HttpPost("getAlternativeAppointments")]
+        public ActionResult GetAlternativeAppointments(TransferEquipmentDTO transferEquipmentDTO)
+        {
+            return Ok(_equipmentService.GetAlternativeAppointments(transferEquipmentDTO));
+        }
+
+        [HttpPost("scheduleTransfer")]
+        public ActionResult ScheduleEquipmentTransfer(TransferEquipmentDTO transferEquipmentDTO)
+        {
+            _equipmentService.ScheduleEquipmentTrasfer(transferEquipmentDTO);
+            return Ok();
         }
 
     }

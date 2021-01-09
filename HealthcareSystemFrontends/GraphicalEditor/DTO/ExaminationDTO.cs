@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GraphicalEditor.DTO;
 
-namespace GraphicalEditorServer.DTO
+namespace GraphicalEditor.DTO
 {
     public class ExaminationDTO
     {

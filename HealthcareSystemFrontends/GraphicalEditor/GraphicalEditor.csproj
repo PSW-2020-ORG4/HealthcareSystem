@@ -88,6 +88,7 @@
     <Compile Include="DTO\EquipmentDTO.cs" />
     <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
+    <Compile Include="DTO\ExaminationForReschedulingDTO.cs" />
     <Compile Include="DTO\PatientBasicDTO.cs" />
     <Compile Include="DTO\SpecialtyDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />

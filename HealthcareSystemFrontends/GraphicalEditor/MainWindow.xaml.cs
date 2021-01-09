@@ -168,6 +168,15 @@ namespace GraphicalEditor
 
             LoadInitialMapOnCanvas();           
             SetDataToUIControls();
+
+            ExaminationForReschedulingDTO examinationForReschedulingDTO = new ExaminationForReschedulingDTO(new DateTime(), new DateTime(), 9);
+            List<ExaminationForReschedulingDTO> examinationsForReschedunling = new List<ExaminationForReschedulingDTO>();
+
+            examinationsForReschedunling.Add(examinationForReschedulingDTO);
+            EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;
+
+
+
         }
         
 
@@ -789,6 +798,16 @@ namespace GraphicalEditor
         {
             CreatePatientGuestAccountDialog createPatientGuestAccountDialog = new CreatePatientGuestAccountDialog();
             createPatientGuestAccountDialog.ShowDialog();
+        }
+
+        private void EmergencyAppointmentSearchResultsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ScheduleEmergencyAppointmentButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

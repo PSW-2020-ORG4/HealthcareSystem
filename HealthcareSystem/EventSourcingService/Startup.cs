@@ -10,6 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EventSourcingService.Model;
+using EventSourcingService.Repository;
+using EventSourcingService.Service;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
 namespace EventSourcingService
 {
@@ -25,7 +30,17 @@ namespace EventSourcingService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(s => {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
+
+            services.AddDbContext<CustomDbContext>(options =>
+            {
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            services.AddScoped<IEventStoreService, EventStoreService>();
+            services.AddScoped<IEventStoreRepository, EventStoreRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,8 +50,6 @@ namespace EventSourcingService
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 

@@ -5,7 +5,7 @@ trigger:
     - develop
   paths:
     include:
-    - 'HealthcareSystem/GraphicalEditorServer/*'
+    - 'HealthcareSystem/ScheduleService/*'
     - 'HealthcareSystem/Backend/*'
 pr: none
 
@@ -14,10 +14,10 @@ pool:
 
 variables:
   dockerRegistry: 'pufkedockerhub'
-  project: 'HealthcareSystem/GraphicalEditorServer/GraphicalEditorServer.csproj'
-  dockerfile: 'HealthcareSystem/GraphicalEditorServer/Dockerfile'
-  dockerImage: 'pufke/graphicaleditor'
-  herokuProject: 'psw-graphicaleditor'
+  project: 'HealthcareSystem/ScheduleService/ScheduleService.csproj'
+  dockerfile: 'HealthcareSystem/ScheduleService/Dockerfile'
+  dockerImage: 'pufke/scheduleservice'
+  herokuProject: 'psw-schedule-service'
 
 stages:
 - stage: CI
@@ -48,7 +48,7 @@ stages:
   variables:
     HEROKU_API_KEY: 8418d6b4-7423-404b-81cf-23abcd968591
   jobs:
-  - deployment: GraphicalEditor   
+  - deployment: PatientService   
     environment: 'Test'
     strategy:
       runOnce:

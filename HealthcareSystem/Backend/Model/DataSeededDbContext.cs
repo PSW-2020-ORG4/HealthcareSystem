@@ -67,7 +67,7 @@ namespace Backend.Model
                     IsBlocked = false,
                     Phone = "065897520",
                     Username = "ana_anic98@gmail.com",
-                    ImageName = "Uploads/picture1.jpg"
+                    ImageName = "/Uploads/picture1.jpg"
                 },
                 new Patient()
                 {
@@ -86,7 +86,7 @@ namespace Backend.Model
                     IsBlocked = false,
                     Phone = "065897520",
                     Username = "zana998@gmail.com",
-                    ImageName = "Uploads/profile_pic.jpg"
+                    ImageName = "/Uploads/profile_pic.jpg"
                 }
                 );
             builder.Entity<PatientCard>().HasData(

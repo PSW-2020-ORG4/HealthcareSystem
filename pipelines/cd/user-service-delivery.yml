@@ -17,7 +17,7 @@ variables:
   project: 'HealthcareSystem/UserService/UserService.csproj'
   dockerfile: 'HealthcareSystem/UserService/Dockerfile'
   dockerImage: 'pufke/userservice'
-  herokuProject: 'vlaksi-user-service'
+  herokuProject: 'psw-user-service'
 
 stages:
 - stage: CI

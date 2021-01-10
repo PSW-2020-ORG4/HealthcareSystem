@@ -17,7 +17,7 @@ variables:
   project: 'HealthcareSystem/FeedbackAndSurveyService/FeedbackAndSurveyService.csproj'
   dockerfile: 'HealthcareSystem/FeedbackAndSurveyService/Dockerfile'
   dockerImage: 'pufke/feedbackandsurveyservice'
-  herokuProject: 'vlaksi-feedback-and-survey'
+  herokuProject: 'psw-feedback-and-survey'
 
 stages:
 - stage: CI

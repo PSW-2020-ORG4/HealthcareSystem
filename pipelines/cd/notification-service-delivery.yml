@@ -16,7 +16,7 @@ variables:
   project: 'HealthcareSystem/NotificationService/NotificationService.csproj'
   dockerfile: 'HealthcareSystem/NotificationService/Dockerfile'
   dockerImage: 'pufke/notificationservice'
-  herokuProject: 'vlaksi-notification-service'
+  herokuProject: 'psw-notification-service'
 
 stages:
 - stage: CI

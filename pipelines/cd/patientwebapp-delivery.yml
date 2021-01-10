@@ -6,7 +6,6 @@ trigger:
   paths:
     include:
     - 'HealthcareSystem/PatientWebApp/*'
-    - 'HealthcareSystem/Backend/*'
 pr: none
 
 pool:
@@ -17,7 +16,7 @@ variables:
   project: 'HealthcareSystem/PatientWebApp/PatientWebApp.csproj'
   dockerfile: 'HealthcareSystem/PatientWebApp/Dockerfile'
   dockerImage: 'pufke/patientwebapp'
-  herokuProject: 'vlaksi-patientwebapp'
+  herokuProject: 'psw-patientwebapp'
 
 stages:
 - stage: CI

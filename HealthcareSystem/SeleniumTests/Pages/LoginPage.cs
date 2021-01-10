@@ -7,7 +7,7 @@ namespace PatientWebAppE2ETests.Pages
     public class LoginPage
     {
         private readonly IWebDriver driver;
-        public const string URI = "https://vlaksi-patientwebapp.herokuapp.com/html/login.html";
+        public const string URI = "https://psw-patientwebapp.herokuapp.com/html/login.html";
         private IWebElement EmailElement => driver.FindElement(By.Id("email"));
         private IWebElement PasswordElement => driver.FindElement(By.Id("password"));
         private IWebElement SubmitButtonElement => driver.FindElement(By.Id("login"));

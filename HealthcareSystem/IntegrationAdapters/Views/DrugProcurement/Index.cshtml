@@ -1,0 +1,46 @@
+﻿@model DrugProcurementDTO
+@{
+    ViewData["Title"] = "Procurement";
+    Layout = "_Layout";
+}
+
+<form class="form-group" method="get" action="DrugProcurement/Order">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Enter quantity</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @if (TempData["Success"] != null)
+            {
+                <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+            }
+            @if (TempData["Failure"] != null)
+            {
+                <p class="alert alert-danger" id="successMessage">@TempData["Failure"]</p>
+            }
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">@Model.DrugName - @Model.Code</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Quantity, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                <input type="hidden" name="pharmacySystemId" value="@Model.PharmacySystemId" />
+                <input type="hidden" name="pharmacyId" value="@Model.PharmacyId" />
+                <input type="hidden" name="drugId" value="@Model.DrugId" />
+                <input type="hidden" name="drugName" value="@Model.DrugName" />
+                <input type="hidden" name="code" value="@Model.Code" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10"></div>
+            <input id="submitButton" type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+
+
+    </div>
+</form>

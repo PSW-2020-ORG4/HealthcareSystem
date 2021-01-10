@@ -40,7 +40,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!--  Ikonica  -->
+            <!--  Icon  -->
             <materialDesign:PackIcon
                 Grid.Row="1"
                 Grid.Column="1"

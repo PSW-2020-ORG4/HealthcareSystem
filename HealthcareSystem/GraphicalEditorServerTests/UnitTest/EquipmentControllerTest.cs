@@ -26,7 +26,7 @@ namespace GraphicalEditorServerTests.UnitTest
         }
         private EquipmentController SetupEquipmentController()
         {
-        EquipmentService _equipmentService = new EquipmentService(_stubRepository.CreateEquipmentStubRepository(), _stubRepository.CreateEquipmentInRoomStubRepository());
+        EquipmentService _equipmentService = new EquipmentService(_stubRepository.CreateEquipmentStubRepository(), _stubRepository.CreateEquipmentInRoomStubRepository(), _stubRepository.CreateExaminationStubRepository());
         EquipmentTypeService equipmentTypeService = new EquipmentTypeService(_stubRepository.CreateEquipmentTypeStubRepository());    
         EquipmentInRoomsService equipmentInRoomsService = new EquipmentInRoomsService(_stubRepository.CreateEquipmentInRoomStubRepository(), _equipmentService);    
         EquipmentController _equipmentController = new EquipmentController(_equipmentService, equipmentTypeService, equipmentInRoomsService);

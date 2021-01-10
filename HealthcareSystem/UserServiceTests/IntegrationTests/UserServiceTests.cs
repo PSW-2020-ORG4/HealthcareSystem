@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Backend.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using UserService.CustomException;
 using UserService.Model;
 using UserService.Repository;
@@ -16,9 +17,16 @@ namespace UserServiceTests.IntegrationTests
     {
         private UserService.Service.Implementation.UserService SetupRepositoryAndService()
         {
-            DbContextInMemory testData = new DbContextInMemory();
-            testData.SeedDatas();
-            MyDbContext context = testData._context;
+            DataSeeder dataSeeder = new DataSeeder();
+            DbContextOptionsBuilder<MyDbContext> builder = new DbContextOptionsBuilder<MyDbContext>(); ;
+            DbContextOptions<MyDbContext> options;
+            MyDbContext context;
+            builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
+            options = builder.Options;
+            context = new MyDbContext(options);
+
+            dataSeeder.SeedAll(context);
+
             var userRepo = new UserRepository(context);
             return new UserService.Service.Implementation.UserService(userRepo);
         }
@@ -45,14 +53,14 @@ namespace UserServiceTests.IntegrationTests
         public void NotSuccessLogin()
         {
             UserService.Service.Implementation.UserService userService = SetupRepositoryAndService();
-            try
-            {
-                UserAccount userAccount = userService.GetByEmailAndPassword("bla bla", "bla");
-            }
-            catch (Exception ex)
-            {
-                Assert.True(ex is NotFoundException);
-            }
+             try
+             {
+                 UserAccount userAccount = userService.GetByEmailAndPassword("bla bla", "bla");
+             }
+             catch (Exception ex)
+             {
+                 Assert.True(ex is NotFoundException);
+             }
         }
     }
 }

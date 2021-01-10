@@ -174,7 +174,7 @@ namespace GraphicalEditor
             examinationsForReschedunling.Add(examinationForReschedulingDTO);
             EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;
 
-
+            /*
             AppointmentSearchWithPrioritiesDTO appointmentSearch = new AppointmentSearchWithPrioritiesDTO
             {
                 InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 2, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
@@ -184,7 +184,7 @@ namespace GraphicalEditor
             };
 
             AppointmentService app = new AppointmentService();
-            app.GetEmergencyAppointments(appointmentSearch);
+            app.GetEmergencyAppointments(appointmentSearch);*/
 
         }
         
@@ -826,7 +826,30 @@ namespace GraphicalEditor
 
         private void ScheduleEmergencyAppointmentButton_Click(object sender, RoutedEventArgs e)
         {
+            int patientCardId = ((PatientBasicDTO)AppointmentSearchPatientComboBox.SelectedItem).PatientCardId;
 
+            int doctorSpecialtyId = ((SpecialtyDTO)AppointmentDoctorSpecializationComboBox.SelectedItem).Id;
+
+            List<int> appointmentRequiredEquipmentTypes = new List<int>();
+            foreach (EquipmentTypeForViewDTO equipmentType in AllEquipmentTypes)
+            {
+                if (equipmentType.IsSelected)
+                {
+                    appointmentRequiredEquipmentTypes.Add(equipmentType.EquipmentType.Id);
+                }
+            }
+
+
+            AppointmentSearchWithPrioritiesDTO appointmentSearch = new AppointmentSearchWithPrioritiesDTO
+            {
+                InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 2, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
+               earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 9, 0, 0, DateTimeKind.Utc)),
+                Priority = SearchPriority.Date,
+                SpecialtyId = 1
+            };
+
+            AppointmentService app = new AppointmentService();
+            app.GetEmergencyAppointments(appointmentSearch);
         }
 
         private void OpenEquipmentRelocationDialogButton_Click(object sender, RoutedEventArgs e)

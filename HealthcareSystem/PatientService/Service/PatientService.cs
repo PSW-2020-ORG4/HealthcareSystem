@@ -1,6 +1,7 @@
 ﻿using PatientService.DTO;
 using PatientService.Mapper;
 using PatientService.Model;
+using PatientService.Model.Memento;
 using PatientService.Model.Specification;
 using PatientService.Repository;
 using System;
@@ -17,6 +18,19 @@ namespace PatientService.Service
         public PatientService(IPatientRepository repository)
         {
             _repository = repository;
+        }
+
+        public void Add(GuestPatientDTO guestPatient)
+        {
+            var patient = new Patient(new PatientMemento()
+            {
+                Name = guestPatient.Name,
+                Surname = guestPatient.Surname,
+                Jmbg = guestPatient.Jmbg,
+                BloodType = BloodType.Unknown,
+                RhFactor = RhFactor.Unknown
+            });
+            _repository.Add(patient);
         }
 
         public Patient Get(string jmbg)

@@ -38,7 +38,7 @@ namespace UserService.Repository
                         Name = d.City.Country.Name
                     }
                 },
-                Gender = d.Gender.Value.ToGender()
+                Gender = d.Gender.ToGender()
             });
         }
     }

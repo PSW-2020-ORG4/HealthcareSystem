@@ -15,5 +15,6 @@ namespace PatientService.Service
         IEnumerable<Therapy> GetTherapies(string jmbg);
         IEnumerable<Therapy> GetTherapies(string jmbg, TherapySearchDTO parameters);
         void UpdateMedicalInfo(string jmbg, MedicalInfoUpdateDTO medicalInfoUpdate);
+        void Add(GuestPatientDTO guestPatient);
     }
 }

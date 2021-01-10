@@ -1,8 +1,8 @@
 ﻿using Backend.Model;
 using Backend.Model.Enums;
+using Backend.Model.Users;
 using Backend.Repository;
 using Microsoft.EntityFrameworkCore;
-using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,5 @@
-﻿using Model.Users;
+﻿using Backend.Model.Users;
+using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace UserService.Repository
                         Name = user.City.Country.Name
                     }
                 },
-                Gender = user.Gender.Value.ToGender()
+                Gender = user.Gender.ToGender()
             };
 
             if (user is Admin)

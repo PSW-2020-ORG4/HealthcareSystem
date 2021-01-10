@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 using Backend.Model.Enums;
 using Backend.Model;
+using Backend.Model.Users;
 
 namespace Model.PerformingExamination
 {

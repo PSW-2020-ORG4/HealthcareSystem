@@ -21,6 +21,45 @@ namespace PatientService.Repository
             _context = context;
         }
 
+        public void Add(Patient patient)
+        {
+            try
+            {
+                var memento = patient.GetMemento();
+                _context.Add(new Backend.Model.Users.Patient()
+                {
+                    Jmbg = memento.Jmbg,
+                    Name = memento.Name,
+                    Surname = memento.Surname,
+                    IsGuest = true
+                });
+                _context.SaveChanges();
+                _context.Add(new Backend.Model.Users.PatientCard()
+                {
+                    PatientJmbg = memento.Jmbg,
+                    BloodType = memento.BloodType.ToBackendBloodType(),
+                    RhFactor = memento.RhFactor.ToBackendRhFactor(),
+                    Alergies = memento.Allergies,
+                    MedicalHistory = memento.MedicalHistory,
+                    HasInsurance = !String.IsNullOrWhiteSpace(memento.InsuranceNumber),
+                    Lbo = memento.InsuranceNumber
+                });
+                _context.SaveChanges();
+            }
+            catch (PatientServiceException)
+            {
+                throw;
+            }
+            catch (DbUpdateException e)
+            {
+                throw new ValidationException(e.Message);
+            }
+            catch (Exception e)
+            {
+                throw new DataStorageException(e.Message);
+            }
+        }
+
         public Patient Get(string jmbg)
         {
             try

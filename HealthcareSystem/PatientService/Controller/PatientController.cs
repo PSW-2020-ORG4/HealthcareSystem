@@ -21,6 +21,13 @@ namespace PatientService.Controller
             _service = service;
         }
 
+        [HttpPost]
+        public IActionResult Add(GuestPatientDTO guestPatient)
+        {
+            _service.Add(guestPatient);
+            return NoContent();
+        }
+
         [HttpGet("{jmbg}/medical-info")]
         public IActionResult Get(string jmbg)
         {

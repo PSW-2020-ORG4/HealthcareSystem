@@ -1,4 +1,4 @@
-﻿using Model.Users;
+﻿using Backend.Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace UserService.Repository
                 DateOfBirth = patient.DateOfBirth.Value,
                 ImageName = patient.ImageName,
                 Email = patient.Email,
-                Gender = patient.Gender.Value.ToGender(),
+                Gender = patient.Gender.ToGender(),
                 HomeAddress = patient.HomeAddress,
                 IsActivated = patient.IsActive,
                 IsBlocked = patient.IsBlocked,

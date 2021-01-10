@@ -1,5 +1,5 @@
 ﻿using Backend.Model.Pharmacies;
-using Model.Users;
+using Backend.Model.Users;
 using System.Collections.Generic;
 
 namespace IntegrationAdapters.Dtos

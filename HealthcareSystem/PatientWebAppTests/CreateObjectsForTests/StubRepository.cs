@@ -14,6 +14,7 @@ using Model.Enums;
 using Backend;
 using System;
 using Backend.Model.Exceptions;
+using Backend.Model.Users;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {

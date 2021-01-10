@@ -4,8 +4,8 @@
  * Purpose: Definition of the Class Model.Users.Feedback
  ***********************************************************************/
 
+using Backend.Model.Users;
 using Castle.Components.DictionaryAdapter;
-using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

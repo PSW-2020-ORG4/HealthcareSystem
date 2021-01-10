@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
 using RestSharp;
@@ -29,15 +30,11 @@ namespace PatientWebApp.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] UserInfoDTO userInfoDTO)
         {
-            var client = new RestClient(_serviceSettings.UserServiceUrl);
-            var request = new RestRequest("/api/user", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddJsonBody(userInfoDTO);
-            var response = client.Execute(request);
+            var contentResult = RequestAdapter.SendPostRequestWithBody(_serviceSettings.UserServiceUrl, "/api/user", userInfoDTO);
 
             try
             {
-                UserDTO userDTO = JsonConvert.DeserializeObject<UserDTO>(response.Content);
+                UserDTO userDTO = JsonConvert.DeserializeObject<UserDTO>(contentResult.Content);
                 if (userDTO.CanLogIn)
                 {
                     var token = GenerateJWT(userDTO.Email, userDTO.Jmbg, userDTO.Type);
@@ -46,7 +43,7 @@ namespace PatientWebApp.Controllers
             }
             catch (Exception) { }
 
-            if ((int)response.StatusCode == 500)
+            if ((int)contentResult.StatusCode == 500)
                 return Problem("An internal error occured.");
             else
                 return Unauthorized("Credentials not valid.");

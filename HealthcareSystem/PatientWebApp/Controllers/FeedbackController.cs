@@ -33,23 +33,10 @@ namespace PatientWebApp.Controllers
         public ActionResult AddFeedback(AddFeedbackDTO feedbackDTO)
         {
             if (!feedbackDTO.IsAnonymous)
-            {
                 feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            }
+            
+            return RequestAdapter.SendPostRequestWithBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback",feedbackDTO);
 
-            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
-            var request = new RestRequest("/api/feedback", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddJsonBody(feedbackDTO);
-            var response = client.Execute(request);
-
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
         }
         /// <summary>
         /// / getting all published feedbacks
@@ -60,7 +47,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("published")]
         public ActionResult GetPublishedFeedbacks()
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/published");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/published", Method.GET);
         }
         /// <summary>
         /// /getting all unpublished feedbacks
@@ -71,7 +58,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("unpublished")]
         public ActionResult GetUnpublishedFeedbacks()
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/unpublished");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/unpublished", Method.GET);
         }
         /// <summary>
         /// / updating feedbacks status (property: IsPublished) to published
@@ -83,16 +70,7 @@ namespace PatientWebApp.Controllers
         [HttpPost("{id}")]
         public ActionResult PublishFeedback(int id)
         {
-            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
-            var request = new RestRequest("/api/feedback/" + id + "/publish", Method.POST);
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/" + id + "/publish", Method.POST);
         }
     }
 }

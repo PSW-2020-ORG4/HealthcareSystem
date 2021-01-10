@@ -24,7 +24,7 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public ActionResult GetAllDoctors()
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/doctor");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/doctor", Method.GET);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("doctor-specialty/{id}")]
         public IActionResult GetSpecialistDoctorsBySpecialtyId(int id)
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/doctor/specialty/" + id);
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/doctor/specialty/" + id, Method.GET);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("country/{countryId}")]
         public IActionResult GetCitiesByCountryId(int countryId)
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/city/country/" + countryId);
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/city/country/" + countryId, Method.GET);
         } 
     }
 }

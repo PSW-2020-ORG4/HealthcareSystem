@@ -28,17 +28,7 @@ namespace PatientWebApp.Controllers
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
 
-            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
-            var request = new RestRequest("/api/survey/patient/" + patientJmbg + "/permission/" + surveyDTO.ExaminationId, Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddJsonBody(surveyDTO);
-            var response = client.Execute(request);
-
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-            return contentResult;
+            return RequestAdapter.SendPostRequestWithBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/patient/" + patientJmbg + "/permission/" + surveyDTO.ExaminationId, surveyDTO);
         }
 
         [Authorize(Roles = UserRoles.Patient)]
@@ -46,28 +36,28 @@ namespace PatientWebApp.Controllers
         public ActionResult GetPermissions()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/patient/" + patientJmbg + "/permission");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/patient/" + patientJmbg + "/permission", Method.GET);
         }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutMedicalStaff")]
         public IActionResult GetSurveyResultAboutMedicalStaff()
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/report/staff");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/report/staff", Method.GET);
         }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutDoctor/{jmbg}")]
         public IActionResult GetSurveyResultAboutDoctor(string jmbg)
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/report/doctor/" + jmbg);
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/report/doctor/" + jmbg, Method.GET);
         }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutHospital")]
         public IActionResult GetSurveyResultAboutHospital()
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/report/hospital");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/report/hospital", Method.GET);
         }
     }
 }

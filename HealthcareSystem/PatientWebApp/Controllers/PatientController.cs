@@ -59,7 +59,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetPatientByJmbg()
         {
             var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/patient/" + jmbg);
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/" + jmbg, Method.GET);
         }
 
         [Authorize(Roles = UserRoles.Patient)]
@@ -67,7 +67,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetPatientMedicalInfo()
         {
             var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            return RequestAdapter.SendGetRequest(_serviceSettings.PatientServiceUrl, "/api/patient/" + jmbg + "/medical-info");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.PatientServiceUrl, "/api/patient/" + jmbg + "/medical-info", Method.GET);
         }
 
         /// <summary>
@@ -115,16 +115,8 @@ namespace PatientWebApp.Controllers
         public ActionResult ActivatePatient(string jmbg)
         {
             string decryptedJmbg = _encryptionService.DecryptString(jmbg);
-            var client = new RestClient(_serviceSettings.UserServiceUrl);
-            var request = new RestRequest("/api/patient/" + decryptedJmbg + "/activate", Method.POST);
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
 
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/" + decryptedJmbg + "/activate", Method.POST);
         }
 
         /// /upload patient image in memory
@@ -188,23 +180,14 @@ namespace PatientWebApp.Controllers
         [HttpGet("malicious")]
         public IActionResult GetMaliciousPatients()
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/patient/malicious");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/malicious", Method.GET);
         }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPost("{jmbg}/block")]
         public ActionResult BlockPatient(string jmbg)
         {
-            var client = new RestClient(_serviceSettings.UserServiceUrl);
-            var request = new RestRequest("/api/patient/" + jmbg + "/block", Method.POST);
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/" + jmbg + "/block", Method.POST);
         }
     }
 }

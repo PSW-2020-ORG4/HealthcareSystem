@@ -20,7 +20,7 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public IActionResult GetSpecialities()
         {
-            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/specialty");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/specialty", Method.GET);
         }
     }
 }

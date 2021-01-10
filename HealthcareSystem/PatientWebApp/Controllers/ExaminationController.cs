@@ -68,19 +68,8 @@ namespace PatientWebApp.Controllers
         public ActionResult AdvanceSearchExaminations(ExaminationSearchDTO examinationSearchDTO)
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.PatientServiceUrl);
-            var request = new RestRequest("/api/patient/" + patientJmbg + "/examination/search", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddJsonBody(examinationSearchDTO);
 
-            var response = client.Execute(request);
-
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendPostRequestWithBody(_serviceSettings.PatientServiceUrl, "/api/patient/" + patientJmbg + "/examination/search", examinationSearchDTO);
         }
 
         /// <summary>
@@ -157,7 +146,7 @@ namespace PatientWebApp.Controllers
         public ActionResult GetPreviousExaminationsByPatient()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            return RequestAdapter.SendGetRequest(_serviceSettings.PatientServiceUrl, "/api/patient/" + patientJmbg + "/examination");
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.PatientServiceUrl, "/api/patient/" + patientJmbg + "/examination", Method.GET);
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using PatientService.Model;
+﻿using Backend.Model.Enums;
+using PatientService.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,18 +7,31 @@ using System.Threading.Tasks;
 
 namespace PatientService.Repository.BackendMapper
 {
-    public static class RhFactorMapper
+    internal static class RhFactorMapper
     {
-        public static RhFactor ToRhFactor(this Backend.Model.Enums.RhFactorType rhFactor)
+        internal static RhFactor ToRhFactor(this RhFactorType rhFactor)
         {
             switch (rhFactor)
             {
-                case Backend.Model.Enums.RhFactorType.NEGATIVE:
+                case RhFactorType.NEGATIVE:
                     return RhFactor.Negative;
-                case Backend.Model.Enums.RhFactorType.POSITIVE:
+                case RhFactorType.POSITIVE:
                     return RhFactor.Positive;
                 default:
                     return RhFactor.Unknown;
+            }
+        }
+
+        internal static RhFactorType ToBackendRhFactor(this RhFactor rhFactor)
+        {
+            switch (rhFactor)
+            {
+                case RhFactor.Negative:
+                    return RhFactorType.NEGATIVE;
+                case RhFactor.Positive:
+                    return RhFactorType.POSITIVE;
+                default:
+                    return RhFactorType.UNKNOWN;
             }
         }
     }

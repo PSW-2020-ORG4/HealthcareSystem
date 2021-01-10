@@ -1,22 +1,15 @@
-﻿using Backend.Model.Exceptions;
-using Backend.Model.Users;
-using Backend.Service;
-using Backend.Service.Encryption;
-using Backend.Service.SendingMail;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using PatientWebApp.Adapters;
 using PatientWebApp.Auth;
 using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
-using PatientWebApp.Validators;
 using RestSharp;
 using System.IO;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace PatientWebApp.Controllers
 {
@@ -25,27 +18,19 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        private readonly IPatientService _patientService;
-        private readonly IPatientCardService _patientCardService;
-        private readonly IMailService _mailService;
-        private readonly PatientValidator _patientValidator;
         public static IWebHostEnvironment _webHostEnvironment;
         private readonly EncryptionService _encryptionService;
         private readonly ServiceSettings _serviceSettings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PatientController(IPatientService patientService,
-                                 IPatientCardService patientCardService,
-                                 IWebHostEnvironment webHostEnvironment,
-                                 IMailService mailService,
-                                 IOptions<ServiceSettings> serviceSettings)
+        public PatientController(IWebHostEnvironment webHostEnvironment,
+                                 IOptions<ServiceSettings> serviceSettings,
+                                 IHttpContextAccessor httpContextAccessor)
         {
-            _patientService = patientService;
-            _patientCardService = patientCardService;
-            _mailService = mailService;
-            _patientValidator = new PatientValidator();
             _webHostEnvironment = webHostEnvironment;
             _encryptionService = new EncryptionService();
             _serviceSettings = serviceSettings.Value;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -78,30 +63,62 @@ namespace PatientWebApp.Controllers
         /// 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> AddPatient(PatientDTO patientDTO)
+        public IActionResult AddPatient(PatientDTO patientDTO)
         {
-            try
+            var userServiceClient = new RestClient(_serviceSettings.UserServiceUrl);
+            var userServiceRequest = new RestRequest("/api/patient/", Method.POST);
+            userServiceRequest.AddJsonBody(new
             {
-                WelcomeRequest request = new WelcomeRequest(patientDTO.Email, patientDTO.Name, patientDTO.Jmbg);
-                _patientValidator.validatePatientFields(patientDTO);
-                _patientService.RegisterPatient(PatientMapper.PatientDTOToPatient(patientDTO));
-                await _mailService.SendWelcomeEmailAsync(request);
-                _patientCardService.AddPatientCard(PatientMapper.PatientDTOToPatientCard(patientDTO));
+                Name = patientDTO.Name,
+                Surname = patientDTO.Surname,
+                Jmbg = patientDTO.Jmbg,
+                Gender = patientDTO.Gender,
+                DateOfBirth = patientDTO.DateOfBirth,
+                Phone = patientDTO.Phone,
+                CityId = patientDTO.CityZipCode,
+                HomeAddress = patientDTO.HomeAddress,
+                Email = patientDTO.Email,
+                Password = patientDTO.Password,
+                ImageName = "/images/Blank-profile.png"
+            });
+            var response = userServiceClient.Execute(userServiceRequest);
 
-            }
-            catch (ValidationException exception)
+            if (response.StatusCode != HttpStatusCode.NoContent)
             {
-                return BadRequest(exception.Message);
+                return new ContentResult()
+                {
+                    StatusCode = (int)response.StatusCode,
+                    Content = response.Content,
+                    ContentType = response.ContentType
+                };
             }
-            catch (BadRequestException exception)
+
+            var patientServiceClient = new RestClient(_serviceSettings.PatientServiceUrl);
+            var patientServiceRequest = new RestRequest("/api/patient/" + patientDTO.Jmbg + "/medical-info",
+                                                        Method.PUT);
+            patientServiceRequest.AddJsonBody(new
             {
-                return BadRequest(exception.Message);
-            }
-            catch (DatabaseException exception)
+                BloodType = patientDTO.BloodType,
+                RhFactor = patientDTO.RhFactor,
+                Allergies = patientDTO.Allergies,
+                MedicalHistory = patientDTO.MedicalHistory,
+                InsuranceNumber = patientDTO.Lbo
+            });
+            patientServiceClient.Execute(patientServiceRequest);
+
+            string encryptedJmbg = _encryptionService.EncryptString(patientDTO.Jmbg);
+            string host = _httpContextAccessor.HttpContext.Request.Host.Value;
+            var notificationServiceClient = new RestClient(_serviceSettings.NotificationServiceUrl);
+            var notificationServiceRequest = new RestRequest("/api/notify/activation", Method.POST);
+            notificationServiceRequest.AddJsonBody(new
             {
-                return BadRequest(exception.Message);
-            }
-            return Ok();
+                Email = patientDTO.Email,
+                Name = patientDTO.Name,
+                ActivationLink = $"http://{host}/html/activate_account.html?id={encryptedJmbg}"
+            });
+            notificationServiceClient.Execute(notificationServiceRequest);
+
+            return NoContent();
         }
 
         /// <summary>
@@ -134,8 +151,8 @@ namespace PatientWebApp.Controllers
             {
                 return RedirectPermanent("/html/patient_registration.html");
             }
-            string directoryPath = _webHostEnvironment.WebRootPath + "\\Uploads\\";
-            string imagePath = directoryPath + file.FileName;
+            string directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
+            string imagePath = Path.Combine(directoryPath, file.FileName);
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -159,15 +176,10 @@ namespace PatientWebApp.Controllers
         [HttpGet("{jmbg}/{name}")]
         public IActionResult ChangeImagePathForPatent(string jmbg, string name)
         {
-            try
-            {
-                _patientService.SavePatientImageName(jmbg, name);
-
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var userServiceClient = new RestClient(_serviceSettings.UserServiceUrl);
+            var userServiceRequest = new RestRequest("/api/patient/" + jmbg + "/image", Method.PUT);
+            userServiceRequest.AddJsonBody("/Uploads/" + name);
+            userServiceClient.Execute(userServiceRequest);
             return RedirectPermanent("/html/patients_home_page.html");
         }
 

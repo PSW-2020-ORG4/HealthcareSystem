@@ -136,6 +136,7 @@ namespace PatientWebApp
             services.AddScoped<IEquipmentService, EquipmentService>();
 
             services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
+            services.AddScoped<IEquipmentInExaminationService, EquipmentInExaminationService>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.Configure<ServiceSettings>(GetServiceSettings);
@@ -188,7 +189,7 @@ namespace PatientWebApp
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             DefaultFilesOptions options = new DefaultFilesOptions();
             options.DefaultFileNames.Clear();
             options.DefaultFileNames.Add("/html/index.html");

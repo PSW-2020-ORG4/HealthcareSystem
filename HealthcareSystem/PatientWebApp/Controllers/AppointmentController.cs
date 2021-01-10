@@ -33,11 +33,14 @@ namespace PatientWebApp.Controllers
         [HttpPost("basic-search")]
         public IActionResult BasicSearchAppointments(BasicSearchDTO parameters)
         {
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            parameters.PatientJmbg = patientJmbg;
+
             parameters.EarliestDateTime = InitializeEarliestTime(parameters.EarliestDateTime);
             parameters.LatestDateTime = InitializeLatestTime(parameters.LatestDateTime);
 
             var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination/search-free/basic");
+            var request = new RestRequest("/api/examination/search-free/basic", Method.POST);
             request.AddJsonBody(parameters);
             var response = client.Execute(request);
             var contentResult = new ContentResult();
@@ -58,8 +61,15 @@ namespace PatientWebApp.Controllers
         [HttpPost("priority-search")]
         public IActionResult PrioritySearchAppointments(AdvancedSearchDTO parameters)
         {
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            parameters.InitialParameters.PatientJmbg = patientJmbg;
+            parameters.InitialParameters.EarliestDateTime = InitializeEarliestTime(
+                parameters.InitialParameters.EarliestDateTime);
+            parameters.InitialParameters.LatestDateTime = InitializeLatestTime(
+                parameters.InitialParameters.LatestDateTime);
+
             var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination/search-free/advanced");
+            var request = new RestRequest("/api/examination/search-free/advanced", Method.POST);
             request.AddJsonBody(parameters);
             var response = client.Execute(request);
             var contentResult = new ContentResult();

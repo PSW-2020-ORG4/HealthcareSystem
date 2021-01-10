@@ -7,7 +7,7 @@ namespace ScheduleService.DTO
 {
     public enum SearchPriority
     {
-        Doctor,
-        Time
+        Doctor = 0,
+        Time = 1
     }
 }

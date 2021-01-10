@@ -29,7 +29,7 @@ namespace PatientWebApp.Controllers
         /// <returns>if alright returns code 200(Ok), if not 400(not found)</returns>
         /// 
         [Authorize(Roles = UserRoles.Patient)]
-        [HttpPost("advance-search")]
+        [HttpPost("documentation/advance-search")]
         public ActionResult AdvanceSearchExaminations(ExaminationSearchDTO examinationSearchDTO)
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
@@ -71,7 +71,7 @@ namespace PatientWebApp.Controllers
         }
 
         [Authorize(Roles = UserRoles.Patient)]
-        [HttpGet("/documentation")]
+        [HttpGet("documentation")]
         public ActionResult GetFinishedExaminationsByPatient()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
@@ -165,6 +165,9 @@ namespace PatientWebApp.Controllers
         [HttpPost]
         public IActionResult AddExamination(ScheduleExaminationDTO examinationDTO)
         {
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            examinationDTO.PatientJmbg = patientJmbg;
+
             var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
             var request = new RestRequest("/api/examination", Method.POST);
             request.RequestFormat = DataFormat.Json;

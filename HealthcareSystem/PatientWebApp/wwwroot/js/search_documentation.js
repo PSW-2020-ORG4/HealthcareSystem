@@ -35,7 +35,7 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: '/api/examination/previous',
+        url: '/api/examination/documentation',
         type: 'GET',
         headers: {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
@@ -103,7 +103,7 @@ $(document).ready(function () {
                 "Anamnesis": anamnesis_or_drug
             };
             $.ajax({
-                url: '/api/examination/advance-search',
+                url: '/api/examination/documentation/advance-search',
                 type: 'POST',
                 contentType: 'application/json',
                 headers: {

@@ -5,9 +5,9 @@
  ***********************************************************************/
 
 using Backend.Model.Exceptions;
+using Backend.Model.Users;
 using Backend.Repository;
 using Backend.Service;
-using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;

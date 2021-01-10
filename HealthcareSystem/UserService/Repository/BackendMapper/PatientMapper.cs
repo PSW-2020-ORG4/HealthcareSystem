@@ -1,4 +1,4 @@
-﻿using Model.Users;
+﻿using Backend.Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace UserService.Repository
                 Jmbg = patient.Jmbg,
                 Name = patient.Name,
                 Surname = patient.Surname,
-                DateOfBirth = patient.DateOfBirth,
+                DateOfBirth = patient.DateOfBirth.Value,
                 ImageName = patient.ImageName,
                 Email = patient.Email,
                 Gender = patient.Gender.ToGender(),
@@ -56,6 +56,7 @@ namespace UserService.Repository
                 IsActive = memento.IsActivated,
                 IsBlocked = memento.IsBlocked,
                 Name = memento.Name,
+                IsGuest = false,
                 Password = memento.Password,
                 Phone = memento.Phone,
                 Surname = memento.Surname,

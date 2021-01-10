@@ -1,4 +1,5 @@
 ﻿using Backend.Model.Manager;
+using Backend.Model.Users;
 using Backend.Repository;
 using Backend.Repository.EquipmentInExaminationRepository;
 using Backend.Repository.EquipmentInRoomsRepository;

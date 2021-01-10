@@ -46,6 +46,8 @@ namespace UserService.Repository
                 var patient = _context.Patients.Find(id);
                 if (patient is null)
                     throw new NotFoundException("Patient account with jmbg " + id + " does not exist.");
+                if (patient.IsGuest)
+                    throw new NotFoundException("Patient account with jmbg " + id + " does not exist.");
                 var memento = patient.ToPatientAccountMemento();
                 return new PatientAccount(memento);
             }
@@ -66,6 +68,8 @@ namespace UserService.Repository
                 var patient = _context.Patients.Find(id);
                 if (patient is null)
                     throw new NotFoundException("Patient account with jmbg " + id + " does not exist.");
+                if (patient.IsGuest)
+                    throw new NotFoundException("Patient account with jmbg " + id + " does not exist.");
                 var memento = patient.ToPatientAccountMemento();
                 memento.MaliciousActions = GetMaliciousActions(id, earliestMaliciousActionDate);
                 return new PatientAccount(memento);
@@ -84,7 +88,7 @@ namespace UserService.Repository
         {
             try
             {
-                var mementos = _context.Patients.Select(p => p.ToPatientAccountMemento());
+                var mementos = _context.Patients.Where(p => !p.IsGuest).Select(p => p.ToPatientAccountMemento());
                 return mementos.Select(m => new PatientAccount(m));
             }
             catch (Exception e)
@@ -97,7 +101,8 @@ namespace UserService.Repository
         {
             try
             {
-                var mementos = _context.Patients.Select(p => p.ToPatientAccountMemento()).ToList();
+                var mementos = _context.Patients.Where(p => !p.IsGuest).Select(
+                    p => p.ToPatientAccountMemento()).ToList();
                 mementos.ForEach(m => m.MaliciousActions = GetMaliciousActions(m.Jmbg, earliestMaliciousActionDate));
                 return mementos.Select(m => new PatientAccount(m));
             }
@@ -114,6 +119,8 @@ namespace UserService.Repository
                 var memento = entity.GetPatientMemento();
                 var patient = _context.Patients.Find(memento.Jmbg);
                 if (patient is null)
+                    throw new NotFoundException("Patient account with jmbg " + memento.Jmbg + " does not exist.");
+                if (patient.IsGuest)
                     throw new NotFoundException("Patient account with jmbg " + memento.Jmbg + " does not exist.");
                 patient.IsActive = memento.IsActivated;
                 patient.IsBlocked = memento.IsBlocked;

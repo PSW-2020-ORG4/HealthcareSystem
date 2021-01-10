@@ -21,7 +21,7 @@ namespace UserService.Repository
             {
                 Name = user.Name,
                 Surname = user.Surname,
-                DateOfBirth = user.DateOfBirth,
+                DateOfBirth = user.DateOfBirth.Value,
                 Email = user.Email,
                 HomeAddress = user.HomeAddress,
                 Jmbg = user.Jmbg,
@@ -29,7 +29,7 @@ namespace UserService.Repository
                 Phone = user.Phone,
                 City = new CityMemento()
                 {
-                    Id = user.CityZipCode,
+                    Id = user.CityZipCode.Value,
                     Name = user.City.Name,
                     Country = new CountryMemento()
                     {
@@ -37,7 +37,7 @@ namespace UserService.Repository
                         Name = user.City.Country.Name
                     }
                 },
-                Gender = user.Gender.ToGender()
+                Gender = user.Gender.Value.ToGender()
             };
 
             if (user is Admin)

@@ -17,6 +17,7 @@ namespace Model.Users
         public DateTime DateOfRegistration { get; set; }
         public bool IsBlocked { get; set; }
         public bool IsActive { get; set; }
+        public bool IsGuest { get; set; }
         public string ImageName { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual PatientCard PatientCard { get; set; }

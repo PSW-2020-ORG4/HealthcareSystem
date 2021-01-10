@@ -1,9 +1,5 @@
-﻿using GraphicalEditorServer.Mappers;
-using Model.PerformingExamination;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Backend.Model.PerformingExamination;
+using GraphicalEditorServer.Mappers;
 
 namespace GraphicalEditorServer.DTO
 {

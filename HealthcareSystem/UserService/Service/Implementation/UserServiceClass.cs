@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using UserService.Model;
 using UserService.Repository;
 
-namespace UserService.Service
+namespace UserService.Service.Implementation
 {
-    public class UserService : IUserService
+    public class UserServiceClass : IUserService
     {
         private readonly IUserRepository _userRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserServiceClass(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

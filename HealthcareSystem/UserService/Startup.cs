@@ -9,7 +9,9 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using UserService.Repository;
+using UserService.Repository.Implementation;
 using UserService.Service;
+using UserService.Service.Implementation;
 
 namespace UserService
 {
@@ -80,7 +82,7 @@ namespace UserService
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IPatientRepository, PatientRepository>();
 
-            services.AddScoped<IUserService, Service.UserService>();
+            services.AddScoped<IUserService, UserServiceClass>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddControllers();

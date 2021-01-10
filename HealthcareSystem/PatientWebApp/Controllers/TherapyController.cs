@@ -1,10 +1,10 @@
-﻿using Backend.Service.SearchSpecification.TherapySearch;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PatientWebApp.Auth;
 using PatientWebApp.Controllers.Adapter;
+using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
 using RestSharp;
 

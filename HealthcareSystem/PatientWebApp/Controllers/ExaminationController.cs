@@ -1,6 +1,5 @@
 ﻿using Backend.Model.Exceptions;
 using Backend.Service.ExaminationAndPatientCard;
-using Backend.Service.SearchSpecification.ExaminationSearch;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

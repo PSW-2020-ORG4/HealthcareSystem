@@ -405,8 +405,8 @@ namespace Backend.Model
 
         private void SeedExaminations(MyDbContext context)
         {
-            Doctor doctor = context.Doctors.Find("8520147896320"); //Ovo je doktor Dara
-            PatientCard patientCard = context.PatientCards.Find(2); //Ovo je pacijent Pera
+            Doctor doctor = context.Doctors.Find("8520147896320"); 
+            PatientCard patientCard = context.PatientCards.Find(2); 
             Room room = context.Rooms.Where(r => r.Usage.Equals(TypeOfUsage.CONSULTING_ROOM)).First();
 
             DateTime start = DateTime.Now.Date.AddDays(10).AddHours(7);

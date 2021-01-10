@@ -36,8 +36,8 @@ namespace SeleniumTests
         [Fact]
         public void TestSuccessfulCancellation()
         {
-            loginPage.InsertEmail("zana998@gmail.com");
-            loginPage.InsertPassword("12345678");
+            loginPage.InsertEmail("ana_anic98@gmail.com");
+            loginPage.InsertPassword("11111111");
             loginPage.SubmitForm();
             loginPage.WaitForLoginPatient();
 

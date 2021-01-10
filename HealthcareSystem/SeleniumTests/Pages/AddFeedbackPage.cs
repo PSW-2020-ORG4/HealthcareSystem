@@ -15,33 +15,10 @@ namespace SeleniumTests.Pages
         private IWebElement IsAllowedElement => driver.FindElement(By.XPath(".//div[contains(.,'I don't want my feedback to be published')]/input"));
         private IWebElement SubmitButtonElement => driver.FindElement(By.Id("submit_button"));
         private IWebElement AlertElement => driver.FindElement(By.Id("alert"));
-        public string Title => driver.Title;
-        public const string InvalidCommentMessage = "Not success";
-        public const string ValidCommentMessage = "Success";
 
         public AddFeedbackPage(IWebDriver driver)
         {
             this.driver = driver;
-        }
-
-        public bool CommentElementDisplayed()
-        {
-            return CommentElement.Displayed;
-        }
-
-        public bool IsAnonymousElementDisplayed()
-        {
-            return IsAnonymousElement.Displayed;
-        }
-
-        public bool IsAllowedElementDisplayed()
-        {
-            return IsAllowedElement.Displayed;
-        }
-
-        public bool SubmitButtonElementDisplayed()
-        {
-            return SubmitButtonElement.Displayed;
         }
 
         public void InsertComment(string comment)
@@ -68,12 +45,6 @@ namespace SeleniumTests.Pages
         public void SubmitForm()
         {
             SubmitButtonElement.Click();
-        }
-
-        public void WaitForAlertDialog()
-        {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 10));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.AlertIsPresent());
         }
 
         public string GetDialogMessage()

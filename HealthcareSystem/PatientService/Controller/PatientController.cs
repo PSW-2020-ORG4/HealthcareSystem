@@ -21,11 +21,25 @@ namespace PatientService.Controller
             _service = service;
         }
 
+        [HttpPost]
+        public IActionResult Add(GuestPatientDTO guestPatient)
+        {
+            _service.Add(guestPatient);
+            return NoContent();
+        }
+
         [HttpGet("{jmbg}/medical-info")]
         public IActionResult Get(string jmbg)
         {
             var medicalInfo = _service.Get(jmbg).ToMedicalInfoDTO();
             return Ok(medicalInfo);
+        }
+
+        [HttpPut("{jmbg}/medical-info")]
+        public IActionResult UpdateMedicalInfo(string jmbg, MedicalInfoUpdateDTO medicalInfoUpdate)
+        {
+            _service.UpdateMedicalInfo(jmbg, medicalInfoUpdate);
+            return NoContent();
         }
 
         [HttpGet("{jmbg}/examination")]

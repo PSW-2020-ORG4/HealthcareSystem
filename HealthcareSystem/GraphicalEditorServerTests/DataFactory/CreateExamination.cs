@@ -1,5 +1,6 @@
 ﻿using Backend;
 using Backend.Model.Enums;
+using Backend.Model.Users;
 using Model.Enums;
 using Model.Manager;
 using Model.PerformingExamination;

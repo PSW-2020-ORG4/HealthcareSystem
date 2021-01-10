@@ -15,6 +15,7 @@ namespace UserService.Model.Memento
         public PatientAccountMemento()
         {
             MaliciousActions = new List<MaliciousActionMemento>();
+            UserType = UserType.Patient;
         }
     }
 }

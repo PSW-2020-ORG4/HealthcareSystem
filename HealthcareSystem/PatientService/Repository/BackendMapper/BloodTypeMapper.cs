@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace PatientService.Repository.BackendMapper
 {
-    public static class BloodTypeMapper
+    internal static class BloodTypeMapper
     {
-        public static BloodType ToBloodType(this Backend.Model.Enums.BloodType bloodType)
+        internal static BloodType ToBloodType(this Backend.Model.Enums.BloodType bloodType)
         {
             switch (bloodType)
             {
@@ -23,6 +23,23 @@ namespace PatientService.Repository.BackendMapper
                     return BloodType.O;
                 default:
                     return BloodType.Unknown;
+            }
+        }
+
+        internal static Backend.Model.Enums.BloodType ToBackendBloodType(this BloodType bloodType)
+        {
+            switch (bloodType)
+            {
+                case BloodType.A:
+                    return Backend.Model.Enums.BloodType.A;
+                case BloodType.B:
+                    return Backend.Model.Enums.BloodType.B;
+                case BloodType.AB:
+                    return Backend.Model.Enums.BloodType.AB;
+                case BloodType.O:
+                    return Backend.Model.Enums.BloodType.O;
+                default:
+                    return Backend.Model.Enums.BloodType.UNKNOWN;
             }
         }
     }

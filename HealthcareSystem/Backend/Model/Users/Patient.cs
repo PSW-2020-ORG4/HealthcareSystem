@@ -6,17 +6,19 @@
 
 using Backend.Model.Enums;
 using Model.NotificationSurveyAndFeedback;
+using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Model.Users
+namespace Backend.Model.Users
 {
     public class Patient : User
     {
         public DateTime DateOfRegistration { get; set; }
         public bool IsBlocked { get; set; }
         public bool IsActive { get; set; }
+        public bool IsGuest { get; set; }
         public string ImageName { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual PatientCard PatientCard { get; set; }
@@ -25,16 +27,16 @@ namespace Model.Users
             IsBlocked = false;
         }
 
-        public Patient(string jmbg,string name,string surname,DateTime dateOfBirth,GenderType gender,City city,string homeAddress,
-                        string phone,string email,string username,string password,
-                        DateTime dateOfRegistration,bool isBlocked, string imagePath)
+        public Patient(string jmbg, string name, string surname, DateTime dateOfBirth, GenderType gender, City city, string homeAddress,
+                        string phone, string email, string username, string password,
+                        DateTime dateOfRegistration, bool isBlocked, string imagePath)
         {
             Jmbg = jmbg;
             Name = name;
             Surname = surname;
             DateOfBirth = dateOfBirth;
             Gender = gender;
-            if (city != null) 
+            if (city != null)
             {
                 City = new City(city);
                 CityZipCode = city.ZipCode;
@@ -43,7 +45,7 @@ namespace Model.Users
             {
                 City = new City();
                 CityZipCode = 0;
-            }        
+            }
             HomeAddress = homeAddress;
             Phone = phone;
             Email = email;

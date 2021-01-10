@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UserService.CustomException;
+using UserService.DTO;
 using UserService.Mapper;
 using UserService.Model;
 using UserService.Service;
@@ -23,9 +24,10 @@ namespace UserService.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register()
+        public IActionResult Register(PatientRegistrationDTO patient)
         {
-            throw new NotImplementedException();
+            _patientService.Register(patient);
+            return NoContent();
         }
 
         [HttpPost("{jmbg}/block")]
@@ -39,6 +41,13 @@ namespace UserService.Controllers
         public IActionResult Activate(string jmbg)
         {
             _patientService.Activate(jmbg);
+            return NoContent();
+        }
+
+        [HttpPut("{jmbg}/image")]
+        public IActionResult Activate(string jmbg, [FromBody] string imageName)
+        {
+            _patientService.ChangeImage(jmbg, imageName);
             return NoContent();
         }
 

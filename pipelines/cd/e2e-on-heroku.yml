@@ -1,4 +1,5 @@
 trigger:
+  batch: true
   branches:
     include:
     - develop
@@ -14,6 +15,7 @@ stages:
     HEROKU_API_KEY: 8418d6b4-7423-404b-81cf-23abcd968591
   jobs:  
   - job: ResetDb
+    dependsOn: Wait
     displayName: Reset database
     steps:
       - task: UseDotNet@2
@@ -42,7 +44,6 @@ stages:
           pwsh: true     
 
   - job: Wait
-    dependsOn: ResetDb
     displayName: Wait for component redeployments
     pool: Server
     steps:
@@ -114,7 +115,7 @@ stages:
 - stage: E2E
   displayName: Run E2E tests
   variables:
-    e2etests: 'HealthcareSystem/SeleniumTests/SeleniumTests.csproj'
+    e2etests: 'HealthcareSystem/SeleniumTests/PatientWebAppE2ETests.csproj'
   jobs:
   - job: Test
     steps:

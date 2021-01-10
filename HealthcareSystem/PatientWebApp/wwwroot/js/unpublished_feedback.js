@@ -48,11 +48,11 @@ function addCommentTable(feedback) {
 			+ feedback.comment + ' </p>'
 			+ '<footer class="blockquote-footer text-info"><cite>'
 			+ nameAndSurname + '</cite>'
-			+ '<button type="button" class="btn btn-success float-right" id="'
+			+ '<button type="button" name="publish" class="btn btn-success float-right" id="'
 			+ feedback.id
 			+ '" onclick="approveComment(this.id)">Publish</button>'
 			+ '</footer ></blockquote ></div >'
-			+ '<div class="card-footer bg-transpartent border-top-0" id="a' + feedback.id + '">'
+			+ '<div name="alert_container" class="card-footer bg-transpartent border-top-0" id="a' + feedback.id + '">'
 			+ '</div ></div ></div ></div >');
 
 		$('div#view_feedbacks').append(new_feedback);
@@ -83,7 +83,7 @@ function approveComment(feedbackId) {
 			'Authorization': 'Bearer ' + window.localStorage.getItem('token')
 		},
 		success: function () {
-			let alert = $('<div class="alert alert-success m-1" role="alert">Feedback successfully published.</div >')
+	        let alert = $('<div name="alert_msg" class="alert alert-success m-1" role="alert">Feedback successfully published.</div >')
 			$('#' + feedbackId).remove();
 			$('#a' + feedbackId).empty();
 			$('#a' + feedbackId).prepend(alert);

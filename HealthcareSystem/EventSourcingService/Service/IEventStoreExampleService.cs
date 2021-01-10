@@ -9,8 +9,6 @@ namespace EventSourcingService.Service
     {
         public IEnumerable<ExampleEvent> GetAll();
 
-        public IEnumerable<ExampleEvent> GetAll(Expression<Func<ExampleEvent, bool>> condition);
-
         public void Add(ExampleEvent domainEvent);
     }
 }

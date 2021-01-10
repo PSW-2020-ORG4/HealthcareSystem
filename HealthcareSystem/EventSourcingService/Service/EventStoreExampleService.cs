@@ -28,11 +28,5 @@ namespace EventSourcingService.Service
             _exampleEventRepository.Add(exampleEvent);
         }
 
-        public IEnumerable<ExampleEvent> GetAll(Expression<Func<ExampleEvent, bool>> condition)
-        {
-            throw new NotImplementedException();
-        }
-
-
     }
 }

@@ -41,26 +41,25 @@ namespace SeleniumTests
         [Fact]
         public void TestSuccessfulCancellation()
         {
-            loginPage.InsertEmail("ana_anic98@gmail.com");
-            loginPage.InsertPassword("11111111");
+            loginPage.InsertEmail("zana998@gmail.com");
+            loginPage.InsertPassword("12345678");
             loginPage.SubmitForm();
-            loginPage.WaitForFormSubmit();
+            loginPage.WaitForLoginPatient();
 
             patientExaminationsPage = new Pages.PatientExaminationsPage(driver);
             patientExaminationsPage.Navigate();
             Assert.Equal(driver.Url, Pages.PatientExaminationsPage.URI);
 
             //patientExaminationsPage.Selected
-
-            patientExaminationsPage.CancelExaminationClick();
-            patientExaminationsPage.WaitForFormSubmit();
-
-            Assert.Equal("Examination successfully cancelled.", Pages.PatientExaminationsPage.ValidCommentMessage);
+            if (patientExaminationsPage.GetNumberOfFollowingEaminations() > 0)
+            {
+                Assert.Contains(Pages.PatientExaminationsPage.ValidCommentMessage, patientExaminationsPage.CancelExaminationClick());
+            }
+            else
+            {
+                Assert.Equal(0, patientExaminationsPage.GetNumberOfFollowingEaminations());
+            }
         }
-
-
-
-
 
     }
 }

@@ -12,13 +12,15 @@ namespace SeleniumTests.Pages
 
         public const string URI = "http://localhost:65117/html/patient_examinations.html";
 
-        private IWebElement ButtonElement => driver.FindElements(By.Name("cancelButton"))[0];
+        private IWebElement ButtonElement => driver.FindElement(By.Name("cancelButton"));
 
-        public string Title => driver.Title;
+        private IWebElement AlertMessageElement => driver.FindElement(By.Name("alert_container"));
 
-        public const string InvalidCommentMessage = "Examination successfully cancelled.";
+        private int NumberOfCancelButtons => driver.FindElements(By.Name("cancelButton")).Count;
 
-        public const string ValidCommentMessage = "Cancelling was not successful.";
+        public const string InvalidCommentMessage = "Cancelling was not successful.";
+
+        public const string ValidCommentMessage = "Examination successfully cancelled.";
 
 
         public PatientExaminationsPage(IWebDriver driver)
@@ -31,16 +33,10 @@ namespace SeleniumTests.Pages
             return ButtonElement.Displayed;
         }
 
-
-        public void CancelExaminationClick()
+        public string CancelExaminationClick()
         {
             ButtonElement.Click();
-        }
-
-        public void WaitForAlertDialog()
-        {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 10));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.AlertIsPresent());
+            return driver.FindElement(By.Name("alert_msg")).Text;
         }
 
         public string GetDialogMessage()
@@ -48,17 +44,16 @@ namespace SeleniumTests.Pages
             return driver.SwitchTo().Alert().Text;
         }
 
-        public void ResolveAlertDialog()
+        public int GetNumberOfFollowingEaminations()
         {
-            driver.SwitchTo().Alert().Accept();
+            return NumberOfCancelButtons;
         }
 
         public void WaitForFormSubmit()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("http://localhost:65117/html/patient_examinations.html"));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe(URI));
         }
-
         public void Navigate() => driver.Navigate().GoToUrl(URI);
 
     }

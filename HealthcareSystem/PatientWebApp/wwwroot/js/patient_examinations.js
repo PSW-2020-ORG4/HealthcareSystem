@@ -346,7 +346,7 @@ function addExaminationRow(examination) {
             + 'id="' + examination.id + '" onclick="cancelExamination(this.id)"'
             + '> Cancel examination</button >'
             + '</div >'
-            + '<div class="card-footer border-top-0 p-0" id="a' + examination.id + '"></div>';
+            + '<div name="alert_container" class="card-footer border-top-0 p-0" id="a' + examination.id + '"></div>';
     }
 
     let room = '';
@@ -386,7 +386,7 @@ function cancelExamination(id) {
             'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
         success: function () {
-            let alert = $('<div class="alert alert-success m-2" role="alert">Examination successfully cancelled.</div >')
+            let alert = $('<div name="alert_msg" class="alert alert-success m-2" role="alert">Examination successfully cancelled.</div >')
             $('#f' + id).remove();
             $('#a' + id).empty();
             $('#a' + id).prepend(alert);

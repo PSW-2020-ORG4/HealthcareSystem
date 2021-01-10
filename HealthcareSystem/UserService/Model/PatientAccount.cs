@@ -10,7 +10,7 @@ namespace UserService.Model
     {
         private bool IsActivated { get; set; }
         private bool IsBlocked { get; set; }
-        private string ImageName { get; }
+        private string ImageName { get; set; }
         private IEnumerable<MaliciousAction> MaliciousActions { get; }
 
         public PatientAccount(PatientAccountMemento memento)
@@ -65,6 +65,12 @@ namespace UserService.Model
         public override bool CanLogIn()
         {
             return IsActivated && !IsBlocked;
+        }
+
+        public void ChangeImage(string imageName)
+        {
+            ImageName = imageName;
+            Validate();
         }
 
         public PatientAccountMemento GetPatientMemento()

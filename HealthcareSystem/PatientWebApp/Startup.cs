@@ -114,12 +114,10 @@ namespace PatientWebApp
             services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
-            services.AddScoped<IPatientService, PatientService>();
 
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
 
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
-            services.AddScoped<IPatientCardService, PatientCardService>();
 
             services.AddScoped<IRoomRepository, MySqlRoomRepository>();
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();

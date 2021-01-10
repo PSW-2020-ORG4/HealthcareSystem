@@ -17,6 +17,38 @@ namespace UserService.Repository
             _context = context;
         }
 
+        public City Get(int id)
+        {
+            try
+            {
+                var city = _context.Cities.Find(id);
+                if (city is null)
+                    throw new NotFoundException("City with the id " + id + " does not exist.");
+                return new City(city.ZipCode, city.Name, city.CountryId, city.Country.Name);
+            }
+            catch (UserServiceException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                throw new DataStorageException(e.Message);
+            }
+        }
+
+        public IEnumerable<City> GetAll()
+        {
+            try
+            {
+                return _context.Cities.Select(
+                    c => new City(c.ZipCode, c.Name, c.Country.Id, c.Country.Name));
+            }
+            catch (Exception e)
+            {
+                throw new DataStorageException(e.Message);
+            }
+        }
+
         public IEnumerable<City> GetByCountry(int countryId)
         {
             try

@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Model.PerformingExamination;
 using Backend.Model.Enums;
 
-namespace Model.Users
+namespace Backend.Model.Users
 {
     public class PatientCard
     {

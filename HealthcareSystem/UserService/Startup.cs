@@ -82,7 +82,7 @@ namespace UserService
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IPatientRepository, PatientRepository>();
 
-            services.AddScoped<IUserService, UserServiceClass>();
+            services.AddScoped<IUserService, Service.Implementation.UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddControllers();

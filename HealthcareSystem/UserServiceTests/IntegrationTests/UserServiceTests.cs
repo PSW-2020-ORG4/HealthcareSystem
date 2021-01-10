@@ -14,19 +14,19 @@ namespace UserServiceTests.IntegrationTests
 {
     public class UserServiceTests
     {
-        private UserServiceClass SetupRepositoryAndService()
+        private UserService.Service.Implementation.UserService SetupRepositoryAndService()
         {
             DbContextInMemory testData = new DbContextInMemory();
             testData.SeedDatas();
             MyDbContext context = testData._context;
             var userRepo = new UserRepository(context);
-            return new UserServiceClass(userRepo);
+            return new UserService.Service.Implementation.UserService(userRepo);
         }
 
         [Fact]
         public void SuccessLoginPatient()
         {
-            UserServiceClass userService = SetupRepositoryAndService();
+            UserService.Service.Implementation.UserService userService = SetupRepositoryAndService();
             UserAccount userAccount = userService.GetByEmailAndPassword("ana_anic98@gmail.com", "11111111");
 
             Assert.False(userAccount is null);
@@ -35,7 +35,7 @@ namespace UserServiceTests.IntegrationTests
         [Fact]
         public void SuccessLoginAdmin()
         {
-            UserServiceClass userService = SetupRepositoryAndService();
+            UserService.Service.Implementation.UserService userService = SetupRepositoryAndService();
             UserAccount userAccount = userService.GetByEmailAndPassword("milic_milan@gmail.com", "milanmilic965");
 
             Assert.False(userAccount is null);
@@ -44,7 +44,7 @@ namespace UserServiceTests.IntegrationTests
         [Fact]
         public void NotSuccessLogin()
         {
-            UserServiceClass userService = SetupRepositoryAndService();
+            UserService.Service.Implementation.UserService userService = SetupRepositoryAndService();
             try
             {
                 UserAccount userAccount = userService.GetByEmailAndPassword("bla bla", "bla");

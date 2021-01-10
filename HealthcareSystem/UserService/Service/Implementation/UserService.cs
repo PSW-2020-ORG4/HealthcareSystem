@@ -7,11 +7,11 @@ using UserService.Repository;
 
 namespace UserService.Service.Implementation
 {
-    public class UserServiceClass : IUserService
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
 
-        public UserServiceClass(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }

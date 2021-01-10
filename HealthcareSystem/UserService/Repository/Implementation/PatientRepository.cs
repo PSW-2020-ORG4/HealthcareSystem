@@ -2,6 +2,7 @@
 using Backend.Model.Enums;
 using Backend.Repository;
 using Microsoft.EntityFrameworkCore;
+using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,32 @@ namespace UserService.Repository
             try
             {
                 var patient = entity.ToBackendPatient();
+                patient.IsGuest = false;
+                var existing = _context.Patients.Find(patient.Jmbg);
+                if (existing != null && !existing.IsGuest)
+                    throw new ValidationException("Patient with jmbg " + patient.Jmbg + "is already registered.");
+                if (existing != null && existing.IsGuest)
+                    _context.Remove(existing);
                 _context.Patients.Add(patient);
                 _context.SaveChanges();
+                if (existing is null)
+                {
+                    _context.PatientCards.Add(new PatientCard()
+                    {
+                        PatientJmbg = patient.Jmbg,
+                        Alergies = "",
+                        BloodType = BloodType.UNKNOWN,
+                        MedicalHistory = "",
+                        RhFactor = RhFactorType.UNKNOWN,
+                        Lbo = "",
+                        HasInsurance = false
+                    });
+                    _context.SaveChanges();
+                }
+            }
+            catch (UserServiceException)
+            {
+                throw;
             }
             catch (DbUpdateException e)
             {
@@ -124,6 +149,7 @@ namespace UserService.Repository
                     throw new NotFoundException("Patient account with jmbg " + memento.Jmbg + " does not exist.");
                 patient.IsActive = memento.IsActivated;
                 patient.IsBlocked = memento.IsBlocked;
+                patient.ImageName = memento.ImageName;
                 _context.Update(patient);
                 _context.SaveChanges();
 

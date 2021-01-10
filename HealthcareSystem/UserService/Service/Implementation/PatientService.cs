@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UserService.DTO;
+using UserService.Mapper;
 using UserService.Model;
+using UserService.Model.Memento;
 using UserService.Repository;
 
 namespace UserService.Service
@@ -9,10 +12,12 @@ namespace UserService.Service
     public class PatientService : IPatientService
     {
         private readonly IPatientRepository _patientRepository;
+        private readonly ICityRepository _cityRepository;
 
-        public PatientService(IPatientRepository patientRepository)
+        public PatientService(IPatientRepository patientRepository, ICityRepository cityRepository)
         {
             _patientRepository = patientRepository;
+            _cityRepository = cityRepository;
         }
 
         public void Activate(string jmbg)
@@ -48,9 +53,21 @@ namespace UserService.Service
             return patientAccounts.Where(patient => patient.IsMalicious());
         }
 
-        public void Register(PatientAccount patientAccount)
+        public void Register(PatientRegistrationDTO registrationDTO)
         {
+            PatientAccountMemento memento = registrationDTO.ToPatientAccountMemento();
+            memento.IsActivated = false;
+            memento.IsBlocked = false;
+            memento.City = _cityRepository.Get(registrationDTO.CityId).GetMemento();
+            PatientAccount patientAccount = new PatientAccount(memento);
             _patientRepository.Add(patientAccount);
+        }
+
+        public void ChangeImage(string jmbg, string imageName)
+        {
+            PatientAccount patientAccount = Get(jmbg);
+            patientAccount.ChangeImage(imageName);
+            _patientRepository.Update(patientAccount);
         }
     }
 }

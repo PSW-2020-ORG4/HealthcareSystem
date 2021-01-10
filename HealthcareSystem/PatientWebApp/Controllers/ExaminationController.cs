@@ -146,16 +146,6 @@ namespace PatientWebApp.Controllers
             contentResult.ContentType = "application/json";
             contentResult.StatusCode = (int)response.StatusCode;
 
-           /* var newClient = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var newRequest = new RestRequest("/api/examination/finished/patient/" + patientJmbg );
-            var newResponse = newClient.Execute(newRequest);
-
-            var newContentResult = new ContentResult();
-            newContentResult.Content = newResponse.Content;
-            newContentResult.ContentType = "application/json";
-            newContentResult.StatusCode = (int)newResponse.StatusCode;
-            
-            return newContentResult;*/
             return contentResult;
         }
 

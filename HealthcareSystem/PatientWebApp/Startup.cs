@@ -114,12 +114,10 @@ namespace PatientWebApp
             services.AddScoped<ISpecialtyRepository, MySqlSpecialtyRepository>();
 
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
-            services.AddScoped<IPatientService, PatientService>();
 
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
 
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
-            services.AddScoped<IPatientCardService, PatientCardService>();
 
             services.AddScoped<IRoomRepository, MySqlRoomRepository>();
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
@@ -136,6 +134,7 @@ namespace PatientWebApp
             services.AddScoped<IEquipmentService, EquipmentService>();
 
             services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
+            services.AddScoped<IEquipmentInExaminationService, EquipmentInExaminationService>();
 
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.Configure<ServiceSettings>(GetServiceSettings);
@@ -189,7 +188,7 @@ namespace PatientWebApp
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             DefaultFilesOptions options = new DefaultFilesOptions();
             options.DefaultFileNames.Clear();
             options.DefaultFileNames.Add("/html/index.html");

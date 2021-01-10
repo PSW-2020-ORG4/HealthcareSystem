@@ -4,13 +4,13 @@
  * Purpose: Definition of the Class Doctor.PlacemetnInARoom
  ***********************************************************************/
 
+using Backend.Model.Users;
 using Model.Manager;
-using Model.Users;
 using System;
 
 namespace Model.PerformingExamination
 {
-   public class PlacemetnInARoom
+    public class PlacemetnInARoom
    {
       public PatientCard patientCard { get; set; }
       public Model.Manager.Room room { get; set; }

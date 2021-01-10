@@ -174,7 +174,7 @@ namespace GraphicalEditor
             examinationsForReschedunling.Add(examinationForReschedulingDTO);
             EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;
 
-
+            /*
             AppointmentSearchWithPrioritiesDTO appointmentSearch = new AppointmentSearchWithPrioritiesDTO
             {
                 InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 2, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
@@ -185,7 +185,7 @@ namespace GraphicalEditor
 
             AppointmentService app = new AppointmentService();
             app.GetEmergencyAppointments(appointmentSearch);
-
+            */
         }
         
 

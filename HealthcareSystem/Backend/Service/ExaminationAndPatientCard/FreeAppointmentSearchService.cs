@@ -83,29 +83,10 @@ namespace Backend.Service.ExaminationAndPatientCard
             {
                 List<Examination> availableAppointments = GetShiftedAppointmentForEmergency(parameters.InitialParameters, examination);
                 availableAppointments = availableAppointments.OrderBy(e => e.DateAndTime).ToList();
-                foreach (Examination appointment in availableAppointments)
-                {
-                    if (IsShiftedAppoinmentAvailable(appointment, shiftedAppointments))
-                    {
-                        shiftedAppointments.Add(appointment);
-                        break;
-                    }
-                }
+                shiftedAppointments.Add(availableAppointments[0]);
             }
 
             return shiftedAppointments;
-        }
-
-        private bool IsShiftedAppoinmentAvailable(Examination appointment, ICollection<Examination> shiftedAppointments)
-        {
-            foreach(Examination shiftedAppointment in shiftedAppointments)
-            {
-                if (shiftedAppointment.DateAndTime.Equals(appointment.DateAndTime)
-                    && (shiftedAppointment.IdPatientCard == appointment.IdPatientCard
-                        || shiftedAppointment.DoctorJmbg == appointment.DoctorJmbg))
-                    return false;
-            }
-            return true;
         }
 
         private List<Examination> GetOnlyAdequateAppointments(List<Examination> unavailableAppointments, AppointmentSearchWithPrioritiesDTO parameters)

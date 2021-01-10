@@ -112,9 +112,10 @@ namespace Backend.Model
                 DateOfRegistration = DateTime.Now,
                 IsActive = true,
                 IsBlocked = false,
+                IsGuest = false,
                 Phone = "065897520",
                 Username = "ana_anic98@gmail.com",
-                ImageName = "picture1.jpg"
+                ImageName = "/Uploads/picture1.jpg"
             });
             context.Add(new Patient()
             {
@@ -130,9 +131,10 @@ namespace Backend.Model
                 DateOfRegistration = DateTime.Now,
                 IsActive = true,
                 IsBlocked = false,
+                IsGuest = false,
                 Phone = "065897520",
                 Username = "zana998@gmail.com",
-                ImageName = "profile_pic.jpg"
+                ImageName = "/Uploads/profile_pic.jpg"
             });
             context.SaveChanges();
 
@@ -422,8 +424,8 @@ namespace Backend.Model
 
         private void SeedExaminations(MyDbContext context)
         {
-            Doctor doctor = context.Doctors.Find("8520147896320"); //Ovo je doktor Dara
-            PatientCard patientCard = context.PatientCards.Find(2); //Ovo je pacijent Pera
+            Doctor doctor = context.Doctors.Find("8520147896320"); 
+            PatientCard patientCard = context.PatientCards.Find(2); 
             Room room = context.Rooms.Where(r => r.Usage.Equals(TypeOfUsage.CONSULTING_ROOM)).First();
 
             DateTime start = DateTime.Now.Date.AddDays(10).AddHours(7);

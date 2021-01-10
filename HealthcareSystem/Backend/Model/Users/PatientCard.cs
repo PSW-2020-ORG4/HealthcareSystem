@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Backend.Model.Enums;
 using Backend.Model.PerformingExamination;
 
-namespace Model.Users
+namespace Backend.Model.Users
 {
     public class PatientCard
     {

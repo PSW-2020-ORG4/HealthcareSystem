@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using Backend.Model;
 using Backend.Model.DTO;
 using Backend.Model.Pharmacies;
@@ -52,6 +49,62 @@ namespace Backend.Repository.TenderRepository.MySqlTenderRepository
             }
 
             return drugs;
+        }
+
+        public List<TenderMessageDTO> GetMessagesForTender(int id)
+        {
+            return _context.TenderMessages
+                .Where(x => x.TenderId == id && !x.IsDeclined)
+                .ToList()
+                .Select(message => new TenderMessageDTO()
+                {
+                    Id = message.Id, 
+                    Identification = message.Identification, 
+                    ReplyRoutingKey = message.ReplyRoutingKey,
+                    Offers = GetOffersForMessage(message.Id)
+                })
+                .ToList();
+        }
+
+        public List<TenderOfferDTO> GetOffersForMessage(int id)
+        {
+            return _context.TenderOffers
+                .Where(x => x.TenderMessageId == id)
+                .ToList()
+                .Select(offer => new TenderOfferDTO() 
+                    { 
+                        Name = offer.Name, 
+                        Code = offer.Code, 
+                        Price = offer.Price, 
+                        Quantity = offer.Quantity
+                    })
+                .ToList();
+        }
+
+        public void DeleteMessage(int id)
+        {
+            _context.TenderMessages.Remove(_context.TenderMessages.First(x => x.Id == id));
+            _context.SaveChanges();
+        }
+
+        public void UpdateTender(Tender tender)
+        {
+            _context.Tenders.Update(tender);
+            _context.SaveChanges();
+        }
+
+        public void DeclineMessage(int id)
+        {
+            var message = _context.TenderMessages.First(x => x.Id == id);
+            message.IsDeclined = true;
+            _context.TenderMessages.Update(message);
+            _context.SaveChanges();
+        }
+
+        public Tender GetTenderByMessageId(int id)
+        {
+            var tenderId = _context.TenderMessages.First(x => x.Id == id).TenderId;
+            return _context.Tenders.First(x => x.Id == tenderId);
         }
 
         public IEnumerable<Tender> GetAllNotClosedTenders()

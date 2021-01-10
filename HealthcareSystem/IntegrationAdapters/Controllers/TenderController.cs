@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.DTO;
-using Backend.Model.Pharmacies;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.Tendering;
 using IntegrationAdapters.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using Model.Manager;
 
 namespace IntegrationAdapters.Controllers
 {
@@ -29,13 +24,12 @@ namespace IntegrationAdapters.Controllers
 
         public IActionResult NewTender()
         {
-            return View(new NewTenderView()
+            NewTenderView tender = new NewTenderView()
             {
-                TenderName = "",
-                EndDate = DateTime.Now.AddDays(1),
                 Drugs = _drugService.ViewConfirmedDrugs()
-            });
+            };
 
+            return View(tender);
         }
 
         public IActionResult Drugs(int tenderId)
@@ -43,35 +37,31 @@ namespace IntegrationAdapters.Controllers
             return View(_tenderService.GetDrugsForTender(tenderId));
         }
 
-        public JsonResult PushDrugList(List<TenderDrugDTO> tenderDrugs)
+        public IActionResult Offers(int tenderId)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    Console.WriteLine("pooooooooooooooooop");
-            //}
-
-            foreach (var drug in tenderDrugs)
-            {
-                Console.WriteLine(drug);
-            }     
-
-            var result = new { Success = "True", Message = "X gon give it to ya" };
-            return Json(result);
+            return View(_tenderService.GetMessagesForTender(tenderId));
         }
 
+        public IActionResult Offer(int messageId)
+        {
+            return View(_tenderService.GetOffersForMessage(messageId));
+        }
 
+        public IActionResult AcceptOffer(int messageId)
+        {
+            var tender = _tenderService.GetTenderByMessageId(messageId);
+            tender.IsClosed = true;
+            tender.WinningMessage = messageId;
+            _tenderService.UpdateTender(tender);
+            return RedirectToAction("Index");
+        }
 
-        //[HttpPost]
-        //public IActionResult AddDrug(NewTenderView tender, Drug drug, int quantity)
-        //{
-        //    tender.AddedDrugs.Add(new TenderDrugDTO()
-        //    {
-        //        Id = drug.Id,
-        //        Name = drug.Name,
-        //        Quantity = quantity
-        //    });
+        public IActionResult DeclineOffer(int messageId)
+        {
+            var tender = _tenderService.GetTenderByMessageId(messageId);
+            _tenderService.DeclineMessage(messageId);
+            return RedirectToAction("Offers", new { tenderId = tender.Id });
+        }
 
-        //    return PartialView("AddedDrugs", tender.AddedDrugs);
-        //}
     }
 }

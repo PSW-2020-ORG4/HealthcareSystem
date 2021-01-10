@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Backend.Model.DTO;
 using Backend.Model.Pharmacies;
 using Model.Manager;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdapters.Dtos
 {

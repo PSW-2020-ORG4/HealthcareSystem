@@ -18,7 +18,8 @@
             <thead>
             <tr>
                 <th><h5 class="card-title">Name</h5></th>
-                <th><h5 class="card-title">Exchange Name</h5></th>
+                <th><h5 class="card-title">Queue Name</h5></th>
+                <th><h5 class="card-title">Routing Key</h5></th>
                 <th><h5 class="card-title">Open?</h5></th>
                 <th><h5 class="card-title">End Date</h5></th>
                 <th><h5 class="card-title">Drugs</h5></th>
@@ -35,7 +36,10 @@
                         @item.Name
                     </td>
                     <td class="text-center">
-                        @item.ExchangeName
+                        @item.QueueName
+                    </td>
+                    <td class="text-center">
+                        @item.RoutingKey
                     </td>
                     <td class="text-center">
                         @((item.IsClosed) ? "No" : "Yes")
@@ -45,6 +49,16 @@
                     </td>
                     <td class="text-center">
                         @Html.ActionLink("View Drugs", "Drugs", "Tender", new { tenderId = item.Id }, new { @class = "btn btn-primary" })
+                    </td>
+                    <td class="text-center">
+                        @if (@item.IsClosed)
+                        {
+                            @Html.ActionLink("CLOSED", "Offer", "Tender", new { messageId = item.WinningMessage }, new { @class = "btn btn-danger" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("View Offers", "Offers", "Tender", new { tenderId = item.Id }, new { @class = "btn btn-primary" })
+                        }
                     </td>
                 </tr>
             }

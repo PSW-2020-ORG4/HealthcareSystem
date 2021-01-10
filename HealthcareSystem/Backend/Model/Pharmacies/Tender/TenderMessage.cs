@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Backend.Model.Pharmacies
 {
@@ -15,6 +13,7 @@ namespace Backend.Model.Pharmacies
         public virtual ICollection<TenderOffer> Offers { get; set; }
         [ForeignKey("Tender")]
         public int TenderId { get; set; }
+        public bool IsDeclined { get; set; } = false;
         public virtual Tender Tender { get; set; }
     }
 }

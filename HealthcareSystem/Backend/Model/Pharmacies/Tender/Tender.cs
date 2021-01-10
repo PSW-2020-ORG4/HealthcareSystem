@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Backend.Model.DTO;
 
 namespace Backend.Model.Pharmacies
 {
@@ -9,8 +8,8 @@ namespace Backend.Model.Pharmacies
     {
         [Key]
         public int Id { get; set; }
+        public int WinningMessage { get; set; }
         public string Name { get; set; }
-        public string ExchangeName { get; set; }
         [Required]
         public string QueueName { get; set; }
         [Required]

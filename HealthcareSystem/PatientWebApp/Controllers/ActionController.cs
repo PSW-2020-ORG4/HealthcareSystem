@@ -1,13 +1,9 @@
-﻿using Backend.Service;
-using Backend.Service.Pharmacies;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PatientWebApp.Auth;
-using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
 using PatientWebApp.Settings;
-using System.Collections.Generic;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -16,13 +12,10 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class ActionController : ControllerBase
     {
-        private readonly IActionBenefitService _actionBenefitService;
         private readonly ServiceSettings _serviceSettings;
 
-        public ActionController(IActionBenefitService actionBenefitService,
-                                IOptions<ServiceSettings> serviceSettings)
+        public ActionController(IOptions<ServiceSettings> serviceSettings)
         {
-            _actionBenefitService = actionBenefitService;
             _serviceSettings = serviceSettings.Value;
         }
 
@@ -30,11 +23,16 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public IActionResult GetActionBenefits()
         {
-            List<ActionBenefitDTO> actionBenefitDTOs = new List<ActionBenefitDTO>();
+            var client = new RestClient(_serviceSettings.UserServiceUrl);
+            var request = new RestRequest("/api/action");
+            var response = client.Execute(request);
+            var contentResult = new ContentResult();
 
-            _actionBenefitService.GetPublicActionsBenefits().ForEach(action => actionBenefitDTOs.Add(ActionBenefitMapper.ActionBenefitToActionBenefitDTO(action)));
-            return Ok(actionBenefitDTOs);
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
 
+            return contentResult;
         }
     }
 }

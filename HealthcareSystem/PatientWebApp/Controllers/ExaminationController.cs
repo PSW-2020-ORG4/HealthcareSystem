@@ -1,19 +1,12 @@
-﻿using Backend.Model.Exceptions;
-using Backend.Model.PerformingExamination;
-using Backend.Service.ExaminationAndPatientCard;
-using Backend.Service.SearchSpecification.ExaminationSearch;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using PatientService.DTO;
 using PatientWebApp.Auth;
 using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
 using PatientWebApp.Settings;
-using PatientWebApp.Validators;
 using RestSharp;
-using System;
-using System.Collections.Generic;
 
 namespace PatientWebApp.Controllers
 {
@@ -22,38 +15,11 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class ExaminationController : ControllerBase
     {
-        private readonly IExaminationService _examinationService;
-        private readonly ExaminationValidator _examinationValidator;
         private readonly ServiceSettings _serviceSettings;
 
-        public ExaminationController(IExaminationService examinationService, IOptions<ServiceSettings> serviceSettings)
+        public ExaminationController(IOptions<ServiceSettings> serviceSettings)
         {
-            _examinationService = examinationService;
-            _examinationValidator = new ExaminationValidator(_examinationService);
             _serviceSettings = serviceSettings.Value;
-        }
-
-        /// <summary>
-        /// /getting examinations linked to a certain patient
-        /// </summary>
-        /// <param name="patientJmbg">patients jmbg</param>
-        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        /// 
-        [Authorize(Roles = UserRoles.Patient)]
-        [HttpGet("by-patient")]
-        public ActionResult GetExaminationsByPatient()
-        {
-            try
-            {
-                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                List<ExaminationDTO> examinationDTOs = new List<ExaminationDTO>();
-                _examinationService.GetExaminationsByPatient(patientJmbg).ForEach(examination => examinationDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(examination)));
-                return Ok(examinationDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
         }
 
         /// <summary>
@@ -104,6 +70,23 @@ namespace PatientWebApp.Controllers
             return contentResult;
         }
 
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet("/documentation")]
+        public ActionResult GetFinishedExaminationsByPatient()
+        {
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var client = new RestClient(_serviceSettings.PatientServiceUrl);
+            var request = new RestRequest("/api/patient/" + patientJmbg + "/examination");
+            var response = client.Execute(request);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
+        }
+
         /// /getting canceled examinations linked to a certain patient
         /// </summary>
         /// <param name="patientJmbg">patients jmbg</param>
@@ -137,8 +120,8 @@ namespace PatientWebApp.Controllers
         public ActionResult GetPreviousExaminationsByPatient()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.PatientServiceUrl);
-            var request = new RestRequest("/api/patient/" + patientJmbg + "/examination");
+            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
+            var request = new RestRequest("/api/examination/finished/patient/" + patientJmbg);
             var response = client.Execute(request);
 
             var contentResult = new ContentResult();
@@ -170,38 +153,6 @@ namespace PatientWebApp.Controllers
             contentResult.StatusCode = (int)response.StatusCode;
 
             return contentResult;
-        }
-
-        /// <summary>
-        /// /getting one examination by id
-        /// </summary>
-        /// <param name="id">examination id</param>
-        /// <returns>if alright returns code 200(Ok), if returned value is null returns 404, if connection lost returns 500</returns>
-        /// 
-        [Authorize(Roles = UserRoles.Patient)]
-        [HttpGet("{id}")]
-        public IActionResult GetExaminationById(int id)
-        {
-            try
-            {
-                var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-                Examination examination = _examinationService.GetExaminationById(id);
-                if (!patientJmbg.Equals(examination.PatientCard.PatientJmbg))
-                {
-                    return StatusCode(403, "Patient tried to get someone else's examination");
-                }
-                ExaminationDTO examinationDTO = new ExaminationDTO();
-                examinationDTO = ExaminationMapper.ExaminationToExaminationDTO(_examinationService.GetExaminationById(id));
-                return Ok(examinationDTO);
-            }
-            catch (NotFoundException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (DatabaseException e)
-            {
-                return StatusCode(500, e.Message);
-            }
         }
 
         /// <summary>

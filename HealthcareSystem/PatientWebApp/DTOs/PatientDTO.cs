@@ -1,9 +1,4 @@
-﻿using Backend.Model.Enums;
-using Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace PatientWebApp.DTOs
 {

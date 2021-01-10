@@ -1,16 +1,10 @@
-﻿using Backend.Model.DTO;
-using Backend.Model.Exceptions;
-using Backend.Model.PerformingExamination;
-using Backend.Service;
-using Backend.Service.ExaminationAndPatientCard;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Model.Users;
 using PatientWebApp.Auth;
-using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
 using PatientWebApp.Settings;
+using RestSharp;
+using ScheduleService.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,16 +16,10 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class AppointmentController : ControllerBase
     {
-        private readonly IFreeAppointmentSearchService _freeAppointmentSearchService;
-        private readonly IDoctorService _doctorService;
         private readonly ServiceSettings _serviceSettings;
 
-        public AppointmentController(IFreeAppointmentSearchService freeAppointmentSearchService,
-                                     IDoctorService doctorService,
-                                     IOptions<ServiceSettings> serviceSettings)
+        public AppointmentController(IOptions<ServiceSettings> serviceSettings)
         {
-            _freeAppointmentSearchService = freeAppointmentSearchService;
-            _doctorService = doctorService;
             _serviceSettings = serviceSettings.Value;
         }
 
@@ -43,32 +31,22 @@ namespace PatientWebApp.Controllers
         /// 
         [Authorize(Roles = UserRoles.Patient)]
         [HttpPost("basic-search")]
-        public IActionResult BasicSearchAppointments(BasicAppointmentSearchDTO parameters)
+        public IActionResult BasicSearchAppointments(BasicSearchDTO parameters)
         {
-            List<ExaminationDTO> freeAppointmentsDTOs = new List<ExaminationDTO>();
-            List<Examination> freeAppointments;
             parameters.EarliestDateTime = InitializeEarliestTime(parameters.EarliestDateTime);
             parameters.LatestDateTime = InitializeLatestTime(parameters.LatestDateTime);
-            try
-            {
-                parameters.IsAppointmentValid();
-                freeAppointments = _freeAppointmentSearchService.BasicSearch(parameters).ToList();
-                freeAppointments = ReduceFreeAppointments(freeAppointments);
-                freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));
-                return Ok(freeAppointmentsDTOs);
-            }
-            catch (ValidationException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (BadRequestException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+
+            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
+            var request = new RestRequest("/api/examination/search-free/basic");
+            request.AddJsonBody(parameters);
+            var response = client.Execute(request);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
         /// <summary>
         /// /getting free appointments
@@ -78,33 +56,19 @@ namespace PatientWebApp.Controllers
         /// 
         [Authorize(Roles = UserRoles.Patient)]
         [HttpPost("priority-search")]
-        public IActionResult PrioritySearchAppointments(AppointmentSearchWithPrioritiesDTO parameters)
+        public IActionResult PrioritySearchAppointments(AdvancedSearchDTO parameters)
         {
-            List<ExaminationDTO> freeAppointmentsDTOs = new List<ExaminationDTO>();
-            List<Examination> freeAppointments;
-            parameters.InitialParameters.EarliestDateTime = InitializeEarliestTime(parameters.InitialParameters.EarliestDateTime);
-            parameters.InitialParameters.LatestDateTime = InitializeLatestTime(parameters.InitialParameters.LatestDateTime);
-            try
-            {
-                parameters.InitialParameters.IsAppointmentValid();
-                freeAppointments = _freeAppointmentSearchService.SearchWithPriorities(parameters).ToList();
-                freeAppointments = ReduceFreeAppointments(freeAppointments);
-                freeAppointments.ForEach(appointment => freeAppointmentsDTOs.Add(ExaminationMapper.ExaminationToExaminationDTO(appointment)));
-                SetDoctorNameAndSurname(freeAppointmentsDTOs);
-                return Ok(freeAppointmentsDTOs);
-            }
-            catch (ValidationException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (BadRequestException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
+            var request = new RestRequest("/api/examination/search-free/advanced");
+            request.AddJsonBody(parameters);
+            var response = client.Execute(request);
+            var contentResult = new ContentResult();
+
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
         }
 
         private DateTime InitializeEarliestTime(DateTime earliest)
@@ -116,31 +80,5 @@ namespace PatientWebApp.Controllers
         {
             return new DateTime(latest.Year, latest.Month, latest.Day, 17, 0, 0);
         }
-
-
-        private void SetDoctorNameAndSurname(List<ExaminationDTO> freeAppointmentsDTOs)
-        {
-            foreach (ExaminationDTO dto in freeAppointmentsDTOs)
-            {
-                Doctor doctor = _doctorService.GetDoctorByJmbg(dto.DoctorJmbg);
-                dto.DoctorSurname = doctor.Surname;
-                dto.DoctorName = doctor.Name;
-            }
-        }
-
-        private List<Examination> ReduceFreeAppointments(List<Examination> freeAppointments)
-        {
-            List<Examination> reduceFreeAppointments = new List<Examination>();
-            foreach (Examination e in freeAppointments)
-            {
-                if (!reduceFreeAppointments.Where(r => DateTime.Compare(r.DateAndTime, e.DateAndTime) == 0).Any())
-                {
-                    reduceFreeAppointments.Add(e);
-                }
-            }
-            return reduceFreeAppointments;
-
-        }
-
     }
 }

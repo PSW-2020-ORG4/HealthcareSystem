@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using UserService.ActionsBenefits;
 using UserService.Repository;
 using UserService.Service;
 
@@ -66,7 +67,7 @@ namespace UserService
             else
             {
                 Console.WriteLine("Not dev or test.");
-            }           
+            }
 
             services.AddScoped<IGeographicalService, GeographicalService>();
             services.AddScoped<ICityRepository, CityRepository>();
@@ -82,6 +83,9 @@ namespace UserService
 
             services.AddScoped<IUserService, Service.UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            //temporarily in this service
+            services.AddScoped<IActionBenefitRepository, ActionBenefitRepository>();
 
             services.AddControllers();
         }

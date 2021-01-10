@@ -55,15 +55,34 @@ namespace GraphicalEditorServer.Controllers
         public ActionResult GetEmergencyAppointments(AppointmentSearchWithPrioritiesDTO parameters)
         {
             List<Examination> unchangedExaminations = (List<Examination>)_freeAppointmentSearchService.GetUnchangedAppointmentsForEmergency(parameters);
-            foreach (Examination e in unchangedExaminations)
+            if(unchangedExaminations.Count != 0)
             {
-                if (e.ExaminationStatus == ExaminationStatus.AVAILABLE)
-                    return Ok(EmergencyExaminationMapper.Examination_To_EmergencyExaminationDTO(e));
+                List<EmergencyExaminationDTO> sortedAndAlignedExamination = 
+                    GetSortedAndAlignedExaminations(
+                        new List<Examination>() { unchangedExaminations[0] }, 
+                        new List<Examination>() { unchangedExaminations[0] }
+                    );
+
+                return Ok(new EmergencyExaminationsDTO(sortedAndAlignedExamination, false));
             }
 
             List<Examination> shiftedExaminations = (List<Examination>)_freeAppointmentSearchService.GetShiftedAndSortedAppoinmentsForEmergency(parameters);
 
-            return Ok(EmergencyExaminationMapper.Examinations_To_EmergencyExaminationDTO(unchangedExaminations, shiftedExaminations, true));
+            List<EmergencyExaminationDTO> sortedAndAlignedExaminations = GetSortedAndAlignedExaminations(unchangedExaminations, shiftedExaminations);
+            return Ok(new EmergencyExaminationsDTO(sortedAndAlignedExaminations, true));
+        }
+
+        private List<EmergencyExaminationDTO> GetSortedAndAlignedExaminations(List<Examination> unchangedExaminations, List<Examination> shiftedExaminations)
+        {
+            List<EmergencyExaminationDTO> sortedExaminations = new List<EmergencyExaminationDTO>();
+            for (int i = 0; i < unchangedExaminations.Count; i++)
+            {
+                sortedExaminations.Add(new EmergencyExaminationDTO(unchangedExaminations[i], shiftedExaminations[i]));
+            }
+
+            sortedExaminations.OrderBy(e => e.ShiftedExamination.DateTime).ToList();
+
+            return sortedExaminations;
         }
     }
 }

@@ -35,21 +35,27 @@ namespace PatientWebAppE2ETests
         [Fact]
         public void SuccessfulPublishingTest()
         {
-            loginPage.InsertEmail("milic_milan@gmail.com");
-            loginPage.InsertPassword("milanmilic965");
-            loginPage.SubmitForm();
-            loginPage.WaitForLoginAdmin();
+            try
+            {
+                loginPage.InsertEmail("milic_milan@gmail.com");
+                loginPage.InsertPassword("milanmilic965");
+                loginPage.SubmitForm();
+                loginPage.WaitForLoginAdmin();
 
-            publishFeedbackPage = new Pages.PublishFeedback(driver);
-            publishFeedbackPage.Navigate();
-            Assert.Equal(driver.Url, Pages.PublishFeedback.URI);
+                publishFeedbackPage = new Pages.PublishFeedback(driver);
+                publishFeedbackPage.Navigate();
+                Assert.Equal(driver.Url, Pages.PublishFeedback.URI);
 
 
-            if (publishFeedbackPage.GetNumberOfUnpublishedFeedback() > 0)
-                Assert.Contains("Feedback successfully published.", publishFeedbackPage.Publish());
-            else
-                Assert.Equal(0, publishFeedbackPage.GetNumberOfUnpublishedFeedback());
-
+                if (publishFeedbackPage.GetNumberOfUnpublishedFeedback() > 0)
+                    Assert.Contains("Feedback successfully published.", publishFeedbackPage.Publish());
+                else
+                    Assert.Equal(0, publishFeedbackPage.GetNumberOfUnpublishedFeedback());
+            }
+            finally
+            {
+                Dispose();
+            }
         }
     }
 }

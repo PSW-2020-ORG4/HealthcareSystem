@@ -7,7 +7,7 @@ namespace PatientWebAppE2ETests.Pages
     public class BlockMaliciousPatient
     {
         private readonly IWebDriver driver;
-        public const string URI = "http://localhost:65117/html/malicious_patients.html";
+        public const string URI = "https://vlaksi-patientwebapp.herokuapp.com/html/malicious_patients.html";
 
         public BlockMaliciousPatient(IWebDriver driver)
         {

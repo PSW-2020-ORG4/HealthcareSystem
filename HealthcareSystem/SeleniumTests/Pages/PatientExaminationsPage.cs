@@ -8,7 +8,7 @@ namespace PatientWebAppE2ETests.Pages
     {
         private readonly IWebDriver driver;
 
-        public const string URI = "http://localhost:65117/html/patient_examinations.html";
+        public const string URI = "https://vlaksi-patientwebapp.herokuapp.com/html/patient_examinations.html";
 
         private IWebElement ButtonElement => driver.FindElement(By.Name("cancelButton"));
 

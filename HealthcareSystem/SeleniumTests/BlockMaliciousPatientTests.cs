@@ -35,21 +35,27 @@ namespace PatientWebAppE2ETests
         [Fact]
         public void SuccessfulBlockTest()
         {
-            loginPage.InsertEmail("milic_milan@gmail.com");
-            loginPage.InsertPassword("milanmilic965");
-            loginPage.SubmitForm();
-            loginPage.WaitForLoginAdmin();
+            try
+            {
+                loginPage.InsertEmail("milic_milan@gmail.com");
+                loginPage.InsertPassword("milanmilic965");
+                loginPage.SubmitForm();
+                loginPage.WaitForLoginAdmin();
 
-            blockPatientPage = new Pages.BlockMaliciousPatient(driver);
-            blockPatientPage.Navigate();
-            Assert.Equal(driver.Url, Pages.BlockMaliciousPatient.URI);
+                blockPatientPage = new Pages.BlockMaliciousPatient(driver);
+                blockPatientPage.Navigate();
+                Assert.Equal(driver.Url, Pages.BlockMaliciousPatient.URI);
 
 
-            if (blockPatientPage.GetNumberOfUnblockedMaliciousPatients() > 0)
-                Assert.Contains("Patient was successfully blocked.", blockPatientPage.BlockPatient());
-            else
-                Assert.Equal(0, blockPatientPage.GetNumberOfUnblockedMaliciousPatients());
-
+                if (blockPatientPage.GetNumberOfUnblockedMaliciousPatients() > 0)
+                    Assert.Contains("Patient was successfully blocked.", blockPatientPage.BlockPatient());
+                else
+                    Assert.Equal(0, blockPatientPage.GetNumberOfUnblockedMaliciousPatients());
+            }
+            finally
+            {
+                Dispose();
+            }
         }
 
     }

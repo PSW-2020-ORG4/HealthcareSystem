@@ -35,19 +35,26 @@ namespace PatientWebAppE2ETests
         [Fact]
         public void TestSuccessfulCancellation()
         {
-            loginPage.InsertEmail("ana_anic98@gmail.com");
-            loginPage.InsertPassword("11111111");
-            loginPage.SubmitForm();
-            loginPage.WaitForLoginPatient();
+            try
+            {
+                loginPage.InsertEmail("ana_anic98@gmail.com");
+                loginPage.InsertPassword("11111111");
+                loginPage.SubmitForm();
+                loginPage.WaitForLoginPatient();
 
-            patientExaminationsPage = new Pages.PatientExaminationsPage(driver);
-            patientExaminationsPage.Navigate();
-            Assert.Equal(driver.Url, Pages.PatientExaminationsPage.URI);
+                patientExaminationsPage = new Pages.PatientExaminationsPage(driver);
+                patientExaminationsPage.Navigate();
+                Assert.Equal(driver.Url, Pages.PatientExaminationsPage.URI);
 
-            if (patientExaminationsPage.GetNumberOfFollowingExaminations() > 0)
-                Assert.Contains(Pages.PatientExaminationsPage.ValidCommentMessage, patientExaminationsPage.CancelExaminationClick());
-            else
-                Assert.Equal(0, patientExaminationsPage.GetNumberOfFollowingExaminations());
+                if (patientExaminationsPage.GetNumberOfFollowingExaminations() > 0)
+                    Assert.Contains(Pages.PatientExaminationsPage.ValidCommentMessage, patientExaminationsPage.CancelExaminationClick());
+                else
+                    Assert.Equal(0, patientExaminationsPage.GetNumberOfFollowingExaminations());
+            }
+            finally
+            {
+                Dispose();
+            }
         }
 
     }

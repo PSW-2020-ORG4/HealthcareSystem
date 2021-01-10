@@ -7,7 +7,7 @@ namespace PatientWebAppE2ETests.Pages
     public class AddFeedbackPage
     {
         private readonly IWebDriver driver;
-        public const string URI = "http://localhost:65117/html/add_feedback.html";
+        public const string URI = "https://vlaksi-patientwebapp.herokuapp.com/html/add_feedback.html";
         private IWebElement CommentElement => driver.FindElement(By.Id("text_area_id"));
         private IWebElement IsAnonymousElement => driver.FindElement(By.XPath("//input[@id = 'no_anonymous']"));
         private IWebElement IsAllowedElement => driver.FindElement(By.XPath(".//div[contains(.,'I don't want my feedback to be published')]/input"));
@@ -53,7 +53,7 @@ namespace PatientWebAppE2ETests.Pages
         public void WaitForFormSubmit()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("http://localhost:65117/html/add_feedback.html"));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://vlaksi-patientwebapp.herokuapp.com/html/add_feedback.html"));
         }
 
         public void Navigate() => driver.Navigate().GoToUrl(URI);

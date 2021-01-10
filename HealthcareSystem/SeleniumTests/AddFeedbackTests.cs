@@ -35,45 +35,59 @@ namespace PatientWebAppE2ETests
         [Fact]
         public void TestSuccessfulSubmit() 
         {
-            loginPage.InsertEmail("ana_anic98@gmail.com");
-            loginPage.InsertPassword("11111111");
-            loginPage.SubmitForm();
-            loginPage.WaitForLoginPatient();
+            try
+            {
+                loginPage.InsertEmail("ana_anic98@gmail.com");
+                loginPage.InsertPassword("11111111");
+                loginPage.SubmitForm();
+                loginPage.WaitForLoginPatient();
 
-            addFeedbackPage = new Pages.AddFeedbackPage(driver);
-            addFeedbackPage.Navigate();
-            Assert.Equal(driver.Url, Pages.AddFeedbackPage.URI);
+                addFeedbackPage = new Pages.AddFeedbackPage(driver);
+                addFeedbackPage.Navigate();
+                Assert.Equal(driver.Url, Pages.AddFeedbackPage.URI);
 
-            addFeedbackPage.InsertComment("Sve je super!");
-            addFeedbackPage.InsertIsAnonymous("yes");
-            addFeedbackPage.InsertIsAllowed("yes");
+                addFeedbackPage.InsertComment("Sve je super!");
+                addFeedbackPage.InsertIsAnonymous("yes");
+                addFeedbackPage.InsertIsAllowed("yes");
 
-            addFeedbackPage.SubmitForm();
-            addFeedbackPage.WaitForFormSubmit();
+                addFeedbackPage.SubmitForm();
+                addFeedbackPage.WaitForFormSubmit();
 
-            Assert.Contains("You have successfuly left a feedback", addFeedbackPage.GetDialogMessage());
+                Assert.Contains("You have successfuly left a feedback", addFeedbackPage.GetDialogMessage());
+            }
+            finally
+            {
+                Dispose();
+            }
         }
 
         [Fact]
         public void TestInvalidComment()
         {
-            loginPage.InsertEmail("ana_anic98@gmail.com");
-            loginPage.InsertPassword("11111111");
-            loginPage.SubmitForm();
-            loginPage.WaitForLoginPatient();
+            try
+            {
+                loginPage.InsertEmail("ana_anic98@gmail.com");
+                loginPage.InsertPassword("11111111");
+                loginPage.SubmitForm();
+                loginPage.WaitForLoginPatient();
 
-            addFeedbackPage = new Pages.AddFeedbackPage(driver);
-            addFeedbackPage.Navigate();
-            Assert.Equal(driver.Url, Pages.AddFeedbackPage.URI);
+                addFeedbackPage = new Pages.AddFeedbackPage(driver);
+                addFeedbackPage.Navigate();
+                Assert.Equal(driver.Url, Pages.AddFeedbackPage.URI);
 
-            addFeedbackPage.InsertIsAnonymous("yes");
-            addFeedbackPage.InsertIsAllowed("yes");
+                addFeedbackPage.InsertIsAnonymous("yes");
+                addFeedbackPage.InsertIsAllowed("yes");
 
-            addFeedbackPage.SubmitForm();
-            addFeedbackPage.WaitForFormSubmit();
+                addFeedbackPage.SubmitForm();
+                addFeedbackPage.WaitForFormSubmit();
 
-            Assert.Contains("Feedback cannot be empty", addFeedbackPage.GetDialogMessage());
-
+                Assert.Contains("Feedback cannot be empty", addFeedbackPage.GetDialogMessage());
+            }
+            finally
+            {
+                Dispose();
+            }
+            
         }
 
     }

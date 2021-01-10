@@ -7,7 +7,7 @@ namespace PatientWebAppE2ETests.Pages
     public class PublishFeedback
     {
         private readonly IWebDriver driver;
-        public const string URI = "http://localhost:65117/html/admins_home_page.html";
+        public const string URI = "https://vlaksi-patientwebapp.herokuapp.com/html/admins_home_page.html";
         public PublishFeedback(IWebDriver driver)
         {
             this.driver = driver;

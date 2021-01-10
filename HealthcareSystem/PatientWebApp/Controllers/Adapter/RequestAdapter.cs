@@ -8,7 +8,7 @@ namespace PatientWebApp.Controllers.Adapter
         public static ContentResult SendGetRequest(string baseUrl, string resource)
         {
             var client = new RestClient(baseUrl);
-            var request = new RestRequest(resource);
+            var request = new RestRequest(resource, Method.GET);
             var response = client.Execute(request);
 
             var contentResult = new ContentResult();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PatientWebApp.Auth;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
 using RestSharp;
@@ -45,61 +46,28 @@ namespace PatientWebApp.Controllers
         public ActionResult GetPermissions()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-
-            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
-            var request = new RestRequest("/api/survey/patient/" + patientJmbg + "/permission", Method.GET);
-            var response = client.Execute(request);
-
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/patient/" + patientJmbg + "/permission");
         }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutMedicalStaff")]
         public IActionResult GetSurveyResultAboutMedicalStaff()
         {
-            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
-            var request = new RestRequest("/api/survey/report/staff");
-            var response = client.Execute(request);
-
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/report/staff");
         }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutDoctor/{jmbg}")]
         public IActionResult GetSurveyResultAboutDoctor(string jmbg)
         {
-            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
-            var request = new RestRequest("/api/survey/report/doctor/" + jmbg);
-            var response = client.Execute(request);
-
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/report/doctor/" + jmbg);
         }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpGet("surveyResultAboutHospital")]
         public IActionResult GetSurveyResultAboutHospital()
         {
-            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
-            var request = new RestRequest("/api/survey/report/hospital");
-            var response = client.Execute(request);
-
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/report/hospital");
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PatientWebApp.Auth;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
 using RestSharp;
@@ -59,16 +60,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("published")]
         public ActionResult GetPublishedFeedbacks()
         {
-            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
-            var request = new RestRequest("/api/feedback/published");
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/published");
         }
         /// <summary>
         /// /getting all unpublished feedbacks
@@ -79,16 +71,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("unpublished")]
         public ActionResult GetUnpublishedFeedbacks()
         {
-            var client = new RestClient(_serviceSettings.FeedbackAndSurveyServiceUrl);
-            var request = new RestRequest("/api/feedback/unpublished");
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/unpublished");
         }
         /// <summary>
         /// / updating feedbacks status (property: IsPublished) to published

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PatientWebApp.Adapters;
 using PatientWebApp.Auth;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
 using PatientWebApp.Validators;
@@ -58,16 +59,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetPatientByJmbg()
         {
             var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.UserServiceUrl);
-            var request = new RestRequest("/api/patient/" + jmbg);
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/patient/" + jmbg);
         }
 
         [Authorize(Roles = UserRoles.Patient)]
@@ -75,16 +67,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetPatientMedicalInfo()
         {
             var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.PatientServiceUrl);
-            var request = new RestRequest("/api/patient/" + jmbg + "/medical-info");
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.PatientServiceUrl, "/api/patient/" + jmbg + "/medical-info");
         }
 
         /// <summary>
@@ -205,16 +188,7 @@ namespace PatientWebApp.Controllers
         [HttpGet("malicious")]
         public IActionResult GetMaliciousPatients()
         {
-            var client = new RestClient(_serviceSettings.UserServiceUrl);
-            var request = new RestRequest("/api/patient/malicious");
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/patient/malicious");
         }
 
         [Authorize(Roles = UserRoles.Admin)]

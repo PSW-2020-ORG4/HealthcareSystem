@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PatientWebApp.Auth;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.Settings;
 using RestSharp;
 
@@ -23,16 +24,7 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public ActionResult GetAllDoctors()
         {
-            var client = new RestClient(_serviceSettings.UserServiceUrl);
-            var request = new RestRequest("/api/doctor");
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/doctor");
         }
 
         /// <summary>
@@ -44,17 +36,8 @@ namespace PatientWebApp.Controllers
         [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("doctor-specialty/{id}")]
         public IActionResult GetSpecialistDoctorsBySpecialtyId(int id)
-        {          
-            var client = new RestClient(_serviceSettings.UserServiceUrl);
-            var request = new RestRequest("/api/doctor/specialty/" + id);
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+        {
+            return RequestAdapter.SendGetRequest(_serviceSettings.UserServiceUrl, "/api/doctor/specialty/" + id);
         }
     }
 }

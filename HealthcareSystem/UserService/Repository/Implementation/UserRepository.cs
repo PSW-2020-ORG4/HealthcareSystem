@@ -7,7 +7,7 @@ using UserService.CustomException;
 using UserService.Model;
 using UserService.Model.Memento;
 
-namespace UserService.Repository
+namespace UserService.Repository.Implementation
 {
     public class UserRepository : IUserRepository
     {

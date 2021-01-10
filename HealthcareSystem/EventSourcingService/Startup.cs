@@ -1,20 +1,23 @@
-using Backend.Model;
-using Backend.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using UserService.ActionsBenefits;
-using UserService.Repository;
-using UserService.Repository.Implementation;
-using UserService.Service;
-using UserService.Service.Implementation;
+using System.Linq;
+using System.Threading.Tasks;
+using EventSourcingService.Model;
+using EventSourcingService.Repository;
+using EventSourcingService.Service;
+using EventSourcingService.Settings;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 
-namespace UserService
+namespace EventSourcingService
 {
     public class Startup
     {
@@ -38,13 +41,12 @@ namespace UserService
 
                 Console.WriteLine(dbSettings.ConnectionString);
 
-                services.AddDbContext<MyDbContext>(options =>
+                services.AddDbContext<EventSourcingDbContext>(options =>
                 {
-                    options.UseMySql(
-                        dbSettings.ConnectionString,
-                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                    options.UseMySql(dbSettings.ConnectionString,
+                        x => x.EnableRetryOnFailure(
                             dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
-                        ).UseLazyLoadingProxies();
+                    ).UseLazyLoadingProxies();
                 });
             }
             else if (_env.EnvironmentName.ToLower().Equals("test"))
@@ -57,13 +59,13 @@ namespace UserService
 
                 Console.WriteLine(dbSettings.ConnectionString);
 
-                services.AddDbContext<MyDbContext>(options =>
+                services.AddDbContext<EventSourcingDbContext>(options =>
                 {
                     options.UseNpgsql(
                         dbSettings.ConnectionString,
-                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                        x => x.EnableRetryOnFailure(
                             dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
-                        ).UseLazyLoadingProxies();
+                    ).UseLazyLoadingProxies();
                 });
             }
             else
@@ -71,34 +73,23 @@ namespace UserService
                 Console.WriteLine("Not dev or test.");
             }
 
-            services.AddScoped<IGeographicalService, GeographicalService>();
-            services.AddScoped<ICityRepository, CityRepository>();
-            services.AddScoped<ICountryRepository, CountryRepository>();
 
-            services.AddScoped<IDoctorService, DoctorService>();
-            services.AddScoped<ISpecialtyService, SpecialtyService>();
-            services.AddScoped<ISpecialtyRepository, SpecialtyRepository>();
-            services.AddScoped<IDoctorRepository, DoctorRepository>();
+            services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
 
-            services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<IPatientRepository, PatientRepository>();
-
-            services.AddScoped<IUserService, Service.Implementation.UserService>();
-            services.AddScoped<IUserRepository, UserRepository>();
-
-            //temporarily in this service
-            services.AddScoped<IActionBenefitRepository, ActionBenefitRepository>();
-
-            services.AddControllers();
+            services.AddScoped<IEventStoreExampleService, EventStoreExampleService>();
+            services.AddScoped<IDomainEventRepository<ExampleEvent>, DomainEventRepository<ExampleEvent>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
-                app.UseExceptionHandler("/error/dev");
-            else
-                app.UseExceptionHandler("/error");
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseRouting();
 

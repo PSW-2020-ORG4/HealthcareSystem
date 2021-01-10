@@ -48,6 +48,23 @@ namespace PatientWebApp.Controllers
             return contentResult;
         }
 
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet("{id}")]
+        public ActionResult Get(int id)
+        {
+            // TODO authorization
+            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
+            var request = new RestRequest("/api/examination/" + id, Method.GET);
+            var response = client.Execute(request);
+
+            var contentResult = new ContentResult();
+            contentResult.Content = response.Content;
+            contentResult.ContentType = "application/json";
+            contentResult.StatusCode = (int)response.StatusCode;
+
+            return contentResult;
+        }
+
         /// <summary>
         /// / updating examiantionStatus (property: ExaminationStatus) to CANCELED
         /// </summary>
@@ -58,6 +75,7 @@ namespace PatientWebApp.Controllers
         [HttpPost("cancel/{id}")]
         public ActionResult CancelExamination(int id)
         {
+            // TODO authorization
             var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
             var request = new RestRequest("/api/examination/" + id + "/cancel", Method.POST);
             var response = client.Execute(request);

@@ -58,6 +58,13 @@ namespace ScheduleService.Controllers
             return NoContent();
         }
 
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var examination = _examinationService.Get(id).ToScheduledExaminationDTO();
+            return Ok(examination);
+        }
+
         [HttpPost("search-free/basic")]
         public IActionResult BasicSearchExamination(BasicSearchDTO basicSearchDTO)
         {

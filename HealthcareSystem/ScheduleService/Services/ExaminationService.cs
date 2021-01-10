@@ -66,5 +66,10 @@ namespace ScheduleService.Services
 
             _examinationRepository.Add(examination);
         }
+
+        public Examination Get(int id)
+        {
+            return _examinationRepository.Get(id);
+        }
     }
 }

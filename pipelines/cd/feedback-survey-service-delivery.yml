@@ -1,0 +1,83 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - develop
+  paths:
+    include:
+    - 'HealthcareSystem/FeedbackAndSurveyService/*'
+    - 'HealthcareSystem/Backend/*'
+pr: none
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+variables:
+  dockerRegistry: 'pufkedockerhub'
+  project: 'HealthcareSystem/FeedbackAndSurveyService/FeedbackAndSurveyService.csproj'
+  dockerfile: 'HealthcareSystem/FeedbackAndSurveyService/Dockerfile'
+  dockerImage: 'pufke/feedbackandsurveyservice'
+  herokuProject: 'vlaksi-feedback-and-survey'
+
+stages:
+- stage: CI
+  jobs:
+  - job: Docker
+    steps:
+    - task: Bash@3
+      displayName: 'Prepare context for Docker'
+      inputs:
+        targetType: 'inline'
+        script: |
+          docker --version
+          dotnet publish $(project) -c Release -o publish
+          cp $(dockerfile) publish/Dockerfile  
+    - task: Docker@2
+      displayName: 'Build and push Docker image'
+      inputs:
+        containerRegistry: '$(dockerRegistry)'
+        repository: '$(dockerImage)'
+        command: 'buildAndPush'
+        Dockerfile: 'publish/Dockerfile'
+        buildContext: 'publish'
+        tags: |
+          $(Build.BuildId)
+          latest
+
+- stage: CD
+  variables:
+    HEROKU_API_KEY: 8418d6b4-7423-404b-81cf-23abcd968591
+  jobs:
+  - deployment: FeedbackAndSurveyService   
+    environment: 'Test'
+    strategy:
+      runOnce:
+        deploy:                 
+          steps:
+            - task: PowerShell@2
+              displayName: "Heroku Deployment"
+              inputs:
+                targetType: 'inline'
+                script: |
+                  echo "----- Logging in to Heroku registry. -----"
+                  heroku container:login
+                  echo '----- Pulling image from DockerHub. -----'
+                  docker pull $(dockerImage)
+                  echo '----- Pushing to Heroku registry. -----'
+                  docker tag $(dockerImage) registry.heroku.com/$(herokuProject)/web
+                  docker push registry.heroku.com/$(herokuProject)/web
+                  echo '----- Releasing app. -----'
+                  heroku container:release web --app $(herokuProject)
+                pwsh: true
+
+- stage: Verify
+  displayName: Verify deployment
+  jobs:
+    - job: Smoke
+      steps:
+      - task: PowerShell@2
+        displayName: "Ping test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://$(herokuProject).herokuapp.com/api/ping -code 200'
+          pwsh: true

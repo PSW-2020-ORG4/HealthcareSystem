@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using Backend.Model.Exceptions;
 using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
+using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Model.Enums;
 using Newtonsoft.Json;
@@ -37,6 +40,21 @@ namespace GraphicalEditorServer.Controllers
             JSONContent += "}";
 
             return JSONContent;
+        }
+
+        [HttpGet]
+        public ActionResult GetAllRooms()
+        {
+            List<RoomDTO> roomDTOs = new List<RoomDTO>();
+            try
+            {
+                _roomService.ViewRooms().ForEach(room => roomDTOs.Add(RoomMapper.BackendRoomToGraphicalEditorRoom(room)));
+                return Ok(roomDTOs);
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
         }
     }
 }

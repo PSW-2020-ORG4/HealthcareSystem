@@ -124,6 +124,18 @@ namespace Model.PerformingExamination
             ExaminationStatus = ExaminationStatus.CREATED;
             IsSurveyCompleted = false;
         }
+        public Examination(DateTime dateTime,int roomId)
+        {
+            DateAndTime = dateTime;
+            IdRoom = roomId;
+            Type = TypeOfExamination.GENERAL;
+            Anamnesis = null;
+            ExaminationStatus = ExaminationStatus.CREATED;
+            IsSurveyCompleted = false;
+            IdPatientCard = 1;
+            DoctorJmbg = "1234567891234";
+
+        }
 
     }
 }

@@ -12,5 +12,6 @@ namespace IntegrationAdapters.Adapters
         public bool SendDrugConsumptionReport(string reportFilePath, string reportFileName);
         public List<DrugListDTO> GetAllDrugs();
         public bool GetDrugSpecifications(int id);
+        public bool OrderDrugs(int pharmacyId, int drugId, int quantity);
     }
 }

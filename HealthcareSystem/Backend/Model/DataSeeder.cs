@@ -116,7 +116,7 @@ namespace Backend.Model
                 IsGuest = false,
                 Phone = "065897520",
                 Username = "ana_anic98@gmail.com",
-                ImageName = "picture1.jpg"
+                ImageName = "/Uploads/picture1.jpg"
             });
             context.Add(new Patient()
             {
@@ -135,7 +135,7 @@ namespace Backend.Model
                 IsGuest = false,
                 Phone = "065897520",
                 Username = "zana998@gmail.com",
-                ImageName = "profile_pic.jpg"
+                ImageName = "/Uploads/profile_pic.jpg"
             });
             context.SaveChanges();
 

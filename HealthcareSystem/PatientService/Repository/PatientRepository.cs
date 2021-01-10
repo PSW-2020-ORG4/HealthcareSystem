@@ -1,5 +1,6 @@
 ﻿using Backend.Model;
 using Backend.Repository;
+using Microsoft.EntityFrameworkCore;
 using PatientService.CustomException;
 using PatientService.Model;
 using PatientService.Model.Memento;
@@ -97,6 +98,45 @@ namespace PatientService.Repository
             catch (PatientServiceException)
             {
                 throw;
+            }
+            catch (Exception e)
+            {
+                throw new DataStorageException(e.Message);
+            }
+        }
+
+        public void Update(Patient patient)
+        {
+            try
+            {
+                var memento = patient.GetMemento();
+                var patientCard = _context.PatientCards.Where(p => p.PatientJmbg == memento.Jmbg).FirstOrDefault();
+                if (patientCard is null)
+                    throw new NotFoundException("Patient with jmbg " + memento.Jmbg + " not found.");
+                patientCard.RhFactor = memento.RhFactor.ToBackendRhFactor();
+                patientCard.BloodType = memento.BloodType.ToBackendBloodType();
+                patientCard.MedicalHistory = memento.MedicalHistory;
+                patientCard.Alergies = memento.Allergies;
+                if (String.IsNullOrWhiteSpace(memento.InsuranceNumber))
+                {
+                    patientCard.HasInsurance = false;
+                    patientCard.Lbo = "";
+                }
+                else
+                {
+                    patientCard.HasInsurance = true;
+                    patientCard.Lbo = memento.InsuranceNumber;
+                }
+                _context.Update(patientCard);
+                _context.SaveChanges();
+            }
+            catch (PatientServiceException)
+            {
+                throw;
+            }
+            catch (DbUpdateException e)
+            {
+                throw new ValidationException(e.Message);
             }
             catch (Exception e)
             {

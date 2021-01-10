@@ -49,5 +49,12 @@ namespace PatientService.Service
             ISpecification<Therapy> specification = parameters.ToTherapySpecification();
             return patient.SearchTherapies(specification);
         }
+
+        public void UpdateMedicalInfo(string jmbg, MedicalInfoUpdateDTO medicalInfoUpdate)
+        {
+            Patient patient = _repository.Get(jmbg);
+            patient.UpdateMedicalInfo(medicalInfoUpdate);
+            _repository.Update(patient);
+        }
     }
 }

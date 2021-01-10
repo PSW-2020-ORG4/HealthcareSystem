@@ -11,5 +11,6 @@ namespace PatientService.Repository
         Patient Get(string jmbg);
 
         Patient GetLazy(string jmbg);
+        void Update(Patient patient);
     }
 }

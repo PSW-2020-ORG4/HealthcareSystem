@@ -28,6 +28,13 @@ namespace PatientService.Controller
             return Ok(medicalInfo);
         }
 
+        [HttpPut("{jmbg}/medical-info")]
+        public IActionResult UpdateMedicalInfo(string jmbg, MedicalInfoUpdateDTO medicalInfoUpdate)
+        {
+            _service.UpdateMedicalInfo(jmbg, medicalInfoUpdate);
+            return NoContent();
+        }
+
         [HttpGet("{jmbg}/examination")]
         public IActionResult GetExaminations(string jmbg)
         {

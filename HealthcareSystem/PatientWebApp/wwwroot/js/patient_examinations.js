@@ -153,14 +153,10 @@ function scheduleExamination() {
 
     var appointment = newAppointments[a];
     var newData = {
-        "Type": appointment.type,
         "DateAndTime": appointment.dateAndTime,
         "DoctorJmbg": appointment.doctorJmbg,
         "IdRoom": appointment.idRoom,
-        "Anamnesis": "",
-        "PatientCardId": appointment.patientCardId,
-        "ExaminationStatus": 0,
-        "IsSurveyCompleted": false
+        "PatientJmbg": jmbg
     };
 
     $.ajax({

@@ -1,9 +1,8 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using System;
 using Xunit;
 
-namespace SeleniumTests
+namespace PatientWebAppE2ETests
 {
     public class CancelExaminationTests
     {

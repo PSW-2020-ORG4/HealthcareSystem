@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using System;
 
-namespace SeleniumTests.Pages
+namespace PatientWebAppE2ETests.Pages
 {
     public class PatientExaminationsPage
     {

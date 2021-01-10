@@ -2,7 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace SeleniumTests.Pages
+namespace PatientWebAppE2ETests.Pages
 {
     public class BlockMaliciousPatient
     {

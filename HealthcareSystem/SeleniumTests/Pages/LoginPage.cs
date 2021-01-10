@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
-namespace SeleniumTests.Pages
+namespace PatientWebAppE2ETests.Pages
 {
     public class LoginPage
     {

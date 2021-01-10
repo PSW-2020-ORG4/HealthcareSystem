@@ -1,22 +1,18 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 namespace SeleniumTests.Pages
 {
-    class PatientExaminationsPage
+    public class PatientExaminationsPage
     {
         private readonly IWebDriver driver;
 
         public const string URI = "http://localhost:65117/html/patient_examinations.html";
 
         private IWebElement ButtonElement => driver.FindElement(By.Name("cancelButton"));
-
-        private IWebElement AlertMessageElement => driver.FindElement(By.Name("alert_container"));
-
-        private int NumberOfCancelButtons => driver.FindElements(By.Name("cancelButton")).Count;
 
         public const string InvalidCommentMessage = "Cancelling was not successful.";
 
@@ -36,22 +32,17 @@ namespace SeleniumTests.Pages
         public string CancelExaminationClick()
         {
             ButtonElement.Click();
-            return driver.FindElement(By.Name("alert_msg")).Text;
+            return driver.FindElement(By.Name("alert_container")).FindElement(By.Name("alert_msg")).Text;
         }
 
-        public string GetDialogMessage()
+        public int GetNumberOfFollowingExaminations()
         {
-            return driver.SwitchTo().Alert().Text;
-        }
-
-        public int GetNumberOfFollowingEaminations()
-        {
-            return NumberOfCancelButtons;
+            return driver.FindElements(By.Name("cancelButton")).Count;
         }
 
         public void WaitForFormSubmit()
         {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 30));
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe(URI));
         }
         public void Navigate() => driver.Navigate().GoToUrl(URI);

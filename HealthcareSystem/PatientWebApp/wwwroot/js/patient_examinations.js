@@ -390,7 +390,6 @@ function cancelExamination(id) {
             $('#f' + id).remove();
             $('#a' + id).empty();
             $('#a' + id).prepend(alert);
-            window.location.reload();
         },
         error: function (jqXHR) {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">Cancelling was not successful.'

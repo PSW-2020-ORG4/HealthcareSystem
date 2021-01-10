@@ -1,5 +1,4 @@
 ﻿using EventSourcingService.Model;
-using EventSourcingService.Repository;
 using EventSourcingService.Service;
 using Microsoft.AspNetCore.Mvc;
 

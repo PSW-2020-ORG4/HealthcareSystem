@@ -1,0 +1,48 @@
+version: "3.8"
+services: 
+  databaseisa:
+    image: mysql:8.0.22
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_USER: "org4"
+      MYSQL_PASSWORD: "org4"
+      MYSQL_DATABASE: "springbootdb" 
+    restart: always
+    networks:
+      - isa
+
+  isabackend:
+    image: pufke/integrationadaptersisabackend:1.0
+    restart: always
+    depends_on:      
+      - databaseisa
+      - rabbitmq
+    ports:
+      - 8383:8080
+    environment:
+      spring.datasource.url: "jdbc:mysql://databaseisa:3306/springbootdb?connectTimeout=300000"
+      spring.datasource.username: "org4"
+      spring.datasource.password: "org4"
+      spring.rabbitmq.host: "rabbitmq"
+      spring.rabbitmq.port: 5672
+      spring.rabbitmq.username: "org4"
+      spring.rabbitmq.password: "org4"
+    networks:
+      - demo
+      - isa
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: "org4"
+      RABBITMQ_DEFAULT_PASS: "org4"
+    networks:
+      - demo
+
+networks:
+  demo:
+    name: demo
+    driver: bridge
+  isa:
+    name: isa
+    driver: bridge

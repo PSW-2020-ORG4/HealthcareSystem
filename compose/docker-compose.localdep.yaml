@@ -10,7 +10,7 @@ services:
       POSTGRES_DB: "organization4db"
     restart: always
     networks:
-      - demo  
+      - psw
 
   intergrationadapters:
     build:
@@ -34,6 +34,7 @@ services:
     restart: on-failure
     networks:
       - demo
+      - psw
 
   patientwebapp:
     build:
@@ -57,6 +58,7 @@ services:
     restart: on-failure
     networks:
       - demo
+      - psw
 
   graphicaleditorserver:
     build:
@@ -79,6 +81,7 @@ services:
     restart: on-failure
     networks:
       - demo
+      - psw
 
   userservice:
     build:
@@ -93,7 +96,7 @@ services:
       - database
     restart: on-failure
     networks:
-      - demo
+      - psw
 
   scheduleservice:
     build:
@@ -108,7 +111,7 @@ services:
       - database
     restart: on-failure
     networks:
-      - demo
+      - psw
 
   patientservice:
     build:
@@ -123,7 +126,7 @@ services:
       - database
     restart: on-failure
     networks:
-      - demo
+      - psw
 
   feedbacksurveyservice:
     build:
@@ -138,7 +141,7 @@ services:
       - database
     restart: on-failure
     networks:
-      - demo
+      - psw
 
   notificationservice:
     build:
@@ -146,7 +149,7 @@ services:
       dockerfile: Dockerfile.local
     restart: on-failure
     networks:
-      - demo
+      - psw
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -159,4 +162,7 @@ services:
 networks:
   demo:
     name: demo
+    driver: bridge
+  psw:
+    name: psw
     driver: bridge

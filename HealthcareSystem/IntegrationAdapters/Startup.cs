@@ -70,7 +70,7 @@ namespace IntegrationAdapters
             else if (_env.EnvironmentName.ToLower().Equals("test"))
             {
                 Console.WriteLine("Configuring for test.");
-                int retryCount = Configuration.GetValue<int>("DATABSE_RETRY");
+                int retryCount = Configuration.GetValue<int>("DATABASE_RETRY");
                 int retryWait = Configuration.GetValue<int>("DATABASE_RETRY_WAIT");
                 string dbURL = Configuration.GetValue<string>("DATABASE_URL");
                 DbConnectionSettings dbSettings = new DbConnectionSettings(dbURL, retryCount, retryWait);

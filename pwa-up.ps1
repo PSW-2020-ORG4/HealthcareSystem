@@ -12,8 +12,6 @@ $efile = "./compose/pwa/docker-compose.pwa.dev.yaml"
 else {
 $efile = "./compose/pwa/docker-compose.pwa.test.yaml"
 }
-Write-Output "---------------------------------------------------------------------------"
-Write-Output "WARNING: SLN SHOULD NOT BE OPEN IN VISUAL STUDIO WHILE THIS EXECUTES"
 
 if($noServiceBuild -eq $false) {
 Write-Output "---------------------------------------------------------------------------"

@@ -5,6 +5,7 @@
  ***********************************************************************/
 
 
+using Backend.Model.PerformingExamination;
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Service.PlacementInARoomAndRenovationPeriod;

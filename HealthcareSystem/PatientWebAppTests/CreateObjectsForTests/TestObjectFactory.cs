@@ -63,11 +63,6 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return new CreateSurveyResult();
         }
 
-        public CreateExaminationDTO GetExaminationDTO()
-        {
-            return new CreateExaminationDTO();
-        }
-
         public CreateDoctor GetDoctor()
         {
             return new CreateDoctor();

@@ -1,11 +1,11 @@
 ﻿using System;
+using Backend.Model.Enums;
 using System.Collections.Generic;
 using Backend.Model.Exceptions;
 using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Mvc;
-using Model.Enums;
 using Newtonsoft.Json;
 
 namespace GraphicalEditorServer.Controllers

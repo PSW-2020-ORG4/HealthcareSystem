@@ -5,23 +5,19 @@ services:
     networks:
       - demo  
 
-  patientwebapp:
+  graphicaleditorserver:
     build:
-      context: ../../HealthcareSystem/PatientWebApp
+      context: ../../HealthcareSystem/GraphicalEditorServer
       dockerfile: Dockerfile.local
     ports:
-    - "8181:80"
+    - "5001:80"
     environment:
       PATIENT_SERVICE_URL: "http://patientservice"
-      FEEDBACK_SURVEY_SERVICE_URL: "http://feedbacksurveyservice"
       USER_SERVICE_URL: "http://userservice"
-      NOTIFICATION_SERVICE_URL: "http://notificationservice"
       SCHEDULE_SERVICE_URL: "http://scheduleservice"
     depends_on:
       - userservice
       - patientservice
-      - notificationservice
-      - feedbacksurveyservice
       - scheduleservice
     restart: on-failure
     networks:
@@ -53,24 +49,6 @@ services:
       dockerfile: Dockerfile.local
     depends_on:
       - database
-    restart: on-failure
-    networks:
-      - demo
-
-  feedbacksurveyservice:
-    build:
-      context: ../../HealthcareSystem/FeedbackAndSurveyService
-      dockerfile: Dockerfile.local
-    depends_on:
-      - database
-    restart: on-failure
-    networks:
-      - demo
-
-  notificationservice:
-    build:
-      context: ../../HealthcareSystem/NotificationService
-      dockerfile: Dockerfile.local
     restart: on-failure
     networks:
       - demo

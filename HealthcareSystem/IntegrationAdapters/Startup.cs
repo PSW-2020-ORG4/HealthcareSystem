@@ -30,6 +30,7 @@ using Backend.Repository.TenderRepository.MySqlTenderRepository;
 using Backend.Service.DrugAndTherapy;
 using Service.DrugAndTherapy;
 using Backend.Communication.RabbitMqConnection;
+using System.IO;
 
 namespace IntegrationAdapters
 {
@@ -92,8 +93,7 @@ namespace IntegrationAdapters
 
             services.AddControllersWithViews();
 
-            services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
-            services.Configure<RabbitMqConfiguration>(GetRabbitConfig);
+            services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqSettings"));
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
             services.AddSingleton<IRabbitMqTenderingService, RabbitMqTenderingService>();
@@ -123,20 +123,8 @@ namespace IntegrationAdapters
             services.AddHttpClient();
         }
 
-        private void GetRabbitConfig(RabbitMqConfiguration conf)
-        {
-            conf.Host = Configuration.GetValue<string>("RABBITMQ_HOST") ?? "localhost";
-            conf.VHost = Configuration.GetValue<string>("RABBITMQ_VHOST") ?? "/";
-            conf.Username = Configuration.GetValue<string>("RABBITMQ_USER") ?? "guest";
-            conf.Password = Configuration.GetValue<string>("RABBITMQ_PASSWORD") ?? "guest";
-            conf.RetryCount = Configuration.GetValue<int>("RABBITMQ_RETRY");
-            conf.RetryWait = Configuration.GetValue<int>("RABBITMQ_RETRY_WAIT");
-            conf.ActionBenefitQueueName = Configuration.GetValue<string>("ACTIONBENEFIT_QUEUE") ?? "bolnica-1";
-            conf.TenderExchangeName = Configuration.GetValue<string>("TENDER_QUEUE") ?? "tender-bolnica-1";
-        }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
         {
             app.ApplicationServices.GetService<IRabbitMqTenderingService>();
             app.ApplicationServices.GetService<IRabbitMqActionBenefitService>();
@@ -163,6 +151,38 @@ namespace IntegrationAdapters
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            if (env.EnvironmentName.ToLower().Equals("test"))
+                using (var scope = app.ApplicationServices.CreateScope())
+                using (var context = scope.ServiceProvider.GetService<MyDbContext>())
+                {
+                    try
+                    {
+                        Console.WriteLine("Seeding ISA Pharmacy System for Test env.");
+                        context.Pharmacies.Add(new PharmacySystem()
+                        {
+                            Name = "ISA Pharmacy",
+                            Url = "http://localhost:8383",
+                            GrpcHost = "http://localhost",
+                            GrpcPort = 9090,
+                            ActionsBenefitsSubscribed = true,
+                            ActionsBenefitsExchangeName = "exchange",
+                            ApiKey = "apikey"
+                        });
+                        context.SaveChanges();
+                        Console.WriteLine("Seeding finished.");
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Seeding failed.");
+                    }
+                }
+
+            if (!Directory.Exists("Resources"))
+            {
+                Directory.CreateDirectory("Resources");
+            }
+
             app.UseStaticFiles();
 
             app.UseRouting();

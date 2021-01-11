@@ -53,7 +53,7 @@ namespace PatientWebAppE2ETests.Pages
         public void WaitForFormSubmit()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://vlaksi-patientwebapp.herokuapp.com/html/add_feedback.html"));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe(URI));
         }
 
         public void Navigate() => driver.Navigate().GoToUrl(URI);

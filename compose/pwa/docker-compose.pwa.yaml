@@ -1,33 +1,23 @@
 version: "3.8"
 services: 
   database:
-    image: seeded-postgre
-    environment:
-      POSTGRES_USER: "org4"
-      POSTGRES_PASSWORD: "org4"
-      POSTGRES_DB: "organization4db"
     restart: always
     networks:
       - demo  
 
   patientwebapp:
     build:
-      context: PatientWebApp
+      context: ../../HealthcareSystem/PatientWebApp
       dockerfile: Dockerfile.local
     ports:
     - "8181:80"
     environment:
-      ASPNETCORE_ENVIRONMENT: Test
-      DATABASE_RETRY: 10
-      DATABASE_RETRY_WAIT: 30
-      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
       PATIENT_SERVICE_URL: "http://patientservice"
       FEEDBACK_SURVEY_SERVICE_URL: "http://feedbacksurveyservice"
       USER_SERVICE_URL: "http://userservice"
       NOTIFICATION_SERVICE_URL: "http://notificationservice"
       SCHEDULE_SERVICE_URL: "http://scheduleservice"
     depends_on:
-      - database
       - userservice
       - patientservice
       - notificationservice
@@ -38,13 +28,8 @@ services:
 
   userservice:
     build:
-      context: UserService
+      context: ../../HealthcareSystem/UserService
       dockerfile: Dockerfile.local
-    environment:
-      ASPNETCORE_ENVIRONMENT: Test
-      DATABASE_RETRY: 10
-      DATABASE_RETRY_WAIT: 30
-      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
     depends_on:
       - database
     restart: on-failure
@@ -53,13 +38,8 @@ services:
 
   scheduleservice:
     build:
-      context: ScheduleService
+      context: ../../HealthcareSystem/ScheduleService
       dockerfile: Dockerfile.local
-    environment:
-      ASPNETCORE_ENVIRONMENT: Test
-      DATABASE_RETRY: 10
-      DATABASE_RETRY_WAIT: 30
-      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
     depends_on:
       - database
     restart: on-failure
@@ -68,13 +48,8 @@ services:
 
   patientservice:
     build:
-      context: PatientService
+      context: ../../HealthcareSystem/PatientService
       dockerfile: Dockerfile.local
-    environment:
-      ASPNETCORE_ENVIRONMENT: Test
-      DATABASE_RETRY: 10
-      DATABASE_RETRY_WAIT: 30
-      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
     depends_on:
       - database
     restart: on-failure
@@ -83,13 +58,8 @@ services:
 
   feedbacksurveyservice:
     build:
-      context: FeedbackAndSurveyService
+      context: ../../HealthcareSystem/FeedbackAndSurveyService
       dockerfile: Dockerfile.local
-    environment:
-      ASPNETCORE_ENVIRONMENT: Test
-      DATABASE_RETRY: 10
-      DATABASE_RETRY_WAIT: 30
-      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
     depends_on:
       - database
     restart: on-failure
@@ -98,7 +68,7 @@ services:
 
   notificationservice:
     build:
-      context: NotificationService
+      context: ../../HealthcareSystem/NotificationService
       dockerfile: Dockerfile.local
     restart: on-failure
     networks:

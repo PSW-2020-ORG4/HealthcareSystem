@@ -1,0 +1,47 @@
+version: "3.8"
+services: 
+  database:
+    image: seeded-postgre
+    environment:
+      POSTGRES_USER: "org4"
+      POSTGRES_PASSWORD: "org4"
+      POSTGRES_DB: "organization4db"
+
+  patientwebapp:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+
+  userservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+
+  scheduleservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+
+  userservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+
+  patientservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+
+  feedbacksurveyservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"

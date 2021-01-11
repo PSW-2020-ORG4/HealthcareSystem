@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace GraphicalEditor.Service
 {
-    public class EquipementService : GenericHTTPService
+    public class EquipmentService : GenericHTTPService
     {
         public List<EquipmentDTO> GetEquipmentByRoomNumber(int roomNumber)
         {

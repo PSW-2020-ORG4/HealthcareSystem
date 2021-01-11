@@ -20,7 +20,7 @@
                 <th><h5 class="card-title">Name</h5></th>
                 <th><h5 class="card-title">Queue Name</h5></th>
                 <th><h5 class="card-title">Routing Key</h5></th>
-                <th><h5 class="card-title">Open?</h5></th>
+                <th><h5 class="card-title">Winner Selected</h5></th>
                 <th><h5 class="card-title">End Date</h5></th>
                 <th><h5 class="card-title">Drugs</h5></th>
                 <th><h5 class="card-title">View Offers</h5></th>
@@ -42,7 +42,7 @@
                         @item.RoutingKey
                     </td>
                     <td class="text-center">
-                        @((item.IsClosed) ? "No" : "Yes")
+                        @((item.IsClosed) ? "Yes" : "No")
                     </td>
                     <td class="text-center">
                         @item.EndDate
@@ -58,6 +58,8 @@
                         else
                         {
                             @Html.ActionLink("View Offers", "Offers", "Tender", new { tenderId = item.Id }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Close", "CloseTender", "Tender", new { tenderId = item.Id }, new { @class = "btn btn-primary" })
+
                         }
                     </td>
                 </tr>

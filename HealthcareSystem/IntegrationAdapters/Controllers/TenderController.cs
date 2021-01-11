@@ -51,6 +51,8 @@ namespace IntegrationAdapters.Controllers
             if(tender.IsClosed)
             {
                 TenderMessage tenderMessage = _tenderMessageService.GetAcceptedByTenderId(tenderId);
+                if (tenderMessage == null)
+                    return RedirectToAction("Index");
                 return RedirectToAction("Offer", new { messageId = tenderMessage.Id });
             }
 
@@ -64,10 +66,23 @@ namespace IntegrationAdapters.Controllers
 
         public IActionResult AcceptOffer(int messageId)
         {
+            var tender = _tenderService.GetTenderByMessageId(messageId);
+            if (tender.IsClosed)
+                return RedirectToAction("Offers", new { tenderId = tender.Id });
+
             var message = _tenderMessageService.GetById(messageId);
             message.IsAccepted = true;
+            tender.IsClosed = true;
             _tenderMessageService.UpdateTenderMessage(message);
-            var tender = _tenderService.GetTenderByMessageId(messageId);
+            _tenderService.UpdateTender(tender);
+            _tenderingService.RemoveQueue(tender);
+            _tenderingService.NotifyParticipants(tender.Id);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult CloseTender(int tenderId)
+        {
+            var tender = _tenderService.GetTenderById(tenderId);
             tender.IsClosed = true;
             _tenderService.UpdateTender(tender);
             _tenderingService.RemoveQueue(tender);

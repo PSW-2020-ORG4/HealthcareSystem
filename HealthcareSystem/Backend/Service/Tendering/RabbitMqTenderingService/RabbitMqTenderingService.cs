@@ -48,13 +48,20 @@ namespace Backend.Service
 
                 foreach (Tender t in tenderService.GetAllNotClosedTenders())
                 {
-                    _channel.QueueDeclare(queue: t.QueueName,
-                                  durable: true,
-                                  exclusive: false,
-                                  autoDelete: false,
-                                  arguments: null);
-                    _channel.QueueBind(queue: t.QueueName, exchange: _exchangeName, routingKey: t.RoutingKey);
-                    _channel.BasicConsume(queue: t.QueueName, autoAck: false, consumer: _consumer);
+                    if(t.EndDate.CompareTo(DateTime.Now) > 0)
+                    {
+                        _channel.QueueDeclare(queue: t.QueueName,
+                                                          durable: true,
+                                                          exclusive: false,
+                                                          autoDelete: false,
+                                                          arguments: null);
+                        _channel.QueueBind(queue: t.QueueName, exchange: _exchangeName, routingKey: t.RoutingKey);
+                        _channel.BasicConsume(queue: t.QueueName, autoAck: false, consumer: _consumer);
+                    }
+                    else
+                    {
+                        RemoveQueue(t);
+                    }
                 }
             }
         }
@@ -87,7 +94,7 @@ namespace Backend.Service
             {
                 ITenderService tenderService = scope.ServiceProvider.GetRequiredService<ITenderService>();
                 Tender tender = tenderService.GetTenderByRoutingKey(routingKey);
-                if (tender.IsClosed)
+                if (tender.IsClosed || tender.EndDate.CompareTo(DateTime.Now) <= 0)
                     throw new Exception("Tender is closed!");
 
                 TenderMessage tenderMessage = new TenderMessage();

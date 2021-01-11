@@ -14,6 +14,7 @@ namespace Backend.Repository.TenderRepository
         List<TenderMessageDTO> GetMessagesForTender(int id);
         List<TenderOfferDTO> GetOffersForMessage(int id);
         void DeleteMessage(int id);
+        void CreateTender(Tender tender);
         void UpdateTender(Tender tender);
         void DeclineMessage(int id);
         Tender GetTenderByMessageId(int id);

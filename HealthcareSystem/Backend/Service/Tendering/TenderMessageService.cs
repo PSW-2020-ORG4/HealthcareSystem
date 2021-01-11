@@ -18,6 +18,11 @@ namespace Backend.Service
             _tenderMessageRepository.CreateTenderMessage(tm);
         }
 
+        public TenderMessage GetAcceptedByTenderId(int id)
+        {
+            return _tenderMessageRepository.GetAcceptedByTenderId(id);
+        }
+
         public List<TenderMessage> GetAll()
         {
             return _tenderMessageRepository.GetAll().ToList();
@@ -26,6 +31,16 @@ namespace Backend.Service
         public List<TenderMessage> GetAllByTender(int id)
         {
             return _tenderMessageRepository.GetAllByTender(id).ToList();
+        }
+
+        public TenderMessage GetById(int id)
+        {
+            return _tenderMessageRepository.GetById(id);
+        }
+
+        public void UpdateTenderMessage(TenderMessage tm)
+        {
+            _tenderMessageRepository.UpdateTenderMessage(tm);
         }
     }
 }

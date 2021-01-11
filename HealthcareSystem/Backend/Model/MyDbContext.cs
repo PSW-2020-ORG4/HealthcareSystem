@@ -54,6 +54,8 @@ namespace Backend.Model
             builder.Entity<PharmacySystem>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
             builder.Entity<EquipmentInRooms>().HasKey(o => new { o.RoomNumber, o.IdEquipment });
             builder.Entity<TenderOffer>().HasOne(to => to.TenderMessage).WithMany(tm => tm.Offers);
+            builder.Entity<TenderDrug>().HasOne(td => td.Tender).WithMany(t => t.Drugs);
+            builder.Entity<TenderMessage>().HasOne(tm => tm.Tender);
 
             builder.Entity<DoctorSpecialty>().HasKey(ds => new { ds.DoctorJmbg, ds.SpecialtyId });
             builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Doctor).WithMany(d => d.DoctorSpecialties).HasForeignKey(ds => ds.DoctorJmbg);

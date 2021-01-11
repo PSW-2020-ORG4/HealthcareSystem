@@ -1,11 +1,11 @@
-﻿@model List<Backend.Model.Pharmacies.TenderOfferDTO>
+﻿@model Backend.Model.Pharmacies.TenderMessage
 @{
     ViewData["Title"] = "Tender";
     Layout = "_Layout";
 }
 <div class="card text-center">
     <div class="card-header">
-        <h2 class="text-center">Offers</h2>
+        <h2 class="text-center">Offer</h2>
     </div>
 
     <div class="card-body">
@@ -21,7 +21,7 @@
 
             <tbody>
 
-                @foreach (var item in Model)
+                @foreach (var item in Model.Offers)
                 {
                     <tr>
                         <td class="text-center">
@@ -38,7 +38,25 @@
                         </td>
                     </tr>
                 }
+                <tr>
+                    <td colspan="3"></td>
+                    <th ><h5 class="card-title">Price sum:&nbsp;
+                    @for (double i = 0, price = 0; i < Model.Offers.Count; i++)
+                    {
+                        price += Model.Offers.ElementAt((int)i).Price * Model.Offers.ElementAt((int)i).Quantity;
+                        if(i == Model.Offers.Count - 1)
+                        {
+                            @price
+                        }
+                    }
+                    </h5></th>
+                </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="card-footer">
+        <h4>Identification:</h4>
+        @Model.Identification
     </div>
 </div>

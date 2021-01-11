@@ -24,78 +24,78 @@
                 @Html.EditorFor(model => model.EndDate, new { @class = "ui-datepicker-calendar", id = "from-date" })
             </div>
         </div>
+        <table>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label class="control-label col-md-10">Drug</label>
+                        <div class="dropdown hierarchy-select col-md-10" id="drug">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" id="drug-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="drug-button">
+                                <div class="hs-searchbox">
+                                    <input type="text" class="form-control" autocomplete="off">
+                                </div>
+                                <div class="hs-menu-inner">
+                                    @foreach (var drug in Model.Drugs)
+                                    {
+                                        <a id="drug-name" class="dropdown-item" data-value="@drug.Id" href="#">@drug.Name</a>
+                                    }
+                                </div>
+                            </div>
+                            <input id="drugSelected" class="d-none" name="Drug" readonly="readonly" aria-hidden="true" type="text" />
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <label class="control-label col-md-10">Quantity</label>
+                        <div class="col-md-10">
+                            @Html.TextBox("Quantity", "", new { @class = "form-control", @type = "number" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="form-group">
             <table>
                 <tr>
                     <td>
-                        <div class="form-group">
-                            <label class="control-label col-md-10">Drug</label>
-                            <div class="dropdown hierarchy-select col-md-10" id="drug">
-                                <button type="button" class="btn btn-secondary dropdown-toggle" id="drug-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu" aria-labelledby="drug-button">
-                                    <div class="hs-searchbox">
-                                        <input type="text" class="form-control" autocomplete="off">
-                                    </div>
-                                    <div class="hs-menu-inner">
-                                        @foreach (var drug in Model.Drugs)
-                                        {
-                                            <a id="drug-name" class="dropdown-item" data-value="@drug.Id" href="#">@drug.Name</a>
-                                        }
-                                    </div>
-                                </div>
-                                <input id="drugSelected" class="d-none" name="Drug" readonly="readonly" aria-hidden="true" type="text" />
-                            </div>
-                        </div>
+                        <div class="col-md-10"></div>
+                        <input class="btn btn-primary" type="button" id="btnAdd" value="Add Drug" />
                     </td>
                     <td>
-                        <div class="form-group">
-                            <label class="control-label col-md-10">Quantity</label>
-                            <div class="col-md-10">
-                                @Html.TextBox("Quantity", "", new { @class = "form-control", @type = "number" })
-                            </div>
-                        </div>
+                        <div class="col-md-10"></div>
+                        <input class="btn btn-primary" type="submit" id="submit" value="Create Tender" />
                     </td>
                 </tr>
             </table>
-            <div class="form-group">
-                <table>
+        </div>
+        @*<div class="card-body">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            <div class="col-md-10"></div>
-                            <input class="btn btn-primary" type="button" id="btnAdd" value="Add Drug" />
-                        </td>
-                        <td>
-                            <div class="col-md-10"></div>
-                            <input class="btn btn-primary" type="submit" id="submit" value="Create Tender" />
-                        </td>
+                        <th><h5 class="card-title">Name</h5></th>
+                        <th><h5 class="card-title">Quantity</h5></th>
                     </tr>
-                </table>
-            </div>
-            @*<div class="card-body">
-                <table class="table">
-                    <thead>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model.AddedDrugs)
+                    {
                         <tr>
-                            <th><h5 class="card-title">Name</h5></th>
-                            <th><h5 class="card-title">Quantity</h5></th>
+                            <td class="text-center">
+                                @item.Name
+                            </td>
+                            <td class="text-center">
+                                @item.Quantity
+                            </td>
                         </tr>
-                    </thead>
-
-                    <tbody>
-
-                        @foreach (var item in Model.AddedDrugs)
-                        {
-                            <tr>
-                                <td class="text-center">
-                                    @item.Name
-                                </td>
-                                <td class="text-center">
-                                    @item.Quantity
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                <input id="addedDrugs" class="d-none" name="AddedDrugs" readonly="readonly" aria-hidden="true" type="text" />
-            </div>*@
+                    }
+                </tbody>
+            </table>
+            <input id="addedDrugs" class="d-none" name="AddedDrugs" readonly="readonly" aria-hidden="true" type="text" />
+        </div>*@
         @*</form>*@
         @* </form>*@
 
@@ -119,15 +119,13 @@
 
 @section Scripts
 {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
     <script>
         $('#drug').hierarchySelect({
             hierarchy: false,
             width: 'auto'
         });
-    </script>
     
-    <script>
         var jsonthingy;
 
 
@@ -171,12 +169,12 @@
             //Send the JSON array to Controller using AJAX.
             $.ajax({
                 type: "POST",
-                url: "/Tender/PushDrugList",
+                url: '/tender/pushdruglist',
                 data: JSON.stringify(tenderViewModel),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (r) {
-                    alert(r + " record(s) inserted.");
+                complete: function () {
+                    location.href = '/Tender';
                 }
             });
         });

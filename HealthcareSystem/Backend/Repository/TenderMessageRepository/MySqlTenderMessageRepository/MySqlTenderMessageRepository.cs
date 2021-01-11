@@ -22,6 +22,11 @@ namespace Backend.Repository
             _context.SaveChanges();
         }
 
+        public TenderMessage GetAcceptedByTenderId(int id)
+        {
+            return _context.TenderMessages.FirstOrDefault(x => x.TenderId == id && x.IsAccepted == true);
+        }
+
         public IEnumerable<TenderMessage> GetAll()
         {
             return _context.TenderMessages.ToList();
@@ -30,6 +35,17 @@ namespace Backend.Repository
         public IEnumerable<TenderMessage> GetAllByTender(int id)
         {
             return _context.TenderMessages.Where(tm => tm.TenderId == id).ToList();
+        }
+
+        public TenderMessage GetById(int id)
+        {
+            return _context.TenderMessages.FirstOrDefault(tm => tm.Id == id);
+        }
+
+        public void UpdateTenderMessage(TenderMessage tm)
+        {
+            _context.TenderMessages.Update(tm);
+            _context.SaveChanges();
         }
     }
 }

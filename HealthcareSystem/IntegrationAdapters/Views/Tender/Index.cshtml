@@ -53,7 +53,7 @@
                     <td class="text-center">
                         @if (@item.IsClosed)
                         {
-                            @Html.ActionLink("CLOSED", "Offer", "Tender", new { messageId = item.WinningMessage }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("CLOSED", "Offers", "Tender", new { tenderId = item.Id }, new { @class = "btn btn-danger" })
                         }
                         else
                         {

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Backend.Model.DTO;
 using Backend.Model.Pharmacies;
 using Backend.Repository.TenderRepository;
 
-namespace Backend.Service.Tendering
+namespace Backend.Service
 {
     public class TenderService : ITenderService
     {
@@ -66,6 +67,13 @@ namespace Backend.Service.Tendering
         public Tender GetTenderByMessageId(int id)
         {
             return _tenderRepository.GetTenderByMessageId(id);
+        }
+
+        public void CreateTender(Tender tender)
+        {
+            tender.QueueName = string.Join("", tender.Name.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries)) + "-queue";
+            tender.RoutingKey = Guid.NewGuid().ToString();
+            _tenderRepository.CreateTender(tender);
         }
     }
 }

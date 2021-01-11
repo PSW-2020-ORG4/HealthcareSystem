@@ -2,7 +2,7 @@
 using Backend.Model.DTO;
 using Backend.Model.Pharmacies;
 
-namespace Backend.Service.Tendering
+namespace Backend.Service
 {
     public interface ITenderService
     {
@@ -14,6 +14,7 @@ namespace Backend.Service.Tendering
         List<TenderMessageDTO> GetMessagesForTender(int id);
         List<TenderOfferDTO> GetOffersForMessage(int id);
         void DeleteMessage(int id);
+        void CreateTender(Tender tender);
         void UpdateTender(Tender tender);
         void DeclineMessage(int id);
         Tender GetTenderByMessageId(int id);

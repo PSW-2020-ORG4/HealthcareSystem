@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Model.Pharmacies
 {
@@ -8,7 +9,6 @@ namespace Backend.Model.Pharmacies
     {
         [Key]
         public int Id { get; set; }
-        public int WinningMessage { get; set; }
         public string Name { get; set; }
         [Required]
         public string QueueName { get; set; }

@@ -26,5 +26,12 @@ namespace IntegrationAdapters.Dtos
         {
             Drugs = new List<Drug>();
         }
+
+        public bool IsValid()
+        {
+            if (TenderName != null && EndDate != null && AddedDrugs != null && AddedDrugs.Count > 0)
+                return true;
+            return false;
+        }
     }
 }

@@ -1,35 +1,40 @@
 ﻿using Backend.Communication.RabbitMqConnection;
 using Backend.Model.Pharmacies;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Backend.Service.Tendering.RabbitMqTenderingService
+
+namespace Backend.Service
 {
-    public class RabbitMqTenderingBackgroundService : BackgroundService
+    public class RabbitMqTenderingService : IRabbitMqTenderingService
     {
-        private IModel _channel;
+        private readonly IModel _channel;
+        private readonly EventingBasicConsumer _consumer;
         private readonly IServiceProvider _service;
         private readonly String _exchangeName;
 
-        public RabbitMqTenderingBackgroundService()
-        {
-        }
-
-        public RabbitMqTenderingBackgroundService(IServiceProvider service, IRabbitMqConnection connection)
+        public RabbitMqTenderingService(IServiceProvider service, IRabbitMqConnection connection)
         {
             if (connection.Connection != null)
+            {
                 _channel = connection.Connection.CreateModel();
+                _consumer = new EventingBasicConsumer(_channel);
+                _consumer.Received += OnConsumerReceived;
+            }
             _exchangeName = connection.Configuration.TenderExchangeName;
             _service = service;
             InitializeRabbitMqListener();
+        }
+
+        ~RabbitMqTenderingService()
+        {
+            if (_channel != null)
+                _channel.Dispose();
         }
 
         private void InitializeRabbitMqListener()
@@ -49,6 +54,7 @@ namespace Backend.Service.Tendering.RabbitMqTenderingService
                                   autoDelete: false,
                                   arguments: null);
                     _channel.QueueBind(queue: t.QueueName, exchange: _exchangeName, routingKey: t.RoutingKey);
+                    _channel.BasicConsume(queue: t.QueueName, autoAck: false, consumer: _consumer);
                 }
             }
         }
@@ -99,24 +105,54 @@ namespace Backend.Service.Tendering.RabbitMqTenderingService
             }
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        public void AddQueue(Tender tender)
         {
-            if (!stoppingToken.IsCancellationRequested && _channel != null)
+            if (_channel == null)
+                return;
+
+            _channel.QueueDeclare(queue: tender.QueueName,
+                                  durable: true,
+                                  exclusive: false,
+                                  autoDelete: false,
+                                  arguments: null);
+            _channel.QueueBind(queue: tender.QueueName, exchange: _exchangeName, routingKey: tender.RoutingKey);
+            _channel.BasicConsume(queue: tender.QueueName, autoAck: false, consumer: _consumer);
+        }
+
+        public void RemoveQueue(Tender tender)
+        {
+            if (_channel == null)
+                return;
+
+            _channel.QueueUnbind(queue: tender.QueueName, exchange: _exchangeName, routingKey: tender.RoutingKey);
+            _channel.QueueDelete(queue: tender.QueueName);
+        }
+
+        public void NotifyParticipants(int tenderId)
+        {
+            if (_channel == null)
+                return;
+
+            List<TenderMessage> messages = new List<TenderMessage>();
+            using (var scope = _service.CreateScope())
             {
-                var consumer = new EventingBasicConsumer(_channel);
-                consumer.Received += OnConsumerReceived;
-
-                using (var scope = _service.CreateScope())
+                messages = scope.ServiceProvider.GetRequiredService<ITenderMessageService>().GetAllByTender(tenderId);
+                foreach (var tm in messages)
                 {
-                    ITenderService tenderService = scope.ServiceProvider.GetRequiredService<ITenderService>();
+                    string reply;
+                    if (tm.IsAccepted)
+                        reply = "Your offer won tender: " + tm.Tender.Name + "!";
+                    else
+                        reply = "Your offer did not win tender: " + tm.Tender.Name + "!";
 
-                    foreach (Tender t in tenderService.GetAllNotClosedTenders())
-                    {
-                        _channel.BasicConsume(queue: t.QueueName, autoAck: false, consumer: consumer);
-                    }
+                    var body = Encoding.UTF8.GetBytes(reply);
+                    _channel.BasicPublish(exchange: _exchangeName,
+                                          routingKey: tm.ReplyRoutingKey,
+                                          basicProperties: null,
+                                          body: body);
+
                 }
             }
-            return Task.CompletedTask;
         }
     }
 }

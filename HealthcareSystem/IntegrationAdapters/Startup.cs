@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Repository;
 using System;
 using IntegrationAdapters.Services;
 using System.Collections.Generic;
@@ -29,10 +28,8 @@ using Backend.Repository.DrugRepository.MySQLDrugRepository;
 using Backend.Repository.TenderRepository;
 using Backend.Repository.TenderRepository.MySqlTenderRepository;
 using Backend.Service.DrugAndTherapy;
-using Backend.Service.Tendering;
 using Service.DrugAndTherapy;
 using Backend.Communication.RabbitMqConnection;
-using Backend.Service.Tendering.RabbitMqTenderingService;
 
 namespace IntegrationAdapters
 {
@@ -99,8 +96,8 @@ namespace IntegrationAdapters
             services.Configure<RabbitMqConfiguration>(GetRabbitConfig);
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
+            services.AddSingleton<IRabbitMqTenderingService, RabbitMqTenderingService>();
             services.AddHostedService<RabbitMqActionBenefitBackgroundService>();
-            services.AddHostedService<RabbitMqTenderingBackgroundService>();
 
             services.AddScoped<IActionBenefitSubscriptionService, ActionBenefitSubscriptionService>();
             services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
@@ -142,6 +139,7 @@ namespace IntegrationAdapters
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context, IAntiforgery antiforgery)
         {
+            app.ApplicationServices.GetService<IRabbitMqTenderingService>();
             app.Use(next => context =>
             {
                 string path = context.Request.Path.Value;

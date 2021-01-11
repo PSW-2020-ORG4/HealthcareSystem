@@ -54,7 +54,7 @@ namespace Backend.Repository.TenderRepository.MySqlTenderRepository
         public List<TenderMessageDTO> GetMessagesForTender(int id)
         {
             return _context.TenderMessages
-                .Where(x => x.TenderId == id && !x.IsDeclined)
+                .Where(x => x.TenderId == id)
                 .ToList()
                 .Select(message => new TenderMessageDTO()
                 {
@@ -96,7 +96,7 @@ namespace Backend.Repository.TenderRepository.MySqlTenderRepository
         public void DeclineMessage(int id)
         {
             var message = _context.TenderMessages.First(x => x.Id == id);
-            message.IsDeclined = true;
+            message.IsAccepted = true;
             _context.TenderMessages.Update(message);
             _context.SaveChanges();
         }
@@ -126,6 +126,12 @@ namespace Backend.Repository.TenderRepository.MySqlTenderRepository
                 return null;
             tender.Drugs = _context.TenderDrugs.Where(x => x.TenderId == tender.Id).ToList();
             return tender;
+        }
+
+        public void CreateTender(Tender tender)
+        {
+            _context.Tenders.Add(tender);
+            _context.SaveChanges();
         }
     }
 }

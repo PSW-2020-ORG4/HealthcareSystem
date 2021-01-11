@@ -49,13 +49,13 @@ namespace PatientWebAppE2ETests.Pages
         public void WaitForLoginPatient()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://vlaksi-patientwebapp.herokuapp.com/html/patients_home_page.html"));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://psw-patientwebapp.herokuapp.com/html/patients_home_page.html"));
         }
 
         public void WaitForLoginAdmin()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://vlaksi-patientwebapp.herokuapp.com/html/admins_home_page.html"));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://psw-patientwebapp.herokuapp.com/html/admins_home_page.html"));
         }
 
         public void Navigate() => driver.Navigate().GoToUrl(URI);

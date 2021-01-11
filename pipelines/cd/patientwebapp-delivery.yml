@@ -1,11 +1,11 @@
 trigger:
+  batch: true
   branches:
     include:
     - develop
   paths:
     include:
     - 'HealthcareSystem/PatientWebApp/*'
-    - 'HealthcareSystem/Backend/*'
 pr: none
 
 pool:
@@ -16,7 +16,7 @@ variables:
   project: 'HealthcareSystem/PatientWebApp/PatientWebApp.csproj'
   dockerfile: 'HealthcareSystem/PatientWebApp/Dockerfile'
   dockerImage: 'pufke/patientwebapp'
-  herokuProject: 'vlaksi-patientwebapp'
+  herokuProject: 'psw-patientwebapp'
 
 stages:
 - stage: CI
@@ -45,7 +45,7 @@ stages:
 
 - stage: CD
   variables:
-    HEROKU_API_KEY: 8418d6b4-7423-404b-81cf-23abcd968591
+    HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
   jobs:
   - deployment: PatientWebApp   
     environment: 'Test'

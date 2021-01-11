@@ -1,11 +1,10 @@
 ﻿using Backend.Model.DTO;
 using Backend.Model.Enums;
 using Backend.Service.ExaminationAndPatientCard;
+using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServerTests.DataFactory;
-using Model.Enums;
 using Model.Manager;
 using Model.PerformingExamination;
-using Service.RoomAndEquipment;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,5 +1,6 @@
 ﻿using Backend.Model.Enums;
 using Backend.Model.Manager;
+using Backend.Model.PerformingExamination;
 using Backend.Model.Pharmacies;
 using Backend.Model.Users;
 using Microsoft.EntityFrameworkCore;
@@ -61,11 +62,12 @@ namespace Backend.Model
                     HomeAddress = "Tolstojeva 12",
                     Password = "11111111",
                     DateOfRegistration = DateTime.Now,
+                    IsGuest = false,
                     IsActive = true,
                     IsBlocked = false,
                     Phone = "065897520",
                     Username = "ana_anic98@gmail.com",
-                    ImageName = "picture1.jpg"
+                    ImageName = "/Uploads/picture1.jpg"
                 },
                 new Patient()
                 {
@@ -78,12 +80,13 @@ namespace Backend.Model
                     Email = "zana998@gmail.com",
                     HomeAddress = "Bulevar Oslobođenja 100",
                     Password = "12345678",
+                    IsGuest = false,
                     DateOfRegistration = DateTime.Now,
                     IsActive = true,
                     IsBlocked = false,
                     Phone = "065897520",
                     Username = "zana998@gmail.com",
-                    ImageName = "profile_pic.jpg"
+                    ImageName = "/Uploads/profile_pic.jpg"
                 }
                 );
             builder.Entity<PatientCard>().HasData(

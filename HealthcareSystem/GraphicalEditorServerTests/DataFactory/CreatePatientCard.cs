@@ -1,13 +1,13 @@
 ﻿using Backend.Model.Enums;
+using Backend.Model.Users;
 using Model.Enums;
-using Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {
-   public class CreatePatientCard
+    public class CreatePatientCard
     {
         public PatientCard CreateValidTestObject()
         {

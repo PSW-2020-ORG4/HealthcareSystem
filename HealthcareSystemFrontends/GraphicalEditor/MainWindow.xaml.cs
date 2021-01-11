@@ -184,6 +184,7 @@ namespace GraphicalEditor
             };
 
             AppointmentService app = new AppointmentService();
+
             app.GetEmergencyAppointments(appointmentSearch);*/
 
         }

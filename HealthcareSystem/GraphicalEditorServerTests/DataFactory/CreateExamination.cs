@@ -1,8 +1,9 @@
 ﻿using Backend;
 using Backend.Model.Enums;
+using Backend.Model.PerformingExamination;
+using Backend.Model.Users;
 using Model.Enums;
 using Model.Manager;
-using Model.PerformingExamination;
 using Model.Users;
 using System;
 using System.Collections.Generic;

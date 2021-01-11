@@ -7,8 +7,9 @@ using UserService.Repository.CRUD;
 
 namespace UserService.Repository
 {
-    public interface ICityRepository
+    public interface ICityRepository : IRead<City, int>
     {
         IEnumerable<City> GetByCountry(int countryId);
+
     }
 }

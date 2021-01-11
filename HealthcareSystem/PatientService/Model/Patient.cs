@@ -1,4 +1,5 @@
 ﻿using PatientService.CustomException;
+using PatientService.DTO;
 using PatientService.Model.Memento;
 using PatientService.Model.Specification;
 using System;
@@ -13,11 +14,11 @@ namespace PatientService.Model
         private string Name { get; }
         private string Surname { get; }
         private Jmbg Jmbg { get; }
-        private BloodType BloodType { get; }
-        private RhFactor RhFactor { get; }
-        private string Allergies { get; }
-        private string MedicalHistory { get; }
-        private InsuranceNumber InsuranceNumber { get; }
+        private BloodType BloodType { get; set; }
+        private RhFactor RhFactor { get; set; }
+        private string Allergies { get; set; }
+        private string MedicalHistory { get; set; }
+        private InsuranceNumber InsuranceNumber { get; set; }
         public IEnumerable<Examination> Examinations { get; }
         public IEnumerable<Therapy> Therapies { get; }
 
@@ -44,6 +45,16 @@ namespace PatientService.Model
         public IEnumerable<Therapy> SearchTherapies(ISpecification<Therapy> specification)
         {
             return Therapies.Where(t => specification.IsSatisfiedBy(t));
+        }
+
+        public void UpdateMedicalInfo(MedicalInfoUpdateDTO medicalInfo)
+        {
+            BloodType = medicalInfo.BloodType;
+            RhFactor = medicalInfo.RhFactor;
+            Allergies = medicalInfo.Allergies;
+            MedicalHistory = medicalInfo.MedicalHistory;
+            InsuranceNumber = new InsuranceNumber(medicalInfo.InsuranceNumber);
+            Validate();
         }
 
         public PatientMemento GetMemento()

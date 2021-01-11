@@ -1,9 +1,6 @@
 ﻿using Backend.Model.Enums;
-using Model.Enums;
-using Model.PerformingExamination;
+using Backend.Model.PerformingExamination;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {

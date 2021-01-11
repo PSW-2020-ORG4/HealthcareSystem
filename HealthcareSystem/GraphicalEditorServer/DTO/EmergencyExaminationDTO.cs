@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Backend.Model.PerformingExamination;
+using GraphicalEditorServer.Mappers;
 
 namespace GraphicalEditorServer.DTO
 {
     public class EmergencyExaminationDTO
     {
-        public List<ExaminationDTO> UnchangedExaminations { get; private set; }
-        public List<ExaminationDTO> ShiftedExaminations { get; private set; }
-
-        public bool Shifted { get; private set; }
+        public ExaminationDTO UnchangedExamination { get; private set; }
+        public ExaminationDTO ShiftedExamination { get; private set; }
 
         public EmergencyExaminationDTO() { }
 
-        public EmergencyExaminationDTO(List<ExaminationDTO> unchangedExaminations, List<ExaminationDTO> shiftedExaminations, bool shifted)
+        public EmergencyExaminationDTO(Examination unchangedExamination, Examination shiftedExamination)
         {
-            UnchangedExaminations = unchangedExaminations;
-            ShiftedExaminations = shiftedExaminations;
-            Shifted = shifted;
+            UnchangedExamination = ExaminationMapper.Examination_To_ExaminationDTO(unchangedExamination);
+            ShiftedExamination = ExaminationMapper.Examination_To_ExaminationDTO(shiftedExamination);
         }
     }
 }

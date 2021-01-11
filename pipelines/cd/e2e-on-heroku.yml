@@ -1,4 +1,5 @@
 trigger:
+  batch: true
   branches:
     include:
     - develop
@@ -11,9 +12,10 @@ stages:
 - stage: Prepare
   displayName: Prepare for tests
   variables:
-    HEROKU_API_KEY: 8418d6b4-7423-404b-81cf-23abcd968591
+    HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
   jobs:  
   - job: ResetDb
+    dependsOn: Wait
     displayName: Reset database
     steps:
       - task: UseDotNet@2
@@ -36,13 +38,12 @@ stages:
           targetType: 'inline'
           script: |
             echo "----- Reseting database. -----"
-            heroku pg:reset DATABASE_URL --app vlaksi-patient-service --confirm vlaksi-patient-service
+            heroku pg:reset DATABASE_URL --app psw-patient-service --confirm psw-patient-service
             echo "----- Initializing database. -----"
-            Get-Content init.sql | heroku pg:psql DATABASE_URL --app vlaksi-patient-service
+            Get-Content init.sql | heroku pg:psql DATABASE_URL --app psw-patient-service
           pwsh: true     
 
   - job: Wait
-    dependsOn: ResetDb
     displayName: Wait for component redeployments
     pool: Server
     steps:
@@ -59,13 +60,13 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://vlaksi-user-service.herokuapp.com/api/ping -code 200'
+          arguments: '-uri https://psw-user-service.herokuapp.com/api/ping -code 200'
           pwsh: true
       - task: PowerShell@2
         displayName: "Database connection test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://vlaksi-user-service.herokuapp.com/api/country -code 200'
+          arguments: '-uri https://psw-user-service.herokuapp.com/api/country -code 200'
           pwsh: true
 
   - job: FeedbackAndSurveyService
@@ -74,13 +75,13 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://vlaksi-feedback-and-survey.herokuapp.com/api/ping -code 200'
+          arguments: '-uri https://psw-feedback-and-survey.herokuapp.com/api/ping -code 200'
           pwsh: true
       - task: PowerShell@2
         displayName: "Database connection test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://vlaksi-feedback-and-survey.herokuapp.com/api/feedback/published -code 200'
+          arguments: '-uri https://psw-feedback-and-survey.herokuapp.com/api/feedback/published -code 200'
           pwsh: true
 
   - job: NotificationService
@@ -89,7 +90,7 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://vlaksi-notification-service.herokuapp.com/api/ping -code 200'
+          arguments: '-uri https://psw-notification-service.herokuapp.com/api/ping -code 200'
           pwsh: true
 
   - job: PatientService
@@ -98,7 +99,16 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://vlaksi-patient-service.herokuapp.com/api/ping -code 200'
+          arguments: '-uri https://psw-patient-service.herokuapp.com/api/ping -code 200'
+          pwsh: true
+
+  - job: ScheduleService
+    steps:
+      - task: PowerShell@2
+        displayName: "Ping test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://psw-schedule-service.herokuapp.com/api/ping -code 200'
           pwsh: true
 
   - job: ApiGateway
@@ -107,14 +117,14 @@ stages:
         displayName: "Ping test"
         inputs:
           filePath: 'pipelines/cd/smoke.ps1'
-          arguments: '-uri https://vlaksi-patientwebapp.herokuapp.com/api/ping -code 200'
+          arguments: '-uri https://psw-patientwebapp.herokuapp.com/api/ping -code 200'
           pwsh: true
 
 
 - stage: E2E
   displayName: Run E2E tests
   variables:
-    e2etests: 'HealthcareSystem/SeleniumTests/SeleniumTests.csproj'
+    e2etests: 'HealthcareSystem/SeleniumTests/PatientWebAppE2ETests.csproj'
   jobs:
   - job: Test
     steps:

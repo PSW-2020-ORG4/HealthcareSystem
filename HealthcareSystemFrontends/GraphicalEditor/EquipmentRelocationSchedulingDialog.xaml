@@ -24,6 +24,7 @@
     mc:Ignorable="d">
 
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:CapitalizeStringConverter x:Key="CapitalizeStringConverter" />
         <converters:InvertAndBooleansToBooleanConverter x:Key="InvertAndBooleansToBooleanConverter" />
         <converters:LengthToBooleanConverter x:Key="LengthToBooleanCoverter" />
@@ -281,7 +282,8 @@
                         VerticalAlignment="Bottom"
                         FontSize="16"
                         FontWeight="Normal"
-                        Foreground="Black">
+                        Foreground="Black"
+                        Visibility="{Binding IsAlternativeAppointmentsSectionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                         Alternativni termini za premeštanje opreme:
                     </TextBlock>
 
@@ -292,8 +294,8 @@
                         Grid.ColumnSpan="3"
                         Height="200"
                         Margin="20,0,10,0"
-                        SelectionChanged="AlternativeRelocationAppointmentsDataGrid_SelectionChanged"
-                        Style="{StaticResource SidePanelDataGrid}">
+                        Style="{StaticResource SidePanelDataGrid}"
+                        Visibility="{Binding IsAlternativeAppointmentsSectionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
                                 <Setter Property="ToolTip">
@@ -308,7 +310,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="*"
-                                Binding="{Binding DateTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
+                                Binding="{Binding StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
                                 Header="Termin">
 
                                 <DataGridTextColumn.ElementStyle>
@@ -318,19 +320,10 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-
-                            <DataGridTextColumn Width="2*" Header="Lekar">
-                                <DataGridTextColumn.Binding>
-                                    <MultiBinding StringFormat="{}Dr {0} {1}">
-                                        <Binding Path="Doctor.Name" />
-                                        <Binding Path="Doctor.Surname" />
-                                    </MultiBinding>
-                                </DataGridTextColumn.Binding>
-                            </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <!--  EQUIPMEN RELOCATION BACK TO TOP BUTTON  -->
+                    <!--  EQUIPMENT RELOCATION BACK TO TOP BUTTON  -->
                     <Button
                         x:Name="EquipmentRelocationBackToTopButton"
                         Grid.Row="11"
@@ -342,7 +335,8 @@
                         BorderBrush="{x:Null}"
                         Click="EquipmentRelocationBackToTopButton_Click"
                         FontSize="18"
-                        Style="{StaticResource MaterialDesignFlatButton}">
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Visibility="{Binding IsAlternativeAppointmentsSectionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"

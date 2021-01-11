@@ -108,7 +108,7 @@ namespace GraphicalEditor.Models
        
         public List<EquipmentDTO> GetEquipmentInObject()
         {
-            EquipementService equipmentService = new EquipementService();
+            EquipmentService equipmentService = new EquipmentService();
             List<EquipmentDTO> equipmentInObject = equipmentService.GetEquipmentByRoomNumber((int)MapObjectEntity.Id);
             return equipmentInObject;
         }

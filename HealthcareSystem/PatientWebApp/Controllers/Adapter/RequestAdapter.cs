@@ -19,7 +19,7 @@ namespace PatientWebApp.Controllers.Adapter
             return contentResult;
         }
 
-        public static ContentResult SendPostRequestWithBody<T>(string baseUrl, string resource, T dto)
+        public static ContentResult SendRequestWithBody<T>(string baseUrl, string resource, T dto)
         {
             var client = new RestClient(baseUrl);
             var request = new RestRequest(resource, Method.POST);

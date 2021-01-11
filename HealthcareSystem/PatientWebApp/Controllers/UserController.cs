@@ -30,7 +30,7 @@ namespace PatientWebApp.Controllers
         [HttpPost("authenticate")]
         public IActionResult Authenticate([FromBody] UserInfoDTO userInfoDTO)
         {
-            var contentResult = RequestAdapter.SendPostRequestWithBody(_serviceSettings.UserServiceUrl, "/api/user", userInfoDTO);
+            var contentResult = RequestAdapter.SendRequestWithBody(_serviceSettings.UserServiceUrl, "/api/user", userInfoDTO);
 
             try
             {

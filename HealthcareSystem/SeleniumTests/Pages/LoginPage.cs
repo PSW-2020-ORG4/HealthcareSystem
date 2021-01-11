@@ -7,7 +7,7 @@ namespace PatientWebAppE2ETests.Pages
     public class LoginPage
     {
         private readonly IWebDriver driver;
-        public const string URI = "https://vlaksi-patientwebapp.herokuapp.com/html/login.html";
+        public const string URI = "https://psw-patientwebapp.herokuapp.com/html/login.html";
         private IWebElement EmailElement => driver.FindElement(By.Id("email"));
         private IWebElement PasswordElement => driver.FindElement(By.Id("password"));
         private IWebElement SubmitButtonElement => driver.FindElement(By.Id("login"));
@@ -49,13 +49,13 @@ namespace PatientWebAppE2ETests.Pages
         public void WaitForLoginPatient()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://vlaksi-patientwebapp.herokuapp.com/html/patients_home_page.html"));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://psw-patientwebapp.herokuapp.com/html/patients_home_page.html"));
         }
 
         public void WaitForLoginAdmin()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://vlaksi-patientwebapp.herokuapp.com/html/admins_home_page.html"));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("https://psw-patientwebapp.herokuapp.com/html/admins_home_page.html"));
         }
 
         public void Navigate() => driver.Navigate().GoToUrl(URI);

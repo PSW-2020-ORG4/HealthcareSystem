@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Model.PerformingExamination;
+using Backend.Model.PerformingExamination;
 
 namespace Backend.Service.SearchSpecification.ExaminationSearch
 {

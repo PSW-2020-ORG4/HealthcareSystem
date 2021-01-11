@@ -11,5 +11,6 @@ namespace PatientWebApp.Settings
         public string FeedbackAndSurveyServiceUrl { get; set; }
         public string UserServiceUrl { get; set; }
         public string NotificationServiceUrl { get; set; }
+        public string ScheduleServiceUrl { get; set; }
     }
 }

@@ -63,7 +63,6 @@ $(document).ready(function () {
         $('#free_appointments').empty();
 
         var initialParameters = {
-            "PatientCardId": 1,
             "DoctorJmbg": doctorJmbg,
             "RequiredEquipmentTypes": [],
             "EarliestDateTime": earliestDateTime,
@@ -97,7 +96,7 @@ $(document).ready(function () {
                 else {
                     for (let a of appointments) {
                         let doctorNameAndSurname = a.doctorName + ' ' + a.doctorSurname;
-                        let appointment = $('<option value="' + i + '">' + a.dateAndTime + ',  dr ' + doctorNameAndSurname + '</option>');
+                        let appointment = $('<option value="' + i + '">' + a.startTime + ',  dr ' + doctorNameAndSurname + '</option>');
                         $('#free_appointments').append(appointment);
                         i = i + 1;
                     }
@@ -169,14 +168,9 @@ function scheduleExamination() {
             jmbg = patient.jmbg;
             var appointment = newAppointments[a];
             var newData = {
-                "Type": appointment.type,
-                "DateAndTime": appointment.dateAndTime,
+                "startTime": appointment.startTime,
                 "DoctorJmbg": appointment.doctorJmbg,
-                "IdRoom": appointment.idRoom,
-                "Anamnesis": "",
-                "PatientCardId": appointment.patientCardId,
-                "ExaminationStatus": 0,
-                "IsSurveyCompleted": false
+                "roomId": appointment.roomId
             };
 
             $.ajax({

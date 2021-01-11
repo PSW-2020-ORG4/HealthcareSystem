@@ -44,6 +44,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetPatientByJmbg()
         {
             var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
+
             return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/" + jmbg, Method.GET);
         }
 
@@ -52,6 +53,7 @@ namespace PatientWebApp.Controllers
         public IActionResult GetPatientMedicalInfo()
         {
             var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
+
             return RequestAdapter.SendRequestWithoutBody(_serviceSettings.PatientServiceUrl, "/api/patient/" + jmbg + "/medical-info", Method.GET);
         }
 

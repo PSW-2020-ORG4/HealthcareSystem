@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Model.PerformingExamination;
 using Backend.Service.SearchSpecification;
 using Backend.Service.SearchSpecification.ExaminationSearch;
 using Model.Manager;
-using Model.PerformingExamination;
 using Model.Users;
 
 namespace Backend.Service.ExaminationAndPatientCard

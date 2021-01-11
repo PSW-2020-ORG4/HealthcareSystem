@@ -1,13 +1,10 @@
-﻿using Backend.Service;
-using Backend.Service.Pharmacies;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PatientWebApp.Auth;
-using PatientWebApp.DTOs;
-using PatientWebApp.Mappers;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.Settings;
-using System.Collections.Generic;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
@@ -16,13 +13,10 @@ namespace PatientWebApp.Controllers
     [ApiController]
     public class ActionController : ControllerBase
     {
-        private readonly IActionBenefitService _actionBenefitService;
         private readonly ServiceSettings _serviceSettings;
 
-        public ActionController(IActionBenefitService actionBenefitService,
-                                IOptions<ServiceSettings> serviceSettings)
+        public ActionController(IOptions<ServiceSettings> serviceSettings)
         {
-            _actionBenefitService = actionBenefitService;
             _serviceSettings = serviceSettings.Value;
         }
 
@@ -30,11 +24,7 @@ namespace PatientWebApp.Controllers
         [HttpGet]
         public IActionResult GetActionBenefits()
         {
-            List<ActionBenefitDTO> actionBenefitDTOs = new List<ActionBenefitDTO>();
-
-            _actionBenefitService.GetPublicActionsBenefits().ForEach(action => actionBenefitDTOs.Add(ActionBenefitMapper.ActionBenefitToActionBenefitDTO(action)));
-            return Ok(actionBenefitDTOs);
-
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/action", Method.GET);
         }
     }
 }

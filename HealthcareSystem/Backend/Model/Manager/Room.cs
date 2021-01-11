@@ -4,7 +4,7 @@
  * Purpose: Definition of the Class Manager.Room
  ***********************************************************************/
 
-using Model.Enums;
+using Backend.Model.Enums;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 

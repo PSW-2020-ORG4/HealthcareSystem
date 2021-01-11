@@ -28,7 +28,7 @@ namespace PatientWebApp.Controllers
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
 
-            return RequestAdapter.SendPostRequestWithBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/patient/" + patientJmbg + "/permission/" + surveyDTO.ExaminationId, surveyDTO);
+            return RequestAdapter.SendRequestWithBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/patient/" + patientJmbg + "/permission/" + surveyDTO.ExaminationId, surveyDTO);
         }
 
         [Authorize(Roles = UserRoles.Patient)]
@@ -36,6 +36,7 @@ namespace PatientWebApp.Controllers
         public ActionResult GetPermissions()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+
             return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/survey/patient/" + patientJmbg + "/permission", Method.GET);
         }
 

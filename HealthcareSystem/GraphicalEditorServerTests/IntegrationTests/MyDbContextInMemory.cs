@@ -2,11 +2,10 @@
 using Backend.Model;
 using Backend.Model.Enums;
 using Backend.Model.Manager;
+using Backend.Model.PerformingExamination;
 using Backend.Model.Users;
 using Microsoft.EntityFrameworkCore;
-using Model.Enums;
 using Model.Manager;
-using Model.PerformingExamination;
 using Model.Users;
 using System;
 

@@ -17,7 +17,7 @@ variables:
   project: 'HealthcareSystem/GraphicalEditorServer/GraphicalEditorServer.csproj'
   dockerfile: 'HealthcareSystem/GraphicalEditorServer/Dockerfile'
   dockerImage: 'pufke/graphicaleditor'
-  herokuProject: 'vlaksi-graphicaleditor'
+  herokuProject: 'psw-graphicaleditor'
 
 stages:
 - stage: CI
@@ -46,7 +46,7 @@ stages:
 
 - stage: CD
   variables:
-    HEROKU_API_KEY: 8418d6b4-7423-404b-81cf-23abcd968591
+    HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
   jobs:
   - deployment: GraphicalEditor   
     environment: 'Test'

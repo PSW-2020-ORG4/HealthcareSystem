@@ -1,4 +1,3 @@
-﻿using Backend.Model.Enums;
 using System;
 
 namespace PatientWebApp.DTOs

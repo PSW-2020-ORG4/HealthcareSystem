@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using PatientService.DTO;
+using PatientService.DTOs;
 using PatientWebApp.Auth;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.Settings;
 using RestSharp;
 
@@ -32,16 +33,8 @@ namespace PatientWebApp.Controllers
         public ActionResult GetTherapiesByPatient()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.PatientServiceUrl);
-            var request = new RestRequest("/api/patient/" + patientJmbg + "/therapy");
-            var response = client.Execute(request);
 
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.PatientServiceUrl, "/api/patient/" + patientJmbg + "/therapy", Method.GET);
         }
 
         /// <summary>
@@ -55,18 +48,8 @@ namespace PatientWebApp.Controllers
         public ActionResult AdvanceSearchTherapies(TherapySearchDTO therapySearchDTO)
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.PatientServiceUrl);
-            var request = new RestRequest("/api/patient/" + patientJmbg + "/therapy/search", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddJsonBody(therapySearchDTO);
-            var response = client.Execute(request);
 
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithBody(_serviceSettings.PatientServiceUrl, "/api/patient/" + patientJmbg + "/therapy/search", therapySearchDTO);
 
         }
     }

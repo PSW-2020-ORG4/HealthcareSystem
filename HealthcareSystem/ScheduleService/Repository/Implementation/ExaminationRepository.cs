@@ -127,6 +127,7 @@ namespace ScheduleService.Repository.Implementation
                     throw new NotFoundException("Examination with id " + memento.Id + " not found.");
                 exam.ExaminationStatus = memento.ExaminationStatus.ToBackendExaminationStatus();
                 _context.Update(exam);
+                _context.SaveChanges();
             }
             catch (ScheduleServiceException)
             {

@@ -1,5 +1,6 @@
 ﻿using Backend.Model;
 using Backend.Model.Enums;
+using Backend.Model.Users;
 using Backend.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,8 +27,32 @@ namespace UserService.Repository
             try
             {
                 var patient = entity.ToBackendPatient();
+                patient.IsGuest = false;
+                var existing = _context.Patients.Find(patient.Jmbg);
+                if (existing != null && !existing.IsGuest)
+                    throw new ValidationException("Patient with jmbg " + patient.Jmbg + "is already registered.");
+                if (existing != null && existing.IsGuest)
+                    _context.Remove(existing);
                 _context.Patients.Add(patient);
                 _context.SaveChanges();
+                if (existing is null)
+                {
+                    _context.PatientCards.Add(new PatientCard()
+                    {
+                        PatientJmbg = patient.Jmbg,
+                        Alergies = "",
+                        BloodType = BloodType.UNKNOWN,
+                        MedicalHistory = "",
+                        RhFactor = RhFactorType.UNKNOWN,
+                        Lbo = "",
+                        HasInsurance = false
+                    });
+                    _context.SaveChanges();
+                }
+            }
+            catch (UserServiceException)
+            {
+                throw;
             }
             catch (DbUpdateException e)
             {
@@ -45,6 +70,8 @@ namespace UserService.Repository
             {
                 var patient = _context.Patients.Find(id);
                 if (patient is null)
+                    throw new NotFoundException("Patient account with jmbg " + id + " does not exist.");
+                if (patient.IsGuest)
                     throw new NotFoundException("Patient account with jmbg " + id + " does not exist.");
                 var memento = patient.ToPatientAccountMemento();
                 return new PatientAccount(memento);
@@ -66,6 +93,8 @@ namespace UserService.Repository
                 var patient = _context.Patients.Find(id);
                 if (patient is null)
                     throw new NotFoundException("Patient account with jmbg " + id + " does not exist.");
+                if (patient.IsGuest)
+                    throw new NotFoundException("Patient account with jmbg " + id + " does not exist.");
                 var memento = patient.ToPatientAccountMemento();
                 memento.MaliciousActions = GetMaliciousActions(id, earliestMaliciousActionDate);
                 return new PatientAccount(memento);
@@ -84,7 +113,7 @@ namespace UserService.Repository
         {
             try
             {
-                var mementos = _context.Patients.Select(p => p.ToPatientAccountMemento());
+                var mementos = _context.Patients.Where(p => !p.IsGuest).Select(p => p.ToPatientAccountMemento());
                 return mementos.Select(m => new PatientAccount(m));
             }
             catch (Exception e)
@@ -97,7 +126,8 @@ namespace UserService.Repository
         {
             try
             {
-                var mementos = _context.Patients.Select(p => p.ToPatientAccountMemento()).ToList();
+                var mementos = _context.Patients.Where(p => !p.IsGuest).Select(
+                    p => p.ToPatientAccountMemento()).ToList();
                 mementos.ForEach(m => m.MaliciousActions = GetMaliciousActions(m.Jmbg, earliestMaliciousActionDate));
                 return mementos.Select(m => new PatientAccount(m));
             }
@@ -115,8 +145,11 @@ namespace UserService.Repository
                 var patient = _context.Patients.Find(memento.Jmbg);
                 if (patient is null)
                     throw new NotFoundException("Patient account with jmbg " + memento.Jmbg + " does not exist.");
+                if (patient.IsGuest)
+                    throw new NotFoundException("Patient account with jmbg " + memento.Jmbg + " does not exist.");
                 patient.IsActive = memento.IsActivated;
                 patient.IsBlocked = memento.IsBlocked;
+                patient.ImageName = memento.ImageName;
                 _context.Update(patient);
                 _context.SaveChanges();
 

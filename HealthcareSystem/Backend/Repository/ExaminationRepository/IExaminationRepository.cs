@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Backend.Model.PerformingExamination;
 using Model.Manager;
-using Model.PerformingExamination;
 using Model.Users;
 
 namespace Backend.Repository.ExaminationRepository
@@ -14,15 +14,18 @@ namespace Backend.Repository.ExaminationRepository
         Examination GetExaminationById(int id);
         List<Examination> GetAllExaminations();
         void UpdateExamination(Examination examination);
-        void AddExamination(Examination examination);
+        int AddExamination(Examination examination);
         List<Examination> GetExaminationsByDate(DateTime date);
         List<Examination> GetExaminationsByPatient(string patientJmbg);
-        List<Examination> GetExaminationsByRoomAndDates(int numberOfRoom, DateTime beginDate, DateTime endDate);       
+        List<Examination> GetExaminationsByRoomAndDates(int numberOfRoom, DateTime beginDate, DateTime endDate);
         List<Examination> GetCanceledExaminationsByPatient(string patientJmbg);
         List<Examination> GetPreviousExaminationsByPatient(string patientJmbg);
         List<Examination> GetFollowingExaminationsByPatient(string patientJmbg);
         ICollection<Examination> GetExaminationsByDoctorAndDateTime(string doctorJmbg, DateTime dateTime);
         ICollection<Examination> GetExaminationsByRoomAndDateTime(int roomId, DateTime dateTime);
         ICollection<Examination> GetExaminationsByPatientAndDateTime(int patientCardId, DateTime dateTime);
+        ICollection<Examination> GetFollowingExaminationsByRoom(int roomId);
+        ICollection<Examination> GetExaminationsForPeriod(DateTime startDate, DateTime endDate);
+
     }
 }

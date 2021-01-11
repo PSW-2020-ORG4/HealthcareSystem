@@ -2,15 +2,16 @@
 using Backend.Model.DTO;
 using Backend.Model.Enums;
 using Backend.Model.Exceptions;
+using Backend.Model.PerformingExamination;
 using Backend.Repository;
+using Backend.Repository.EquipmentInExaminationRepository.MySqlEquipmentInExaminationRepository;
 using Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository;
 using Backend.Repository.ExaminationRepository.MySqlExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.ExaminationAndPatientCard;
-using Model.PerformingExamination;
+using Backend.Service.RoomAndEquipment;
 using Repository;
-using Service.RoomAndEquipment;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -31,8 +32,9 @@ namespace PatientWebAppTests.IntegrationTests
             var renovationPeriodRepo = new MySqlRenovationPeriodRepository(context);
             var equipmentInRoomRepo = new MySqlEquipmentInRoomsRepository(context);
             var roomRepo = new MySqlRoomRepository(context);
+            var equipmentInExaminationService = new EquipmentInExaminationService(new MySqlEquipmentInExaminationRepository(context));
             var roomService = new RoomService(roomRepo, renovationPeriodRepo, equipmentInRoomRepo, equipmentRepo);
-            return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo);
+            return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo,equipmentInExaminationService);
         }
 
         [Fact]

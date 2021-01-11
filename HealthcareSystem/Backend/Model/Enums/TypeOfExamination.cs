@@ -6,11 +6,11 @@
 
 using System;
 
-namespace Model.Enums
+namespace Backend.Model.Enums
 {
-   public enum TypeOfExamination
-   {
-      GENERAL = 0,
-      SURGERY = 1
-   }
+    public enum TypeOfExamination
+    {
+        GENERAL = 0,
+        SURGERY = 1
+    }
 }

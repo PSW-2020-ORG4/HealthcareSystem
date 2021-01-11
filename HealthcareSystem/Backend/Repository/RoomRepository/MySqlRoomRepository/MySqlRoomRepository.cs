@@ -1,7 +1,7 @@
 ﻿using Backend.Model;
+using Backend.Model.Enums;
 using Backend.Model.Manager;
 using Backend.Repository.EquipmentInRoomsRepository;
-using Model.Enums;
 using Model.Manager;
 using System;
 using System.Collections.Generic;

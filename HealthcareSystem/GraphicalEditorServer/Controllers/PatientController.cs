@@ -12,7 +12,6 @@ using Backend.Service.SendingMail;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model.Users;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 

@@ -1,11 +1,13 @@
 ﻿using Backend.Model.Manager;
+using Backend.Model.PerformingExamination;
+using Backend.Model.Users;
 using Backend.Repository;
+using Backend.Repository.EquipmentInExaminationRepository;
 using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
 using Model.Manager;
-using Model.PerformingExamination;
 using Model.Users;
 using Moq;
 using Repository;
@@ -24,6 +26,8 @@ namespace GraphicalEditorServerTests.DataFactory
         private readonly CreateDoctor _createDoctors;
         private readonly CreatePatientCard _createPatientCard;
         private readonly CreateExamination _createExamination;
+        private readonly CreateTransferEqupmentDTO _createTransferEqupmentDTO;
+        private readonly CreateEquipmentInExamiantion _createEquipmentInExamiantion;
 
         public StubRepository()
         {
@@ -34,7 +38,16 @@ namespace GraphicalEditorServerTests.DataFactory
             _createDoctors = new CreateDoctor(_createRooms);
             _createPatientCard = new CreatePatientCard();
             _createExamination = new CreateExamination();
+            _createTransferEqupmentDTO = new CreateTransferEqupmentDTO();
+            _createEquipmentInExamiantion = new CreateEquipmentInExamiantion();
+
+
         }
+
+       /* public IExaminationRepository CreateExaminationRepository() {
+            var examinationStubRepository = new Mock<IExaminationRepository>();         
+        
+        }*/
 
         public IEquipmentRepository CreateEquipmentStubRepository() {
             var equipmentStubRepository = new Mock<IEquipmentRepository>();
@@ -85,7 +98,9 @@ namespace GraphicalEditorServerTests.DataFactory
             var roomStubRepository = new Mock<IRoomRepository>();
             roomStubRepository.Setup(x => x.GetAllRooms()).Returns(_createRooms.CreateRooms());
             roomStubRepository.Setup(m => m.CheckIfRoomExists(0)).Returns(true);
-            roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(_createRooms.CreateRooms()[0]);
+            roomStubRepository.Setup(m => m.GetRoomByNumber(0)).Returns(_createRooms.CreateRooms()[0]);
+            roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(_createRooms.CreateRooms()[1]);
+            roomStubRepository.Setup(m => m.GetRoomByNumber(2)).Returns(_createRooms.CreateRooms()[2]);
             return roomStubRepository.Object;
         }
 
@@ -95,6 +110,15 @@ namespace GraphicalEditorServerTests.DataFactory
 
             return renovationStubRepository.Object;
         }
+
+        public IEquipmentInExaminationRepository CreateEquipmentInExaminationRepository()
+        {
+            var equipmentInExaminationRepository = new Mock<IEquipmentInExaminationRepository>();
+            equipmentInExaminationRepository.Setup(m => m.GetEquipmentInExaminationByExaminationId(5)).Returns(_createEquipmentInExamiantion.CreateValidTestObjectForInitializingEquipmentTransfer());
+
+            return equipmentInExaminationRepository.Object;
+        }
+
 
         public IExaminationRepository CreateExaminationStubRepository()
         {
@@ -114,6 +138,39 @@ namespace GraphicalEditorServerTests.DataFactory
             examinationStubRepository.Setup(m => m.GetExaminationsByPatientAndDateTime(1, It.IsAny<DateTime>())).Returns(new List<Examination>());
             examinationStubRepository.Setup(m => m.AddExamination(_createExamination.CreateValidTestObjectForMakingAnAppointemnt()));
             examinationStubRepository.Setup(m => m.GetExaminationById(2)).Returns(_createExamination.CreateValidTestObjectForMakingAnAppointemnt());
+
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 8, 0, 0, DateTimeKind.Utc))).Returns(_createExamination.CreateTestObjectForEquipmentTransfer1());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 8, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(5, new DateTime(2020, 12, 30, 8, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(15, new DateTime(2020, 12, 30, 8, 0, 0, DateTimeKind.Utc))).Returns(_createExamination.CreateTestObjectForEquipmentTransfer2());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(11, new DateTime(2020, 12, 30, 8, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(10, new DateTime(2020, 12, 30, 8, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 8, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 8, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 9, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 9, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 9, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 9, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 10, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 10, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 10, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 10, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 11, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 11, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 11, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 11, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 12, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 12, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 12, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 12, 30, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(9, new DateTime(2020, 12, 30, 13, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(28, new DateTime(2020, 12, 30, 13, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(20, new DateTime(2020, 12, 15, 8, 0, 0,DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetExaminationsByRoomAndDateTime(10, new DateTime(2020, 12, 15, 8, 0, 0, DateTimeKind.Utc))).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetFollowingExaminationsByRoom(11)).Returns(new List<Examination>());
+            examinationStubRepository.Setup(m => m.GetFollowingExaminationsByRoom(9)).Returns(_createExamination.CreateTestObjectForEquipmentTransfer1());;
+            examinationStubRepository.Setup(m => m.GetFollowingExaminationsByRoom(20)).Returns(_createExamination.CreateTestObjectForEquipmentTransfer3());
             return examinationStubRepository.Object;
         }
         public IDoctorRepository CreateDoctorStubRepository()

@@ -6,10 +6,10 @@
 
 using System;
 
-namespace Model.Enums
+namespace Backend.Model.Enums
 {
-   public enum TypeOfUsage
-   {
+    public enum TypeOfUsage
+    {
         CONSULTING_ROOM = 0,
         SICKROOM = 1,
         OPERATION_ROOM = 2

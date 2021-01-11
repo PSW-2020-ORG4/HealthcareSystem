@@ -2,12 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using PatientWebApp.Auth;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.Settings;
-using RestSharp;
 using ScheduleService.DTO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PatientWebApp.Controllers
 {
@@ -35,21 +33,10 @@ namespace PatientWebApp.Controllers
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
             parameters.PatientJmbg = patientJmbg;
-
             parameters.EarliestDateTime = InitializeEarliestTime(parameters.EarliestDateTime);
             parameters.LatestDateTime = InitializeLatestTime(parameters.LatestDateTime);
 
-            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination/search-free/basic", Method.POST);
-            request.AddJsonBody(parameters);
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/search-free/basic", parameters);
         }
         /// <summary>
         /// /getting free appointments
@@ -68,17 +55,7 @@ namespace PatientWebApp.Controllers
             parameters.InitialParameters.LatestDateTime = InitializeLatestTime(
                 parameters.InitialParameters.LatestDateTime);
 
-            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination/search-free/advanced", Method.POST);
-            request.AddJsonBody(parameters);
-            var response = client.Execute(request);
-            var contentResult = new ContentResult();
-
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/search-free/advanced", parameters);
         }
 
         private DateTime InitializeEarliestTime(DateTime earliest)

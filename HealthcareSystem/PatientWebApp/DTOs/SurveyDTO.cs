@@ -1,4 +1,6 @@
-﻿namespace PatientWebApp.DTOs
+﻿using System;
+
+namespace PatientWebApp.DTOs
 {
     public class SurveyDTO
     {

@@ -6,6 +6,7 @@ using Backend.Model.PerformingExamination;
 using Backend.Repository;
 using Backend.Repository.EquipmentInExaminationRepository.MySqlEquipmentInExaminationRepository;
 using Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository;
+using Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentRepository;
 using Backend.Repository.ExaminationRepository.MySqlExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
@@ -33,8 +34,9 @@ namespace GraphicalEditorServerTests.IntegrationTests
             var equipmentInRoomRepo = new MySqlEquipmentInRoomsRepository(context);
             var roomRepo = new MySqlRoomRepository(context);
             var equipmentInExaminationService = new EquipmentInExaminationService(new MySqlEquipmentInExaminationRepository(context));
+            var equipmentTransferRepository = new MySqlEquipmentTransferRepostory(context);
             var roomService = new RoomService(roomRepo, renovationPeriodRepo, equipmentInRoomRepo, equipmentRepo);
-            return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo, equipmentInExaminationService);
+            return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo, equipmentInExaminationService, equipmentTransferRepository);
         }
 
         [Fact]

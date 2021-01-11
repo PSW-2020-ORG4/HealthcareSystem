@@ -7,10 +7,10 @@ Param(
     [Switch]$dev
 )
 if ($dev) {
-$efile = "./compose/pwa/docker-compose.pwa.dev.yaml"
+$efile = "./compose/ges/docker-compose.ges.dev.yaml"
 }
 else {
-$efile = "./compose/pwa/docker-compose.pwa.test.yaml"
+$efile = "./compose/ges/docker-compose.ges.test.yaml"
 }
 Write-Output "---------------------------------------------------------------------------"
 Write-Output "WARNING: SLN SHOULD NOT BE OPEN IN VISUAL STUDIO WHILE THIS EXECUTES"
@@ -25,7 +25,7 @@ dotnet publish ./HealthcareSystem/HealthcareSystem.sln -c Release
 Write-Output "---------------------------------------------------------------------------"
 Write-Output "Removing existing services"
 Write-Output "---------------------------------------------------------------------------"
-docker-compose -f ./compose/pwa/docker-compose.pwa.yaml -f $efile down -v
+docker-compose -f ./compose/ges/docker-compose.ges.yaml -f $efile down -v
 
 if($noDbBuild -eq $false) {
 Write-Output "---------------------------------------------------------------------------"
@@ -40,11 +40,11 @@ docker build ./HealthcareSystem/Backend -f ./HealthcareSystem/Backend/Dockerfile
 }
 
 Write-Output "---------------------------------------------------------------------------"
-Write-Output "Starting services (PatientWebApp will run at localhost:8181)"
+Write-Output "Starting services (GraphicalEditorServer will run at localhost:5001)"
 Write-Output "---------------------------------------------------------------------------"
 if($noServiceBuild) {
-docker-compose -f ./compose/pwa/docker-compose.pwa.yaml -f $efile up
+docker-compose -f ./compose/ges/docker-compose.ges.yaml -f $efile up
 }
 else {
-docker-compose -f ./compose/pwa/docker-compose.pwa.yaml -f $efile up --build
+docker-compose -f ./compose/ges/docker-compose.ges.yaml -f $efile up --build
 }

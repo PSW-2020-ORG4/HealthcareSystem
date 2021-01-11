@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using PatientService.DTOs;
 using PatientWebApp.Auth;
 using PatientWebApp.Controllers.Adapter;
@@ -42,9 +43,14 @@ namespace PatientWebApp.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            // TODO authorization
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var contentResult = RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id, Method.GET);
+            var examinationDTO = (ScheduledExaminationDTO)JsonConvert.DeserializeObject(contentResult.Content);
 
-            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id, Method.GET);
+            if (examinationDTO.PatientJmbg != patientJmbg)
+                return StatusCode(403, "Patient tried to get someone else's examination");
+
+            return contentResult;
         }
 
         /// <summary>
@@ -57,7 +63,12 @@ namespace PatientWebApp.Controllers
         [HttpPost("cancel/{id}")]
         public ActionResult CancelExamination(int id)
         {
-            // TODO authorization
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var contentResult = RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id, Method.GET);
+            var examinationDTO = (ScheduledExaminationDTO)JsonConvert.DeserializeObject(contentResult.Content);
+
+            if (examinationDTO.PatientJmbg != patientJmbg)
+                return StatusCode(403, "Patient tried to cancel someone else's examination");
 
             return RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id + "/cancel", Method.POST);
         }

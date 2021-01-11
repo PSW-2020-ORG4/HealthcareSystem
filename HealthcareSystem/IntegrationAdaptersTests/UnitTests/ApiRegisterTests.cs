@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Xunit;
 using Moq;
+using Backend.Service;
 
 namespace IntegrationAdaptersTests.UnitTests
 {
@@ -42,7 +43,7 @@ namespace IntegrationAdaptersTests.UnitTests
                 ["Success"] = "Registration successful!"
             };
 
-            var mockRabbit = new Mock<Backend.Service.RabbitMqActionBenefitBackgroundService>();
+            var mockRabbit = new Mock<IRabbitMqActionBenefitService>();
             return new PharmacyController(mockService.Object, mockRabbit.Object)
             {
                 TempData = tempData

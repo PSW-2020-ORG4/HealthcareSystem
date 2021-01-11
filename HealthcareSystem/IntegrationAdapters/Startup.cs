@@ -97,9 +97,8 @@ namespace IntegrationAdapters
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
             services.AddSingleton<IRabbitMqTenderingService, RabbitMqTenderingService>();
-            services.AddHostedService<RabbitMqActionBenefitBackgroundService>();
+            services.AddSingleton<IRabbitMqActionBenefitService, RabbitMqActionBenefitService>();
 
-            services.AddScoped<IActionBenefitSubscriptionService, ActionBenefitSubscriptionService>();
             services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
             services.AddScoped<IPharmacyService, PharmacyService>();
             services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
@@ -140,6 +139,8 @@ namespace IntegrationAdapters
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context, IAntiforgery antiforgery)
         {
             app.ApplicationServices.GetService<IRabbitMqTenderingService>();
+            app.ApplicationServices.GetService<IRabbitMqActionBenefitService>();
+
             app.Use(next => context =>
             {
                 string path = context.Request.Path.Value;

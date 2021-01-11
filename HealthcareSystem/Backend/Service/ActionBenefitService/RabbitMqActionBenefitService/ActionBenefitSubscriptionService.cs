@@ -4,7 +4,7 @@ using System;
 
 namespace Backend.Service
 {
-    public class ActionBenefitSubscriptionService : IActionBenefitSubscriptionService
+    public class ActionBenefitSubscriptionService : IRabbitMqActionBenefitService
     {
         private readonly IModel _channel;
         private readonly String _queueName;

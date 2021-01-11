@@ -1,4 +1,5 @@
 ﻿using Backend.Repository;
+using Backend.Service;
 using Backend.Service.Pharmacies;
 using IntegrationAdapters.Controllers;
 using IntegrationAdaptersTests.DataFactory;
@@ -31,7 +32,7 @@ namespace IntegrationAdaptersTests.UnitTests
         private PharmacyController GetPharmacyController()
         {
             var stubRepository = new Mock<IPharmacyRepo>();
-            var mockRabbit = new Mock<Backend.Service.RabbitMqActionBenefitBackgroundService>();
+            var mockRabbit = new Mock<IRabbitMqActionBenefitService>();
             var pharmacy = CreatePharmacy.CreateValidTestObject();
             pharmacy.Id = 1;
 

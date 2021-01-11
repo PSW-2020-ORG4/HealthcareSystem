@@ -14,23 +14,30 @@ using System.Threading.Tasks;
 
 namespace Backend.Service
 {
-    public class RabbitMqActionBenefitBackgroundService : BackgroundService
+    public class RabbitMqActionBenefitService : IRabbitMqActionBenefitService
     {
-        private IModel _channel;
+        private readonly IModel _channel;
+        private readonly EventingBasicConsumer _consumer;
         private readonly IServiceProvider _service;
         private readonly String _queueName;
 
-        public RabbitMqActionBenefitBackgroundService()
+        public RabbitMqActionBenefitService(IServiceProvider service, IRabbitMqConnection connection)
         {
+            if (connection.Connection != null)
+            {
+                _channel = connection.Connection.CreateModel();
+                _consumer = new EventingBasicConsumer(_channel);
+                _consumer.Received += OnConsumerReceived;
+            }
+            _queueName = connection.Configuration.ActionBenefitQueueName;
+            _service = service;
+            InitializeRabbitMqListener();
         }
 
-        public RabbitMqActionBenefitBackgroundService(IServiceProvider service, IRabbitMqConnection connection)
+        ~RabbitMqActionBenefitService()
         {
-            _service = service;
-            if(connection.Connection != null)
-                _channel = connection.Connection.CreateModel();
-            _queueName = connection.Configuration.ActionBenefitQueueName;
-            InitializeRabbitMqListener();
+            if (_channel != null)
+                _channel.Dispose();
         }
 
         private void InitializeRabbitMqListener()
@@ -42,6 +49,7 @@ namespace Backend.Service
                                   exclusive: false,
                                   autoDelete: false,
                                   arguments: null);
+            _channel.BasicConsume(queue: _queueName, autoAck: false, consumer: _consumer);
             using (var scope = _service.CreateScope())
             {
                 IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
@@ -53,19 +61,6 @@ namespace Backend.Service
                 }
             }
             
-        }
-
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            if (!stoppingToken.IsCancellationRequested && _channel != null)
-            {
-                var consumer = new EventingBasicConsumer(_channel);
-                consumer.Received += OnConsumerReceived;
-
-                _channel.BasicConsume(queue: _queueName, autoAck: false, consumer: consumer);
-
-            }
-            return Task.CompletedTask;
         }
 
         private void HandleMessage(ActionBenefitMessage message, string exchangeName)
@@ -100,12 +95,48 @@ namespace Backend.Service
             }
         }
 
-        public override void Dispose()
+        public void Subscribe(string exchangeName)
         {
-            if (_channel != null)
-                _channel.Dispose();
+            if (_channel == null)
+                return;
 
-            base.Dispose();
+            if (exchangeName == null || exchangeName.Trim() == "")
+                throw new ArgumentException("Non valid exchange name");
+
+            _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
+            _channel.QueueBind(queue: _queueName, exchange: exchangeName, routingKey: "");
+        }
+
+        public void Unsubscribe(string exchangeName)
+        {
+            if (_channel == null)
+                return;
+
+            if (exchangeName == null || exchangeName.Trim() == "")
+                throw new ArgumentException("Non valid exchange name");
+
+            _channel.QueueUnbind(queue: _queueName, exchange: exchangeName, "", null);
+        }
+
+        public void SubscriptionEdit(string exOld, bool subOld, string exNew, bool subNew)
+        {
+            if (_channel == null)
+                return;
+
+            if (subOld != subNew || exOld != exNew)
+            {
+                if (subOld && !subNew && exOld == exNew)
+                    Unsubscribe(exOld);
+                else if (!subOld && subNew && exOld == exNew)
+                    Subscribe(exNew);
+                else if (subOld && subNew && exOld != exNew)
+                {
+                    Unsubscribe(exOld);
+                    Subscribe(exNew);
+                }
+                else if (!subOld && subNew)
+                    Subscribe(exNew);
+            }
         }
     }
 }

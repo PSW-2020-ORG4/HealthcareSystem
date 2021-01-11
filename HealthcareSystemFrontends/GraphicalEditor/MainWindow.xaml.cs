@@ -624,7 +624,12 @@ namespace GraphicalEditor
             }
         }
 
-        private void ShowSelectedSearchResultObjectOnMap(MapObject selectedSearchResultObject)
+        public MapObject GetMapObjectById(long mapObjectId)
+        {
+           return _mapObjectController.GetMapObjectById(mapObjectId);
+        }
+
+        public void ShowSelectedSearchResultObjectOnMap(MapObject selectedSearchResultObject)
         {
             if (selectedSearchResultObject.MapObjectEntity.GetType() == typeof(Room))
             {
@@ -655,7 +660,7 @@ namespace GraphicalEditor
                 return;
             }
 
-            EquipementService equipmentService = new EquipementService();
+            EquipmentService equipmentService = new EquipmentService();
             DrugService drugService = new DrugService();
 
 
@@ -835,6 +840,7 @@ namespace GraphicalEditor
             EquipmentWithRoomDTO equipmentWithRoomForRelocationDTO = new EquipmentWithRoomDTO(selectedEquipment.Id, (int)SelectedMapObject.MapObjectEntity.Id, selectedEquipment.Quantity, selectedEquipment.Type.Name);
 
             EquipmentRelocationSchedulingDialog equipmentRelocationSchedulingDialog = new EquipmentRelocationSchedulingDialog(equipmentWithRoomForRelocationDTO);
+            equipmentRelocationSchedulingDialog.Owner = Window.GetWindow(this);
             equipmentRelocationSchedulingDialog.ShowDialog();
         }
     }

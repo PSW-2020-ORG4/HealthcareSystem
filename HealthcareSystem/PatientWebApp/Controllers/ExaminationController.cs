@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using PatientService.DTO;
+using Newtonsoft.Json;
+using PatientService.DTOs;
 using PatientWebApp.Auth;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
 using RestSharp;
@@ -33,34 +35,20 @@ namespace PatientWebApp.Controllers
         public ActionResult AdvanceSearchExaminations(ExaminationSearchDTO examinationSearchDTO)
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.PatientServiceUrl);
-            var request = new RestRequest("/api/patient/" + patientJmbg + "/examination/search", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddJsonBody(examinationSearchDTO);
 
-            var response = client.Execute(request);
-
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithBody(_serviceSettings.PatientServiceUrl, "/api/patient/" + patientJmbg + "/examination/search", examinationSearchDTO);
         }
 
         [Authorize(Roles = UserRoles.Patient)]
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            // TODO authorization
-            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination/" + id, Method.GET);
-            var response = client.Execute(request);
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var contentResult = RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id, Method.GET);
+            var examinationDTO = (ScheduledExaminationDTO)JsonConvert.DeserializeObject(contentResult.Content);
 
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
+            if (examinationDTO.PatientJmbg != patientJmbg)
+                return StatusCode(403, "Patient tried to get someone else's examination");
 
             return contentResult;
         }
@@ -75,17 +63,14 @@ namespace PatientWebApp.Controllers
         [HttpPost("cancel/{id}")]
         public ActionResult CancelExamination(int id)
         {
-            // TODO authorization
-            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination/" + id + "/cancel", Method.POST);
-            var response = client.Execute(request);
+            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            var contentResult = RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id, Method.GET);
+            var examinationDTO = (ScheduledExaminationDTO)JsonConvert.DeserializeObject(contentResult.Content);
 
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
+            if (examinationDTO.PatientJmbg != patientJmbg)
+                return StatusCode(403, "Patient tried to cancel someone else's examination");
 
-            return contentResult;
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id + "/cancel", Method.POST);
         }
 
         [Authorize(Roles = UserRoles.Patient)]
@@ -93,16 +78,8 @@ namespace PatientWebApp.Controllers
         public ActionResult GetFinishedExaminationsByPatient()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.PatientServiceUrl);
-            var request = new RestRequest("/api/patient/" + patientJmbg + "/examination");
-            var response = client.Execute(request);
 
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.PatientServiceUrl, "/api/patient/" + patientJmbg + "/examination", Method.GET);
         }
 
         /// /getting canceled examinations linked to a certain patient
@@ -115,16 +92,8 @@ namespace PatientWebApp.Controllers
         public ActionResult GetCanceledExaminationsByPatient()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination/canceled/patient/" + patientJmbg);
-            var response = client.Execute(request);
 
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/canceled/patient/" + patientJmbg, Method.GET);
         }
 
         /// <summary>
@@ -138,16 +107,8 @@ namespace PatientWebApp.Controllers
         public ActionResult GetPreviousExaminationsByPatient()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination/finished/patient/" + patientJmbg);
-            var response = client.Execute(request);
 
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/finished/patient/" + patientJmbg, Method.GET);
         }
 
         /// <summary>
@@ -161,16 +122,8 @@ namespace PatientWebApp.Controllers
         public ActionResult GetFollowingExaminationsByPatient()
         {
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination/created/patient/" + patientJmbg);
-            var response = client.Execute(request);
 
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/created/patient/" + patientJmbg, Method.GET);
         }
 
         /// <summary>
@@ -186,18 +139,7 @@ namespace PatientWebApp.Controllers
             var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
             examinationDTO.PatientJmbg = patientJmbg;
 
-            var client = new RestClient(_serviceSettings.ScheduleServiceUrl);
-            var request = new RestRequest("/api/examination", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-            request.AddJsonBody(examinationDTO);
-            var response = client.Execute(request);
-
-            var contentResult = new ContentResult();
-            contentResult.Content = response.Content;
-            contentResult.ContentType = "application/json";
-            contentResult.StatusCode = (int)response.StatusCode;
-
-            return contentResult;
+            return RequestAdapter.SendRequestWithBody(_serviceSettings.ScheduleServiceUrl, "/api/examination", examinationDTO);
         }
 
     }

@@ -119,7 +119,7 @@
     <Compile Include="Service\DrugService.cs" />
     <Compile Include="Service\DrugTypeService.cs" />
     <Compile Include="Service\EquipmentTypeService.cs" />
-    <Compile Include="Service\EquipementService.cs" />
+    <Compile Include="Service\EquipmentService.cs" />
     <Compile Include="Service\GenericHTTPService.cs" />
     <Compile Include="Service\Interface\IMapObjectServices.cs" />
     <Compile Include="Service\MapObjectServices.cs" />

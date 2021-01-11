@@ -97,7 +97,6 @@ $(document).ready(function () {
         $('#loadingSchedule').show();
         $('#free_appointments').empty();
         var newData = {
-            "PatientCardId": 1,
             "DoctorJmbg": doctorJmbg,
             "RequiredEquipmentTypes": [],
             "EarliestDateTime": date,
@@ -124,7 +123,7 @@ $(document).ready(function () {
                 }
                 else {
                     for (let a of appointments) {
-                        let appointment = $('<option value="' + i + '">' + a.dateAndTime + '</option>');
+                        let appointment = $('<option value="' + i + '">' + a.startTime + '</option>');
                         $('#free_appointments').append(appointment);
                         i = i + 1;
                     }
@@ -153,14 +152,9 @@ function scheduleExamination() {
 
     var appointment = newAppointments[a];
     var newData = {
-        "Type": appointment.type,
-        "DateAndTime": appointment.dateAndTime,
+        "startTime": appointment.startTime,
         "DoctorJmbg": appointment.doctorJmbg,
-        "IdRoom": appointment.idRoom,
-        "Anamnesis": "",
-        "PatientCardId": appointment.patientCardId,
-        "ExaminationStatus": 0,
-        "IsSurveyCompleted": false
+        "roomId": appointment.roomId
     };
 
     $.ajax({
@@ -291,8 +285,6 @@ function getPreviousExaminations(path) {
                     contentType: false,
                     success: function (permissions) {
                         for (let i = 0; i < examinations.length; i++) {
-                            examinations[i].type = "GENERAL";
-                            examinations[i].examinationStatus = 2;
                             examinations[i].isSurveyCompleted = isCompleted(examinations[i], permissions)
                             addExaminationRow(examinations[i]);
                         }
@@ -323,24 +315,18 @@ function isCompleted(examination, permissions) {
 
 
 function addExaminationRow(examination) {
-    let type = '';
-    if (examination.type == "GENERAL")
-        type = "Examination";
-    else
-        type = "Surgery";
-
-    var restrict_date = new Date(examination.dateAndTime);
+    var restrict_date = new Date(examination.startTime);
     restrict_date.setDate(restrict_date.getDate() - 2);
     var current_date = new Date();
     let button = '';
-    if (examination.examinationStatus == 2 && examination.isSurveyCompleted == 0) {
+    if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
         button = '<div class="card-footer">'
             + '<button type = "button" class="btn btn-success float-right" '
             + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
             + '> Fill out the survey</button >'
             + '</div >';
     }
-    else if (examination.examinationStatus == 0 && current_date < restrict_date) {
+    else if (examination.examinationStatus == "Created" && current_date < restrict_date) {
         button = '<div class="card-footer" id="f' + examination.id + '">'
             + '<button name="cancelButton" type = "button" class="btn btn-danger float-right" '
             + 'id="' + examination.id + '" onclick="cancelExamination(this.id)"'
@@ -349,24 +335,20 @@ function addExaminationRow(examination) {
             + '<div name="alert_container" class="card-footer border-top-0 p-0" id="a' + examination.id + '"></div>';
     }
 
-    let room = '';
-    if (examination.examinationStatus != 2)
-        room = '<label class="text-secondary mb-0">Room:</label><br>'
-            + '<label>' + examination.idRoom + '</label><br>';
-
     let divElement = $(
         '<div class="row">'
         + '<div class="col mb-4">'
         + '<div class="card">'
         + '<div class="card-header bg-info text-white">'
         + '<h4 class="card-title mb-0">'
-        + type + ' on <span class="badge badge-light">' + examination.dateAndTime + '</span> '
+        + examination.examinationType + ' on <span class="badge badge-light">' + examination.startTime + '</span> '
         + '</h4>'
         + '</div>'
         + '<div class="card-body p-3">'
         + '<label class="text-secondary mb-0">Doctor:</label><br>'
         + '<label>' + examination.doctorName + ' ' + examination.doctorSurname + '</label><br>'
-        + room
+        + '<label class="text-secondary mb-0">Room:</label><br>'
+        + examination.roomId
         + '</div>' + button + '</div></div></div>'
     );
 

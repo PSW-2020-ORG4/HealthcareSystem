@@ -1,5 +1,5 @@
 ﻿using Backend.Model.DTO;
-using Model.PerformingExamination;
+using Backend.Model.PerformingExamination;
 using System;
 using System.Collections.Generic;
 using System.Text;

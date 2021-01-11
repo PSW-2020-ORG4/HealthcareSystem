@@ -1,4 +1,4 @@
-﻿using Model.PerformingExamination;
+﻿using Backend.Model.PerformingExamination;
 
 namespace Backend.Service.ExaminationAndPatientCard
 {

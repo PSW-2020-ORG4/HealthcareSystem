@@ -1,6 +1,7 @@
 ﻿using Backend.Model;
 using Backend.Model.DTO;
 using Backend.Model.Enums;
+using Backend.Model.PerformingExamination;
 using Backend.Repository;
 using Backend.Repository.EquipmentInExaminationRepository.MySqlEquipmentInExaminationRepository;
 using Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository;
@@ -8,6 +9,7 @@ using Backend.Repository.ExaminationRepository.MySqlExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.ExaminationAndPatientCard;
+using Backend.Service.RoomAndEquipment;
 using Model.PerformingExamination;
 using Repository;
 using Service.RoomAndEquipment;

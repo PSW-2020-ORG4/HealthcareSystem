@@ -17,7 +17,7 @@ namespace UserService.Repository
                 Name = d.Name,
                 Surname = d.Surname,
                 UserType = UserType.Doctor,
-                DateOfBirth = d.DateOfBirth,
+                DateOfBirth = d.DateOfBirth.Value,
                 Email = d.Email,
                 HomeAddress = d.HomeAddress,
                 Jmbg = d.Jmbg,
@@ -30,7 +30,7 @@ namespace UserService.Repository
                 }),
                 City = new CityMemento()
                 {
-                    Id = d.CityZipCode,
+                    Id = d.CityZipCode.Value,
                     Name = d.City.Name,
                     Country = new CountryMemento()
                     {

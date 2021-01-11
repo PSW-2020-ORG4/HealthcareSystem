@@ -7,7 +7,7 @@ using UserService.CustomException;
 using UserService.Model;
 using UserService.Model.Memento;
 
-namespace UserService.Repository
+namespace UserService.Repository.Implementation
 {
     public class UserRepository : IUserRepository
     {
@@ -50,7 +50,12 @@ namespace UserService.Repository
             if (patients.Count() == 0)
                 return null;
             else
-                return new PatientAccount(patients.First().ToPatientAccountMemento());
+            {
+                var found = patients.First();
+                if (found.IsGuest)
+                    return null;
+                return new PatientAccount(found.ToPatientAccountMemento());
+            }
         }
 
         private DoctorAccount GetDoctor(string email, string password)

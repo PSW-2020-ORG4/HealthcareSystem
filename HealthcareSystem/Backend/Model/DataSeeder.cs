@@ -1,5 +1,4 @@
 ﻿using Backend.Model.Users;
-using Model.Enums;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -113,9 +112,10 @@ namespace Backend.Model
                 DateOfRegistration = DateTime.Now,
                 IsActive = true,
                 IsBlocked = false,
+                IsGuest = false,
                 Phone = "065897520",
                 Username = "ana_anic98@gmail.com",
-                ImageName = "picture1.jpg"
+                ImageName = "/Uploads/picture1.jpg"
             });
             context.Add(new Patient()
             {
@@ -131,9 +131,10 @@ namespace Backend.Model
                 DateOfRegistration = DateTime.Now,
                 IsActive = true,
                 IsBlocked = false,
+                IsGuest = false,
                 Phone = "065897520",
                 Username = "zana998@gmail.com",
-                ImageName = "profile_pic.jpg"
+                ImageName = "/Uploads/profile_pic.jpg"
             });
             context.SaveChanges();
 

@@ -36,7 +36,7 @@ function addPatient(patient) {
 
     let image = '';
     if (patient.imageName) {
-        image = "/Uploads/" + patient.imageName;
+        image = patient.imageName;
     } else {
         image = "/images/Blank-profile.png";
     }

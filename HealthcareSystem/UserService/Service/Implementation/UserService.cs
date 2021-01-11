@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UserService.Model;
 using UserService.Repository;
 
-namespace UserService.Service
+namespace UserService.Service.Implementation
 {
     public class UserService : IUserService
     {

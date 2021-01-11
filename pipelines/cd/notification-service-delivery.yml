@@ -58,6 +58,8 @@ stages:
               inputs:
                 targetType: 'inline'
                 script: |
+                  echo "----- Logging in to Heroku registry. -----"
+                  heroku container:login
                   echo '----- Pulling image from DockerHub. -----'
                   docker pull $(dockerImage)
                   echo '----- Pushing to Heroku registry. -----'

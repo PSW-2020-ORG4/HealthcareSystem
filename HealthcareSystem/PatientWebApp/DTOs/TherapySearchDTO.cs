@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace PatientService.DTO
+namespace PatientService.DTOs
 {
     public class TherapySearchDTO
     {

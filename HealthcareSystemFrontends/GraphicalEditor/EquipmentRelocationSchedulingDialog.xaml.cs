@@ -13,22 +13,58 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GraphicalEditor.Service;
 using GraphicalEditor.DTO;
+using GraphicalEditor.Models;
+using System.ComponentModel;
 
 namespace GraphicalEditor
 {
     /// <summary>
     /// Interaction logic for EquipmentRelocationSchedulingDialog.xaml
     /// </summary>
-    public partial class EquipmentRelocationSchedulingDialog : Window
+    public partial class EquipmentRelocationSchedulingDialog : Window, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        private EquipmentService _equipmentService;
+        private bool _isAlternativeAppointmentsSectionVisible;
+
         public int EquipmentId { get; set; }
         public string EquipmentName { get; set; }
         public int EquipmentQuantityInStartingRoom { get; set; }
         public int StartingRoomNumber { get; set; }
 
+        public bool IsAlternativeAppointmentsSectionVisible
+        {
+            get
+            { 
+                return _isAlternativeAppointmentsSectionVisible; 
+            }
+            set
+            {
+                _isAlternativeAppointmentsSectionVisible = value;
+                OnPropertyChanged("IsAlternativeAppointmentsSectionVisible");
+            }
+        }
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChangedEventHandler _handler = this.PropertyChanged;
+            if (_handler != null)
+            {
+                var e = new PropertyChangedEventArgs(propertyName);
+                _handler(this, e);
+            }
+        }
+
+
+
         public EquipmentRelocationSchedulingDialog(EquipmentWithRoomDTO equipmentWithRoomDTO)
         {
             InitializeComponent();
+            DataContext = this;
+
+            _equipmentService = new EquipmentService();
 
             EquipmentId = equipmentWithRoomDTO.IdEquipment;
             EquipmentName = equipmentWithRoomDTO.EquipmentName;
@@ -37,11 +73,7 @@ namespace GraphicalEditor
 
             SetDataToUIControls();
 
-            AlternativeRelocationAppointmentsTextBlock.Visibility = Visibility.Collapsed;
-            AlternativeRelocationAppointmentsDataGrid.Visibility = Visibility.Collapsed;
-            EquipmentRelocationBackToTopButton.Visibility = Visibility.Collapsed;
-
-           
+            IsAlternativeAppointmentsSectionVisible = false;
         }
 
         private void SetDataToUIControls()
@@ -76,11 +108,7 @@ namespace GraphicalEditor
             RelocationDestinationRoomComboBox.ItemsSource = possibleDestinationRooms;
         }
 
-        private void AlternativeRelocationAppointmentsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
+       
         private void EquipmentRelocationBackToTopButton_Click(object sender, RoutedEventArgs e)
         {
             EquipmentRelocationScrollViewer.ScrollToTop();
@@ -91,13 +119,99 @@ namespace GraphicalEditor
             this.Close();
         }
 
+        private TransferEquipmentDTO CreateEquipmentRelocationDTOFromUserInput()
+        {
+            RoomDTO destinationRoom = (RoomDTO)RelocationDestinationRoomComboBox.SelectedItem;
+            int destinationRoomNumber = (int)destinationRoom.Id;
+
+            DateTime relocationDate = EquipmentRelocationDatePicker.SelectedDate.Value.Date;
+            DateTime relocationTime = EquipmentRelocationTimePicker.SelectedTime.Value;
+
+            DateTime equipmentRelocationDateTime = new DateTime(relocationDate.Year, relocationDate.Month, relocationDate.Day, relocationTime.Hour, relocationTime.Minute, relocationTime.Second, DateTimeKind.Utc);
+
+            int quantityForRelocation = (int)EquipmentQuantityForRelocationComboBox.SelectedItem;
+
+            return new TransferEquipmentDTO(EquipmentId, StartingRoomNumber, quantityForRelocation, equipmentRelocationDateTime, destinationRoomNumber);
+        }
+
+
+
+        private void ScheduleEquipmentRelocation(TransferEquipmentDTO relocationAppointmentDTO)
+        {
+            IsAlternativeAppointmentsSectionVisible = false;
+
+            _equipmentService.ScheduleEquipmentTransfer(relocationAppointmentDTO);
+            this.Close();
+            InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali premeštanje opreme!");
+            infoDialog.ShowDialog();
+        }
+
+
+        private void DisplayAlternativeRelocationAppointmentsSection()
+        {
+            IsAlternativeAppointmentsSectionVisible = true;
+            EquipmentRelocationScrollViewer.ScrollToBottom();
+        }
+
+
+        private void MarkProblematicRelocationRoomOnMap(long problematicRoomId)
+        {
+            MapObject problematicRoomMapObject = ((MainWindow)this.Owner).GetMapObjectById(problematicRoomId);
+            ((MainWindow)this.Owner).ShowSelectedSearchResultObjectOnMap(problematicRoomMapObject);
+        }
+
+
+        private void ShowRelocationUnavailableDialog(long problematicRoomId)
+        {
+            string relocationUnavailableMessage = String.Format("Premeštanje opreme nije moguće!{0}U sobi broj {1} izabrana oprema se koristi ili postoji neki zakazan pregled u navedenom terminu.{2}Problematična soba je označena na mapi.{3}Možete odabrati neki termin iz liste alternativnih termina za premeštanje željene opreme.",
+                                                                            Environment.NewLine, problematicRoomId, Environment.NewLine, Environment.NewLine);
+            InfoDialog infoDialog = new InfoDialog(relocationUnavailableMessage);
+            infoDialog.ShowDialog();
+        }
+
+
+        private void GetAndDisplayAlternativeAppointmentsForRelocationAppointment(TransferEquipmentDTO unavailableRelocationAppointmentDTO)
+        {
+            List<DateTime> alternativeRelocationAppointments = _equipmentService.GetAlternativeAppointments(unavailableRelocationAppointmentDTO);
+            AlternativeRelocationAppointmentsDataGrid.ItemsSource = alternativeRelocationAppointments;
+        }
+
+
+        private void ShowInfoDialogAndAlternativeAppointmentsForUnavailableRelocationAppointment(long problematicRoomId, TransferEquipmentDTO unavailableRelocationAppointmentDTO)
+        {
+            DisplayAlternativeRelocationAppointmentsSection();
+
+            MarkProblematicRelocationRoomOnMap(problematicRoomId);
+            ShowRelocationUnavailableDialog(problematicRoomId);
+
+            GetAndDisplayAlternativeAppointmentsForRelocationAppointment(unavailableRelocationAppointmentDTO);
+        }
+
+
+
         private void ScheduleEquipmentRelocationButton_Click(object sender, RoutedEventArgs e)
         {
-            AlternativeRelocationAppointmentsTextBlock.Visibility = Visibility.Visible;
-            AlternativeRelocationAppointmentsDataGrid.Visibility = Visibility.Visible;
-            EquipmentRelocationBackToTopButton.Visibility = Visibility.Visible;
+            TransferEquipmentDTO relocationAppointmentDTO = CreateEquipmentRelocationDTOFromUserInput();
 
-            EquipmentRelocationScrollViewer.ScrollToBottom();
+            if (AlternativeRelocationAppointmentsDataGrid.SelectedItem == null)
+            {
+                int relocationResult = _equipmentService.InitializeEquipmentTransfer(relocationAppointmentDTO);
+
+                if (relocationResult == -1)
+                {
+                    ScheduleEquipmentRelocation(relocationAppointmentDTO);
+                }
+                else
+                {
+                    long problematicRoomId = relocationResult;
+                    ShowInfoDialogAndAlternativeAppointmentsForUnavailableRelocationAppointment(problematicRoomId, relocationAppointmentDTO);
+                }
+            }
+            else 
+            {
+                relocationAppointmentDTO.DateAndTimeOfTransfer = (DateTime)AlternativeRelocationAppointmentsDataGrid.SelectedItem;
+                ScheduleEquipmentRelocation(relocationAppointmentDTO);
+            }
         }
     }
 }

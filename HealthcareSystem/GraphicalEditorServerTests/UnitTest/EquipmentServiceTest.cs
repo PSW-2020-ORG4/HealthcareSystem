@@ -14,6 +14,7 @@ namespace GraphicalEditorServerTests.UnitTest
         private readonly CreateEquipmentInRoom _createEquipmentInRoom;
         private readonly CreateTransferEqupmentDTO _createTransferEqupmentDTO;
 
+
         public EquipmentServiceTest()
         {
             _stubRepository = new StubRepository();
@@ -23,7 +24,7 @@ namespace GraphicalEditorServerTests.UnitTest
 
         private EquipmentService SetupEquipmentService()
         {
-            EquipmentService _equipmentService = new EquipmentService(_stubRepository.CreateEquipmentStubRepository(), _stubRepository.CreateEquipmentInRoomStubRepository(),_stubRepository.CreateExaminationStubRepository());
+            EquipmentService _equipmentService = new EquipmentService(_stubRepository.CreateEquipmentStubRepository(), _stubRepository.CreateEquipmentInRoomStubRepository(),_stubRepository.CreateExaminationStubRepository(),_stubRepository.CreateEquipmentTransferStubRepository(),_stubRepository.CreateEquipmentInExaminationRepository());
             return _equipmentService;
         }
 

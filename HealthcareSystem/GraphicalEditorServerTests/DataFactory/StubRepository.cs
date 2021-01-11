@@ -4,6 +4,7 @@ using Backend.Model.Users;
 using Backend.Repository;
 using Backend.Repository.EquipmentInExaminationRepository;
 using Backend.Repository.EquipmentInRoomsRepository;
+using Backend.Repository.EquipmentTransferRepository;
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
@@ -91,6 +92,18 @@ namespace GraphicalEditorServerTests.DataFactory
             equipmentInRooms.Add(_createEquipmentType.CreateValidTestObject());
             equipmentTypeStubRepository.Setup(m => m.GetAllEquipmentTypes()).Returns(equipmentInRooms);
             return equipmentTypeStubRepository.Object;
+        }
+
+        public IEquipmentTransferRepository CreateEquipmentTransferStubRepository()
+        {
+            var equipmentTransferStubRepository = new Mock<IEquipmentTransferRepository>();
+            equipmentTransferStubRepository.Setup(m => m.GetEquipmentTransferByRoomNumberAndDate(5, It.IsAny<DateTime>())).Returns((EquipmentTransfer)null);
+            equipmentTransferStubRepository.Setup(m => m.GetEquipmentTransferByRoomNumberAndDate(15, It.IsAny<DateTime>())).Returns((EquipmentTransfer)null);
+            equipmentTransferStubRepository.Setup(m => m.GetEquipmentTransferByRoomNumberAndDate(9, It.IsAny<DateTime>())).Returns((EquipmentTransfer)null);
+            equipmentTransferStubRepository.Setup(m => m.GetEquipmentTransferByRoomNumberAndDate(28, It.IsAny<DateTime>())).Returns((EquipmentTransfer)null);
+            equipmentTransferStubRepository.Setup(m => m.GetEquipmentTransferByRoomNumberAndDate(11, It.IsAny<DateTime>())).Returns((EquipmentTransfer)null);
+            equipmentTransferStubRepository.Setup(m => m.GetEquipmentTransferByRoomNumberAndDate(10, It.IsAny<DateTime>())).Returns((EquipmentTransfer)null);
+            return equipmentTransferStubRepository.Object;
         }
 
         public IRoomRepository CreateRoomStubRepository()

@@ -3,6 +3,7 @@ using Backend.Model.Enums;
 using Backend.Model.Exceptions;
 using Backend.Model.PerformingExamination;
 using Backend.Repository;
+using Backend.Repository.EquipmentTransferRepository;
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Service.RoomAndEquipment;
@@ -23,20 +24,35 @@ namespace Backend.Service.ExaminationAndPatientCard
         private readonly IDoctorRepository _doctorRepository;
         private readonly IActivePatientCardRepository _activePatientCardRepository;
         private readonly IEquipmentInExaminationService _equipmentInExaminationService;
-
+        private readonly IEquipmentTransferRepository _equipmentTransferRepository;
         private readonly int PRIORITY_DATE_INTERVAL = 5;
 
         public FreeAppointmentSearchService(IRoomService roomService, 
                                             IExaminationRepository examinationRepository,
                                             IDoctorRepository doctorRepository,
                                             IActivePatientCardRepository activePatientCardRepository,
-                                            IEquipmentInExaminationService equipmentInExaminationService)
+                                            IEquipmentInExaminationService equipmentInExaminationService,
+                                            IEquipmentTransferRepository equipmentTransferRepository)
         {
             _roomService = roomService;
             _examinationRepository = examinationRepository;
             _doctorRepository = doctorRepository;
             _activePatientCardRepository = activePatientCardRepository;
             _appointmentDuration = new TimeSpan(0,30,0);
+            _equipmentInExaminationService = equipmentInExaminationService;
+            _equipmentTransferRepository = equipmentTransferRepository;
+        }
+        public FreeAppointmentSearchService(IRoomService roomService,
+                                           IExaminationRepository examinationRepository,
+                                           IDoctorRepository doctorRepository,
+                                           IActivePatientCardRepository activePatientCardRepository,
+                                           IEquipmentInExaminationService equipmentInExaminationService)                   
+        {
+            _roomService = roomService;
+            _examinationRepository = examinationRepository;
+            _doctorRepository = doctorRepository;
+            _activePatientCardRepository = activePatientCardRepository;
+            _appointmentDuration = new TimeSpan(0, 30, 0);
             _equipmentInExaminationService = equipmentInExaminationService;
         }
 
@@ -283,6 +299,9 @@ namespace Backend.Service.ExaminationAndPatientCard
                 throw new BadRequestException("Room doesn't exist in database.");
 
             if (_examinationRepository.GetExaminationsByRoomAndDateTime(roomId, dateTime).Count > 0)
+                return false;
+
+            if (_equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(roomId, dateTime) != null)
                 return false;
 
             return true;

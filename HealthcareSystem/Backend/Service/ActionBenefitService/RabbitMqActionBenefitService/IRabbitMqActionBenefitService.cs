@@ -1,6 +1,6 @@
 ﻿namespace Backend.Service
 {
-    public interface IActionBenefitMessageingService
+    public interface IRabbitMqActionBenefitService
     {
         void Subscribe(string exchangeName);
         void Unsubscribe(string exchangeName);

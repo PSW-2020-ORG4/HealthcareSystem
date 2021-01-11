@@ -8,5 +8,7 @@
         public string Password { get; set; }
         public int RetryCount { get; set; }
         public int RetryWait { get; set; }
+        public string ActionBenefitQueueName { get; set; }
+        public string TenderExchangeName { get; set; }
     }
 }

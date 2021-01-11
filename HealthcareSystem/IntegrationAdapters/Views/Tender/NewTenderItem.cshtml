@@ -1,0 +1,31 @@
+﻿@model NewTenderItem
+<div class="form-group" id="editorRows">
+    <table class="table">
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Name</label>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Name, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Quantity</label>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => model.Quantity, new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.Quantity, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <a href="#" class="btn btn-danger" id="deleteRow">Delete</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+

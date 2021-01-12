@@ -16,6 +16,10 @@ namespace GraphicalEditor.Service
             return (List<PatientBasicDTO>)HTTPGetRequest<PatientBasicDTO>("patient");
         }
 
-       
+        public string CreatePatientGuestAccount(GuestPatientDTO guestPatientDTO)
+        {
+            IRestResponse responseCreatePatientGuestAccount = AddHTTPPostRequest("patient", guestPatientDTO);
+            return responseCreatePatientGuestAccount.Content;
+        }
     }
 }

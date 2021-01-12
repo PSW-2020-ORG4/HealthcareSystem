@@ -94,6 +94,7 @@
     <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="DTO\ExaminationForReschedulingDTO.cs" />
+    <Compile Include="DTO\GuestPatientDTO.cs" />
     <Compile Include="DTO\PatientBasicDTO.cs" />
     <Compile Include="DTO\RescheduleExaminationDTO.cs" />
     <Compile Include="DTO\RoomDTO.cs" />

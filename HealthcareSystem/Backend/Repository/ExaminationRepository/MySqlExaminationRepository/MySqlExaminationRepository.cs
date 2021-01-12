@@ -179,7 +179,8 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             try
             {
-                _context.Examinations.Remove(examinationForReschedule);
+                Examination examinatoForRemove = _context.Examinations.Where(e => e.DateAndTime == examinationForReschedule.DateAndTime && e.DoctorJmbg == examinationForReschedule.DoctorJmbg).ToList()[0];
+                _context.Examinations.Remove(examinatoForRemove);
                 _context.Examinations.Add(examinationForSchedule);
                 _context.Examinations.Add(shiftedExamination);
                 _context.SaveChanges();

@@ -7,9 +7,9 @@ namespace GraphicalEditorServer.DTO
 {
     public class RescheduleExaminationDTO
     {
-        public ExaminationDTO ExaminationForScheduleDTO { get; private set; }
-        public ExaminationDTO ExaminationForRescheduleDTO { get; private set; }
-        public ExaminationDTO ShiftedExaminationDTO { get; private set; }
+        public ExaminationDTO ExaminationForScheduleDTO { get; set; }
+        public ExaminationDTO ExaminationForRescheduleDTO { get;set; }
+        public ExaminationDTO ShiftedExaminationDTO { get; set; }
 
         public RescheduleExaminationDTO() { }
 

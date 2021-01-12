@@ -823,6 +823,7 @@ namespace GraphicalEditor
         {
             CreatePatientGuestAccountDialog createPatientGuestAccountDialog = new CreatePatientGuestAccountDialog();
             createPatientGuestAccountDialog.ShowDialog();
+            SetValuesInPatientComboBoxForAppointmentSearch();
         }
 
         private void EmergencyAppointmentSearchResultsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -849,7 +850,7 @@ namespace GraphicalEditor
             AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO
             {
                 InitialParameters = new BasicAppointmentSearchDTO(patientCardId, doctorJmbg: "0909965768767", appointmentRequiredEquipmentTypes,
-                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 21, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime()),
+                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 22, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime()),
                 Priority = SearchPriority.Date,
                 SpecialtyId = doctorSpecialtyId
             };

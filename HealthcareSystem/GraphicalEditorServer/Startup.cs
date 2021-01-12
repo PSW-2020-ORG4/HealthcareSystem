@@ -28,6 +28,7 @@ using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.RoomAndEquipment;
 using Backend.Service.UsersAndWorkingTime;
 using Backend.Settings;
+using GraphicalEditorServer.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +60,7 @@ namespace GraphicalEditorServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.Configure<ServiceSettings>(GetServiceSettings);
 
             if (_env.IsDevelopment())
             {
@@ -161,6 +163,13 @@ namespace GraphicalEditorServer
             services.AddScoped<IEquipmentInExaminationRepository, MySqlEquipmentInExaminationRepository>();
 	        services.AddScoped<IEquipmentInExaminationService, EquipmentInExaminationService>();
         }
+
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.PatientServiceUrl = Configuration.GetValue<string>("PATIENT_SERVICE_URL");
+        }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

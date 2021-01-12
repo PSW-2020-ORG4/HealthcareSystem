@@ -174,5 +174,21 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
                 throw new DatabaseException("The database connection is down.");
             }
         }
+
+        public void ReScheduleAppointment(Examination examinationForSchedule, Examination examinationForReschedule, Examination shiftedExamination)
+        {
+            try
+            {
+                _context.Examinations.Remove(examinationForReschedule);
+                _context.Examinations.Add(examinationForSchedule);
+                _context.Examinations.Add(shiftedExamination);
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
+
     }
 }

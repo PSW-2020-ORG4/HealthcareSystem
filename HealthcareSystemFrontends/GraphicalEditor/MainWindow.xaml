@@ -1487,7 +1487,8 @@
                                                 Background="#7D80DA"
                                                 BorderBrush="{x:Null}"
                                                 Click="SearchAppointmentsButton_Click"
-                                                FontSize="18">
+                                                FontSize="18"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                                 <StackPanel
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -1580,6 +1581,7 @@
                                                 Grid.ColumnSpan="2"
                                                 Height="400"
                                                 Margin="0,0,10,0"
+                                                CanUserSortColumns="False"
                                                 SelectionChanged="EmergencyAppointmentSearchResultsDataGrid_SelectionChanged"
                                                 Style="{StaticResource SidePanelDataGrid}"
                                                 Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -1593,11 +1595,23 @@
                                                     </Style>
                                                 </DataGrid.Resources>
 
+                                                <!--  Marking First Row of DataGrid with Different Background Color- Best option for Rescheduling  -->
+                                                <DataGrid.ItemContainerStyle>
+                                                    <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+                                                        <Setter Property="Background" Value="Transparent" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=PreviousData}}" Value="{x:Null}">
+                                                                <Setter Property="Background" Value="Pink" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGrid.ItemContainerStyle>
+
                                                 <!--  Table Column Headers Names and Binding  -->
                                                 <DataGrid.Columns>
                                                     <DataGridTextColumn
                                                         Width="*"
-                                                        Binding="{Binding DateTimeFrom, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
+                                                        Binding="{Binding UnchangedExamination.DateTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
                                                         Header="Trenutni">
 
                                                         <DataGridTextColumn.ElementStyle>
@@ -1610,7 +1624,7 @@
 
                                                     <DataGridTextColumn
                                                         Width="*"
-                                                        Binding="{Binding DateTimeTo, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
+                                                        Binding="{Binding ShiftedExamination.DateTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
                                                         Header="Pomereni">
 
                                                         <DataGridTextColumn.ElementStyle>
@@ -1623,8 +1637,8 @@
 
 
                                                     <DataGridTextColumn
-                                                        Width="*"
-                                                        Binding="{Binding RoomId}"
+                                                        Width="2*"
+                                                        Binding="{Binding UnchangedExamination.RoomId}"
                                                         Header="Id objekta" />
 
                                                     <DataGridTemplateColumn Width="Auto">
@@ -1636,8 +1650,9 @@
                                                                     HorizontalContentAlignment="Stretch"
                                                                     Background="MediumPurple"
                                                                     BorderBrush="{x:Null}"
-                                                                    Click="ShowMedicineSearchResultObjectOnMapButton_Click"
-                                                                    Style="{StaticResource DataGridButtonVisibleOnRowHover}">
+                                                                    Click="ShowEmergencyAppointmentSearchResultObjectOnMapButton_Click"
+                                                                    Style="{StaticResource DataGridButtonVisibleOnRowHover}"
+                                                                    ToolTip="Prikaži objekat na mapi">
                                                                     <StackPanel
                                                                         HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center"
@@ -1650,11 +1665,6 @@
                                                                             Foreground="White"
                                                                             Kind="Location" />
                                                                     </StackPanel>
-                                                                    <Button.ToolTip>
-                                                                        <ToolTip>
-                                                                            Prikaži objekat na mapi
-                                                                        </ToolTip>
-                                                                    </Button.ToolTip>
                                                                 </Button>
                                                             </DataTemplate>
                                                         </DataGridTemplateColumn.CellTemplate>
@@ -1683,7 +1693,7 @@
                                                             <MultiDataTrigger>
                                                                 <MultiDataTrigger.Conditions>
                                                                     <Condition Binding="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked}" Value="true" />
-                                                                    <Condition Binding="{Binding ElementName=EmergencyAppointmentSearchResultsDataGrid, Path=SelectedItem, Converter={StaticResource SelectedItemToVisibilityConverter}}" Value="Visible" />
+
                                                                 </MultiDataTrigger.Conditions>
 
                                                                 <Setter Property="Control.Visibility" Value="Visible" />

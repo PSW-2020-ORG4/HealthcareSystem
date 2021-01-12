@@ -8,18 +8,15 @@ namespace GraphicalEditor.DTO
 {
     public class EmergencyExaminationDTO
     {
-        public List<ExaminationDTO> UnchangedExaminations { get; private set; }
-        public List<ExaminationDTO> ShiftedExaminations { get; private set; }
-
-        public bool Shifted { get; private set; }
+        public ExaminationDTO UnchangedExamination { get; set; }
+        public ExaminationDTO ShiftedExamination { get; set; }
 
         public EmergencyExaminationDTO() { }
 
-        public EmergencyExaminationDTO(List<ExaminationDTO> unchangedExaminations, List<ExaminationDTO> shiftedExaminations, bool shifted)
+        public EmergencyExaminationDTO(ExaminationDTO unchangedExamination, ExaminationDTO shiftedExamination)
         {
-            UnchangedExaminations = unchangedExaminations;
-            ShiftedExaminations = shiftedExaminations;
-            Shifted = shifted;
+            UnchangedExamination = unchangedExamination;
+            ShiftedExamination = shiftedExamination;
         }
     }
 }

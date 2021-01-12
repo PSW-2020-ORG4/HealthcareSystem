@@ -36,6 +36,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Repository;
 using Service.DrugAndTherapy;
+using Service.ExaminationAndPatientCard;
 using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using System;
@@ -145,9 +146,12 @@ namespace GraphicalEditorServer
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
             services.AddScoped<IPatientCardService, PatientCardService>();
 
+            services.AddScoped<IExaminationService, ExaminationService>();
+            services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
+
+
             services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
             services.AddScoped<IScheduleAppointmenService, ScheduleAppointmentService>();
-            services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();

@@ -15,5 +15,7 @@ namespace GraphicalEditor.Service
         {
             return (List<PatientBasicDTO>)HTTPGetRequest<PatientBasicDTO>("patient");
         }
+
+       
     }
 }

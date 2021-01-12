@@ -63,7 +63,9 @@ namespace Backend.Service.ExaminationAndPatientCard
             foreach (Doctor doctor in allDoctors)
             {
                 parameters.InitialParameters.DoctorJmbg = doctor.Jmbg;
-                allUnchangedAppointments.AddRange(BasicSearch(parameters.InitialParameters));
+                List<Examination> freeAppointments = (List<Examination>)BasicSearch(parameters.InitialParameters);
+                freeAppointments.ForEach(e => e.Doctor = doctor);
+                allUnchangedAppointments.AddRange(freeAppointments);
             }
             allUnchangedAppointments.ForEach(e => e.ExaminationStatus = ExaminationStatus.AVAILABLE);  
 
@@ -75,22 +77,25 @@ namespace Backend.Service.ExaminationAndPatientCard
             parameters.InitialParameters.EarliestDateTime = GetNewStartTime(parameters.InitialParameters.EarliestDateTime);
             parameters.InitialParameters.LatestDateTime = parameters.InitialParameters.EarliestDateTime.AddHours(2);
 
-            List<Examination> unavailableAppointments = GetUnavailableAppointments(parameters.InitialParameters);
-            List<Examination> adequateAppoinments = GetOnlyAdequateAppointments(unavailableAppointments, parameters);
+            List<Examination> adequateAppoinments = GetOnlyAdequateAppointmentsForEmergency(parameters);
 
             ICollection<Examination> shiftedAppointments = new List<Examination>();
-            foreach (Examination examination in unavailableAppointments)
+            foreach (Examination examination in adequateAppoinments)
             {
                 List<Examination> availableAppointments = GetShiftedAppointmentForEmergency(parameters.InitialParameters, examination);
                 availableAppointments = availableAppointments.OrderBy(e => e.DateAndTime).ToList();
+                Doctor doctor = _doctorRepository.GetDoctorByJmbg(availableAppointments[0].DoctorJmbg);
+                availableAppointments[0].Doctor = doctor;
                 shiftedAppointments.Add(availableAppointments[0]);
             }
 
             return shiftedAppointments;
         }
 
-        private List<Examination> GetOnlyAdequateAppointments(List<Examination> unavailableAppointments, AppointmentSearchWithPrioritiesDTO parameters)
+        public List<Examination> GetOnlyAdequateAppointmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters)
         {
+            List<Examination> unavailableAppointments = GetUnavailableAppointments(parameters.InitialParameters);
+
             foreach (Examination examination in unavailableAppointments.ToList())
             {
                 if (!_roomService.CheckIfRoomHasRequiredEquipment(examination.IdRoom, parameters.InitialParameters.RequiredEquipmentTypes)

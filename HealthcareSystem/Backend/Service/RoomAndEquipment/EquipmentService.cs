@@ -36,14 +36,14 @@ namespace Service.RoomAndEquipment
             _examinationRepository = examinationRepository;
             _equipmentTransferRepository = equipmentTransferRepository;
             _equipmentInExaminationRepository = equipmentInExaminationRepository;
-         }
+        }
 
         public EquipmentService(IEquipmentRepository equipmentRepository, IEquipmentInRoomsRepository equipmentInRoomRepository, IExaminationRepository examinationRepository)
         {
             _equipmentRepository = equipmentRepository;
             _equipmentInRoomRepository = equipmentInRoomRepository;
             _examinationRepository = examinationRepository;
-          
+
         }
 
         public Equipment AddEquipment(Equipment equipment)
@@ -62,7 +62,7 @@ namespace Service.RoomAndEquipment
 
         public void DeleteEquipment(int id)
         {
-             _equipmentRepository.DeleteEquipment(id);
+            _equipmentRepository.DeleteEquipment(id);
         }
 
         public List<Equipment> GetEquipmentWithRoomForSearchTerm(string searchTerm)
@@ -106,7 +106,7 @@ namespace Service.RoomAndEquipment
             int unavailaleRoomNumber = CheckStartingAndDestinationRoomsAvailability(transferEquipmentDTO);
             if (unavailaleRoomNumber != -1)
                 return unavailaleRoomNumber;
-            return CheckEquipmentAvailability(transferEquipmentDTO);       
+            return CheckEquipmentAvailability(transferEquipmentDTO);
         }
         private int CheckStartingAndDestinationRoomsAvailability(TransferEquipmentDTO transferEquipmentDTO)
         {
@@ -119,7 +119,8 @@ namespace Service.RoomAndEquipment
 
         private int CheckRoomAvailibility(DateTime dateAndTimeOfTransfer, int roomId)
         {
-            if (_examinationRepository.GetExaminationsByRoomAndDateTime(roomId, dateAndTimeOfTransfer).Count > 0)
+            if (_examinationRepository.GetExaminationsByRoomAndDateTime(roomId, dateAndTimeOfTransfer).Count > 0
+                || _equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(roomId, dateAndTimeOfTransfer) != null)
                 return roomId;
             return -1;
         }
@@ -160,7 +161,9 @@ namespace Service.RoomAndEquipment
             {
                 transferEquipmentDTO.DateAndTimeOfTransfer = date;
 
-                if (CheckStartingAndDestinationRoomsAvailability(transferEquipmentDTO) == -1)
+                if (CheckStartingAndDestinationRoomsAvailability(transferEquipmentDTO) == -1 
+                    && _equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(transferEquipmentDTO.StartingRoomNumber,transferEquipmentDTO.DateAndTimeOfTransfer) == null
+                    && _equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(transferEquipmentDTO.DestinationRoomNumber, transferEquipmentDTO.DateAndTimeOfTransfer) == null)
                     alternativeAppointments.Add(date);
 
                 if (alternativeAppointments.Count == 10)

@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Repository;
 using System;
 using IntegrationAdapters.Services;
 using System.Collections.Generic;
@@ -26,8 +25,11 @@ using Backend.Repository.DrugInRoomRepository;
 using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
 using Backend.Repository.DrugRepository;
 using Backend.Repository.DrugRepository.MySQLDrugRepository;
+using Backend.Repository.TenderRepository;
+using Backend.Repository.TenderRepository.MySqlTenderRepository;
 using Backend.Service.DrugAndTherapy;
 using Service.DrugAndTherapy;
+using Backend.Communication.RabbitMqConnection;
 
 namespace IntegrationAdapters
 {
@@ -93,8 +95,9 @@ namespace IntegrationAdapters
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
             services.Configure<RabbitMqConfiguration>(GetRabbitConfig);
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
-            services.AddSingleton<RabbitMqActionBenefitMessageingService>();
-            services.AddSingleton<IHostedService, RabbitMqActionBenefitMessageingService>(ServiceProvider => ServiceProvider.GetService<RabbitMqActionBenefitMessageingService>());
+            services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
+            services.AddSingleton<IRabbitMqTenderingService, RabbitMqTenderingService>();
+            services.AddSingleton<IRabbitMqActionBenefitService, RabbitMqActionBenefitService>();
 
             services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
             services.AddScoped<IPharmacyService, PharmacyService>();
@@ -111,6 +114,10 @@ namespace IntegrationAdapters
             services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
             services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
             services.AddScoped<IDrugService, DrugService>();
+            services.AddScoped<ITenderRepository, MySqlTenderRepository>();
+            services.AddScoped<ITenderService, TenderService>();
+            services.AddScoped<ITenderMessageRepository, MySqlTenderMessageRepository>();
+            services.AddScoped<ITenderMessageService, TenderMessageService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHttpClient();
@@ -124,11 +131,16 @@ namespace IntegrationAdapters
             conf.Password = Configuration.GetValue<string>("RABBITMQ_PASSWORD") ?? "guest";
             conf.RetryCount = Configuration.GetValue<int>("RABBITMQ_RETRY");
             conf.RetryWait = Configuration.GetValue<int>("RABBITMQ_RETRY_WAIT");
+            conf.ActionBenefitQueueName = Configuration.GetValue<string>("ACTIONBENEFIT_QUEUE") ?? "bolnica-1";
+            conf.TenderExchangeName = Configuration.GetValue<string>("TENDER_QUEUE") ?? "tender-bolnica-1";
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context, IAntiforgery antiforgery)
         {
+            app.ApplicationServices.GetService<IRabbitMqTenderingService>();
+            app.ApplicationServices.GetService<IRabbitMqActionBenefitService>();
+
             app.Use(next => context =>
             {
                 string path = context.Request.Path.Value;

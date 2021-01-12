@@ -1,13 +1,12 @@
+using Backend.Communication.RabbitMqConnection;
 using Backend.Model;
 using Backend.Model.Pharmacies;
 using Backend.Service.Pharmacies;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Exceptions;
 using System;
 using System.Text;
 using System.Threading;
@@ -15,37 +14,42 @@ using System.Threading.Tasks;
 
 namespace Backend.Service
 {
-    public class RabbitMqActionBenefitMessageingService : BackgroundService, IActionBenefitMessageingService
+    public class RabbitMqActionBenefitService : IRabbitMqActionBenefitService
     {
-        private IModel _channel;
-        private IConnection _connection;
+        private readonly IModel _channel;
+        private readonly EventingBasicConsumer _consumer;
         private readonly IServiceProvider _service;
-        private readonly RabbitMqConfiguration _configuration;
         private readonly String _queueName;
 
-        public RabbitMqActionBenefitMessageingService()
+        public RabbitMqActionBenefitService(IServiceProvider service, IRabbitMqConnection connection)
         {
+            if (connection.Connection != null)
+            {
+                _channel = connection.Connection.CreateModel();
+                _consumer = new EventingBasicConsumer(_channel);
+                _consumer.Received += OnConsumerReceived;
+            }
+            _queueName = connection.Configuration.ActionBenefitQueueName;
+            _service = service;
+            InitializeRabbitMqListener();
         }
 
-        public RabbitMqActionBenefitMessageingService(IServiceProvider service, IOptions<RabbitMqConfiguration> rabbitMqOPtions)
+        ~RabbitMqActionBenefitService()
         {
-            _service = service;
-            _configuration = rabbitMqOPtions.Value;
-            _queueName = "bolnica-1";
-            InitializeRabbitMqListener();
+            if (_channel != null)
+                _channel.Dispose();
         }
 
         private void InitializeRabbitMqListener()
         {
-            InitializeConnection();
-            if (_connection is null)
+            if (_channel == null)
                 return;
-            _channel = _connection.CreateModel();
             _channel.QueueDeclare(queue: _queueName,
                                   durable: true,
                                   exclusive: false,
                                   autoDelete: false,
                                   arguments: null);
+            _channel.BasicConsume(queue: _queueName, autoAck: false, consumer: _consumer);
             using (var scope = _service.CreateScope())
             {
                 IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
@@ -59,76 +63,6 @@ namespace Backend.Service
             
         }
 
-        private void InitializeConnection()
-        {
-            Console.WriteLine($"Host: {_configuration.Host}, VHost: {_configuration.VHost}, User: {_configuration.Username}");
-            Console.WriteLine($"Retry: {_configuration.RetryCount}, Retry wait: {_configuration.RetryWait}");
-            for (int i = 0; i <= _configuration.RetryCount; i++)
-            {
-                try
-                {
-                    var factory = new ConnectionFactory()
-                    {
-                        HostName = _configuration.Host,
-                        VirtualHost = _configuration.VHost,
-                        UserName = _configuration.Username,
-                        Password = _configuration.Password
-                    };
-                    _connection = factory.CreateConnection();
-                    _connection.ConnectionShutdown += RabbitMQ_ConnectionShutdown;
-                    Console.WriteLine("RabbitMq connection established.");
-                    break;
-                }
-                catch (BrokerUnreachableException)
-                {
-                    if (i < _configuration.RetryCount)
-                    {
-                        Console.WriteLine("RabbitMq connection failed. Retrying.");
-                        Thread.Sleep(_configuration.RetryWait);
-                    }
-                    else
-                    {
-                        Console.WriteLine("RabbitMq connection failed. Disposing.");
-                        Dispose();
-                    }
-                }
-            }
-        }
-
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            if (!stoppingToken.IsCancellationRequested)
-            {
-                var consumer = new EventingBasicConsumer(_channel);
-                consumer.Received += OnConsumerReceived;
-                consumer.Shutdown += OnConsumerShutdown;
-                consumer.Registered += OnConsumerRegistered;
-                consumer.Unregistered += OnConsumerUnregistered;
-                consumer.ConsumerCancelled += OnConsumerCancelled;
-
-                _channel.BasicConsume(queue: _queueName, autoAck: false, consumer: consumer);
-
-            }
-            return Task.CompletedTask;
-        }
-
-        public void Subscribe(string exchangeName)
-        {
-            if (exchangeName == null || exchangeName.Trim() == "")
-                throw new ArgumentException("Non valid exchange name");
-
-            _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
-            _channel.QueueBind(queue: _queueName, exchange: exchangeName, routingKey: "");
-        }
-
-        public void Unsubscribe(String exchangeName)
-        {
-            if (exchangeName == null || exchangeName.Trim() == "")
-                throw new ArgumentException("Non valid exchange name");
-
-            _channel.QueueUnbind(queue: _queueName, exchange: exchangeName, "", null);
-        }
-
         private void HandleMessage(ActionBenefitMessage message, string exchangeName)
         {
             using (var scope = _service.CreateScope())
@@ -137,11 +71,6 @@ namespace Backend.Service
 
                 actionBenefitService.CreateActionBenefit(exchangeName, message);
             }
-        }
-
-        private void RabbitMQ_ConnectionShutdown(object sender, ShutdownEventArgs e)
-        {
-            Dispose();
         }
 
         private void OnConsumerReceived(object sender, BasicDeliverEventArgs e)
@@ -166,39 +95,34 @@ namespace Backend.Service
             }
         }
 
-        private void OnConsumerShutdown(object sender, ShutdownEventArgs e)
+        public void Subscribe(string exchangeName)
         {
-            //throw new NotImplementedException();
+            if (_channel == null)
+                return;
+
+            if (exchangeName == null || exchangeName.Trim() == "")
+                throw new ArgumentException("Non valid exchange name");
+
+            _channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout);
+            _channel.QueueBind(queue: _queueName, exchange: exchangeName, routingKey: "");
         }
 
-        private void OnConsumerRegistered(object sender, ConsumerEventArgs e)
+        public void Unsubscribe(string exchangeName)
         {
-            //throw new NotImplementedException();
-        }
+            if (_channel == null)
+                return;
 
-        private void OnConsumerUnregistered(object sender, ConsumerEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
+            if (exchangeName == null || exchangeName.Trim() == "")
+                throw new ArgumentException("Non valid exchange name");
 
-        private void OnConsumerCancelled(object sender, ConsumerEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        public override void Dispose()
-        {
-            if (_channel != null)
-                _channel.Dispose();
-
-            if (_connection != null)
-                _connection.Dispose();
-
-            base.Dispose();
+            _channel.QueueUnbind(queue: _queueName, exchange: exchangeName, "", null);
         }
 
         public void SubscriptionEdit(string exOld, bool subOld, string exNew, bool subNew)
         {
+            if (_channel == null)
+                return;
+
             if (subOld != subNew || exOld != exNew)
             {
                 if (subOld && !subNew && exOld == exNew)

@@ -11,10 +11,10 @@ HealthcareSystem is a student project for the PSW course in 2020/2021 at FTN Nov
 
 ## Try out the project
 
-* [PatientWebApp Test environment on Heroku](https://vlaksi-patientwebapp.herokuapp.com/)
+* [PatientWebApp Test environment on Heroku](https://psw-patientwebapp.herokuapp.com/)
 <br>*Credentials for patient:* ana_anic98@gmail.com, 11111111
 <br>*Credentials for administrator:* milic_milan@gmail.com, milanmilic965
-* [GraphicalEditorServer Test environment on Heroku](https://vlaksi-graphicaleditor.herokuapp.com/api/drugs)
+* [GraphicalEditorServer Test environment on Heroku](https://psw-graphicaleditor.herokuapp.com/api/drugs)
 <br>The deployed server can be used to test out the GraphicalEditor desktop app locally without launching the backend.
 * [Wiki page with explanations for how to run the project locally](https://github.com/PSW-2020-ORG4/HealthcareSystem/wiki/Running-the-project-locally)
 

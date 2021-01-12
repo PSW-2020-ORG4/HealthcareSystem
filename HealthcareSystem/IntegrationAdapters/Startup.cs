@@ -162,8 +162,8 @@ namespace IntegrationAdapters
                         context.Pharmacies.Add(new PharmacySystem()
                         {
                             Name = "ISA Pharmacy",
-                            Url = "http://localhost:8383",
-                            GrpcHost = "http://localhost",
+                            Url = "http://isabackend:8080",
+                            GrpcHost = "http://isabackend",
                             GrpcPort = 9090,
                             ActionsBenefitsSubscribed = true,
                             ActionsBenefitsExchangeName = "exchange",

@@ -2,7 +2,7 @@ version: "3.8"
 services: 
   database:
     build:
-      context: ../HealthcareSystem/Backend
+      context: ../../HealthcareSystem/Backend
       dockerfile: Dockerfile.postgre
     environment:
       POSTGRES_USER: "org4"
@@ -14,34 +14,23 @@ services:
 
   intergrationadapters:
     build:
-      context: ../HealthcareSystem/IntegrationAdapters
+      context: ../../HealthcareSystem/IntegrationAdapters
       dockerfile: Dockerfile.local
-    ports:
-    - "8282:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Test
       DATABASE_RETRY: 20
       DATABASE_RETRY_WAIT: 30
       DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
-      RabbitMqSettings__Host: "rabbitmq"
-      RabbitMqSettings__Username: "org4"
-      RabbitMqSettings__Password: "org4"
-      RabbitMqSettings__RetryCount: 20
-      RabbitMqSettings__RetryWait: 30000
     depends_on:      
       - database
-      - rabbitmq
     restart: on-failure
     networks:
-      - demo
       - psw
 
   patientwebapp:
     build:
-      context: ../HealthcareSystem/PatientWebApp
+      context: ../../HealthcareSystem/PatientWebApp
       dockerfile: Dockerfile.local
-    ports:
-    - "8181:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Test
       PATIENT_SERVICE_URL: "http://patientservice"
@@ -57,15 +46,12 @@ services:
       - scheduleservice
     restart: on-failure
     networks:
-      - demo
       - psw
 
   graphicaleditorserver:
     build:
-      context: ../HealthcareSystem/GraphicalEditorServer
+      context: ../../HealthcareSystem/GraphicalEditorServer
       dockerfile: Dockerfile.local
-    ports:
-    - "5001:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Test
       DATABASE_RETRY: 5
@@ -80,12 +66,11 @@ services:
       - scheduleservice
     restart: on-failure
     networks:
-      - demo
       - psw
 
   userservice:
     build:
-      context: ../HealthcareSystem/UserService
+      context: ../../HealthcareSystem/UserService
       dockerfile: Dockerfile.local
     environment:
       ASPNETCORE_ENVIRONMENT: Test
@@ -100,7 +85,7 @@ services:
 
   scheduleservice:
     build:
-      context: ../HealthcareSystem/ScheduleService
+      context: ../../HealthcareSystem/ScheduleService
       dockerfile: Dockerfile.local
     environment:
       ASPNETCORE_ENVIRONMENT: Test
@@ -115,7 +100,7 @@ services:
 
   patientservice:
     build:
-      context: ../HealthcareSystem/PatientService
+      context: ../../HealthcareSystem/PatientService
       dockerfile: Dockerfile.local
     environment:
       ASPNETCORE_ENVIRONMENT: Test
@@ -130,7 +115,7 @@ services:
 
   feedbacksurveyservice:
     build:
-      context: ../HealthcareSystem/FeedbackAndSurveyService
+      context: ../../HealthcareSystem/FeedbackAndSurveyService
       dockerfile: Dockerfile.local
     environment:
       ASPNETCORE_ENVIRONMENT: Test
@@ -145,24 +130,13 @@ services:
 
   notificationservice:
     build:
-      context: ../HealthcareSystem/NotificationService
+      context: ../../HealthcareSystem/NotificationService
       dockerfile: Dockerfile.local
     restart: on-failure
     networks:
       - psw
 
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    environment:
-      RABBITMQ_DEFAULT_USER: "org4"
-      RABBITMQ_DEFAULT_PASS: "org4"
-    networks:
-      - demo
-
 networks:
-  demo:
-    name: demo
-    driver: bridge
   psw:
     name: psw
     driver: bridge

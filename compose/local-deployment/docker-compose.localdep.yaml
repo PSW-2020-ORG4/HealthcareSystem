@@ -1,35 +1,47 @@
 version: "3.8"
 services: 
-  databaseisa:
-    image: mysql:8.0.22
+  intergrationadapters:
+    ports:
+    - "8282:80"
     environment:
-      MYSQL_ROOT_PASSWORD: "password"
-      MYSQL_USER: "org4"
-      MYSQL_PASSWORD: "org4"
-      MYSQL_DATABASE: "springbootdb" 
-    restart: always
+      RabbitMqSettings__Host: "rabbitmq"
+      RabbitMqSettings__Username: "org4"
+      RabbitMqSettings__Password: "org4"
+      RabbitMqSettings__RetryCount: 20
+      RabbitMqSettings__RetryWait: 30000
+    depends_on:      
+      - rabbitmq
+    restart: on-failure
     networks:
-      - isa
+      - demo
+
+  patientwebapp:
+    ports:
+    - "8181:80"
+    restart: on-failure
+    networks:
+      - demo
+
+  graphicaleditorserver:
+    ports:
+    - "5001:80"
+    restart: on-failure
+    networks:
+      - demo
 
   isabackend:
-    image: pufke/integrationadaptersisabackend:1.0
     restart: always
     depends_on:      
-      - databaseisa
       - rabbitmq
     ports:
       - 8383:8080
     environment:
-      spring.datasource.url: "jdbc:mysql://databaseisa:3306/springbootdb?connectTimeout=300000"
-      spring.datasource.username: "org4"
-      spring.datasource.password: "org4"
       spring.rabbitmq.host: "rabbitmq"
       spring.rabbitmq.port: 5672
       spring.rabbitmq.username: "org4"
       spring.rabbitmq.password: "org4"
     networks:
       - demo
-      - isa
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -42,7 +54,4 @@ services:
 networks:
   demo:
     name: demo
-    driver: bridge
-  isa:
-    name: isa
     driver: bridge

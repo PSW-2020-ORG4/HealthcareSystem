@@ -708,8 +708,8 @@ namespace GraphicalEditor
             DateTime endDate = AppointmentSearchEndDatePicker.SelectedDate.Value.Date;
             DateTime endTime = AppointmentSearchEndTimePicker.SelectedTime.Value;
 
-            DateTime appointmentSearchStartDateTime = new DateTime(startDate.Year, startDate.Month, startDate.Day, startTime.Hour, startTime.Minute, startTime.Second);
-            DateTime appointmentSearchEndDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day, endTime.Hour, endTime.Minute, endTime.Second);
+            DateTime appointmentSearchStartDateTime = new DateTime(startDate.Year, startDate.Month, startDate.Day, startTime.Hour, startTime.Minute, startTime.Second, DateTimeKind.Utc);
+            DateTime appointmentSearchEndDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day, endTime.Hour, endTime.Minute, endTime.Second, DateTimeKind.Utc);
             
             string doctorJmbg = ((DoctorDTO)AppointmentDoctorComboBox.SelectedItem).Jmbg;
             int patientCardId = ((PatientBasicDTO)AppointmentSearchPatientComboBox.SelectedItem).PatientCardId;
@@ -737,7 +737,11 @@ namespace GraphicalEditor
             }
 
             AppointmentService appointmentService = new AppointmentService();
-            AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO(new BasicAppointmentSearchDTO(patientCardId, doctorJmbg, appointmentRequiredEquipmentTypes, new DateTime(appointmentSearchStartDateTime.Ticks, DateTimeKind.Utc), new DateTime(appointmentSearchEndDateTime.Ticks, DateTimeKind.Utc)), searchPriority, doctorSpecialtyId);
+            AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO(
+                new BasicAppointmentSearchDTO(patientCardId, doctorJmbg, appointmentRequiredEquipmentTypes, 
+                appointmentSearchStartDateTime, 
+                appointmentSearchEndDateTime), searchPriority, doctorSpecialtyId);
+            
             List<ExaminationDTO> examinationDTOs =  appointmentService.GetFreeAppointments(appointmentSearchParametersDTO);
             ExaminationSearchResults = examinationDTOs;
             List<ExaminationDTO>  examinationDTOsWithoutDuplicates = RemoveAppointmentsWithDuplicateTimes(examinationDTOs);
@@ -850,7 +854,7 @@ namespace GraphicalEditor
             AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO
             {
                 InitialParameters = new BasicAppointmentSearchDTO(patientCardId, doctorJmbg: "0909965768767", appointmentRequiredEquipmentTypes,
-                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 22, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime()),
+                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 23, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime()),
                 Priority = SearchPriority.Date,
                 SpecialtyId = doctorSpecialtyId
             };
@@ -895,6 +899,7 @@ namespace GraphicalEditor
                 InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
                 infoDialog.ShowDialog();
 
+                
                 ClearAppointmentSearchFields();
             }
             

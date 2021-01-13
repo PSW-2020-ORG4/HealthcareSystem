@@ -1550,10 +1550,14 @@
 
                                                 <!--  Table Column Headers Names and Binding  -->
                                                 <DataGrid.Columns>
-                                                    <DataGridTextColumn
-                                                        Width="*"
-                                                        Binding="{Binding DateTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
-                                                        Header="Termin">
+                                                    <DataGridTextColumn Width="*" Header="Termin">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding StringFormat="{}{0:dd/MM/yy}&#x0a;{1:00}:{2:00;00}">
+                                                                <Binding Path="DateTime.Date" />
+                                                                <Binding Path="DateTime.Hour" />
+                                                                <Binding Path="DateTime.Minute" />
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
 
                                                         <DataGridTextColumn.ElementStyle>
                                                             <Style TargetType="TextBlock">
@@ -1609,10 +1613,14 @@
 
                                                 <!--  Table Column Headers Names and Binding  -->
                                                 <DataGrid.Columns>
-                                                    <DataGridTextColumn
-                                                        Width="*"
-                                                        Binding="{Binding UnchangedExamination.DateTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
-                                                        Header="Trenutni">
+                                                    <DataGridTextColumn Width="*" Header="Trenutni">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding StringFormat="{}{0:dd/MM/yy}&#x0a;{1:00}:{2:00;00}">
+                                                                <Binding Path="UnchangedExamination.DateTime.Date" />
+                                                                <Binding Path="UnchangedExamination.DateTime.Hour" />
+                                                                <Binding Path="UnchangedExamination.DateTime.Minute" />
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
 
                                                         <DataGridTextColumn.ElementStyle>
                                                             <Style TargetType="TextBlock">
@@ -1622,10 +1630,15 @@
                                                         </DataGridTextColumn.ElementStyle>
                                                     </DataGridTextColumn>
 
-                                                    <DataGridTextColumn
-                                                        Width="*"
-                                                        Binding="{Binding ShiftedExamination.DateTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
-                                                        Header="Pomereni">
+
+                                                    <DataGridTextColumn Width="*" Header="Pomereni">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding StringFormat="{}{0:dd/MM/yy}&#x0a;{1:00}:{2:00;00}">
+                                                                <Binding Path="ShiftedExamination.DateTime.Date" />
+                                                                <Binding Path="ShiftedExamination.DateTime.Hour" />
+                                                                <Binding Path="ShiftedExamination.DateTime.Minute" />
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
 
                                                         <DataGridTextColumn.ElementStyle>
                                                             <Style TargetType="TextBlock">
@@ -1637,7 +1650,7 @@
 
 
                                                     <DataGridTextColumn
-                                                        Width="2*"
+                                                        Width="*"
                                                         Binding="{Binding UnchangedExamination.RoomId}"
                                                         Header="Id objekta" />
 

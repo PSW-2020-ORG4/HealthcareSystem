@@ -1,43 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Backend.Model.Exceptions;
-using Backend.Model.Users;
-using Backend.Service;
-using Backend.Service.Encryption;
-using Backend.Service.SendingMail;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model.Users;
-using PatientWebApp.Adapters;
+using Microsoft.Extensions.Options;
+using PatientWebApp.Auth;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.DTOs;
-using PatientWebApp.Validators;
+using PatientWebApp.Settings;
+using RestSharp;
+using System.IO;
+using System.Net;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PatientController : ControllerBase
     {
-        private readonly IPatientService _patientService;
-        private readonly IPatientCardService _patientCardService;
-        private readonly IMailService _mailService;
-        private readonly PatientValidator _patientValidator;
-		public static IWebHostEnvironment _webHostEnvironment;
+        public static IWebHostEnvironment _webHostEnvironment;
         private readonly EncryptionService _encryptionService;
+        private readonly ServiceSettings _serviceSettings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PatientController(IPatientService patientService, IPatientCardService patientCardService, IWebHostEnvironment webHostEnvironment, IMailService mailService)
+        public PatientController(IWebHostEnvironment webHostEnvironment,
+                                 IOptions<ServiceSettings> serviceSettings,
+                                 IHttpContextAccessor httpContextAccessor)
         {
-            _patientService = patientService;
-            _patientCardService = patientCardService;
-            _mailService = mailService;
-            _patientValidator = new PatientValidator();
             _webHostEnvironment = webHostEnvironment;
             _encryptionService = new EncryptionService();
+            _serviceSettings = serviceSettings.Value;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -45,19 +38,23 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="jmbg">jmbg of the wanted patient</param>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{jmbg}")]
-        public IActionResult GetPatientByJmbg(string jmbg)
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet]
+        public IActionResult GetPatientByJmbg()
         {
-            try
-            {
-                Patient patient = _patientService.ViewProfile(jmbg);
-                PatientCard patientCard = _patientCardService.ViewPatientCard(jmbg);
-                return Ok(PatientMapper.PatientAndPatientCardToPatientDTO(patient, patientCard));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
+
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/" + jmbg, Method.GET);
+        }
+
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet("medical-info")]
+        public IActionResult GetPatientMedicalInfo()
+        {
+            var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
+
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.PatientServiceUrl, "/api/patient/" + jmbg + "/medical-info", Method.GET);
         }
 
         /// <summary>
@@ -65,27 +62,65 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="patientDTO">an object to be added to the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bad request)</returns>
+        /// 
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> AddPatient(PatientDTO patientDTO)
+        public IActionResult AddPatient(PatientDTO patientDTO)
         {
-            try
+            var userServiceClient = new RestClient(_serviceSettings.UserServiceUrl);
+            var userServiceRequest = new RestRequest("/api/patient/", Method.POST);
+            userServiceRequest.AddJsonBody(new
             {
-                WelcomeRequest request = new WelcomeRequest(patientDTO.Email, patientDTO.Name, patientDTO.Jmbg);
-                _patientValidator.validatePatientFields(patientDTO);
-                _patientService.RegisterPatient(PatientMapper.PatientDTOToPatient(patientDTO));
-                await _mailService.SendWelcomeEmailAsync(request);
-                _patientCardService.AddPatientCard(PatientMapper.PatientDTOToPatientCard(patientDTO));
+                Name = patientDTO.Name,
+                Surname = patientDTO.Surname,
+                Jmbg = patientDTO.Jmbg,
+                Gender = patientDTO.Gender,
+                DateOfBirth = patientDTO.DateOfBirth,
+                Phone = patientDTO.Phone,
+                CityId = patientDTO.CityZipCode,
+                HomeAddress = patientDTO.HomeAddress,
+                Email = patientDTO.Email,
+                Password = patientDTO.Password,
+                ImageName = "/images/Blank-profile.png"
+            });
+            var response = userServiceClient.Execute(userServiceRequest);
 
-            }
-            catch (ValidationException exception)
+            if (response.StatusCode != HttpStatusCode.NoContent)
             {
-                return BadRequest(exception.Message);
+                return new ContentResult()
+                {
+                    StatusCode = (int)response.StatusCode,
+                    Content = response.Content,
+                    ContentType = response.ContentType
+                };
             }
-            catch (DatabaseException exception)
+
+            var patientServiceClient = new RestClient(_serviceSettings.PatientServiceUrl);
+            var patientServiceRequest = new RestRequest("/api/patient/" + patientDTO.Jmbg + "/medical-info",
+                                                        Method.PUT);
+            patientServiceRequest.AddJsonBody(new
             {
-                return BadRequest(exception.Message);
-            }
-            return Ok();
+                BloodType = patientDTO.BloodType,
+                RhFactor = patientDTO.RhFactor,
+                Allergies = patientDTO.Allergies,
+                MedicalHistory = patientDTO.MedicalHistory,
+                InsuranceNumber = patientDTO.Lbo
+            });
+            patientServiceClient.Execute(patientServiceRequest);
+
+            string encryptedJmbg = _encryptionService.EncryptString(patientDTO.Jmbg);
+            string host = _httpContextAccessor.HttpContext.Request.Host.Value;
+            var notificationServiceClient = new RestClient(_serviceSettings.NotificationServiceUrl);
+            var notificationServiceRequest = new RestRequest("/api/notify/activation", Method.POST);
+            notificationServiceRequest.AddJsonBody(new
+            {
+                Email = patientDTO.Email,
+                Name = patientDTO.Name,
+                ActivationLink = $"http://{host}/html/activate_account.html?id={encryptedJmbg}"
+            });
+            notificationServiceClient.Execute(notificationServiceRequest);
+
+            return NoContent();
         }
 
         /// <summary>
@@ -93,27 +128,23 @@ namespace PatientWebApp.Controllers
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
-        [HttpPut("activate/{jmbg}")]
+        /// 
+        [AllowAnonymous]
+        [HttpPost("{jmbg}/activate")]
         public ActionResult ActivatePatient(string jmbg)
         {
-            try
-            {
-                string decryptedJmbg = _encryptionService.DecryptString(jmbg);
-                _patientService.ActivatePatientStatus(decryptedJmbg);
-                return Ok();
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            string decryptedJmbg = _encryptionService.DecryptString(jmbg);
 
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/" + decryptedJmbg + "/activate", Method.POST);
         }
-		
+
         /// /upload patient image in memory
         /// </summary>
         /// <param name="file">uploaded file ie image</param>
         /// <param name="patientJmbg">jmbg of patient who uploads file</param>
         /// <returns>if alright makes redirection to new action, if not stay at current page</returns>
+        /// 
+        [AllowAnonymous]
         [HttpPost]
         [Route("upload")]
         public IActionResult UploadImage([FromForm] IFormFile file, [FromQuery] string patientJmbg)
@@ -122,8 +153,8 @@ namespace PatientWebApp.Controllers
             {
                 return RedirectPermanent("/html/patient_registration.html");
             }
-            string directoryPath = _webHostEnvironment.WebRootPath + "\\Uploads\\";
-            string imagePath = directoryPath + file.FileName;
+            string directoryPath = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
+            string imagePath = Path.Combine(directoryPath, file.FileName);
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -142,70 +173,35 @@ namespace PatientWebApp.Controllers
         /// <param name="jmbg">jmbg of patient</param>
         /// <param name="name">image name</param>
         /// <returns>if alright makes redirection to patient home page, if not return 404(Not found patient)</returns>
+        /// 
+        [AllowAnonymous]
         [HttpGet("{jmbg}/{name}")]
         public IActionResult ChangeImagePathForPatent(string jmbg, string name)
         {
-            try
-            {
-                _patientService.SavePatientImageName(jmbg, name);
-                
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            var userServiceClient = new RestClient(_serviceSettings.UserServiceUrl);
+            var userServiceRequest = new RestRequest("/api/patient/" + jmbg + "/image", Method.PUT);
+            userServiceRequest.AddJsonBody("/Uploads/" + name);
+            userServiceClient.Execute(userServiceRequest);
             return RedirectPermanent("/html/patients_home_page.html");
         }
+
         /// <summary>
         /// /getting malicious patients(who canceled examinations 3 or more times in the past month)
         /// </summary>
         /// <returns>list of patients</returns>
-        [HttpGet("malicious-patients")]
+        /// 
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpGet("malicious")]
         public IActionResult GetMaliciousPatients()
         {
-            try
-            {
-                List<PatientDTO> patientDTOs = new List<PatientDTO>();
-                _patientService.ViewMaliciousPatients().ForEach(patient => patientDTOs.Add(PatientMapper.PatientToPatientDTO(patient)));
-                return Ok(patientDTOs);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/malicious", Method.GET);
         }
 
-        [HttpGet("{jmbg}/canceled-examinations")]
-        public IActionResult GetNumberOfCanceledExaminations(string jmbg)
-        {
-            try
-            {
-                int number = _patientService.GetNumberOfCanceledExaminations(jmbg);
-                return Ok(number);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
-        }
-
-        [HttpPut("blocked/{jmbg}")]
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpPost("{jmbg}/block")]
         public ActionResult BlockPatient(string jmbg)
         {
-            try
-            {
-                _patientService.BlockPatient(jmbg);
-                return Ok();
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            catch (DatabaseException exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
-
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/" + jmbg + "/block", Method.POST);
         }
     }
 }

@@ -4,7 +4,6 @@
  * Purpose: Definition of the Class Service.Examination&Drug&PatientCard&TherapyService.ExaminationService
  ***********************************************************************/
 
-using Model.PerformingExamination;
 using Model.Manager;
 using Model.Users;
 using Repository;
@@ -18,6 +17,7 @@ using Backend.Service.SearchSpecification;
 using System.Linq;
 using Backend.Service.SearchSpecification.ExaminationSearch;
 using Backend.Model.Enums;
+using Backend.Model.PerformingExamination;
 
 namespace Service.ExaminationAndPatientCard
 {
@@ -62,7 +62,7 @@ namespace Service.ExaminationAndPatientCard
 
         public List<Examination> AdvancedSearch(ExaminationSearchDTO parameters)
         {
-            List<Examination> examinations = GetPreviousExaminationsByPatient(parameters.Jmbg);
+            List<Examination> examinations = GetPreviousExaminationsByPatient("");
 
             ISpecification<Examination> filter = new ExaminationStartDateSpecification(parameters.StartDate);
             filter = filter.BinaryOperation(parameters.EndDateOperator, new ExaminationEndDateSpecification(parameters.EndDate));

@@ -1,6 +1,8 @@
 ﻿var newAppointments = [];
 
 $(document).ready(function () {
+    checkUserRole("Patient");
+
     var dtToday = new Date();
     var month = dtToday.getMonth() + 1;
     var day = dtToday.getDate() + 1;
@@ -16,8 +18,11 @@ $(document).ready(function () {
     $('#dateTo').attr('min', minDate);
 
     $.ajax({
-        url: '/api/doctor/all-specialty',
+        url: '/api/specialty',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
@@ -30,9 +35,8 @@ $(document).ready(function () {
                 changeSpecialty();
             }
         },
-        error: function () {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching specialties.'
-                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+        error: function (jqXHR) {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">' + jqXHR.responseJSON +  '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#alertSchedule').prepend(alert);
         }
     });
@@ -59,7 +63,6 @@ $(document).ready(function () {
         $('#free_appointments').empty();
 
         var initialParameters = {
-            "PatientCardId": 1,
             "DoctorJmbg": doctorJmbg,
             "RequiredEquipmentTypes": [],
             "EarliestDateTime": earliestDateTime,
@@ -77,6 +80,9 @@ $(document).ready(function () {
             url: "/api/appointment/priority-search",
             type: 'POST',
             contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            },
             data: JSON.stringify(newData),
             success: function (appointments) {
                 newAppointments = appointments;
@@ -90,7 +96,7 @@ $(document).ready(function () {
                 else {
                     for (let a of appointments) {
                         let doctorNameAndSurname = a.doctorName + ' ' + a.doctorSurname;
-                        let appointment = $('<option value="' + i + '">' + a.dateAndTime + ',  dr ' + doctorNameAndSurname + '</option>');
+                        let appointment = $('<option value="' + i + '">' + a.startTime + ',  dr ' + doctorNameAndSurname + '</option>');
                         $('#free_appointments').append(appointment);
                         i = i + 1;
                     }
@@ -123,31 +129,17 @@ function changeSpecialty() {
     $.ajax({
         url: '/api/doctor/doctor-specialty/' + select_specialty,
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
         success: function (doctorSpecialtes) {
-            for (let ds of doctorSpecialtes) {
-                let doctorJmbg = ds.doctorJmbg;
-
-                $.ajax({
-                    url: '/api/doctor/' + doctorJmbg,
-                    type: 'GET',
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    success: function (doctor) {
-                        let doctorName = $('<option value="' + doctor.jmbg + '">' + doctor.name + ' ' + doctor.surname + '</option>');
-                        $('#doctor_name').append(doctorName);
-                    },
-                    error: function () {
-                        let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching doctors.'
-                            + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-                        $('#alertSchedule').prepend(alert);
-                    }
-                });
+            for (let doctor of doctorSpecialtes) {
+                let doctorName = $('<option value="' + doctor.jmbg + '">' + doctor.name + ' ' + doctor.surname + '</option>');
+                $('#doctor_name').append(doctorName);
             }
-
         },
         error: function () {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching doctors.'
@@ -163,40 +155,55 @@ function scheduleExamination() {
     $('#modalButton').prop('disabled', true);
     $('#modalLoading').show();
     let a = $('#free_appointments option:selected').val();
-
-    var appointment = newAppointments[a];
-    var newData = {
-        "Type": appointment.type,
-        "DateAndTime": appointment.dateAndTime,
-        "DoctorJmbg": appointment.doctorJmbg,
-        "IdRoom": appointment.idRoom,
-        "Anamnesis": "",
-        "PatientCardId": appointment.patientCardId,
-        "PatientJmbg": "1309998775018",
-        "ExaminationStatus": 0,
-        "IsSurveyCompleted": false
-    };
-
     $.ajax({
-        url: "/api/examination",
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(newData),
-        success: function () {
-            let alert = $('<div class="alert alert-success alert-dismissible fade show mb-0 mt-2" role="alert">Examination successfully scheduled.'
-                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-            $('#alertSchedule').prepend(alert);
-            $('#centralModalSuccess').modal('hide');
-            $('#modalLoading').hide();
-            $('#modalButton').prop('disabled', false);
+        url: "/api/patient",
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
         },
-        error: function (jqXHR) {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Examination scheduling failed.'
-                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-            $('#alertModal').prepend(alert);
-            $('#modalLoading').hide();
-            $('#modalButton').prop('disabled', false);
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (patient) {
+            jmbg = patient.jmbg;
+            var appointment = newAppointments[a];
+            var newData = {
+                "startTime": appointment.startTime,
+                "DoctorJmbg": appointment.doctorJmbg,
+                "roomId": appointment.roomId
+            };
+
+            $.ajax({
+                url: "/api/examination",
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
+                data: JSON.stringify(newData),
+                success: function () {
+                    let alert = $('<div class="alert alert-success alert-dismissible fade show mb-0 mt-2" role="alert">Examination successfully scheduled.'
+                        + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+                    $('#alertSchedule').prepend(alert);
+                    $('#centralModalSuccess').modal('hide');
+                    $('#modalLoading').hide();
+                    $('#modalButton').prop('disabled', false);
+                },
+                error: function (jqXHR) {
+                    let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Examination scheduling failed.'
+                        + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+                    $('#alertModal').prepend(alert);
+                    $('#modalLoading').hide();
+                    $('#modalButton').prop('disabled', false);
+                }
+            });
+        },
+        error: function () {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error getting patient.'
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
+            $('#loading').hide();
+            $('#schedule').find(":submit").prop('disabled', false);
+            $('#alert').prepend(alert);
         }
     });
-};
-
+}

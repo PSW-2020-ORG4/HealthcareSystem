@@ -4,6 +4,7 @@
  * Purpose: Definition of the Class Service.RoomService
  ***********************************************************************/
 
+using Backend.Model.Enums;
 using Backend.Model.Exceptions;
 using Backend.Model.Manager;
 using Backend.Repository;
@@ -11,13 +12,11 @@ using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Service;
-using Backend.Service.RoomAndEquipment;
-using Model.Enums;
 using Model.Manager;
 using System;
 using System.Collections.Generic;
 
-namespace Service.RoomAndEquipment
+namespace Backend.Service.RoomAndEquipment
 {
     public class RoomService : IRoomService
     {
@@ -27,7 +26,7 @@ namespace Service.RoomAndEquipment
         private IEquipmentRepository _equipmentRepository;
 
         public RoomService(
-            IRoomRepository roomRepository, 
+            IRoomRepository roomRepository,
             IRenovationPeriodRepository renovationPeriodRepository,
             IEquipmentInRoomsRepository equipmentInRoomsRepository,
             IEquipmentRepository equipmentRepository)
@@ -95,7 +94,7 @@ namespace Service.RoomAndEquipment
                     RenovationPeriod renovationPeriod = _renovationPeriodRepository.GetRenovationPeriodByRoomNumber(r.Id);
                     int beginDateCompare = DateTime.Compare(beginDate, renovationPeriod.BeginDate);
                     int endDateCompare = DateTime.Compare(endDate, renovationPeriod.EndDate);
-                    if (renovationPeriod != null && ((beginDateCompare <= 0 && endDateCompare <= 0) || (beginDateCompare >= 0 && endDateCompare >= 0)))
+                    if (renovationPeriod != null && (beginDateCompare <= 0 && endDateCompare <= 0 || beginDateCompare >= 0 && endDateCompare >= 0))
                     {
                         result.Add(r);
                     }
@@ -112,12 +111,23 @@ namespace Service.RoomAndEquipment
             ICollection<Room> validRooms = new List<Room>();
             foreach (Room room in allRooms)
             {
-                ICollection<int> availableEquipmentTypes = GetAvailableEquipmentTypesInRoom(room);
-                if (CheckIfRoomHasRequiredEquipment(requiredEquipmentTypeIds, availableEquipmentTypes))
+                if (CheckIfRoomHasRequiredEquipment(room.Id, requiredEquipmentTypeIds))
                     validRooms.Add(room);
             }
 
             return validRooms;
+        }
+
+        public bool CheckIfRoomHasRequiredEquipment(int roomId, ICollection<int> requiredEquipmentTypeIds)
+        {
+            Room room = _roomRepository.GetRoomByNumber(roomId);
+            ICollection<int> availableEquipmentTypes = GetAvailableEquipmentTypesInRoom(room);
+            foreach (int requiredEquipmentTypeId in requiredEquipmentTypeIds)
+            {
+                if (!availableEquipmentTypes.Contains(requiredEquipmentTypeId))
+                    return false;
+            }
+            return true;
         }
 
         private ICollection<int> GetAvailableEquipmentTypesInRoom(Room room)
@@ -133,17 +143,6 @@ namespace Service.RoomAndEquipment
             }
 
             return availableEquipmentTypes;
-        }
-
-        private bool CheckIfRoomHasRequiredEquipment(ICollection<int> requiredEquipmentTypeIds, ICollection<int> availableEquipmentTypes)
-        {
-            foreach (int requiredEquipmentTypeId in requiredEquipmentTypeIds)
-            {
-                if (!availableEquipmentTypes.Contains(requiredEquipmentTypeId))
-                    return false;
-            }
-
-            return true;
         }
 
         public bool CheckIfRoomExists(int roomId)

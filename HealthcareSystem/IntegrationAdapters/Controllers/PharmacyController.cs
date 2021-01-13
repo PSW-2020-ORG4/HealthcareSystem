@@ -3,7 +3,6 @@ using System.Linq;
 using Backend.Model.Pharmacies;
 using Backend.Service;
 using Backend.Service.Pharmacies;
-using IntegrationAdapters.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdapters.Controllers
@@ -11,12 +10,12 @@ namespace IntegrationAdapters.Controllers
     public class PharmacyController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly IPharmacyService _pharmacyService;
-        private readonly IActionBenefitMessageingService _actionBenefitMessageingService;
+        private readonly IRabbitMqActionBenefitService _actionBenefitMessageingService;
 
-        public PharmacyController(IPharmacyService iPharmacyService, RabbitMqActionBenefitMessageingService actionBenefitMessageingService)
+        public PharmacyController(IPharmacyService iPharmacyService, IRabbitMqActionBenefitService actionBenefitSubscriptionService)
         {
             _pharmacyService = iPharmacyService;
-            _actionBenefitMessageingService = actionBenefitMessageingService;
+            _actionBenefitMessageingService = actionBenefitSubscriptionService;
         }
 
         public IActionResult ApiRegister()

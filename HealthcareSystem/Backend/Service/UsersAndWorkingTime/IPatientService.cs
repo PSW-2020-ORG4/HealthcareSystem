@@ -1,4 +1,4 @@
-﻿using Model.Users;
+﻿using Backend.Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,6 @@ namespace Backend.Service
         int GetNumberOfCanceledExaminations(string jmbg);
         public Patient GetPatientByJmbg(string jmbg);
         void BlockPatient(string jmbg);
-
+        public Patient GetPatientByUsernameAndPassword(string username, string password);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Backend.Model.DTO;
-using Model.PerformingExamination;
+using Backend.Model.PerformingExamination;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +10,7 @@ namespace Backend.Service.ExaminationAndPatientCard
     {
         ICollection<Examination> BasicSearch(BasicAppointmentSearchDTO parameters);
         ICollection<Examination> SearchWithPriorities(AppointmentSearchWithPrioritiesDTO parameters);
+        ICollection<Examination> GetUnchangedAppointmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters);
+        ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters);
     }
 }

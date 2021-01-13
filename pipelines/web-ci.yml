@@ -2,7 +2,7 @@ trigger:
 - develop
 
 variables:
-  paths: "**/PatientWebApp/* **/PatientWebAppTests/* **/Backend/*"
+  paths: "**/PatientWebApp/* **/PatientWebAppTests/*"
   project: 'HealthcareSystem/PatientWebApp/PatientWebApp.csproj'
   tests: 'HealthcareSystem/PatientWebAppTests/PatientWebAppTests.csproj'
   configuration: 'Release'

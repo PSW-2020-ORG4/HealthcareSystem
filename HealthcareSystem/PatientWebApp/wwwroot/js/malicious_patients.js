@@ -1,43 +1,33 @@
 ﻿$(document).ready(function () {
-
+    checkUserRole("Admin");
     $.ajax({
-        url: '/api/patient/malicious-patients',
+        url: '/api/patient/malicious',
         type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         dataType: 'json',
         processData: false,
         contentType: false,
         success: function (data) {
-
-
             for (let i = 0; i < data.length; i++) {
-                $.ajax({
-                    url: '/api/patient/' + data[i].jmbg + '/canceled-examinations',
-                    type: 'GET',
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    success: function (number) {
-                        addPatient(data[i], number);
-                    },
-                    error: function () {
-                        addPatient(data[i], null);
-                    }
-                });
+                addPatient(data[i]);
             }
             $('#loading').remove();
         },
-        error: function () {
-            let alert = $('<div class="alert alert-danger m-4" role="alert">Error fetching data.</div >')
+        error: function (jqXHR) {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">'
+                + jqXHR.responseJSON + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#loading').remove();
             $('div#div_patients').prepend(alert);
         }
     });
 });
 
-function addPatient(patient, number) {
+function addPatient(patient) {
     let noCanc = '';
-    if (number)
-        noCanc = '<strong>' + number + '</strong> cancellations';
+    if (patient.numberOfMaliciousActions)
+        noCanc = '<strong>' + patient.numberOfMaliciousActions + '</strong> cancellations';
     else
         noCanc = 'Error fetching number of cancellations.';
 
@@ -46,7 +36,7 @@ function addPatient(patient, number) {
 
     let image = '';
     if (patient.imageName) {
-        image = "/Uploads/" + patient.imageName;
+        image = patient.imageName;
     } else {
         image = "/images/Blank-profile.png";
     }
@@ -67,9 +57,9 @@ function addPatient(patient, number) {
         + '<span class="text-danger align-middle" style="font-size:18px">' + noCanc + '</span>';
 
     if (patient.isBlocked == false) {
-        new_patient = new_patient + '<button type="button" class="btn btn-danger float-right" id="'
+        new_patient = new_patient + '<button type="button" name="block_malicious" class="btn btn-danger float-right" id="'
             + patient.jmbg + '" onclick="blockPatient(this.id)">Block</button></div>'
-            + '<div class="card-footer bg-transpartent border-top-0 p-0" id="a' + patient.jmbg + '">';
+            + '<div name="alert_container" class="card-footer bg-transpartent border-top-0 p-0" id="a' + patient.jmbg + '">';
     }
 
     new_patient = new_patient + '</div></div></div></div>';
@@ -84,17 +74,21 @@ function blockPatient(patientJmbg) {
     $('#a' + patientJmbg).prepend(loading);
 
     $.ajax({
-        type: "PUT",
-        url: "/api/patient/blocked/" + patientJmbg,
+        type: "POST",
+        url: "/api/patient/" + patientJmbg + "/block",
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
         success: function () {
-            let alert = $('<div class="alert alert-success alert-dismissible fade show m-2" role="alert">Patient was successfully blocked.'
+            let alert = $('<div name="alert_msg" class="alert alert-success alert-dismissible fade show m-2" role="alert">Patient was successfully blocked.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#' + patientJmbg).remove();
             $('#a' + patientJmbg).empty();
             $('#a' + patientJmbg).prepend(alert);
         },
         error: function (jqXHR) {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">Blocking was not successful.'
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">' + jqXHR.responseJSON +
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >')
             $('#a' + patientJmbg).empty();
             $('#' + patientJmbg).prop("disabled", false);

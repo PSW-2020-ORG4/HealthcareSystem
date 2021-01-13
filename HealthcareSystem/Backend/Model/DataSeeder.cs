@@ -1,5 +1,4 @@
 ﻿using Backend.Model.Users;
-using Model.Enums;
 using Model.Users;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,7 @@ using Model.PerformingExamination;
 using System.Linq;
 using Backend.Model.Pharmacies;
 using Model.NotificationSurveyAndFeedback;
+using Backend.Model.PerformingExamination;
 
 namespace Backend.Model
 {
@@ -46,6 +46,8 @@ namespace Backend.Model
             SeedPatientsAndPatientsCard(context);
             if (Verbose) Console.WriteLine("Seeding specialties.");
             SeedSpecialties(context);
+            if (Verbose) Console.WriteLine("Seeding equipment.");
+            SeedEquipmentTypes(context);
             if (Verbose) Console.WriteLine("Seeding rooms.");
             SeedRooms(context);
             if (Verbose) Console.WriteLine("Seeding doctors.");
@@ -53,10 +55,7 @@ namespace Backend.Model
             if (Verbose) Console.WriteLine("Seeding drugs.");
             SeedDrugTypes(context);
             SeedDrugs(context);
-            SeedDrugsInRooms(context);
-            if (Verbose) Console.WriteLine("Seeding equipment.");
-            SeedEquipmentTypes(context);
-            SeedEquipmentInRooms(context);
+            SeedDrugsInRooms(context);            
             if (Verbose) Console.WriteLine("Seeding examinations.");
             SeedExaminations(context);
             if (Verbose) Console.WriteLine("Seeding therapies.");
@@ -67,6 +66,10 @@ namespace Backend.Model
             SeedDrugConsumptions(context);
             if (Verbose) Console.WriteLine("Seeding feedback.");
             SeedFeedback(context);
+            if (Verbose) Console.WriteLine("Seeding admins.");
+            SeedAdmins(context);
+            if (Verbose) Console.WriteLine("Seeding actions.");
+            SeedActionBenefits(context);
 
             context.SaveChanges();
         }
@@ -109,9 +112,10 @@ namespace Backend.Model
                 DateOfRegistration = DateTime.Now,
                 IsActive = true,
                 IsBlocked = false,
+                IsGuest = false,
                 Phone = "065897520",
                 Username = "ana_anic98@gmail.com",
-                ImageName = "picture1.jpg"
+                ImageName = "/Uploads/picture1.jpg"
             });
             context.Add(new Patient()
             {
@@ -127,9 +131,10 @@ namespace Backend.Model
                 DateOfRegistration = DateTime.Now,
                 IsActive = true,
                 IsBlocked = false,
+                IsGuest = false,
                 Phone = "065897520",
                 Username = "zana998@gmail.com",
-                ImageName = "profile_pic.jpg"
+                ImageName = "/Uploads/profile_pic.jpg"
             });
             context.SaveChanges();
 
@@ -280,18 +285,44 @@ namespace Backend.Model
 
         private void SeedRooms(MyDbContext context)
         {
-            List<int> consulting = new List<int> { 9, 12, 13, 20, 21, 25, 49, 50, 51, 52, 53, 54 };
             List<int> operation = new List<int> { 14, 15, 16, 18, 19, 41, 42, 55, 56, 57, 58, 59, 60 };
             List<int> sick = new List<int> { 32, 33, 34, 35, 36, 37, 38, 39, 40 };
 
-            foreach (int id in consulting)
-                context.Add(new Room { Id = id, Usage = TypeOfUsage.CONSULTING_ROOM });
+            SeedConsultingRooms(context);
+
             foreach (int id in operation)
                 context.Add(new Room { Id = id, Usage = TypeOfUsage.OPERATION_ROOM });
             foreach (int id in sick)
                 context.Add(new Room { Id = id, Usage = TypeOfUsage.SICKROOM });
 
             context.SaveChanges();
+        }
+
+        private void SeedConsultingRooms(MyDbContext context)
+        {
+            List<int> consulting = new List<int> { 9, 12, 13, 20, 21, 25, 49, 50, 51, 52, 53, 54 };
+
+            List<EquipmentType> equipmentTypes = context.EquipmentTypes.ToList();
+            List<List<EquipmentType>> equipmentTypesInRooms = new List<List<EquipmentType>>();
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[0], equipmentTypes[2], equipmentTypes[5], equipmentTypes[7] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[1], equipmentTypes[3], equipmentTypes[4] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[2], equipmentTypes[6] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[1], equipmentTypes[2], equipmentTypes[3] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[5], equipmentTypes[6] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[1], equipmentTypes[7] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[1], equipmentTypes[2], equipmentTypes[6], equipmentTypes[7] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[0], equipmentTypes[5], equipmentTypes[6] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[4], equipmentTypes[5] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[0], equipmentTypes[2], equipmentTypes[7] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[5], equipmentTypes[6] });
+            equipmentTypesInRooms.Add(new List<EquipmentType> { equipmentTypes[0], equipmentTypes[4] });
+
+            for (int i = 0; i < consulting.Count; i++)
+            {
+                context.Add(new Room { Id = consulting[i], Usage = TypeOfUsage.CONSULTING_ROOM });
+                foreach (EquipmentType equipmentType in equipmentTypesInRooms[i])
+                    AddEquipmentToRoom(context, consulting[i], equipmentType);
+            }
         }
 
         private void SeedDrugTypes(MyDbContext context)
@@ -370,18 +401,10 @@ namespace Backend.Model
             context.SaveChanges();
         }
 
-        private void SeedEquipmentInRooms(MyDbContext context)
-        {
-            foreach (Room room in context.Rooms)
-                foreach (EquipmentType equipmentType in context.EquipmentTypes)
-                    if (RandomGenerator.Next(10) > 7)
-                        AddEquipmentToRoom(context, room, equipmentType);
-        }
-
-        private void AddEquipmentToRoom(MyDbContext context, Room room, EquipmentType equipmentType)
+        private void AddEquipmentToRoom(MyDbContext context, int roomId, EquipmentType equipmentType)
         {
             int id = context.Equipment.Count() + 1;
-            int quantity = RandomGenerator.Next(10, 20);
+            int quantity = RandomGenerator.Next(1, 10);
 
             context.Add(new Equipment()
             {
@@ -393,7 +416,7 @@ namespace Backend.Model
             context.Add(new EquipmentInRooms()
             {
                 IdEquipment = id,
-                RoomNumber = room.Id,
+                RoomNumber = roomId,
                 Quantity = quantity
             });
             context.SaveChanges();
@@ -401,8 +424,8 @@ namespace Backend.Model
 
         private void SeedExaminations(MyDbContext context)
         {
-            Doctor doctor = context.Doctors.Find("8520147896320"); //Ovo je doktor Dara
-            PatientCard patientCard = context.PatientCards.Find(2); //Ovo je pacijent Pera
+            Doctor doctor = context.Doctors.Find("8520147896320"); 
+            PatientCard patientCard = context.PatientCards.Find(2); 
             Room room = context.Rooms.Where(r => r.Usage.Equals(TypeOfUsage.CONSULTING_ROOM)).First();
 
             DateTime start = DateTime.Now.Date.AddDays(10).AddHours(7);
@@ -412,6 +435,7 @@ namespace Backend.Model
             {
                 if (CheckIfTimeValid(current))
                 {
+                    int examinationId = context.Examinations.Count();
                     context.Add(new Examination
                     {
                         Type = TypeOfExamination.GENERAL,
@@ -422,6 +446,9 @@ namespace Backend.Model
                         IsSurveyCompleted = false,
                         ExaminationStatus = ExaminationStatus.CREATED
                     });
+
+                    AddEquipmentInExamination(context, room.Id, examinationId);
+
                     continue;
                 }
                 current = new DateTime(current.Year, current.Month, current.Day, 6, 30, 0);
@@ -459,8 +486,8 @@ namespace Backend.Model
             });
 
             patientCard = context.PatientCards.Find(1);
-            Doctor doctor1 = context.Doctors.Find("0606988520123"); 
-            Doctor doctor2 = context.Doctors.Find("0323970501235"); 
+            Doctor doctor1 = context.Doctors.Find("0606988520123");
+            Doctor doctor2 = context.Doctors.Find("0323970501235");
 
             context.Add(new Examination
             {
@@ -531,6 +558,29 @@ namespace Backend.Model
             context.SaveChanges();
         }
 
+        private void AddEquipmentInExamination(MyDbContext context, int roomId, int examinationId)
+        {
+            List<EquipmentInRooms> equipmentInRooms = context.EquipmentsInRooms.Where(e => e.RoomNumber == roomId).ToList();
+            List<EquipmentType> equipmentTypes = new List<EquipmentType>();
+            foreach (EquipmentInRooms equ in equipmentInRooms)
+            {
+                Equipment equipment = context.Equipment.Where(e => e.Id == equ.IdEquipment).First();
+                equipmentTypes.Add(context.EquipmentTypes.Where(e => e.Id == equipment.TypeId).First());
+            }
+
+            List<int> addedEquipment = new List<int>();
+            for (int i = 0; i < RandomGenerator.Next(0, equipmentTypes.Count); i++)
+            {
+                int equipmentTypeId = equipmentTypes[RandomGenerator.Next(0, equipmentTypes.Count)].Id;
+                if (!addedEquipment.Contains(equipmentTypeId))
+                {
+                    context.Add(new EquipmentInExamination { ExaminationId = examinationId, EquipmentTypeID = equipmentTypeId });
+                    addedEquipment.Add(equipmentTypeId);
+                }
+            }
+            context.SaveChanges();
+        }
+
         private void SeedTherapies(MyDbContext context)
         {
             List<Examination> previous = context.Examinations.Where(e => e.ExaminationStatus == ExaminationStatus.FINISHED).ToList();
@@ -556,7 +606,7 @@ namespace Backend.Model
         {
             context.Add(new PharmacySystem()
             {
-                Name = "Jankovic",
+                Name = "Janković",
                 ApiKey = "ApiKey1",
                 Url = "http://localhost:8080",
                 ActionsBenefitsExchangeName = "exchange",
@@ -645,6 +695,57 @@ namespace Backend.Model
             if (TimeSpan.Compare(dateTime.TimeOfDay, new TimeSpan(17, 0, 0)) >= 0)
                 return false;
             return true;
+        }
+        private void SeedAdmins(MyDbContext context)
+        {
+            context.Add(new Admin()
+            {
+                Jmbg = "0811965521021",
+                Name = "Milan",
+                Surname = "Milić",
+                DateOfBirth = new DateTime(1965, 11, 08),
+                Phone = "021954201",
+                Email = "milic_milan@gmail.com",
+                HomeAddress = "Aleja Svetog Save 100",
+                Username = "milic_milan@gmail.com",
+                CityZipCode = 3,
+                Gender = GenderType.M,
+                Password = "milanmilic965"
+            });
+
+            context.SaveChanges();
+        }
+
+        private void SeedActionBenefits(MyDbContext context)
+        {
+            context.Add(new ActionBenefit()
+            {
+                Id = 1,
+                PharmacyId = 1,
+                Subject = "Novogodišnji popust",
+                Message = "Kapi za oči Proculin Tears na popustu 30%",
+                IsPublic = true
+            });
+
+            context.Add(new ActionBenefit()
+            {
+                Id = 2,
+                PharmacyId = 1,
+                Subject = "Popust na penzionere",
+                Message = "Renomal gel za zglobove na popustu 40%",
+                IsPublic = true
+            });
+
+            context.Add(new ActionBenefit()
+            {
+                Id = 3,
+                PharmacyId = 1,
+                Subject = "Novogodišnji popust",
+                Message = "Corega pasta za protezu na popustu 50%",
+                IsPublic = true
+            });
+
+            context.SaveChanges();
         }
 
     }

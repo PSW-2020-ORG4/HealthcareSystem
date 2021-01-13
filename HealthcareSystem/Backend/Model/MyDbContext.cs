@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Backend.Model.Manager;
 using Backend.Model.Users;
+using Backend.Model.PerformingExamination;
+
 namespace Backend.Model
 {
     public class MyDbContext : DbContext
@@ -42,6 +44,13 @@ namespace Backend.Model
         public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DbSet<DrugConsumption> DrugConsumptions { get; set; }
 	    public DbSet<DrugInRoom> DrugsInRooms { get; set; }
+        public DbSet<Tender> Tenders { get; set; }
+        public DbSet<TenderDrug> TenderDrugs { get; set; }
+        public DbSet<TenderOffer> TenderOffers { get; set; }
+        public DbSet<TenderMessage> TenderMessages { get; set; }
+
+        public DbSet<EquipmentTransfer> EqupmentTransfer { get; set; }
+	    public DbSet<EquipmentInExamination> EquipmentInExamination { get; set; }
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
@@ -49,12 +58,18 @@ namespace Backend.Model
         {
             builder.Entity<PharmacySystem>().HasIndex(p => p.ActionsBenefitsExchangeName).IsUnique();
             builder.Entity<EquipmentInRooms>().HasKey(o => new { o.RoomNumber, o.IdEquipment });
+            builder.Entity<TenderOffer>().HasOne(to => to.TenderMessage).WithMany(tm => tm.Offers);
+            builder.Entity<TenderDrug>().HasOne(td => td.Tender).WithMany(t => t.Drugs);
+            builder.Entity<TenderMessage>().HasOne(tm => tm.Tender);
 
+            builder.Entity<EquipmentInExamination>().HasKey(o => new { o.EquipmentTypeID, o.ExaminationId });
+            builder.Entity<Drug>().HasIndex(d => d.Code).IsUnique();
             builder.Entity<DoctorSpecialty>().HasKey(ds => new { ds.DoctorJmbg, ds.SpecialtyId });
             builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Doctor).WithMany(d => d.DoctorSpecialties).HasForeignKey(ds => ds.DoctorJmbg);
             builder.Entity<DoctorSpecialty>().HasOne(ds => ds.Specialty).WithMany(s => s.DoctorSpecialties).HasForeignKey(ds => ds.SpecialtyId);
 
             builder.Entity<DrugInRoom>().HasKey(o => new { o.RoomNumber, o.DrugId });
+
         }
     }
 }

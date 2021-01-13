@@ -1,127 +1,76 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Service.NotificationSurveyAndFeedback;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Model.NotificationSurveyAndFeedback;
-using Model.Users;
-using PatientWebApp.Adapters;
+using Microsoft.Extensions.Options;
+using PatientWebApp.Auth;
+using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.DTOs;
-using PatientWebApp.Validators;
+using PatientWebApp.Settings;
+using RestSharp;
 
 namespace PatientWebApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FeedbackController : ControllerBase
     {
-        private readonly IFeedbackService _feedbackService;
-        private readonly FeedbackValidator _feedbackValidator;
-        public FeedbackController(IFeedbackService feedbackService)
+        private readonly ServiceSettings _serviceSettings;
+
+        public FeedbackController(IOptions<ServiceSettings> serviceSettings)
         {
-            _feedbackService = feedbackService;
-            _feedbackValidator = new FeedbackValidator(_feedbackService);
+            _serviceSettings = serviceSettings.Value;
         }
-        /// <summary>
-        /// /getting feedback by id
-        /// </summary>
-        /// <param name="id">id of the wanted object</param>
-        /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("{id}")]
-        public IActionResult GetFeedbackById(int id)
-        {
-            try
-            {
-                Feedback feedback = _feedbackService.GetFeedbackById(id);
-                return Ok(FeedbackMapper.FeedbackToFeedbackDTO(feedback));
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-        }
+
         /// <summary>
         /// /adding new feedback to database
         /// </summary>
         /// <param name="feedbackDTO">an object to be added to the database</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
+        /// 
+        [Authorize(Roles = UserRoles.Patient)]
         [HttpPost]
-        public ActionResult AddFeedback(FeedbackDTO feedbackDTO)
+        public ActionResult AddFeedback(AddFeedbackDTO feedbackDTO)
         {
-            try
-            {
-                _feedbackValidator.validateFeedbacksFields(feedbackDTO);
-            }
-            catch (ValidationException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            Feedback feedback = FeedbackMapper.FeedbackDTOToFeedback(feedbackDTO);
-            _feedbackService.AddFeedback(feedback);
-            return Ok();
+            if (!feedbackDTO.IsAnonymous)
+                feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            
+            return RequestAdapter.SendRequestWithBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback",feedbackDTO);
 
         }
         /// <summary>
         /// / getting all published feedbacks
         /// </summary>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("published-feedbacks")]
+        /// 
+        [AllowAnonymous]
+        [HttpGet("published")]
         public ActionResult GetPublishedFeedbacks()
         {
-            List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            try
-            {
-                _feedbackService.GetPublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-                return Ok(feedbackDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/published", Method.GET);
         }
         /// <summary>
         /// /getting all unpublished feedbacks
         /// </summary>
         /// <returns>if alright returns code 200(Ok), if not 404(not found)</returns>
-        [HttpGet("unpublished-feedbacks")]
+        /// 
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpGet("unpublished")]
         public ActionResult GetUnpublishedFeedbacks()
         {
-            List<FeedbackDTO> feedbackDTOs = new List<FeedbackDTO>();
-            try
-            {      
-                _feedbackService.GetUnpublishedFeedbacks().ForEach(feedback => feedbackDTOs.Add(FeedbackMapper.FeedbackToFeedbackDTO(feedback)));
-                return Ok(feedbackDTOs);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }         
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/unpublished", Method.GET);
         }
         /// <summary>
         /// / updating feedbacks status (property: IsPublished) to published
         /// </summary>
         /// <param name="id">id of the object to be changed</param>
         /// <returns>if alright returns code 200(Ok), if not 400(bed request)</returns>
-        [HttpPut("{id}")]
+        /// 
+        [Authorize(Roles = UserRoles.Admin)]
+        [HttpPost("{id}")]
         public ActionResult PublishFeedback(int id)
         {
-            try
-            {
-                _feedbackValidator.checkIfFeedbacksIsAllowedToPublish(id);
-            }
-            catch (NotFoundException exception)
-            {
-                return NotFound(exception.Message);
-            }
-            catch (ValidationException exception)
-            {
-                return BadRequest(exception.Message);
-            }
-            _feedbackService.PublishFeedback(id);
-            return Ok();
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback/" + id + "/publish", Method.POST);
         }
     }
 }

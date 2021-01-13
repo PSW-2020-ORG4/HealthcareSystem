@@ -1,0 +1,182 @@
+﻿@model NewTenderView
+@{
+    ViewData["Title"] = "Tender";
+    Layout = "_Layout";
+}
+
+<h4>Open New Tender</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @*<form asp-action="Create" id="form">*@
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<form id="addDrugForm" class="form" method="post" action="/Tender/AddDrug">*@
+        <div class="form-group">
+            <label class="control-label col-md-10">Tender Name</label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.TenderName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TenderName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-10">End Date</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EndDate, new { @class = "ui-datepicker-calendar", id = "from-date" })
+            </div>
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label class="control-label col-md-10">Drug</label>
+                        <div class="dropdown hierarchy-select col-md-10" id="drug">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" id="drug-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="drug-button">
+                                <div class="hs-searchbox">
+                                    <input type="text" class="form-control" autocomplete="off">
+                                </div>
+                                <div class="hs-menu-inner">
+                                    @foreach (var drug in Model.Drugs)
+                                    {
+                                        <a id="drug-name" class="dropdown-item" data-value="@drug.Id" href="#">@drug.Name</a>
+                                    }
+                                </div>
+                            </div>
+                            <input id="drugSelected" class="d-none" name="Drug" readonly="readonly" aria-hidden="true" type="text" />
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <label class="control-label col-md-10">Quantity</label>
+                        <div class="col-md-10">
+                            @Html.TextBox("Quantity", "", new { @class = "form-control", @type = "number" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="form-group">
+            <table>
+                <tr>
+                    <td>
+                        <div class="col-md-10"></div>
+                        <input class="btn btn-primary" type="button" id="btnAdd" value="Add Drug" />
+                    </td>
+                    <td>
+                        <div class="col-md-10"></div>
+                        <input class="btn btn-primary" type="submit" id="submit" value="Create Tender" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        @*<div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><h5 class="card-title">Name</h5></th>
+                        <th><h5 class="card-title">Quantity</h5></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model.AddedDrugs)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @item.Name
+                            </td>
+                            <td class="text-center">
+                                @item.Quantity
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <input id="addedDrugs" class="d-none" name="AddedDrugs" readonly="readonly" aria-hidden="true" type="text" />
+        </div>*@
+        @*</form>*@
+        @* </form>*@
+
+
+    </div>
+</div>
+
+<table class="table" id="tender-table">
+    <thead>
+        <tr>
+            <th scope="col">Drug ID</th>
+            <th scope="col">Drug Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+
+@section Scripts
+{
+    
+    <script>
+        $('#drug').hierarchySelect({
+            hierarchy: false,
+            width: 'auto'
+        });
+    
+        var jsonthingy;
+
+
+        $("#btnAdd").on('click', function () {
+            var drugId = $("#drugSelected").val();
+            var drugName = $("#drug-button").text();
+            var drugQuantity = $("#Quantity").val();
+
+            var tenderRow = '<tr><td>' + drugId + '<td>' + drugName + '</td><td>' + drugQuantity + '</td><td><a href="#" class="delete-button">X</a></d></tr>';
+            $("#tender-table").find("tbody").append(tenderRow);
+        });
+
+        $("#tender-table").on("click", ".delete-button", function () {
+            $(this).closest("tr").remove();
+        });
+        var stringy;
+        $("body").on("click", "#submit", function () {
+            //Loop through the Table rows and build a JSON array.
+
+            var addedDrugs = new Array();
+
+            $("#tender-table TBODY TR").each(function () {
+                var row = $(this);
+                var tenderDrugData = {};
+
+                tenderDrugData.Id = parseInt(row.find("TD").eq(0).html());
+                tenderDrugData.Name = row.find("TD").eq(1).html();
+                tenderDrugData.Quantity = parseInt(row.find("TD").eq(2).html());
+                addedDrugs.push(tenderDrugData);
+            });
+
+
+            var tenderViewModel = {
+                AddedDrugs: addedDrugs,
+                TenderName: $('#TenderName').val(),
+                EndDate: $('#EndDate').val()
+            };
+
+
+            stringy = JSON.stringify(tenderViewModel);
+            //Send the JSON array to Controller using AJAX.
+            $.ajax({
+                type: "POST",
+                url: '/tender/pushdruglist',
+                data: JSON.stringify(tenderViewModel),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                complete: function () {
+                    location.href = '/Tender';
+                }
+            });
+        });
+    </script>
+}

@@ -4,13 +4,14 @@
  * Purpose: Definition of the Class Doctor.Anamnesis
  ***********************************************************************/
 
+using Backend.Model.PerformingExamination;
 using Model.Manager;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.PerformingExamination
 {
-   public class Therapy
+    public class Therapy
    {
       [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
       public int Id { get; set; }

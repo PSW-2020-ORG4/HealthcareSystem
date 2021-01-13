@@ -43,18 +43,9 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return new CreateExamination();
         }
 
-        public CreateExaminationSearchDTO GetExaminationSearchDTO()
-        {
-            return new CreateExaminationSearchDTO();
-        }
-
         public CreateTherapy GetTherapy()
         {
             return new CreateTherapy();
-        }
-        public CreateTherapySearchDTO GetTherapySearchDTO()
-        {
-            return new CreateTherapySearchDTO();
         }
 
         public CreateSurveyResult GetSurveyResultAboutDoctor()
@@ -72,11 +63,6 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return new CreateSurveyResult();
         }
 
-        public CreateExaminationDTO GetExaminationDTO()
-        {
-            return new CreateExaminationDTO();
-        }
-
         public CreateDoctor GetDoctor()
         {
             return new CreateDoctor();
@@ -87,5 +73,9 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return new CreateRoom();
         }
 
+        public CreateAdmin GetAdmin()
+        {
+            return new CreateAdmin();
+        }
     }
 }

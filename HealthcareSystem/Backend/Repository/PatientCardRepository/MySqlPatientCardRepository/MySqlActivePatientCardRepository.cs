@@ -1,12 +1,12 @@
 ﻿using Backend.Model;
-using Model.Users;
+using Backend.Model.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository
+namespace Backend.Repository
 {
     public class MySqlActivePatientCardRepository : IActivePatientCardRepository
     {

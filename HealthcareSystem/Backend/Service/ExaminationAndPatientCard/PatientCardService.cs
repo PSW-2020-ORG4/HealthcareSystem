@@ -5,14 +5,14 @@
  ***********************************************************************/
 
 using Backend.Model.Exceptions;
+using Backend.Model.Users;
+using Backend.Repository;
 using Backend.Service;
-using Model.Users;
-using Repository;
 using System;
 
 namespace Backend.Service
 {
-   public class PatientCardService : IPatientCardService
+    public class PatientCardService : IPatientCardService
    {
         private IActivePatientCardRepository _activePatientCardRepository;
 

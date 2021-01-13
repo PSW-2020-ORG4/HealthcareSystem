@@ -1,0 +1,44 @@
+﻿@model List<Backend.Model.Pharmacies.TenderMessage>
+@{
+    ViewData["Title"] = "Tender";
+    Layout = "_Layout";
+}
+<div class="card text-center">
+    <div class="card-header">
+        <h2 class="text-center">Offers</h2>
+    </div>
+
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><h5 class="card-title">Identification</h5></th>
+                    <th><h5 class="card-title">Reply Key</h5></th>
+                    <th><h5 class="card-title">Offer</h5></th>
+                    <th><h5 class="card-title">Accept</h5></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">
+                        @item.Identification
+                    </td>
+                    <td class="text-center">
+                        @item.ReplyRoutingKey
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("View Offer", "Offer", "Tender", new { messageId = @item.Id }, new { @class = "btn btn-primary" })
+                    </td>
+                    <td class="text-center">
+                        @Html.ActionLink("Accept", "AcceptOffer", "Tender", new { messageId = @item.Id }, new { @class = "btn btn-success" }) 
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

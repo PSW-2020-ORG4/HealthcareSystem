@@ -142,5 +142,32 @@ namespace IntegrationAdapters.Adapters.Development
 
             _sftpCommunicator = new SftpCommunicator(_parameters.SftpConfig);
         }
+
+        public bool OrderDrugs(int pharmacyId, int drugId, int quantity)
+        {
+            if (!_grpc)
+                return false;
+
+            OrderDrugRequest request = new OrderDrugRequest();
+            request.ApiKey = _parameters.ApiKey;
+            request.IdPharmacy = pharmacyId;
+            request.IdDrug = drugId;
+            request.Quantity = quantity;
+            OrderDrugResponse response = null;
+            try
+            {
+                response = _grpcClient.OrderDrug(request);
+            }
+            catch (RpcException rex)
+            {
+                Console.WriteLine(rex);
+            }
+            if (response != null )
+            {
+                return response.Success;
+            }
+
+            return false;
+        }
     }
 }

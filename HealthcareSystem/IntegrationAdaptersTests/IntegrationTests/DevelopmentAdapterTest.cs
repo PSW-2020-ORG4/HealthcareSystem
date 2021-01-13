@@ -1,6 +1,7 @@
 ﻿using Backend.Model.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Adapters.Development;
+using System;
 using System.IO;
 using System.Net.Http;
 using Xunit;
@@ -15,6 +16,18 @@ namespace IntegrationAdaptersTests.IntegrationTests
         public DevelopmentAdapterTest()
         {
             _adapter = new PharmacySystemAdapter_Id1();
+        }
+
+        ~DevelopmentAdapterTest()
+        {
+            try
+            {
+                Directory.Delete("Resources", true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         [Fact]

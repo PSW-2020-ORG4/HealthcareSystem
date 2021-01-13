@@ -71,6 +71,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost("emergency")]
         public ActionResult GetEmergencyAppointments(AppointmentSearchWithPrioritiesDTO parameters)
         {
+            _freeAppointmentSearchService.SetNewDateTimesForEmergency(parameters.InitialParameters);
             List<Examination> unchangedExaminations = (List<Examination>)_freeAppointmentSearchService.GetUnchangedAppointmentsForEmergency(parameters);
             if(unchangedExaminations.Count != 0)
             {
@@ -84,7 +85,6 @@ namespace GraphicalEditorServer.Controllers
             }
 
             unchangedExaminations.Clear();
-            parameters.InitialParameters.LatestDateTime = parameters.InitialParameters.EarliestDateTime.AddHours(2);
             unchangedExaminations = _freeAppointmentSearchService.GetOnlyAdequateAppointmentsForEmergency(parameters);
             List<Examination> shiftedExaminations = (List<Examination>)_freeAppointmentSearchService.GetShiftedAndSortedAppoinmentsForEmergency(parameters);
 
@@ -104,5 +104,6 @@ namespace GraphicalEditorServer.Controllers
 
             return sortedExaminations;
         }
+        
     }
 }

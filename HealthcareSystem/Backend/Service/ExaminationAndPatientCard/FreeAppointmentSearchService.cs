@@ -5,11 +5,9 @@ using Backend.Model.PerformingExamination;
 using Backend.Repository;
 using Backend.Repository.EquipmentTransferRepository;
 using Backend.Repository.ExaminationRepository;
-using Backend.Repository.RoomRepository;
 using Backend.Service.RoomAndEquipment;
 using Model.Manager;
 using Model.Users;
-using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,9 +69,7 @@ namespace Backend.Service.ExaminationAndPatientCard
 
         public ICollection<Examination> GetUnchangedAppointmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters)
         {
-            parameters.InitialParameters.EarliestDateTime = GetNewStartTime(parameters.InitialParameters.EarliestDateTime);
-            parameters.InitialParameters.LatestDateTime = parameters.InitialParameters.EarliestDateTime.AddHours(2);
-
+            SetNewDateTimesForEmergency(parameters.InitialParameters);
             ICollection<Doctor> allDoctors = _doctorRepository.GetDoctorsBySpecialty(parameters.SpecialtyId);
             List<Examination> allUnchangedAppointments = new List<Examination>();
             foreach (Doctor doctor in allDoctors)
@@ -90,9 +86,7 @@ namespace Backend.Service.ExaminationAndPatientCard
 
         public ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters)
         {
-            parameters.InitialParameters.EarliestDateTime = GetNewStartTime(parameters.InitialParameters.EarliestDateTime);
-            parameters.InitialParameters.LatestDateTime = parameters.InitialParameters.EarliestDateTime.AddHours(2);
-
+            SetNewDateTimesForEmergency(parameters.InitialParameters);
             List<Examination> adequateAppoinments = GetOnlyAdequateAppointmentsForEmergency(parameters);
 
             ICollection<Examination> shiftedAppointments = new List<Examination>();
@@ -154,6 +148,17 @@ namespace Backend.Service.ExaminationAndPatientCard
             return null;
         }
 
+        public void SetNewDateTimesForEmergency(BasicAppointmentSearchDTO parameters)
+        {
+            DateTime startTime = parameters.EarliestDateTime;
+            int minutes = startTime.Minute % _appointmentDuration.Minutes;
+            int addition = 0;
+            if (minutes != 0)
+                addition = _appointmentDuration.Minutes - minutes;
+            parameters.EarliestDateTime = startTime.AddMinutes(addition);
+            parameters.LatestDateTime = parameters.EarliestDateTime.AddHours(2);
+        }
+
         private List<int> GetRequiredEquipmentForExamination(Examination examination)
         {
             List<int> requiredEquipmentTypes = new List<int>();
@@ -161,15 +166,7 @@ namespace Backend.Service.ExaminationAndPatientCard
                 requiredEquipmentTypes.Add(e.EquipmentTypeID);
             return requiredEquipmentTypes;
         }
-
-        private DateTime GetNewStartTime(DateTime startTime)
-        {
-            int minutes = startTime.Minute % _appointmentDuration.Minutes;
-            if (minutes == 0)
-                return startTime;
-            int addition = _appointmentDuration.Minutes - minutes;
-            return startTime.AddMinutes(addition);
-        }
+        
 
         private ICollection<Examination> GetPotentiallyAvailableAppointments(BasicAppointmentSearchDTO parameters)
         {

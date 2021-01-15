@@ -143,6 +143,8 @@ namespace Service.RoomAndEquipment
             _equipmentTransferRepository.AddEquipmentTransfer(new EquipmentTransfer(transferEquipmentDTO.DestinationRoomNumber, transferEquipmentDTO.DateAndTimeOfTransfer));
         }
 
+       
+
         public List<DateTime> GetAlternativeAppointments(TransferEquipmentDTO transferEquipmentDTO)
         {
             List<DateTime> alternativeAppointments = new List<DateTime>();

@@ -113,5 +113,9 @@ namespace Service.ExaminationAndPatientCard
         {
             return _scheduledExaminationRepository.GetExaminationsForPeriod(startDate, endDate);
         }
+
+        public ICollection<Examination> GetExaminationsForPeriodAndRoom(DateTime startDate, DateTime endDate, int roomId) {
+            return (ICollection<Examination>)GetExaminationsForPeriod(startDate, endDate).Where(x => x.IdRoom == roomId);
+        }
     }
 }

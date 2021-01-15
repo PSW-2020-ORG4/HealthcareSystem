@@ -40,7 +40,7 @@ docker build ./HealthcareSystem/Backend -f ./HealthcareSystem/Backend/Dockerfile
 }
 
 Write-Output "---------------------------------------------------------------------------"
-Write-Output "Starting services (PatientWebApp will run at localhost:8181)"
+Write-Output "Starting services (PatientWebApp will run at localhost:8585)"
 Write-Output "---------------------------------------------------------------------------"
 if($noServiceBuild) {
 docker-compose -f ./compose/pwa/docker-compose.pwa.yaml -f $efile up

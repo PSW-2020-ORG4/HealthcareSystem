@@ -319,9 +319,25 @@ function addExaminationRow(examination) {
     restrict_date.setDate(restrict_date.getDate() - 2);
     var current_date = new Date();
     let button = '';
-    if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
+    if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 1) {
         button = '<div class="card-footer">'
-            + '<button type = "button" class="btn btn-success float-right" '
+            + '<button type = "button" class="btn btn-success float-left" '
+            + 'id="' + examination.id + '" onclick="showReport(this.id)"'
+            + '> Report</button >'
+            + '<button type = "button" class="btn btn-success" '
+            + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
+            + '> Therapies</button >'
+            + '</div >'; 
+    }
+    else if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
+        button = '<div class="card-footer">'
+            + '<button type = "button" class="btn btn-success float-left" '
+            + 'id="' + examination.id +'" onclick="showReport(this.id)"'
+            + '> Report</button >'
+            + '<button type = "button" class="btn btn-success" '
+            + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
+            + '> Therapies</button >'
+            +'<button type = "button" class="btn btn-success" '
             + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
             + '> Fill out the survey</button >'
             + '</div >';
@@ -386,4 +402,17 @@ function cancelExamination(id) {
 
 function FillOutTheSurvey(examinationId) {
     window.location.href = '/html/filling_out_the_survey.html?id=' + examinationId;
+};
+
+function showReport(examinationId) {
+
+    $('#bottomModalSuccess').modal('show');
+   
+   
+};
+function showTherapies(examinationId) {
+
+    $('#topModalSuccess').modal('show');
+
+
 };

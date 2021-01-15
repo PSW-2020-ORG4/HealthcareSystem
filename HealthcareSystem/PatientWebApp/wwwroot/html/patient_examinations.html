@@ -19,55 +19,20 @@
         <div class="container mt-5 pt-4 pl-5 ml-5 mb-4">
             <div class="row pl-5">
                 <div class="col">
-                    <form id="schedule" class="needs-validation" novalidate>
+
                         <div class="card">
                             <div class="card-header border border-info">
                                 <h4 class="card-title">Schedule an examination</h4>
                                 <button onclick="window.location.href='/html/appointment_recommendation.html'" type="button" class="btn btn-link p-0 ml-0">Appointment recommendation</button>
                             </div>
 
-                            <div class="card-body p-2 border border-info">
-                                <div class="form-row pt-2">
-                                    <div class="form-group col">
-                                        <label for="dateOfExam" class="text-secondary">Date *:</label>
-                                        <input placeholder="Enter date" type="date" class="form-control" id="dateOfExam" name="dateOfExam" required>
-                                        <div class="invalid-feedback">
-                                            Please enter a date.
-                                        </div>
-                                    </div>
-                                </div>
+                            <button data-toggle="modal" data-target="#centralModalSuccessSteps" class="btn btn-success" type="submit">Select a date</button>
 
-                                <div class="form-row">
-                                    <div class="form-group col">
-                                        <label for="specialty_name" class="text-secondary">Specialty *:</label>
-                                        <select class="custom-select" id="specialty_name" required>
-                                        </select>
-                                    </div>
-                                </div>
+                            
 
-                                <div class="form-row">
-                                    <div class="form-group col">
-                                        <label for="doctor_name" class="text-secondary">Doctor *:</label>
-                                        <select class="custom-select" id="doctor_name" required>
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Please choose a doctor.
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <input type="submit" class="btn btn-success btn-block" value="View available appointments">
-
-                                <div id="loadingSchedule" class="alert alert-info mb-0 mt-2" role="alert" style="display:none">
-                                    Loading...
-                                </div>
-
-                                <div id="alertSchedule">
-
-                                </div>
-                            </div>
                         </div>
-                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -112,10 +77,12 @@
         </div>
     </div>
 
-    <div class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    <div class="modal fade" id="centralModalSuccessSteps" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog modal-notify modal-info" role="document">
-            <div class="modal-content">
+        <div class="modal-dialog modal-notify modal-success" role="document">
+            <!--Content-->
+            <div class="modal-content step-content">
+                <!--Header-->
                 <div class="modal-header">
                     <p class="heading lead">Schedule examination</p>
                     <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
@@ -123,28 +90,53 @@
                     </button>
                 </div>
 
-                <div class="modal-body p-2">
-                    <div class="form-row">
-                        <div class="form-group col">
-                            <label for="free_appointments" class="text-secondary">Available appointments</label>
-                            <select class="custom-select" id="free_appointments">
-                            </select>
-                        </div>
+                <!--Body-->
+                <div class="modal-body">
+                    <div id="div_date">
+                        <label for="dateOfExam"><b>Date *:</b></label>
+                        <input class="form-control" type="date" placeholder="Enter date of examination" name="dateOfExam" id="dateOfExam" required="true"><br />
+                        <button class="btn btn-success" style="margin-left:200px;" id="step_btn" onclick="step(1)">Next</button>
                     </div>
-
-
-                    <button id="modalButton" class="btn btn-success btn-block" onclick="scheduleExamination()">Schedule</button>
-
+                    <div id="div_specialty" style="display:none">
+                        <label for="dateOfExam"><b>Specialty *:</b></label>
+                        <select class="form-control" id="specialty_name">
+                        </select><br />
+                        <button class="btn btn-warning" style="margin-left:110px;" id="step_previous_btn" onclick="step_previous(1)">Previous</button>
+                        <button class="btn btn-success" style="margin-left:20px;" id="step_btn" onclick="step(2)">Next</button>
+                    </div>
+                    <div id="div_doctor" style="display:none;">
+                        <label for="dateOfExam"><b>Doctor *:</b></label>
+                        <select class="form-control" id="doctor_name">
+                        </select><br />
+                        <button class="btn btn-warning" style="margin-left:110px;" id="step_previous_btn" onclick="step_previous(2)">Previous</button>
+                        <button class="btn btn-success" style="margin-left:20px;" id="step_btn" onclick="step(3)">Next</button>
+                    </div>
+                    <div id="div_appointments" style="display:none;">
+                        <label for="dateOfExam"><b>Available appointments:</b></label>
+                        <select class="form-control" id="free_appointments">
+                        </select><br />
+                        <button class="btn btn-warning" style="margin-left:90px;" id="step_previous_btn" onclick="step_previous(3)">Previous</button>
+                        <button class="btn btn-success" style="margin-left:20px;" id="modalButton" onclick="scheduleExamination()">Schedule</button>
+                    </div>
                     <div id="loadingModal" class="alert alert-info mb-0 mt-2" role="alert" style="display:none">
                         Scheduling...
                     </div>
                     <div id="alertsModal">
 
                     </div>
+                    <div id="loadingSchedule" class="alert alert-info mb-0 mt-2" role="alert" style="display:none">
+                        Loading...
+                    </div>
+
+                    <div id="alertSchedule">
+
+                    </div>
                 </div>
             </div>
+            <!--/.Content-->
         </div>
     </div>
+    <!-- Central Modal Medium Success-->
 
     <script type="text/javascript" src="../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

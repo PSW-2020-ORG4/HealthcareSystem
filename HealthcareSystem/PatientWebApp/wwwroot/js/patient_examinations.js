@@ -473,9 +473,22 @@ function showTherapies(examinationId) {
         processData: false,
         contentType: false,
         success: function (therapies) {
-            let table = '<table>'
-                + '<tr> <td>Datum:</td><td>'+ +'</td> </tr>'
-                + '</table>';
+            $('#therapy_content').empty();
+            if (therapies.length == 0) {
+                let messagge = '<label class="text-secondary" style="margin-left:24px; margin-top:30px; margin-bottom:30px">There are no prescribed therapies.</label>';
+                $('#therapy_content').append(messagge);
+            } else {
+                for (let i = 0; i < therapies.length; i++) {
+                    let therapy = '<table style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                        + '<tr> <td>Start date:</td><td>' + therapies[i].startDate.split('T')[0] + '</td> </tr>'
+                        + '<tr> <td>End date:</td><td>' + therapies[i].endDate.split('T')[0] + '</td> </tr>'
+                        + '<tr> <td>Drug name:</td><td>' + therapies[i].drugName + '</td> </tr>'
+                        + '<tr> <td>Diagnosis:</td><td>' + therapies[i].diagnosis + '</td> </tr>'
+                        + '<tr> <td>Daily dose:</td><td>' + therapies[i].dailyDose + '</td> </tr>'
+                        + '</table>';
+                    $('#therapy_content').append(therapy);
+                }
+            }
         },
         error: function () {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching therapies.'

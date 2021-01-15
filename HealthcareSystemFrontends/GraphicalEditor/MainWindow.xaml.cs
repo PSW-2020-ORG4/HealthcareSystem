@@ -843,6 +843,12 @@ namespace GraphicalEditor
             equipmentRelocationSchedulingDialog.Owner = Window.GetWindow(this);
             equipmentRelocationSchedulingDialog.ShowDialog();
         }
+
+        private void ShowRoomScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleForRoomDialog scheduleForRoomDialog = new ScheduleForRoomDialog();
+            scheduleForRoomDialog.ShowDialog();
+        }
     }
 }
 

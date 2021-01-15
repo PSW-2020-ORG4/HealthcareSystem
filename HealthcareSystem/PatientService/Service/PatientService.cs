@@ -78,5 +78,11 @@ namespace PatientService.Service
 
             return therapies.Where(t => t.ExaminationId == id);
         }
+        public Examination GetExamination(string jmbg, int id)
+        {
+            Patient patient = _repository.Get(jmbg);
+            IEnumerable<Examination> examinations = patient.Examinations;
+            return examinations.Single(e => e.Id == id);
+        }
     }
 }

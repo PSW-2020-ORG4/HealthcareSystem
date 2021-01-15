@@ -17,5 +17,6 @@ namespace PatientService.Service
         void UpdateMedicalInfo(string jmbg, MedicalInfoUpdateDTO medicalInfoUpdate);
         void Add(GuestPatientDTO guestPatient);
         IEnumerable<Therapy> GetTherapiesForExamination(string jmbg, int id);
+        Examination GetExamination(string jmbg, int id);
     }
 }

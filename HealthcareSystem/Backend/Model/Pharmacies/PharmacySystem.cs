@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace Backend.Model.Pharmacies
@@ -30,5 +31,10 @@ namespace Backend.Model.Pharmacies
         public string GrpcHost { get; set; }
 
         public int GrpcPort { get; set; } = -1;
+
+        public bool isValid()
+        {
+            return true;
+        }
     }
 }

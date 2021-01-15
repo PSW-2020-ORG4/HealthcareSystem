@@ -2,12 +2,6 @@ using AutoMapper;
 using Backend.Communication.SftpCommunicator;
 using Backend.Model;
 using Backend.Model.Pharmacies;
-using Backend.Repository;
-using Backend.Repository.DrugConsumptionRepository;
-using Backend.Repository.DrugConsumptionRepository.MySqlDrugConsumptionRepository;
-using Backend.Service;
-using Backend.Service.DrugConsumptionService;
-using Backend.Service.Pharmacies;
 using Backend.Settings;
 using IntegrationAdapters.Adapters;
 using Microsoft.AspNetCore.Antiforgery;
@@ -21,15 +15,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using IntegrationAdapters.Services;
 using System.Collections.Generic;
-using Backend.Repository.DrugInRoomRepository;
-using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
-using Backend.Repository.DrugRepository;
-using Backend.Repository.DrugRepository.MySQLDrugRepository;
-using Backend.Repository.TenderRepository;
-using Backend.Repository.TenderRepository.MySqlTenderRepository;
-using Backend.Service.DrugAndTherapy;
-using Service.DrugAndTherapy;
-using Backend.Communication.RabbitMqConnection;
+using IntegrationAdapters.MicroserviceComunicator;
+using System.Net.Http;
 
 namespace IntegrationAdapters
 {
@@ -47,8 +34,6 @@ namespace IntegrationAdapters
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
             if (_env.IsDevelopment() || _env.IsProduction())
             {
                 Console.WriteLine("Configuring for " + _env.EnvironmentName + ".");
@@ -90,56 +75,31 @@ namespace IntegrationAdapters
                 Console.WriteLine("Not dev or test.");
             }
 
+            services.AddControllers();
             services.AddControllersWithViews();
 
-            services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMq"));
-            services.Configure<RabbitMqConfiguration>(GetRabbitConfig);
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
-            services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
-            services.AddSingleton<IRabbitMqTenderingService, RabbitMqTenderingService>();
-            services.AddSingleton<IRabbitMqActionBenefitService, RabbitMqActionBenefitService>();
-
-            services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
-            services.AddScoped<IPharmacyService, PharmacyService>();
-            services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
-            services.AddScoped<IActionBenefitService, ActionBenefitService>();
             services.AddScoped<ISftpCommunicator, SftpCommunicator>();
-            services.AddScoped<IDrugConsumptionRepository, MySqlDrugConsumptionRepository>();
-            services.AddScoped<IDrugConsumptionService, DrugConsumptionService>();
-            services.AddScoped<IAdapterContext, AdapterContext>();
-            services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
-            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IAdapterContext, AdapterContext>();         
             services.AddScoped<IPushNotificationService, PushNotificationService>();
-            services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
-            services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
-            services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
+            services.AddScoped<IPharmacySystemService, PharmacySystemService>();
+            services.AddScoped<IActionBenefitService, ActionBenefitService>();
+            services.AddScoped<IPrescriptionService, PrescriptionService>();
             services.AddScoped<IDrugService, DrugService>();
-            services.AddScoped<ITenderRepository, MySqlTenderRepository>();
             services.AddScoped<ITenderService, TenderService>();
-            services.AddScoped<ITenderMessageRepository, MySqlTenderMessageRepository>();
-            services.AddScoped<ITenderMessageService, TenderMessageService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHttpClient();
         }
 
-        private void GetRabbitConfig(RabbitMqConfiguration conf)
-        {
-            conf.Host = Configuration.GetValue<string>("RABBITMQ_HOST") ?? "localhost";
-            conf.VHost = Configuration.GetValue<string>("RABBITMQ_VHOST") ?? "/";
-            conf.Username = Configuration.GetValue<string>("RABBITMQ_USER") ?? "guest";
-            conf.Password = Configuration.GetValue<string>("RABBITMQ_PASSWORD") ?? "guest";
-            conf.RetryCount = Configuration.GetValue<int>("RABBITMQ_RETRY");
-            conf.RetryWait = Configuration.GetValue<int>("RABBITMQ_RETRY_WAIT");
-            conf.ActionBenefitQueueName = Configuration.GetValue<string>("ACTIONBENEFIT_QUEUE") ?? "bolnica-1";
-            conf.TenderExchangeName = Configuration.GetValue<string>("TENDER_QUEUE") ?? "tender-bolnica-1";
-        }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context, IAntiforgery antiforgery, IHttpClientFactory httpClientFactory)
         {
-            app.ApplicationServices.GetService<IRabbitMqTenderingService>();
-            app.ApplicationServices.GetService<IRabbitMqActionBenefitService>();
+            var client = httpClientFactory.CreateClient();
+            client.GetAsync("http://localhost:5001/ping");
+            client.GetAsync("http://localhost:5002/ping");
+            client.GetAsync("http://localhost:5003/ping");
+            client.GetAsync("http://localhost:5004/ping");
 
             app.Use(next => context =>
             {

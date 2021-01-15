@@ -42,15 +42,6 @@ namespace Backend.Service
             CreateActionBenefit(ab);
         }
 
-        public void DeleteActionBenefit(int id)
-        {
-            ActionBenefit ab = _actionBenefitRepository.GetActionBenefitById(id);
-            if (ab == null)
-                throw new ArgumentNullException(nameof(ab));
-
-            _actionBenefitRepository.DeleteActionBenefit(ab);
-        }
-
         public ActionBenefit GetActionBenefitById(int id)
         {
             return _actionBenefitRepository.GetActionBenefitById(id);
@@ -59,11 +50,6 @@ namespace Backend.Service
         public List<ActionBenefit> GetAllActionsBenefits()
         {
             return _actionBenefitRepository.GetAllActionsBenefits().ToList();
-        }
-
-        public List<ActionBenefit> GetPublicActionsBenefits()
-        {
-            return _actionBenefitRepository.GetPublicActionsBenefits().ToList();
         }
 
         public void MakePublic(int id, bool isPublic)

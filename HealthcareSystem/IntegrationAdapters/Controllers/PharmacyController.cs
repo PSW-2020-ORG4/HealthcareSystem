@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Linq;
+using System.Threading.Tasks;
 using Backend.Model.Pharmacies;
 using Backend.Service;
-using Backend.Service.Pharmacies;
+using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdapters.Controllers
 {
     public class PharmacyController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly IPharmacyService _pharmacyService;
-        private readonly IRabbitMqActionBenefitService _actionBenefitMessageingService;
+        private readonly IPharmacySystemService _pharmacySystemService;
 
-        public PharmacyController(IPharmacyService iPharmacyService, IRabbitMqActionBenefitService actionBenefitSubscriptionService)
+        public PharmacyController(IPharmacySystemService pharmacySystemService)
         {
-            _pharmacyService = iPharmacyService;
-            _actionBenefitMessageingService = actionBenefitSubscriptionService;
+            _pharmacySystemService = pharmacySystemService;
         }
 
         public IActionResult ApiRegister()
@@ -24,7 +22,7 @@ namespace IntegrationAdapters.Controllers
         }
 
         [HttpPost]
-        public IActionResult ApiRegister(PharmacySystem pharmacy)
+        public async Task<IActionResult> ApiRegister(PharmacySystem pharmacy)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -34,28 +32,25 @@ namespace IntegrationAdapters.Controllers
 
             try
             {
-                _pharmacyService.CreatePharmacy(pharmacy);
+                await _pharmacySystemService.Create(pharmacy);
             }
             catch (Exception ex)
             {
                 return BadRequest(ModelState);
             }
 
-            if (pharmacy.ActionsBenefitsSubscribed)
-                _actionBenefitMessageingService.Subscribe(pharmacy.ActionsBenefitsExchangeName);
-
             TempData["Success"] = "Registration successful!";
             return RedirectToAction("ApiRegister");
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_pharmacyService.GetAllPharmacies().ToList());
+            return View(await _pharmacySystemService.GetAll());
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var pharmacy = _pharmacyService.GetPharmacyById(id);
+            var pharmacy = await _pharmacySystemService.Get(id);
 
             if (pharmacy == null)
                 return NotFound("Pharmacy does not exist.");
@@ -64,23 +59,11 @@ namespace IntegrationAdapters.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(PharmacySystem pharmacy)
+        public async Task<IActionResult> Edit(PharmacySystem pharmacy)
         {
-            PharmacySystem pharmacyOld = _pharmacyService.GetPharmacyByIdNoTracking(pharmacy.Id);
-            if (pharmacyOld == null)
-                throw new ArgumentNullException("There is no pharmacy with id=" + pharmacy.Id);
-
-            if (pharmacy.ActionsBenefitsExchangeName == null)
-                pharmacy.ActionsBenefitsSubscribed = false;
-
-            _pharmacyService.UpdatePharmacy(pharmacy);
-
-            _actionBenefitMessageingService.SubscriptionEdit(pharmacyOld.ActionsBenefitsExchangeName, 
-                                                             pharmacyOld.ActionsBenefitsSubscribed, 
-                                                             pharmacy.ActionsBenefitsExchangeName, 
-                                                             pharmacy.ActionsBenefitsSubscribed);
-
-            return RedirectToAction("Index");
+            if(await _pharmacySystemService.Update(pharmacy))
+                return RedirectToAction("Index");
+            return BadRequest("Something went wrong");
         }
     }
 }

@@ -15,16 +15,16 @@ namespace EventSourcingService.Controllers.GraphicalEditor
     {
         private readonly IMapObjectSelectionService _mapObjectSelectionService;
 
-        public MapObjectSelectionController(IMapObjectSelectionService eventStoreExampleService)
+        public MapObjectSelectionController(IMapObjectSelectionService mapObjectSelectionService)
         {
-            _mapObjectSelectionService = eventStoreExampleService;
+            _mapObjectSelectionService = mapObjectSelectionService;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            var exampleEventStores = _mapObjectSelectionService.GetAll();
-            return Ok(exampleEventStores);
+            var mapObjectSelectionService = _mapObjectSelectionService.GetAll();
+            return Ok(mapObjectSelectionService);
         }
 
         [HttpPost]

@@ -417,9 +417,36 @@ function showReport(examinationId) {
         processData: false,
         contentType: false,
         success: function (report) {
-            let table = '<table>'
-                + '<tr> <td>Datum:</td><td>' + report.dateAndTime + '</td> </tr>'
-                + '</table>';
+
+            $.ajax({
+                url: '/api/patient/examination/' + examinationId + "/therapies",
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (therapies) {
+
+                    let table = '<table style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                        + '<tr> <td>Date:</td><td>' + report.dateAndTime.split('T')[0] + '</td> </tr>'
+                        + '<tr> <td>Time:</td><td>' + report.dateAndTime.split('T')[1] + '</td> </tr>'
+                        + '<tr> <td>Doctor:</td><td>' + report.doctorName + ' ' + report.doctorSurname + '</td> </tr>'
+                        + '<tr> <td>Anamnesis:</td><td>' + report.anamnesis + '</td> </tr>'
+                        + '<tr> <td>Prescripted therapies:</td><td>' + therapies.length + '</td> </tr>'
+                        + '</table>';
+
+                    $('#report_content').empty();
+                    $('#report_content').append(table);
+
+                },
+                error: function () {
+                    let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching therapies.'
+                        + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+                    $('#alertSchedule').prepend(alert);
+                }
+            });
         },
         error: function () {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching report.'
@@ -445,13 +472,13 @@ function showTherapies(examinationId) {
         dataType: 'json',
         processData: false,
         contentType: false,
-        success: function (prescriptions) {
+        success: function (therapies) {
             let table = '<table>'
                 + '<tr> <td>Datum:</td><td>'+ +'</td> </tr>'
                 + '</table>';
         },
         error: function () {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching report.'
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching therapies.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
             $('#alertSchedule').prepend(alert);
         }

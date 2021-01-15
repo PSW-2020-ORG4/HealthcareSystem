@@ -322,23 +322,23 @@ function addExaminationRow(examination) {
  
     if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 1) {
         button = '<div class="card-footer">'
-            + '<button type = "button" class="btn btn-outline-success float-right" style="width:140px;"'
+            + '<button type = "button" class="btn btn-outline-primary float-left" style="width:140px;"'
             + 'id="' + examination.id + '" onclick="showReport(this.id)"'
             + '> Report</button >'
-            + '<button type = "button" class="btn btn-outline-success float-right" style="width:140px;"'
+            + '<button type = "button" class="btn btn-outline-primary float-left" style="width:140px;"'
             + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
             + '> Therapies</button >'
             + '</div >'; 
     }
     else if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
         button = '<div class="card-footer">'
-            + '<button type = "button" class="btn btn-success float-right" '
+            + '<button type = "button" class="btn btn-primary float-right" '
             + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
             + '> Fill out the survey</button >'
-            + '<button type = "button" class="btn btn-outline-success float-right" style="width:140px;"'
+            + '<button type = "button" class="btn btn-outline-primary float-left" style="width:140px;"'
             + 'id="' + examination.id +'" onclick="showReport(this.id)"'
             + '> Report</button >'
-            + '<button type = "button" class="btn btn-outline-success float-right" style="width:140px;"'
+            + '<button type = "button" class="btn btn-outline-primary float-left" style="width:140px;"'
             + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
             + '> Therapies</button >'
             + '</div >';
@@ -358,7 +358,7 @@ function addExaminationRow(examination) {
         + '<div class="card">'
         + '<div class="card-header bg-info text-white">'
         + '<h4 class="card-title mb-0">'
-        + examination.examinationType + ' on <span class="badge badge-light">' + examination.startTime + '</span> '
+        + examination.examinationType + ' on <span class="badge badge-light">' + examination.startTime.split('T')[0] + " " + examination.startTime.split('T')[1] + '</span> '
         + '</h4>'
         + '</div>'
         + '<div class="card-body p-3">'
@@ -439,26 +439,20 @@ function showReport(examinationId) {
 
                     $('#report_content').empty();
                     $('#report_content').append(table);
+                    $('#bottomModalSuccess').modal('show');
 
                 },
                 error: function () {
-                    let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching therapies.'
-                        + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-                    $('#alertSchedule').prepend(alert);
+                    console.log("Error fetching therapies");
                 }
             });
         },
         error: function () {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching report.'
-                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-            $('#alertSchedule').prepend(alert);
+            console.log("Error fetching report");
         }
     });
-
-    $('#bottomModalSuccess').modal('show');
-    
-   
 };
+
 function showTherapies(examinationId) {
 
     $('#topModalSuccess').modal('show');
@@ -491,9 +485,7 @@ function showTherapies(examinationId) {
             }
         },
         error: function () {
-            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching therapies.'
-                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-            $('#alertSchedule').prepend(alert);
+            console.log("Error fetching therapies");
         }
     });
 

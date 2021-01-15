@@ -24,6 +24,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         void AddExamination(Examination examination);
         void CompleteSurveyAboutExamination(int id);
         void CancelExamination(int id);
+        ICollection<Examination> GetExaminationsForPeriod(DateTime startDate, DateTime endDate);
 
     }
 }

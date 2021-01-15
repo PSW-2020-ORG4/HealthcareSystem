@@ -69,5 +69,12 @@ namespace PatientService.Controller
             var therapies = _service.GetTherapies(jmbg, therapySearchDTO).Select(t => t.ToTherapyDTO());
             return Ok(therapies);
         }
+
+        [HttpGet("{jmbg}/examination/{id}/therapies")]
+        public IActionResult GetTherapiesForExamination(string jmbg, int id)
+        {
+            var therapies = _service.GetTherapiesForExamination(jmbg, id).Select(t => t.ToTherapyDTO());
+            return Ok(therapies);
+        }
     }
 }

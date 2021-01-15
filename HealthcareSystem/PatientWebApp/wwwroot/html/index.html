@@ -12,22 +12,47 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link href="../lib/mdb/css/mdb.min.css" rel="stylesheet">
     <link href="../css/carousel.css" rel="stylesheet">
+    <link href="../css/style_index.css" rel="stylesheet">
     <title>Welcome</title>
 </head>
 <body>
-    <div style="width: 50%; height:100%; float:left; position:fixed">
+
+    <div style="width: 100%; height:100%;">
+
         <div id="carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item" style="background-image: url(/images/1.jpg);">
-                    <img class="d-block" src="/images/1.jpg" alt="First slide">
+                    <img height="900" width="1200" class="d-block" src="/images/1index.jpg" alt="First slide">
+
+                    <div style="width:800px; position:center; top:60%" class="carousel-caption text-primary ">
+                        <h1 class="display-4" style="font-size:40px">The best medical services</h1>
+                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/patient_registration.html';" value="Register" />
+                        <br/>
+                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/login.html';" value="Login" />
+                    </div>
                 </div>
                 <div class="carousel-item active" style="background-image: url(/images/2.png);">
-                    <img class="d-block" src="/images/2.png" alt="First slide">
+                    <img height="900" width="1200" class="d-block" src="/images/2.png" alt="First slide">
+
+                    <div style="width:800px; position:center; top:60%" class="carousel-caption text-primary ">
+                        <h1 class="display-4" style="font-size:40px">We care about your health</h1>
+                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/patient_registration.html';" value="Register" />
+                        <br/>
+                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/login.html';" value="Login" />
+                    </div>
                 </div>
                 <div class="carousel-item" style="background-image: url(/images/3.jpg);">
-                    <img class="d-block" src="/images/3.jpg" alt="First slide">
+                    <img height="900" width="1200" class="d-block" src="/images/3.jpg" alt="First slide">
+
+                    <div style="width:800px; position:center; top:60%" class="carousel-caption text-primary ">
+                        <h1 class="display-4" style="font-size:40px">We have best medicare plan options for you</h1>
+                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/patient_registration.html';" value="Register"/> 
+                        <br/>
+                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/login.html';" value="Login"/>
+                    </div>
                 </div>
             </div>
+
             <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
@@ -36,23 +61,22 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
-        </div>
+        </div>       
     </div>
 
-    <div style="width: 50%; float:right;">
+    <div>
         <div class="container mt-5 pt-4 pl-5 pr-5 mb-4" id="view_feedbacks">
-            <h1 class="display-4 m-4" style="font-size:40px">Feedback from our patients</h1>
+            <h1 class="display-4 m-20 pt-25" style="font-size:40px">Feedback from our patients</h1>
             <div id="loading" class="alert alert-info m-4" role="alert">
                 Loading...
             </div>
         </div>
-    </div>    
+    </div>
 
     <script type="text/javascript" src="../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../js/index.js"></script>
     <script type="text/javascript" src="../js/published_feedback.js"></script>
-    <script type="text/javascript" src="../js/navbars/index.js"></script>
 </body>
 </html>

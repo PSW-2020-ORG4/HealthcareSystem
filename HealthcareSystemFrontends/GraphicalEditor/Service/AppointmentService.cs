@@ -16,7 +16,7 @@ namespace GraphicalEditor.Service
             foreach (int equipmentInExaminationId in equipmentInExaminationIds) {
                 equipmentInExaminationDTOs.Add(new EquipmentInExaminationDTO(equipmentInExaminationId, idExamination));
             }
-            equipmentInExaminationDTOs.Add(new EquipmentInExaminationDTO(2, 94));
+            
             AddEquipmentInExamination(equipmentInExaminationDTOs);
             return responseExamination.Content;
         }
@@ -31,9 +31,16 @@ namespace GraphicalEditor.Service
             return response;
         }
 
-        public void GetEmergencyAppointments(AppointmentSearchWithPrioritiesDTO appointmentSearchWithPrioritiesDTO)
+        public List<EmergencyExaminationDTO> GetEmergencyAppointments(AppointmentSearchWithPrioritiesDTO appointmentSearchWithPrioritiesDTO)
         {
-            List<ExaminationDTO> response = HTTPGetRequestWithObjectAsParam<ExaminationDTO>("appointment/emergency", appointmentSearchWithPrioritiesDTO);
+            List<EmergencyExaminationDTO> response = HTTPGetRequestWithObjectAsParam<EmergencyExaminationDTO>("appointment/emergency", appointmentSearchWithPrioritiesDTO);
+            return response;
+        }
+
+        public string RescheduleExamination(RescheduleExaminationDTO rescheduleExaminationDTO)
+        {
+            IRestResponse responseRescheduleExamination = AddHTTPPostRequest("appointment/reschedule", rescheduleExaminationDTO);
+            return responseRescheduleExamination.Content;
         }
     }
 }

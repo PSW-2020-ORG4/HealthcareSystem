@@ -87,12 +87,15 @@
     <Compile Include="DTO\DrugDTO.cs" />
     <Compile Include="DTO\DrugTypeDTO.cs" />
     <Compile Include="DTO\DrugWithRoomDTO.cs" />
+    <Compile Include="DTO\EmergencyExaminationDTO.cs" />
     <Compile Include="DTO\EquipmentDTO.cs" />
     <Compile Include="DTO\EquipmentInExaminationDTO.cs" />
     <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="DTO\ExaminationForReschedulingDTO.cs" />
+    <Compile Include="DTO\GuestPatientDTO.cs" />
     <Compile Include="DTO\PatientBasicDTO.cs" />
+    <Compile Include="DTO\RescheduleExaminationDTO.cs" />
     <Compile Include="DTO\RoomDTO.cs" />
     <Compile Include="DTO\SpecialtyDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />

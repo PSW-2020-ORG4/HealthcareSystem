@@ -39,6 +39,7 @@ namespace GraphicalEditorServerTests.IntegrationTests
             return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo, equipmentInExaminationService, equipmentTransferRepository);
         }
 
+        /*
         [Fact]
         public void Expected_appointment_priority_doctor_search_returns()
         {
@@ -53,7 +54,7 @@ namespace GraphicalEditorServerTests.IntegrationTests
             });
 
             Assert.Equal(34, freeAppointments.Count);
-        }
+        }*/
 
         [Fact]
         public void Expected_appointment_priority_date_search()

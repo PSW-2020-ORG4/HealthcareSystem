@@ -319,27 +319,28 @@ function addExaminationRow(examination) {
     restrict_date.setDate(restrict_date.getDate() - 2);
     var current_date = new Date();
     let button = '';
+ 
     if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 1) {
         button = '<div class="card-footer">'
-            + '<button type = "button" class="btn btn-success float-left" '
+            + '<button type = "button" class="btn btn-outline-success float-right" style="width:140px;"'
             + 'id="' + examination.id + '" onclick="showReport(this.id)"'
             + '> Report</button >'
-            + '<button type = "button" class="btn btn-success" '
+            + '<button type = "button" class="btn btn-outline-success float-right" style="width:140px;"'
             + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
             + '> Therapies</button >'
             + '</div >'; 
     }
     else if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
         button = '<div class="card-footer">'
-            + '<button type = "button" class="btn btn-success float-left" '
-            + 'id="' + examination.id +'" onclick="showReport(this.id)"'
-            + '> Report</button >'
-            + '<button type = "button" class="btn btn-success" '
-            + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
-            + '> Therapies</button >'
-            +'<button type = "button" class="btn btn-success" '
+            + '<button type = "button" class="btn btn-success float-right" '
             + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
             + '> Fill out the survey</button >'
+            + '<button type = "button" class="btn btn-outline-success float-right" style="width:140px;"'
+            + 'id="' + examination.id +'" onclick="showReport(this.id)"'
+            + '> Report</button >'
+            + '<button type = "button" class="btn btn-outline-success float-right" style="width:140px;"'
+            + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
+            + '> Therapies</button >'
             + '</div >';
     }
     else if (examination.examinationStatus == "Created" && current_date < restrict_date) {
@@ -406,13 +407,54 @@ function FillOutTheSurvey(examinationId) {
 
 function showReport(examinationId) {
 
+    $.ajax({
+        url: '/api/patient/examination/' + examinationId,
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (report) {
+            let table = '<table>'
+                + '<tr> <td>Datum:</td><td>' + report.dateAndTime + '</td> </tr>'
+                + '</table>';
+        },
+        error: function () {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching report.'
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+            $('#alertSchedule').prepend(alert);
+        }
+    });
+
     $('#bottomModalSuccess').modal('show');
-   
+    
    
 };
 function showTherapies(examinationId) {
 
     $('#topModalSuccess').modal('show');
 
+    $.ajax({
+        url: '/api/patient/examination/' + examinationId + "/therapies",
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (prescriptions) {
+            let table = '<table>'
+                + '<tr> <td>Datum:</td><td>'+ +'</td> </tr>'
+                + '</table>';
+        },
+        error: function () {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching report.'
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+            $('#alertSchedule').prepend(alert);
+        }
+    });
 
 };

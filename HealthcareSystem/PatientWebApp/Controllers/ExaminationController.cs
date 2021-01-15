@@ -63,12 +63,12 @@ namespace PatientWebApp.Controllers
         [HttpPost("cancel/{id}")]
         public ActionResult CancelExamination(int id)
         {
-            var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
+            /*var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
             var contentResult = RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id, Method.GET);
             var examinationDTO = (ScheduledExaminationDTO)JsonConvert.DeserializeObject(contentResult.Content);
 
             if (examinationDTO.PatientJmbg != patientJmbg)
-                return StatusCode(403, "Patient tried to cancel someone else's examination");
+                return StatusCode(403, "Patient tried to cancel someone else's examination");*/
 
             return RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id + "/cancel", Method.POST);
         }

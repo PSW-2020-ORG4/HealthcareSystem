@@ -74,15 +74,12 @@ namespace PatientService.Service
         public IEnumerable<Therapy> GetTherapiesForExamination(string jmbg, int id)
         {
             Patient patient = _repository.Get(jmbg);
-            IEnumerable<Therapy> therapies = patient.Therapies;
-
-            return therapies.Where(t => t.ExaminationId == id);
+            return patient.GetTherapiesForExamination(id);
         }
         public Examination GetExamination(string jmbg, int id)
         {
             Patient patient = _repository.Get(jmbg);
-            IEnumerable<Examination> examinations = patient.Examinations;
-            return examinations.Single(e => e.Id == id);
+            return patient.GetExamination(id);
         }
     }
 }

@@ -322,12 +322,12 @@ function addExaminationRow(examination) {
  
     if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 1) {
         button = '<div class="card-footer">'
-            + '<button type = "button" class="btn btn-outline-primary float-left" style="width:140px;"'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
             + 'id="' + examination.id + '" onclick="showReport(this.id)"'
             + '> Report</button >'
-            + '<button type = "button" class="btn btn-outline-primary float-left" style="width:140px;"'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
             + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
-            + '> Therapies</button >'
+            + '> Prescriptions </button >'
             + '</div >'; 
     }
     else if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
@@ -335,12 +335,12 @@ function addExaminationRow(examination) {
             + '<button type = "button" class="btn btn-primary float-right" '
             + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
             + '> Fill out the survey</button >'
-            + '<button type = "button" class="btn btn-outline-primary float-left" style="width:140px;"'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
             + 'id="' + examination.id +'" onclick="showReport(this.id)"'
             + '> Report</button >'
-            + '<button type = "button" class="btn btn-outline-primary float-left" style="width:140px;"'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
             + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
-            + '> Therapies</button >'
+            + '> Prescriptions </button >'
             + '</div >';
     }
     else if (examination.examinationStatus == "Created" && current_date < restrict_date) {
@@ -434,7 +434,7 @@ function showReport(examinationId) {
                         + '<tr> <td>Time:</td><td>' + report.dateAndTime.split('T')[1] + '</td> </tr>'
                         + '<tr> <td>Doctor:</td><td>' + report.doctorName + ' ' + report.doctorSurname + '</td> </tr>'
                         + '<tr> <td>Anamnesis:</td><td>' + report.anamnesis + '</td> </tr>'
-                        + '<tr> <td>Prescripted therapies:</td><td>' + therapies.length + '</td> </tr>'
+                        + '<tr> <td>Prescribed prescriptions:</td><td>' + therapies.length + '</td> </tr>'
                         + '</table>';
 
                     $('#report_content').empty();
@@ -455,8 +455,6 @@ function showReport(examinationId) {
 
 function showTherapies(examinationId) {
 
-    $('#topModalSuccess').modal('show');
-
     $.ajax({
         url: '/api/patient/examination/' + examinationId + "/therapies",
         type: 'GET',
@@ -469,7 +467,7 @@ function showTherapies(examinationId) {
         success: function (therapies) {
             $('#therapy_content').empty();
             if (therapies.length == 0) {
-                let messagge = '<label class="text-secondary" style="margin-left:24px; margin-top:30px; margin-bottom:30px">There are no prescribed therapies.</label>';
+                let messagge = '<label class="text-secondary" style="margin-left:24px; margin-top:30px; margin-bottom:30px">There are no prescribed prescriptions.</label>';
                 $('#therapy_content').append(messagge);
             } else {
                 for (let i = 0; i < therapies.length; i++) {
@@ -488,5 +486,7 @@ function showTherapies(examinationId) {
             console.log("Error fetching therapies");
         }
     });
+
+    $('#topModalSuccess').modal('show');
 
 };

@@ -21,36 +21,43 @@
 
         <div id="carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
+
+                <div style="width:800px; left:23%; top:60%; position:absolute" class="carousel-caption text-primary ">
+                    <h1 class="display-4" style="font-size:40px">Welcome! We care about your health!</h1>
+                    <br />
+                    <br />
+                    <table style="margin-left:130px">
+                        <tr>
+                            <td>
+                                <p style="font-size:22px; text-align:right; margin-bottom:30px">Need an account?</p>
+                            </td>
+                            <td>
+                                <input style="width:170px; margin-bottom:30px" class="btn" type="button" onclick="location.href='/html/patient_registration.html';" value="Register" />
+                            </td>
+                        </tr>
+                        <tr style="margin-bottom:30px">
+                            <td>
+                                <p style="font-size:22px; text-align:right">You already have an account?</p>
+                            </td>
+                            <td>
+                                <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/login.html';" value="Login" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
                 <div class="carousel-item" style="background-image: url(/images/1.jpg);">
                     <img height="900" width="1200" class="d-block" src="/images/1index.jpg" alt="First slide">
-
-                    <div style="width:800px; position:center; top:60%" class="carousel-caption text-primary ">
-                        <h1 class="display-4" style="font-size:40px">The best medical services</h1>
-                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/patient_registration.html';" value="Register" />
-                        <br/>
-                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/login.html';" value="Login" />
-                    </div>
                 </div>
+
                 <div class="carousel-item active" style="background-image: url(/images/2.png);">
                     <img height="900" width="1200" class="d-block" src="/images/2.png" alt="First slide">
-
-                    <div style="width:800px; position:center; top:60%" class="carousel-caption text-primary ">
-                        <h1 class="display-4" style="font-size:40px">We care about your health</h1>
-                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/patient_registration.html';" value="Register" />
-                        <br/>
-                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/login.html';" value="Login" />
-                    </div>
                 </div>
+
                 <div class="carousel-item" style="background-image: url(/images/3.jpg);">
                     <img height="900" width="1200" class="d-block" src="/images/3.jpg" alt="First slide">
-
-                    <div style="width:800px; position:center; top:60%" class="carousel-caption text-primary ">
-                        <h1 class="display-4" style="font-size:40px">We have best medicare plan options for you</h1>
-                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/patient_registration.html';" value="Register"/> 
-                        <br/>
-                        <input style="width:170px;" class="btn" type="button" onclick="location.href='/html/login.html';" value="Login"/>
-                    </div>
                 </div>
+
             </div>
 
             <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
@@ -61,12 +68,12 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
-        </div>       
+        </div>
     </div>
 
     <div>
         <div class="container mt-5 pt-4 pl-5 pr-5 mb-4" id="view_feedbacks">
-            <h1 class="display-4 m-20 pt-25" style="font-size:40px">Feedback from our patients</h1>
+            <h1 class="display-4" style="font-size:40px">Feedback from our patients</h1>
             <div id="loading" class="alert alert-info m-4" role="alert">
                 Loading...
             </div>

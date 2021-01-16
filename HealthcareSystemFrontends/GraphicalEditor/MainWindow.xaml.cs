@@ -923,13 +923,22 @@ namespace GraphicalEditor
             MapObject selectedSearchResultMapObject = _mapObjectController.GetMapObjectById(selectedSearchEmergencyExaminationDTO.UnchangedExamination.RoomId);
 
             ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
+
         }
+
+        private void ShowRoomScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleForRoomDialog scheduleForRoomDialog = new ScheduleForRoomDialog();
+            scheduleForRoomDialog.ShowDialog();
+        }
+
 
         private void ShowRenovationSchedulingDialogButton_Click(object sender, RoutedEventArgs e)
         {
             RenovationSchedulingDialog renovationSchedulingDialog = new RenovationSchedulingDialog();
             renovationSchedulingDialog.ShowDialog();
         }
+
     }
 }
 

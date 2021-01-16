@@ -28,6 +28,7 @@
         <converters:CapitalizeStringConverter x:Key="CapitalizeStringConverter" />
         <converters:InvertAndBooleansToBooleanConverter x:Key="InvertAndBooleansToBooleanConverter" />
         <converters:LengthToBooleanConverter x:Key="LengthToBooleanCoverter" />
+        <converters:SelectedItemToVisibilityConverter x:Key="SelectedItemToVisibilityConverter" />
     </Window.Resources>
 
     <!--  MAIN CONTAINER GRID  -->

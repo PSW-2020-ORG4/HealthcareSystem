@@ -95,27 +95,27 @@
                     <div id="div_date">
                         <label for="dateOfExam"><b>Date *:</b></label>
                         <input class="form-control" type="date" placeholder="Enter date of examination" name="dateOfExam" id="dateOfExam" required="true"><br />
-                        <button class="btn btn-success" style="margin-left:200px;" id="step_btn" onclick="step(1)">Next</button>
+                        <button class="btn btn-success" style="margin-left:200px;" id="step_btn" onclick="first_step_next()">Next</button>
                     </div>
                     <div id="div_specialty" style="display:none">
                         <label for="dateOfExam"><b>Specialty *:</b></label>
                         <select class="form-control" id="specialty_name">
                         </select><br />
-                        <button class="btn btn-warning" style="margin-left:110px;" id="step_previous_btn" onclick="step_previous(1)">Previous</button>
-                        <button class="btn btn-success" style="margin-left:20px;" id="step_btn" onclick="step(2)">Next</button>
+                        <button class="btn btn-light" style="margin-left:110px;" id="step_previous_btn" onclick="first_step_previous()">Previous</button>
+                        <button class="btn btn-success" style="margin-left:20px;" id="step_btn" onclick="second_step_next()">Next</button>
                     </div>
                     <div id="div_doctor" style="display:none;">
                         <label for="dateOfExam"><b>Doctor *:</b></label>
                         <select class="form-control" id="doctor_name">
                         </select><br />
-                        <button class="btn btn-warning" style="margin-left:110px;" id="step_previous_btn" onclick="step_previous(2)">Previous</button>
-                        <button class="btn btn-success" style="margin-left:20px;" id="step_btn" onclick="step(3)">Next</button>
+                        <button class="btn btn-light" style="margin-left:110px;" id="step_previous_btn" onclick="second_step_previous()">Previous</button>
+                        <button class="btn btn-success" style="margin-left:20px;" id="step_btn" onclick="third_step_next()">Next</button>
                     </div>
                     <div id="div_appointments" style="display:none;">
                         <label for="dateOfExam"><b>Available appointments:</b></label>
                         <select class="form-control" id="free_appointments">
                         </select><br />
-                        <button class="btn btn-warning" style="margin-left:90px;" id="step_previous_btn" onclick="step_previous(3)">Previous</button>
+                        <button class="btn btn-light" style="margin-left:90px;" id="step_previous_btn" onclick="third_step_previous()">Previous</button>
                         <button class="btn btn-success" style="margin-left:20px;" id="modalButton" onclick="scheduleExamination()">Schedule</button>
                     </div>
                     <div id="loadingModal" class="alert alert-info mb-0 mt-2" role="alert" style="display:none">

@@ -924,6 +924,12 @@ namespace GraphicalEditor
 
             ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
+
+        private void ShowRenovationSchedulingDialogButton_Click(object sender, RoutedEventArgs e)
+        {
+            RenovationSchedulingDialog renovationSchedulingDialog = new RenovationSchedulingDialog();
+            renovationSchedulingDialog.ShowDialog();
+        }
     }
 }
 

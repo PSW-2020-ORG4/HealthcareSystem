@@ -1,15 +1,14 @@
-﻿using GraphicalEditor.Enumerations;
+﻿using Backend.Model.Enums;
+using Model.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace GraphicalEditor.DTO
+namespace GraphicalEditorServer.DTO
 {
     public class BaseRenovationDTO
     {
-       
         public int RoomId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }

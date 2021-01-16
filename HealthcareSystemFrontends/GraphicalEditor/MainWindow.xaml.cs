@@ -188,9 +188,19 @@ namespace GraphicalEditor
             app.GetEmergencyAppointments(appointmentSearch);*/
 
             RenovatonService service = new RenovatonService();
-            BaseRenovationDTO dto = new BaseRenovationDTO(10, new RenovationPeriodDTO(new DateTime(2021, 2, 2, 7, 0, 0, DateTimeKind.Utc), new DateTime(2021, 2, 2, 11, 0, 0, DateTimeKind.Utc)),"krecenje",TypeOfRenovation.REGULAR_RENOVATION);
-            service.ScheduleBaseRenovation(dto);
-
+            BaseRenovationDTO dto = new BaseRenovationDTO(9,new DateTime(2021, 1, 1, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 1, 1, 16, 45, 0, DateTimeKind.Utc),"krecenje",TypeOfRenovation.REGULAR_RENOVATION);
+            bool add = service.ScheduleBaseRenovation(dto);
+            if (!add)
+            {
+                foreach (RenovationPeriodDTO period in service.GetAlternativeAppointments(dto))
+                {
+                    Console.WriteLine(period.StartTime + " ------ " + period.EndTime);
+                    Console.WriteLine("");
+                }
+            } else
+            {
+                Console.WriteLine("else");
+            }  
         }
         
 

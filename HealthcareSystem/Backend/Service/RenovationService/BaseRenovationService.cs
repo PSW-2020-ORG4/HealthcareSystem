@@ -55,20 +55,18 @@ namespace Backend.Service.RenovationService
             foreach (DateTime date in potentialDates)
             {
                 i++;
+                renovationPeriod.BeginDate = date.AddMinutes(30);
+                renovationPeriod.EndDate = renovationPeriod.BeginDate.AddMinutes(timeSpanInMinutes);
                 if (!CheckRoomAvailibility(date, roomId)) {
-                    renovationPeriod.BeginDate = date;
-                    renovationPeriod.BeginDate = date.AddMinutes(30);
-                    renovationPeriod.EndDate = renovationPeriod.BeginDate.AddMinutes(timeSpanInMinutes);
                     potentialDates = GetPotentiallyAlternativeAppointments(renovationPeriod.BeginDate);
                     i = 0;
                     continue;
                 }
-                if (i >= timeSpanInMinutes / 30) 
+                if(i >= timeSpanInMinutes / 30 && CheckIfTimeValid(date.AddMinutes(30 - timeSpanInMinutes)) && CheckIfTimeValid(date.AddMinutes(30)))
                 {
-                    alternativeAppointments.Add(renovationPeriod);
+                    alternativeAppointments.Add(new RenovationPeriod(date.AddMinutes(30 - timeSpanInMinutes), date.AddMinutes(30)));
                     i = 0;
-                }
-
+                }                 
                 if (alternativeAppointments.Count == 10)
                     break;
             }
@@ -88,7 +86,7 @@ namespace Backend.Service.RenovationService
             List<DateTime> potentiallyAlternativeAppointments = new List<DateTime>();
             DateTime timeFrom = dateOfTransfer;
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 if (CheckIfTimeValid(timeFrom))
                 {
@@ -119,7 +117,6 @@ namespace Backend.Service.RenovationService
 
             do
                 alternativeAppointments = ChooseAppointments(renovationPeriod, roomId);
-                
             while (alternativeAppointments.Count != 10);
 
             return alternativeAppointments;

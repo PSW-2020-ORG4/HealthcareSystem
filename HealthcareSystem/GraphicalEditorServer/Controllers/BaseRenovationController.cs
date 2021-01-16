@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Service.RenovationService;
 using Backend.Model.Manager;
+using Model.Manager;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -28,10 +29,10 @@ namespace GraphicalEditorServer.Controllers
             _baseRenovationService = baseRenovationService;
         }
 
-        [HttpPost("/")]
-        public ActionResult AddBaseRenovation([FromBody] BaseRenovation baseRenovation)
+        [HttpPost]
+        public ActionResult AddBaseRenovation(BaseRenovationDTO baseRenovationDTO)
         {
-            BaseRenovation addedBaseRenovation = _baseRenovationService.AddBaseRenovation(baseRenovation);
+            BaseRenovation addedBaseRenovation = _baseRenovationService.AddBaseRenovation(BaseRenovationMapper.BaseRenovationDTOToBaseRenovation(baseRenovationDTO));
             if (addedBaseRenovation == null) {
                 return NotFound("NotFound");
             }
@@ -62,23 +63,26 @@ namespace GraphicalEditorServer.Controllers
                 return NotFound(e.Message);
             }
         }
-       /* [HttpGet("alternativeTerms")]
-        public IActionResult GetAlternativeTermsForBaseRenovation()
+
+
+        [HttpPost("getAlternativeAppointments")]
+        public IActionResult GetAlternativeTermsForBaseRenovation(BaseRenovationDTO baseRenovatonDTO)
         {
+            List<RenovationPeriodDTO> alternativeAppointments = new List<RenovationPeriodDTO>();
             try
             {
-                List<BaseRenovation> baseRenovationsInRoom = _baseRenovationService.GetBaseRenovationByRoomNumber(roomNumber);
-                if (baseRenovationsInRoom.Count == 0)
+                _baseRenovationService.GetAlternativeAppointemntsForBaseRenovation(new RenovationPeriod(baseRenovatonDTO.StartTime, baseRenovatonDTO.EndTime),baseRenovatonDTO.RoomId).ForEach(r => alternativeAppointments.Add(RenovationPeriodMapper.RenovationPeriodToRenovationPeriodDTO(r)));
+                if (alternativeAppointments.Count == 0)
                 {
                     return NotFound("NotFound");
                 }
-                return Ok(baseRenovationsInRoom);
+                return Ok(alternativeAppointments);
             }
             catch (Exception e)
             {
                 return NotFound(e.Message);
             }
-        }*/
+        }
 
         [HttpGet]
         public IActionResult GetAllBaseRenovations()

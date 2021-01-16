@@ -9,9 +9,6 @@ namespace Backend.Model.Manager
 {
     public class DivideRenovation : BaseRenovation
     {
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         public string FirstRoomDescription { get; set; }
         public string SecondRoomDescription { get; set; }
         public TypeOfUsage FirstRoomType { get; set; }

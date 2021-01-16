@@ -6,11 +6,7 @@ namespace Backend.Model.Manager
 {
     public class MergeRenovation : BaseRenovation
     {
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         public int SecondRoomId { get; set; }
-
         public string NewRoomDescription { get; set; }
         public TypeOfUsage RoomType { get; set; }
 

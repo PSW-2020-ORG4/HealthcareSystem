@@ -188,7 +188,7 @@ namespace GraphicalEditor
             app.GetEmergencyAppointments(appointmentSearch);*/
 
             RenovatonService service = new RenovatonService();
-            BaseRenovationDTO dto = new BaseRenovationDTO(9,new DateTime(2021, 1, 1, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 1, 1, 16, 45, 0, DateTimeKind.Utc),"krecenje",TypeOfRenovation.REGULAR_RENOVATION);
+            BaseRenovationDTO dto = new BaseRenovationDTO(9,new DateTime(2021, 3, 1, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 1, 16, 45, 0, DateTimeKind.Utc),"krecenje",TypeOfRenovation.REGULAR_RENOVATION);
             bool add = service.ScheduleBaseRenovation(dto);
             if (!add)
             {

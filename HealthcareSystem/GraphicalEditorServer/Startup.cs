@@ -165,8 +165,8 @@ namespace GraphicalEditorServer
             services.AddScoped<IEquipmentTransferService, EquipmentTransferService>();
             services.AddScoped<IEquipmentInExaminationRepository, MySqlEquipmentInExaminationRepository>();
 	        services.AddScoped<IEquipmentInExaminationService, EquipmentInExaminationService>();
-	        services.AddScoped<IBaseRenovationRepository, MySqlBaseRenovationRepository>();
-	        services.AddScoped<IBaseRenovationService, BaseRenovationService>();
+	        services.AddScoped<IRenovationRepository, MySqlRenovationRepository>();
+	        services.AddScoped<IRenovationService, RenovationService>();
         }
 
         private void GetServiceSettings(ServiceSettings conf)

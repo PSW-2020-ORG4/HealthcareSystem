@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Backend.Repository.RenovationRepository
 {
-    public interface IBaseRenovationRepository
+    public interface IRenovationRepository
     {
         BaseRenovation GetBaseRenovationById(int id);
         List<BaseRenovation> GetAllBaseRenovations();

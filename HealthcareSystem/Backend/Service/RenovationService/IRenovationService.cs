@@ -6,9 +6,10 @@ using System.Text;
 
 namespace Backend.Service.RenovationService
 {
-    public interface IBaseRenovationService
+    public interface IRenovationService
     {
         BaseRenovation AddBaseRenovation(BaseRenovation baseRenovation);
+        MergeRenovation AddMergeRenovation(MergeRenovation mergeRenovation);
         List<BaseRenovation> GetAllBaseRenovations();
         BaseRenovation GetBaseRenovationById(int baseRenovationId);
         void DeleteBaseRenovation(int baseRenovationId);

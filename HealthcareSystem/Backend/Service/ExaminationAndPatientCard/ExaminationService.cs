@@ -115,7 +115,7 @@ namespace Service.ExaminationAndPatientCard
         }
 
         public ICollection<Examination> GetExaminationsForPeriodAndRoom(DateTime startDate, DateTime endDate, int roomId) {
-            return GetExaminationsForPeriod(startDate, endDate).Where(x => x.IdRoom == roomId).ToList();
+            return (ICollection<Examination>)GetExaminationsForPeriod(startDate, endDate).Where(x => x.IdRoom == roomId).ToList();
         }
     }
 }

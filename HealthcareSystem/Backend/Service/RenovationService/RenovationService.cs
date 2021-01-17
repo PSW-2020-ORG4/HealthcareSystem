@@ -13,14 +13,14 @@ using System.Text;
 
 namespace Backend.Service.RenovationService
 {
-    public class BaseRenovationService : IBaseRenovationService
+    public class RenovationService : IRenovationService
     {
-        private IBaseRenovationRepository _baseRenovationRepository;
+        private IRenovationRepository _baseRenovationRepository;
         private IExaminationRepository _examinationRepository;
         private IExaminationService _examinationService;
         private IEquipmentTransferRepository _equipmentTransferRepository;
 
-        public BaseRenovationService(IBaseRenovationRepository baseRenovationRepository, IExaminationRepository examinationRepository,IExaminationService examinationService, IEquipmentTransferRepository equipmentTransferRepository)
+        public RenovationService(IRenovationRepository baseRenovationRepository, IExaminationRepository examinationRepository,IExaminationService examinationService, IEquipmentTransferRepository equipmentTransferRepository)
         {
             _baseRenovationRepository = baseRenovationRepository;
             _examinationRepository = examinationRepository;
@@ -138,6 +138,42 @@ namespace Backend.Service.RenovationService
             if (minutes != 0)
                 addition = 30 - minutes;
             return time.AddMinutes(addition);
+        }
+
+        private Examination FindLastExamination(List<Examination> allExaminations) {
+            Examination lastExamination = allExaminations[0];
+            foreach (Examination e in allExaminations)
+            {
+                if (e.DateAndTime.CompareTo(lastExamination.DateAndTime) > 0)
+                {
+                    lastExamination = e;
+                }
+            }
+            return lastExamination;
+        }
+
+        public MergeRenovation AddMergeRenovation(MergeRenovation renovation)
+        {
+            List<Examination> examinationsInFirstRoom = (List<Examination>)_examinationRepository.GetFollowingExaminationsByRoom(renovation.RoomId);
+            List<Examination> examinationsInSecondRoom = (List<Examination>)_examinationRepository.GetFollowingExaminationsByRoom(renovation.SecondRoomId);
+            Examination lastExamination =  FindLastExamination(examinationsInFirstRoom).DateAndTime.CompareTo(FindLastExamination(examinationsInSecondRoom).DateAndTime)>0 ? FindLastExamination(examinationsInFirstRoom) : FindLastExamination(examinationsInSecondRoom);         
+            if (lastExamination.DateAndTime.CompareTo(renovation.RenovationPeriod.BeginDate) > 0)
+                return null;
+            _baseRenovationRepository.AddBaseRenovation(renovation);
+            return renovation;          
+        }
+
+        public MergeRenovation GetMergeRenovationAlternativeAppointmets(MergeRenovation renovation)
+        {
+            List<Examination> examinationsInFirstRoom = (List<Examination>)_examinationRepository.GetFollowingExaminationsByRoom(renovation.RoomId);
+            List<Examination> examinationsInSecondRoom = (List<Examination>)_examinationRepository.GetFollowingExaminationsByRoom(renovation.SecondRoomId);
+            Examination lastExamination = FindLastExamination(examinationsInFirstRoom).DateAndTime.CompareTo(FindLastExamination(examinationsInSecondRoom).DateAndTime) > 0 ? FindLastExamination(examinationsInFirstRoom) : FindLastExamination(examinationsInSecondRoom);
+
+            // ovde treba naci sledecih 10 termina nakon poslednjeg zakazanog pregleda
+            if (lastExamination.DateAndTime.CompareTo(renovation.RenovationPeriod.BeginDate) > 0)
+                return null;
+            _baseRenovationRepository.AddBaseRenovation(renovation);
+            return renovation;
         }
     }
 }

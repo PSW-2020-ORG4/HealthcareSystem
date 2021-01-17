@@ -33,7 +33,7 @@ namespace GraphicalEditorServer.Controllers
         public ActionResult AddBaseRenovation(BaseRenovationDTO baseRenovationDTO)
         {
             BaseRenovation addedBaseRenovation = _baseRenovationService.AddBaseRenovation(BaseRenovationMapper.BaseRenovationDTOToBaseRenovation(baseRenovationDTO));
-            if (addedBaseRenovation == null) {
+             if (addedBaseRenovation == null) {
                 return NotFound("NotFound");
             }
             return Ok();

@@ -170,22 +170,23 @@ namespace GraphicalEditor
 
             ExaminationForReschedulingDTO examinationForReschedulingDTO = new ExaminationForReschedulingDTO(new DateTime(), new DateTime(), 9);
             List<ExaminationForReschedulingDTO> examinationsForReschedunling = new List<ExaminationForReschedulingDTO>();
-
+            /*
             examinationsForReschedunling.Add(examinationForReschedulingDTO);
-            EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;
+            EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;*/
 
             /*
             AppointmentSearchWithPrioritiesDTO appointmentSearch = new AppointmentSearchWithPrioritiesDTO
             {
                 InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 2, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
-                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 9, 0, 0, DateTimeKind.Utc)),
+                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 9, 0, 0, DateTimeKind.Utc)),
                 Priority = SearchPriority.Date,
                 SpecialtyId = 1
             };
 
             AppointmentService app = new AppointmentService();
-            app.GetEmergencyAppointments(appointmentSearch);
-            */
+
+            app.GetEmergencyAppointments(appointmentSearch);*/
+
         }
         
 
@@ -707,8 +708,8 @@ namespace GraphicalEditor
             DateTime endDate = AppointmentSearchEndDatePicker.SelectedDate.Value.Date;
             DateTime endTime = AppointmentSearchEndTimePicker.SelectedTime.Value;
 
-            DateTime appointmentSearchStartDateTime = new DateTime(startDate.Year, startDate.Month, startDate.Day, startTime.Hour, startTime.Minute, startTime.Second);
-            DateTime appointmentSearchEndDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day, endTime.Hour, endTime.Minute, endTime.Second);
+            DateTime appointmentSearchStartDateTime = new DateTime(startDate.Year, startDate.Month, startDate.Day, startTime.Hour, startTime.Minute, startTime.Second, DateTimeKind.Utc);
+            DateTime appointmentSearchEndDateTime = new DateTime(endDate.Year, endDate.Month, endDate.Day, endTime.Hour, endTime.Minute, endTime.Second, DateTimeKind.Utc);
             
             string doctorJmbg = ((DoctorDTO)AppointmentDoctorComboBox.SelectedItem).Jmbg;
             int patientCardId = ((PatientBasicDTO)AppointmentSearchPatientComboBox.SelectedItem).PatientCardId;
@@ -736,7 +737,11 @@ namespace GraphicalEditor
             }
 
             AppointmentService appointmentService = new AppointmentService();
-            AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO(new BasicAppointmentSearchDTO(patientCardId, doctorJmbg, appointmentRequiredEquipmentTypes, new DateTime(appointmentSearchStartDateTime.Ticks, DateTimeKind.Utc), new DateTime(appointmentSearchEndDateTime.Ticks, DateTimeKind.Utc)), searchPriority, doctorSpecialtyId);
+            AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO(
+                new BasicAppointmentSearchDTO(patientCardId, doctorJmbg, appointmentRequiredEquipmentTypes, 
+                appointmentSearchStartDateTime, 
+                appointmentSearchEndDateTime), searchPriority, doctorSpecialtyId);
+            
             List<ExaminationDTO> examinationDTOs =  appointmentService.GetFreeAppointments(appointmentSearchParametersDTO);
             ExaminationSearchResults = examinationDTOs;
             List<ExaminationDTO>  examinationDTOsWithoutDuplicates = RemoveAppointmentsWithDuplicateTimes(examinationDTOs);
@@ -822,6 +827,7 @@ namespace GraphicalEditor
         {
             CreatePatientGuestAccountDialog createPatientGuestAccountDialog = new CreatePatientGuestAccountDialog();
             createPatientGuestAccountDialog.ShowDialog();
+            SetValuesInPatientComboBoxForAppointmentSearch();
         }
 
         private void EmergencyAppointmentSearchResultsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -831,7 +837,73 @@ namespace GraphicalEditor
 
         private void ScheduleEmergencyAppointmentButton_Click(object sender, RoutedEventArgs e)
         {
+            int patientCardId = ((PatientBasicDTO)AppointmentSearchPatientComboBox.SelectedItem).PatientCardId;
 
+            int doctorSpecialtyId = ((SpecialtyDTO)AppointmentDoctorSpecializationComboBox.SelectedItem).Id;
+
+            List<int> appointmentRequiredEquipmentTypes = new List<int>();
+            foreach (EquipmentTypeForViewDTO equipmentType in AllEquipmentTypes)
+            {
+                if (equipmentType.IsSelected)
+                {
+                    appointmentRequiredEquipmentTypes.Add(equipmentType.EquipmentType.Id);
+                }
+            }
+
+
+            AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO
+            {
+                InitialParameters = new BasicAppointmentSearchDTO(patientCardId, doctorJmbg: "0909965768767", appointmentRequiredEquipmentTypes,
+                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 23, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime()),
+                Priority = SearchPriority.Date,
+                SpecialtyId = doctorSpecialtyId
+            };
+
+            AppointmentService appointmentService = new AppointmentService();
+
+
+            
+            if (EmergencyAppointmentSearchResultsDataGrid.SelectedItem == null)
+            {
+                List<EmergencyExaminationDTO> emergencyExaminationSearchResults = appointmentService.GetEmergencyAppointments(appointmentSearchParametersDTO);
+
+                if (emergencyExaminationSearchResults.Count == 1 && emergencyExaminationSearchResults[0].UnchangedExamination.DateTime.Equals(emergencyExaminationSearchResults[0].ShiftedExamination.DateTime))
+                {
+
+                    appointmentService.AddExamination(emergencyExaminationSearchResults[0].UnchangedExamination, appointmentRequiredEquipmentTypes);
+                    InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
+                    infoDialog.ShowDialog();
+
+                    ClearAppointmentSearchFields();
+                }
+                else
+                {
+                    EmergencyAppointmentSearchResultsDataGrid.ItemsSource = emergencyExaminationSearchResults;
+
+                    InfoDialog infoDialog = new InfoDialog("Nažalost u skorijem periodu nema slobodnih termina koji odgovaraju unetim parametrima. Možete pomeriti neki od postojećih termina. Termini su sortirani u tabeli po pogodnosti za pomeranje. Termin koji je najpogodniji za pomeranje je posebno naglašen.");
+                    infoDialog.ShowDialog();
+                }
+            }
+            else
+            {
+                EmergencyExaminationDTO selectedEmergencyExamination = (EmergencyExaminationDTO)EmergencyAppointmentSearchResultsDataGrid.SelectedItem;
+
+                ExaminationDTO unchangedExamination = selectedEmergencyExamination.UnchangedExamination;
+
+                ExaminationDTO examinationForScheduleDTO = new ExaminationDTO(unchangedExamination.DateTime, unchangedExamination.Doctor, unchangedExamination.RoomId, patientCardId);
+
+                RescheduleExaminationDTO rescheduleExaminationDTO = new RescheduleExaminationDTO(examinationForScheduleDTO, selectedEmergencyExamination.UnchangedExamination, selectedEmergencyExamination.ShiftedExamination);
+
+                appointmentService.RescheduleExamination(rescheduleExaminationDTO);
+
+                InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
+                infoDialog.ShowDialog();
+
+                
+                ClearAppointmentSearchFields();
+            }
+            
+            
         }
 
         private void OpenEquipmentRelocationDialogButton_Click(object sender, RoutedEventArgs e)
@@ -843,6 +915,24 @@ namespace GraphicalEditor
             equipmentRelocationSchedulingDialog.Owner = Window.GetWindow(this);
             equipmentRelocationSchedulingDialog.ShowDialog();
         }
+
+        private void ShowEmergencyAppointmentSearchResultObjectOnMapButton_Click(object sender, RoutedEventArgs e)
+        {
+            EmergencyExaminationDTO selectedSearchEmergencyExaminationDTO = (EmergencyExaminationDTO)EmergencyAppointmentSearchResultsDataGrid.SelectedItem;
+
+            MapObject selectedSearchResultMapObject = _mapObjectController.GetMapObjectById(selectedSearchEmergencyExaminationDTO.UnchangedExamination.RoomId);
+
+            ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
+
+        }
+
+        private void ShowRoomScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleForRoomDialog scheduleForRoomDialog = new ScheduleForRoomDialog();
+            scheduleForRoomDialog.ShowDialog();
+        }
+
+       
     }
 }
 

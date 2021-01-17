@@ -22,7 +22,8 @@ namespace PatientServiceTests.UnitTests
             DrugId = 1,
             DrugName = "Aspirin",
             StartDate = new DateTime(2020, 12, 21),
-            EndDate = new DateTime(2021, 1, 1)
+            EndDate = new DateTime(2021, 1, 1),
+            ExaminationId = 1
         });
 
         [Theory]

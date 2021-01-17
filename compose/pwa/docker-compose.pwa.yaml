@@ -10,7 +10,7 @@ services:
       context: ../../HealthcareSystem/PatientWebApp
       dockerfile: Dockerfile.local
     ports:
-    - "8181:80"
+    - "8585:80"
     environment:
       PATIENT_SERVICE_URL: "http://patientservice"
       FEEDBACK_SURVEY_SERVICE_URL: "http://feedbacksurveyservice"

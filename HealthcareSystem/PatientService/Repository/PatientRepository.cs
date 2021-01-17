@@ -101,7 +101,8 @@ namespace PatientService.Repository
                             DrugId = t.Drug.Id,
                             DrugName = t.Drug.Name,
                             EndDate = t.EndDate,
-                            StartDate = t.StartDate
+                            StartDate = t.StartDate,
+                            ExaminationId = t.IdExamination
                         })
                 });
             }

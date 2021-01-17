@@ -80,7 +80,7 @@
             Grid.ColumnSpan="3"
             Margin="20,0,10,0"
             VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Unesite naziv ime pacijenta."
+            materialDesign:HintAssist.Hint="Unesite ime pacijenta."
             FontSize="16"
             TextWrapping="Wrap"
             Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
@@ -97,9 +97,6 @@
                 </Binding>
             </TextBox.Text>
         </TextBox>
-
-
-
 
 
         <!--  Surname  -->
@@ -191,6 +188,7 @@
             VerticalAlignment="Top"
             Background="MediumPurple"
             BorderBrush="{x:Null}"
+            Click="SaveButton_Click"
             FontSize="16">
             <StackPanel
                 HorizontalAlignment="Center"

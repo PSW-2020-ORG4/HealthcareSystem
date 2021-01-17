@@ -56,7 +56,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-auto mb-0">
-                                        <input type="submit" class="btn btn-success" value="Show">
+                                        <input type="submit" class="btn btn-primary" value="Show">
                                     </div>
 
                                 </div>
@@ -137,6 +137,37 @@
         </div>
     </div>
     <!-- Central Modal Medium Success-->
+
+    <div class="modal fade" id="bottomModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading lead">Report</p>
+                    <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <div id="report_content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="topModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading lead">Prescriptions</p>
+                    <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <div id="therapy_content"></div>
+
+            </div>
+        </div>
+    </div>
 
     <script type="text/javascript" src="../lib/mdb/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

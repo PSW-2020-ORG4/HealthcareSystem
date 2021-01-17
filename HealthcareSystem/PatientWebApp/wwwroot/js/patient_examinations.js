@@ -264,11 +264,28 @@ function addExaminationRow(examination) {
     restrict_date.setDate(restrict_date.getDate() - 2);
     var current_date = new Date();
     let button = '';
-    if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
+ 
+    if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 1) {
         button = '<div class="card-footer">'
-            + '<button type = "button" class="btn btn-success float-right" '
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
+            + 'id="' + examination.id + '" onclick="showReport(this.id)"'
+            + '> Report</button >'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
+            + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
+            + '> Prescriptions </button >'
+            + '</div >'; 
+    }
+    else if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
+        button = '<div class="card-footer">'
+            + '<button type = "button" class="btn btn-primary float-right" '
             + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
             + '> Fill out the survey</button >'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
+            + 'id="' + examination.id +'" onclick="showReport(this.id)"'
+            + '> Report</button >'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
+            + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
+            + '> Prescriptions </button >'
             + '</div >';
     }
     else if (examination.examinationStatus == "Created" && current_date < restrict_date) {
@@ -286,7 +303,7 @@ function addExaminationRow(examination) {
         + '<div class="card">'
         + '<div class="card-header bg-info text-white">'
         + '<h4 class="card-title mb-0">'
-        + examination.examinationType + ' on <span class="badge badge-light">' + examination.startTime + '</span> '
+        + examination.examinationType + ' on <span class="badge badge-light">' + examination.startTime.split('T')[0] + " " + examination.startTime.split('T')[1] + '</span> '
         + '</h4>'
         + '</div>'
         + '<div class="card-body p-3">'
@@ -447,4 +464,90 @@ function third_step_previous() {
 
     document.getElementById("div_doctor").style.display = "initial";
     document.getElementById("div_appointments").style.display = "none";
+};
+
+function showReport(examinationId) {
+
+    $.ajax({
+        url: '/api/patient/examination/' + examinationId,
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (report) {
+
+            $.ajax({
+                url: '/api/patient/examination/' + examinationId + "/therapies",
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (therapies) {
+
+                    let table = '<table style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                        + '<tr> <td>Date:</td><td>' + report.dateAndTime.split('T')[0] + '</td> </tr>'
+                        + '<tr> <td>Time:</td><td>' + report.dateAndTime.split('T')[1] + '</td> </tr>'
+                        + '<tr> <td>Doctor:</td><td>' + report.doctorName + ' ' + report.doctorSurname + '</td> </tr>'
+                        + '<tr> <td>Anamnesis:</td><td>' + report.anamnesis + '</td> </tr>'
+                        + '<tr> <td>Prescribed prescriptions:</td><td>' + therapies.length + '</td> </tr>'
+                        + '</table>';
+
+                    $('#report_content').empty();
+                    $('#report_content').append(table);
+                    $('#bottomModalSuccess').modal('show');
+
+                },
+                error: function () {
+                    console.log("Error fetching therapies");
+                }
+            });
+        },
+        error: function () {
+            console.log("Error fetching report");
+        }
+    });
+};
+
+function showTherapies(examinationId) {
+
+    $.ajax({
+        url: '/api/patient/examination/' + examinationId + "/therapies",
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (therapies) {
+            $('#therapy_content').empty();
+            if (therapies.length == 0) {
+                let messagge = '<label class="text-secondary" style="margin-left:24px; margin-top:30px; margin-bottom:30px">There are no prescribed prescriptions.</label>';
+                $('#therapy_content').append(messagge);
+            } else {
+                for (let i = 0; i < therapies.length; i++) {
+                    let therapy = '<table style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                        + '<tr> <td>Start date:</td><td>' + therapies[i].startDate.split('T')[0] + '</td> </tr>'
+                        + '<tr> <td>End date:</td><td>' + therapies[i].endDate.split('T')[0] + '</td> </tr>'
+                        + '<tr> <td>Drug name:</td><td>' + therapies[i].drugName + '</td> </tr>'
+                        + '<tr> <td>Diagnosis:</td><td>' + therapies[i].diagnosis + '</td> </tr>'
+                        + '<tr> <td>Daily dose:</td><td>' + therapies[i].dailyDose + '</td> </tr>'
+                        + '</table>';
+                    $('#therapy_content').append(therapy);
+                }
+            }
+        },
+        error: function () {
+            console.log("Error fetching therapies");
+        }
+    });
+
+    $('#topModalSuccess').modal('show');
+
 };

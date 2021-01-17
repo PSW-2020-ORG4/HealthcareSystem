@@ -84,6 +84,7 @@
     <Compile Include="DTO\AppointmentSearchWithPrioritiesDTO.cs" />
     <Compile Include="DTO\BaseRenovationDTO.cs" />
     <Compile Include="DTO\BasicAppointmentSearchDTO.cs" />
+    <Compile Include="DTO\DivideRenovationDTO.cs" />
     <Compile Include="DTO\DoctorDTO.cs" />
     <Compile Include="DTO\DrugDTO.cs" />
     <Compile Include="DTO\DrugTypeDTO.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="DTO\ExaminationForReschedulingDTO.cs" />
     <Compile Include="DTO\GuestPatientDTO.cs" />
+    <Compile Include="DTO\MergeRenovationDTO.cs" />
     <Compile Include="DTO\PatientBasicDTO.cs" />
     <Compile Include="DTO\RenovationPeriodDTO.cs" />
     <Compile Include="DTO\RescheduleExaminationDTO.cs" />

@@ -8,10 +8,10 @@ using System.Text;
 
 namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
 {
-    public class MySqlBaseRenovationRepository : IBaseRenovationRepository
+    public class MySqlRenovationRepository : IRenovationRepository
     {
         private readonly MyDbContext _context;
-        public MySqlBaseRenovationRepository(MyDbContext context)
+        public MySqlRenovationRepository(MyDbContext context)
         {
             _context = context;
         }

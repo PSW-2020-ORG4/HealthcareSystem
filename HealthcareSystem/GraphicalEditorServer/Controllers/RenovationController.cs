@@ -20,11 +20,11 @@ namespace GraphicalEditorServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BaseRenovationController : ControllerBase
+    public class RenovationController : ControllerBase
     {
-        private readonly IBaseRenovationService _baseRenovationService;
+        private readonly IRenovationService _baseRenovationService;
 
-        public BaseRenovationController(IBaseRenovationService baseRenovationService)
+        public RenovationController(IRenovationService baseRenovationService)
         {
             _baseRenovationService = baseRenovationService;
         }

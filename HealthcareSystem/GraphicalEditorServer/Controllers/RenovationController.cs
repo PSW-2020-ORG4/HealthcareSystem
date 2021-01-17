@@ -22,18 +22,38 @@ namespace GraphicalEditorServer.Controllers
     [ApiController]
     public class RenovationController : ControllerBase
     {
-        private readonly IRenovationService _baseRenovationService;
+        private readonly IRenovationService _renovationService;
 
-        public RenovationController(IRenovationService baseRenovationService)
+        public RenovationController(IRenovationService renovationService)
         {
-            _baseRenovationService = baseRenovationService;
+            _renovationService = renovationService;
         }
 
-        [HttpPost]
+        [HttpPost("addBaseRenovation")]
         public ActionResult AddBaseRenovation(BaseRenovationDTO baseRenovationDTO)
         {
-            BaseRenovation addedBaseRenovation = _baseRenovationService.AddBaseRenovation(BaseRenovationMapper.BaseRenovationDTOToBaseRenovation(baseRenovationDTO));
+            BaseRenovation addedBaseRenovation = _renovationService.AddBaseRenovation(BaseRenovationMapper.BaseRenovationDTOToBaseRenovation(baseRenovationDTO));
              if (addedBaseRenovation == null) {
+                return NotFound("NotFound");
+            }
+            return Ok();
+        }
+        [HttpPost("addMergeRenovation")]
+        public ActionResult AddMergeRenovation(MergeRenovationDTO mergeRenovationDTO)
+        {
+            MergeRenovation addedBaseRenovation = (MergeRenovation)_renovationService.AddBaseRenovation(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO));
+            if (addedBaseRenovation == null)
+            {
+                return NotFound("NotFound");
+            }
+            return Ok();
+        }
+        [HttpPost("addDivideRenovation")]
+        public ActionResult AddDivideRenovation(DivideRenovationDTO divideRenovationDTO)
+        {
+            DivideRenovation addedBaseRenovation = (DivideRenovation)_renovationService.AddBaseRenovation(DivideRenovationMapper.DivideRenovationDTOToDivideRenovation(divideRenovationDTO));
+            if (addedBaseRenovation == null)
+            {
                 return NotFound("NotFound");
             }
             return Ok();
@@ -42,7 +62,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpDelete("/{baseRenovationId}")]
         public ActionResult DeleteBaseRenovation(int baseRenovationId)
         {
-            _baseRenovationService.DeleteBaseRenovation(baseRenovationId);
+            _renovationService.DeleteRenovation(baseRenovationId);
             return Ok();
         }
 
@@ -51,7 +71,7 @@ namespace GraphicalEditorServer.Controllers
         {
             try
             {
-                List<BaseRenovation> baseRenovationsInRoom = _baseRenovationService.GetBaseRenovationByRoomNumber(roomNumber);
+                List<BaseRenovation> baseRenovationsInRoom = _renovationService.GetRenovationByRoomNumber(roomNumber);
                 if (baseRenovationsInRoom.Count == 0)
                 {
                     return NotFound("NotFound");
@@ -63,15 +83,49 @@ namespace GraphicalEditorServer.Controllers
                 return NotFound(e.Message);
             }
         }
-
-
-        [HttpPost("getAlternativeAppointments")]
-        public IActionResult GetAlternativeTermsForBaseRenovation(BaseRenovationDTO baseRenovatonDTO)
+        [HttpPost("getBaseRenovationAlternativeAppointments")]
+        public IActionResult GetAlternativeAppointmentsForBaseRenovation(BaseRenovationDTO baseRenovatonDTO)
         {
             List<RenovationPeriodDTO> alternativeAppointments = new List<RenovationPeriodDTO>();
             try
             {
-                _baseRenovationService.GetAlternativeAppointemntsForBaseRenovation(new RenovationPeriod(baseRenovatonDTO.StartTime, baseRenovatonDTO.EndTime),baseRenovatonDTO.RoomId).ForEach(r => alternativeAppointments.Add(RenovationPeriodMapper.RenovationPeriodToRenovationPeriodDTO(r)));
+                _renovationService.GetAlternativeAppointemntsForBaseRenovation(new RenovationPeriod(baseRenovatonDTO.StartTime, baseRenovatonDTO.EndTime),baseRenovatonDTO.RoomId).ForEach(r => alternativeAppointments.Add(RenovationPeriodMapper.RenovationPeriodToRenovationPeriodDTO(r)));
+                if (alternativeAppointments.Count == 0)
+                {
+                    return NotFound("NotFound");
+                }
+                return Ok(alternativeAppointments);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+        [HttpPost("getMergeRenovationAlternativeAppointments")]
+        public IActionResult GetAlternativeAppointmentsForMergeRenovation(MergeRenovationDTO mergeRenovationDTO)
+        {
+            List<RenovationPeriodDTO> alternativeAppointments = new List<RenovationPeriodDTO>();
+            try
+            {
+                _renovationService.GetMergeRenovationAlternativeAppointmets(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO));
+                if (alternativeAppointments.Count == 0)
+                {
+                    return NotFound("NotFound");
+                }
+                return Ok(alternativeAppointments);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
+        [HttpPost("getDivideRenovationAlternativeAppointments")]
+        public IActionResult GetAlternativeAppointmentsForDivideRenovation(DivideRenovationDTO divideRenovationDTO)
+        {
+            List<RenovationPeriodDTO> alternativeAppointments = new List<RenovationPeriodDTO>();
+            try
+            {
+                _renovationService.GetDivideRenovationAlternativeAppointmets(DivideRenovationMapper.DivideRenovationDTOToDivideRenovation(divideRenovationDTO));
                 if (alternativeAppointments.Count == 0)
                 {
                     return NotFound("NotFound");
@@ -89,7 +143,7 @@ namespace GraphicalEditorServer.Controllers
         {
             try
             {
-                List<BaseRenovation> baseRenovations = _baseRenovationService.GetAllBaseRenovations();
+                List<BaseRenovation> baseRenovations = _renovationService.GetAllRenovations();
                 if (baseRenovations.Count == 0)
                 {
                     return NotFound("NotFound");
@@ -106,7 +160,7 @@ namespace GraphicalEditorServer.Controllers
         {
             try
             {
-                BaseRenovation baseRenovation = _baseRenovationService.GetBaseRenovationById(baseRenovationId);
+                BaseRenovation baseRenovation = _renovationService.GetRenovationById(baseRenovationId);
                 return Ok(baseRenovation);
             }
             catch (Exception e)

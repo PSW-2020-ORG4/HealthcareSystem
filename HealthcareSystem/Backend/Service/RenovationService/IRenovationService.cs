@@ -10,10 +10,15 @@ namespace Backend.Service.RenovationService
     {
         BaseRenovation AddBaseRenovation(BaseRenovation baseRenovation);
         MergeRenovation AddMergeRenovation(MergeRenovation mergeRenovation);
-        List<BaseRenovation> GetAllBaseRenovations();
-        BaseRenovation GetBaseRenovationById(int baseRenovationId);
-        void DeleteBaseRenovation(int baseRenovationId);
-        List<BaseRenovation> GetBaseRenovationByRoomNumber(int roomNumber);
+        DivideRenovation AddDivideRenovation(DivideRenovation renovation);
+        List<BaseRenovation> GetAllRenovations();
+        BaseRenovation GetRenovationById(int baseRenovationId);
+        void DeleteRenovation(int baseRenovationId);
+        List<BaseRenovation> GetRenovationByRoomNumber(int roomNumber);
         List<RenovationPeriod> GetAlternativeAppointemntsForBaseRenovation(RenovationPeriod renovationPeriod, int roomId);
+        List<RenovationPeriod> GetMergeRenovationAlternativeAppointmets(MergeRenovation renovation);
+        List<RenovationPeriod> GetDivideRenovationAlternativeAppointmets(DivideRenovation renovation);
+
+
     }
 }

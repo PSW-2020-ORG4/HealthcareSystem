@@ -16,5 +16,6 @@ namespace PatientService.DTO
         public string DrugName { get; set; }
         public string DoctorName { get; set; }
         public string DoctorSurname { get; set; }
+        public int ExaminationId { get; set; }
     }
 }

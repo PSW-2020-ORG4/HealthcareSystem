@@ -91,7 +91,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-auto mb-0">
-                                        <input type="submit" class="btn btn-success" value="Show">
+                                        <input type="submit" class="btn btn-primary" value="Show">
                                     </div>
 
                                 </div>
@@ -142,6 +142,37 @@
 
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="bottomModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading lead">Report</p>
+                    <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <div id="report_content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="topModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-notify modal-info" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="heading lead">Prescriptions</p>
+                    <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span>
+                    </button>
+                </div>
+                <div id="therapy_content"></div>
+
             </div>
         </div>
     </div>

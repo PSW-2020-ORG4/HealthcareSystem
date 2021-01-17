@@ -935,7 +935,8 @@ namespace GraphicalEditor
 
         private void ShowRenovationSchedulingDialogButton_Click(object sender, RoutedEventArgs e)
         {
-            RenovationSchedulingDialog renovationSchedulingDialog = new RenovationSchedulingDialog();
+            RenovationSchedulingDialog renovationSchedulingDialog = new RenovationSchedulingDialog((int)SelectedMapObject.MapObjectEntity.Id);
+            renovationSchedulingDialog.Owner = Window.GetWindow(this);
             renovationSchedulingDialog.ShowDialog();
         }
 

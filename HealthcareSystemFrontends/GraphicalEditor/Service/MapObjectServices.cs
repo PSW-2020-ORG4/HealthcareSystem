@@ -7,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
-namespace GraphicalEditor.Services
+namespace GraphicalEditor.Service
 {
     public class MapObjectServices : IMapObjectServices
     {
@@ -48,6 +49,27 @@ namespace GraphicalEditor.Services
                 }
             }
             return searchResultMapObjects;
+        }
+
+        public List<MapObject> GetNeighboringRoomsForRoom(MapObject room)
+        {
+            List<MapObject> neighboringRooms = new List<MapObject>();
+
+            foreach (MapObject mapObject in MainWindow._allMapObjects)
+            {
+                if (mapObject.CheckIsRoom() && mapObject.MapObjectEntity.Id != room.MapObjectEntity.Id)
+                {
+                    if ((((Room)mapObject.MapObjectEntity).BuildingId == ((Room)room.MapObjectEntity).BuildingId)
+                        && (((Room)mapObject.MapObjectEntity).Floor == ((Room)room.MapObjectEntity).Floor))
+                    {
+                        if (Canvas.GetLeft(mapObject.Rectangle) == Canvas.GetLeft(room.Rectangle) || Canvas.GetTop(mapObject.Rectangle) == Canvas.GetTop(room.Rectangle))
+                        {
+                            neighboringRooms.Add(mapObject);
+                        }
+                    }
+                }
+            }
+            return neighboringRooms;
         }
     }
 }

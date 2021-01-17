@@ -27,8 +27,24 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <converters:CapitalizeStringConverter x:Key="CapitalizeStringConverter" />
         <converters:InvertAndBooleansToBooleanConverter x:Key="InvertAndBooleansToBooleanConverter" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
         <converters:LengthToBooleanConverter x:Key="LengthToBooleanCoverter" />
         <converters:SelectedItemToVisibilityConverter x:Key="SelectedItemToVisibilityConverter" />
+
+        <Style x:Key="RoomInfoAfterRenovationSection" TargetType="IFrameworkInputElement">
+            <Setter Property="Control.Visibility" Value="Collapsed" />
+            <Style.Triggers>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                        <Condition Binding="{Binding ElementName=ComplexRenovationTypeComboBox, Path=SelectedItem, Converter={StaticResource SelectedItemToVisibilityConverter}}" Value="Visible" />
+                    </MultiDataTrigger.Conditions>
+
+                    <Setter Property="Control.Visibility" Value="Visible" />
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+
     </Window.Resources>
 
     <!--  MAIN CONTAINER GRID  -->
@@ -65,7 +81,7 @@
             Grid.Row="1"
             Grid.ColumnSpan="4">
             <ScrollViewer
-                x:Name="EquipmentRelocationScrollViewer"
+                x:Name="RenovationScrollViewer"
                 Grid.Row="1"
                 MaxHeight="{Binding Path=ActualHeight, ElementName=RenovationDataAndAlternativeAppointmentsGrid, Mode=OneWay}"
                 VerticalScrollBarVisibility="Visible">
@@ -89,9 +105,786 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="5*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+
+
+
+                    <!--  ENTRY DATA FOR RENOVATION  -->
+                    <!--  Complex Renovation Checkbox  -->
+                    <CheckBox
+                        x:Name="IsComplexRenovationCheckBox"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        Checked="IsComplexRenovationCheckBox_Checked"
+                        Content="Kompleksno renoviranje"
+                        FlowDirection="RightToLeft"
+                        FontSize="16"
+                        Foreground="Black">
+                        <CheckBox.Resources>
+                            <Style TargetType="{x:Type Path}">
+                                <Setter Property="FlowDirection" Value="LeftToRight" />
+                            </Style>
+                        </CheckBox.Resources>
+                    </CheckBox>
+
+                    <!--  Type of Complex Renovation  -->
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Tip kompleksnog renoviranja: "
+                        Visibility="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                    <ComboBox
+                        x:Name="ComplexRenovationTypeComboBox"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite tip."
+                        FontSize="16"
+                        IsTextSearchEnabled="True"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
+                        Visibility="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                        <ComboBoxItem Name="RoomDivisionComboBoxItem">Deljenje jedne sobe na dve</ComboBoxItem>
+                        <ComboBoxItem Name="RoomMergingComboBoxItem">Spajanje dve sobe u jednu</ComboBoxItem>
+                    </ComboBox>
+
+
+                    <!--  Room for Basic Renovation  -->
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Soba koja se renovira: " />
+
+                    <!--  First Room for Complex Renovation  -->
+
+                    <ComboBox
+                        x:Name="RenovationRoomComboBox"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite sobu."
+                        FontSize="16"
+                        IsEnabled="False"
+                        IsTextSearchEnabled="True"
+                        SelectedIndex="0"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}" />
+
+
+                    <!--  Basic Renovation Description  -->
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Opis renoviranja: "
+                        Visibility="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+                    <TextBox
+                        x:Name="BasicRenovationDescriptionTextBox"
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Unesite opis renoviranja."
+                        FontSize="16"
+                        MaxLength="255"
+                        TextWrapping="NoWrap"
+                        Visibility="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+
+                    <!--  Second Room for Merging - Complex Renovation  -->
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="2"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Soba sa kojom se spaja: ">
+
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomMergingComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <ComboBox
+                        x:Name="SecondRoomForMergingComboBox"
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite sobu."
+                        FontSize="16"
+                        IsTextSearchEnabled="True"
+                        TextSearch.TextPath="MapObjectEntity.Id"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+
+                        <ComboBox.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomMergingComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding MapObjectEntity.Id}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                    </ComboBox>
+
+                    <!--  Dates and Times  -->
+
+                    <!--  Renovation Start Date and Time  -->
+                    <!--  Renovation Start Date  -->
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Datum početka renoviranja: " />
+
+                    <DatePicker
+                        x:Name="RenovationStartDatePicker"
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Dan/Mes/God"
+                        BorderBrush="MediumPurple"
+                        DisplayDateStart="{x:Static sys:DateTime.Today}"
+                        FontSize="16"
+                        Foreground="Black" />
+
+
+                    <!--  Renovation Start Time  -->
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Vreme početka renoviranja: " />
+
+                    <materialDesign:TimePicker
+                        x:Name="RenovationStartTimePicker"
+                        Grid.Row="6"
+                        Grid.Column="2"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Sati:Minuti"
+                        BorderBrush="MediumPurple"
+                        FontSize="16"
+                        Foreground="Black"
+                        Is24Hours="True"
+                        SelectedTimeFormat="Long" />
+
+                    <!--  Renovation End Date and Time  -->
+                    <!--  Renovation End Date  -->
+                    <TextBlock
+                        Grid.Row="7"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Datum kraja renoviranja: " />
+
+                    <DatePicker
+                        x:Name="RenovationEndDatePicker"
+                        Grid.Row="8"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Dan/Mes/God"
+                        BorderBrush="MediumPurple"
+                        DisplayDateStart="{x:Static sys:DateTime.Today}"
+                        FontSize="16"
+                        Foreground="Black" />
+
+
+                    <!--  Renovation End Time  -->
+                    <TextBlock
+                        Grid.Row="7"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Vreme kraja renoviranja: " />
+
+                    <materialDesign:TimePicker
+                        x:Name="RenovationEndTimePicker"
+                        Grid.Row="8"
+                        Grid.Column="2"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Sati:Minuti"
+                        BorderBrush="MediumPurple"
+                        FontSize="16"
+                        Foreground="Black"
+                        Is24Hours="True"
+                        SelectedTimeFormat="Long" />
+
+                    <Separator
+                        Grid.Row="9"
+                        Grid.ColumnSpan="3"
+                        Margin="20,20,10,0"
+                        Background="MediumPurple">
+                        <Separator.Style>
+                            <Style BasedOn="{StaticResource RoomInfoAfterRenovationSection}" />
+                        </Separator.Style>
+                    </Separator>
+
+
+                    <!--  ROOM INFO AFTER RENOVATION SECTION  -->
+                    <TextBlock
+                        Grid.Row="10"
+                        Grid.ColumnSpan="4"
+                        Margin="20,20,0,10"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Text="Unos informacija o sobama nakon renoviranja:">
+                        <TextBlock.Style>
+                            <Style BasedOn="{StaticResource RoomInfoAfterRenovationSection}" />
+                        </TextBlock.Style>
+                    </TextBlock>
+
+
+                    <!--  MERGED ROOM - Final Room after merging of two rooms  -->
+                    <!--  Merged Room Type  -->
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Tip sobe: ">
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomMergingComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <ComboBox
+                        x:Name="MergedRoomTypeComboBox"
+                        Grid.Row="12"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite tip sobe."
+                        FontSize="16"
+                        IsTextSearchEnabled="True"
+                        SelectedIndex="0"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+
+
+                        <ComboBox.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomMergingComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+                    </ComboBox>
+
+                    <!--  Merged Room Description  -->
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Opis sobe: ">
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomMergingComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBox
+                        x:Name="MergedRoomDescriptionTextBox"
+                        Grid.Row="12"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Unesite opis sobe."
+                        FontSize="16"
+                        MaxLength="255"
+                        TextWrapping="NoWrap">
+
+
+                        <TextBox.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomMergingComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+
+
+
+
+                    <!--  FIRST ROOM  -->
+                    <!--  First Room Type  -->
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Tip prve sobe: ">
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomDivisionComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <ComboBox
+                        x:Name="RenovationFirstRoomTypeComboBox"
+                        Grid.Row="12"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite tip sobe."
+                        FontSize="16"
+                        IsTextSearchEnabled="True"
+                        SelectedIndex="0"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+
+
+                        <ComboBox.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomDivisionComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+                    </ComboBox>
+
+                    <!--  First Room Description  -->
+                    <TextBlock
+                        Grid.Row="11"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Opis prve sobe: ">
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomDivisionComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBox
+                        x:Name="RenovationFirstRoomDescriptionTextBox"
+                        Grid.Row="12"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Unesite opis sobe."
+                        FontSize="16"
+                        MaxLength="255"
+                        TextWrapping="NoWrap">
+
+
+                        <TextBox.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomDivisionComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <!--  SECOND ROOM  -->
+                    <!--  Second Room Type  -->
+                    <TextBlock
+                        Grid.Row="13"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Tip druge sobe: ">
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomDivisionComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <ComboBox
+                        x:Name="RenovationSecondRoomTypeComboBox"
+                        Grid.Row="14"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Izaberite tip sobe."
+                        FontSize="16"
+                        IsTextSearchEnabled="True"
+                        SelectedIndex="0"
+                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+
+                        <ComboBox.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomDivisionComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ComboBox.Style>
+                    </ComboBox>
+
+                    <!--  Second Room Description  -->
+                    <TextBlock
+                        Grid.Row="13"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,20,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Foreground="Black"
+                        Text="Opis druge sobe: ">
+
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomDivisionComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBox
+                        x:Name="RenovationSecondRoomDescriptionTextBox"
+                        Grid.Row="14"
+                        Grid.Column="2"
+                        Grid.ColumnSpan="1"
+                        Margin="20,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        materialDesign:HintAssist.Hint="Unesite opis sobe."
+                        FontSize="16"
+                        MaxLength="255"
+                        TextWrapping="NoWrap">
+
+                        <TextBox.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
+                                <Setter Property="Control.Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked}" Value="true" />
+                                            <Condition Binding="{Binding ElementName=RoomDivisionComboBoxItem, Path=IsSelected}" Value="true" />
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="Control.Visibility" Value="Visible" />
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+
+                    <Separator
+                        Grid.Row="15"
+                        Grid.ColumnSpan="3"
+                        Margin="20,20,10,0"
+                        Background="MediumPurple" />
+
+                    <!--  ALTERNATIVE RENOVATION APPOINTMENTS SECTION  -->
+                    <TextBlock
+                        x:Name="AlternativeRenovationAppointmentsTextBlock"
+                        Grid.Row="16"
+                        Grid.ColumnSpan="4"
+                        Margin="20,30,0,10"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        FontWeight="Normal"
+                        Foreground="Black"
+                        Visibility="{Binding IsAlternativeAppointmentsSectionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        Alternativni termini za renoviranje:
+                    </TextBlock>
+
+                    <!--  ALTERNATIVE RELOCATION APPOINTMENTS TABLE  -->
+                    <DataGrid
+                        x:Name="AlternativeRelocationAppointmentsDataGrid"
+                        Grid.Row="17"
+                        Grid.ColumnSpan="3"
+                        Height="200"
+                        Margin="20,0,10,0"
+                        Style="{StaticResource SidePanelDataGrid}"
+                        Visibility="{Binding IsAlternativeAppointmentsSectionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <DataGrid.Resources>
+                            <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <TextBlock Text="Kliknite na termin koji želite da zakažete." />
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <!--  Table Column Headers Names and Binding  -->
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
+                                Header="Termin">
+
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="TextAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!--  RENOVATION BACK TO TOP BUTTON  -->
+                    <Button
+                        x:Name="RenovationBackToTopButton"
+                        Grid.Row="18"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Height="Auto"
+                        Margin="0,30,10,0"
+                        Padding="5"
+                        BorderBrush="{x:Null}"
+                        Click="RenovationBackToTopButton_Click"
+                        FontSize="18"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Visibility="{Binding IsAlternativeAppointmentsSectionVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <materialDesign:PackIcon
+                                Width="25"
+                                Height="25"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Foreground="MediumPurple"
+                                Kind="ArrowTop" />
+                            <TextBlock
+                                Margin="5"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Foreground="MediumPurple"
+                                Text="Povratak na unos podataka za zakazivanje renoviranja" />
+                        </StackPanel>
+                    </Button>
                 </Grid>
             </ScrollViewer>
         </Grid>

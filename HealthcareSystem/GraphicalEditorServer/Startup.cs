@@ -167,6 +167,7 @@ namespace GraphicalEditorServer
         private void GetServiceSettings(ServiceSettings conf)
         {
             conf.PatientServiceUrl = Configuration.GetValue<string>("PATIENT_SERVICE_URL");
+            conf.EventSourcingServiceUrl = Configuration.GetValue<string>("EVENT_SOURCING_SERVICE_URL");
         }
 
 

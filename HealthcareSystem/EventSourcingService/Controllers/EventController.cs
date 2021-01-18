@@ -9,11 +9,11 @@ namespace EventSourcingService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventStoreExampleController : ControllerBase
+    public class EventController : ControllerBase
     {
         private readonly IEventStoreExampleService _eventStoreExampleService;
 
-        public EventStoreExampleController(IEventStoreExampleService eventStoreExampleService)
+        public EventController(IEventStoreExampleService eventStoreExampleService)
         {
             _eventStoreExampleService = eventStoreExampleService;
         }

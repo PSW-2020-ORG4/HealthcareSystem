@@ -8,10 +8,29 @@ services:
       MYSQL_PASSWORD: "org4"
       MYSQL_DATABASE: "organization4db" 
 
+  esdatabase:
+    image: ess-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_USER: "org4"
+      MYSQL_PASSWORD: "org4"
+      MYSQL_DATABASE: "organization4db" 
+
   graphicaleditorserver:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 5
+      DbConnectionSettings:RetryWaitInSeconds: 30
+
+  esservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DbConnectionSettings:Host: "esdatabase"
       DbConnectionSettings:Port: "3306"
       DbConnectionSettings:User: "org4"
       DbConnectionSettings:Password: "org4"

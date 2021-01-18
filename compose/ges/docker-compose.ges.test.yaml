@@ -7,12 +7,26 @@ services:
       POSTGRES_PASSWORD: "org4"
       POSTGRES_DB: "organization4db"
 
+  esdatabase:
+    image: ess-postgre
+    environment:
+      POSTGRES_USER: "org4"
+      POSTGRES_PASSWORD: "org4"
+      POSTGRES_DB: "organization4db"
+
   graphicaleditorserver:
     environment:
       ASPNETCORE_ENVIRONMENT: Test
       DATABASE_RETRY: 5
       DATABASE_RETRY_WAIT: 30
       DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+
+  esservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@esdatabase:5432/organization4db"
 
   userservice:
     environment:

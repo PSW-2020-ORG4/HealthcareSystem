@@ -46,11 +46,7 @@ namespace PatientWebAppE2ETests
                 blockPatientPage.Navigate();
                 Assert.Equal(driver.Url, Pages.BlockMaliciousPatient.URI);
 
-
-                if (blockPatientPage.GetNumberOfUnblockedMaliciousPatients() > 0)
-                    Assert.Contains("Patient was successfully blocked.", blockPatientPage.BlockPatient());
-                else
-                    Assert.Equal(0, blockPatientPage.GetNumberOfUnblockedMaliciousPatients());
+                Assert.Contains(Pages.BlockMaliciousPatient.ValidCommentMessage, blockPatientPage.BlockPatient());
             }
             finally
             {

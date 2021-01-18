@@ -80,7 +80,7 @@ namespace EventSourcingService
             });
 
             services.AddScoped<IEventStoreExampleService, EventStoreExampleService>();
-            services.AddScoped<IDomainEventRepository<ExampleEvent>, DomainEventRepository<ExampleEvent>>();
+            services.AddScoped<IDomainEventRepository<StatisticEvent>, DomainEventRepository<StatisticEvent>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

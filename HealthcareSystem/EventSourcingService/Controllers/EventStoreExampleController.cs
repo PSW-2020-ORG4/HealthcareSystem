@@ -1,6 +1,9 @@
-﻿using EventSourcingService.Model;
+﻿using EventSourcingService.DTO;
+using EventSourcingService.Mapper;
+using EventSourcingService.Model;
 using EventSourcingService.Service;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace EventSourcingService.Controllers
 {
@@ -18,14 +21,14 @@ namespace EventSourcingService.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var exampleEventStores = _eventStoreExampleService.GetAll();
+            var exampleEventStores = _eventStoreExampleService.GetAll().Select(e => e.ToStatisticEventDTO()); ;
             return Ok(exampleEventStores);
         }
 
         [HttpPost]
-        public ActionResult Add(ExampleEvent exampleEvent)
+        public ActionResult Add(StatisticEventDTO statisticEventDTO)
         {
-            _eventStoreExampleService.Add(exampleEvent);
+            _eventStoreExampleService.Add(statisticEventDTO);
             return NoContent();
         }
 

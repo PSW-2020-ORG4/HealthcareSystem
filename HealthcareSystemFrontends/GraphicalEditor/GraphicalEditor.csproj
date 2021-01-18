@@ -92,6 +92,9 @@
     <Compile Include="DTO\EquipmentInExaminationDTO.cs" />
     <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
+    <Compile Include="DTO\EventSourcingDTO\BuildingSelectionEventDTO.cs" />
+    <Compile Include="DTO\EventSourcingDTO\FloorChangeEventDTO.cs" />
+    <Compile Include="DTO\EventSourcingDTO\RoomSelectionEventDTO.cs" />
     <Compile Include="DTO\ExaminationForReschedulingDTO.cs" />
     <Compile Include="DTO\GuestPatientDTO.cs" />
     <Compile Include="DTO\RescheduleExaminationDTO.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Service\DrugTypeService.cs" />
     <Compile Include="Service\EquipmentTypeService.cs" />
     <Compile Include="Service\EquipmentService.cs" />
+    <Compile Include="Service\EventSourcingService.cs" />
     <Compile Include="Service\GenericHTTPService.cs" />
     <Compile Include="Service\Interface\IMapObjectServices.cs" />
     <Compile Include="Service\MapObjectServices.cs" />

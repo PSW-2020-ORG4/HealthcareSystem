@@ -20,6 +20,7 @@ services:
       PATIENT_SERVICE_URL: "http://patientservice"
       USER_SERVICE_URL: "http://userservice"
       SCHEDULE_SERVICE_URL: "http://scheduleservice"
+      EVENT_SOURCING_SERVICE_URL: "http://esservice"
     depends_on:
       - userservice
       - patientservice

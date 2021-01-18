@@ -12,9 +12,6 @@ $efile = "./compose/ges/docker-compose.ges.dev.yaml"
 else {
 $efile = "./compose/ges/docker-compose.ges.test.yaml"
 }
-Write-Output "---------------------------------------------------------------------------"
-Write-Output "WARNING: SLN SHOULD NOT BE OPEN IN VISUAL STUDIO WHILE THIS EXECUTES"
-
 if($noServiceBuild -eq $false) {
 Write-Output "---------------------------------------------------------------------------"
 Write-Output "Building solution"

@@ -46,11 +46,7 @@ namespace PatientWebAppE2ETests
                 publishFeedbackPage.Navigate();
                 Assert.Equal(driver.Url, Pages.PublishFeedback.URI);
 
-
-                if (publishFeedbackPage.GetNumberOfUnpublishedFeedback() > 0)
-                    Assert.Contains("Feedback successfully published.", publishFeedbackPage.Publish());
-                else
-                    Assert.Equal(0, publishFeedbackPage.GetNumberOfUnpublishedFeedback());
+                Assert.Contains(Pages.PublishFeedback.ValidCommentMessage, publishFeedbackPage.Publish());
             }
             finally
             {

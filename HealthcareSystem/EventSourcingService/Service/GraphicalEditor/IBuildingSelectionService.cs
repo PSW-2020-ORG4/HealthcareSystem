@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace EventSourcingService.Service.GraphicalEditor
 {
-    public interface IRoomSelectionService
+    public interface IBuildingSelectionService
     {
-        public IEnumerable<RoomSelectionEvent> GetAll();
-        public void Add(RoomSelectionEvent mapObjectSelection);
+        public IEnumerable<BuildingSelectionEvent> GetAll();
+        public void Add(BuildingSelectionEvent mapObjectSelection);
     }
 }

@@ -19,6 +19,11 @@ namespace Backend.Service.ExaminationAndPatientCard
             return _examinationRepository.GetExaminationById(id);
         }
 
+        public void ReScheduleAppointment(Examination examinationForSchedule, Examination examinationForReschedule, Examination shiftedExamination)
+        {
+            _examinationRepository.ReScheduleAppointment(examinationForSchedule, examinationForReschedule, shiftedExamination);
+        }
+
         public int ScheduleAnAppointmentByDoctor(Examination scheduleExamination)
         {
             return _examinationRepository.AddExamination(scheduleExamination);

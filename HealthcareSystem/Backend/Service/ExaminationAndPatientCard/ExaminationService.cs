@@ -108,5 +108,10 @@ namespace Service.ExaminationAndPatientCard
             return _scheduledExaminationRepository.GetFollowingExaminationsByPatient(patientJmbg);
 
         }
+
+        public ICollection<Examination> GetExaminationsForPeriod(DateTime startDate, DateTime endDate)
+        {
+            return _scheduledExaminationRepository.GetExaminationsForPeriod(startDate, endDate);
+        }
     }
 }

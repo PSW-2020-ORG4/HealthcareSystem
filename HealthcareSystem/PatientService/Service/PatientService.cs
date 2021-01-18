@@ -70,5 +70,16 @@ namespace PatientService.Service
             patient.UpdateMedicalInfo(medicalInfoUpdate);
             _repository.Update(patient);
         }
+
+        public IEnumerable<Therapy> GetTherapiesForExamination(string jmbg, int id)
+        {
+            Patient patient = _repository.Get(jmbg);
+            return patient.GetTherapiesForExamination(id);
+        }
+        public Examination GetExamination(string jmbg, int id)
+        {
+            Patient patient = _repository.Get(jmbg);
+            return patient.GetExamination(id);
+        }
     }
 }

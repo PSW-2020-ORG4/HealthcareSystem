@@ -22,12 +22,18 @@ namespace GraphicalEditorServer.Controllers
         private readonly IFreeAppointmentSearchService _freeAppointmentSearchService;
         private readonly IScheduleAppointmenService _scheduleAppintmentService;
         private readonly IDoctorService _doctorService;
+        private readonly IExaminationService _examinationService;
 
-        public AppointmentController(IFreeAppointmentSearchService freeAppointmentSearchService, IScheduleAppointmenService scheduleAppintmentService, IDoctorService doctorService)
+        public AppointmentController(
+            IFreeAppointmentSearchService freeAppointmentSearchService, 
+            IScheduleAppointmenService scheduleAppintmentService, 
+            IDoctorService doctorService,
+            IExaminationService examinationService)
         {
             _freeAppointmentSearchService = freeAppointmentSearchService;
             _scheduleAppintmentService = scheduleAppintmentService;
             _doctorService = doctorService;
+            _examinationService = examinationService;
         }
 
 
@@ -38,6 +44,17 @@ namespace GraphicalEditorServer.Controllers
             Examination scheduleExamination = ExaminationMapper.ExmainationDTO_To_Examination(scheduleExaminationDTO);
             int idExamination = _scheduleAppintmentService.ScheduleAnAppointmentByDoctor(scheduleExamination);
             return Ok(idExamination);
+        }
+
+        [HttpPost("reschedule/")]
+        public ActionResult ReScheduleAppointment([FromBody] RescheduleExaminationDTO rescheduleExaminationDTO)
+        {
+            Examination examinationForSchedule = ExaminationMapper.ExmainationDTO_To_Examination(rescheduleExaminationDTO.ExaminationForScheduleDTO);
+            Examination examinationForReschedule = ExaminationMapper.ExmainationDTO_To_Examination(rescheduleExaminationDTO.ExaminationForRescheduleDTO);
+            Examination shiftedExamination = ExaminationMapper.ExmainationDTO_To_Examination(rescheduleExaminationDTO.ShiftedExaminationDTO);
+
+            _scheduleAppintmentService.ReScheduleAppointment(examinationForSchedule, examinationForReschedule, shiftedExamination);
+            return Ok();
         }
 
         [HttpPost]
@@ -54,6 +71,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost("emergency")]
         public ActionResult GetEmergencyAppointments(AppointmentSearchWithPrioritiesDTO parameters)
         {
+            _freeAppointmentSearchService.SetNewDateTimesForEmergency(parameters.InitialParameters);
             List<Examination> unchangedExaminations = (List<Examination>)_freeAppointmentSearchService.GetUnchangedAppointmentsForEmergency(parameters);
             if(unchangedExaminations.Count != 0)
             {
@@ -63,13 +81,15 @@ namespace GraphicalEditorServer.Controllers
                         new List<Examination>() { unchangedExaminations[0] }
                     );
 
-                return Ok(new EmergencyExaminationsDTO(sortedAndAlignedExamination, false));
+                return Ok(sortedAndAlignedExamination);
             }
 
+            unchangedExaminations.Clear();
+            unchangedExaminations = _freeAppointmentSearchService.GetOnlyAdequateAppointmentsForEmergency(parameters);
             List<Examination> shiftedExaminations = (List<Examination>)_freeAppointmentSearchService.GetShiftedAndSortedAppoinmentsForEmergency(parameters);
 
             List<EmergencyExaminationDTO> sortedAndAlignedExaminations = GetSortedAndAlignedExaminations(unchangedExaminations, shiftedExaminations);
-            return Ok(new EmergencyExaminationsDTO(sortedAndAlignedExaminations, true));
+            return Ok(sortedAndAlignedExaminations);
         }
 
         private List<EmergencyExaminationDTO> GetSortedAndAlignedExaminations(List<Examination> unchangedExaminations, List<Examination> shiftedExaminations)
@@ -84,5 +104,6 @@ namespace GraphicalEditorServer.Controllers
 
             return sortedExaminations;
         }
+        
     }
 }

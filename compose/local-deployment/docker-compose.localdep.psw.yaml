@@ -12,6 +12,18 @@ services:
     networks:
       - psw
 
+  esdatabase:
+    build:
+      context: ../../HealthcareSystem/EventSourcingService
+      dockerfile: Dockerfile.postgre
+    environment:
+      POSTGRES_USER: "org4"
+      POSTGRES_PASSWORD: "org4"
+      POSTGRES_DB: "organization4db"
+    restart: always
+    networks:
+      - psw
+
   intergrationadapters:
     build:
       context: ../../HealthcareSystem/IntegrationAdapters
@@ -23,6 +35,7 @@ services:
       DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
     depends_on:      
       - database
+      - esservice
     restart: on-failure
     networks:
       - psw
@@ -44,6 +57,7 @@ services:
       - notificationservice
       - feedbacksurveyservice
       - scheduleservice
+      - esservice
     restart: on-failure
     networks:
       - psw
@@ -64,6 +78,22 @@ services:
       - userservice
       - patientservice
       - scheduleservice
+      - esservice
+    restart: on-failure
+    networks:
+      - psw
+
+  esservice:
+    build:
+      context: ../../HealthcareSystem/EventSourcingService
+      dockerfile: Dockerfile.local
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@esdatabase:5432/organization4db"
+    depends_on:
+      - database
     restart: on-failure
     networks:
       - psw

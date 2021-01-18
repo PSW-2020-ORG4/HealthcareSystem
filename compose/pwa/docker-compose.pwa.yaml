@@ -5,6 +5,11 @@ services:
     networks:
       - demo  
 
+  esdatabase:
+    restart: always
+    networks:
+      - demo  
+
   patientwebapp:
     build:
       context: ../../HealthcareSystem/PatientWebApp
@@ -23,6 +28,17 @@ services:
       - notificationservice
       - feedbacksurveyservice
       - scheduleservice
+      - esservice
+    restart: on-failure
+    networks:
+      - demo
+
+  esservice:
+    build:
+      context: ../../HealthcareSystem/EventSourcingService
+      dockerfile: Dockerfile.local
+    depends_on:
+      - esdatabase
     restart: on-failure
     networks:
       - demo

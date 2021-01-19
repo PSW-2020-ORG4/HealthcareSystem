@@ -170,6 +170,23 @@ namespace GraphicalEditor
 
             ExaminationForReschedulingDTO examinationForReschedulingDTO = new ExaminationForReschedulingDTO(new DateTime(), new DateTime(), 9);
             List<ExaminationForReschedulingDTO> examinationsForReschedunling = new List<ExaminationForReschedulingDTO>();
+
+            RenovatonService ren = new RenovatonService();
+            BaseRenovationDTO dto = new BaseRenovationDTO(50, new DateTime(2021, 3, 1, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 1, 16, 45, 0, DateTimeKind.Utc), "krecenje", TypeOfRenovation.DIVIDE_RENOVATION);
+            DivideRenovationDTO mrg = new DivideRenovationDTO(dto, " soba za konsultacije"," soba za pregled", TypeOfMapObject.EXAMINATION_ROOM, TypeOfMapObject.HOSPITALIZATION_ROOM);
+            bool add =ren.ScheduleDivideRenovation(mrg);
+            if (!add)
+            {
+                foreach (RenovationPeriodDTO period in ren.GetDivideRenovationAlternativeAppointments(mrg))
+                {
+                    Console.WriteLine(period.StartTime + " ------ " + period.EndTime);
+                    Console.WriteLine("");
+                }
+            }
+            else
+            {
+                Console.WriteLine("else");
+            }
             /*
             examinationsForReschedunling.Add(examinationForReschedulingDTO);
             EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;*/
@@ -187,20 +204,20 @@ namespace GraphicalEditor
 
             app.GetEmergencyAppointments(appointmentSearch);*/
 
-           /* RenovatonService service = new RenovatonService();
-            BaseRenovationDTO dto = new BaseRenovationDTO(9,new DateTime(2021, 3, 1, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 1, 16, 45, 0, DateTimeKind.Utc),"krecenje",TypeOfRenovation.REGULAR_RENOVATION);
-            bool add = service.ScheduleBaseRenovation(dto);
-            if (!add)
-            {
-                foreach (RenovationPeriodDTO period in service.GetAlternativeAppointments(dto))
-                {
-                    Console.WriteLine(period.StartTime + " ------ " + period.EndTime);
-                    Console.WriteLine("");
-                }
-            } else
-            {
-                Console.WriteLine("else");
-            }  */
+            /* RenovatonService service = new RenovatonService();
+             BaseRenovationDTO dto = new BaseRenovationDTO(9,new DateTime(2021, 3, 1, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 1, 16, 45, 0, DateTimeKind.Utc),"krecenje",TypeOfRenovation.REGULAR_RENOVATION);
+             bool add = service.ScheduleBaseRenovation(dto);
+             if (!add)
+             {
+                 foreach (RenovationPeriodDTO period in service.GetAlternativeAppointments(dto))
+                 {
+                     Console.WriteLine(period.StartTime + " ------ " + period.EndTime);
+                     Console.WriteLine("");
+                 }
+             } else
+             {
+                 Console.WriteLine("else");
+             }  */
         }
         
 

@@ -107,7 +107,7 @@ namespace GraphicalEditorServer.Controllers
             List<RenovationPeriodDTO> alternativeAppointments = new List<RenovationPeriodDTO>();
             try
             {
-                _renovationService.GetMergeRenovationAlternativeAppointmets(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO));
+                 _renovationService.GetMergeRenovationAlternativeAppointmets(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO)).ToList().ForEach(x=> alternativeAppointments.Add(new RenovationPeriodDTO(x.BeginDate,x.EndDate)));
                 if (alternativeAppointments.Count == 0)
                 {
                     return NotFound("NotFound");
@@ -125,7 +125,7 @@ namespace GraphicalEditorServer.Controllers
             List<RenovationPeriodDTO> alternativeAppointments = new List<RenovationPeriodDTO>();
             try
             {
-                _renovationService.GetDivideRenovationAlternativeAppointmets(DivideRenovationMapper.DivideRenovationDTOToDivideRenovation(divideRenovationDTO));
+                _renovationService.GetDivideRenovationAlternativeAppointmets(DivideRenovationMapper.DivideRenovationDTOToDivideRenovation(divideRenovationDTO)).ToList().ForEach(x => alternativeAppointments.Add(new RenovationPeriodDTO(x.BeginDate, x.EndDate)));
                 if (alternativeAppointments.Count == 0)
                 {
                     return NotFound("NotFound");

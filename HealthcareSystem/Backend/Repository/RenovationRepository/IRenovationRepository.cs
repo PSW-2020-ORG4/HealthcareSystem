@@ -14,6 +14,7 @@ namespace Backend.Repository.RenovationRepository
         void DeleteRenovation(int id);
         BaseRenovation AddRenovation(BaseRenovation basicRenovation);
         List<BaseRenovation> GetAllRenovationsByRoomAndDate(int roomId, DateTime date);
-
+        ICollection<BaseRenovation> GetFollowingRenovationsByRoom(int roomId);
+        ICollection<MergeRenovation> GetFollowingRenovationsBySecondRoom(int roomId);
     }
 }

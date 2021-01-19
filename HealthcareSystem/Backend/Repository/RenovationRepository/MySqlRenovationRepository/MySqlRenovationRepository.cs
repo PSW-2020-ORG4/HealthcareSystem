@@ -1,5 +1,6 @@
 ﻿using Backend.Model;
 using Backend.Model.Enums;
+using Backend.Model.Exceptions;
 using Backend.Model.Manager;
 using Model.Manager;
 using System;
@@ -48,6 +49,33 @@ namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
         {
             var baseRenovationsForRoom = _context.BaseRenovation.Where(x => x.RoomId == roomId && x.RenovationPeriod.BeginDate.CompareTo(date) <= 0 && x.RenovationPeriod.EndDate.CompareTo(date) >= 0).ToList();
             return (List<BaseRenovation>)baseRenovationsForRoom;
+        }
+        public ICollection<BaseRenovation> GetFollowingRenovationsByRoom(int roomId)
+        {
+            try
+            {
+                return _context.BaseRenovation.Where(e => e.RoomId == roomId).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
+        public ICollection<MergeRenovation> GetFollowingRenovationsBySecondRoom(int roomId)
+        {
+            try
+            {
+                List<MergeRenovation> mergeRenovations = new List<MergeRenovation>();
+                List<MergeRenovation> returnedRenovations = new List<MergeRenovation>();
+                ICollection<BaseRenovation> baseRenovations= _context.BaseRenovation.Where(e => e.TypeOfRenovation == TypeOfRenovation.MERGE_RENOVATION).ToList();
+                baseRenovations.ToList().ForEach(m => mergeRenovations.Add((MergeRenovation)m));
+                returnedRenovations = mergeRenovations.Where(e => e.SecondRoomId == roomId).ToList();
+                return returnedRenovations;
+            }
+            catch (Exception e)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
     }
 }

@@ -10,26 +10,47 @@ namespace EventSourcingService.Controllers
     [ApiController]
     public class PatientSchedulingEventController : ControllerBase
     {
-        private readonly IEventStorePatientSchedulingService _eventStorePatientSchedulingService;
+        private readonly IEventStorePatientStartSchedulingService _patientStartSchedulingService;
+        private readonly IEventStorePatientStepSchedulingService _patientStepSchedulingService;
+        private readonly IEventStorePatientEndSchedulingService _patientEndSchedulingService;
 
-        public PatientSchedulingEventController(IEventStorePatientSchedulingService eventStorePatientSchedulingService)
+        public PatientSchedulingEventController(IEventStorePatientStartSchedulingService patientStartSchedulingService,
+                                                IEventStorePatientStepSchedulingService patientStepSchedulingService,
+                                                IEventStorePatientEndSchedulingService patientEndSchedulingService)
         {
-            _eventStorePatientSchedulingService = eventStorePatientSchedulingService;
+            _patientStartSchedulingService = patientStartSchedulingService;
+            _patientStepSchedulingService = patientStepSchedulingService;
+            _patientEndSchedulingService = patientEndSchedulingService;
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+        [HttpPost("start")]
+        public IActionResult Add()
         {
-            var exampleEventStores = _eventStorePatientSchedulingService.GetAll().Select(e => e.ToPatientSchedulingEventDTO());
-            return Ok(exampleEventStores);
+            return Ok(_patientStartSchedulingService.Add().ToPatientStartSchedulingEventDTO());
         }
 
-        [HttpPost]
-        public ActionResult Add(PatientSchedulingEventDTO schedulingEventDTO)
+        [HttpPost("step")]
+        public IActionResult Add(PatientStepSchedulingEventDTO schedulingEventDTO)
         {
-            _eventStorePatientSchedulingService.Add(schedulingEventDTO);
+            _patientStepSchedulingService.Add(schedulingEventDTO);
             return NoContent();
         }
 
+        [HttpPost("end")]
+        public IActionResult Add(PatientEndSchedulingEventDTO endSchedulingEventDTO)
+        {
+            _patientEndSchedulingService.Add(endSchedulingEventDTO);
+            return NoContent();
+        }
+
+        [HttpGet]
+        public IActionResult GetAllStatistic()
+        {
+            PatientSchedulingStatisticDTO schedulingStatisticDTO = new PatientSchedulingStatisticDTO();
+
+            schedulingStatisticDTO.successfulSchedulingDuration = _patientEndSchedulingService.SuccessfulSchedulingDuration();
+
+            return Ok(schedulingStatisticDTO);
+        }
     }
 }

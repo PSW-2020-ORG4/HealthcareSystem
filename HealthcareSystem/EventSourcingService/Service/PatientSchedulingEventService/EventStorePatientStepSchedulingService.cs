@@ -9,24 +9,24 @@ using EventSourcingService.Repository;
 
 namespace EventSourcingService.Service
 {
-    public class EventStorePatientSchedulingService : IEventStorePatientSchedulingService
+    public class EventStorePatientStepSchedulingService : IEventStorePatientStepSchedulingService
     {
 
-        private readonly IDomainEventRepository<PatientSchedulingEvent> _patientSchedulingEventRepository;
+        private readonly IDomainEventRepository<PatientStepSchedulingEvent> _patientSchedulingEventRepository;
 
-        public EventStorePatientSchedulingService(IDomainEventRepository<PatientSchedulingEvent> patientSchedulingEventRepository)
+        public EventStorePatientStepSchedulingService(IDomainEventRepository<PatientStepSchedulingEvent> patientSchedulingEventRepository)
         {
             _patientSchedulingEventRepository = patientSchedulingEventRepository;
         }
 
-        public IEnumerable<PatientSchedulingEvent> GetAll()
+        public IEnumerable<PatientStepSchedulingEvent> GetAll()
         {
             return _patientSchedulingEventRepository.GetAll();
         }
 
-        public PatientSchedulingEvent Add(PatientSchedulingEventDTO patientSchedulingEventDTO)
+        public PatientStepSchedulingEvent Add(PatientStepSchedulingEventDTO patientSchedulingEventDTO)
         {
-            return _patientSchedulingEventRepository.Add(new PatientSchedulingEvent()
+            return _patientSchedulingEventRepository.Add(new PatientStepSchedulingEvent()
             {
                 StartSchedulingEventId = patientSchedulingEventDTO.PatientStartSchedulingEventId,
                 UserAge = patientSchedulingEventDTO.UserAge, 

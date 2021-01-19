@@ -9,8 +9,8 @@ namespace EventSourcingService.Service
 {
     public interface IEventStorePatientStartSchedulingService
     {
-        public IEnumerable<PatientStartSchedulingEvent> GetAll();
+        IEnumerable<PatientStartSchedulingEvent> GetAll();
 
-        public PatientStartSchedulingEvent Add();
+        PatientStartSchedulingEvent Add();
     }
 }

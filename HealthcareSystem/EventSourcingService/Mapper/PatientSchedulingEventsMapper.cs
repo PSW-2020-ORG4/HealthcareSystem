@@ -9,9 +9,9 @@ namespace EventSourcingService.Mapper
 {
     public static class PatientSchedulingEventsMapper
     {
-        public static PatientSchedulingEventDTO ToPatientSchedulingEventDTO(this PatientSchedulingEvent patientSchedulingEvent)
+        public static PatientStepSchedulingEventDTO ToPatientSchedulingEventDTO(this PatientStepSchedulingEvent patientSchedulingEvent)
         {
-            PatientSchedulingEventDTO patientSchedulingDTO = new PatientSchedulingEventDTO()
+            PatientStepSchedulingEventDTO patientSchedulingDTO = new PatientStepSchedulingEventDTO()
             {
                 TriggerTime = patientSchedulingEvent.TriggerTime,
                 PatientStartSchedulingEventId = patientSchedulingEvent.StartSchedulingEventId,

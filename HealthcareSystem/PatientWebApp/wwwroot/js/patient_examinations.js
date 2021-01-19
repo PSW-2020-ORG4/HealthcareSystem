@@ -1,6 +1,5 @@
 ﻿var newAppointments = [];
 var jmbg = "";
-var sessionId = 0;
 $(document).ready(function () {
     checkUserRole("Patient");
     $.ajax({

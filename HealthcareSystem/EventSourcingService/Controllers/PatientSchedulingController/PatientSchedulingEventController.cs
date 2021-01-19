@@ -24,15 +24,15 @@ namespace EventSourcingService.Controllers
         }
 
         [HttpPost("start")]
-        public IActionResult Add()
+        public IActionResult Add(PatientStartSchedulingEventDTO startSchedulingEventDTO)
         {
-            return Ok(_patientStartSchedulingService.Add().ToPatientStartSchedulingEventDTO());
+            return Ok(_patientStartSchedulingService.Add(startSchedulingEventDTO).ToPatientStartSchedulingEventDTO());
         }
 
         [HttpPost("step")]
-        public IActionResult Add(PatientStepSchedulingEventDTO schedulingEventDTO)
+        public IActionResult Add(PatientStepSchedulingEventDTO stepSchedulingEventDTO)
         {
-            _patientStepSchedulingService.Add(schedulingEventDTO);
+            _patientStepSchedulingService.Add(stepSchedulingEventDTO);
             return NoContent();
         }
 

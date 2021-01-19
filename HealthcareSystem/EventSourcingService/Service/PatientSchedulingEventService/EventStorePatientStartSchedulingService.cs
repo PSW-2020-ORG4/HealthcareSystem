@@ -16,9 +16,13 @@ namespace EventSourcingService.Service
         {
             _patientStartSchedulingEventRepository = patientStartSchedulingEventRepository;
         }
-        public PatientStartSchedulingEvent Add()
+        public PatientStartSchedulingEvent Add(PatientStartSchedulingEventDTO patientStartSchedulingEventDTO)
         {
-            return _patientStartSchedulingEventRepository.Add(new PatientStartSchedulingEvent());
+            return _patientStartSchedulingEventRepository.Add(new PatientStartSchedulingEvent() 
+            {
+                UserAge = patientStartSchedulingEventDTO.UserAge,
+                UserGender = patientStartSchedulingEventDTO.UserGender
+            });
         }
 
         public IEnumerable<PatientStartSchedulingEvent> GetAll()

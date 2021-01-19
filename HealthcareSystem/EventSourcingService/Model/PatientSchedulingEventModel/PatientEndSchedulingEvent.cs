@@ -9,7 +9,9 @@ namespace EventSourcingService.Model
 {
     public class PatientEndSchedulingEvent : DomainEvent
     {
-        public DateTime StartSchedulingTime { get; set; }
+        public DateTime StartSchedulingEventTime { get; set; }
+        public int UserAge { get; set; }
+        public Gender UserGender { get; set; }
         public ReasonForEndOfAppointment ReasonForEndOfAppointment { get; set; }
 
     }

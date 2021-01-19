@@ -24,15 +24,15 @@ namespace EventSourcingService.Service
             return _patientSchedulingEventRepository.GetAll();
         }
 
-        public PatientStepSchedulingEvent Add(PatientStepSchedulingEventDTO patientSchedulingEventDTO)
+        public PatientStepSchedulingEvent Add(PatientStepSchedulingEventDTO patientStepSchedulingEventDTO)
         {
             return _patientSchedulingEventRepository.Add(new PatientStepSchedulingEvent()
             {
-                StartSchedulingEventId = patientSchedulingEventDTO.PatientStartSchedulingEventId,
-                UserAge = patientSchedulingEventDTO.UserAge, 
-                UserGender = patientSchedulingEventDTO.UserGender,
-                EventStep = patientSchedulingEventDTO.EventStep, 
-                ClickEvent = patientSchedulingEventDTO.ClickEvent
+                StartSchedulingEventId = patientStepSchedulingEventDTO.StartSchedulingEventId,
+                UserAge = patientStepSchedulingEventDTO.UserAge,
+                UserGender = patientStepSchedulingEventDTO.UserGender,
+                EventStep = patientStepSchedulingEventDTO.EventStep, 
+                ClickEvent = patientStepSchedulingEventDTO.ClickEvent
             });
         }
 

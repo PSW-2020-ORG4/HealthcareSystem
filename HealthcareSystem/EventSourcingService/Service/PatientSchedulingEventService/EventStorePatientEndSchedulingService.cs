@@ -21,7 +21,9 @@ namespace EventSourcingService.Service
         {
             return _patientEndSchedulingEventRepository.Add(new PatientEndSchedulingEvent()
             {
-                StartSchedulingTime = endSchedulingEventDTO.StartSchedulingTime,
+                StartSchedulingEventTime = endSchedulingEventDTO.StartSchedulingEventTime,
+                UserAge = endSchedulingEventDTO.UserAge,
+                UserGender = endSchedulingEventDTO.UserGender,
                 ReasonForEndOfAppointment = endSchedulingEventDTO.ReasonForEndOfAppointment
             });
         }
@@ -37,7 +39,7 @@ namespace EventSourcingService.Service
 
             IEnumerable<TimeSpan> successfulSchedulingDuration = _patientEndSchedulingEventRepository.GetAll
                                   (e => e.ReasonForEndOfAppointment == ReasonForEndOfAppointment.Success).
-                                  Select(e => e.TriggerTime - e.StartSchedulingTime);
+                                  Select(e => e.TriggerTime - e.StartSchedulingEventTime);
 
             minAvgMaxStatisticDTO.Minimum = (int)successfulSchedulingDuration.Min(t => t.TotalMinutes);
             minAvgMaxStatisticDTO.Average = (int)successfulSchedulingDuration.Average(t => t.TotalMinutes);

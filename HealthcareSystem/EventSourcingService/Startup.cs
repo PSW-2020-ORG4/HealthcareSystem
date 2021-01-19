@@ -79,8 +79,15 @@ namespace EventSourcingService
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
-            services.AddScoped<IEventStorePatientSchedulingService, EventStorePatientSchedulingService>();
             services.AddScoped<IDomainEventRepository<PatientSchedulingEvent>, DomainEventRepository<PatientSchedulingEvent>>();
+            services.AddScoped<IEventStorePatientSchedulingService, EventStorePatientSchedulingService>();
+
+            services.AddScoped<IDomainEventRepository<PatientStartSchedulingEvent>, DomainEventRepository<PatientStartSchedulingEvent>>();
+            services.AddScoped<IEventStorePatientStartSchedulingService, EventStorePatientStartSchedulingService>();
+
+            services.AddScoped<IDomainEventRepository<PatientEndSchedulingEvent>, DomainEventRepository<PatientEndSchedulingEvent>>();
+            services.AddScoped<IEventStorePatientEndSchedulingService, EventStorePatientEndSchedulingService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

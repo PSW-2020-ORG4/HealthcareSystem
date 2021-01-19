@@ -9,19 +9,11 @@ namespace EventSourcingService.Model
 {
     public class PatientSchedulingEvent : DomainEvent
     {
-        public int StartSchedulingEventId { get; }
-        public int UserAge { get; }
-        public Gender UserGender { get; }
-        public EventStep EventStep { get; }
-        public ClickEvent ClickEvent { get; }
+        public int StartSchedulingEventId { get; set; }
+        public int UserAge { get; set; }
+        public Gender UserGender { get; set; }
+        public EventStep EventStep { get; set; }
+        public ClickEvent ClickEvent { get; set; }
 
-        public PatientSchedulingEvent(int startSchedulingEventId, int userAge, Gender userGender, EventStep eventStep, ClickEvent clickEvent)
-        {
-            StartSchedulingEventId = startSchedulingEventId;
-            UserAge = userAge;
-            UserGender = userGender;
-            EventStep = eventStep;
-            ClickEvent = clickEvent;
-        }
     }
 }

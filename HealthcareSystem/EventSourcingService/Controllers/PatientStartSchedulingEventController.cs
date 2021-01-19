@@ -25,9 +25,9 @@ namespace EventSourcingService.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(PatientStartSchedulingEventDTO startSchedulingEventDTO)
+        public ActionResult Add()
         {
-            _eventStorePatientStartSchedulingService.Add(startSchedulingEventDTO);
+            _eventStorePatientStartSchedulingService.Add();
             return NoContent();
         }
 

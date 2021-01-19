@@ -16,7 +16,7 @@ namespace EventSourcingService.Service
         {
             _patientStartSchedulingEventRepository = patientStartSchedulingEventRepository;
         }
-        public void Add(PatientStartSchedulingEventDTO startSchedulingEventDTO)
+        public void Add()
         {
             _patientStartSchedulingEventRepository.Add(new PatientStartSchedulingEvent());
         }

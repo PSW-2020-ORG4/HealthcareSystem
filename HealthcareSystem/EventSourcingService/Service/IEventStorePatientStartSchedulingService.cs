@@ -11,6 +11,6 @@ namespace EventSourcingService.Service
     {
         public IEnumerable<PatientStartSchedulingEvent> GetAll();
 
-        public void Add();
+        public PatientStartSchedulingEvent Add();
     }
 }

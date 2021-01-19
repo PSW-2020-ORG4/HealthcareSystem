@@ -9,5 +9,6 @@ namespace EventSourcingService.DTO
     {
         public MinAvgMaxStatisticDTO successfulSchedulingDuration { get; set; }
         public GenderStatisticDTO successfulSchedulingGenderStatistic { get; set; }
+        public MinAvgMaxStatisticDTO successfulSchedulingAgeStatistic { get; set; }
     }
 }

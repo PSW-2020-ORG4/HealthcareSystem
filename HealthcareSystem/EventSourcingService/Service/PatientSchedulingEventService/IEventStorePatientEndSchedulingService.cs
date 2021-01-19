@@ -13,5 +13,6 @@ namespace EventSourcingService.Service
         PatientEndSchedulingEvent Add(PatientEndSchedulingEventDTO endSchedulingEventDTO);
         MinAvgMaxStatisticDTO SuccessfulSchedulingDuration();
         GenderStatisticDTO SuccessfulSchedulingGenderStatistic();
+        MinAvgMaxStatisticDTO SuccessfulSchedulingAgeStatistic();
     }
 }

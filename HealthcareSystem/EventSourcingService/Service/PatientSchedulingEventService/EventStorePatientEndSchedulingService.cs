@@ -62,5 +62,19 @@ namespace EventSourcingService.Service
 
             return successfulSchedulingGenderStatistic;
         }
+
+        public MinAvgMaxStatisticDTO SuccessfulSchedulingAgeStatistic()
+        {
+            MinAvgMaxStatisticDTO successfulSchedulingAgeStatistic = new MinAvgMaxStatisticDTO();
+
+            IEnumerable<PatientEndSchedulingEvent> successfulScheduling = _patientEndSchedulingEventRepository.GetAll
+                                                   (e => e.ReasonForEndOfAppointment == ReasonForEndOfAppointment.Success);
+
+            successfulSchedulingAgeStatistic.Minimum = successfulScheduling.Min(e => e.UserAge);
+            successfulSchedulingAgeStatistic.Average = (int)successfulScheduling.Average(e => e.UserAge);
+            successfulSchedulingAgeStatistic.Maximum = successfulScheduling.Max(e => e.UserAge);
+
+            return successfulSchedulingAgeStatistic;
+        }
     }
 }

@@ -9,6 +9,5 @@ namespace EventSourcingService.Model.Enum
     {
         Next,
         Previous, 
-        Cancel
     }
 }

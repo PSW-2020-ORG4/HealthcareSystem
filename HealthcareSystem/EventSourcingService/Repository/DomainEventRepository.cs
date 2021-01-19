@@ -20,6 +20,7 @@ namespace EventSourcingService.Repository
         public void Add(T domainEvent)
         {
             domainEvent.Id = 0;     // DB choose about ID
+            domainEvent.TriggerTime = DateTime.Now;
             Set().Add(domainEvent);
             SaveChanges();
         }

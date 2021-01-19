@@ -6,10 +6,10 @@ using EventSourcingService.Model;
 
 namespace EventSourcingService.Service
 {
-    public interface IEventStoreExampleService
+    public interface IEventStorePatientSchedulingService
     {
-        public IEnumerable<StatisticEvent> GetAll();
+        public IEnumerable<PatientSchedulingEvent> GetAll();
 
-        public void Add(StatisticEventDTO statisticEventDTO);
+        public void Add(PatientSchedulingEventDTO schedulingEventDTO);
     }
 }

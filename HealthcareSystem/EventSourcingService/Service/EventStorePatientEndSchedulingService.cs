@@ -16,9 +16,9 @@ namespace EventSourcingService.Service
         {
             _patientEndSchedulingEventRepository = patientEndSchedulingEventRepository;
         }
-        public void Add(PatientEndSchedulingEventDTO endSchedulingEventDTO)
+        public PatientEndSchedulingEvent Add(PatientEndSchedulingEventDTO endSchedulingEventDTO)
         {
-            _patientEndSchedulingEventRepository.Add(new PatientEndSchedulingEvent()
+            return _patientEndSchedulingEventRepository.Add(new PatientEndSchedulingEvent()
             {
                 StartSchedulingTime = endSchedulingEventDTO.StartSchedulingTime,
                 ReasonForEndOfAppointment = endSchedulingEventDTO.ReasonForEndOfAppointment

@@ -10,6 +10,6 @@ namespace EventSourcingService.Service
     {
         public IEnumerable<PatientSchedulingEvent> GetAll();
 
-        public void Add(PatientSchedulingEventDTO schedulingEventDTO);
+        public PatientSchedulingEvent Add(PatientSchedulingEventDTO schedulingEventDTO);
     }
 }

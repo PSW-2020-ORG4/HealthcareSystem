@@ -18,7 +18,7 @@ namespace EventSourcingService.Service
         }
         public void Add(PatientStartSchedulingEventDTO startSchedulingEventDTO)
         {
-            _patientStartSchedulingEventRepository.Add(new PatientStartSchedulingEvent(startSchedulingEventDTO.TriggerTime));
+            _patientStartSchedulingEventRepository.Add(new PatientStartSchedulingEvent());
         }
 
         public IEnumerable<PatientStartSchedulingEvent> GetAll()

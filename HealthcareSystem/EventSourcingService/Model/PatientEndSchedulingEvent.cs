@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventSourcingService.Model.Enum;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -8,14 +9,13 @@ namespace EventSourcingService.Model
 {
     public class PatientEndSchedulingEvent : DomainEvent
     {
-        [ForeignKey("StartSchedulingEvent")]
-        public int StartSchedulingEventId { get; }
-        public virtual PatientStartSchedulingEvent StartSchedulingEvent { get; }
+        public DateTime StartSchedulingTime { get; }
+        public ReasonForEndOfAppointment ReasonForEndOfAppointment { get; }
 
-        public PatientEndSchedulingEvent(DateTime triggerTime, int startSchedulingEventId)
+        public PatientEndSchedulingEvent(DateTime startSchedulingTime, ReasonForEndOfAppointment reason)
         {
-            TriggerTime = triggerTime;
-            StartSchedulingEventId = startSchedulingEventId;
+            StartSchedulingTime = startSchedulingTime;
+            ReasonForEndOfAppointment = reason;
         }
     }
 }

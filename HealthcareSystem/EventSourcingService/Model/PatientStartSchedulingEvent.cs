@@ -7,9 +7,5 @@ namespace EventSourcingService.Model
 {
     public class PatientStartSchedulingEvent : DomainEvent
     {
-        public PatientStartSchedulingEvent(DateTime triggerTime)
-        {
-            TriggerTime = triggerTime;
-        }
     }
 }

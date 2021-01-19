@@ -9,17 +9,14 @@ namespace EventSourcingService.Model
 {
     public class PatientSchedulingEvent : DomainEvent
     {
-        [ForeignKey("StartSchedulingEvent")]
         public int StartSchedulingEventId { get; }
-        public virtual PatientStartSchedulingEvent StartSchedulingEvent { get; }
         public int UserAge { get; }
         public Gender UserGender { get; }
         public EventStep EventStep { get; }
         public ClickEvent ClickEvent { get; }
 
-        public PatientSchedulingEvent(DateTime triggerTime, int startSchedulingEventId, int userAge, Gender userGender, EventStep eventStep, ClickEvent clickEvent)
+        public PatientSchedulingEvent(int startSchedulingEventId, int userAge, Gender userGender, EventStep eventStep, ClickEvent clickEvent)
         {
-            TriggerTime = triggerTime;
             StartSchedulingEventId = startSchedulingEventId;
             UserAge = userAge;
             UserGender = userGender;

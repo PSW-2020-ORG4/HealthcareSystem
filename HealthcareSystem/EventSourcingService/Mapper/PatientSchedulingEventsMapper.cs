@@ -37,8 +37,9 @@ namespace EventSourcingService.Mapper
         {
             PatientEndSchedulingEventDTO endSchedulingEventDTO = new PatientEndSchedulingEventDTO()
             {
-                StartSchedulingEventId = endSchedulingEvent.StartSchedulingEventId,
-                TriggerTime = endSchedulingEvent.TriggerTime
+                TriggerTime = endSchedulingEvent.TriggerTime,
+                StartSchedulingTime = endSchedulingEvent.StartSchedulingTime,
+                ReasonForEndOfAppointment = endSchedulingEvent.ReasonForEndOfAppointment
             };
             return endSchedulingEventDTO;
         }

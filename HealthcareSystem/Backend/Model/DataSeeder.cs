@@ -604,16 +604,16 @@ namespace Backend.Model
 
         private void SeedPharmacies(MyDbContext context)
         {
-            context.Add(new PharmacySystem()
-            {
-                Name = "Janković",
-                ApiKey = "ApiKey1",
-                Url = "http://localhost:8080",
-                ActionsBenefitsExchangeName = "exchange",
-                ActionsBenefitsSubscribed = true,
-                GrpcHost = "localhost",
-                GrpcPort = 30051
-            });
+            //context.Add(new PharmacySystem()
+            //{
+            //    Name = "Janković",
+            //    ApiKey = "ApiKey1",
+            //    Url = "http://localhost:8080",
+            //    ActionsBenefitsExchangeName = "exchange",
+            //    ActionsBenefitsSubscribed = true,
+            //    GrpcHost = "localhost",
+            //    GrpcPort = 30051
+            //});
 
             context.SaveChanges();
         }
@@ -722,8 +722,7 @@ namespace Backend.Model
             {
                 Id = 1,
                 PharmacyId = 1,
-                Subject = "Novogodišnji popust",
-                Message = "Kapi za oči Proculin Tears na popustu 30%",
+                Message = new ActionBenefitMessage("Novogodišnji popust", "Kapi za oči Proculin Tears na popustu 30%"),
                 IsPublic = true
             });
 
@@ -731,8 +730,7 @@ namespace Backend.Model
             {
                 Id = 2,
                 PharmacyId = 1,
-                Subject = "Popust na penzionere",
-                Message = "Renomal gel za zglobove na popustu 40%",
+                Message = new ActionBenefitMessage("Popust na penzionere", "Renomal gel za zglobove na popustu 40%"),
                 IsPublic = true
             });
 
@@ -740,8 +738,7 @@ namespace Backend.Model
             {
                 Id = 3,
                 PharmacyId = 1,
-                Subject = "Novogodišnji popust",
-                Message = "Corega pasta za protezu na popustu 50%",
+                Message = new ActionBenefitMessage("Novogodišnji popust", "Corega pasta za protezu na popustu 50%"),
                 IsPublic = true
             });
 

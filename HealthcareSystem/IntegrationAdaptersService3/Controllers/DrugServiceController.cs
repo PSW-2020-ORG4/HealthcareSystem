@@ -3,6 +3,9 @@ using Backend.Service.DrugAndTherapy;
 using Backend.Service.DrugConsumptionService;
 
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace IntegrationAdaptersService3.Controllers
 {
@@ -36,8 +39,13 @@ namespace IntegrationAdaptersService3.Controllers
 
         [HttpGet]
         [Route("get/drugconsuption")]
-        public IActionResult GetDrugConsuption([FromBody] DateRange request)
+        public async Task<IActionResult> GetDrugConsuption()
         {
+            DateRange request = null;
+            using (var reader = new StreamReader(HttpContext.Request.Body))
+            {
+                request = JsonConvert.DeserializeObject<DateRange>(await reader.ReadToEndAsync());
+            }
             return Ok(_drugConsuptionService.GetDrugConsumptionForDate(request));
         }
     }

@@ -35,8 +35,9 @@ namespace IntegrationAdapters.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(DateRange dateRange)
+        public async Task<IActionResult> Index(DateRangeDTO dateRangeDto)
         {
+            DateRange dateRange = new DateRange(dateRangeDto.From, dateRangeDto.To);
             PushSubscription pushSubscription = new PushSubscription() { Endpoint = Request.Form["PushEndpoint"], P256DH = Request.Form["PushP256DH"], Auth = Request.Form["PushAuth"] };
             PushPayload pushPayload = new PushPayload();
 

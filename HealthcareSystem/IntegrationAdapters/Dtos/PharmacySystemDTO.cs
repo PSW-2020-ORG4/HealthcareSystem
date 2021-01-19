@@ -1,37 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-
-namespace Backend.Model.Pharmacies
+namespace IntegrationAdapters.Dtos
 {
-    public class PharmacySystem
+    public class PharmacySystemDTO
     {
-        [Key]
         public int Id { get; set; }
 
-        [StringLength(255)]
         [Required(ErrorMessage = "Please enter a name.")]
         public string Name { get; set; }
 
-        [StringLength(255)] 
         [Required(ErrorMessage = "Please enter the API key.")]
         public string ApiKey { get; set; }
 
-        [StringLength(255)]
         [Required(ErrorMessage = "Please enter the URL.")]
         public string Url { get; set; }
 
-        [StringLength(255)]
         public string ActionsBenefitsExchangeName { get; set; }
 
-        [Required] 
+        [Required]
         public bool ActionsBenefitsSubscribed { get; set; } = false;
 
-        public virtual GrpcAdress GrpcAdress { get; set; }
+        public string GrpcHost { get; set; }
 
-        public bool isValid()
-        {
-            return true;
-        }
+        public int GrpcPort { get; set; } = -1;
     }
 }

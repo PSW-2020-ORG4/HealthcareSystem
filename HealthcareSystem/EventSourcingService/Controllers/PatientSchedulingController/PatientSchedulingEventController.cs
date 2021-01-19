@@ -49,6 +49,7 @@ namespace EventSourcingService.Controllers
             PatientSchedulingStatisticDTO schedulingStatisticDTO = new PatientSchedulingStatisticDTO();
 
             schedulingStatisticDTO.successfulSchedulingDuration = _patientEndSchedulingService.SuccessfulSchedulingDuration();
+            schedulingStatisticDTO.successfulSchedulingGenderStatistic = _patientEndSchedulingService.SuccessfulSchedulingGenderStatistic();
 
             return Ok(schedulingStatisticDTO);
         }

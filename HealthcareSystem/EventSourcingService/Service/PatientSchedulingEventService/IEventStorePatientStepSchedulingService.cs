@@ -9,7 +9,6 @@ namespace EventSourcingService.Service
     public interface IEventStorePatientStepSchedulingService
     {
         IEnumerable<PatientStepSchedulingEvent> GetAll();
-
         PatientStepSchedulingEvent Add(PatientStepSchedulingEventDTO schedulingEventDTO);
     }
 }

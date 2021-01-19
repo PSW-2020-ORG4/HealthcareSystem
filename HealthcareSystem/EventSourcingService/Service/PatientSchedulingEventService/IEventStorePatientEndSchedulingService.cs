@@ -10,9 +10,8 @@ namespace EventSourcingService.Service
     public interface IEventStorePatientEndSchedulingService
     {
         IEnumerable<PatientEndSchedulingEvent> GetAll();
-
         PatientEndSchedulingEvent Add(PatientEndSchedulingEventDTO endSchedulingEventDTO);
-
         MinAvgMaxStatisticDTO SuccessfulSchedulingDuration();
+        GenderStatisticDTO SuccessfulSchedulingGenderStatistic();
     }
 }

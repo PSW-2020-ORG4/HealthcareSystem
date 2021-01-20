@@ -12,5 +12,6 @@ namespace PatientWebApp.Settings
         public string UserServiceUrl { get; set; }
         public string NotificationServiceUrl { get; set; }
         public string ScheduleServiceUrl { get; set; }
+        public string EventSourcingServiceUrl { get; set; }
     }
 }

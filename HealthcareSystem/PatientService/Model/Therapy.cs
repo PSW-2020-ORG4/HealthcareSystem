@@ -15,6 +15,7 @@ namespace PatientService.Model
         internal Drug Drug { get; }
         internal int DailyDose { get; }
         internal string Diagnosis { get; }
+        internal int ExaminationId { get; }
 
         public Therapy(TherapyMemento memento)
         {
@@ -24,6 +25,7 @@ namespace PatientService.Model
             Drug = new Drug(memento.DrugId, memento.DrugName);
             DailyDose = memento.DailyDose;
             Diagnosis = memento.Diagnosis;
+            ExaminationId = memento.ExaminationId;
             Validate();
         }
 
@@ -40,7 +42,8 @@ namespace PatientService.Model
                 DrugId = Drug.Id,
                 DrugName = Drug.Name,
                 EndDate = DateRange.EndDate,
-                StartDate = DateRange.StartDate
+                StartDate = DateRange.StartDate,
+                ExaminationId = ExaminationId
             };
         }
 

@@ -1,0 +1,174 @@
+version: "3.8"
+services: 
+  database:
+    build:
+      context: ../../HealthcareSystem/Backend
+      dockerfile: Dockerfile.postgre
+    environment:
+      POSTGRES_USER: "org4"
+      POSTGRES_PASSWORD: "org4"
+      POSTGRES_DB: "organization4db"
+    restart: always
+    networks:
+      - psw
+
+  esdatabase:
+    build:
+      context: ../../HealthcareSystem/EventSourcingService
+      dockerfile: Dockerfile.postgre
+    environment:
+      POSTGRES_USER: "org4"
+      POSTGRES_PASSWORD: "org4"
+      POSTGRES_DB: "organization4db"
+    restart: always
+    networks:
+      - psw
+
+  intergrationadapters:
+    build:
+      context: ../../HealthcareSystem/IntegrationAdapters
+      dockerfile: Dockerfile.local
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 20
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+    depends_on:      
+      - database
+      - esservice
+    restart: on-failure
+    networks:
+      - psw
+
+  patientwebapp:
+    build:
+      context: ../../HealthcareSystem/PatientWebApp
+      dockerfile: Dockerfile.local
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      PATIENT_SERVICE_URL: "http://patientservice"
+      FEEDBACK_SURVEY_SERVICE_URL: "http://feedbacksurveyservice"
+      USER_SERVICE_URL: "http://userservice"
+      NOTIFICATION_SERVICE_URL: "http://notificationservice"
+      SCHEDULE_SERVICE_URL: "http://scheduleservice"
+      EVENT_SOURCING_SERVICE_URL: "http://esservice"
+    depends_on:
+      - userservice
+      - patientservice
+      - notificationservice
+      - feedbacksurveyservice
+      - scheduleservice
+      - esservice
+    restart: on-failure
+    networks:
+      - psw
+
+  graphicaleditorserver:
+    build:
+      context: ../../HealthcareSystem/GraphicalEditorServer
+      dockerfile: Dockerfile.local
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+      PATIENT_SERVICE_URL: "http://patientservice"
+      USER_SERVICE_URL: "http://userservice"
+      SCHEDULE_SERVICE_URL: "http://scheduleservice"
+      EVENT_SOURCING_SERVICE_URL: "http://esservice"
+    depends_on:
+      - userservice
+      - patientservice
+      - scheduleservice
+      - esservice
+    restart: on-failure
+    networks:
+      - psw
+
+  esservice:
+    build:
+      context: ../../HealthcareSystem/EventSourcingService
+      dockerfile: Dockerfile.local
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@esdatabase:5432/organization4db"
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - psw
+
+  userservice:
+    build:
+      context: ../../HealthcareSystem/UserService
+      dockerfile: Dockerfile.local
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - psw
+
+  scheduleservice:
+    build:
+      context: ../../HealthcareSystem/ScheduleService
+      dockerfile: Dockerfile.local
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - psw
+
+  patientservice:
+    build:
+      context: ../../HealthcareSystem/PatientService
+      dockerfile: Dockerfile.local
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - psw
+
+  feedbacksurveyservice:
+    build:
+      context: ../../HealthcareSystem/FeedbackAndSurveyService
+      dockerfile: Dockerfile.local
+    environment:
+      ASPNETCORE_ENVIRONMENT: Test
+      DATABASE_RETRY: 5
+      DATABASE_RETRY_WAIT: 30
+      DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - psw
+
+  notificationservice:
+    build:
+      context: ../../HealthcareSystem/NotificationService
+      dockerfile: Dockerfile.local
+    restart: on-failure
+    networks:
+      - psw
+
+networks:
+  psw:
+    name: psw
+    driver: bridge

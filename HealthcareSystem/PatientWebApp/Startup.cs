@@ -58,6 +58,7 @@ namespace PatientWebApp
             conf.UserServiceUrl = Configuration.GetValue<string>("USER_SERVICE_URL");
             conf.NotificationServiceUrl = Configuration.GetValue<string>("NOTIFICATION_SERVICE_URL");
             conf.ScheduleServiceUrl = Configuration.GetValue<string>("SCHEDULE_SERVICE_URL");
+            conf.EventSourcingServiceUrl = Configuration.GetValue<string>("EVENT_SOURCING_SERVICE_URL");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

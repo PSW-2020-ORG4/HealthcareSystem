@@ -7,7 +7,9 @@ namespace PatientWebAppE2ETests.Pages
     public class PublishFeedback
     {
         private readonly IWebDriver driver;
-        public const string URI = "https://psw-patientwebapp.herokuapp.com/html/admins_home_page.html";
+        public const string URI = "http://localhost:65117/html/admins_home_page.html";
+
+        public const string ValidCommentMessage = "Feedback successfully published.";
         public PublishFeedback(IWebDriver driver)
         {
             this.driver = driver;
@@ -17,17 +19,6 @@ namespace PatientWebAppE2ETests.Pages
         {
             driver.FindElement(By.Name("publish")).Click();
             return driver.FindElement(By.Name("alert_container")).FindElement(By.Name("alert_msg")).Text;
-        }
-
-        public int GetNumberOfUnpublishedFeedback()
-        {
-            return driver.FindElements(By.Name("publish")).Count;
-        }
-
-        public void WaitForFormSubmit()
-        {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 30));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe(URI));
         }
 
         public void Navigate() => driver.Navigate().GoToUrl(URI);

@@ -47,6 +47,15 @@ namespace PatientService.Model
             return Therapies.Where(t => specification.IsSatisfiedBy(t));
         }
 
+        public Examination GetExamination(int id)
+        {
+            return Examinations.Single(e => e.Id == id);
+        }
+
+        public IEnumerable<Therapy> GetTherapiesForExamination(int id)
+        {
+            return Therapies.Where(t => t.ExaminationId == id);
+        }
         public void UpdateMedicalInfo(MedicalInfoUpdateDTO medicalInfo)
         {
             BloodType = medicalInfo.BloodType;

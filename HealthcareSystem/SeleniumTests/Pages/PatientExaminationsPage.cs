@@ -8,7 +8,7 @@ namespace PatientWebAppE2ETests.Pages
     {
         private readonly IWebDriver driver;
 
-        public const string URI = "https://psw-patientwebapp.herokuapp.com/html/patient_examinations.html";
+        public const string URI = "http://localhost:65117/html/patient_examinations.html";
 
         private IWebElement ButtonElement => driver.FindElement(By.Name("cancelButton"));
 
@@ -33,16 +33,6 @@ namespace PatientWebAppE2ETests.Pages
             return driver.FindElement(By.Name("alert_container")).FindElement(By.Name("alert_msg")).Text;
         }
 
-        public int GetNumberOfFollowingExaminations()
-        {
-            return driver.FindElements(By.Name("cancelButton")).Count;
-        }
-
-        public void WaitForFormSubmit()
-        {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 30));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe(URI));
-        }
         public void Navigate() => driver.Navigate().GoToUrl(URI);
 
     }

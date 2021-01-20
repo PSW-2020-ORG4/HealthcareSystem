@@ -7,12 +7,15 @@ namespace PatientWebAppE2ETests.Pages
     public class AddFeedbackPage
     {
         private readonly IWebDriver driver;
-        public const string URI = "https://psw-patientwebapp.herokuapp.com/html/add_feedback.html";
+        public const string URI = "http://localhost:65117/html/add_feedback.html";
         private IWebElement CommentElement => driver.FindElement(By.Id("text_area_id"));
         private IWebElement IsAnonymousElement => driver.FindElement(By.XPath("//input[@id = 'no_anonymous']"));
         private IWebElement IsAllowedElement => driver.FindElement(By.XPath(".//div[contains(.,'I don't want my feedback to be published')]/input"));
         private IWebElement SubmitButtonElement => driver.FindElement(By.Id("submit_button"));
         private IWebElement AlertElement => driver.FindElement(By.Id("alert"));
+
+        public const string ValidCommentMessage = "You have successfuly left a feedback";
+        public const string InvalidCommentMessage = "Feedback cannot be empty";
 
         public AddFeedbackPage(IWebDriver driver)
         {

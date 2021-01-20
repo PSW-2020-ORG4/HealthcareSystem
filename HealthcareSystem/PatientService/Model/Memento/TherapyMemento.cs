@@ -17,5 +17,6 @@ namespace PatientService.Model.Memento
         public string DrugName { get; set; }
         public int DailyDose { get; set; }
         public string Diagnosis { get; set; }
+        public int ExaminationId { get; set; }
     }
 }

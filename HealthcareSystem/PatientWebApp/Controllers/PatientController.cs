@@ -203,5 +203,27 @@ namespace PatientWebApp.Controllers
         {
             return RequestAdapter.SendRequestWithoutBody(_serviceSettings.UserServiceUrl, "/api/patient/" + jmbg + "/block", Method.POST);
         }
+
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet("examination/{id}/therapies")]
+        public IActionResult GetTherapiesForExamination(int id)
+        {
+            var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
+
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.PatientServiceUrl,
+                                                         "/api/patient/" + jmbg + "/examination/" + id + "/therapies",
+                                                         Method.GET);
+        }
+
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpGet("examination/{id}")]
+        public IActionResult GetExamination(int id)
+        {
+            var jmbg = HttpContext.User.FindFirst("Jmbg").Value;
+
+            return RequestAdapter.SendRequestWithoutBody(_serviceSettings.PatientServiceUrl,
+                                                         "/api/patient/" + jmbg + "/examination/" + id,
+                                                         Method.GET);
+        }
     }
 }

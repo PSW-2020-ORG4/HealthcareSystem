@@ -83,63 +83,8 @@ $(document).ready(function () {
         }
     });
 
-    $('form#schedule').submit(function (event) {
-        event.preventDefault();
-
-        let date = $('#dateOfExam').val();
-        let doctorJmbg = $('#doctor_name option:selected').val();
-        let specialtyId = $('#specialty_name option:selected').val();
-
-        if (!date || !doctorJmbg || !specialtyId)
-            return;
-
-        $('form#schedule').find(":submit").prop('disabled', true);
-        $('#loadingSchedule').show();
-        $('#free_appointments').empty();
-        var newData = {
-            "DoctorJmbg": doctorJmbg,
-            "RequiredEquipmentTypes": [],
-            "EarliestDateTime": date,
-            "LatestDateTime": date
-        };
-
-        var i = 0;
-        $.ajax({
-            url: "/api/appointment/basic-search",
-            type: 'POST',
-            contentType: 'application/json',
-            headers: {
-                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
-            },
-            data: JSON.stringify(newData),
-            success: function (appointments) {
-                newAppointments = appointments;
-                if (appointments.length == 0) {
-                    let alert = $('<div class="alert alert-info alert-dismissible fade show mb-0 mt-2" role="alert">No matching free appointments found.'
-                        + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-                    $('#loadingSchedule').hide();
-                    $('#alertSchedule').prepend(alert);
-                    $('form#schedule').find(":submit").prop('disabled', false);
-                }
-                else {
-                    for (let a of appointments) {
-                        let appointment = $('<option value="' + i + '">' + a.startTime + '</option>');
-                        $('#free_appointments').append(appointment);
-                        i = i + 1;
-                    }
-                    $('#loadingSchedule').hide();
-                    $('form#schedule').find(":submit").prop('disabled', false);
-                    $('#centralModalSuccess').modal('show');
-                }
-            },
-            error: function (jqXHR) {
-                let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching free appointments.'
-                    + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
-                $('#loadingSchedule').hide();
-                $('#alertSchedule').prepend(alert);
-                $('form#schedule').find(":submit").prop('disabled', false);
-            }
-        });
+    $('#btn_close').click(function () {
+        location.reload();
     });
 });
 
@@ -319,11 +264,28 @@ function addExaminationRow(examination) {
     restrict_date.setDate(restrict_date.getDate() - 2);
     var current_date = new Date();
     let button = '';
-    if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
+ 
+    if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 1) {
         button = '<div class="card-footer">'
-            + '<button type = "button" class="btn btn-success float-right" '
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
+            + 'id="' + examination.id + '" onclick="showReport(this.id)"'
+            + '> Report</button >'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
+            + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
+            + '> Prescriptions </button >'
+            + '</div >'; 
+    }
+    else if (examination.examinationStatus == "Finished" && examination.isSurveyCompleted == 0) {
+        button = '<div class="card-footer">'
+            + '<button type = "button" class="btn btn-primary float-right" '
             + 'onclick="window.location.href=\'/html/filling_out_the_survey.html?id=' + examination.id + '\'"'
             + '> Fill out the survey</button >'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
+            + 'id="' + examination.id +'" onclick="showReport(this.id)"'
+            + '> Report</button >'
+            + '<button type = "button" class="btn btn-outline-primary float-left"'
+            + 'id="' + examination.id + '" onclick="showTherapies(this.id)"'
+            + '> Prescriptions </button >'
             + '</div >';
     }
     else if (examination.examinationStatus == "Created" && current_date < restrict_date) {
@@ -341,7 +303,7 @@ function addExaminationRow(examination) {
         + '<div class="card">'
         + '<div class="card-header bg-info text-white">'
         + '<h4 class="card-title mb-0">'
-        + examination.examinationType + ' on <span class="badge badge-light">' + examination.startTime + '</span> '
+        + examination.examinationType + ' on <span class="badge badge-light">' + examination.startTime.split('T')[0] + " " + examination.startTime.split('T')[1] + '</span> '
         + '</h4>'
         + '</div>'
         + '<div class="card-body p-3">'
@@ -386,4 +348,206 @@ function cancelExamination(id) {
 
 function FillOutTheSurvey(examinationId) {
     window.location.href = '/html/filling_out_the_survey.html?id=' + examinationId;
+};
+
+function first_step_next() {
+
+    let date = $('#dateOfExam').val();
+
+    if (!date) {
+        let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Select a date.'
+            + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+
+        $('#alertsModal').prepend(alert);
+        return;
+    }
+
+    document.getElementById("div_date").style.display = "none";
+    document.getElementById("div_specialty").style.display = "initial";
+};
+
+function second_step_next() {
+
+    let specialtyId = $('#specialty_name option:selected').val();
+
+    if (!specialtyId) {
+        let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Select a specialty.'
+            + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+
+        $('#alertsModal').prepend(alert);
+        return;
+    }
+    document.getElementById("div_specialty").style.display = "none";
+    document.getElementById("div_doctor").style.display = "initial";
+};
+
+function third_step_next() {
+
+    var select = document.getElementById("free_appointments");
+    var length = select.options.length;
+    for (i = length - 1; i >= 0; i--) {
+        select.options[i] = null;
+    }
+
+    let date = $('#dateOfExam').val();
+    let doctorJmbg = $('#doctor_name option:selected').val();
+
+    if (!doctorJmbg) {
+        let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Select a doctor.'
+            + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+
+        $('#alertsModal').prepend(alert);
+        return;
+    }
+
+    $('#loadingSchedule').show();
+    $('#free_appointments').empty();
+    var newData = {
+        "DoctorJmbg": doctorJmbg,
+        "RequiredEquipmentTypes": [],
+        "EarliestDateTime": date,
+        "LatestDateTime": date
+    };
+
+    var i = 0;
+    $.ajax({
+        url: "/api/appointment/basic-search",
+        type: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        data: JSON.stringify(newData),
+        success: function (appointments) {
+            newAppointments = appointments;
+            if (appointments.length == 0) {
+                let alert = $('<div class="alert alert-info alert-dismissible fade show mb-0 mt-2" role="alert">No matching free appointments found.'
+                    + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+                $('#loadingSchedule').hide();
+                $('#alertSchedule').prepend(alert);
+                $('form#schedule').find(":submit").prop('disabled', false);
+            }
+            else {
+                for (let a of appointments) {
+                    let appointment = $('<option value="' + i + '">' + a.startTime + '</option>');
+                    $('#free_appointments').append(appointment);
+                    i = i + 1;
+                }
+                $('#loadingSchedule').hide();
+            }
+        },
+        error: function (jqXHR) {
+            let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Error fetching free appointments.'
+                + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
+            $('#loadingSchedule').hide();
+            $('#alertSchedule').prepend(alert);
+        }
+    });
+
+    document.getElementById("div_doctor").style.display = "none";
+    document.getElementById("div_appointments").style.display = "initial";
+};
+
+function first_step_previous() {
+
+    document.getElementById("div_date").style.display = "initial";
+    document.getElementById("div_specialty").style.display = "none";
+};
+
+function second_step_previous() {
+
+    document.getElementById("div_specialty").style.display = "initial";
+    document.getElementById("div_doctor").style.display = "none";
+};
+
+function third_step_previous() {
+
+    document.getElementById("div_doctor").style.display = "initial";
+    document.getElementById("div_appointments").style.display = "none";
+};
+
+function showReport(examinationId) {
+
+    $.ajax({
+        url: '/api/patient/examination/' + examinationId,
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (report) {
+
+            $.ajax({
+                url: '/api/patient/examination/' + examinationId + "/therapies",
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (therapies) {
+
+                    let table = '<table style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                        + '<tr> <td>Date:</td><td>' + report.dateAndTime.split('T')[0] + '</td> </tr>'
+                        + '<tr> <td>Time:</td><td>' + report.dateAndTime.split('T')[1] + '</td> </tr>'
+                        + '<tr> <td>Doctor:</td><td>' + report.doctorName + ' ' + report.doctorSurname + '</td> </tr>'
+                        + '<tr> <td>Anamnesis:</td><td>' + report.anamnesis + '</td> </tr>'
+                        + '<tr> <td>Prescribed prescriptions:</td><td>' + therapies.length + '</td> </tr>'
+                        + '</table>';
+
+                    $('#report_content').empty();
+                    $('#report_content').append(table);
+                    $('#bottomModalSuccess').modal('show');
+
+                },
+                error: function () {
+                    console.log("Error fetching therapies");
+                }
+            });
+        },
+        error: function () {
+            console.log("Error fetching report");
+        }
+    });
+};
+
+function showTherapies(examinationId) {
+
+    $.ajax({
+        url: '/api/patient/examination/' + examinationId + "/therapies",
+        type: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function (therapies) {
+            $('#therapy_content').empty();
+            if (therapies.length == 0) {
+                let messagge = '<label class="text-secondary" style="margin-left:24px; margin-top:30px; margin-bottom:30px">There are no prescribed prescriptions.</label>';
+                $('#therapy_content').append(messagge);
+            } else {
+                for (let i = 0; i < therapies.length; i++) {
+                    let therapy = '<table style="margin-left:50px; margin-right:50px; margin-top:30px; margin-bottom:30px; width:300px;">'
+                        + '<tr> <td>Start date:</td><td>' + therapies[i].startDate.split('T')[0] + '</td> </tr>'
+                        + '<tr> <td>End date:</td><td>' + therapies[i].endDate.split('T')[0] + '</td> </tr>'
+                        + '<tr> <td>Drug name:</td><td>' + therapies[i].drugName + '</td> </tr>'
+                        + '<tr> <td>Diagnosis:</td><td>' + therapies[i].diagnosis + '</td> </tr>'
+                        + '<tr> <td>Daily dose:</td><td>' + therapies[i].dailyDose + '</td> </tr>'
+                        + '</table>';
+                    $('#therapy_content').append(therapy);
+                }
+            }
+        },
+        error: function () {
+            console.log("Error fetching therapies");
+        }
+    });
+
+    $('#topModalSuccess').modal('show');
+
 };

@@ -494,7 +494,7 @@ namespace Backend.Model
                     Name = "Janković",
                     ApiKey = "ApiKey1",
                     Url = "http://localhost:8080",
-                    ActionsBenefitsExchangeName = "exchange",
+                    ActionsBenefitsExchangeName = "seeded",
                     ActionsBenefitsSubscribed = true,
                     GrpcHost = "localhost",
                     GrpcPort = 30051

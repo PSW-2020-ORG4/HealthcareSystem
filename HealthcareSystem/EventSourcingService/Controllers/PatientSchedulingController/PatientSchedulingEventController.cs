@@ -51,7 +51,9 @@ namespace EventSourcingService.Controllers
             schedulingStatisticDTO.successfulSchedulingDuration = _patientEndSchedulingService.SuccessfulSchedulingDuration();
             schedulingStatisticDTO.successfulSchedulingGenderStatistic = _patientEndSchedulingService.SuccessfulSchedulingGenderStatistic();
             schedulingStatisticDTO.successfulSchedulingAgeStatistic = _patientEndSchedulingService.SuccessfulSchedulingAgeStatistic();
-            
+            schedulingStatisticDTO.closedSchedulingStepStatistic = _patientStepSchedulingService.ClosedSchedulingStepStatistic();
+            schedulingStatisticDTO.previousSchedulingStepStatistic = _patientStepSchedulingService.PreviousSchedulingStepStatistic();
+
             return Ok(schedulingStatisticDTO);
         }
     }

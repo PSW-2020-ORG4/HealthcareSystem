@@ -8,6 +8,7 @@ namespace EventSourcingService.Model.Enum
     public enum ClickEvent
     {
         Next,
-        Previous, 
+        Previous,
+        Close
     }
 }

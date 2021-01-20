@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using EventSourcingService.DTO;
+using EventSourcingService.DTO.PatientSchedulingEventDTO;
 using EventSourcingService.Model;
 
 namespace EventSourcingService.Service
@@ -10,5 +11,7 @@ namespace EventSourcingService.Service
     {
         IEnumerable<PatientStepSchedulingEvent> GetAll();
         PatientStepSchedulingEvent Add(PatientStepSchedulingEventDTO schedulingEventDTO);
+        StepClosureStatisticDTO ClosedSchedulingStepStatistic();
+        StepPreviousStatisticDTO PreviousSchedulingStepStatistic();
     }
 }

@@ -76,5 +76,6 @@ namespace EventSourcingService.Service
 
             return successfulSchedulingAgeStatistic;
         }
+
     }
 }

@@ -13,5 +13,9 @@ namespace EventSourcingService.DTO
         public MinAvgMaxStatisticDTO successfulSchedulingAgeStatistic { get; set; }
         public StepClosureStatisticDTO closedSchedulingStepStatistic { get; set; }
         public StepPreviousStatisticDTO previousSchedulingStepStatistic { get; set; }
+        public AverageDurationDTO successfulSchedulingAgeDuration { get; set; }
+        public AverageDurationDTO successfulSchedulingGenderDuration { get; set; }
+        public AverageDurationDTO unsuccessfulSchedulingAgeDuration { get; set; }
+        public AverageDurationDTO unsuccessfulSchedulingGenderDuration { get; set; }
     }
 }

@@ -14,5 +14,9 @@ namespace EventSourcingService.Service
         MinAvgMaxStatisticDTO SuccessfulSchedulingDuration();
         GenderStatisticDTO SuccessfulSchedulingGenderStatistic();
         MinAvgMaxStatisticDTO SuccessfulSchedulingAgeStatistic();
+        AverageDurationDTO SuccessfulSchedulingAgeDuration();
+        AverageDurationDTO SuccessfulSchedulingGenderDuration();
+        AverageDurationDTO UnsuccessfulSchedulingAgeDuration();
+        AverageDurationDTO UnsuccessfulSchedulingGenderDuration();
     }
 }

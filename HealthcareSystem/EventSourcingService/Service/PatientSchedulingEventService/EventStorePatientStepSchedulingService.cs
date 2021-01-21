@@ -33,7 +33,7 @@ namespace EventSourcingService.Service
                 StartSchedulingEventId = patientStepSchedulingEventDTO.StartSchedulingEventId,
                 UserAge = patientStepSchedulingEventDTO.UserAge,
                 UserGender = patientStepSchedulingEventDTO.UserGender,
-                EventStep = patientStepSchedulingEventDTO.EventStep, 
+                EventStep = patientStepSchedulingEventDTO.EventStep,
                 ClickEvent = patientStepSchedulingEventDTO.ClickEvent
             });
         }
@@ -59,12 +59,12 @@ namespace EventSourcingService.Service
                 mostClosedStep = EventStep.Specialty;
                 maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnSpecialtyStep;
             }
-            if(closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep > maxNumber)
+            if (closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep > maxNumber)
             {
                 mostClosedStep = EventStep.Doctor;
                 maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep;
             }
-            if(closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep > maxNumber)
+            if (closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep > maxNumber)
             {
                 mostClosedStep = EventStep.Appointment;
                 maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep;

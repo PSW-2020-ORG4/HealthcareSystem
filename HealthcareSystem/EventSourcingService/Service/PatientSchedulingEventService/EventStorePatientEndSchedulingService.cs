@@ -77,5 +77,76 @@ namespace EventSourcingService.Service
             return successfulSchedulingAgeStatistic;
         }
 
+        public AverageDurationDTO SuccessfulSchedulingAgeDuration()
+        {
+            AverageDurationDTO averageDTO = new AverageDurationDTO();
+            int averageAge = (int)_patientEndSchedulingEventRepository.GetAll().Average(e => e.UserAge);
+
+            IEnumerable<PatientEndSchedulingEvent> successfulScheduling = _patientEndSchedulingEventRepository.GetAll
+                                                   (e => e.ReasonForEndOfAppointment == ReasonForEndOfAppointment.Success);
+
+            IEnumerable<TimeSpan> youthDuration = successfulScheduling.Where(e => e.UserAge < averageAge)
+                                                  .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
+            IEnumerable<TimeSpan> elderDuration = successfulScheduling.Where(e => e.UserAge >= averageAge)
+                                                  .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
+
+            averageDTO.DurationFirst = (int)youthDuration.Average(t => t.TotalMinutes);
+            averageDTO.DurationSecond = (int)elderDuration.Average(t => t.TotalMinutes);
+
+            return averageDTO;
+        }
+
+        public AverageDurationDTO SuccessfulSchedulingGenderDuration()
+        {
+            AverageDurationDTO averageDTO = new AverageDurationDTO();
+
+            IEnumerable<PatientEndSchedulingEvent> successfulScheduling = _patientEndSchedulingEventRepository.GetAll
+                                                   (e => e.ReasonForEndOfAppointment == ReasonForEndOfAppointment.Success);
+
+            IEnumerable<TimeSpan> womenDuration = successfulScheduling.Where(e => e.UserGender == Gender.Female)
+                                                  .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
+            IEnumerable<TimeSpan> menDuration = successfulScheduling.Where(e => e.UserGender == Gender.Male)
+                                                  .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
+
+            averageDTO.DurationFirst = (int)womenDuration.Average(t => t.TotalMinutes);
+            averageDTO.DurationSecond = (int)menDuration.Average(t => t.TotalMinutes);
+
+            return averageDTO;
+        }
+        public AverageDurationDTO UnsuccessfulSchedulingAgeDuration()
+        {
+            AverageDurationDTO averageDTO = new AverageDurationDTO();
+            int averageAge = (int)_patientEndSchedulingEventRepository.GetAll().Average(e => e.UserAge);
+
+            IEnumerable<PatientEndSchedulingEvent> unsuccessfulScheduling = _patientEndSchedulingEventRepository.GetAll
+                                                   (e => e.ReasonForEndOfAppointment == ReasonForEndOfAppointment.Unsuccess);
+
+            IEnumerable<TimeSpan> youthDuration = unsuccessfulScheduling.Where(e => e.UserAge < averageAge)
+                                                  .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
+            IEnumerable<TimeSpan> elderDuration = unsuccessfulScheduling.Where(e => e.UserAge >= averageAge)
+                                                  .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
+
+            averageDTO.DurationFirst = (int)youthDuration.Average(t => t.TotalMinutes);
+            averageDTO.DurationSecond = (int)elderDuration.Average(t => t.TotalMinutes);
+
+            return averageDTO;
+        }
+        public AverageDurationDTO UnsuccessfulSchedulingGenderDuration()
+        {
+            AverageDurationDTO averageDTO = new AverageDurationDTO();
+
+            IEnumerable<PatientEndSchedulingEvent> unsuccessfulScheduling = _patientEndSchedulingEventRepository.GetAll
+                                                   (e => e.ReasonForEndOfAppointment == ReasonForEndOfAppointment.Unsuccess);
+
+            IEnumerable<TimeSpan> womenDuration = unsuccessfulScheduling.Where(e => e.UserGender == Gender.Female)
+                                                  .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
+            IEnumerable<TimeSpan> menDuration = unsuccessfulScheduling.Where(e => e.UserGender == Gender.Male)
+                                                  .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
+
+            averageDTO.DurationFirst = (int)womenDuration.Average(t => t.TotalMinutes);
+            averageDTO.DurationSecond = (int)menDuration.Average(t => t.TotalMinutes);
+
+            return averageDTO;
+        }
     }
 }

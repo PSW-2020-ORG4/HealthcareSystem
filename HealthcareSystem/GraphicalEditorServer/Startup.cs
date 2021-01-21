@@ -18,6 +18,8 @@ using Backend.Repository.ExaminationRepository;
 using Backend.Repository.ExaminationRepository.MySqlExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
+using Backend.Repository.RenovationRepository;
+using Backend.Repository.RenovationRepository.MySqlRenovationRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Repository.SpecialtyRepository;
@@ -25,6 +27,7 @@ using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
 using Backend.Service;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.ExaminationAndPatientCard;
+using Backend.Service.RenovationService;
 using Backend.Service.RoomAndEquipment;
 using Backend.Service.UsersAndWorkingTime;
 using Backend.Settings;
@@ -162,6 +165,8 @@ namespace GraphicalEditorServer
             services.AddScoped<IEquipmentTransferService, EquipmentTransferService>();
             services.AddScoped<IEquipmentInExaminationRepository, MySqlEquipmentInExaminationRepository>();
 	        services.AddScoped<IEquipmentInExaminationService, EquipmentInExaminationService>();
+	        services.AddScoped<IRenovationRepository, MySqlRenovationRepository>();
+	        services.AddScoped<IRenovationService, RenovationService>();
         }
 
         private void GetServiceSettings(ServiceSettings conf)

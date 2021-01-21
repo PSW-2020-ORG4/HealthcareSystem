@@ -17,5 +17,15 @@ namespace Backend.Model.Pharmacies
         public bool IsClosed { get; set; }
         public DateTime EndDate { get; set; }
         public virtual List<TenderDrug> Drugs { get; set; }
+
+        public bool isValid()
+        {
+            if (Name == null || Name.Trim() == "")
+                return false;
+            if (EndDate == null || EndDate < DateTime.Now)
+                return false;
+
+            return true;
+        }
     }
 }

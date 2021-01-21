@@ -31,6 +31,11 @@ namespace Backend.Model.Pharmacies
 
         public bool isValid()
         {
+            if (Name == null || Name.Trim() == "" || ApiKey == null || ApiKey.Trim() == "" || Url == null || Url.Trim() == "")
+                return false;
+            if (ActionsBenefitsSubscribed == true && (ActionsBenefitsExchangeName == null || ActionsBenefitsExchangeName.Trim() == ""))
+                return false;
+
             return true;
         }
     }

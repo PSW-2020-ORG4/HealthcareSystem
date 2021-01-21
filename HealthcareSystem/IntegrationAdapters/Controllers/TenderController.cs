@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Backend.Model.Pharmacies;
 using IntegrationAdapters.Dtos;
@@ -27,7 +28,9 @@ namespace IntegrationAdapters.Controllers
         {
             NewTenderView tender = new NewTenderView()
             {
-                Drugs = await _drugService.GetAll()
+                Drugs = await _drugService.GetAll(),
+                EndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)
+                
             };
 
             return View(tender);

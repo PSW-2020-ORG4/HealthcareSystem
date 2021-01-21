@@ -1,7 +1,9 @@
 ﻿using Backend.Model.DTO;
 using Backend.Model.Pharmacies;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,9 +23,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "tenderservice/tender/get");
             request.Content = new StringContent(tenderId.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<Tender>(await response.Content.ReadAsStringAsync());
         }
@@ -31,18 +33,18 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "tenderservice/tender/get/message");
             request.Content = new StringContent(tenderId.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<Tender>(await response.Content.ReadAsStringAsync());
         }
         public async Task<List<Tender>> GetAllTenders()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "tenderservice/tender/get/all");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<List<Tender>>(await response.Content.ReadAsStringAsync());
         }
@@ -50,9 +52,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "tenderservice/tender/create");
             request.Content = new StringContent(JsonConvert.SerializeObject(tender), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return false;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return true;
         }
@@ -60,9 +62,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         { 
             var request = new HttpRequestMessage(HttpMethod.Patch, "tenderservice/tender/close");
             request.Content = new StringContent(tenderId.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return false;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return true;
         }
@@ -70,9 +72,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "tenderservice/drug/get");
             request.Content = new StringContent(tenderId.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<List<TenderDrugDTO>>(await response.Content.ReadAsStringAsync());
         }
@@ -80,9 +82,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "tenderservice/message/get");
             request.Content = new StringContent(messageId.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<TenderMessage>(await response.Content.ReadAsStringAsync());
         }
@@ -90,9 +92,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "tenderservice/message/get/all");
             request.Content = new StringContent(tenderId.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<List<TenderMessage>>(await response.Content.ReadAsStringAsync());
         }
@@ -100,9 +102,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "tenderservice/message/get/accepted");
             request.Content = new StringContent(tenderId.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<TenderMessage>(await response.Content.ReadAsStringAsync());
         }
@@ -110,11 +112,30 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, "tenderservice/message/accept");
             request.Content = new StringContent(messageId.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return false;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return true;
+        }
+
+        private void NotSuccessStatusCodeHandler(HttpStatusCode statusCode)
+        {
+            if ((int)statusCode >= 400 && (int)statusCode < 500)
+                throw new Exception("Badly configured request to ActionBenefit service. Contact programers!");
+            if ((int)statusCode >= 500 && (int)statusCode < 600)
+                throw new Exception("Something went wrong in ActionBenefit service. Contact programers!");
+        }
+        private async Task<HttpResponseMessage> SendRequest(HttpRequestMessage request)
+        {
+            try
+            {
+                return await _httpClient.SendAsync(request);
+            }
+            catch
+            {
+                throw new Exception("ActionBenefit service could not be reached. Contact admin!");
+            }
         }
     }
 }

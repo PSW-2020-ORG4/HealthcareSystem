@@ -70,7 +70,24 @@ namespace IntegrationAdapters
                         ).UseLazyLoadingProxies();
                 });
             }
-            else
+            else if (_env.EnvironmentName.ToLower().Equals("production-multi"))
+            {
+                Console.WriteLine("Configuring for " + _env.EnvironmentName + ".");
+                IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
+                DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
+
+                Console.WriteLine(dbSettings.ConnectionString);
+
+                services.AddDbContext<MyDbContext>(options =>
+                {
+                    options.UseMySql(
+                        dbSettings.ConnectionString,
+                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                            dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
+                        ).UseLazyLoadingProxies();
+                });
+            }
+            else 
             {
                 Console.WriteLine("Not dev or test.");
             }

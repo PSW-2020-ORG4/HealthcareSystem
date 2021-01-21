@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Backend.Model.Pharmacies;
 using Backend.Service;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdaptersService4.Controllers
@@ -51,9 +47,16 @@ namespace IntegrationAdaptersService4.Controllers
         public IActionResult CreateTender([FromBody] TenderDTO tenderDto)
         {
             Tender tender = new Tender() { Name = tenderDto.Name, EndDate = tenderDto.EndDate, Drugs = tenderDto.Drugs };
-            _tenderService.CreateTender(tender);
-            _rabbitMqTenderingService.AddQueue(tender);
-            return CreatedAtRoute("tender/get", tender);
+            if (tender.isValid())
+            {
+                _tenderService.CreateTender(tender);
+                _rabbitMqTenderingService.AddQueue(tender);
+                return CreatedAtRoute("tender/get", tender);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPatch]

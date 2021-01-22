@@ -82,7 +82,9 @@
     <Compile Include="Converters\CapitalizeStringConverter.cs" />
     <Compile Include="Converters\NegativeEquipmentQuantityConverter.cs" />
     <Compile Include="DTO\AppointmentSearchWithPrioritiesDTO.cs" />
+    <Compile Include="DTO\BaseRenovationDTO.cs" />
     <Compile Include="DTO\BasicAppointmentSearchDTO.cs" />
+    <Compile Include="DTO\DivideRenovationDTO.cs" />
     <Compile Include="DTO\DoctorDTO.cs" />
     <Compile Include="DTO\DrugDTO.cs" />
     <Compile Include="DTO\DrugTypeDTO.cs" />
@@ -94,6 +96,8 @@
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="DTO\ExaminationForReschedulingDTO.cs" />
     <Compile Include="DTO\GuestPatientDTO.cs" />
+    <Compile Include="DTO\MergeRenovationDTO.cs" />
+    <Compile Include="DTO\RenovationPeriodDTO.cs" />
     <Compile Include="DTO\RescheduleExaminationDTO.cs" />
     <Compile Include="DTO\RoomDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />
@@ -103,6 +107,7 @@
     <Compile Include="DTO\TransferEquipmentDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
     <Compile Include="Enumerations\SearchPriority.cs" />
+    <Compile Include="Enumerations\TypeOfRenovation.cs" />
     <Compile Include="EquipmentRelocationSchedulingDialog.xaml.cs">
       <DependentUpon>EquipmentRelocationSchedulingDialog.xaml</DependentUpon>
     </Compile>
@@ -128,6 +133,7 @@
     <Compile Include="Service\Interface\IMapObjectServices.cs" />
     <Compile Include="Service\MapObjectServices.cs" />
     <Compile Include="Service\PatientService.cs" />
+    <Compile Include="Service\RenovatonService.cs" />
     <Compile Include="Service\RoomService.cs" />
     <Compile Include="Validations\MinimumCharacterValidationRule.cs" />
     <Compile Include="Validations\NotEmptyValidationRule.cs" />

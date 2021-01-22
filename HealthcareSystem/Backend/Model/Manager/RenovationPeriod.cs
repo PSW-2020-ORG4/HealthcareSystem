@@ -13,10 +13,6 @@ namespace Model.Manager
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [ForeignKey("Room")]
-        public int RoomNumber { get; set; }
-        public virtual Room Room { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
 
@@ -24,32 +20,11 @@ namespace Model.Manager
         {
 
         }
-        public RenovationPeriod(Room room, DateTime begin, DateTime end)
+
+        public RenovationPeriod(DateTime beginDate, DateTime endDate)
         {
-            if (room == null)
-            {
-                this.Room = new Room();
-            }
-            else
-            {
-                this.Room = new Room(room);
-            }
-            BeginDate = begin;
-            EndDate = end;
-        }
-        public RenovationPeriod(RenovationPeriod renovationPeriod)
-        {
-            if (renovationPeriod.Room == null)
-            {
-                Room = new Room();
-            }
-            else
-            {
-                Room = new Room(renovationPeriod.Room);
-            }
-            Room = new Room(renovationPeriod.Room);
-            BeginDate = renovationPeriod.BeginDate;
-            EndDate = renovationPeriod.EndDate;
+            BeginDate = beginDate;
+            EndDate = endDate;
         }
     }
 }

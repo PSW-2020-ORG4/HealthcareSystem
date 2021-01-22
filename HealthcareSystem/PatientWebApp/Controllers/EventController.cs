@@ -20,16 +20,30 @@ namespace PatientWebApp.Controllers
 
         [Authorize(Roles = UserRoles.Patient)]
         [HttpGet]
-        public ActionResult Add(StatisticEventDTO statisticEventDTO)
+        public IActionResult GetAll()
         {
-            return RequestAdapter.SendRequestWithBody("http://localhost:58828", "/api/event", statisticEventDTO);
+            return RequestAdapter.SendRequestWithoutBody("http://localhost:58828", "/api/patientSchedulingEvent", Method.GET);
         }
 
         [Authorize(Roles = UserRoles.Patient)]
-        [HttpGet]
-        public ActionResult GetAll()
+        [HttpPost("start")]
+        public IActionResult AddStartEvent(AddStartSchedulingEventDTO startSchedulingEventDTO)
         {
-            return RequestAdapter.SendRequestWithoutBody("http://localhost:58828", "/api/event", Method.GET);
+            return RequestAdapter.SendRequestWithBody("http://localhost:58828", "/api/patientSchedulingEvent/start", startSchedulingEventDTO);
+        }
+
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpPost("step")]
+        public IActionResult AddStepEvent(AddStepSchedulingEventDTO stepSchedulingEventDTO)
+        {
+            return RequestAdapter.SendRequestWithBody("http://localhost:58828", "/api/patientSchedulingEvent/step", stepSchedulingEventDTO);
+        }
+
+        [Authorize(Roles = UserRoles.Patient)]
+        [HttpPost("end")]
+        public IActionResult AddEndEvent(AddEndSchedulingEventDTO endSchedulingEventDTO)
+        {
+            return RequestAdapter.SendRequestWithBody("http://localhost:58828", "/api/patientSchedulingEvent/end", endSchedulingEventDTO);
         }
 
     }

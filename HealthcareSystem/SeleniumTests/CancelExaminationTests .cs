@@ -46,10 +46,7 @@ namespace PatientWebAppE2ETests
                 patientExaminationsPage.Navigate();
                 Assert.Equal(driver.Url, Pages.PatientExaminationsPage.URI);
 
-                if (patientExaminationsPage.GetNumberOfFollowingExaminations() > 0)
-                    Assert.Contains(Pages.PatientExaminationsPage.ValidCommentMessage, patientExaminationsPage.CancelExaminationClick());
-                else
-                    Assert.Equal(0, patientExaminationsPage.GetNumberOfFollowingExaminations());
+                Assert.Contains(Pages.PatientExaminationsPage.ValidCommentMessage, patientExaminationsPage.CancelExaminationClick());
             }
             finally
             {

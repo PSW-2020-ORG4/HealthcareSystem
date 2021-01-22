@@ -12,9 +12,6 @@ $efile = "./compose/ges/docker-compose.ges.dev.yaml"
 else {
 $efile = "./compose/ges/docker-compose.ges.test.yaml"
 }
-Write-Output "---------------------------------------------------------------------------"
-Write-Output "WARNING: SLN SHOULD NOT BE OPEN IN VISUAL STUDIO WHILE THIS EXECUTES"
-
 if($noServiceBuild -eq $false) {
 Write-Output "---------------------------------------------------------------------------"
 Write-Output "Building solution"
@@ -36,6 +33,15 @@ docker build ./HealthcareSystem/Backend -f ./HealthcareSystem/Backend/Dockerfile
 }
 else {
 docker build ./HealthcareSystem/Backend -f ./HealthcareSystem/Backend/Dockerfile.mysql -t seeded-mysql
+}
+Write-Output "---------------------------------------------------------------------------"
+Write-Output "Building event database image"
+Write-Output "---------------------------------------------------------------------------"
+if ($dev -eq $false) {
+docker build ./HealthcareSystem/EventSourcingService -f ./HealthcareSystem/EventSourcingService/Dockerfile.postgre -t ess-postgre
+}
+else {
+docker build ./HealthcareSystem/EventSourcingService -f ./HealthcareSystem/EventSourcingService/Dockerfile.mysql -t ess-mysql
 }
 }
 

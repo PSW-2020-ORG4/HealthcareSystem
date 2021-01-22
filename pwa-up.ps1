@@ -12,8 +12,6 @@ $efile = "./compose/pwa/docker-compose.pwa.dev.yaml"
 else {
 $efile = "./compose/pwa/docker-compose.pwa.test.yaml"
 }
-Write-Output "---------------------------------------------------------------------------"
-Write-Output "WARNING: SLN SHOULD NOT BE OPEN IN VISUAL STUDIO WHILE THIS EXECUTES"
 
 if($noServiceBuild -eq $false) {
 Write-Output "---------------------------------------------------------------------------"
@@ -36,6 +34,15 @@ docker build ./HealthcareSystem/Backend -f ./HealthcareSystem/Backend/Dockerfile
 }
 else {
 docker build ./HealthcareSystem/Backend -f ./HealthcareSystem/Backend/Dockerfile.mysql -t seeded-mysql
+}
+Write-Output "---------------------------------------------------------------------------"
+Write-Output "Building event database image"
+Write-Output "---------------------------------------------------------------------------"
+if ($dev -eq $false) {
+docker build ./HealthcareSystem/EventSourcingService -f ./HealthcareSystem/EventSourcingService/Dockerfile.postgre -t ess-postgre
+}
+else {
+docker build ./HealthcareSystem/EventSourcingService -f ./HealthcareSystem/EventSourcingService/Dockerfile.mysql -t ess-mysql
 }
 }
 

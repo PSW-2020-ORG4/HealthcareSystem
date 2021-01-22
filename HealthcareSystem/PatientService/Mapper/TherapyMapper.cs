@@ -23,7 +23,8 @@ namespace PatientService.Mapper
                 DrugName = memento.DrugName,
                 IdDrug = memento.DrugId,
                 EndDate = memento.EndDate,
-                StartDate = memento.StartDate
+                StartDate = memento.StartDate,
+                ExaminationId = memento.ExaminationId
             };
         }
     }

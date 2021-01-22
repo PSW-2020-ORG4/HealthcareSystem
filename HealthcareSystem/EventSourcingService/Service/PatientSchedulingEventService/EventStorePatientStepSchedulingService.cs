@@ -42,35 +42,42 @@ namespace EventSourcingService.Service
         {
             StepClosureStatisticDTO closedSchedulingStepStatistic = new StepClosureStatisticDTO();
 
-            IEnumerable<PatientStepSchedulingEvent> closedScheduling = _patientSchedulingEventRepository.GetAll
+            try
+            {
+                IEnumerable<PatientStepSchedulingEvent> closedScheduling = _patientSchedulingEventRepository.GetAll
                                                    (e => e.ClickEvent == Model.Enum.ClickEvent.Close);
 
-            closedSchedulingStepStatistic.NumberOfClosuresOnDateStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Date).Count();
-            closedSchedulingStepStatistic.NumberOfClosuresOnSpecialtyStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Specialty).Count();
-            closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Doctor).Count();
-            closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Appointment).Count();
-            closedSchedulingStepStatistic.TotalNumberOfClosures = closedScheduling.Count();
+                closedSchedulingStepStatistic.NumberOfClosuresOnDateStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Date).Count();
+                closedSchedulingStepStatistic.NumberOfClosuresOnSpecialtyStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Specialty).Count();
+                closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Doctor).Count();
+                closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Appointment).Count();
+                closedSchedulingStepStatistic.TotalNumberOfClosures = closedScheduling.Count();
 
-            EventStep mostClosedStep = EventStep.Date;
-            int maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnDateStep;
+                EventStep mostClosedStep = EventStep.Date;
+                int maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnDateStep;
 
-            if (closedSchedulingStepStatistic.NumberOfClosuresOnSpecialtyStep > maxNumber)
-            {
-                mostClosedStep = EventStep.Specialty;
-                maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnSpecialtyStep;
-            }
-            if (closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep > maxNumber)
-            {
-                mostClosedStep = EventStep.Doctor;
-                maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep;
-            }
-            if (closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep > maxNumber)
-            {
-                mostClosedStep = EventStep.Appointment;
-                maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep;
-            }
+                if (closedSchedulingStepStatistic.NumberOfClosuresOnSpecialtyStep > maxNumber)
+                {
+                    mostClosedStep = EventStep.Specialty;
+                    maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnSpecialtyStep;
+                }
+                if (closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep > maxNumber)
+                {
+                    mostClosedStep = EventStep.Doctor;
+                    maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep;
+                }
+                if (closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep > maxNumber)
+                {
+                    mostClosedStep = EventStep.Appointment;
+                    maxNumber = closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep;
+                }
 
-            closedSchedulingStepStatistic.MostClosedStep = mostClosedStep;
+                closedSchedulingStepStatistic.MostClosedStep = mostClosedStep;
+            }
+            catch (Exception)
+            {
+                return new StepClosureStatisticDTO();
+            }
 
             return closedSchedulingStepStatistic;
         }
@@ -79,28 +86,35 @@ namespace EventSourcingService.Service
         {
             StepPreviousStatisticDTO previousSchedulingStepStatistic = new StepPreviousStatisticDTO();
 
-            IEnumerable<PatientStepSchedulingEvent> closedScheduling = _patientSchedulingEventRepository.GetAll
+            try
+            {
+                IEnumerable<PatientStepSchedulingEvent> closedScheduling = _patientSchedulingEventRepository.GetAll
                                                    (e => e.ClickEvent == Model.Enum.ClickEvent.Previous);
 
-            previousSchedulingStepStatistic.NumberOfPreviousOnSpecialtyStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Specialty).Count();
-            previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Doctor).Count();
-            previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Appointment).Count();
-            previousSchedulingStepStatistic.TotalNumberOfPrevious = closedScheduling.Count();
+                previousSchedulingStepStatistic.NumberOfPreviousOnSpecialtyStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Specialty).Count();
+                previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Doctor).Count();
+                previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Appointment).Count();
+                previousSchedulingStepStatistic.TotalNumberOfPrevious = closedScheduling.Count();
 
-            EventStep mostReturnedStep = EventStep.Date;
-            int maxNumber = previousSchedulingStepStatistic.NumberOfPreviousOnSpecialtyStep;
+                EventStep mostReturnedStep = EventStep.Date;
+                int maxNumber = previousSchedulingStepStatistic.NumberOfPreviousOnSpecialtyStep;
 
-            if (previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep > maxNumber)
-            {
-                mostReturnedStep = EventStep.Specialty;
-                maxNumber = previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep;
+                if (previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep > maxNumber)
+                {
+                    mostReturnedStep = EventStep.Specialty;
+                    maxNumber = previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep;
+                }
+                if (previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep > maxNumber)
+                {
+                    mostReturnedStep = EventStep.Doctor;
+                    maxNumber = previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep;
+                }
+                previousSchedulingStepStatistic.MostReturnedStep = mostReturnedStep;
             }
-            if (previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep > maxNumber)
+            catch (Exception)
             {
-                mostReturnedStep = EventStep.Doctor;
-                maxNumber = previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep;
-            }
-            previousSchedulingStepStatistic.MostReturnedStep = mostReturnedStep;
+                return new StepPreviousStatisticDTO();
+            } 
 
             return previousSchedulingStepStatistic;
         }

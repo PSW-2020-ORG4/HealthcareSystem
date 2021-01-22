@@ -31,7 +31,7 @@ namespace GraphicalEditor
         public static List<MapObject> _allMapObjects;
         public static List<MapObjectType> _allMapObjectTypes;
         private string _currentUserRole;
-
+        public static string _currentUsername = "";
 
         private IRepository _fileRepository;
 
@@ -221,12 +221,13 @@ namespace GraphicalEditor
         }
         
 
-        public MainWindow(string currentUserRole)
+        public MainWindow(string currentUserRole, string currentUsername)
         {
             InitializeComponent();
             this.DataContext = this;
             AllMapObjectTypes = MapObjectType.AllMapObjectTypesAvailableForSearch;
             _currentUserRole = currentUserRole;
+            _currentUsername = currentUsername;
             _canvas = this.Canvas;
             _fileRepository = new FileRepository("test.json");
             _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
@@ -243,6 +244,8 @@ namespace GraphicalEditor
             RestrictUsersAccessBasedOnRole();
 
             SetDataToUIControls();
+
+            Console.WriteLine("Korisnicko ime " + _currentUsername);
         }
 
         public void SetDataToUIControls()
@@ -470,6 +473,7 @@ namespace GraphicalEditor
                 ObjectEquipmentDataGrid.ItemsSource = SelectedMapObject.GetEquipmentInObject();
                 ObjectMedicineDataGrid.ItemsSource = SelectedMapObject.GetMedicineInObject();
 
+                AddEventsForEventSourcing(selectedMapObjectForDisplay);
             }
             else
             {
@@ -477,6 +481,19 @@ namespace GraphicalEditor
                 DisplayMapObject = null;
             }
         }
+
+        private void AddEventsForEventSourcing(MapObject selectedMapObject)
+        {
+            if (selectedMapObject.CheckIfDBAddableRoom())
+            {
+                ((Room)selectedMapObject.MapObjectEntity).AddRoomSelectionEvent();
+            }
+            else if (selectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.BUILDING)
+            {
+                ((Building)selectedMapObject.MapObjectEntity).AddBuildingSelectionEvent();
+            }
+        }
+
 
         private void ApplyHoverEffectToObject(MapObject hoverMapObject)
         {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EventSourcingService.Service.GraphicalEditor
 {
-    public class FloorChangeService
+    public class FloorChangeService : IFloorChangeService
     {
         private readonly IDomainEventRepository<FloorChangeEvent> _floorChangeRepository;
 

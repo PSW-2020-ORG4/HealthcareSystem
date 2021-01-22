@@ -45,12 +45,12 @@ namespace EventSourcingService.Service
             try
             {
                 IEnumerable<PatientStepSchedulingEvent> closedScheduling = _patientSchedulingEventRepository.GetAll
-                                                   (e => e.ClickEvent == Model.Enum.ClickEvent.Close);
+                                                   (e => e.ClickEvent == ClickEvent.Close);
 
-                closedSchedulingStepStatistic.NumberOfClosuresOnDateStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Date).Count();
-                closedSchedulingStepStatistic.NumberOfClosuresOnSpecialtyStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Specialty).Count();
-                closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Doctor).Count();
-                closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Appointment).Count();
+                closedSchedulingStepStatistic.NumberOfClosuresOnDateStep = closedScheduling.Where(e => e.EventStep == EventStep.Date).Count();
+                closedSchedulingStepStatistic.NumberOfClosuresOnSpecialtyStep = closedScheduling.Where(e => e.EventStep == EventStep.Specialty).Count();
+                closedSchedulingStepStatistic.NumberOfClosuresOnDoctorStep = closedScheduling.Where(e => e.EventStep == EventStep.Doctor).Count();
+                closedSchedulingStepStatistic.NumberOfClosuresOnAppointmentStep = closedScheduling.Where(e => e.EventStep == EventStep.Appointment).Count();
                 closedSchedulingStepStatistic.TotalNumberOfClosures = closedScheduling.Count();
 
                 EventStep mostClosedStep = EventStep.Date;
@@ -119,5 +119,9 @@ namespace EventSourcingService.Service
             return previousSchedulingStepStatistic;
         }
 
+        public bool Contain(int id)
+        {
+            return _patientSchedulingEventRepository.GetAll().Where(e => e.Id == id).Any();
+        }
     }
 }

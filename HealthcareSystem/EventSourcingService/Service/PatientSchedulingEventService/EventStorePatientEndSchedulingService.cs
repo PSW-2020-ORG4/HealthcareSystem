@@ -5,7 +5,6 @@ using EventSourcingService.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventSourcingService.Service
 {
@@ -197,6 +196,11 @@ namespace EventSourcingService.Service
             }
             
             return averageDTO;
+        }
+
+        public bool Contain(int id)
+        {
+            return _patientEndSchedulingEventRepository.GetAll().Where(e => e.Id == id).Any();
         }
     }
 }

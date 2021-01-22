@@ -25,6 +25,11 @@ namespace EventSourcingService.Service
             });
         }
 
+        public bool Contain(int id)
+        {
+            return _patientStartSchedulingEventRepository.GetAll().Where(e => e.Id == id).Any();
+        }
+
         public IEnumerable<PatientStartSchedulingEvent> GetAll()
         {
             return _patientStartSchedulingEventRepository.GetAll();

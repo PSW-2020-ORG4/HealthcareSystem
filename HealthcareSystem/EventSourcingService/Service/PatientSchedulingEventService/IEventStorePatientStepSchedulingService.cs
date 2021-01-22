@@ -13,5 +13,6 @@ namespace EventSourcingService.Service
         PatientStepSchedulingEvent Add(PatientStepSchedulingEventDTO schedulingEventDTO);
         StepClosureStatisticDTO ClosedSchedulingStepStatistic();
         StepPreviousStatisticDTO PreviousSchedulingStepStatistic();
+        bool Contain(int id);
     }
 }

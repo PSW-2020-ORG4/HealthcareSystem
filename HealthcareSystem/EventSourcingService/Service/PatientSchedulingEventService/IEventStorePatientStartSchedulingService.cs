@@ -11,5 +11,6 @@ namespace EventSourcingService.Service
     {
         IEnumerable<PatientStartSchedulingEvent> GetAll();
         PatientStartSchedulingEvent Add(PatientStartSchedulingEventDTO patientStartSchedulingEventDTO);
+        bool Contain(int id);
     }
 }

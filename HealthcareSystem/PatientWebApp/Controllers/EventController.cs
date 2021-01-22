@@ -18,7 +18,7 @@ namespace PatientWebApp.Controllers
     public class EventController : ControllerBase
     {
 
-        [Authorize(Roles = UserRoles.Patient)]
+        [Authorize(Roles = UserRoles.Admin)]
         [HttpGet]
         public IActionResult GetAll()
         {

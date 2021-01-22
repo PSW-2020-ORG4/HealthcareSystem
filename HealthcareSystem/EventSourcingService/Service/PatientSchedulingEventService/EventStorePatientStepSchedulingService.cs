@@ -96,17 +96,17 @@ namespace EventSourcingService.Service
                 previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Appointment).Count();
                 previousSchedulingStepStatistic.TotalNumberOfPrevious = closedScheduling.Count();
 
-                EventStep mostReturnedStep = EventStep.Date;
+                EventStep mostReturnedStep = EventStep.Specialty;
                 int maxNumber = previousSchedulingStepStatistic.NumberOfPreviousOnSpecialtyStep;
 
                 if (previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep > maxNumber)
                 {
-                    mostReturnedStep = EventStep.Specialty;
+                    mostReturnedStep = EventStep.Doctor;
                     maxNumber = previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep;
                 }
                 if (previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep > maxNumber)
                 {
-                    mostReturnedStep = EventStep.Doctor;
+                    mostReturnedStep = EventStep.Appointment;
                     maxNumber = previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep;
                 }
                 previousSchedulingStepStatistic.MostReturnedStep = mostReturnedStep;

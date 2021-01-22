@@ -35,23 +35,7 @@ function addStatisticTable(statistic) {
 		+ '<td>' + statistic.successfulSchedulingAgeStatistic.maximum + ' years</td></tr>'
 		+ '</table > ';
 
-	let table2 = '<table class="table" style="margin-top:50px;">'
-		+ '<thead><tr><th scope="col">Description</th><th scope="col">Younger</th><th scope="col">Elder</th></tr></thead >'
-		+ '<tr><td>Successful scheduling by age</td><td>' + statistic.successfulSchedulingAgeDuration.durationFirst + '</td>'
-		+ '<td>' + statistic.successfulSchedulingAgeDuration.durationSecond + '</td></tr>'
-		+ '<tr><td>Unsuccessful scheduling by age</td><td>' + statistic.unsuccessfulSchedulingAgeDuration.durationFirst + '</td>'
-		+ '<td>' + statistic.unsuccessfulSchedulingAgeDuration.durationSecond + '</td></tr>'
-		+ '</table > ';
-
-	let table3 = '<table class="table" style="margin-top:50px;">'
-		+ '<thead><tr><th scope="col">Description</th><th scope="col">Male</th><th scope="col">Female</th></tr></thead >'
-		+ '<tr><td>Successful scheduling by gender</td><td>' + statistic.successfulSchedulingGenderDuration.durationFirst + '</td>'
-		+ '<td>' + statistic.successfulSchedulingGenderDuration.durationSecond + '</td></tr>'
-		+ '<tr><td>Unsuccessful scheduling by gender</td><td>' + statistic.unsuccessfulSchedulingGenderDuration.durationFirst + '</td>'
-		+ '<td>' + statistic.unsuccessfulSchedulingGenderDuration.durationSecond + '</td></tr>'
-		+ '</table > ';
-
-	let table4 = '<table class="table" style="margin-top:50px; margin-bottom:50px;">'
+	let table2 = '<table class="table" style="margin-top:50px; margin-bottom:50px;">'
 		+ '<thead><tr><th scope="col">Description</th><th scope="col">Date step</th><th scope="col">Specialty step</th>'
 		+ '<th scope="col">Doctor step</th><th scope="col">Appointment step</th><th scope="col">Most used step</th></tr></thead > '
 		+ '<tr><td>Closed scheduling step statistic</td><td>' + (statistic.closedSchedulingStepStatistic.numberOfClosuresOnDateStep / statistic.closedSchedulingStepStatistic.totalNumberOfClosures).toFixed(2) + ' %</td>'
@@ -67,6 +51,24 @@ function addStatisticTable(statistic) {
 		+ '<td>' + (statistic.previousSchedulingStepStatistic.numberOfPreviousOnAppointmentStep / statistic.previousSchedulingStepStatistic.totalNumberOfPrevious).toFixed(2) + ' %</td>'
 		+ '<td>' + statistic.previousSchedulingStepStatistic.mostReturnedStep + ' </td></tr>'
 		+ '</table>';
+
+	let table3 = '<table class="table" style="margin-top:50px;">'
+		+ '<thead><tr><th scope="col">Description</th><th scope="col">Younger</th><th scope="col">Elder</th></tr></thead >'
+		+ '<tr><td>Successful scheduling by age</td><td>' + statistic.successfulSchedulingAgeDuration.durationFirst + '</td>'
+		+ '<td>' + statistic.successfulSchedulingAgeDuration.durationSecond + '</td></tr>'
+		+ '<tr><td>Unsuccessful scheduling by age</td><td>' + statistic.unsuccessfulSchedulingAgeDuration.durationFirst + '</td>'
+		+ '<td>' + statistic.unsuccessfulSchedulingAgeDuration.durationSecond + '</td></tr>'
+		+ '</table > ';
+
+	let table4 = '<table class="table" style="margin-top:50px;">'
+		+ '<thead><tr><th scope="col">Description</th><th scope="col">Male</th><th scope="col">Female</th></tr></thead >'
+		+ '<tr><td>Successful scheduling by gender</td><td>' + statistic.successfulSchedulingGenderDuration.durationFirst + '</td>'
+		+ '<td>' + statistic.successfulSchedulingGenderDuration.durationSecond + '</td></tr>'
+		+ '<tr><td>Unsuccessful scheduling by gender</td><td>' + statistic.unsuccessfulSchedulingGenderDuration.durationFirst + '</td>'
+		+ '<td>' + statistic.unsuccessfulSchedulingGenderDuration.durationSecond + '</td></tr>'
+		+ '</table > ';
+
+	
 
 	$('div#view_statistic').append(table1);
 	$('div#view_statistic').append(table2);

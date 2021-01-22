@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using EventSourcingService.DTO;
 using EventSourcingService.DTO.PatientSchedulingEventDTO;
 using EventSourcingService.Model;
@@ -89,11 +87,11 @@ namespace EventSourcingService.Service
             try
             {
                 IEnumerable<PatientStepSchedulingEvent> closedScheduling = _patientSchedulingEventRepository.GetAll
-                                                   (e => e.ClickEvent == Model.Enum.ClickEvent.Previous);
+                                                   (e => e.ClickEvent == ClickEvent.Previous);
 
-                previousSchedulingStepStatistic.NumberOfPreviousOnSpecialtyStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Specialty).Count();
-                previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Doctor).Count();
-                previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep = closedScheduling.Where(e => e.EventStep == Model.Enum.EventStep.Appointment).Count();
+                previousSchedulingStepStatistic.NumberOfPreviousOnSpecialtyStep = closedScheduling.Where(e => e.EventStep == EventStep.Specialty).Count();
+                previousSchedulingStepStatistic.NumberOfPrevoiusOnDoctorStep = closedScheduling.Where(e => e.EventStep == EventStep.Doctor).Count();
+                previousSchedulingStepStatistic.NumberOfPreviousOnAppointmentStep = closedScheduling.Where(e => e.EventStep == EventStep.Appointment).Count();
                 previousSchedulingStepStatistic.TotalNumberOfPrevious = closedScheduling.Count();
 
                 EventStep mostReturnedStep = EventStep.Specialty;

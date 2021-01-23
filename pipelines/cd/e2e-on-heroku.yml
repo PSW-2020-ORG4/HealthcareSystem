@@ -123,21 +123,13 @@ stages:
 
 - stage: E2E
   displayName: Run E2E tests
+  pool:
+    vmImage: 'windows-latest'
   variables:
     e2etests: 'HealthcareSystem/SeleniumTests/PatientWebAppE2ETests.csproj'
   jobs:
   - job: Test
     steps:
-    - task: UseDotNet@2
-      displayName: 'Use .NET Core SDK 3.1.x'
-      inputs:
-        packageType: 'sdk'
-        version: '3.1.x'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'restore'
-        projects: '$(e2etests)'
-        feedsToUse: 'select'
     - task: PowerShell@2
       displayName: 'Run tests'
       inputs:

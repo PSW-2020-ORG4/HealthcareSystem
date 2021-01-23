@@ -120,7 +120,7 @@ namespace GraphicalEditor.Models
             return medicinetInObject;
         }
 
-        public Boolean CheckIfDBAddableRoom()
+        public Boolean CheckIsRoom()
             => MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.EXAMINATION_ROOM
                 || MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.HOSPITALIZATION_ROOM
                 || MapObjectEntity.MapObjectType.TypeOfMapObject == TypeOfMapObject.OPERATION_ROOM;

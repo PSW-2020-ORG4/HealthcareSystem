@@ -53,7 +53,7 @@ namespace PatientWebAppE2ETests
                 addFeedbackPage.SubmitForm();
                 addFeedbackPage.WaitForFormSubmit();
 
-                Assert.Contains("You have successfuly left a feedback", addFeedbackPage.GetDialogMessage());
+                Assert.Contains(Pages.AddFeedbackPage.ValidCommentMessage, addFeedbackPage.GetDialogMessage());
             }
             finally
             {
@@ -81,7 +81,7 @@ namespace PatientWebAppE2ETests
                 addFeedbackPage.SubmitForm();
                 addFeedbackPage.WaitForFormSubmit();
 
-                Assert.Contains("Feedback cannot be empty", addFeedbackPage.GetDialogMessage());
+                Assert.Contains(Pages.AddFeedbackPage.InvalidCommentMessage, addFeedbackPage.GetDialogMessage());
             }
             finally
             {

@@ -13,5 +13,6 @@ namespace GraphicalEditor.Services.Interface
         void UpdateMapObject(MapObject mapObject);
         MapObject GetMapObjectById(long id);
         List<MapObject> SearchMapObjects(MapObjectType searchedMapObjectType);
+        List<MapObject> GetNeighboringRoomsForRoom(MapObject room);
     }
 }

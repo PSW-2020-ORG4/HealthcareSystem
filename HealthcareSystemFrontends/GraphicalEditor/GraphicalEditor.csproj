@@ -82,17 +82,24 @@
     <Compile Include="Converters\CapitalizeStringConverter.cs" />
     <Compile Include="Converters\NegativeEquipmentQuantityConverter.cs" />
     <Compile Include="DTO\AppointmentSearchWithPrioritiesDTO.cs" />
+    <Compile Include="DTO\BaseRenovationDTO.cs" />
     <Compile Include="DTO\BasicAppointmentSearchDTO.cs" />
+    <Compile Include="DTO\DivideRenovationDTO.cs" />
     <Compile Include="DTO\DoctorDTO.cs" />
     <Compile Include="DTO\DrugDTO.cs" />
     <Compile Include="DTO\DrugTypeDTO.cs" />
     <Compile Include="DTO\DrugWithRoomDTO.cs" />
+    <Compile Include="DTO\EmergencyExaminationDTO.cs" />
     <Compile Include="DTO\EquipmentDTO.cs" />
     <Compile Include="DTO\EquipmentInExaminationDTO.cs" />
     <Compile Include="DTO\EquipmentTypeDTO.cs" />
     <Compile Include="DTO\EquipmentWithRoomDTO.cs" />
     <Compile Include="DTO\ExaminationForReschedulingDTO.cs" />
+    <Compile Include="DTO\GuestPatientDTO.cs" />
+    <Compile Include="DTO\MergeRenovationDTO.cs" />
     <Compile Include="DTO\PatientBasicDTO.cs" />
+    <Compile Include="DTO\RenovationPeriodDTO.cs" />
+    <Compile Include="DTO\RescheduleExaminationDTO.cs" />
     <Compile Include="DTO\RoomDTO.cs" />
     <Compile Include="DTO\SpecialtyDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />
@@ -102,6 +109,7 @@
     <Compile Include="DTO\TransferEquipmentDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
     <Compile Include="Enumerations\SearchPriority.cs" />
+    <Compile Include="Enumerations\TypeOfRenovation.cs" />
     <Compile Include="EquipmentRelocationSchedulingDialog.xaml.cs">
       <DependentUpon>EquipmentRelocationSchedulingDialog.xaml</DependentUpon>
     </Compile>
@@ -111,9 +119,15 @@
     <Compile Include="Models\MapObjectRelated\BuildingLayersButtons.cs" />
     <Compile Include="Models\MapObjectRelated\MockupObjects.cs" />
     <Compile Include="Models\MapObjectRelated\Road.cs" />
+    <Compile Include="RenovationSchedulingDialog.xaml.cs">
+      <DependentUpon>RenovationSchedulingDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Repository\ContractResolver.cs" />
     <Compile Include="Repository\FileRepository.cs" />
     <Compile Include="Repository\Interface\IRepository.cs" />
+    <Compile Include="ScheduleForRoomDialog.xaml.cs">
+      <DependentUpon>ScheduleForRoomDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service\DoctorService.cs" />
     <Compile Include="Service\AppointmentService.cs" />
     <Compile Include="Service\DrugService.cs" />
@@ -124,6 +138,7 @@
     <Compile Include="Service\Interface\IMapObjectServices.cs" />
     <Compile Include="Service\MapObjectServices.cs" />
     <Compile Include="Service\PatientService.cs" />
+    <Compile Include="Service\RenovatonService.cs" />
     <Compile Include="Service\RoomService.cs" />
     <Compile Include="Validations\MinimumCharacterValidationRule.cs" />
     <Compile Include="Validations\NotEmptyValidationRule.cs" />
@@ -158,6 +173,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+		<Page Include="RenovationSchedulingDialog.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
+		<Page Include="ScheduleForRoomDialog.xaml">
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\MapObjectRelated\Building.cs" />

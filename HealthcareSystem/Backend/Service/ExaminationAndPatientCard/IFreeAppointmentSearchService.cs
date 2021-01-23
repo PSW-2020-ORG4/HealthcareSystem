@@ -12,5 +12,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         ICollection<Examination> SearchWithPriorities(AppointmentSearchWithPrioritiesDTO parameters);
         ICollection<Examination> GetUnchangedAppointmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters);
         ICollection<Examination> GetShiftedAndSortedAppoinmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters);
+        List<Examination> GetOnlyAdequateAppointmentsForEmergency(AppointmentSearchWithPrioritiesDTO parameters);
+        void SetNewDateTimesForEmergency(BasicAppointmentSearchDTO parameters);
     }
 }

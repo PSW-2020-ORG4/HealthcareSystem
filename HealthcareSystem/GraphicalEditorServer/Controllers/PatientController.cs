@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
+using GraphicalEditorServer.Settings;
+using Microsoft.Extensions.Options;
+using GraphicalEditorServer.Controllers.Adapter;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -23,12 +26,15 @@ namespace GraphicalEditorServer.Controllers
     {
         private readonly IPatientService _patientService;
         private readonly IPatientCardService _patientCardService;
-       
 
-        public PatientController(IPatientService patientService, IPatientCardService patientCardService)
+        private readonly ServiceSettings _serviceSettings;
+
+
+        public PatientController(IPatientService patientService, IPatientCardService patientCardService, IOptions<ServiceSettings> serviceSettings)
         {
             _patientService = patientService;
             _patientCardService = patientCardService;
+            _serviceSettings = serviceSettings.Value;
         }
 
 
@@ -53,5 +59,12 @@ namespace GraphicalEditorServer.Controllers
             }
         }
 
+
+
+        [HttpPost]
+        public ActionResult AddPatientGuestAccount(GuestPatientDTO guestPatientDTO)
+        {
+            return RequestAdapter.SendRequestWithBody(_serviceSettings.PatientServiceUrl, "/api/patient", guestPatientDTO);
+        }
     }
 }

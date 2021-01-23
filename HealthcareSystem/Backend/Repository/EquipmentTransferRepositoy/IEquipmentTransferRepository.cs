@@ -9,5 +9,6 @@ namespace Backend.Repository.EquipmentTransferRepository
     {
         void AddEquipmentTransfer(EquipmentTransfer equpmentTransfer);
         EquipmentTransfer GetEquipmentTransferByRoomNumberAndDate(int roomNumber,DateTime dateOfTransfer);
+        ICollection<EquipmentTransfer> GetFollowingEquipmentTransversByRoom(int roomId);
     }
 }

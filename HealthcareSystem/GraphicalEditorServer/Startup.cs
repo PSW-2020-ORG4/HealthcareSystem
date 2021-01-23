@@ -18,6 +18,8 @@ using Backend.Repository.ExaminationRepository;
 using Backend.Repository.ExaminationRepository.MySqlExaminationRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodRepository;
+using Backend.Repository.RenovationRepository;
+using Backend.Repository.RenovationRepository.MySqlRenovationRepository;
 using Backend.Repository.RoomRepository;
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Repository.SpecialtyRepository;
@@ -25,9 +27,11 @@ using Backend.Repository.SpecialtyRepository.MySqlSpecialtyRepository;
 using Backend.Service;
 using Backend.Service.DrugAndTherapy;
 using Backend.Service.ExaminationAndPatientCard;
+using Backend.Service.RenovationService;
 using Backend.Service.RoomAndEquipment;
 using Backend.Service.UsersAndWorkingTime;
 using Backend.Settings;
+using GraphicalEditorServer.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +40,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Repository;
 using Service.DrugAndTherapy;
+using Service.ExaminationAndPatientCard;
 using Service.RoomAndEquipment;
 using Service.UsersAndWorkingTime;
 using System;
@@ -58,6 +63,7 @@ namespace GraphicalEditorServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.Configure<ServiceSettings>(GetServiceSettings);
 
             if (_env.IsDevelopment())
             {
@@ -145,9 +151,12 @@ namespace GraphicalEditorServer
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
             services.AddScoped<IPatientCardService, PatientCardService>();
 
+            services.AddScoped<IExaminationService, ExaminationService>();
+            services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
+
+
             services.AddScoped<IFreeAppointmentSearchService, FreeAppointmentSearchService>();
             services.AddScoped<IScheduleAppointmenService, ScheduleAppointmentService>();
-            services.AddScoped<IExaminationRepository, MySqlExaminationRepository>();
             services.AddScoped<IDoctorRepository, MySqlDoctorRepository>();
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
@@ -156,7 +165,17 @@ namespace GraphicalEditorServer
             services.AddScoped<IEquipmentTransferService, EquipmentTransferService>();
             services.AddScoped<IEquipmentInExaminationRepository, MySqlEquipmentInExaminationRepository>();
 	        services.AddScoped<IEquipmentInExaminationService, EquipmentInExaminationService>();
+	        services.AddScoped<IRenovationRepository, MySqlRenovationRepository>();
+	        services.AddScoped<IRenovationService, RenovationService>();
         }
+
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.PatientServiceUrl = Configuration.GetValue<string>("PATIENT_SERVICE_URL");
+            conf.EventSourcingServiceUrl = Configuration.GetValue<string>("EVENT_SOURCING_SERVICE_URL");
+        }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -164,31 +183,6 @@ namespace GraphicalEditorServer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-
-            using (var scope = app.ApplicationServices.CreateScope())
-            using (var context = scope.ServiceProvider.GetService<MyDbContext>())
-            {
-                try
-                {
-                    Console.WriteLine("Data seeding started.");
-                    DataSeeder seeder = new DataSeeder(true);
-                    if (seeder.IsAlreadySeeded(context))
-                        Console.WriteLine("Data already seeded.");
-                    else
-                    {
-                        context.Database.EnsureDeleted();
-                        context.Database.EnsureCreated();
-                        seeder.SeedAll(context);
-                    }
-                    Console.WriteLine("Data seeding finished.");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Data seeding failed.");
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine(e.StackTrace);
-                }
             }
 
             app.UseRouting();

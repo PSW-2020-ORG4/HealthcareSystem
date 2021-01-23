@@ -26,6 +26,7 @@ namespace Backend.Repository.ExaminationRepository
         ICollection<Examination> GetExaminationsByPatientAndDateTime(int patientCardId, DateTime dateTime);
         ICollection<Examination> GetFollowingExaminationsByRoom(int roomId);
         ICollection<Examination> GetExaminationsForPeriod(DateTime startDate, DateTime endDate);
+        void ReScheduleAppointment(Examination examinationForSchedule, Examination examinationForReschedule, Examination shiftedExamination);
 
     }
 }

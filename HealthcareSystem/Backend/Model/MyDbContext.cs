@@ -51,6 +51,10 @@ namespace Backend.Model
 
         public DbSet<EquipmentTransfer> EqupmentTransfer { get; set; }
 	    public DbSet<EquipmentInExamination> EquipmentInExamination { get; set; }
+        public DbSet<BaseRenovation> BaseRenovation { get; set; }
+        public DbSet<MergeRenovation> MergeRenovation { get; set; }
+        public DbSet<DivideRenovation> DivideRenovation { get; set; }
+
 
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 

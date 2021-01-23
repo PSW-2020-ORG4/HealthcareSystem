@@ -128,10 +128,50 @@ stages:
   jobs:
   - job: Test
     steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK 3.1.x'
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
     - task: PowerShell@2
       displayName: 'Run tests'
       inputs:
         targetType: 'inline'
         script: |
           #
-          #dotnet test $(e2etests)
+          $Env:PWA_HOST = "https://psw-patientwebapp.herokuapp.com"
+          dotnet test $(e2etests)
+          
+
+- stage: UndoDbChanges
+  displayName: Undo database changes from tests
+  variables:
+    HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
+  jobs:  
+  - job: ResetDb
+    displayName: Reset database
+    steps:
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '3.1.x'
+      - task: PowerShell@2
+        displayName: "Generate SQL script"
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "----- Installing EF Core. -----"
+            dotnet tool install --global dotnet-ef --version 3.1.9
+            echo "----- Generating script. -----"
+            dotnet-ef dbcontext script -c "PostgreSeededDbContext" -p "./HealthcareSystem/Backend/Backend.csproj" -o init.sql
+          pwsh: true
+      - task: PowerShell@2
+        displayName: "Initialize Heroku Postgres"
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "----- Reseting database. -----"
+            heroku pg:reset DATABASE_URL --app psw-patient-service --confirm psw-patient-service
+            echo "----- Initializing database. -----"
+            Get-Content init.sql | heroku pg:psql DATABASE_URL --app psw-patient-service
+          pwsh: true     

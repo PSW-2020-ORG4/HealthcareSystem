@@ -392,7 +392,7 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Foreground="White"
-                    Text="Premesti" />
+                    Text="Zakaži" />
             </StackPanel>
         </Button>
 

@@ -55,9 +55,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         private void NotSuccessStatusCodeHandler(HttpStatusCode statusCode)
         {
             if ((int)statusCode >= 400 && (int)statusCode < 500)
-                throw new Exception("Badly configured request to ActionBenefit service. Contact programers!");
+                throw new Exception("Badly configured request to ActionBenefit service. Contact programmers!");
             if ((int)statusCode >= 500 && (int)statusCode < 600)
-                throw new Exception("Something went wrong in ActionBenefit service. Contact programers!");
+                throw new Exception("Something went wrong in ActionBenefit service. Contact programmers!");
         }
 
         private async Task<HttpResponseMessage> SendRequest(HttpRequestMessage request)

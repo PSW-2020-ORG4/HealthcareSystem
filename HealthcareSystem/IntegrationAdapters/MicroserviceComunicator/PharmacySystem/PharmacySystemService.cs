@@ -1,6 +1,8 @@
-﻿using Backend.Model.Pharmacies;
+﻿using System;
+using Backend.Model.Pharmacies;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,18 +23,18 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "pharmacysystemservice/get");
             request.Content = new StringContent(id.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
-            
+                NotSuccessStatusCodeHandler(response.StatusCode);
+
             return JsonConvert.DeserializeObject<PharmacySystem>(await response.Content.ReadAsStringAsync());
         }
         public async Task<List<PharmacySystem>> GetAll()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "pharmacysystemservice/get/all");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<List<PharmacySystem>>(await response.Content.ReadAsStringAsync());
         }
@@ -40,9 +42,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "pharmacysystemservice/get/subscribed");
             request.Content = new StringContent(subscribed.ToString(), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<List<PharmacySystem>>(await response.Content.ReadAsStringAsync());
         }
@@ -50,9 +52,9 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "pharmacysystemservice");
             request.Content = new StringContent(JsonConvert.SerializeObject(pharmacySystem), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return null;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return JsonConvert.DeserializeObject<PharmacySystem>(await response.Content.ReadAsStringAsync());
         }
@@ -60,11 +62,31 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             var request = new HttpRequestMessage(HttpMethod.Put, "pharmacysystemservice");
             request.Content = new StringContent(JsonConvert.SerializeObject(pharmacySystem), Encoding.UTF8, "application/json");
-            var response = await _httpClient.SendAsync(request);
+            var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
-                return false;
+                NotSuccessStatusCodeHandler(response.StatusCode);
 
             return true;
+        }
+
+        private void NotSuccessStatusCodeHandler(HttpStatusCode statusCode)
+        {
+            if ((int)statusCode >= 400 && (int)statusCode < 500)
+                throw new Exception("Badly configured request to ActionBenefit service. Contact programmers!");
+            if ((int)statusCode >= 500 && (int)statusCode < 600)
+                throw new Exception("Something went wrong in ActionBenefit service. Contact programmers!");
+        }
+
+        private async Task<HttpResponseMessage> SendRequest(HttpRequestMessage request)
+        {
+            try
+            {
+                return await _httpClient.SendAsync(request);
+            }
+            catch
+            {
+                throw new Exception("PharmacySystem service could not be reached. Contact admin!");
+            }
         }
     }
 }

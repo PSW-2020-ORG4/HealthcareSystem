@@ -42,6 +42,8 @@ stages:
             echo "----- Generating script. -----"
             dotnet-ef dbcontext script -c "PostgreSeededDbContext" -p "./HealthcareSystem/Backend/Backend.csproj" -o init.sql
           pwsh: true
+      - publish: $(System.DefaultWorkingDirectory)/init.sql
+        artifact: script
       - task: PowerShell@2
         displayName: "Initialize Heroku Postgres"
         inputs:
@@ -152,20 +154,8 @@ stages:
   - job: ResetDb
     displayName: Reset database
     steps:
-      - task: UseDotNet@2
-        inputs:
-          packageType: 'sdk'
-          version: '3.1.x'
-      - task: PowerShell@2
-        displayName: "Generate SQL script"
-        inputs:
-          targetType: 'inline'
-          script: |
-            echo "----- Installing EF Core. -----"
-            dotnet tool install --global dotnet-ef --version 3.1.9
-            echo "----- Generating script. -----"
-            dotnet-ef dbcontext script -c "PostgreSeededDbContext" -p "./HealthcareSystem/Backend/Backend.csproj" -o init.sql
-          pwsh: true
+      - download: current
+        artifact: script
       - task: PowerShell@2
         displayName: "Initialize Heroku Postgres"
         inputs:
@@ -174,5 +164,5 @@ stages:
             echo "----- Reseting database. -----"
             heroku pg:reset DATABASE_URL --app psw-patient-service --confirm psw-patient-service
             echo "----- Initializing database. -----"
-            Get-Content init.sql | heroku pg:psql DATABASE_URL --app psw-patient-service
+            Get-Content $(Pipeline.Workspace)/script/init.sql | heroku pg:psql DATABASE_URL --app psw-patient-service
           pwsh: true     

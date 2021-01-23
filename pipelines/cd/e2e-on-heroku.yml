@@ -141,6 +141,8 @@ stages:
           
 
 - stage: UndoDbChanges
+  dependsOn: E2E
+  condition: succeededOrFailed()
   displayName: Undo database changes from tests
   variables:
     HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9

@@ -49,7 +49,6 @@ stages:
     HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
   jobs:  
   - job: ResetDb
-    dependsOn: Wait
     displayName: Reset database
     steps:
       - task: UseDotNet@2

@@ -202,5 +202,18 @@ namespace EventSourcingService.Service
         {
             return _patientEndSchedulingEventRepository.GetAll().Where(e => e.Id == id).Any();
         }
+
+        public SuccessfulAndUnsuccessfulSchedulingDTO SuccessfulAndUnsuccessfulScheduling()
+        {
+            SuccessfulAndUnsuccessfulSchedulingDTO schedulingDTO = new SuccessfulAndUnsuccessfulSchedulingDTO();
+
+            schedulingDTO.NumberOfSuccessfulScheduling = _patientEndSchedulingEventRepository.GetAll
+                                                   (e => e.ReasonForEndOfAppointment == ReasonForEndOfAppointment.Success).Count();
+            schedulingDTO.NumberOfUnsuccessfulScheduling = _patientEndSchedulingEventRepository.GetAll
+                                                   (e => e.ReasonForEndOfAppointment == ReasonForEndOfAppointment.Unsuccess).Count();
+            schedulingDTO.NumberOfScheduling = _patientEndSchedulingEventRepository.GetAll().Count();
+
+            return schedulingDTO;
+        }
     }
 }

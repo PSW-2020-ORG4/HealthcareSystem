@@ -47,7 +47,7 @@ namespace EventSourcingService.Controllers
         public IActionResult GetAllStatistic()
         {
             PatientSchedulingStatisticDTO schedulingStatisticDTO = new PatientSchedulingStatisticDTO();
-
+            
             schedulingStatisticDTO.successfulSchedulingDuration = _patientEndSchedulingService.SuccessfulSchedulingDuration();
             schedulingStatisticDTO.successfulSchedulingGenderStatistic = _patientEndSchedulingService.SuccessfulSchedulingGenderStatistic();
             schedulingStatisticDTO.successfulSchedulingAgeStatistic = _patientEndSchedulingService.SuccessfulSchedulingAgeStatistic();
@@ -58,6 +58,7 @@ namespace EventSourcingService.Controllers
             schedulingStatisticDTO.unsuccessfulSchedulingAgeDuration = _patientEndSchedulingService.UnsuccessfulSchedulingAgeDuration();
             schedulingStatisticDTO.unsuccessfulSchedulingGenderDuration = _patientEndSchedulingService.UnsuccessfulSchedulingGenderDuration();
             schedulingStatisticDTO.schedulingStepsStatistic = _patientStepSchedulingService.SchedulingStepsStatistic();
+            schedulingStatisticDTO.successfulAndUnsuccessfulSchedulingDTO = _patientEndSchedulingService.SuccessfulAndUnsuccessfulScheduling();
 
             return Ok(schedulingStatisticDTO);
         }

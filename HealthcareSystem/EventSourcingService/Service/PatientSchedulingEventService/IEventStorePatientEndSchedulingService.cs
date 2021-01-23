@@ -19,5 +19,6 @@ namespace EventSourcingService.Service
         AverageDurationDTO UnsuccessfulSchedulingAgeDuration();
         AverageDurationDTO UnsuccessfulSchedulingGenderDuration();
         bool Contain(int id);
+        SuccessfulAndUnsuccessfulSchedulingDTO SuccessfulAndUnsuccessfulScheduling();
     }
 }

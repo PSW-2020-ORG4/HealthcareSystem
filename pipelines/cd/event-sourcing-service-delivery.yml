@@ -60,6 +60,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
+            $Env:ASPNETCORE_ENVIRONMENT = "Test"
             echo "----- Installing EF Core. -----"
             dotnet tool install --global dotnet-ef --version 3.1.9
             echo "----- Generating script. -----"

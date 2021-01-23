@@ -14,5 +14,6 @@ namespace EventSourcingService.Service
         StepClosureStatisticDTO ClosedSchedulingStepStatistic();
         StepPreviousStatisticDTO PreviousSchedulingStepStatistic();
         bool Contain(int id);
+        public SchedulingStepsStatisticDTO SchedulingStepsStatistic();
     }
 }

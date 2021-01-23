@@ -121,5 +121,18 @@ namespace EventSourcingService.Service
         {
             return _patientSchedulingEventRepository.GetAll().Where(e => e.Id == id).Any();
         }
+
+        public SchedulingStepsStatisticDTO SchedulingStepsStatistic()
+        {
+            SchedulingStepsStatisticDTO schedulingStepsStatisticDTO = new SchedulingStepsStatisticDTO();
+
+            schedulingStepsStatisticDTO.NumberOfClosedScheduling = _patientSchedulingEventRepository.GetAll(e => e.ClickEvent == ClickEvent.Close).Count();
+            schedulingStepsStatisticDTO.NumberOfNextSteps = _patientSchedulingEventRepository.GetAll(e => e.ClickEvent == ClickEvent.Next).Count();
+            schedulingStepsStatisticDTO.NumberOfPreviousSteps = _patientSchedulingEventRepository.GetAll(e => e.ClickEvent == ClickEvent.Previous).Count();
+            schedulingStepsStatisticDTO.NumberOfSteps = _patientSchedulingEventRepository.GetAll().Count();
+
+            return schedulingStepsStatisticDTO;
+        }
+
     }
 }

@@ -43,6 +43,40 @@ stages:
           $(Build.BuildId)
           latest
 
+- stage: Prepare
+  displayName: Reset event database
+  variables:
+    HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
+  jobs:  
+  - job: ResetDb
+    dependsOn: Wait
+    displayName: Reset database
+    steps:
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '3.1.x'
+      - task: PowerShell@2
+        displayName: "Generate SQL script"
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "----- Installing EF Core. -----"
+            dotnet tool install --global dotnet-ef --version 3.1.9
+            echo "----- Generating script. -----"
+            dotnet-ef dbcontext script -p "./HealthcareSystem/EventSourcingService/EventSourcingService.csproj" -o init.sql
+          pwsh: true
+      - task: PowerShell@2
+        displayName: "Initialize Heroku Postgres"
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "----- Reseting database. -----"
+            heroku pg:reset DATABASE_URL --app psw-event-store --confirm psw-event-store
+            echo "----- Initializing database. -----"
+            Get-Content init.sql | heroku pg:psql DATABASE_URL --app psw-event-store
+          pwsh: true     
+
 - stage: CD
   variables:
     HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9

@@ -30,10 +30,10 @@ namespace Service.PlacementInARoomAndRenovationPeriod
         private PlacementInSickRoomRepository placementInSickRoomRepository = new PlacementInSickRoomRepository();
         public void AddRenovationPeriod(Model.Manager.RenovationPeriod renovationPeriod)
         {
-            List<Examination> examinations = _scheduledExaminationRepository.GetExaminationsByRoomAndDates(renovationPeriod.RoomNumber, renovationPeriod.BeginDate, renovationPeriod.EndDate);
-            List<PlacemetnInARoom> placemetnInARooms = placementInSickRoomRepository.GetPlacementsByRoom(renovationPeriod.RoomNumber, renovationPeriod.BeginDate, renovationPeriod.EndDate);
-            if (examinations.Count == 0 && placemetnInARooms.Count == 0)
-                _renovationPeriodRepository.AddRenovationPeriod(renovationPeriod);
+            //List<Examination> examinations = _scheduledExaminationRepository.GetExaminationsByRoomAndDates(renovationPeriod.RoomNumber, renovationPeriod.BeginDate, renovationPeriod.EndDate);
+            //List<PlacemetnInARoom> placemetnInARooms = placementInSickRoomRepository.GetPlacementsByRoom(renovationPeriod.RoomNumber, renovationPeriod.BeginDate, renovationPeriod.EndDate);
+          /*  if (examinations.Count == 0 && placemetnInARooms.Count == 0)
+                _renovationPeriodRepository.AddRenovationPeriod(renovationPeriod);*/
         }
 
         public void CancelRenovationPeriod(int roomNumber)

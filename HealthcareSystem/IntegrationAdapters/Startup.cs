@@ -54,7 +54,7 @@ namespace IntegrationAdapters
             else if (_env.EnvironmentName.ToLower().Equals("test"))
             {
                 Console.WriteLine("Configuring for test.");
-                int retryCount = Configuration.GetValue<int>("DATABSE_RETRY");
+                int retryCount = Configuration.GetValue<int>("DATABASE_RETRY");
                 int retryWait = Configuration.GetValue<int>("DATABASE_RETRY_WAIT");
                 string dbURL = Configuration.GetValue<string>("DATABASE_URL");
                 DbConnectionSettings dbSettings = new DbConnectionSettings(dbURL, retryCount, retryWait);
@@ -95,6 +95,11 @@ namespace IntegrationAdapters
             services.AddControllers();
             services.AddControllersWithViews();
 
+<<<<<<<
+
+=======
+            services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqSettings"));
+>>>>>>>
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.AddScoped<ISftpCommunicator, SftpCommunicator>();
             services.AddScoped<IAdapterContext, AdapterContext>();         
@@ -110,7 +115,11 @@ namespace IntegrationAdapters
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+<<<<<<<
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context, IAntiforgery antiforgery, IHttpClientFactory httpClientFactory)
+=======
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
+>>>>>>>
         {
             var client = httpClientFactory.CreateClient();
             client.GetAsync("http://localhost:5001/ping");
@@ -140,6 +149,38 @@ namespace IntegrationAdapters
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            if (env.EnvironmentName.ToLower().Equals("test"))
+                using (var scope = app.ApplicationServices.CreateScope())
+                using (var context = scope.ServiceProvider.GetService<MyDbContext>())
+                {
+                    try
+                    {
+                        Console.WriteLine("Seeding ISA Pharmacy System for Test env.");
+                        context.Pharmacies.Add(new PharmacySystem()
+                        {
+                            Name = "ISA Pharmacy",
+                            Url = "http://isabackend:8080",
+                            GrpcHost = "http://isabackend",
+                            GrpcPort = 9090,
+                            ActionsBenefitsSubscribed = true,
+                            ActionsBenefitsExchangeName = "exchange",
+                            ApiKey = "apikey"
+                        });
+                        context.SaveChanges();
+                        Console.WriteLine("Seeding finished.");
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Seeding failed.");
+                    }
+                }
+
+            if (!Directory.Exists("Resources"))
+            {
+                Directory.CreateDirectory("Resources");
+            }
+
             app.UseStaticFiles();
 
             app.UseRouting();

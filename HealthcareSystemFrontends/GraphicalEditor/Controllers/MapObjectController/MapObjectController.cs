@@ -34,5 +34,10 @@ namespace GraphicalEditor.Controllers
         {
             return mapObjectService.SearchMapObjects(searchedMapObjectType);
         }
+
+        public List<MapObject> GetNeighboringRoomsForRoom(MapObject room)
+        {
+            return mapObjectService.GetNeighboringRoomsForRoom(room);
+        }
     }
 }

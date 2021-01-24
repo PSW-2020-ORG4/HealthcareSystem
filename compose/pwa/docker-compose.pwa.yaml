@@ -5,24 +5,41 @@ services:
     networks:
       - demo  
 
+  esdatabase:
+    restart: always
+    networks:
+      - demo  
+
   patientwebapp:
     build:
       context: ../../HealthcareSystem/PatientWebApp
       dockerfile: Dockerfile.local
     ports:
-    - "8181:80"
+    - "8585:80"
     environment:
       PATIENT_SERVICE_URL: "http://patientservice"
       FEEDBACK_SURVEY_SERVICE_URL: "http://feedbacksurveyservice"
       USER_SERVICE_URL: "http://userservice"
       NOTIFICATION_SERVICE_URL: "http://notificationservice"
       SCHEDULE_SERVICE_URL: "http://scheduleservice"
+      EVENT_SOURCING_SERVICE_URL: "http://esservice"
     depends_on:
       - userservice
       - patientservice
       - notificationservice
       - feedbacksurveyservice
       - scheduleservice
+      - esservice
+    restart: on-failure
+    networks:
+      - demo
+
+  esservice:
+    build:
+      context: ../../HealthcareSystem/EventSourcingService
+      dockerfile: Dockerfile.local
+    depends_on:
+      - esdatabase
     restart: on-failure
     networks:
       - demo

@@ -5,6 +5,11 @@ services:
     networks:
       - demo  
 
+  esdatabase:
+    restart: always
+    networks:
+      - demo  
+
   graphicaleditorserver:
     build:
       context: ../../HealthcareSystem/GraphicalEditorServer
@@ -15,10 +20,22 @@ services:
       PATIENT_SERVICE_URL: "http://patientservice"
       USER_SERVICE_URL: "http://userservice"
       SCHEDULE_SERVICE_URL: "http://scheduleservice"
+      EVENT_SOURCING_SERVICE_URL: "http://esservice"
     depends_on:
       - userservice
       - patientservice
       - scheduleservice
+      - esservice
+    restart: on-failure
+    networks:
+      - demo
+
+  esservice:
+    build:
+      context: ../../HealthcareSystem/EventSourcingService
+      dockerfile: Dockerfile.local
+    depends_on:
+      - esdatabase
     restart: on-failure
     networks:
       - demo

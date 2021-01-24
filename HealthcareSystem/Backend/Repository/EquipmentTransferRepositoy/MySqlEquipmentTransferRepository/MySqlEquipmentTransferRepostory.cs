@@ -1,4 +1,5 @@
 ﻿using Backend.Model;
+using Backend.Model.Exceptions;
 using Backend.Model.Manager;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,17 @@ namespace Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentR
         {
             return  _context.EqupmentTransfer.SingleOrDefault(x => x.RoomNumber == roomNumber && x.DateAndTimeOfTransfer == dateOfTransfer);
             
+        }
+        public ICollection<EquipmentTransfer> GetFollowingEquipmentTransversByRoom(int roomId)
+        {
+            try
+            {
+                return _context.EqupmentTransfer.Where(e => e.RoomNumber == roomId).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
         }
     }
 }

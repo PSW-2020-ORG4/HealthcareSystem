@@ -63,7 +63,7 @@ namespace IntegrationAdapters.Controllers
             var reportFilePath = "Resources";
             try
             {
-                System.IO.File.WriteAllText(reportFilePath + "/" + reportFileName, json);
+                System.IO.File.WriteAllText(Path.Combine(reportFilePath, reportFileName), json);
             }
             catch(Exception dnfe)
             {

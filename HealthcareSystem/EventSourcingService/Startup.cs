@@ -16,6 +16,8 @@ using EventSourcingService.Service;
 using EventSourcingService.Settings;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using EventSourcingService.Service.GraphicalEditor;
+using EventSourcingService.Model.GraphicalEditor;
 
 namespace EventSourcingService
 {
@@ -79,8 +81,14 @@ namespace EventSourcingService
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
-            services.AddScoped<IEventStoreExampleService, EventStoreExampleService>();
-            services.AddScoped<IDomainEventRepository<ExampleEvent>, DomainEventRepository<ExampleEvent>>();
+            services.AddScoped<IRoomSelectionService, RoomSelectionService>();
+            services.AddScoped<IDomainEventRepository<RoomSelectionEvent>, DomainEventRepository<RoomSelectionEvent>>();
+
+            services.AddScoped<IBuildingSelectionService, BuildingSelectionService>();
+            services.AddScoped<IDomainEventRepository<BuildingSelectionEvent>, DomainEventRepository<BuildingSelectionEvent>>();
+
+            services.AddScoped<IFloorChangeService, FloorChangeService>();
+            services.AddScoped<IDomainEventRepository<FloorChangeEvent>, DomainEventRepository<FloorChangeEvent>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

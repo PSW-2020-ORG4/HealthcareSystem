@@ -12,6 +12,11 @@ namespace EventSourcingService.Model
         public int Id { get; set; }
 
         public DateTime TriggerTime { get; set; }
+
+        public DomainEvent()
+        {
+            TriggerTime = DateTime.Now;
+        }
     }
 
 }

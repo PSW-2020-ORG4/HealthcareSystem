@@ -21,9 +21,12 @@ namespace PatientWebAppE2ETests
 
             driver = new FirefoxDriver(options);
 
-            loginPage = new Pages.LoginPage(driver);
+            loginPage = new Pages.LoginPage(driver,
+                                            Configuration.LoginPageURI,
+                                            Configuration.AdminHomePageURI,
+                                            Configuration.PatientHomePageURI);
             loginPage.Navigate();
-            Assert.Equal(driver.Url, Pages.LoginPage.URI);
+            Assert.Equal(driver.Url, Configuration.LoginPageURI);
         }
 
         public void Dispose()
@@ -42,9 +45,9 @@ namespace PatientWebAppE2ETests
                 loginPage.SubmitForm();
                 loginPage.WaitForLoginPatient();
 
-                patientExaminationsPage = new Pages.PatientExaminationsPage(driver);
+                patientExaminationsPage = new Pages.PatientExaminationsPage(driver, Configuration.ExaminationPageURI);
                 patientExaminationsPage.Navigate();
-                Assert.Equal(driver.Url, Pages.PatientExaminationsPage.URI);
+                Assert.Equal(driver.Url, Configuration.ExaminationPageURI);
 
                 Assert.Contains(Pages.PatientExaminationsPage.ValidCommentMessage, patientExaminationsPage.CancelExaminationClick());
             }

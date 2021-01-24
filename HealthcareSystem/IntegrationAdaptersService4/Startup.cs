@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Backend.Communication.RabbitMqConfuguration;
 using Backend.Communication.RabbitMqConnection;
 using Backend.Model;
 using Backend.Repository;

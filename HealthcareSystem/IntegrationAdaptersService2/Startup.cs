@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Backend.Communication.RabbitMqConfuguration;
 using Backend.Communication.RabbitMqConnection;
 using Backend.Model;
-using Backend.Repository;
-using Backend.Service;
-using Backend.Service.Pharmacies;
 using Backend.Settings;
+using IntegrationAdaptersService2.Repository;
+using IntegrationAdaptersService2.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

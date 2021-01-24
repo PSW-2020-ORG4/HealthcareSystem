@@ -1,6 +1,6 @@
 ﻿using Backend.Model.Pharmacies;
-using Backend.Service.Pharmacies;
 using IntegrationAdaptersService1.MicroserviceComunicator;
+using IntegrationAdaptersService1.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;

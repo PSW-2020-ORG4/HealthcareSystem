@@ -1,5 +1,5 @@
-﻿using Backend.Service;
-using IntegrationAdaptersService2.DTO;
+﻿using IntegrationAdaptersService2.DTO;
+using IntegrationAdaptersService2.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdaptersService2.Controllers
@@ -51,7 +51,7 @@ namespace IntegrationAdaptersService2.Controllers
         [Route("subscriptionedit")]
         public IActionResult SubscriptionEdit([FromBody] SubscritpionEditRequest request)
         {
-            _rabbitMqActionBenefitService.SubscriptionEdit(request.ExOld, request.SubOld, request.ExOld, request.SubNew);
+            _rabbitMqActionBenefitService.SubscriptionEdit(request.ExOld, request.SubOld, request.ExNew, request.SubNew);
             return Ok();
         }
     }

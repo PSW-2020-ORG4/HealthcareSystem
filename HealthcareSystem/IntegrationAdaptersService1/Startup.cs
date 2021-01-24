@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Backend.Model;
-using Backend.Repository;
-using Backend.Service;
-using Backend.Service.Pharmacies;
 using Backend.Settings;
+using IntegrationAdaptersService1.Repository;
+using IntegrationAdaptersService1.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft;
 using ActionBenefitService = IntegrationAdaptersService1.MicroserviceComunicator.ActionBenefitService;
 using IActionBenefitService = IntegrationAdaptersService1.MicroserviceComunicator.IActionBenefitService;
 
@@ -78,7 +76,6 @@ namespace IntegrationAdaptersService1
 
             services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
             services.AddScoped<IPharmacyService, PharmacyService>();
-            services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IPatientService, PatientService>();

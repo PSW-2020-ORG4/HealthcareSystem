@@ -54,18 +54,18 @@ function addStatisticTable(statistic) {
 
 	let table3 = '<table class="table" style="margin-top:50px;">'
 		+ '<thead><tr><th scope="col">Description</th><th scope="col">Younger</th><th scope="col">Elder</th></tr></thead >'
-		+ '<tr><td>Successful scheduling by age</td><td>' + statistic.successfulSchedulingAgeDuration.durationFirst + '</td>'
-		+ '<td>' + statistic.successfulSchedulingAgeDuration.durationSecond + '</td></tr>'
-		+ '<tr><td>Unsuccessful scheduling by age</td><td>' + statistic.unsuccessfulSchedulingAgeDuration.durationFirst + '</td>'
-		+ '<td>' + statistic.unsuccessfulSchedulingAgeDuration.durationSecond + '</td></tr>'
+		+ '<tr><td>Successful scheduling duration by age</td><td>' + statistic.successfulSchedulingAgeDuration.durationFirst + ' min</td>'
+		+ '<td>' + statistic.successfulSchedulingAgeDuration.durationSecond + ' min</td></tr>'
+		+ '<tr><td>Unsuccessful scheduling duration by age</td><td>' + statistic.unsuccessfulSchedulingAgeDuration.durationFirst + ' min</td>'
+		+ '<td>' + statistic.unsuccessfulSchedulingAgeDuration.durationSecond + ' min</td></tr>'
 		+ '</table > ';
 
 	let table4 = '<table class="table" style="margin-top:50px;">'
 		+ '<thead><tr><th scope="col">Description</th><th scope="col">Male</th><th scope="col">Female</th></tr></thead >'
-		+ '<tr><td>Successful scheduling by gender</td><td>' + statistic.successfulSchedulingGenderDuration.durationFirst + '</td>'
-		+ '<td>' + statistic.successfulSchedulingGenderDuration.durationSecond + '</td></tr>'
-		+ '<tr><td>Unsuccessful scheduling by gender</td><td>' + statistic.unsuccessfulSchedulingGenderDuration.durationFirst + '</td>'
-		+ '<td>' + statistic.unsuccessfulSchedulingGenderDuration.durationSecond + '</td></tr>'
+		+ '<tr><td>Successful scheduling duration by gender</td><td>' + statistic.successfulSchedulingGenderDuration.durationFirst + ' min</td>'
+		+ '<td>' + statistic.successfulSchedulingGenderDuration.durationSecond + ' min</td></tr>'
+		+ '<tr><td>Unsuccessful scheduling duration by gender</td><td>' + statistic.unsuccessfulSchedulingGenderDuration.durationFirst + ' min</td>'
+		+ '<td>' + statistic.unsuccessfulSchedulingGenderDuration.durationSecond + ' min</td></tr>'
 		+ '</table > ';
 
 	let table5 = '<table class="table" style="margin-top:50px;">'

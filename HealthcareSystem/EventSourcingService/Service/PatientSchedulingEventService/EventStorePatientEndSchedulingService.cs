@@ -112,8 +112,8 @@ namespace EventSourcingService.Service
                 IEnumerable<TimeSpan> elderDuration = successfulScheduling.Where(e => e.UserAge >= averageAge)
                                                       .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
 
-                averageDTO.DurationFirst = (int)youthDuration.Average(t => t.TotalMinutes);
-                averageDTO.DurationSecond = (int)elderDuration.Average(t => t.TotalMinutes);
+                averageDTO.DurationFirst = (int)youthDuration.DefaultIfEmpty().Average(t => t.TotalMinutes);
+                averageDTO.DurationSecond = (int)elderDuration.DefaultIfEmpty().Average(t => t.TotalMinutes);
             }
             catch (Exception)
             {
@@ -137,8 +137,8 @@ namespace EventSourcingService.Service
                 IEnumerable<TimeSpan> menDuration = successfulScheduling.Where(e => e.UserGender == Gender.Male)
                                                       .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
 
-                averageDTO.DurationFirst = (int)womenDuration.Average(t => t.TotalMinutes);
-                averageDTO.DurationSecond = (int)menDuration.Average(t => t.TotalMinutes);
+                averageDTO.DurationFirst = (int)womenDuration.DefaultIfEmpty().Average(t => t.TotalMinutes);
+                averageDTO.DurationSecond = (int)menDuration.DefaultIfEmpty().Average(t => t.TotalMinutes);
             }
             catch (Exception)
             {
@@ -163,8 +163,8 @@ namespace EventSourcingService.Service
                 IEnumerable<TimeSpan> elderDuration = unsuccessfulScheduling.Where(e => e.UserAge >= averageAge)
                                                       .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
 
-                averageDTO.DurationFirst = (int)youthDuration.Average(t => t.TotalMinutes);
-                averageDTO.DurationSecond = (int)elderDuration.Average(t => t.TotalMinutes);
+                averageDTO.DurationFirst = (int)youthDuration.DefaultIfEmpty().Average(t => t.TotalMinutes);
+                averageDTO.DurationSecond = (int)elderDuration.DefaultIfEmpty().Average(t => t.TotalMinutes);
             }
             catch (Exception)
             {
@@ -187,8 +187,8 @@ namespace EventSourcingService.Service
                 IEnumerable<TimeSpan> menDuration = unsuccessfulScheduling.Where(e => e.UserGender == Gender.Male)
                                                       .Select(e => e.TriggerTime - e.StartSchedulingEventTime);
 
-                averageDTO.DurationFirst = (int)womenDuration.Average(t => t.TotalMinutes);
-                averageDTO.DurationSecond = (int)menDuration.Average(t => t.TotalMinutes);
+                averageDTO.DurationFirst = (int)womenDuration.DefaultIfEmpty().Average(t => t.TotalMinutes);
+                averageDTO.DurationSecond = (int)menDuration.DefaultIfEmpty().Average(t => t.TotalMinutes);
             }
             catch (Exception)
             {

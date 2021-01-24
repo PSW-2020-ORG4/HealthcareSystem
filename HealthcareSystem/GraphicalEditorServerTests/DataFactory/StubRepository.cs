@@ -159,7 +159,8 @@ namespace GraphicalEditorServerTests.DataFactory
         {
             var equipmentInExaminationRepository = new Mock<IEquipmentInExaminationRepository>();
             equipmentInExaminationRepository.Setup(m => m.GetEquipmentInExaminationByExaminationId(5)).Returns(_createEquipmentInExamiantion.CreateValidTestObjectForInitializingEquipmentTransfer());
-
+            equipmentInExaminationRepository.Setup(m => m.GetEquipmentInExaminationByExaminationId(6)).Returns(new List<EquipmentInExamination>());
+            equipmentInExaminationRepository.Setup(m => m.GetEquipmentInExaminationByExaminationId(7)).Returns(new List<EquipmentInExamination>());
             return equipmentInExaminationRepository.Object;
         }
 

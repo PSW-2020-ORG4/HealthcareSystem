@@ -1,7 +1,13 @@
-﻿﻿var newAppointments = [];
+﻿var newAppointments = [];
 var jmbg = "";
+var gender = 0;
+var age = 0;
+var startEventTime = new Date();
+var startEventId = 0;
+var currentStep = 0;
 $(document).ready(function () {
     checkUserRole("Patient");
+
     $.ajax({
         url: "/api/patient",
         type: 'GET',
@@ -13,6 +19,12 @@ $(document).ready(function () {
         contentType: false,
         success: function (patient) {
             jmbg = patient.jmbg;
+            if (patient.gender == "Female") {
+                gender = 1;
+            }
+            let dateOfBirth = new Date(patient.dateOfBirth);
+            let now = new Date();
+            age = Math.floor((now - dateOfBirth) / 31536000000);
         },
         error: function () {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show m-1" role="alert">Error getting patient.'
@@ -84,7 +96,84 @@ $(document).ready(function () {
     });
 
     $('#btn_close').click(function () {
+
+        var stepEvent = {
+            "startSchedulingEventId": parseInt(startEventId),
+            "userAge": parseInt(age),
+            "userGender": parseInt(gender),
+            "eventStep": parseInt(currentStep),
+            "clickEvent": parseInt(2)
+        };
+
+        $.ajax({
+            url: "/api/event/step",
+            type: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            },
+            data: JSON.stringify(stepEvent),
+            success: function () {
+                console.log("Successful!");
+                currentStep = 0;
+            },
+            error: function () {
+                console.log("An error occurred while writing the step event");
+            }
+        });
+
+        var endEvent = {
+            "startSchedulingEventTime": startEventTime,
+            "userAge": parseInt(age),
+            "userGender": parseInt(gender),
+            "reasonForEndOfAppointment": parseInt(1)
+        };
+
+        $.ajax({
+            url: "/api/event/end",
+            type: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            },
+            data: JSON.stringify(endEvent),
+            success: function () {
+                console.log("Successful!");
+                currentStep = 0;
+            },
+            error: function () {
+                console.log("An error occurred while writing the end event");
+            }
+        });
+
         location.reload();
+    });
+
+    $('#startScheduling').click(function () {
+
+        var startEvent = {
+            "userAge": parseInt(age),
+            "userGender": parseInt(gender),
+        };
+
+        $.ajax({
+            url: "/api/event/start",
+            type: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            },
+            data: JSON.stringify(startEvent),
+            success: function (startEvent) {
+                console.log("Successful!");
+                startEventTime = new Date();
+                startEventId = parseInt(startEvent.id);
+                currentStep = 0;
+            },
+            error: function () {
+                console.log("An error occurred while writing the start event");
+            }
+        });
     });
 });
 
@@ -117,14 +206,63 @@ function scheduleExamination() {
             $('#centralModalSuccess').modal('hide');
             $('#modalLoading').hide();
             $('#modalButton').prop('disabled', false);
+
+            var endEvent = {
+                "startSchedulingEventTime": startEventTime,
+                "userAge": parseInt(age),
+                "userGender": parseInt(gender),
+                "reasonForEndOfAppointment": parseInt(0)
+            };
+
+            $.ajax({
+                url: "/api/event/end",
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
+                data: JSON.stringify(endEvent),
+                success: function () {
+                    console.log("Successful!");
+                    currentStep = 0;
+                },
+                error: function () {
+                    console.log("An error occurred while writing the end event");
+                }
+            });
+
             window.location.reload();
         },
-        error: function (jqXHR) {
+        error: function () {
             let alert = $('<div class="alert alert-danger alert-dismissible fade show mb-0 mt-2" role="alert">Examination scheduling failed.'
                 + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
             $('#alertModal').prepend(alert);
             $('#modalLoading').hide();
             $('#modalButton').prop('disabled', false);
+
+            var endEvent = {
+                "startSchedulingEventTime": startEventTime,
+                "userAge": parseInt(age),
+                "userGender": parseInt(gender),
+                "reasonForEndOfAppointment": parseInt(1)
+            };
+
+            $.ajax({
+                url: "/api/event/end",
+                type: 'POST',
+                contentType: 'application/json',
+                headers: {
+                    'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+                },
+                data: JSON.stringify(endEvent),
+                success: function () {
+                    console.log("Successful!");
+                    currentStep = 0;
+                },
+                error: function () {
+                    console.log("An error occurred while writing the end event");
+                }
+            });
         }
     });
 };
@@ -362,6 +500,31 @@ function first_step_next() {
         return;
     }
 
+    var stepEvent = {
+        "startSchedulingEventId": parseInt(startEventId),
+        "userAge": parseInt(age),
+        "userGender": parseInt(gender),
+        "eventStep": parseInt(0),
+        "clickEvent": parseInt(1)
+    };
+
+    $.ajax({
+        url: "/api/event/step",
+        type: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        data: JSON.stringify(stepEvent),
+        success: function () {
+            console.log("Successful!");
+            currentStep = 1;
+        },
+        error: function () {
+            console.log("An error occurred while writing the step event");
+        }
+    });
+
     document.getElementById("div_date").style.display = "none";
     document.getElementById("div_specialty").style.display = "initial";
 };
@@ -377,6 +540,32 @@ function second_step_next() {
         $('#alertsModal').prepend(alert);
         return;
     }
+
+    var stepEvent = {
+        "startSchedulingEventId": parseInt(startEventId),
+        "userAge": parseInt(age),
+        "userGender": parseInt(gender),
+        "eventStep": parseInt(1),
+        "clickEvent": parseInt(1)
+    };
+
+    $.ajax({
+        url: "/api/event/step",
+        type: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        data: JSON.stringify(stepEvent),
+        success: function () {
+            console.log("Successful!");
+            currentStep = 2;
+        },
+        error: function () {
+            console.log("An error occurred while writing the step event");
+        }
+    });
+
     document.getElementById("div_specialty").style.display = "none";
     document.getElementById("div_doctor").style.display = "initial";
 };
@@ -400,6 +589,31 @@ function third_step_next() {
         return;
     }
 
+    var stepEvent = {
+        "startSchedulingEventId": parseInt(startEventId),
+        "userAge": parseInt(age),
+        "userGender": parseInt(gender),
+        "eventStep": parseInt(2),
+        "clickEvent": parseInt(1)
+    };
+
+    $.ajax({
+        url: "/api/event/step",
+        type: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        data: JSON.stringify(stepEvent),
+        success: function () {
+            console.log("Successful!");
+            currentStep = 3;
+        },
+        error: function () {
+            console.log("An error occurred while writing the step event");
+        }
+    });
+
     $('#loadingSchedule').show();
     $('#free_appointments').empty();
     var newData = {
@@ -419,7 +633,9 @@ function third_step_next() {
         },
         data: JSON.stringify(newData),
         success: function (appointments) {
-            newAppointments = appointments;
+	    newAppointments = [];
+            var appointmentStartTimes = [];
+            var multipleTimes = false;
             if (appointments.length == 0) {
                 let alert = $('<div class="alert alert-info alert-dismissible fade show mb-0 mt-2" role="alert">No matching free appointments found.'
                     + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
@@ -428,10 +644,22 @@ function third_step_next() {
                 $('form#schedule').find(":submit").prop('disabled', false);
             }
             else {
-                for (let a of appointments) {
-                    let appointment = $('<option value="' + i + '">' + a.startTime + '</option>');
-                    $('#free_appointments').append(appointment);
-                    i = i + 1;
+                for (let j = 0; j < appointments.length; j++) {
+                    for (let k = 0; k < appointmentStartTimes.length; k++) {
+                        if (appointments[j].startTime == appointmentStartTimes[k]) {
+                            multipleTimes = true;
+                            break;
+                        }
+                    }
+                    if (multipleTimes == false) {
+                        let appointment = $('<option value="' + i + '">' + appointments[j].startTime + '</option>');
+                        appointmentStartTimes.push(appointments[j].startTime);
+                        newAppointments.push(appointment[j]);
+                        $('#free_appointments').append(appointment);
+                        i = i + 1;
+                    } else {
+                        multipleTimes = false;
+                    }
                 }
                 $('#loadingSchedule').hide();
             }
@@ -450,17 +678,92 @@ function third_step_next() {
 
 function first_step_previous() {
 
+    var stepEvent = {
+        "startSchedulingEventId": parseInt(startEventId),
+        "userAge": parseInt(age),
+        "userGender": parseInt(gender),
+        "eventStep": parseInt(1),
+        "clickEvent": parseInt(0)
+    };
+
+    $.ajax({
+        url: "/api/event/step",
+        type: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        data: JSON.stringify(stepEvent),
+        success: function () {
+            console.log("Successful!");
+            currentStep = 0;
+        },
+        error: function () {
+            console.log("An error occurred while writing the step event");
+        }
+    });
+
     document.getElementById("div_date").style.display = "initial";
     document.getElementById("div_specialty").style.display = "none";
 };
 
 function second_step_previous() {
 
+    var stepEvent = {
+        "startSchedulingEventId": parseInt(startEventId),
+        "userAge": parseInt(age),
+        "userGender": parseInt(gender),
+        "eventStep": parseInt(2),
+        "clickEvent": parseInt(0)
+    };
+
+    $.ajax({
+        url: "/api/event/step",
+        type: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        data: JSON.stringify(stepEvent),
+        success: function () {
+            console.log("Successful!");
+            currentStep = 1;
+        },
+        error: function () {
+            console.log("An error occurred while writing the step event");
+        }
+    });
+
     document.getElementById("div_specialty").style.display = "initial";
     document.getElementById("div_doctor").style.display = "none";
 };
 
 function third_step_previous() {
+
+    var stepEvent = {
+        "startSchedulingEventId": parseInt(startEventId),
+        "userAge": parseInt(age),
+        "userGender": parseInt(gender),
+        "eventStep": parseInt(3),
+        "clickEvent": parseInt(0)
+    };
+
+    $.ajax({
+        url: "/api/event/step",
+        type: 'POST',
+        contentType: 'application/json',
+        headers: {
+            'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+        },
+        data: JSON.stringify(stepEvent),
+        success: function () {
+            console.log("Successful!");
+            currentStep = 2;
+        },
+        error: function () {
+            console.log("An error occurred while writing the step event");
+        }
+    });
 
     document.getElementById("div_doctor").style.display = "initial";
     document.getElementById("div_appointments").style.display = "none";

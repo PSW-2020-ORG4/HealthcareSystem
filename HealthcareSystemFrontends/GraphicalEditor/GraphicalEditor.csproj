@@ -97,11 +97,9 @@
     <Compile Include="DTO\ExaminationForReschedulingDTO.cs" />
     <Compile Include="DTO\GuestPatientDTO.cs" />
     <Compile Include="DTO\MergeRenovationDTO.cs" />
-    <Compile Include="DTO\PatientBasicDTO.cs" />
     <Compile Include="DTO\RenovationPeriodDTO.cs" />
     <Compile Include="DTO\RescheduleExaminationDTO.cs" />
     <Compile Include="DTO\RoomDTO.cs" />
-    <Compile Include="DTO\SpecialtyDTO.cs" />
     <Compile Include="DTO\ExaminationDTO.cs" />
     <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />
     <Compile Include="DTO\PatientBasicDTO.cs" />
@@ -173,14 +171,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-		<Page Include="RenovationSchedulingDialog.xaml">
-			<SubType>Designer</SubType>
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-		<Page Include="ScheduleForRoomDialog.xaml">
-			<SubType>Designer</SubType>
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
+    <Page Include="RenovationSchedulingDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScheduleForRoomDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\MapObjectRelated\Building.cs" />

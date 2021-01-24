@@ -18,6 +18,7 @@ namespace Backend.Service.RenovationService
         List<RenovationPeriod> GetAlternativeAppointemntsForBaseRenovation(RenovationPeriod renovationPeriod, int roomId);
         List<RenovationPeriod> GetMergeRenovationAlternativeAppointmets(MergeRenovation renovation);
         List<RenovationPeriod> GetDivideRenovationAlternativeAppointmets(DivideRenovation renovation);
+        ICollection<BaseRenovation> GetRenovationForPeriodByRoomNumber(DateTime start, DateTime end, int roomNumber);
 
 
     }

@@ -1,4 +1,6 @@
-﻿using GraphicalEditor.Enumerations;
+﻿using GraphicalEditor.DTO.EventSourcingDTO;
+using GraphicalEditor.Enumerations;
+using GraphicalEditor.Service;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -60,7 +62,26 @@ namespace GraphicalEditor.Models.MapObjectRelated
             int choosenFloorNumber = Int32.Parse((e.Source as Button).Content.ToString());
             ChangeFloorButtonsEnablement(choosenFloorNumber);
             ShowFloorByFloorNumber(choosenFloorNumber);
-            
+
+            AddFloorChangeEvent(choosenFloorNumber);
+        }
+
+        public void AddFloorChangeEvent(int choosenFloorNumber)
+        {
+            FloorChangeEventDTO floorChangeEventDTO = new FloorChangeEventDTO(MainWindow._currentUsername, (int)Id, choosenFloorNumber);
+
+            EventSourcingService eventSourcingService = new EventSourcingService();
+            eventSourcingService.AddFloorChangeEvent(floorChangeEventDTO);
+
+            AddBuildingSelectionEvent();
+        }
+
+        public void AddBuildingSelectionEvent()
+        {
+            BuildingSelectionEventDTO buildingSelectionEventDTO = new BuildingSelectionEventDTO(MainWindow._currentUsername, (int)Id);
+
+            EventSourcingService eventSourcingService = new EventSourcingService();
+            eventSourcingService.AddBuildingSelectionEvent(buildingSelectionEventDTO);
         }
 
         private void ShowFloorByFloorNumber(int choosenFloorNumber)

@@ -107,7 +107,9 @@ namespace ZdravoKorporacija
 
         private void buttonShowGraphicalEditor_Click(object sender, RoutedEventArgs e)
         {
-            GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow("Patient");
+            string currentUsername = MainWindow.patient.Username;
+
+            GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow("Patient", currentUsername);
             graphicalEditorMainWindow.ShowDialog();
         }
 
@@ -175,7 +177,9 @@ namespace ZdravoKorporacija
             }
             else if (e.Key == Key.E)
             {
-                GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow("Patient");
+                string currentUsername = MainWindow.patient.Username;
+
+                GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow("Patient", currentUsername);
                 graphicalEditorMainWindow.ShowDialog();
             }
         }

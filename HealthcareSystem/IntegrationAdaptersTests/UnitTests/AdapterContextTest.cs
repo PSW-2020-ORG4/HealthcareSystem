@@ -50,17 +50,17 @@ namespace IntegrationAdaptersTests.UnitTests
             Assert.True(adapterContext.PharmacySystemAdapter == null);
         }
 
-        [Fact]
-        public void PharmacySystemAdapter_SetPharmacy1Adapter_ImplementedAdapter_Production()
-        {
-            Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Production");
-            var mockFactory = new Mock<IHttpClientFactory>();
-            AdapterContext adapterContext = new AdapterContext(mockFactory.Object);
-            PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, GrpcHost = "localhost", GrpcPort = 30051 };
+        // [Fact]
+        // public void PharmacySystemAdapter_SetPharmacy1Adapter_ImplementedAdapter_Production()
+        // {
+        //     Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Production");
+        //     var mockFactory = new Mock<IHttpClientFactory>();
+        //     AdapterContext adapterContext = new AdapterContext(mockFactory.Object);
+        //     PharmacySystem pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true, GrpcHost = "localhost", GrpcPort = 30051 };
 
-            adapterContext.SetPharmacySystemAdapter(pharmacy);
+        //     adapterContext.SetPharmacySystemAdapter(pharmacy);
 
-            Assert.True(adapterContext.PharmacySystemAdapter != null);
-        }
+        //     Assert.True(adapterContext.PharmacySystemAdapter != null);
+        // }
     }
 }

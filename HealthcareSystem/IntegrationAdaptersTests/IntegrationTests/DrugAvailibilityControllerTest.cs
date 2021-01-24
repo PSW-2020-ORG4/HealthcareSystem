@@ -18,7 +18,6 @@ namespace IntegrationAdaptersTests.IntegrationTests
         public void Search_ForDrug_Found_And_NotFound()
         {
             DbContextInMemory testData = new DbContextInMemory();
-            testData.setDrugAvailibilityControllerTestIntegration();
             MyDbContext context = testData._context;
 
             IPharmacyService pharmacyService = new PharmacyService(new MySqlPharmacyRepo(context));

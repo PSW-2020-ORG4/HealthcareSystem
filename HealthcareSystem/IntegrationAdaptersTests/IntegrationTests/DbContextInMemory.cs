@@ -1,7 +1,9 @@
 ﻿using Backend.Model;
 using Backend.Model.Pharmacies;
 using Microsoft.EntityFrameworkCore;
+using Model.Manager;
 using System;
+using System.Collections.Generic;
 
 namespace IntegrationAdaptersTests.IntegrationTests
 {
@@ -15,31 +17,18 @@ namespace IntegrationAdaptersTests.IntegrationTests
         {
             _builder.UseInMemoryDatabase(Guid.NewGuid().ToString());
             _options = _builder.Options;
-           
-        }
-
-        public void SetActionBenefitControllerTestIntegration()
-        {
             _context = new MyDbContext(_options);
-            var pharmacy = new PharmacySystem { Id = 1, Name = "a1", ApiKey = "a1", Url = "u1", ActionsBenefitsExchangeName = "e1", ActionsBenefitsSubscribed = true };
+
+            var pharmacy = new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "http://localhost:8080", GrpcHost = "localhost", GrpcPort = 9090, ActionsBenefitsExchangeName = "exchange", ActionsBenefitsSubscribed = true };
             _context.Add(pharmacy);
             _context.Add(new ActionBenefit { Id = 1, PharmacyId = 1, Pharmacy = pharmacy, Subject = "s", Message = "m", IsPublic = false });
             _context.Add(new ActionBenefit { Id = 2, PharmacyId = 1, Pharmacy = pharmacy, Subject = "ss", Message = "mm", IsPublic = true });
-            _context.SaveChanges();
-        }
 
-        public void SetActionBenefitServiceTestIntegration()
-        {
-            _context = new MyDbContext(_options);
-            var pharmacy = new PharmacySystem { Id = 1, Name = "apoteka1", ApiKey = "api1", Url = "url1", ActionsBenefitsExchangeName = "exchange1", ActionsBenefitsSubscribed = true };
-            _context.Add(pharmacy);
-            _context.SaveChanges();
-        }
+            _context.Add(new DrugType("tableta", "lek za glavu"));
+            _context.Add(new Drug() { DrugType_Id = 1, Name = "Brufen", Code = "20033", Quantity = 0 });
 
-        public void setDrugAvailibilityControllerTestIntegration()
-        {
-            _context = new MyDbContext(_options);
-            _context.Add(new PharmacySystem { Id = 1, Name = "apoteka-1", ApiKey = "api-1", Url = "url-1", ActionsBenefitsExchangeName = "exchange-1", ActionsBenefitsSubscribed = true });
+            _context.Add(new Tender() { Id = 1, Name = "tender-1", EndDate = new DateTime(2021, 5, 5), IsClosed = false, QueueName = "tender-1", RoutingKey = "routing-key-1", Drugs = new List<TenderDrug>() { new TenderDrug() { DrugId = 1, Quantity = 10 } } });
+
             _context.SaveChanges();
         }
     }

@@ -43,14 +43,6 @@ namespace PatientWebApp.Controllers
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
-            /*var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var contentResult = RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id, Method.GET);
-            var examinationDTO = (ScheduledExaminationDTO)JsonConvert.DeserializeObject(contentResult.Content);
-
-            if (examinationDTO.PatientJmbg != patientJmbg)
-                return StatusCode(403, "Patient tried to get someone else's examination");
-
-            return contentResult;*/
             return RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id, Method.GET);
         }
 
@@ -64,13 +56,6 @@ namespace PatientWebApp.Controllers
         [HttpPost("cancel/{id}")]
         public ActionResult CancelExamination(int id)
         {
-            /*var patientJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            var contentResult = RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id, Method.GET);
-            var examinationDTO = (ScheduledExaminationDTO)JsonConvert.DeserializeObject(contentResult.Content);
-
-            if (examinationDTO.PatientJmbg != patientJmbg)
-                return StatusCode(403, "Patient tried to cancel someone else's examination");*/
-
             return RequestAdapter.SendRequestWithoutBody(_serviceSettings.ScheduleServiceUrl, "/api/examination/" + id + "/cancel", Method.POST);
         }
 

@@ -2,7 +2,7 @@
 var jmbg = "";
 var gender = 0;
 var age = 0;
-var startEventTime = "";
+var startEventTime = new Date();
 var startEventId = 0;
 var currentStep = 0;
 $(document).ready(function () {
@@ -166,7 +166,7 @@ $(document).ready(function () {
             data: JSON.stringify(startEvent),
             success: function (startEvent) {
                 console.log("Successful!");
-                startEventTime = startEvent.triggerTime; 
+                startEventTime = new Date();
                 startEventId = parseInt(startEvent.id);
                 currentStep = 0;
             },

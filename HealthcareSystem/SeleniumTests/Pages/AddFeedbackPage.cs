@@ -7,7 +7,7 @@ namespace PatientWebAppE2ETests.Pages
     public class AddFeedbackPage
     {
         private readonly IWebDriver driver;
-        public const string URI = "http://localhost:65117/html/add_feedback.html";
+        private readonly string URI;
         private IWebElement CommentElement => driver.FindElement(By.Id("text_area_id"));
         private IWebElement IsAnonymousElement => driver.FindElement(By.XPath("//input[@id = 'no_anonymous']"));
         private IWebElement IsAllowedElement => driver.FindElement(By.XPath(".//div[contains(.,'I don't want my feedback to be published')]/input"));
@@ -17,9 +17,10 @@ namespace PatientWebAppE2ETests.Pages
         public const string ValidCommentMessage = "You have successfuly left a feedback";
         public const string InvalidCommentMessage = "Feedback cannot be empty";
 
-        public AddFeedbackPage(IWebDriver driver)
+        public AddFeedbackPage(IWebDriver driver, string uri)
         {
             this.driver = driver;
+            URI = uri;
         }
 
         public void InsertComment(string comment)

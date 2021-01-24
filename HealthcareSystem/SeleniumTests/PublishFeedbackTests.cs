@@ -8,7 +8,7 @@ namespace PatientWebAppE2ETests
     public class PublishFeedbackTests : IDisposable
     {
         private readonly IWebDriver driver;
-        private Pages.PublishFeedback publishFeedbackPage;
+        private Pages.PublishFeedbackPage publishFeedbackPage;
         private Pages.LoginPage loginPage;
 
         public PublishFeedbackTests()
@@ -22,9 +22,12 @@ namespace PatientWebAppE2ETests
 
             driver = new FirefoxDriver(options);
 
-            loginPage = new Pages.LoginPage(driver);
+            loginPage = new Pages.LoginPage(driver,
+                                            Configuration.LoginPageURI,
+                                            Configuration.AdminHomePageURI,
+                                            Configuration.PatientHomePageURI);
             loginPage.Navigate();
-            Assert.Equal(driver.Url, Pages.LoginPage.URI);
+            Assert.Equal(driver.Url, Configuration.LoginPageURI);
         }
         public void Dispose()
         {
@@ -42,11 +45,11 @@ namespace PatientWebAppE2ETests
                 loginPage.SubmitForm();
                 loginPage.WaitForLoginAdmin();
 
-                publishFeedbackPage = new Pages.PublishFeedback(driver);
+                publishFeedbackPage = new Pages.PublishFeedbackPage(driver, Configuration.PublishFeedbackPageURI);
                 publishFeedbackPage.Navigate();
-                Assert.Equal(driver.Url, Pages.PublishFeedback.URI);
+                Assert.Equal(driver.Url, Configuration.PublishFeedbackPageURI);
 
-                Assert.Contains(Pages.PublishFeedback.ValidCommentMessage, publishFeedbackPage.Publish());
+                Assert.Contains(Pages.PublishFeedbackPage.ValidCommentMessage, publishFeedbackPage.Publish());
             }
             finally
             {

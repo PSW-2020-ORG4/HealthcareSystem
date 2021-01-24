@@ -7,7 +7,8 @@ namespace EventSourcingService.Model.GraphicalEditor
 {
     public class RoomSelectionEvent : DomainEvent
     {
-        public String Username { get; private set; }
-        public int RoomNumber { get; private set; }
+        public String Username { get; set; }
+        public int RoomNumber { get; set; }
+        public RoomSelectionEvent() { }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Backend.Model.Pharmacies;
-using Backend.Service;
+using IntegrationAdaptersService4.Service;
+using IntegrationAdaptersService4.Service.RabbitMqTenderingService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdaptersService4.Controllers

@@ -38,17 +38,17 @@ function addStatisticTable(statistic) {
 	let table2 = '<table class="table" style="margin-top:50px; margin-bottom:50px;">'
 		+ '<thead><tr><th scope="col">Description</th><th scope="col">Date step</th><th scope="col">Specialty step</th>'
 		+ '<th scope="col">Doctor step</th><th scope="col">Appointment step</th><th scope="col">Most used step</th></tr></thead > '
-		+ '<tr><td>Closed scheduling step statistic</td><td>' + (statistic.closedSchedulingStepStatistic.numberOfClosuresOnDateStep / statistic.closedSchedulingStepStatistic.totalNumberOfClosures).toFixed(2) + ' %</td>'
-		+ '<td>' + (statistic.closedSchedulingStepStatistic.numberOfClosuresOnSpecialtyStep / statistic.closedSchedulingStepStatistic.totalNumberOfClosures).toFixed(2) + ' %</td>'
-		+ '<td>' + (statistic.closedSchedulingStepStatistic.numberOfClosuresOnDoctorStep / statistic.closedSchedulingStepStatistic.totalNumberOfClosures).toFixed(2) + ' %</td>'
-		+ '<td>' + (statistic.closedSchedulingStepStatistic.numberOfClosuresOnAppointmentStep / statistic.closedSchedulingStepStatistic.totalNumberOfClosures).toFixed(2) + ' %</td>'
+		+ '<tr><td>Closed scheduling step statistic</td><td>' + (statistic.closedSchedulingStepStatistic.numberOfClosuresOnDateStep / statistic.closedSchedulingStepStatistic.totalNumberOfClosures).toFixed(2) * 100 + ' %</td>'
+		+ '<td>' + (statistic.closedSchedulingStepStatistic.numberOfClosuresOnSpecialtyStep / statistic.closedSchedulingStepStatistic.totalNumberOfClosures).toFixed(2) * 100 + ' %</td>'
+		+ '<td>' + (statistic.closedSchedulingStepStatistic.numberOfClosuresOnDoctorStep / statistic.closedSchedulingStepStatistic.totalNumberOfClosures).toFixed(2) * 100 + ' %</td>'
+		+ '<td>' + (statistic.closedSchedulingStepStatistic.numberOfClosuresOnAppointmentStep / statistic.closedSchedulingStepStatistic.totalNumberOfClosures).toFixed(2) * 100 + ' %</td>'
 		+ '<td>' + statistic.closedSchedulingStepStatistic.mostClosedStep + ' </td></tr>'
 
 		+ '<tr><td>Previous scheduling step statistic</td>'
 		+ '<td></td>'
-		+ '<td> ' + (statistic.previousSchedulingStepStatistic.numberOfPreviousOnSpecialtyStep / statistic.previousSchedulingStepStatistic.totalNumberOfPrevious).toFixed(2) + ' %</td> '
-		+ '<td>' + (statistic.previousSchedulingStepStatistic.numberOfPrevoiusOnDoctorStep / statistic.previousSchedulingStepStatistic.totalNumberOfPrevious).toFixed(2) + ' %</td>'
-		+ '<td>' + (statistic.previousSchedulingStepStatistic.numberOfPreviousOnAppointmentStep / statistic.previousSchedulingStepStatistic.totalNumberOfPrevious).toFixed(2) + ' %</td>'
+		+ '<td> ' + (statistic.previousSchedulingStepStatistic.numberOfPreviousOnSpecialtyStep / statistic.previousSchedulingStepStatistic.totalNumberOfPrevious).toFixed(2) * 100 + ' %</td> '
+		+ '<td>' + (statistic.previousSchedulingStepStatistic.numberOfPrevoiusOnDoctorStep / statistic.previousSchedulingStepStatistic.totalNumberOfPrevious).toFixed(2) * 100 + ' %</td>'
+		+ '<td>' + (statistic.previousSchedulingStepStatistic.numberOfPreviousOnAppointmentStep / statistic.previousSchedulingStepStatistic.totalNumberOfPrevious).toFixed(2) * 100 + ' %</td>'
 		+ '<td>' + statistic.previousSchedulingStepStatistic.mostReturnedStep + ' </td></tr>'
 		+ '</table>';
 
@@ -68,10 +68,23 @@ function addStatisticTable(statistic) {
 		+ '<td>' + statistic.unsuccessfulSchedulingGenderDuration.durationSecond + '</td></tr>'
 		+ '</table > ';
 
-	
+	let table5 = '<table class="table" style="margin-top:50px;">'
+		+ '<thead><tr><th scope="col">Description</th><th scope="col">Successful</th><th scope="col">Unsuccess</th></tr></thead >'
+		+ '<tr><td>Scheduling</td><td>' + statistic.successfulAndUnsuccessfulSchedulingDTO.numberOfSuccessfulScheduling / statistic.successfulAndUnsuccessfulSchedulingDTO.numberOfScheduling * 100 + ' %</td>'
+		+ '<td>' + statistic.successfulAndUnsuccessfulSchedulingDTO.numberOfUnsuccessfulScheduling / statistic.successfulAndUnsuccessfulSchedulingDTO.numberOfScheduling * 100 + ' %</td></tr>'
+		+ '</table > ';
 
+	let table6 = '<table class="table" style="margin-top:50px;">'
+		+ '<thead><tr><th scope="col">Description</th><th scope="col">Previous</th><th scope="col">Next</th><th scope="col">Close</th></tr></thead >'
+		+ '<tr><td>Number of steps</td><td>' + (statistic.schedulingStepsStatistic.numberOfPreviousSteps / statistic.schedulingStepsStatistic.numberOfSteps).toFixed(2) * 100 + ' %</td>'
+		+ '<td>' + (statistic.schedulingStepsStatistic.numberOfNextSteps / statistic.schedulingStepsStatistic.numberOfSteps).toFixed(2) * 100 + ' %</td>'
+		+ '<td>' + (statistic.schedulingStepsStatistic.numberOfClosedScheduling / statistic.schedulingStepsStatistic.numberOfSteps).toFixed(2) * 100 + ' %</td></tr>'
+		+ '</table > ';
+	
 	$('div#view_statistic').append(table1);
 	$('div#view_statistic').append(table2);
 	$('div#view_statistic').append(table3);
 	$('div#view_statistic').append(table4);
+	$('div#view_statistic').append(table5);
+	$('div#view_statistic').append(table6);
 };

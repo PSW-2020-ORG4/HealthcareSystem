@@ -8,7 +8,7 @@ namespace PatientWebAppE2ETests
     public class BlockMaliciousPatientTests : IDisposable
     {
         private readonly IWebDriver driver;
-        private Pages.BlockMaliciousPatient blockPatientPage;
+        private Pages.BlockMaliciousPatientPage blockPatientPage;
         private Pages.LoginPage loginPage;
 
         public BlockMaliciousPatientTests()
@@ -22,10 +22,14 @@ namespace PatientWebAppE2ETests
 
             driver = new FirefoxDriver(options);
 
-            loginPage = new Pages.LoginPage(driver);
+            loginPage = new Pages.LoginPage(driver,
+                                            Configuration.LoginPageURI,
+                                            Configuration.AdminHomePageURI,
+                                            Configuration.PatientHomePageURI);
             loginPage.Navigate();
-            Assert.Equal(driver.Url, Pages.LoginPage.URI);
+            Assert.Equal(driver.Url, Configuration.LoginPageURI);
         }
+
         public void Dispose()
         {
             driver.Quit();
@@ -42,11 +46,11 @@ namespace PatientWebAppE2ETests
                 loginPage.SubmitForm();
                 loginPage.WaitForLoginAdmin();
 
-                blockPatientPage = new Pages.BlockMaliciousPatient(driver);
+                blockPatientPage = new Pages.BlockMaliciousPatientPage(driver, Configuration.BlockMaliciousPatientPageURI);
                 blockPatientPage.Navigate();
-                Assert.Equal(driver.Url, Pages.BlockMaliciousPatient.URI);
+                Assert.Equal(driver.Url, Configuration.BlockMaliciousPatientPageURI);
 
-                Assert.Contains(Pages.BlockMaliciousPatient.ValidCommentMessage, blockPatientPage.BlockPatient());
+                Assert.Contains(Pages.BlockMaliciousPatientPage.ValidCommentMessage, blockPatientPage.BlockPatient());
             }
             finally
             {

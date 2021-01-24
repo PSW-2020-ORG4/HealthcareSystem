@@ -22,9 +22,12 @@ namespace PatientWebAppE2ETests
 
             driver = new FirefoxDriver(options);
 
-            loginPage = new Pages.LoginPage(driver);
+            loginPage = new Pages.LoginPage(driver,
+                                            Configuration.LoginPageURI,
+                                            Configuration.AdminHomePageURI,
+                                            Configuration.PatientHomePageURI);
             loginPage.Navigate();
-            Assert.Equal(driver.Url, Pages.LoginPage.URI);
+            Assert.Equal(driver.Url, Configuration.LoginPageURI);
         }
         public void Dispose()
         {
@@ -33,7 +36,7 @@ namespace PatientWebAppE2ETests
         }
 
         [Fact]
-        public void TestSuccessfulSubmit() 
+        public void TestSuccessfulSubmit()
         {
             try
             {
@@ -42,9 +45,9 @@ namespace PatientWebAppE2ETests
                 loginPage.SubmitForm();
                 loginPage.WaitForLoginPatient();
 
-                addFeedbackPage = new Pages.AddFeedbackPage(driver);
+                addFeedbackPage = new Pages.AddFeedbackPage(driver, Configuration.AddFeedbackPageURI);
                 addFeedbackPage.Navigate();
-                Assert.Equal(driver.Url, Pages.AddFeedbackPage.URI);
+                Assert.Equal(driver.Url, Configuration.AddFeedbackPageURI);
 
                 addFeedbackPage.InsertComment("Sve je super!");
                 addFeedbackPage.InsertIsAnonymous("yes");
@@ -71,9 +74,9 @@ namespace PatientWebAppE2ETests
                 loginPage.SubmitForm();
                 loginPage.WaitForLoginPatient();
 
-                addFeedbackPage = new Pages.AddFeedbackPage(driver);
+                addFeedbackPage = new Pages.AddFeedbackPage(driver, Configuration.AddFeedbackPageURI);
                 addFeedbackPage.Navigate();
-                Assert.Equal(driver.Url, Pages.AddFeedbackPage.URI);
+                Assert.Equal(driver.Url, Configuration.AddFeedbackPageURI);
 
                 addFeedbackPage.InsertIsAnonymous("yes");
                 addFeedbackPage.InsertIsAllowed("yes");
@@ -87,7 +90,7 @@ namespace PatientWebAppE2ETests
             {
                 Dispose();
             }
-            
+
         }
 
     }

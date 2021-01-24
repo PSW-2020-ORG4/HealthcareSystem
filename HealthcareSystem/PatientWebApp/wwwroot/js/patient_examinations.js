@@ -654,7 +654,7 @@ function third_step_next() {
                     if (multipleTimes == false) {
                         let appointment = $('<option value="' + i + '">' + appointments[j].startTime + '</option>');
                         appointmentStartTimes.push(appointments[j].startTime);
-                        newAppointments.push(appointment[j]);
+                        newAppointments.push(appointments[j]);
                         $('#free_appointments').append(appointment);
                         i = i + 1;
                     } else {

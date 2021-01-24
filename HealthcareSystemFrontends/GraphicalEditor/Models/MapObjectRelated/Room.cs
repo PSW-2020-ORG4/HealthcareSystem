@@ -1,4 +1,9 @@
-﻿using GraphicalEditor.Enumerations;
+﻿using GraphicalEditor.Controllers;
+using GraphicalEditor.DTO.EventSourcingDTO;
+using GraphicalEditor.Enumerations;
+using GraphicalEditor.Repository;
+using GraphicalEditor.Service;
+using GraphicalEditor.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,6 +18,8 @@ namespace GraphicalEditor.Models.MapObjectRelated
         public MapObjectDepartment Department { get; set; }
         public int Floor { get; set; }
         public long BuildingId { get; set; }
+
+        private IRepository _fileRepository;
 
 
         public Room(TypeOfMapObject mapObjectType, DepartmentOfMapObject department, MapObject building, int floor, String description = "")
@@ -43,6 +50,19 @@ namespace GraphicalEditor.Models.MapObjectRelated
             {
                 Description = MapObjectType.ObjectTypeFullName + " " + Id + " se nalazi u: Zgrada " + BuildingId + ", Departman: " + Department.DepartmentFullName + ", Sprat: " + Floor + ". sprat";
             }
+        }
+
+        public void AddRoomSelectionEvent()
+        {
+            RoomSelectionEventDTO roomSelectionEventDTO = new RoomSelectionEventDTO(MainWindow._currentUsername, (int)Id);
+
+            EventSourcingService eventSourcingService = new EventSourcingService();
+            eventSourcingService.AddRoomSelectionEvent(roomSelectionEventDTO);
+
+            MapObjectController mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
+            MapObject building = mapObjectController.GetMapObjectById(BuildingId);
+
+            ((Building)building.MapObjectEntity).AddBuildingSelectionEvent();
         }
     }
 }

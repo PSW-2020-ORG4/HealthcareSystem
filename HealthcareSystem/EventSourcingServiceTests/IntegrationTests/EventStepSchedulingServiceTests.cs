@@ -4,6 +4,7 @@ using System.Text;
 using EventSourcingService.DTO;
 using EventSourcingService.DTO.PatientSchedulingEventDTO;
 using EventSourcingService.Model;
+using EventSourcingService.Model.Enum;
 using EventSourcingService.Repository;
 using EventSourcingService.Service;
 using Microsoft.EntityFrameworkCore;
@@ -63,6 +64,87 @@ namespace EventSourcingServiceTests.IntegrationTests
             StepPreviousStatisticDTO stepStatistic = eventStepService.PreviousSchedulingStepStatistic();
 
             Assert.Equal(4, stepStatistic.TotalNumberOfPrevious);
+        }
+
+        [Fact]
+        public void GetNextStepStatistic()
+        {
+            EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
+            SchedulingStepsStatisticDTO schedulingStepsStatistic = eventStepService.SchedulingStepsStatistic();
+
+            Assert.Equal(7, schedulingStepsStatistic.NumberOfNextSteps);
+        }
+
+        [Fact]
+        public void GetNumberOfPreviousOnSpecialtyStep()
+        {
+            EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
+            StepPreviousStatisticDTO stepStatistic = eventStepService.PreviousSchedulingStepStatistic();
+
+            Assert.Equal(0, stepStatistic.NumberOfPreviousOnSpecialtyStep);
+        }
+
+        [Fact]
+        public void GetNumberOfPreviousOnAppointmentStep()
+        {
+            EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
+            StepPreviousStatisticDTO stepStatistic = eventStepService.PreviousSchedulingStepStatistic();
+
+            Assert.Equal(1, stepStatistic.NumberOfPreviousOnAppointmentStep);
+        }
+
+        [Fact]
+        public void GetNumberOfPrevoiusOnDoctorStep()
+        {
+            EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
+            StepPreviousStatisticDTO stepStatistic = eventStepService.PreviousSchedulingStepStatistic();
+
+            Assert.Equal(3, stepStatistic.NumberOfPrevoiusOnDoctorStep);
+        }
+
+        [Fact]
+        public void GetMostReturnedStep()
+        {
+            EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
+            StepPreviousStatisticDTO stepStatistic = eventStepService.PreviousSchedulingStepStatistic();
+
+            Assert.Equal(EventStep.Doctor , stepStatistic.MostReturnedStep);
+        }
+
+        [Fact]
+        public void GetNumberOfClosuresOnAppointmentStep()
+        {
+            EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
+            StepClosureStatisticDTO stepStatistic = eventStepService.ClosedSchedulingStepStatistic();
+
+            Assert.Equal(0, stepStatistic.NumberOfClosuresOnAppointmentStep);
+        }
+
+        [Fact]
+        public void GetNumberOfClosuresOnSpecialtyStep()
+        {
+            EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
+            StepClosureStatisticDTO stepStatistic = eventStepService.ClosedSchedulingStepStatistic();
+
+            Assert.Equal(2, stepStatistic.NumberOfClosuresOnSpecialtyStep);
+        }
+
+        [Fact]
+        public void GetNumberOfClosuresOnDoctorStep()
+        {
+            EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
+            StepClosureStatisticDTO stepStatistic = eventStepService.ClosedSchedulingStepStatistic();
+
+            Assert.Equal(1, stepStatistic.NumberOfClosuresOnDoctorStep);
+        }
+
+        [Fact]
+        public void GetMostClosedStep()
+        {
+            EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
+            StepClosureStatisticDTO stepStatistic = eventStepService.ClosedSchedulingStepStatistic();
+
+            Assert.Equal(EventStep.Specialty, stepStatistic.MostClosedStep);
         }
 
     }

@@ -7,15 +7,21 @@ namespace PatientWebAppE2ETests.Pages
     public class LoginPage
     {
         private readonly IWebDriver driver;
-        public const string URI = "http://localhost:65117/html/login.html";
+        private readonly string URI;
+        private readonly string adminHomePageURI;
+        private readonly string patientHomePageURI;
         private IWebElement EmailElement => driver.FindElement(By.Id("email"));
         private IWebElement PasswordElement => driver.FindElement(By.Id("password"));
         private IWebElement SubmitButtonElement => driver.FindElement(By.Id("login"));
 
-        public LoginPage(IWebDriver driver)
+        public LoginPage(IWebDriver driver, string uri, string adminUri, string patientUri)
         {
             this.driver = driver;
+            URI = uri;
+            adminHomePageURI = adminUri;
+            patientHomePageURI = patientUri;
         }
+
         public bool EmailElementDisplayed()
         {
             return EmailElement.Displayed;
@@ -49,13 +55,13 @@ namespace PatientWebAppE2ETests.Pages
         public void WaitForLoginPatient()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("http://localhost:65117/html/patients_home_page.html"));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe(patientHomePageURI));
         }
 
         public void WaitForLoginAdmin()
         {
             var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe("http://localhost:65117/html/admins_home_page.html"));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe(adminHomePageURI));
         }
 
         public void Navigate() => driver.Navigate().GoToUrl(URI);

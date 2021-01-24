@@ -73,5 +73,14 @@ namespace EventSourcingServiceTests.IntegrationTests
             Assert.Equal(25, endStatistic.Average);
         }
 
+        [Fact]
+        public void GetNumberOfUnsuccessfulScheduling()
+        {
+            EventStorePatientEndSchedulingService eventEndService = SetupEventEndService();
+            SuccessfulAndUnsuccessfulSchedulingDTO endStatistic = eventEndService.SuccessfulAndUnsuccessfulScheduling();
+
+            Assert.Equal(2, endStatistic.NumberOfUnsuccessfulScheduling);
+        }
+
     }
 }

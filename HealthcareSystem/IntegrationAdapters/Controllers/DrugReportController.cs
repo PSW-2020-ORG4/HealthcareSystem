@@ -8,6 +8,7 @@ using IntegrationAdapters.Services;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MicroserviceComunicator;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace IntegrationAdapters.Controllers
 {

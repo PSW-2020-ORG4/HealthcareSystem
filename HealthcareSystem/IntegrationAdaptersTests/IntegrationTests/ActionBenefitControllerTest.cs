@@ -1,7 +1,6 @@
 using Backend.Model;
-using Backend.Repository;
-using Backend.Service;
 using IntegrationAdapters.Controllers;
+using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

@@ -604,16 +604,15 @@ namespace Backend.Model
 
         private void SeedPharmacies(MyDbContext context)
         {
-            //context.Add(new PharmacySystem()
-            //{
-            //    Name = "Janković",
-            //    ApiKey = "ApiKey1",
-            //    Url = "http://localhost:8080",
-            //    ActionsBenefitsExchangeName = "exchange",
-            //    ActionsBenefitsSubscribed = true,
-            //    GrpcHost = "localhost",
-            //    GrpcPort = 30051
-            //});
+            context.Add(new PharmacySystem()
+            {
+                Name = "Janković",
+                ApiKey = "ApiKey1",
+                Url = "http://localhost:8080",
+                ActionsBenefitsExchangeName = "exchange",
+                ActionsBenefitsSubscribed = true,
+                GrpcAdress = new GrpcAdress("localhost", 30051)
+            });
 
             context.SaveChanges();
         }

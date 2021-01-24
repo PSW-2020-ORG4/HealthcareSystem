@@ -17,6 +17,7 @@ using IntegrationAdapters.Services;
 using System.Collections.Generic;
 using IntegrationAdapters.MicroserviceComunicator;
 using System.Net.Http;
+using System.IO;
 
 namespace IntegrationAdapters
 {
@@ -95,11 +96,6 @@ namespace IntegrationAdapters
             services.AddControllers();
             services.AddControllersWithViews();
 
-<<<<<<<
-
-=======
-            services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqSettings"));
->>>>>>>
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.AddScoped<ISftpCommunicator, SftpCommunicator>();
             services.AddScoped<IAdapterContext, AdapterContext>();         
@@ -115,11 +111,8 @@ namespace IntegrationAdapters
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-<<<<<<<
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext context, IAntiforgery antiforgery, IHttpClientFactory httpClientFactory)
-=======
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
->>>>>>>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery, IHttpClientFactory httpClientFactory)
+
         {
             var client = httpClientFactory.CreateClient();
             client.GetAsync("http://localhost:5001/ping");
@@ -161,8 +154,7 @@ namespace IntegrationAdapters
                         {
                             Name = "ISA Pharmacy",
                             Url = "http://isabackend:8080",
-                            GrpcHost = "http://isabackend",
-                            GrpcPort = 9090,
+                            GrpcAdress = new GrpcAdress("http://isabackend", 9090),
                             ActionsBenefitsSubscribed = true,
                             ActionsBenefitsExchangeName = "exchange",
                             ApiKey = "apikey"

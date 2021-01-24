@@ -212,7 +212,7 @@ namespace Clinic_Health
 
         private void Navigation_Graphical_Editor_Click(object sender, RoutedEventArgs e)
         {
-			GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow("Manager");
+			GraphicalEditor.MainWindow graphicalEditorMainWindow = new GraphicalEditor.MainWindow("Manager", "-1");
 			graphicalEditorMainWindow.ShowDialog();
         }
     }

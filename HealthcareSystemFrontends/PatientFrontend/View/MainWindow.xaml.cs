@@ -34,7 +34,7 @@ namespace ZdravoKorporacija
                 patient = (Patient)userController.SignIn(patientUserName, patientPassword);
 
                 if (patient != null)
-                {
+                { 
                     HomePageWindow homePageWindow = new HomePageWindow();
                     homePageWindow.Show();
                     this.Close();

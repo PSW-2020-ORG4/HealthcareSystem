@@ -9,13 +9,23 @@ pool:
   vmImage: 'ubuntu-18.04'
 
 stages:
+- stage: Wait
+  displayName: Wait for component redeployments
+  jobs:
+  - job: Wait
+    displayName: Wait for component redeployments
+    pool: Server
+    steps:
+    - task: Delay@1
+      inputs:
+        delayForMinutes: '5' 
+
 - stage: Prepare
   displayName: Prepare for tests
   variables:
     HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
   jobs:  
   - job: ResetDb
-    dependsOn: Wait
     displayName: Reset database
     steps:
       - task: UseDotNet@2
@@ -32,6 +42,8 @@ stages:
             echo "----- Generating script. -----"
             dotnet-ef dbcontext script -c "PostgreSeededDbContext" -p "./HealthcareSystem/Backend/Backend.csproj" -o init.sql
           pwsh: true
+      - publish: $(System.DefaultWorkingDirectory)/init.sql
+        artifact: script
       - task: PowerShell@2
         displayName: "Initialize Heroku Postgres"
         inputs:
@@ -42,14 +54,6 @@ stages:
             echo "----- Initializing database. -----"
             Get-Content init.sql | heroku pg:psql DATABASE_URL --app psw-patient-service
           pwsh: true     
-
-  - job: Wait
-    displayName: Wait for component redeployments
-    pool: Server
-    steps:
-    - task: Delay@1
-      inputs:
-        delayForMinutes: '5' 
 
 - stage: Smoke
   displayName: Run smoke tests
@@ -123,6 +127,8 @@ stages:
 
 - stage: E2E
   displayName: Run E2E tests
+  pool:
+    vmImage: 'windows-latest'
   variables:
     e2etests: 'HealthcareSystem/SeleniumTests/PatientWebAppE2ETests.csproj'
   jobs:
@@ -134,4 +140,29 @@ stages:
         targetType: 'inline'
         script: |
           #
-          #dotnet test $(e2etests)
+          $Env:PWA_HOST = "https://psw-patientwebapp.herokuapp.com"
+          dotnet test $(e2etests)
+          
+
+- stage: UndoDbChanges
+  dependsOn: E2E
+  condition: succeededOrFailed()
+  displayName: Undo database changes from tests
+  variables:
+    HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
+  jobs:  
+  - job: ResetDb
+    displayName: Reset database
+    steps:
+      - download: current
+        artifact: script
+      - task: PowerShell@2
+        displayName: "Initialize Heroku Postgres"
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "----- Reseting database. -----"
+            heroku pg:reset DATABASE_URL --app psw-patient-service --confirm psw-patient-service
+            echo "----- Initializing database. -----"
+            Get-Content $(Pipeline.Workspace)/script/init.sql | heroku pg:psql DATABASE_URL --app psw-patient-service
+          pwsh: true     

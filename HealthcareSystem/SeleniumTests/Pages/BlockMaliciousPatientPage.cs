@@ -4,16 +4,17 @@ using OpenQA.Selenium.Support.UI;
 
 namespace PatientWebAppE2ETests.Pages
 {
-    public class BlockMaliciousPatient
+    public class BlockMaliciousPatientPage
     {
         private readonly IWebDriver driver;
-        public const string URI = "http://localhost:65117/html/malicious_patients.html";
+        private readonly string URI;
 
         public const string ValidCommentMessage = "Patient was successfully blocked.";
 
-        public BlockMaliciousPatient(IWebDriver driver)
+        public BlockMaliciousPatientPage(IWebDriver driver, string uri)
         {
             this.driver = driver;
+            URI = uri;
         }
 
         public string BlockPatient()

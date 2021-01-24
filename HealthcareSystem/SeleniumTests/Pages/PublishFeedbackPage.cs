@@ -4,15 +4,16 @@ using System;
 
 namespace PatientWebAppE2ETests.Pages
 {
-    public class PublishFeedback
+    public class PublishFeedbackPage
     {
         private readonly IWebDriver driver;
-        public const string URI = "http://localhost:65117/html/admins_home_page.html";
+        private readonly string URI;
 
         public const string ValidCommentMessage = "Feedback successfully published.";
-        public PublishFeedback(IWebDriver driver)
+        public PublishFeedbackPage(IWebDriver driver, string uri)
         {
             this.driver = driver;
+            URI = uri;
         }
 
         public string Publish()

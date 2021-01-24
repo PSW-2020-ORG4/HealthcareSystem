@@ -122,6 +122,30 @@ $(document).ready(function () {
             }
         });
 
+        var endEvent = {
+            "startSchedulingEventTime": startEventTime,
+            "userAge": parseInt(age),
+            "userGender": parseInt(gender),
+            "reasonForEndOfAppointment": parseInt(1)
+        };
+
+        $.ajax({
+            url: "/api/event/end",
+            type: 'POST',
+            contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            },
+            data: JSON.stringify(endEvent),
+            success: function () {
+                console.log("Successful!");
+                currentStep = 0;
+            },
+            error: function () {
+                console.log("An error occurred while writing the end event");
+            }
+        });
+
         location.reload();
     });
 
@@ -610,6 +634,8 @@ function third_step_next() {
         data: JSON.stringify(newData),
         success: function (appointments) {
             newAppointments = appointments;
+            var appointmentStartTimes = [];
+            var multipleTimes = false;
             if (appointments.length == 0) {
                 let alert = $('<div class="alert alert-info alert-dismissible fade show mb-0 mt-2" role="alert">No matching free appointments found.'
                     + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' + '</div >');
@@ -618,10 +644,21 @@ function third_step_next() {
                 $('form#schedule').find(":submit").prop('disabled', false);
             }
             else {
-                for (let a of appointments) {
-                    let appointment = $('<option value="' + i + '">' + a.startTime + '</option>');
-                    $('#free_appointments').append(appointment);
-                    i = i + 1;
+                for (let j = 0; j < appointments.length; j++) {
+                    for (let k = 0; k < appointmentStartTimes.length; k++) {
+                        if (appointments[j].startTime == appointmentStartTimes[k]) {
+                            multipleTimes = true;
+                            break;
+                        }
+                    }
+                    if (multipleTimes == false) {
+                        let appointment = $('<option value="' + i + '">' + appointments[j].startTime + '</option>');
+                        appointmentStartTimes.push(appointments[j].startTime);
+                        $('#free_appointments').append(appointment);
+                        i = i + 1;
+                    } else {
+                        multipleTimes = false;
+                    }
                 }
                 $('#loadingSchedule').hide();
             }

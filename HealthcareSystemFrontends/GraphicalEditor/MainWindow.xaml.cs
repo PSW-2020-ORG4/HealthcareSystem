@@ -484,7 +484,7 @@ namespace GraphicalEditor
 
         private void AddEventsForEventSourcing(MapObject selectedMapObject)
         {
-            if (selectedMapObject.CheckIfDBAddableRoom())
+            if (selectedMapObject.CheckIsRoom())
             {
                 ((Room)selectedMapObject.MapObjectEntity).AddRoomSelectionEvent();
             }

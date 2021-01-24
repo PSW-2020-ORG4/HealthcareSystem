@@ -633,7 +633,6 @@ function third_step_next() {
         },
         data: JSON.stringify(newData),
         success: function (appointments) {
-            newAppointments = appointments;
             var appointmentStartTimes = [];
             var multipleTimes = false;
             if (appointments.length == 0) {
@@ -654,6 +653,7 @@ function third_step_next() {
                     if (multipleTimes == false) {
                         let appointment = $('<option value="' + i + '">' + appointments[j].startTime + '</option>');
                         appointmentStartTimes.push(appointments[j].startTime);
+                        newAppointments.push(appointment[i]);
                         $('#free_appointments').append(appointment);
                         i = i + 1;
                     } else {

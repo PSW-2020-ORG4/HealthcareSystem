@@ -2,12 +2,6 @@ using AutoMapper;
 using Backend.Communication.SftpCommunicator;
 using Backend.Model;
 using Backend.Model.Pharmacies;
-using Backend.Repository;
-using Backend.Repository.DrugConsumptionRepository;
-using Backend.Repository.DrugConsumptionRepository.MySqlDrugConsumptionRepository;
-using Backend.Service;
-using Backend.Service.DrugConsumptionService;
-using Backend.Service.Pharmacies;
 using Backend.Settings;
 using IntegrationAdapters.Adapters;
 using Microsoft.AspNetCore.Antiforgery;
@@ -21,15 +15,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using IntegrationAdapters.Services;
 using System.Collections.Generic;
-using Backend.Repository.DrugInRoomRepository;
-using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
-using Backend.Repository.DrugRepository;
-using Backend.Repository.DrugRepository.MySQLDrugRepository;
-using Backend.Repository.TenderRepository;
-using Backend.Repository.TenderRepository.MySqlTenderRepository;
-using Backend.Service.DrugAndTherapy;
-using Service.DrugAndTherapy;
-using Backend.Communication.RabbitMqConnection;
+using IntegrationAdapters.MicroserviceComunicator;
+using System.Net.Http;
 using System.IO;
 
 namespace IntegrationAdapters
@@ -48,8 +35,6 @@ namespace IntegrationAdapters
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
             if (_env.IsDevelopment() || _env.IsProduction())
             {
                 Console.WriteLine("Configuring for " + _env.EnvironmentName + ".");
@@ -86,48 +71,54 @@ namespace IntegrationAdapters
                         ).UseLazyLoadingProxies();
                 });
             }
-            else
+            else if (_env.EnvironmentName.ToLower().Equals("production-multi"))
+            {
+                Console.WriteLine("Configuring for " + _env.EnvironmentName + ".");
+                IConfiguration conf = Configuration.GetSection("DbConnectionSettings");
+                DbConnectionSettings dbSettings = conf.Get<DbConnectionSettings>();
+
+                Console.WriteLine(dbSettings.ConnectionString);
+
+                services.AddDbContext<MyDbContext>(options =>
+                {
+                    options.UseMySql(
+                        dbSettings.ConnectionString,
+                        x => x.MigrationsAssembly("Backend").EnableRetryOnFailure(
+                            dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<int>())
+                        ).UseLazyLoadingProxies();
+                });
+            }
+            else 
             {
                 Console.WriteLine("Not dev or test.");
             }
 
+            services.AddControllers();
             services.AddControllersWithViews();
 
-            services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqSettings"));
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
-            services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
-            services.AddSingleton<IRabbitMqTenderingService, RabbitMqTenderingService>();
-            services.AddSingleton<IRabbitMqActionBenefitService, RabbitMqActionBenefitService>();
-
-            services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
-            services.AddScoped<IPharmacyService, PharmacyService>();
-            services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
-            services.AddScoped<IActionBenefitService, ActionBenefitService>();
             services.AddScoped<ISftpCommunicator, SftpCommunicator>();
-            services.AddScoped<IDrugConsumptionRepository, MySqlDrugConsumptionRepository>();
-            services.AddScoped<IDrugConsumptionService, DrugConsumptionService>();
-            services.AddScoped<IAdapterContext, AdapterContext>();
-            services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
-            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IAdapterContext, AdapterContext>();         
             services.AddScoped<IPushNotificationService, PushNotificationService>();
-            services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
-            services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
-            services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
+            services.AddScoped<IPharmacySystemService, PharmacySystemService>();
+            services.AddScoped<IActionBenefitService, ActionBenefitService>();
+            services.AddScoped<IPrescriptionService, PrescriptionService>();
             services.AddScoped<IDrugService, DrugService>();
-            services.AddScoped<ITenderRepository, MySqlTenderRepository>();
             services.AddScoped<ITenderService, TenderService>();
-            services.AddScoped<ITenderMessageRepository, MySqlTenderMessageRepository>();
-            services.AddScoped<ITenderMessageService, TenderMessageService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery, IHttpClientFactory httpClientFactory)
+
         {
-            app.ApplicationServices.GetService<IRabbitMqTenderingService>();
-            app.ApplicationServices.GetService<IRabbitMqActionBenefitService>();
+            var client = httpClientFactory.CreateClient();
+            client.GetAsync("http://localhost:5001/ping");
+            client.GetAsync("http://localhost:5002/ping");
+            client.GetAsync("http://localhost:5003/ping");
+            client.GetAsync("http://localhost:5004/ping");
 
             app.Use(next => context =>
             {
@@ -163,8 +154,7 @@ namespace IntegrationAdapters
                         {
                             Name = "ISA Pharmacy",
                             Url = "http://isabackend:8080",
-                            GrpcHost = "http://isabackend",
-                            GrpcPort = 9090,
+                            GrpcAdress = new GrpcAdress("http://isabackend", 9090),
                             ActionsBenefitsSubscribed = true,
                             ActionsBenefitsExchangeName = "exchange",
                             ApiKey = "apikey"

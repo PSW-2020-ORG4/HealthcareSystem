@@ -23,11 +23,6 @@ namespace Backend.Service
             return _tenderMessageRepository.GetAcceptedByTenderId(id);
         }
 
-        public List<TenderMessage> GetAll()
-        {
-            return _tenderMessageRepository.GetAll().ToList();
-        }
-
         public List<TenderMessage> GetAllByTender(int id)
         {
             return _tenderMessageRepository.GetAllByTender(id).ToList();

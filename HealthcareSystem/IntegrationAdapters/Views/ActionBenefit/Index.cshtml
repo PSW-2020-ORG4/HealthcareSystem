@@ -34,7 +34,7 @@
                             </td>
                             <td class="text-center">
                                 <a asp-controller="@ViewBag.ItemName" asp-action="Details" asp-route-id="@item.Id">
-                                    @item.Subject
+                                    @item.Message.Subject
                                 </a>
                             </td>
                             <td class="text-center">@((item.IsPublic) ? "Yes" : "No")</td>

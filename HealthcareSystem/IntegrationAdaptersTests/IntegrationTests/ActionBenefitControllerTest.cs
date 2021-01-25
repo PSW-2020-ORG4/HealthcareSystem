@@ -15,7 +15,6 @@ namespace IntegrationAdaptersTests.IntegrationTests
         public void Index_ReturnsSingleItem()
         {
             DbContextInMemory testData = new DbContextInMemory();
-            testData.SetActionBenefitControllerTestIntegration();
             MyDbContext context = testData._context;
             ActionBenefitService actionBenefitService = new ActionBenefitService(new MySqlActionBenefitRepository(context), new MySqlPharmacyRepo(context));
             var controller = new ActionBenefitController(actionBenefitService);
@@ -30,7 +29,6 @@ namespace IntegrationAdaptersTests.IntegrationTests
         public void Details_ReturnsActionBenfit_Id_1()
         {
             DbContextInMemory testData = new DbContextInMemory();
-            testData.SetActionBenefitControllerTestIntegration();
             MyDbContext context = testData._context;
             ActionBenefitService actionBenefitService = new ActionBenefitService(new MySqlActionBenefitRepository(context), new MySqlPharmacyRepo(context));
             var controller = new ActionBenefitController(actionBenefitService);
@@ -44,7 +42,6 @@ namespace IntegrationAdaptersTests.IntegrationTests
         public void MakePublic_SetsActionBenefit_IsPublic_ToValue()
         {
             DbContextInMemory testData = new DbContextInMemory();
-            testData.SetActionBenefitControllerTestIntegration();
             MyDbContext context = testData._context;
             ActionBenefitService actionBenefitService = new ActionBenefitService(new MySqlActionBenefitRepository(context), new MySqlPharmacyRepo(context));
             var controller = new ActionBenefitController(actionBenefitService);
@@ -58,7 +55,6 @@ namespace IntegrationAdaptersTests.IntegrationTests
         public void MakePublic_SetsInvalidActionBenefit_IsPublic_ToValue_ThrowException()
         {
             DbContextInMemory testData = new DbContextInMemory();
-            testData.SetActionBenefitControllerTestIntegration();
             MyDbContext context = testData._context;
             ActionBenefitService actionBenefitService = new ActionBenefitService(new MySqlActionBenefitRepository(context), new MySqlPharmacyRepo(context));
             var controller = new ActionBenefitController(actionBenefitService);

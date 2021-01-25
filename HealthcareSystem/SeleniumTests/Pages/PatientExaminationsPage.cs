@@ -7,8 +7,7 @@ namespace PatientWebAppE2ETests.Pages
     public class PatientExaminationsPage
     {
         private readonly IWebDriver driver;
-
-        public const string URI = "http://localhost:65117/html/patient_examinations.html";
+        private readonly string URI;
 
         private IWebElement ButtonElement => driver.FindElement(By.Name("cancelButton"));
 
@@ -17,9 +16,10 @@ namespace PatientWebAppE2ETests.Pages
         public const string ValidCommentMessage = "Examination successfully cancelled.";
 
 
-        public PatientExaminationsPage(IWebDriver driver)
+        public PatientExaminationsPage(IWebDriver driver, string uri)
         {
             this.driver = driver;
+            URI = uri;
         }
 
         public bool ButtonElementDisplayed()

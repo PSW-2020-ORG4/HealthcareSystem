@@ -9,5 +9,6 @@ namespace Backend.Service.RoomAndEquipment
     {
         void AddEquipmentTransfer(EquipmentTransfer equipmentTransfer);     
         EquipmentTransfer GetEquipmentTransferByRoomNumberAndDate(int roomNumber, DateTime dateOfTransfer);
+        ICollection<EquipmentTransfer> GetEquipmentTransfersByRoomNumberAndPeriod(DateTime start, DateTime end, int roomNumber);
     }
 }

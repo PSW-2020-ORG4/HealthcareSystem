@@ -24,5 +24,10 @@ namespace Backend.Service.RoomAndEquipment
         {
            return _equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(roomNumber,dateOfTransfer);
         }
+
+        public ICollection<EquipmentTransfer> GetEquipmentTransfersByRoomNumberAndPeriod(DateTime start, DateTime end, int roomNumber)
+        {
+            return _equipmentTransferRepository.GetEquipmentTransfersByRoomNumberAndPeriod(start, end, roomNumber);
+        }
     }
 }

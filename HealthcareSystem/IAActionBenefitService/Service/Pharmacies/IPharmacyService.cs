@@ -6,5 +6,6 @@ namespace IntegrationAdaptersActionBenefitService.Service
     public interface IPharmacyService
     {
         List<PharmacySystem> GetPharmaciesBySubscribed(bool subscribed);
+        PharmacySystem GetPharmacyByExchangeName(string exchangeName);
     }
 }

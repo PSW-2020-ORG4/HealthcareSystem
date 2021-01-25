@@ -1,7 +1,11 @@
 using Backend.Communication.RabbitMqConnection;
 using Backend.Model;
 using Backend.Model.Pharmacies;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using MimeKit;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -16,8 +20,9 @@ namespace IntegrationAdaptersActionBenefitService.Service
         private readonly EventingBasicConsumer _consumer;
         private readonly IServiceProvider _service;
         private readonly String _queueName;
+        private readonly MailSettings _mailSettings;
 
-        public RabbitMqActionBenefitService(IServiceProvider service, IRabbitMqConnection connection)
+        public RabbitMqActionBenefitService(IServiceProvider service, IRabbitMqConnection connection, IOptions<MailSettings> mailSettings)
         {
             if (connection.Connection != null)
             {
@@ -27,6 +32,7 @@ namespace IntegrationAdaptersActionBenefitService.Service
             }
             _queueName = connection.Configuration.ActionBenefitQueueName;
             _service = service;
+            _mailSettings = mailSettings.Value;
             InitializeRabbitMqListener();
         }
 
@@ -77,10 +83,10 @@ namespace IntegrationAdaptersActionBenefitService.Service
             string exchangeName = null;
             try
             {
+                exchangeName = e.Exchange;
                 body = e.Body.ToArray();
                 messageJson = Encoding.UTF8.GetString(body);
                 message = JsonConvert.DeserializeObject<ActionBenefitMessage>(messageJson);
-                exchangeName = e.Exchange;
                 HandleMessage(message, exchangeName);
                 _channel.BasicAck(e.DeliveryTag, false);
             }
@@ -88,6 +94,13 @@ namespace IntegrationAdaptersActionBenefitService.Service
             {
                 Console.WriteLine(ex.Message);
                 _channel.BasicReject(e.DeliveryTag, false);
+                using (var scope = _service.CreateScope())
+                {
+                    IPharmacyService pharmacyService = scope.ServiceProvider.GetRequiredService<IPharmacyService>();
+                    PharmacySystem pharmacySystem = pharmacyService.GetPharmacyByExchangeName(exchangeName);
+                    if (pharmacySystem != null)
+                        SendEmail(ex.Message, pharmacySystem.Email);
+                }
             }
         }
 
@@ -133,6 +146,24 @@ namespace IntegrationAdaptersActionBenefitService.Service
                 else if (!subOld && subNew)
                     Subscribe(exNew);
             }
+        }
+
+        private void SendEmail(string content, string recipient)
+        {
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(_mailSettings.Mail);
+            email.To.Add(MailboxAddress.Parse(recipient));
+            email.Subject = "ActionBenefit message error!";
+            var builder = new BodyBuilder();
+            builder.HtmlBody =
+                "ActionBenefit message should be Json String with Subject and Message fields, type string, neither can be null or empty string! <br>" + content;
+            email.Body = builder.ToMessageBody();
+            using var smtp = new SmtpClient();
+            smtp.CheckCertificateRevocation = false;
+            smtp.Connect(_mailSettings.Host, _mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(_mailSettings.Mail, _mailSettings.Password);
+            smtp.Send(email);
+            smtp.Disconnect(true);
         }
     }
 }

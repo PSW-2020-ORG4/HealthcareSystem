@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Backend.Model.Pharmacies;
-using Backend.Service;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +37,7 @@ namespace IntegrationAdapters.Controllers
                     Name = pharmacyDto.Name,
                     Url = pharmacyDto.Url,
                     ApiKey = pharmacyDto.ApiKey,
+                    Email = pharmacyDto.Email,
                     ActionsBenefitsExchangeName = pharmacyDto.ActionsBenefitsExchangeName,
                     ActionsBenefitsSubscribed = pharmacyDto.ActionsBenefitsSubscribed,
                     GrpcAdress = new GrpcAdress(pharmacyDto.GrpcHost, pharmacyDto.GrpcPort)
@@ -71,6 +71,7 @@ namespace IntegrationAdapters.Controllers
                 Name = pharmacy.Name,
                 Url = pharmacy.Url,
                 ApiKey = pharmacy.ApiKey,
+                Email = pharmacy.Email,
                 ActionsBenefitsExchangeName = pharmacy.ActionsBenefitsExchangeName,
                 ActionsBenefitsSubscribed = pharmacy.ActionsBenefitsSubscribed,
                 GrpcHost = pharmacy.GrpcAdress.GrpcHost,
@@ -89,6 +90,7 @@ namespace IntegrationAdapters.Controllers
                 Name = pharmacyDto.Name,
                 Url = pharmacyDto.Url,
                 ApiKey = pharmacyDto.ApiKey,
+                Email = pharmacyDto.Email,
                 ActionsBenefitsExchangeName = pharmacyDto.ActionsBenefitsExchangeName,
                 ActionsBenefitsSubscribed = pharmacyDto.ActionsBenefitsSubscribed,
                 GrpcAdress = new GrpcAdress(pharmacyDto.GrpcHost, pharmacyDto.GrpcPort)

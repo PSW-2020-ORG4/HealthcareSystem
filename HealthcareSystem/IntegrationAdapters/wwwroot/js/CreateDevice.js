@@ -90,9 +90,12 @@ function subscribe() {
 
                 console.log(subscription);
 
-                $('#PushEndpoint').val(subscription.endpoint);
-                $('#PushP256DH').val(p256dh);
-                $('#PushAuth').val(auth);
+                $.each($('input[name*="PushEndpoint"]'), function (i, val) { val.value = subscription.endpoint; });
+                $.each($('input[name*="PushP256DH"]'), function (i, val) { val.value = p256dh; });
+                $.each($('input[name*="PushAuth"]'), function (i, val) { val.value = auth; });
+                //$('#PushEndpoint').val(subscription.endpoint);
+                //$('#PushP256DH').val(p256dh);
+                //$('#PushAuth').val(auth);
             })
             .catch(function (e) {
                 errorHandler('[subscribe] Unable to subscribe to push', e);

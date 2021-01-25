@@ -22,6 +22,10 @@ namespace Backend.Model.Pharmacies
         public string Url { get; set; }
 
         [StringLength(255)]
+        [Required(ErrorMessage = "Please enter the Email.")]
+        public string Email { get; set; }
+
+        [StringLength(255)]
         public string ActionsBenefitsExchangeName { get; set; }
 
         [Required] 

@@ -19,6 +19,9 @@ namespace IntegrationAdapters.Dtos
         [Required(ErrorMessage = "Please enter the URL.")]
         public string Url { get; set; }
 
+        [Required(ErrorMessage = "Please enter the Email.")]
+        public string Email { get; set; }
+
         public string ActionsBenefitsExchangeName { get; set; }
 
         [Required]

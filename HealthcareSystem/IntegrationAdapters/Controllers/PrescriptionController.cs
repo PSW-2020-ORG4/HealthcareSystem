@@ -80,7 +80,7 @@ namespace IntegrationAdapters.Controllers
                 else
                 {
                     pushPayload.Title = "Unsuccess";
-                    pushPayload.Message = "Prescription upload to " + pharmacy.Name + @" unsuccessfull!""}";
+                    pushPayload.Message = "Prescription upload to " + pharmacy.Name + @" unsuccessfull!";
                 }
                 _pushNotificationService.SendNotification(pushSubscription, pushPayload);
             }

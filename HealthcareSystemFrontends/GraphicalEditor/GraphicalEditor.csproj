@@ -106,9 +106,11 @@
     <Compile Include="DTO\ExaminationDTO.cs" />
     <Compile Include="DTO\FrontAppointmentSearchDTO.cs" />
     <Compile Include="DTO\PatientBasicDTO.cs" />
+    <Compile Include="DTO\RoomSchedulesDTO.cs" />
     <Compile Include="DTO\SpecialtyDTO.cs" />
     <Compile Include="DTO\TransferEquipmentDTO.cs" />
     <Compile Include="Enumerations\BuildingLayersButtonsOrientation.cs" />
+    <Compile Include="Enumerations\ScheduleType.cs" />
     <Compile Include="Enumerations\SearchPriority.cs" />
     <Compile Include="Enumerations\TypeOfRenovation.cs" />
     <Compile Include="EquipmentRelocationSchedulingDialog.xaml.cs">

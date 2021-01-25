@@ -976,7 +976,7 @@ namespace GraphicalEditor
 
         private void ShowRoomScheduleButton_Click(object sender, RoutedEventArgs e)
         {
-            ScheduleForRoomDialog scheduleForRoomDialog = new ScheduleForRoomDialog();
+            ScheduleForRoomDialog scheduleForRoomDialog = new ScheduleForRoomDialog((int)SelectedMapObject.MapObjectEntity.Id);
             scheduleForRoomDialog.ShowDialog();
         }
 

@@ -82,7 +82,7 @@ namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
         {
             try
             {
-                return _context.BaseRenovation.Where(e => e.RoomId == roomNumber &&  e.RenovationPeriod.BeginDate >= start && e.RenovationPeriod.EndDate <= end ).ToList();
+                return _context.BaseRenovation.Where(e => e.RoomId == roomNumber &&  e.RenovationPeriod.BeginDate >= start && e.RenovationPeriod.BeginDate <= end ).ToList();
             }
             catch (Exception)
             {

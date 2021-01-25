@@ -14,7 +14,11 @@ namespace Backend.Service.RoomAndEquipment
             _equipmentTransferRepository = equipmentTransferRepository;
 
         }
-
+        
+        public void DeleteEquipmentType(int id)
+        {
+            _equipmentTransferRepository.DeleteEquipmentTransfer(id);
+        }
         public void AddEquipmentTransfer(EquipmentTransfer equipmentTransfer)
         {
             _equipmentTransferRepository.AddEquipmentTransfer(equipmentTransfer);
@@ -25,6 +29,10 @@ namespace Backend.Service.RoomAndEquipment
            return _equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(roomNumber,dateOfTransfer);
         }
 
+        void IEquipmentTransferService.DeleteEquipmentTransfer(int id)
+        {
+            _equipmentTransferRepository.DeleteEquipmentTransfer(id);
+        }
         public ICollection<EquipmentTransfer> GetEquipmentTransfersByRoomNumberAndPeriod(DateTime start, DateTime end, int roomNumber)
         {
             return _equipmentTransferRepository.GetEquipmentTransfersByRoomNumberAndPeriod(start, end, roomNumber);

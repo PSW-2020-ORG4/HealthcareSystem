@@ -172,12 +172,18 @@ namespace GraphicalEditor
             List<ExaminationForReschedulingDTO> examinationsForReschedunling = new List<ExaminationForReschedulingDTO>();
 
             RenovatonService ren = new RenovatonService();
-            BaseRenovationDTO dto = new BaseRenovationDTO(50, new DateTime(2021, 3, 1, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 1, 16, 45, 0, DateTimeKind.Utc), "krecenje", TypeOfRenovation.DIVIDE_RENOVATION);
-            DivideRenovationDTO mrg = new DivideRenovationDTO(dto, " soba za konsultacije"," soba za pregled", TypeOfMapObject.EXAMINATION_ROOM, TypeOfMapObject.HOSPITALIZATION_ROOM);
-            bool add =ren.ScheduleDivideRenovation(mrg);
+            AppointmentService aps = new AppointmentService();
+            EquipmentService es = new EquipmentService();
+            aps.DeleteAppointment(1);
+            es.DeleteEquipmentTransfer(1);
+            ren.DeleteRenovation(1);
+            BaseRenovationDTO dto = new BaseRenovationDTO(50, new DateTime(2021, 3, 12, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 12, 16, 45, 0, DateTimeKind.Utc), "menjanje poda", TypeOfRenovation.REGULAR_RENOVATION);
+            // DivideRenovationDTO mrg = new DivideRenovationDTO(dto, " soba za konsultacije"," soba za pregled", TypeOfMapObject.EXAMINATION_ROOM, TypeOfMapObject.HOSPITALIZATION_ROOM);
+            //MergeRenovationDTO mrg = new MergeRenovationDTO(dto, 16, "soba za hospitalizovanje pacijenata", TypeOfMapObject.HOSPITALIZATION_ROOM);
+            bool add = ren.ScheduleBaseRenovation(dto);
             if (!add)
             {
-                foreach (RenovationPeriodDTO period in ren.GetDivideRenovationAlternativeAppointments(mrg))
+                foreach (RenovationPeriodDTO period in ren.GetBaseRenovationAlternativeAppointments(dto))
                 {
                     Console.WriteLine(period.StartTime + " ------ " + period.EndTime);
                     Console.WriteLine("");
@@ -187,9 +193,9 @@ namespace GraphicalEditor
             {
                 Console.WriteLine("else");
             }
-            /*
+
             examinationsForReschedunling.Add(examinationForReschedulingDTO);
-            EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;*/
+            EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;
 
             /*
             AppointmentSearchWithPrioritiesDTO appointmentSearch = new AppointmentSearchWithPrioritiesDTO
@@ -278,7 +284,7 @@ namespace GraphicalEditor
 
             EquipmentTypeService equipmentTypeService = new EquipmentTypeService();
             List<EquipmentTypeDTO> equipmentTypes = equipmentTypeService.GetEquipmentTypes();
-
+            if(equipmentTypes!= null)
             foreach(EquipmentTypeDTO equipmentType in equipmentTypes)
             {
                 AllEquipmentTypes.Add(new EquipmentTypeForViewDTO(equipmentType, false));
@@ -314,7 +320,6 @@ namespace GraphicalEditor
             return freeRooms;
         }
 
-      
 
         private void RestrictUsersAccessBasedOnRole()
         {

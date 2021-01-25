@@ -29,6 +29,13 @@ namespace Model.Manager
             Occupation = occupation;
             Renovation = renovation;
         }
+        public Room(TypeOfUsage typeOfUsage, int capacity, int occupation, bool renovation)
+        {
+            Usage = typeOfUsage;
+            Capacity = capacity;
+            Occupation = occupation;
+            Renovation = renovation;
+        }
         public Room(Room room)
         {
             Id = room.Id;

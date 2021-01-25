@@ -1,86 +1,101 @@
 ﻿using System;
-using System.Linq;
+using System.Threading.Tasks;
 using Backend.Model.Pharmacies;
 using Backend.Service;
-using Backend.Service.Pharmacies;
+using IntegrationAdapters.Dtos;
+using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdapters.Controllers
 {
     public class PharmacyController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private readonly IPharmacyService _pharmacyService;
-        private readonly IRabbitMqActionBenefitService _actionBenefitMessageingService;
+        private readonly IPharmacySystemService _pharmacySystemService;
 
-        public PharmacyController(IPharmacyService iPharmacyService, IRabbitMqActionBenefitService actionBenefitSubscriptionService)
+        public PharmacyController(IPharmacySystemService pharmacySystemService)
         {
-            _pharmacyService = iPharmacyService;
-            _actionBenefitMessageingService = actionBenefitSubscriptionService;
+            _pharmacySystemService = pharmacySystemService;
         }
 
         public IActionResult ApiRegister()
         {
-            return View(new PharmacySystem());
+            return View(new PharmacySystemDTO());
         }
 
         [HttpPost]
-        public IActionResult ApiRegister(PharmacySystem pharmacy)
+        public async Task<IActionResult> ApiRegister(PharmacySystemDTO pharmacyDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (pharmacy.ActionsBenefitsExchangeName != null)
-                pharmacy.ActionsBenefitsSubscribed = true;
+            if (pharmacyDto.ActionsBenefitsExchangeName != null)
+                pharmacyDto.ActionsBenefitsSubscribed = true;
 
             try
             {
-                _pharmacyService.CreatePharmacy(pharmacy);
+                PharmacySystem pharmacy = new PharmacySystem()
+                {
+                    Name = pharmacyDto.Name,
+                    Url = pharmacyDto.Url,
+                    ApiKey = pharmacyDto.ApiKey,
+                    ActionsBenefitsExchangeName = pharmacyDto.ActionsBenefitsExchangeName,
+                    ActionsBenefitsSubscribed = pharmacyDto.ActionsBenefitsSubscribed,
+                    GrpcAdress = new GrpcAdress(pharmacyDto.GrpcHost, pharmacyDto.GrpcPort)
+                };
+                await _pharmacySystemService.Create(pharmacy);
             }
             catch (Exception ex)
             {
                 return BadRequest(ModelState);
             }
 
-            if (pharmacy.ActionsBenefitsSubscribed)
-                _actionBenefitMessageingService.Subscribe(pharmacy.ActionsBenefitsExchangeName);
-
             TempData["Success"] = "Registration successful!";
             return RedirectToAction("ApiRegister");
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_pharmacyService.GetAllPharmacies().ToList());
+            return View(await _pharmacySystemService.GetAll());
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var pharmacy = _pharmacyService.GetPharmacyById(id);
+            var pharmacy = await _pharmacySystemService.Get(id);
 
             if (pharmacy == null)
                 return NotFound("Pharmacy does not exist.");
 
-            return View(pharmacy);
+            PharmacySystemDTO dto = new PharmacySystemDTO()
+            {
+                Id = pharmacy.Id,
+                Name = pharmacy.Name,
+                Url = pharmacy.Url,
+                ApiKey = pharmacy.ApiKey,
+                ActionsBenefitsExchangeName = pharmacy.ActionsBenefitsExchangeName,
+                ActionsBenefitsSubscribed = pharmacy.ActionsBenefitsSubscribed,
+                GrpcHost = pharmacy.GrpcAdress.GrpcHost,
+                GrpcPort = pharmacy.GrpcAdress.GrpcPort
+            };
+
+            return View(dto);
         }
 
         [HttpPost]
-        public IActionResult Edit(PharmacySystem pharmacy)
+        public async Task<IActionResult> Edit(PharmacySystemDTO pharmacyDto)
         {
-            PharmacySystem pharmacyOld = _pharmacyService.GetPharmacyByIdNoTracking(pharmacy.Id);
-            if (pharmacyOld == null)
-                throw new ArgumentNullException("There is no pharmacy with id=" + pharmacy.Id);
-
-            if (pharmacy.ActionsBenefitsExchangeName == null)
-                pharmacy.ActionsBenefitsSubscribed = false;
-
-            _pharmacyService.UpdatePharmacy(pharmacy);
-
-            _actionBenefitMessageingService.SubscriptionEdit(pharmacyOld.ActionsBenefitsExchangeName, 
-                                                             pharmacyOld.ActionsBenefitsSubscribed, 
-                                                             pharmacy.ActionsBenefitsExchangeName, 
-                                                             pharmacy.ActionsBenefitsSubscribed);
-
-            return RedirectToAction("Index");
+            PharmacySystem pharmacy = new PharmacySystem()
+            {
+                Id = pharmacyDto.Id,
+                Name = pharmacyDto.Name,
+                Url = pharmacyDto.Url,
+                ApiKey = pharmacyDto.ApiKey,
+                ActionsBenefitsExchangeName = pharmacyDto.ActionsBenefitsExchangeName,
+                ActionsBenefitsSubscribed = pharmacyDto.ActionsBenefitsSubscribed,
+                GrpcAdress = new GrpcAdress(pharmacyDto.GrpcHost, pharmacyDto.GrpcPort)
+            };
+            if (await _pharmacySystemService.Update(pharmacy))
+                return RedirectToAction("Index");
+            return BadRequest("Something went wrong");
         }
     }
 }

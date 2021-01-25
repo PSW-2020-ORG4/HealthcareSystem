@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Backend.Service.Pharmacies;
+using System.Threading.Tasks;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
+using IntegrationAdapters.MicroserviceComunicator;
 using IntegrationAdapters.Services;
 using Microsoft.AspNetCore.Mvc;
 using WebPush;
@@ -11,26 +12,26 @@ namespace IntegrationAdapters.Controllers
 {
     public class DrugSpecificationsController : Controller
     {
-        private readonly IPharmacyService _pharmacyService;
+        private readonly IPharmacySystemService _pharmacySystemService;
         private readonly IAdapterContext _adapterContext;
         private readonly IPushNotificationService _pushNotificationService;
-        public DrugSpecificationsController(IPharmacyService pharmacyService,
+        public DrugSpecificationsController(IPharmacySystemService pharmacySystemService,
                                             IAdapterContext adapterContext,
                                             IPushNotificationService pushNotificationService)
         {
-            _pharmacyService = pharmacyService;
+            _pharmacySystemService = pharmacySystemService;
             _adapterContext = adapterContext;
             _pushNotificationService = pushNotificationService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_pharmacyService.GetAllPharmacies().ToList());
+            return View(await _pharmacySystemService.GetAll());
         }
 
-        public IActionResult DrugList(int id)
+        public async Task<IActionResult> DrugList(int id)
         {
-            var pharmacySystem = _pharmacyService.GetPharmacyById(id);
+            var pharmacySystem = await _pharmacySystemService.Get(id);
             if (_adapterContext.SetPharmacySystemAdapter(pharmacySystem) == null)
             {
                 return View(new List<DrugListDTO>());
@@ -43,7 +44,7 @@ namespace IntegrationAdapters.Controllers
         }
 
         [HttpPost]
-        public IActionResult RequestSpecifications()
+        public async Task<IActionResult> RequestSpecifications()
         {
             PushSubscription pushSubscription = new PushSubscription() { Endpoint = Request.Form["PushEndpoint"], P256DH = Request.Form["PushP256DH"], Auth = Request.Form["PushAuth"] };
             PushPayload pushPayload = new PushPayload();
@@ -51,7 +52,7 @@ namespace IntegrationAdapters.Controllers
             int pharmacyId = int.Parse(Request.Form["pharmacyId"]);
             int drugId = int.Parse(Request.Form["drugId"]);
 
-            var pharmacySystem = _pharmacyService.GetPharmacyById(pharmacyId);
+            var pharmacySystem = await _pharmacySystemService.Get(pharmacyId);
             if (_adapterContext.SetPharmacySystemAdapter(pharmacySystem) == null)
             {
                 pushPayload.Title = "Unsuccess";

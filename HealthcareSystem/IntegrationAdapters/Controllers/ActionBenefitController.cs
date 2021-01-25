@@ -1,5 +1,6 @@
-using Backend.Service;
+using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace IntegrationAdapters.Controllers
 {
@@ -12,20 +13,20 @@ namespace IntegrationAdapters.Controllers
             _actionBenefitService = actionBenefitService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_actionBenefitService.GetAllActionsBenefits());
+            return View(await _actionBenefitService.GetAll());
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return View(_actionBenefitService.GetActionBenefitById(id));
+            return View(await _actionBenefitService.Get(id));
         }
 
         [Route("ActionBenefit/MakePublic/{id}/{isPublic}")]
-        public IActionResult MakePublic(int id, bool isPublic)
+        public async Task<IActionResult> MakePublic(int id, bool isPublic)
         {
-            _actionBenefitService.MakePublic(id, isPublic);
+            await _actionBenefitService.SetPublic(id, isPublic);
             return RedirectToAction("Details", new { id = id });
         }
     }

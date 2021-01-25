@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EventSourcingService.Model.GraphicalEditor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,6 +27,118 @@ namespace EventSourcingService.Model
         {
             if (Verbose) Console.WriteLine("Seeding events.");
             SeedEvents(context);
+            if (Verbose) Console.WriteLine("Seeding GE events.");
+            SeedGraphicalEditorEvents(context);
+
+            context.SaveChanges();
+        }
+
+        private void SeedGraphicalEditorEvents(EventSourcingDbContext context)
+        {
+            /* SEQUENCE */
+            context.Add(new BuildingSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(0),
+                Username = "perapera",
+                BuildingNumber = 6
+            });
+
+            context.Add(new RoomSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(2),
+                Username = "perapera",
+                RoomNumber = 20
+            });
+
+            /* SEQUENCE */
+            context.Add(new BuildingSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(5),
+                Username = "perapera",
+                BuildingNumber = 6
+            });
+
+            context.Add(new RoomSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(7),
+                Username = "perapera",
+                RoomNumber = 21
+            });
+
+            context.Add(new RoomSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(9),
+                Username = "perapera",
+                RoomNumber = 20
+            });
+
+            /* SEQUENCE */
+            context.Add(new BuildingSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(11),
+                Username = "perapera",
+                BuildingNumber = 6
+            });
+
+            context.Add(new RoomSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(13),
+                Username = "perapera",
+                RoomNumber = 18
+            });
+
+            /* SEQUENCE */
+            context.Add(new BuildingSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(15),
+                Username = "perapera",
+                BuildingNumber = 6
+            });
+
+            context.Add(new RoomSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(17),
+                Username = "perapera",
+                RoomNumber = 19
+            });
+
+            /* SEQUENCE */
+            context.Add(new BuildingSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(19),
+                Username = "perapera",
+                BuildingNumber = 6
+            });
+
+            context.Add(new RoomSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(21),
+                Username = "perapera",
+                RoomNumber = 20
+            });
+
+            /* SEQUENCE */
+            context.Add(new BuildingSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(23),
+                Username = "perapera",
+                BuildingNumber = 6
+            });
+
+            context.Add(new RoomSelectionEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30).AddSeconds(25),
+                Username = "perapera",
+                RoomNumber = 20
+            });
+
+            context.Add(new FloorChangeEvent()
+            {
+                TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30),
+                Username = "perapera",
+                BuildingNumber = 6,
+                Floor = 2
+            });
 
             context.SaveChanges();
         }

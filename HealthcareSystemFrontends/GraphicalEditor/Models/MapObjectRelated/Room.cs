@@ -56,13 +56,14 @@ namespace GraphicalEditor.Models.MapObjectRelated
         {
             RoomSelectionEventDTO roomSelectionEventDTO = new RoomSelectionEventDTO(MainWindow._currentUsername, (int)Id);
 
-            EventSourcingService eventSourcingService = new EventSourcingService();
-            eventSourcingService.AddRoomSelectionEvent(roomSelectionEventDTO);
-
             MapObjectController mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
             MapObject building = mapObjectController.GetMapObjectById(BuildingId);
 
             ((Building)building.MapObjectEntity).AddBuildingSelectionEvent();
+
+
+            EventSourcingService eventSourcingService = new EventSourcingService();
+            eventSourcingService.AddRoomSelectionEvent(roomSelectionEventDTO);            
         }
     }
 }

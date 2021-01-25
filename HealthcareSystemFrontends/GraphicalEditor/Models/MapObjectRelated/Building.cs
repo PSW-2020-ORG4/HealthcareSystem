@@ -68,12 +68,12 @@ namespace GraphicalEditor.Models.MapObjectRelated
 
         public void AddFloorChangeEvent(int choosenFloorNumber)
         {
+            AddBuildingSelectionEvent();
+
             FloorChangeEventDTO floorChangeEventDTO = new FloorChangeEventDTO(MainWindow._currentUsername, (int)Id, choosenFloorNumber);
 
             EventSourcingService eventSourcingService = new EventSourcingService();
             eventSourcingService.AddFloorChangeEvent(floorChangeEventDTO);
-
-            AddBuildingSelectionEvent();
         }
 
         public void AddBuildingSelectionEvent()

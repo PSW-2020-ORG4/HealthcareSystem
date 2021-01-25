@@ -297,7 +297,7 @@ namespace Backend.Service.ExaminationAndPatientCard
 
         private bool IsRoomAvailable(int roomId, DateTime dateTime)
         {
-            if(!_roomService.CheckIfRoomExists(roomId))
+            if (!_roomService.CheckIfRoomExists(roomId))
                 throw new BadRequestException("Room doesn't exist in database.");
 
             if (_examinationRepository.GetExaminationsByRoomAndDateTime(roomId, dateTime).Count > 0)

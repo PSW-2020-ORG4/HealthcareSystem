@@ -1,4 +1,5 @@
-﻿using Backend.Model.Manager;
+﻿using Backend.Model.Enums;
+using Backend.Model.Manager;
 using Backend.Model.PerformingExamination;
 using Backend.Model.Users;
 using Backend.Repository;
@@ -120,7 +121,6 @@ namespace GraphicalEditorServerTests.DataFactory
             equipmentTransferStubRepository.Setup(m => m.GetFollowingEquipmentTransversByRoom(30)).Returns(new List<EquipmentTransfer>());
             equipmentTransferStubRepository.Setup(m => m.GetFollowingEquipmentTransversByRoom(31)).Returns(new List<EquipmentTransfer>());
         
-
             return equipmentTransferStubRepository.Object;
         }
 
@@ -129,6 +129,7 @@ namespace GraphicalEditorServerTests.DataFactory
             var roomStubRepository = new Mock<IRoomRepository>();
             roomStubRepository.Setup(x => x.GetAllRooms()).Returns(_createRooms.CreateRooms());
             roomStubRepository.Setup(m => m.CheckIfRoomExists(0)).Returns(true);
+            roomStubRepository.Setup(m => m.AddRoom(It.IsAny<Room>())).Returns(new Room(1,TypeOfUsage.OPERATION_ROOM, 0, 0, true));
             roomStubRepository.Setup(m => m.GetRoomByNumber(0)).Returns(_createRooms.CreateRooms()[0]);
             roomStubRepository.Setup(m => m.GetRoomByNumber(1)).Returns(_createRooms.CreateRooms()[1]);
             roomStubRepository.Setup(m => m.GetRoomByNumber(2)).Returns(_createRooms.CreateRooms()[2]);

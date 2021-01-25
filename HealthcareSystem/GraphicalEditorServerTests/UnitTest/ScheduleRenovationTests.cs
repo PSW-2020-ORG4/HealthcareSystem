@@ -25,9 +25,9 @@ namespace GraphicalEditorServerTests.UnitTest
             RenovationService renovationService = new RenovationService(_stubRepository.CreateRenovationStubRepository(),
                 _stubRepository.CreateExaminationStubRepository(),
                 new ExaminationService(_stubRepository.CreateExaminationStubRepository()),
-                _stubRepository.CreateEquipmentTransferStubRepository());
-
-            return renovationService;
+                _stubRepository.CreateEquipmentTransferStubRepository(),
+                _stubRepository.CreateRoomStubRepository());
+             return renovationService;
         }
 
         [Fact]
@@ -45,13 +45,13 @@ namespace GraphicalEditorServerTests.UnitTest
             MergeRenovation result = renovationService.AddMergeRenovation(_createRenovaton.CreateInvalidTestObjectForSchedulingMergeRenovation());
             Assert.Null(result);
         }
-   /*     [Fact]
+        [Fact]
         public void Schedule_merge_renovation_valid()
         {
             RenovationService renovationService = SetupRenovationService();
             MergeRenovation result = renovationService.AddMergeRenovation(_createRenovaton.CreateValidTestObjectForSchedulingMergeRenovation());
             Assert.Equal(result.Description, _createRenovaton.CreateValidTestObjectForSchedulingMergeRenovation().Description);
-        } */
+        }
         [Fact]
         public void Schedule_divide_renovation_return_null()
         {
@@ -59,13 +59,13 @@ namespace GraphicalEditorServerTests.UnitTest
             DivideRenovation result = renovationService.AddDivideRenovation(_createRenovaton.CreateInvalidTestObjectForSchedulingDivideRenovation());
             Assert.Null(result);
         }
-    /*    [Fact]
+        [Fact]
         public void Schedule_divide_renovation_valid()
         {
             RenovationService renovationService = SetupRenovationService();
             DivideRenovation result = renovationService.AddDivideRenovation(_createRenovaton.CreateValidTestObjectForSchedulingDivideRenovation());
             Assert.Equal(result.Description, _createRenovaton.CreateValidTestObjectForSchedulingDivideRenovation().Description);
-        } */
+        }
 
     }
 }

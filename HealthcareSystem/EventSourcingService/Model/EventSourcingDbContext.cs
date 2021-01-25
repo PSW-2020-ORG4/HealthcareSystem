@@ -9,6 +9,10 @@ namespace EventSourcingService.Model
 {
     public class EventSourcingDbContext : DbContext
     {
+        public DbSet<PatientStartSchedulingEvent> PatientStartSchedulingEvents { get; set; }
+        public DbSet<PatientStepSchedulingEvent> PatientSchedulingEvents { get; set; }
+        public DbSet<PatientEndSchedulingEvent> PatientEndSchedulingEvents { get; set; }
+
         public DbSet<FloorChangeEvent> FloorChangeEvent { get; set; }
         public DbSet<RoomSelectionEvent> RoomSelectionEvent { get; set; }
         public DbSet<BuildingSelectionEvent> BuildingSelectionEvent { get; set; }

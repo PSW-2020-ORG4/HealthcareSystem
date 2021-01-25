@@ -46,6 +46,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IAPharmacySystemService", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IATenderService", "IATenderService\IATenderService.csproj", "{A5718322-8B0E-4396-B9A2-F678A3A150D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSourcingServiceTests", "EventSourcingServiceTests\EventSourcingServiceTests.csproj", "{497124AB-180D-4D68-B965-32C28201FDEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,6 +142,10 @@ Global
 		{A5718322-8B0E-4396-B9A2-F678A3A150D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5718322-8B0E-4396-B9A2-F678A3A150D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5718322-8B0E-4396-B9A2-F678A3A150D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{497124AB-180D-4D68-B965-32C28201FDEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{497124AB-180D-4D68-B965-32C28201FDEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{497124AB-180D-4D68-B965-32C28201FDEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{497124AB-180D-4D68-B965-32C28201FDEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

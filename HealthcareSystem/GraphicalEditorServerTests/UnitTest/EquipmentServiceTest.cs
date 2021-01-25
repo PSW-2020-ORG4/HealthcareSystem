@@ -68,7 +68,7 @@ namespace GraphicalEditorServerTests.UnitTest
             Assert.Equal(-1, result);
         }
 
-     /*   [Fact]
+        [Fact]
         public void Get_alternative_appointments1()
         {
             EquipmentService equipmentService = SetupEquipmentService();
@@ -83,7 +83,7 @@ namespace GraphicalEditorServerTests.UnitTest
             List<DateTime> result = equipmentService.GetAlternativeAppointments(_createTransferEqupmentDTO.CreateInvalidTestObjectForInitializingEquipmentTransfer1());
             Assert.DoesNotContain(_createTransferEqupmentDTO.CreateInvalidTestObjectForInitializingEquipmentTransfer1().DateAndTimeOfTransfer, result);
         }
-     */
+     
     }
 }
 

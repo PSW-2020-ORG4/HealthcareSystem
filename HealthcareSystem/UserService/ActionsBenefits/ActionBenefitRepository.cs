@@ -21,7 +21,7 @@ namespace UserService.ActionsBenefits
             try
             {
                 return _context.ActionsBenefits.Where(a => a.IsPublic).Select(
-                    a => new ActionBenefit(a.Id, a.Pharmacy.Name, a.Subject, a.Message));
+                    a => new ActionBenefit(a.Id, a.Pharmacy.Name, a.Message.Subject, a.Message.Message));
             }
             catch (Exception e)
             {

@@ -1,4 +1,4 @@
-﻿using Backend.Service;
+﻿using Backend.Communication.RabbitMqConfuguration;
 using RabbitMQ.Client;
 
 namespace Backend.Communication.RabbitMqConnection

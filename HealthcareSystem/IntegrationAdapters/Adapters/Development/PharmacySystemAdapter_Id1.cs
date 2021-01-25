@@ -123,12 +123,12 @@ namespace IntegrationAdapters.Adapters.Development
         }
 
         private void InitializeGrpc()
-        {   if(_parameters.GrpcHost == null || _parameters.GrpcHost == "" || _parameters.GrpcPort == -1)
+        {   if(_parameters.GrpcAdress.GrpcHost == null || _parameters.GrpcAdress.GrpcHost == "" || _parameters.GrpcAdress.GrpcPort == -1)
                 _grpc = false;
             else
                 _grpc = true;
 
-            _grpcChannel = new Channel(_parameters.GrpcHost, _parameters.GrpcPort, ChannelCredentials.Insecure);
+            _grpcChannel = new Channel(_parameters.GrpcAdress.GrpcHost, _parameters.GrpcAdress.GrpcPort, ChannelCredentials.Insecure);
             _grpcClient = new DrugAvailability.DrugAvailabilityClient(_grpcChannel);
 
         }

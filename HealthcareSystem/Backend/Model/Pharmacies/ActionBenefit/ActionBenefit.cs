@@ -14,8 +14,7 @@ namespace Backend.Model
         public ActionBenefit(int pharmacyId, ActionBenefitMessage message)
         {
             PharmacyId = pharmacyId;
-            Subject = message.Subject;
-            Message = message.Message;
+            Message = message;
             IsPublic = false;
         }
 
@@ -27,10 +26,7 @@ namespace Backend.Model
         public virtual PharmacySystem Pharmacy { get; set; }
 
         [Required]
-        public string Subject { get; set; }
-
-        [Required]
-        public string Message { get; set; }
+        public virtual ActionBenefitMessage Message { get; set; }
 
         [Required]
         public bool IsPublic { get; set; }

@@ -487,48 +487,67 @@ namespace Backend.Model
             #endregion
 
             #region Pharmacies
-            builder.Entity<PharmacySystem>().HasData(
-                new PharmacySystem()
+            builder.Entity<PharmacySystem>(
+                b =>
                 {
-                    Id = -1,
-                    Name = "Janković",
-                    ApiKey = "ApiKey1",
-                    Url = "http://localhost:8080",
-                    ActionsBenefitsExchangeName = "seeded",
-                    ActionsBenefitsSubscribed = true,
-                    GrpcHost = "localhost",
-                    GrpcPort = 30051
-                }
-                );
+                    b.HasData(new PharmacySystem()
+                    {
+                        Id = -1,
+                        Name = "Janković",
+                        ApiKey = "ApiKey1",
+                        Url = "http://localhost:8080",
+                        ActionsBenefitsExchangeName = "seeded",
+                        ActionsBenefitsSubscribed = true
+                    });
+                    b.OwnsOne(e => e.GrpcAdress).HasData(new
+                    {
+                        PharmacySystemId = -1,
+                        GrpcHost = "localhost",
+                        GrpcPort = 30051
+                    });
+                });
             #endregion
 
             #region ActionBenefits
-            builder.Entity<ActionBenefit>().HasData(
-                new ActionBenefit()
+            builder.Entity<ActionBenefit>(b =>
+            {
+                b.HasData(new ActionBenefit()
                 {
                     Id = -1,
                     PharmacyId = -1,
-                    Subject = "Novogodišnji popust",
-                    Message = "Kapi za oči Proculin Tears na popustu 30%",
                     IsPublic = true
                 },
                 new ActionBenefit()
                 {
                     Id = -2,
                     PharmacyId = -1,
-                    Subject = "Popust na penzionere",
-                    Message = "Renomal gel za zglobove na popustu 40%",
                     IsPublic = true
                 },
                 new ActionBenefit()
                 {
                     Id = -3,
                     PharmacyId = -1,
-                    Subject = "Novogodišnji popust",
-                    Message = "Corega pasta za protezu na popustu 50%",
                     IsPublic = true
-                }
-                );
+                });
+                b.OwnsOne(e => e.Message).HasData(new
+                {
+                    ActionBenefitId = -1,
+                    Subject = "Novogodišnji popust",
+                    Message = "Kapi za oči Proculin Tears na popustu 30%"
+                },
+                new
+                {
+                    ActionBenefitId = -2,
+                    Subject = "Popust za penzionere",
+                    Message = "Renomal gel za zglobove na popustu 40%"
+                },
+                new
+                {
+                    ActionBenefitId = -3,
+                    Subject = "Novogodišnji popust",
+                    Message = "Corega pasta za protezu na popustu 50%"
+                });
+            });
             #endregion
 
             #region DrugConsumptions

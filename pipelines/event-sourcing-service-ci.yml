@@ -4,8 +4,9 @@ pr:
 - develop
 
 variables:
-  paths: "**/EventSourcingService/*"
+  paths: "**/EventSourcingService/* **/EventSourcingServiceTests/*"
   project: 'HealthcareSystem/EventSourcingService/EventSourcingService.csproj'
+  tests: 'HealthcareSystem/FeedbackAndSurveyTests/EventSourcingServiceTests.csproj'
   configuration: 'Release'
   sonarProjectKey: 'psw-2020-org4_EventSourcingService'
   sonarProjectName: 'EventSourcingService'
@@ -102,6 +103,14 @@ jobs:
         command: 'build'
         projects: '$(project)'
         arguments: '-c $(configuration)'
+
+    - task: PowerShell@2
+      displayName: 'Run tests'
+      inputs:
+        targetType: 'inline'
+        script: |
+          #
+          dotnet test $(tests) --collect "Code Coverage" --results-directory "$(Agent.TempDirectory)"
 
     - task: DotNetCoreInstaller@0
       displayName: 'Use .NET Core SDK 2.2.103 for SonarCloud'

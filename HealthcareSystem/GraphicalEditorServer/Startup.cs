@@ -185,31 +185,6 @@ namespace GraphicalEditorServer
                 app.UseDeveloperExceptionPage();
             }
 
-            using (var scope = app.ApplicationServices.CreateScope())
-            using (var context = scope.ServiceProvider.GetService<MyDbContext>())
-            {
-                try
-                {
-                    Console.WriteLine("Data seeding started.");
-                    DataSeeder seeder = new DataSeeder(true);
-                    if (seeder.IsAlreadySeeded(context))
-                        Console.WriteLine("Data already seeded.");
-                    else
-                    {
-                        context.Database.EnsureDeleted();
-                        context.Database.EnsureCreated();
-                        seeder.SeedAll(context);
-                    }
-                    Console.WriteLine("Data seeding finished.");
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Data seeding failed.");
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine(e.StackTrace);
-                }
-            }
-
             app.UseRouting();
 
             app.UseAuthorization();

@@ -33,7 +33,10 @@ namespace Service.ExaminationAndPatientCard
         {
             _scheduledExaminationRepository.AddExamination(examination);
         }
-
+        public void DeleteExamination(int id)
+        {
+            _scheduledExaminationRepository.DeleteExaminationRepository(id);
+        }
         public List<Examination> GetAllExaminations()
         {
             return _scheduledExaminationRepository.GetAllExaminations();

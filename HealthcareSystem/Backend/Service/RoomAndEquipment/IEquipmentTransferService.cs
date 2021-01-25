@@ -7,7 +7,9 @@ namespace Backend.Service.RoomAndEquipment
 {
    public interface IEquipmentTransferService
     {
-        void AddEquipmentTransfer(EquipmentTransfer equipmentTransfer);     
+        void AddEquipmentTransfer(EquipmentTransfer equipmentTransfer);
+        void DeleteEquipmentType(int id);
+        void DeleteEquipmentTransfer(int id);
         EquipmentTransfer GetEquipmentTransferByRoomNumberAndDate(int roomNumber, DateTime dateOfTransfer);
     }
 }

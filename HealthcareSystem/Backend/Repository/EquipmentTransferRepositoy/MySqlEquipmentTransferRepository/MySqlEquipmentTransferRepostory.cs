@@ -23,7 +23,17 @@ namespace Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentR
             _context.SaveChanges();
            
         }
-
+        
+        public void DeleteEquipmentTransfer(int id)
+        {
+            EquipmentTransfer equipmentTransfer = _context.EqupmentTransfer.SingleOrDefault(d => d.Id == id);
+            if (equipmentTransfer != null)
+            {
+                _context.Remove(equipmentTransfer);
+                _context.SaveChanges();
+            }
+           
+        }
         public EquipmentTransfer GetEquipmentTransferByRoomNumberAndDate(int roomNumber, DateTime dateOfTransfer)
         {
             return  _context.EqupmentTransfer.SingleOrDefault(x => x.RoomNumber == roomNumber && x.DateAndTimeOfTransfer == dateOfTransfer);

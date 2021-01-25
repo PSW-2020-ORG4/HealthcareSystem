@@ -21,16 +21,18 @@ namespace GraphicalEditorServer.Controllers
         private readonly IEquipmentService _equipmentService;
         private readonly IEquipmentTypeService _equipmentTypeService;
         private readonly IEquipmentInRoomsService _equipmentInRoomsService;
-
+        private readonly IEquipmentTransferService _equipmentTransferService;
 
         public EquipmentController(
             IEquipmentService equipmentService, 
             IEquipmentTypeService equipmentTypeService,
-            IEquipmentInRoomsService equipmentInRoomsService)
+            IEquipmentInRoomsService equipmentInRoomsService,
+            IEquipmentTransferService equipmentTransferService)
         {
             _equipmentService = equipmentService;
             _equipmentTypeService = equipmentTypeService;
             _equipmentInRoomsService = equipmentInRoomsService;
+            _equipmentTransferService = equipmentTransferService;
         }
 
         [HttpPost]
@@ -91,6 +93,13 @@ namespace GraphicalEditorServer.Controllers
         public ActionResult ScheduleEquipmentTransfer(TransferEquipmentDTO transferEquipmentDTO)
         {
             _equipmentService.ScheduleEquipmentTrasfer(transferEquipmentDTO);
+            return Ok();
+        }
+
+        [HttpDelete("deleteById/{id}")]
+        public ActionResult DeleteEquipmentTransfer(int id)
+        {
+            _equipmentTransferService.DeleteEquipmentTransfer(id);            
             return Ok();
         }
 

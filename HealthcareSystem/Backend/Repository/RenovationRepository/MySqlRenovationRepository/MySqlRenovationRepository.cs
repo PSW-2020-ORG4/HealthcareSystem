@@ -19,8 +19,12 @@ namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
         }
         public void DeleteRenovation(int id)
         {
-            _context.BaseRenovation.Remove(_context.BaseRenovation.Find(id));
-            _context.SaveChanges();
+            BaseRenovation baseRenovation = _context.BaseRenovation.Find(id);
+            if (baseRenovation != null) {
+
+                _context.BaseRenovation.Remove(baseRenovation);
+                _context.SaveChanges();
+            }
         }
 
         public List<BaseRenovation> GetAllRenovations()

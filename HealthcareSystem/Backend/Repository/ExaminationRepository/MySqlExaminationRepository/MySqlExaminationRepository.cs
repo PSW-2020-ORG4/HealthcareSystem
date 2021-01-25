@@ -148,7 +148,16 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
                 throw new DatabaseException("The database connection is down.");
             }
         }
-
+        public void DeleteExaminationRepository(int id)
+        {
+            Examination examination = _context.Examinations.SingleOrDefault(d => d.Id == id);
+            if (examination != null) 
+            {
+                _context.Remove(examination);
+                _context.SaveChanges();
+            }
+               
+        }
 
         public ICollection<Examination> GetFollowingExaminationsByRoom(int roomId)
         {

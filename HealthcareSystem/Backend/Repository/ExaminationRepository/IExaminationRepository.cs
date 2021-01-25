@@ -15,6 +15,7 @@ namespace Backend.Repository.ExaminationRepository
         List<Examination> GetAllExaminations();
         void UpdateExamination(Examination examination);
         int AddExamination(Examination examination);
+        void DeleteExaminationRepository(int id);
         List<Examination> GetExaminationsByDate(DateTime date);
         List<Examination> GetExaminationsByPatient(string patientJmbg);
         List<Examination> GetExaminationsByRoomAndDates(int numberOfRoom, DateTime beginDate, DateTime endDate);

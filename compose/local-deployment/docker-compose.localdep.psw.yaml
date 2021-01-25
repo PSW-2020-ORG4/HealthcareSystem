@@ -17,6 +17,7 @@ services:
       context: ../../HealthcareSystem/EventSourcingService
       dockerfile: Dockerfile.postgre
     environment:
+      ASPNETCORE_ENVIRONMENT: Test
       POSTGRES_USER: "org4"
       POSTGRES_PASSWORD: "org4"
       POSTGRES_DB: "organization4db"
@@ -35,7 +36,6 @@ services:
       DATABASE_URL: "postgres://org4:org4@database:5432/organization4db"
     depends_on:      
       - database
-      - esservice
     restart: on-failure
     networks:
       - psw

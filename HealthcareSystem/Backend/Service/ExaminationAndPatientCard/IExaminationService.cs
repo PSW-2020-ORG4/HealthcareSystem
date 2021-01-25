@@ -21,8 +21,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         List<Examination> GetFollowingExaminationsByPatient(string patientJmbg);
         List<Examination> GetExaminationsByDate(DateTime date);
         List<Examination> GetExaminationsByPatient(string patientJmbg);        
-        List<Examination> AdvancedSearch(ExaminationSearchDTO parameters);
-        void DeleteExamination(int id);
+        List<Examination> AdvancedSearch(ExaminationSearchDTO parameters);       
         void CompleteSurveyAboutExamination(int id);
         void CancelExamination(int id);
         ICollection<Examination> GetExaminationsForPeriod(DateTime startDate, DateTime endDate);

@@ -49,7 +49,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpDelete("deleteById/{id}")]
         public ActionResult DeleteExamination(int id)
         {
-            _examinationService.DeleteExamination(id);
+            _examinationService.CancelExamination(id);
             return Ok();
         }
 

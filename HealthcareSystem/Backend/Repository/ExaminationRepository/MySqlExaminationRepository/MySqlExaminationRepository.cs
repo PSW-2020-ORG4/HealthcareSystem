@@ -200,12 +200,6 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
             }
         }
 
-        public void CancelExamination(int id)
-        {
-            Examination ex = _context.Examinations.SingleOrDefault(d => d.Id == id);
-            ex.ExaminationStatus = ExaminationStatus.CANCELED;
-            _context.Examinations.Update(ex);
-            _context.SaveChanges();
-        }
+      
     }
 }

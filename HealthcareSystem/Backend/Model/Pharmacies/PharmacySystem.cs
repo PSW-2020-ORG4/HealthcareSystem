@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace Backend.Model.Pharmacies
@@ -26,9 +27,16 @@ namespace Backend.Model.Pharmacies
         [Required] 
         public bool ActionsBenefitsSubscribed { get; set; } = false;
 
-        [StringLength(255)]
-        public string GrpcHost { get; set; }
+        public virtual GrpcAdress GrpcAdress { get; set; }
 
-        public int GrpcPort { get; set; } = -1;
+        public bool isValid()
+        {
+            if (Name == null || Name.Trim() == "" || ApiKey == null || ApiKey.Trim() == "" || Url == null || Url.Trim() == "")
+                return false;
+            if (ActionsBenefitsSubscribed == true && (ActionsBenefitsExchangeName == null || ActionsBenefitsExchangeName.Trim() == ""))
+                return false;
+
+            return true;
+        }
     }
 }

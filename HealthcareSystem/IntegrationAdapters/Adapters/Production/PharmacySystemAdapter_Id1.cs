@@ -71,7 +71,7 @@ namespace IntegrationAdapters.Adapters.Production
             }
             catch (AggregateException agex)
             {
-                Console.WriteLine(agex);
+                throw new Exception("Pharmacy not available. Please try again later.");
             }
 
             return ret;

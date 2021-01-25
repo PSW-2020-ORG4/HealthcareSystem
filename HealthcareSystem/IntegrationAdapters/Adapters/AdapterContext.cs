@@ -34,9 +34,9 @@ namespace IntegrationAdapters.Adapters
 
             try
             {
-                PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.{_environment}.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
                 if (_environment == "Development")
                 {
+                    PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.{_environment}.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
                     var config = Startup.Configuration.GetSection("SftpConfig");
                     parameters.SftpConfig = new SftpConfig() 
                     { 
@@ -50,6 +50,27 @@ namespace IntegrationAdapters.Adapters
                 }
                 else if(_environment == "Production" || _environment == "Test")
                 {
+                    PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.{_environment}.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
+                    PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
+                }
+                else if(_environment == "Production-Multi")
+                {
+                    if (_pharmacySystem.Id == 1)
+                    {
+                        PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType("IntegrationAdapters.Adapters.Development.PharmacySystemAdapter_Id1"));
+                        var config = Startup.Configuration.GetSection("SftpConfig");
+                        parameters.SftpConfig = new SftpConfig()
+                        {
+                            Host = config["Host"],
+                            Port = int.Parse(config["Port"]),
+                            Username = config["Username"],
+                            Password = config["Password"]
+                        };
+                    }
+                    else if (_pharmacySystem.Id == 2)
+                    {
+                        PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType("IntegrationAdapters.Adapters.Production.PharmacySystemAdapter_Id1"));
+                    }
                     PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
                 }
             }

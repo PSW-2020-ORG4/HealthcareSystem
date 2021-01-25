@@ -7,7 +7,6 @@ namespace Backend.Service
     {
         TenderMessage GetById(int id);
         TenderMessage GetAcceptedByTenderId(int id);
-        List<TenderMessage> GetAll();
         List<TenderMessage> GetAllByTender(int id);
         void CreateTenderMessage(TenderMessage tm);
         void UpdateTenderMessage(TenderMessage tm);

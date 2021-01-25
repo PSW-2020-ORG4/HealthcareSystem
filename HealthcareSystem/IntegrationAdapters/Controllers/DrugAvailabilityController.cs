@@ -1,21 +1,22 @@
 ﻿using Backend.Model.Pharmacies;
-using Backend.Service.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
+using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace IntegrationAdapters.Controllers
 {
     public class DrugAvailabilityController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly IAdapterContext _adapterContext;
-        private readonly IPharmacyService _pharmacyService;
+        private readonly IPharmacySystemService _pharmacySystemService;
 
-        public DrugAvailabilityController(IAdapterContext adapterContext, IPharmacyService pharmacyService)
+        public DrugAvailabilityController(IAdapterContext adapterContext, IPharmacySystemService pharmacySystemService)
         {
             _adapterContext = adapterContext;
-            _pharmacyService = pharmacyService;
+            _pharmacySystemService = pharmacySystemService;
         }
 
         public IActionResult Index()
@@ -23,9 +24,9 @@ namespace IntegrationAdapters.Controllers
             return View();
         }
 
-        public IActionResult Search(string name)
+        public async  Task<IActionResult> Search(string name)
         {
-            var pharmacySystems = _pharmacyService.GetAllPharmacies();
+            var pharmacySystems = await _pharmacySystemService.GetAll();
             List<SearchResultDto> result = new List<SearchResultDto>();
             foreach (PharmacySystem pharmacySystem in pharmacySystems)
             {

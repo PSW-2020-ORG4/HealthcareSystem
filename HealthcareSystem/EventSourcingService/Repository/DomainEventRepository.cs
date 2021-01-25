@@ -17,11 +17,14 @@ namespace EventSourcingService.Repository
             _context = context;
         }
 
-        public void Add(T domainEvent)
+        public T Add(T domainEvent)
         {
             domainEvent.Id = 0;     // DB choose about ID
+            domainEvent.TriggerTime = DateTime.Now;
             Set().Add(domainEvent);
             SaveChanges();
+
+            return domainEvent;
         }
 
         public IEnumerable<T> GetAll()

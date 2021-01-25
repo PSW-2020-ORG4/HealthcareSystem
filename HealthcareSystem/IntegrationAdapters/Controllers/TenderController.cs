@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Backend.Model.Pharmacies;
-using Backend.Service;
-using Backend.Service.DrugAndTherapy;
 using IntegrationAdapters.Dtos;
+using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdapters.Controllers
@@ -12,86 +12,75 @@ namespace IntegrationAdapters.Controllers
     {
         private readonly ITenderService _tenderService;
         private readonly IDrugService _drugService;
-        private readonly ITenderMessageService _tenderMessageService;
-        private readonly IRabbitMqTenderingService _tenderingService;
 
-        public TenderController(ITenderService tenderService, ITenderMessageService tenderMessageService, IRabbitMqTenderingService tenderingService, IDrugService drugService)
+        public TenderController(ITenderService tenderService, IDrugService drugService)
         {
             _tenderService = tenderService;
             _drugService = drugService;
-            _tenderMessageService = tenderMessageService;
-            _tenderingService = tenderingService;
-        }
-        public IActionResult Index()
-        {
-            return View(_tenderService.GetAllTenders().ToList());
         }
 
-        public IActionResult NewTender()
+        public async Task<IActionResult> IndexAsync()
+        {
+            return View(await _tenderService.GetAllTenders());
+        }
+
+        public async Task<IActionResult> NewTender()
         {
             NewTenderView tender = new NewTenderView()
             {
-                Drugs = _drugService.ViewConfirmedDrugs()
+                Drugs = await _drugService.GetAll(),
+                EndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)
+                
             };
 
             return View(tender);
         }
 
-        public IActionResult Drugs(int tenderId)
+        public async Task<IActionResult> DrugsAsync(int tenderId)
         {
-            return View(_tenderService.GetDrugsForTender(tenderId));
+            return View(await _tenderService.GetDrugsByTender(tenderId));
         }
 
-        public IActionResult Offers(int tenderId)
+        public async Task<IActionResult> OffersAsync(int tenderId)
         {
-            Tender tender = _tenderService.GetTenderById(tenderId);
+            Tender tender = await _tenderService.GetTender(tenderId);
             if (tender == null)
                 return RedirectToAction("Index");
 
             if(tender.IsClosed)
             {
-                TenderMessage tenderMessage = _tenderMessageService.GetAcceptedByTenderId(tenderId);
+                TenderMessage tenderMessage = await _tenderService.GetAcceptedMessage(tenderId);
                 if (tenderMessage == null)
                     return RedirectToAction("Index");
                 return RedirectToAction("Offer", new { messageId = tenderMessage.Id });
             }
 
-            return View(_tenderMessageService.GetAllByTender(tenderId));
+            return View(await _tenderService.GetAllMessages(tenderId));
         }
 
-        public IActionResult Offer(int messageId)
+        public async Task<IActionResult> OfferAsync(int messageId)
         {
-            return View(_tenderMessageService.GetById(messageId));
+            return View(await _tenderService.GetMessage(messageId));
         }
 
-        public IActionResult AcceptOffer(int messageId)
+        public async Task<IActionResult> AcceptOfferAsync(int messageId)
         {
-            var tender = _tenderService.GetTenderByMessageId(messageId);
+            var tender = await _tenderService.GetTenderByMessage(messageId);
             if (tender.IsClosed)
                 return RedirectToAction("Offers", new { tenderId = tender.Id });
 
-            var message = _tenderMessageService.GetById(messageId);
-            message.IsAccepted = true;
-            tender.IsClosed = true;
-            _tenderMessageService.UpdateTenderMessage(message);
-            _tenderService.UpdateTender(tender);
-            _tenderingService.RemoveQueue(tender);
-            _tenderingService.NotifyParticipants(tender.Id);
+            await _tenderService.AcceptMessage(messageId);
             return RedirectToAction("Index");
         }
 
-        public IActionResult CloseTender(int tenderId)
+        public async Task<IActionResult> CloseTenderAsync(int tenderId)
         {
-            var tender = _tenderService.GetTenderById(tenderId);
-            tender.IsClosed = true;
-            _tenderService.UpdateTender(tender);
-            _tenderingService.RemoveQueue(tender);
-            _tenderingService.NotifyParticipants(tender.Id);
+            await _tenderService.CloseTender(tenderId);
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult PushDrugList([FromBody]NewTenderView tenderDto)
+        public async Task<IActionResult> PushDrugListAsync([FromBody]NewTenderView tenderDto)
         {
             if (!tenderDto.IsValid())
                 return StatusCode(400);
@@ -107,8 +96,7 @@ namespace IntegrationAdapters.Controllers
             {
                 tender.Drugs.Add(new TenderDrug() {DrugId = drug.Id, Quantity = drug.Quantity});
             }
-            _tenderService.CreateTender(tender);
-            _tenderingService.AddQueue(tender);
+            await _tenderService.CreateTender(tender);
 
             return StatusCode(204);
         }

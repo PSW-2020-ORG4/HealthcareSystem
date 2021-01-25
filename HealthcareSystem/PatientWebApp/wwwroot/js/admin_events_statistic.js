@@ -51,10 +51,10 @@ function addStatisticTable(statistic) {
 	if (statistic.previousSchedulingStepStatistic.mostReturnedStep == 1) {
 		previousStep = "Specialty step";
 	}
-	else if (statistic.closedSchedulingStepStatistic.mostClosedStep == 2) {
+	else if (statistic.previousSchedulingStepStatistic.mostReturnedStep == 2) {
 		previousStep = "Doctor step";
 	}
-	else if (statistic.closedSchedulingStepStatistic.mostClosedStep == 3) {
+	else if (statistic.previousSchedulingStepStatistic.mostReturnedStep == 3) {
 		previousStep = "Appointment step";
     }
 

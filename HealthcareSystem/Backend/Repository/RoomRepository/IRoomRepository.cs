@@ -16,7 +16,7 @@ namespace Backend.Repository.RoomRepository
         List<Room> GetAllRooms();
         void UpdateRoom(Room room);
         void DeleteRoom(int number);
-        void AddRoom(Room room);
+        Room AddRoom(Room room);
         bool CheckIfRoomExists(int roomId);
     }
 }

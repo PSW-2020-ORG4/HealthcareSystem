@@ -45,6 +45,13 @@ namespace GraphicalEditorServer.Controllers
             int idExamination = _scheduleAppintmentService.ScheduleAnAppointmentByDoctor(scheduleExamination);
             return Ok(idExamination);
         }
+        
+        [HttpDelete("deleteById/{id}")]
+        public ActionResult DeleteExamination(int id)
+        {
+            _examinationService.CancelExamination(id);
+            return Ok();
+        }
 
         [HttpPost("reschedule/")]
         public ActionResult ReScheduleAppointment([FromBody] RescheduleExaminationDTO rescheduleExaminationDTO)

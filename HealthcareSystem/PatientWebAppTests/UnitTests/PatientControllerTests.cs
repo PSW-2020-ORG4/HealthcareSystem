@@ -5,7 +5,6 @@ using PatientWebApp.Controllers;
 using Repository;
 using System;
 using Xunit;
-using Model.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Backend;
 using System.Collections.Generic;

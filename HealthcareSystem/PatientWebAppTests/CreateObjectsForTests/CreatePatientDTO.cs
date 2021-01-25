@@ -1,5 +1,4 @@
 ﻿using Backend.Model.Enums;
-using Model.Enums;
 using PatientWebApp.DTOs;
 using System;
 using System.Collections.Generic;

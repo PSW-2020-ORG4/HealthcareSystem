@@ -10,7 +10,6 @@ using Backend.Repository.TherapyRepository;
 using Backend.Model.Enums;
 using Backend.Repository.RoomRepository;
 using Model.Manager;
-using Model.Enums;
 using Backend;
 using System;
 using Backend.Model.Exceptions;

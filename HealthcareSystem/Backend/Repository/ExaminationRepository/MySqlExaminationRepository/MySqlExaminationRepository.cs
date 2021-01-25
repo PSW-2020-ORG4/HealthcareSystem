@@ -63,7 +63,7 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
 
         public List<Examination> GetExaminationsByPatient(string patientJmbg)
         {
-            return _context.Examinations.Where(e => e.PatientCard.PatientJmbg == patientJmbg).ToList();
+            return _context.Examinations.Where(e => e.PatientCard.PatientJmbg == patientJmbg && e.ExaminationStatus != ExaminationStatus.CANCELED).ToList();
         }
 
         public List<Examination> GetExaminationsByRoomAndDates(int numberOfRoom, DateTime beginDate, DateTime endDate)
@@ -150,7 +150,7 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         }
         public void DeleteExaminationRepository(int id)
         {
-            Examination examination = _context.Examinations.SingleOrDefault(d => d.Id == id);
+            Examination examination = _context.Examinations.SingleOrDefault(d => d.Id == id && d.ExaminationStatus != ExaminationStatus.CANCELED);
             if (examination != null) 
             {
                 _context.Remove(examination);
@@ -175,7 +175,7 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             try
             {
-                return _context.Examinations.Where(e => DateTime.Compare(e.DateAndTime, startDate) >= 0 && DateTime.Compare(e.DateAndTime, endDate) <= 0).ToList();
+                return _context.Examinations.Where(e => DateTime.Compare(e.DateAndTime, startDate) >= 0 && DateTime.Compare(e.DateAndTime, endDate) <= 0 && e.ExaminationStatus != ExaminationStatus.CANCELED).ToList();
 
             }
             catch (Exception)
@@ -188,7 +188,7 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             try
             {
-                Examination examinatoForRemove = _context.Examinations.Where(e => e.DateAndTime == examinationForReschedule.DateAndTime && e.DoctorJmbg == examinationForReschedule.DoctorJmbg).ToList()[0];
+                Examination examinatoForRemove = _context.Examinations.Where(e => e.DateAndTime == examinationForReschedule.DateAndTime && e.DoctorJmbg == examinationForReschedule.DoctorJmbg && e.ExaminationStatus!=ExaminationStatus.CANCELED).ToList()[0];
                 _context.Examinations.Remove(examinatoForRemove);
                 _context.Examinations.Add(examinationForSchedule);
                 _context.Examinations.Add(shiftedExamination);
@@ -200,5 +200,12 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
             }
         }
 
+        public void CancelExamination(int id)
+        {
+            Examination ex = _context.Examinations.SingleOrDefault(d => d.Id == id);
+            ex.ExaminationStatus = ExaminationStatus.CANCELED;
+            _context.Examinations.Update(ex);
+            _context.SaveChanges();
+        }
     }
 }

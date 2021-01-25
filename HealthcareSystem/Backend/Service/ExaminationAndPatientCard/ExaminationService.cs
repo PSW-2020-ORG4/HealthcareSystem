@@ -35,7 +35,7 @@ namespace Service.ExaminationAndPatientCard
         }
         public void DeleteExamination(int id)
         {
-            _scheduledExaminationRepository.DeleteExaminationRepository(id);
+            _scheduledExaminationRepository.CancelExamination(id);
         }
         public List<Examination> GetAllExaminations()
         {

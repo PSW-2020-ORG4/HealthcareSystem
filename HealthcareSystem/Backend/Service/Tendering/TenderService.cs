@@ -39,29 +39,9 @@ namespace Backend.Service
             return _tenderRepository.GetTenderByRoutingKey(routingKey);
         }
 
-        public List<TenderMessageDTO> GetMessagesForTender(int id)
-        {
-            return _tenderRepository.GetMessagesForTender(id);
-        }
-
-        public List<TenderOfferDTO> GetOffersForMessage(int id)
-        {
-            return _tenderRepository.GetOffersForMessage(id);
-        }
-
-        public void DeleteMessage(int id)
-        {
-            _tenderRepository.DeleteMessage(id);
-        }
-
         public void UpdateTender(Tender tender)
         {
             _tenderRepository.UpdateTender(tender);
-        }
-
-        public void DeclineMessage(int id)
-        {
-            _tenderRepository.DeclineMessage(id);
         }
 
         public Tender GetTenderByMessageId(int id)

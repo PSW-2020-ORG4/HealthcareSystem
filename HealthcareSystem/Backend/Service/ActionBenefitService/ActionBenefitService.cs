@@ -30,25 +30,10 @@ namespace Backend.Service
                 throw new ArgumentNullException("There is no pharmacy with that exchange!");
             if (message == null)
                 throw new ArgumentNullException("Message can not be null!");
-            if (message.Subject == null || message.Message == null)
-                throw new ArgumentException("Invalid message");
-            message.Subject = message.Subject.Trim();
-            message.Message = message.Message.Trim();
-            if (message.Subject == "" || message.Message == "")
-                throw new ArgumentException("Invalid message");
 
             ActionBenefit ab = new ActionBenefit(p.Id, message);
 
             CreateActionBenefit(ab);
-        }
-
-        public void DeleteActionBenefit(int id)
-        {
-            ActionBenefit ab = _actionBenefitRepository.GetActionBenefitById(id);
-            if (ab == null)
-                throw new ArgumentNullException(nameof(ab));
-
-            _actionBenefitRepository.DeleteActionBenefit(ab);
         }
 
         public ActionBenefit GetActionBenefitById(int id)
@@ -59,11 +44,6 @@ namespace Backend.Service
         public List<ActionBenefit> GetAllActionsBenefits()
         {
             return _actionBenefitRepository.GetAllActionsBenefits().ToList();
-        }
-
-        public List<ActionBenefit> GetPublicActionsBenefits()
-        {
-            return _actionBenefitRepository.GetPublicActionsBenefits().ToList();
         }
 
         public void MakePublic(int id, bool isPublic)

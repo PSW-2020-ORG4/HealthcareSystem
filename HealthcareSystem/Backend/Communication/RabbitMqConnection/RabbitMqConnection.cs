@@ -1,4 +1,4 @@
-﻿using Backend.Service;
+﻿using Backend.Communication.RabbitMqConfuguration;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;

@@ -1,6 +1,4 @@
 ﻿using Backend.Model.Pharmacies;
-using Backend.Service.DrugConsumptionService;
-using Backend.Service.Pharmacies;
 using IntegrationAdapters.Adapters;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -8,6 +6,8 @@ using System;
 using WebPush;
 using IntegrationAdapters.Services;
 using IntegrationAdapters.Dtos;
+using IntegrationAdapters.MicroserviceComunicator;
+using System.Threading.Tasks;
 using System.IO;
 
 namespace IntegrationAdapters.Controllers
@@ -15,18 +15,18 @@ namespace IntegrationAdapters.Controllers
     public class DrugReportController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly IAdapterContext _adapterContext;
-        private readonly IDrugConsumptionService _drugConsumptionService;
-        private readonly IPharmacyService _pharmacyService;
+        private readonly IDrugService _drugService;
+        private readonly IPharmacySystemService _pharmacySystemService;
         private readonly IPushNotificationService _pushNotificationService;
 
         public DrugReportController(IAdapterContext adapterContext, 
-                                    IDrugConsumptionService drugConsumptionService, 
-                                    IPharmacyService pharmacyService,
+                                    IDrugService drugService, 
+                                    IPharmacySystemService pharmacySystemService,
                                     IPushNotificationService pushNotificationService)
         {
             _adapterContext = adapterContext;
-            _drugConsumptionService = drugConsumptionService;
-            _pharmacyService = pharmacyService;
+            _drugService = drugService;
+            _pharmacySystemService = pharmacySystemService;
             _pushNotificationService = pushNotificationService;
         }
 
@@ -36,12 +36,21 @@ namespace IntegrationAdapters.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(DateRange dateRange)
+        public async Task<IActionResult> Index(DateRangeDTO dateRangeDto)
         {
+            DateRange dateRange = new DateRange(dateRangeDto.From, dateRangeDto.To);
             PushSubscription pushSubscription = new PushSubscription() { Endpoint = Request.Form["PushEndpoint"], P256DH = Request.Form["PushP256DH"], Auth = Request.Form["PushAuth"] };
             PushPayload pushPayload = new PushPayload();
 
-            var reports = _drugConsumptionService.GetDrugConsumptionForDate(dateRange);
+            var reports = await _drugService.GetDrugConsuption(dateRange);
+            if(reports == null)
+            {
+                pushPayload.Title = "Unsuccess";
+                pushPayload.Message = "Comunication error!";
+                _pushNotificationService.SendNotification(pushSubscription, pushPayload);
+
+                return RedirectToAction("Index");
+            }
             if(reports.Count == 0)
             {
                 pushPayload.Title = "Unsuccess";
@@ -67,7 +76,7 @@ namespace IntegrationAdapters.Controllers
 
                 return RedirectToAction("Index");
             }
-            var pharmacySystems = _pharmacyService.GetAllPharmacies();
+            var pharmacySystems = await _pharmacySystemService.GetAll();
             foreach (var ps in pharmacySystems)
             {
                 if (_adapterContext.SetPharmacySystemAdapter(ps) == null)

@@ -4,6 +4,10 @@
     Layout = "_Layout";
 }
 
+<div class="form-group" id="alert" style="display: none;">
+    <p class="alert alert-danger" id="successMessage">Tender is invalid!</p>
+</div>
+
 <h4>Open New Tender</h4>
 <hr />
 <div class="row">
@@ -70,36 +74,6 @@
                 </tr>
             </table>
         </div>
-        @*<div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th><h5 class="card-title">Name</h5></th>
-                        <th><h5 class="card-title">Quantity</h5></th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    @foreach (var item in Model.AddedDrugs)
-                    {
-                        <tr>
-                            <td class="text-center">
-                                @item.Name
-                            </td>
-                            <td class="text-center">
-                                @item.Quantity
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <input id="addedDrugs" class="d-none" name="AddedDrugs" readonly="readonly" aria-hidden="true" type="text" />
-        </div>*@
-        @*</form>*@
-        @* </form>*@
-
-
     </div>
 </div>
 
@@ -173,7 +147,11 @@
                 data: JSON.stringify(tenderViewModel),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                complete: function () {
+                complete: function (response) {
+                    if (response.status == 400 || response.status == 500) {
+                        $("#alert").show();
+                        return;
+                    }
                     location.href = '/Tender';
                 }
             });

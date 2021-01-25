@@ -54,13 +54,13 @@ namespace PatientWebAppE2ETests.Pages
 
         public void WaitForLoginPatient()
         {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 40));
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe(patientHomePageURI));
         }
 
         public void WaitForLoginAdmin()
         {
-            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
+            var wait = new WebDriverWait(driver, new TimeSpan(0, 0, 40));
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.UrlToBe(adminHomePageURI));
         }
 

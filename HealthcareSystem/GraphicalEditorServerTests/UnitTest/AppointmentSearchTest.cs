@@ -24,7 +24,7 @@ namespace GraphicalEditorServerTests.UnitTest
         private RoomService SetupRoomService()
         {
             RoomService roomService = new RoomService(_stubRepository.CreateRoomStubRepository(),
-                _stubRepository.CreateRenovationStubRepository(),
+               null,
                 _stubRepository.CreateEquipmentInRoomStubRepository(),
                 _stubRepository.CreateEquipmentStubRepository());
 

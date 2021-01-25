@@ -12,7 +12,7 @@ services:
       - isa
 
   isabackend:
-    image: pufke/integrationadaptersisabackend:1.0
+    image: pufke/integrationadaptersisabackend:latest
     restart: always
     depends_on:      
       - databaseisa

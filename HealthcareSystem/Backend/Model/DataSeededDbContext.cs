@@ -4,7 +4,6 @@ using Backend.Model.PerformingExamination;
 using Backend.Model.Pharmacies;
 using Backend.Model.Users;
 using Microsoft.EntityFrameworkCore;
-using Model.Enums;
 using Model.Manager;
 using Model.NotificationSurveyAndFeedback;
 using Model.PerformingExamination;

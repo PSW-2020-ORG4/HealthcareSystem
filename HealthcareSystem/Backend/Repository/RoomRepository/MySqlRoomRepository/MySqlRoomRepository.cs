@@ -62,10 +62,10 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
         }
 
         public bool CheckIfRoomExists(int roomId)
-        {
+        {           
             if (_context.Rooms.Find(roomId) == null)
                 return false;
-            if (!_context.Rooms.Find(roomId).Renovation)
+            if (_context.Rooms.Find(roomId).Renovation)
                 return false;
             return true;
         }

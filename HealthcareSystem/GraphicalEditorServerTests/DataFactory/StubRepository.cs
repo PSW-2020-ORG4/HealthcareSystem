@@ -120,7 +120,6 @@ namespace GraphicalEditorServerTests.DataFactory
             equipmentTransferStubRepository.Setup(m => m.GetFollowingEquipmentTransversByRoom(30)).Returns(new List<EquipmentTransfer>());
             equipmentTransferStubRepository.Setup(m => m.GetFollowingEquipmentTransversByRoom(31)).Returns(new List<EquipmentTransfer>());
         
-
             return equipmentTransferStubRepository.Object;
         }
 

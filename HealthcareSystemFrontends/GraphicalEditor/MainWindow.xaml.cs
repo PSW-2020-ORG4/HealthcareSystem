@@ -177,13 +177,13 @@ namespace GraphicalEditor
             aps.DeleteAppointment(1);
             es.DeleteEquipmentTransfer(1);
             ren.DeleteRenovation(1);
-           /* BaseRenovationDTO dto = new BaseRenovationDTO(50, new DateTime(2021, 3, 1, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 1, 16, 45, 0, DateTimeKind.Utc), "menjanje poda", TypeOfRenovation.MERGE_RENOVATION);
+            BaseRenovationDTO dto = new BaseRenovationDTO(50, new DateTime(2021, 3, 12, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 12, 16, 45, 0, DateTimeKind.Utc), "menjanje poda", TypeOfRenovation.REGULAR_RENOVATION);
             // DivideRenovationDTO mrg = new DivideRenovationDTO(dto, " soba za konsultacije"," soba za pregled", TypeOfMapObject.EXAMINATION_ROOM, TypeOfMapObject.HOSPITALIZATION_ROOM);
-            MergeRenovationDTO mrg = new MergeRenovationDTO(dto, 16, "soba za hospitalizovanje pacijenata", TypeOfMapObject.HOSPITALIZATION_ROOM);
-            bool add = ren.ScheduleMergeRenovation(mrg);
+            //MergeRenovationDTO mrg = new MergeRenovationDTO(dto, 16, "soba za hospitalizovanje pacijenata", TypeOfMapObject.HOSPITALIZATION_ROOM);
+            bool add = ren.ScheduleBaseRenovation(dto);
             if (!add)
             {
-                foreach (RenovationPeriodDTO period in ren.GetMergeRenovationAlternativeAppointments(mrg))
+                foreach (RenovationPeriodDTO period in ren.GetBaseRenovationAlternativeAppointments(dto))
                 {
                     Console.WriteLine(period.StartTime + " ------ " + period.EndTime);
                     Console.WriteLine("");
@@ -192,7 +192,7 @@ namespace GraphicalEditor
             else
             {
                 Console.WriteLine("else");
-            }*/
+            }
 
             examinationsForReschedunling.Add(examinationForReschedulingDTO);
             EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;
@@ -320,7 +320,6 @@ namespace GraphicalEditor
             return freeRooms;
         }
 
-      
 
         private void RestrictUsersAccessBasedOnRole()
         {

@@ -25,9 +25,9 @@ namespace GraphicalEditorServerTests.UnitTest
             RenovationService renovationService = new RenovationService(_stubRepository.CreateRenovationStubRepository(),
                 _stubRepository.CreateExaminationStubRepository(),
                 new ExaminationService(_stubRepository.CreateExaminationStubRepository()),
-                _stubRepository.CreateEquipmentTransferStubRepository());
-
-            return renovationService;
+                _stubRepository.CreateEquipmentTransferStubRepository(),
+                _stubRepository.CreateRoomStubRepository());
+             return renovationService;
         }
 
         [Fact]

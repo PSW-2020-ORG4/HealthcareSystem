@@ -1,4 +1,4 @@
-﻿namespace Backend.Service
+﻿namespace Backend.Communication.RabbitMqConfuguration
 { 
     public class RabbitMqConfiguration
     {

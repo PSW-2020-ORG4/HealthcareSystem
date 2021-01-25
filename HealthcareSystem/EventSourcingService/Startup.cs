@@ -81,6 +81,15 @@ namespace EventSourcingService
                 s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
+            services.AddScoped<IDomainEventRepository<PatientStepSchedulingEvent>, DomainEventRepository<PatientStepSchedulingEvent>>();
+            services.AddScoped<IEventStorePatientStepSchedulingService, EventStorePatientStepSchedulingService>();
+
+            services.AddScoped<IDomainEventRepository<PatientStartSchedulingEvent>, DomainEventRepository<PatientStartSchedulingEvent>>();
+            services.AddScoped<IEventStorePatientStartSchedulingService, EventStorePatientStartSchedulingService>();
+
+            services.AddScoped<IDomainEventRepository<PatientEndSchedulingEvent>, DomainEventRepository<PatientEndSchedulingEvent>>();
+            services.AddScoped<IEventStorePatientEndSchedulingService, EventStorePatientEndSchedulingService>();
+            
             services.AddScoped<IRoomSelectionService, RoomSelectionService>();
             services.AddScoped<IDomainEventRepository<RoomSelectionEvent>, DomainEventRepository<RoomSelectionEvent>>();
 

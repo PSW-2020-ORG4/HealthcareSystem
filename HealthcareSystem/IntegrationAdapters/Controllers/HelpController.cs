@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Backend.Model.Pharmacies;
-using Backend.Service.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
+using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdapters.Controllers
@@ -11,20 +12,20 @@ namespace IntegrationAdapters.Controllers
     [Route("api/[controller]")]
     public class HelpController : ControllerBase
     {
-        private readonly IPharmacyService _pharmacyService;
+        private readonly IPharmacySystemService _pharmacySystemService;
         private readonly IAdapterContext _adapterContext;
 
-        public HelpController(IPharmacyService pharmacyService, IAdapterContext adapterContext)
+        public HelpController(IPharmacySystemService pharmacySystemService, IAdapterContext adapterContext)
         {
-            _pharmacyService = pharmacyService;
+            _pharmacySystemService = pharmacySystemService;
             _adapterContext = adapterContext;
         }
 
         [HttpGet("{id}", Name = "GetDrugsFromPharmacy")]
-        public ActionResult<List<DrugListDTO>> GetDrugsFromPharmacy(int id)
+        public async Task<ActionResult<List<DrugListDTO>>> GetDrugsFromPharmacy(int id)
         {
             List<DrugListDTO> ret = new List<DrugListDTO>();
-            PharmacySystem pharmacySystem = _pharmacyService.GetPharmacyById(id);
+            PharmacySystem pharmacySystem = await _pharmacySystemService.Get(id);
             if (_adapterContext.SetPharmacySystemAdapter(pharmacySystem) != null)
                 ret.AddRange(_adapterContext.PharmacySystemAdapter.GetAllDrugs());
 

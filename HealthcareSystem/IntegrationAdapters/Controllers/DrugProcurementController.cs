@@ -1,9 +1,8 @@
 ﻿using System;
-using Backend.Model.Exceptions;
-using Backend.Service.DrugAndTherapy;
-using Backend.Service.Pharmacies;
+using System.Threading.Tasks;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
+using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdapters.Controllers
@@ -12,12 +11,12 @@ namespace IntegrationAdapters.Controllers
     {
         private readonly IDrugService _drugService;
         private readonly IAdapterContext _adapterContext;
-        private readonly IPharmacyService _pharmacyService;
-        public DrugProcurementController(IDrugService drugService, IAdapterContext adapterContext, IPharmacyService pharmacyService)
+        private readonly IPharmacySystemService _pharmacySystemService;
+        public DrugProcurementController(IDrugService drugService, IAdapterContext adapterContext, IPharmacySystemService pharmacySystemService)
         {
             _drugService = drugService;
             _adapterContext = adapterContext;
-            _pharmacyService = pharmacyService;
+            _pharmacySystemService = pharmacySystemService;
         }
 
         public IActionResult Index(DrugProcurementDTO drugProcurementDto)
@@ -25,21 +24,21 @@ namespace IntegrationAdapters.Controllers
             return View(drugProcurementDto);
         }
 
-        public IActionResult Order(DrugProcurementDTO drugProcurementDto)
+        public async Task<IActionResult> Order(DrugProcurementDTO drugProcurementDto)
         {
-            var pharmacySystem = _pharmacyService.GetPharmacyById(drugProcurementDto.PharmacySystemId);
+            var pharmacySystem = await _pharmacySystemService.Get(drugProcurementDto.PharmacySystemId);
             if (_adapterContext.SetPharmacySystemAdapter(pharmacySystem) == null)
                 throw new ArgumentNullException("There is no pharmacy with id=" + drugProcurementDto.PharmacySystemId);
 
             if (_adapterContext.PharmacySystemAdapter.OrderDrugs(drugProcurementDto.PharmacyId,
-                drugProcurementDto.DrugId, drugProcurementDto.Quantity))
+                                                                 drugProcurementDto.DrugId, 
+                                                                 drugProcurementDto.Quantity))
             {
-                try
+                if(await _drugService.AddQuantity(drugProcurementDto.Code, drugProcurementDto.Quantity))
                 {
-                    _drugService.AddDrugQuantity(drugProcurementDto.Code, drugProcurementDto.Quantity);
                     TempData["Success"] = "Order successful!";
                 }
-                catch (NotFoundException ex)
+                else
                 {
                     TempData["Failure"] = "Drug procured but does not exsist in our database, contact administrator!";
                 }

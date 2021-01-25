@@ -1,44 +1,45 @@
 ﻿using Backend.Service;
-using Backend.Service.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
+using IntegrationAdapters.MicroserviceComunicator;
 using IntegrationAdapters.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Threading.Tasks;
 using WebPush;
 
 namespace IntegrationAdapters.Controllers
 {
     public class PrescriptionController : Controller
     {
-        private readonly IPatientService _patientService;
-        private readonly IPharmacyService _pharmacyService;
+        private readonly IPrescriptionService _prescriptionService;
+        private readonly IPharmacySystemService _pharmacySystemService;
         private readonly IAdapterContext _adapterContext;
         private readonly IPushNotificationService _pushNotificationService;
 
-        public PrescriptionController(IPatientService patientService,
-                                      IPharmacyService pharmacyService,
+        public PrescriptionController(IPrescriptionService prescriptionService,
+                                      IPharmacySystemService pharmacySystemService,
                                       IAdapterContext adapterContext,
                                       IPushNotificationService pushNotificationService)
         {
-            _patientService = patientService;
-            _pharmacyService = pharmacyService;
+            _prescriptionService = prescriptionService;
+            _pharmacySystemService = pharmacySystemService;
             _adapterContext = adapterContext;
             _pushNotificationService = pushNotificationService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             PrescriptionView view = new PrescriptionView();
-            view.patients = _patientService.ViewPatients();
-            view.pharmacySystems = _pharmacyService.GetAllPharmacies();
+            view.patients = await _prescriptionService.GetAllPatients();
+            view.pharmacySystems = await _pharmacySystemService.GetAll();
 
             return View(view);
         }
 
         [HttpPost]
-        public IActionResult SendPrescription(PrescriptionForm form)
+        public async Task<IActionResult> SendPrescription(PrescriptionForm form)
         {
             PushSubscription pushSubscription = new PushSubscription() { Endpoint = Request.Form["PushEndpoint"], P256DH = Request.Form["PushP256DH"], Auth = Request.Form["PushAuth"] };
             PushPayload pushPayload = new PushPayload();
@@ -68,7 +69,7 @@ namespace IntegrationAdapters.Controllers
                 pushPayload.Message = "Error occured while creating prescription file!";
                 _pushNotificationService.SendNotification(pushSubscription, pushPayload);
             }
-            var pharmacy = _pharmacyService.GetPharmacyById(form.PharmacySystem);
+            var pharmacy = await _pharmacySystemService.Get(form.PharmacySystem);
             if (_adapterContext.SetPharmacySystemAdapter(pharmacy) != null)
             {
                 if(_adapterContext.PharmacySystemAdapter.SendDrugConsumptionReport(reportFilePath, reportFileName))

@@ -13,6 +13,6 @@ namespace EventSourcingService.Repository
 
         IEnumerable<T> GetAll(Expression<Func<T, bool>> condition);
 
-        void Add(T domainEvent);
+        T Add(T domainEvent);
     }
 }

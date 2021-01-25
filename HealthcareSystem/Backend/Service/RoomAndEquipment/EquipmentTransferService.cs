@@ -33,5 +33,9 @@ namespace Backend.Service.RoomAndEquipment
         {
             _equipmentTransferRepository.DeleteEquipmentTransfer(id);
         }
+        public ICollection<EquipmentTransfer> GetEquipmentTransfersByRoomNumberAndPeriod(DateTime start, DateTime end, int roomNumber)
+        {
+            return _equipmentTransferRepository.GetEquipmentTransfersByRoomNumberAndPeriod(start, end, roomNumber);
+        }
     }
 }

@@ -39,6 +39,19 @@ namespace Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentR
             return  _context.EqupmentTransfer.SingleOrDefault(x => x.RoomNumber == roomNumber && x.DateAndTimeOfTransfer == dateOfTransfer);
             
         }
+
+        public ICollection<EquipmentTransfer> GetEquipmentTransfersByRoomNumberAndPeriod(DateTime start, DateTime end, int roomNumber)
+        {
+            try
+            {
+                return _context.EqupmentTransfer.Where(e => e.RoomNumber == roomNumber && start > e.DateAndTimeOfTransfer && end < e.DateAndTimeOfTransfer).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
+
         public ICollection<EquipmentTransfer> GetFollowingEquipmentTransversByRoom(int roomId)
         {
             try

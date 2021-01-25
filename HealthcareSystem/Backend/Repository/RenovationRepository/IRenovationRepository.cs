@@ -16,5 +16,6 @@ namespace Backend.Repository.RenovationRepository
         List<BaseRenovation> GetAllRenovationsByRoomAndDate(int roomId, DateTime date);
         ICollection<BaseRenovation> GetFollowingRenovationsByRoom(int roomId);
         ICollection<MergeRenovation> GetFollowingRenovationsBySecondRoom(int roomId);
+        ICollection<BaseRenovation> GetRenovationForPeriodByRoomNumber(DateTime start, DateTime end, int roomNumber);
     }
 }

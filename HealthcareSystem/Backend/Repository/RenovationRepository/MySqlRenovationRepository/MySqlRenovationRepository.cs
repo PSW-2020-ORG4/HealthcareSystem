@@ -81,5 +81,17 @@ namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
                 throw new DatabaseException("The database connection is down.");
             }
         }
+
+        public ICollection<BaseRenovation> GetRenovationForPeriodByRoomNumber(DateTime start, DateTime end, int roomNumber)
+        {
+            try
+            {
+                return _context.BaseRenovation.Where(e => e.RoomId == roomNumber &&  e.RenovationPeriod.BeginDate >= start && e.RenovationPeriod.EndDate <= end ).ToList();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace Backend.Repository.EquipmentTransferRepository
         EquipmentTransfer GetEquipmentTransferByRoomNumberAndDate(int roomNumber,DateTime dateOfTransfer);
         void DeleteEquipmentTransfer(int id);       
         ICollection<EquipmentTransfer> GetFollowingEquipmentTransversByRoom(int roomId);
-    }
+        ICollection<EquipmentTransfer> GetEquipmentTransfersByRoomNumberAndPeriod(DateTime start, DateTime end, int roomNumber);
+        }
 }

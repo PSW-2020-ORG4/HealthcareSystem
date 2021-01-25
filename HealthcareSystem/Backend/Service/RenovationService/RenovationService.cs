@@ -261,5 +261,10 @@ namespace Backend.Service.RenovationService
             }
             return alternativeAppointments;
         }
+
+        public ICollection<BaseRenovation> GetRenovationForPeriodByRoomNumber(DateTime start, DateTime end, int roomNumber)
+        {
+            return _renovationRepository.GetRenovationForPeriodByRoomNumber(start, end, roomNumber);
+        }
     }
 }

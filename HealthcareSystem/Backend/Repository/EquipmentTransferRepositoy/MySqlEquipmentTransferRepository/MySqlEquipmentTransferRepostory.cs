@@ -44,7 +44,7 @@ namespace Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentR
         {
             try
             {
-                return _context.EqupmentTransfer.Where(e => e.RoomNumber == roomNumber && start > e.DateAndTimeOfTransfer && end < e.DateAndTimeOfTransfer).ToList();
+                return _context.EqupmentTransfer.Where(e => e.RoomNumber == roomNumber && e.DateAndTimeOfTransfer > start && e.DateAndTimeOfTransfer < end).ToList();
             }
             catch (Exception)
             {

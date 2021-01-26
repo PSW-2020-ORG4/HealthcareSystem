@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using GraphicalEditor.DTO;
+using GraphicalEditor.Enumerations;
 
 namespace GraphicalEditor
 {
@@ -22,6 +23,11 @@ namespace GraphicalEditor
     public partial class ScheduleForRoomDialog : Window
     {
         RoomService _roomService;
+
+        AppointmentService _appointmentService;
+        EquipmentService _equipmentService;
+        RenovatonService _renovationService;
+
         public int RoomId { get; set; }
 
         public ScheduleForRoomDialog(int roomId)
@@ -30,9 +36,19 @@ namespace GraphicalEditor
             DataContext = this;
 
             _roomService = new RoomService();
+            _appointmentService = new AppointmentService();
+            _equipmentService = new EquipmentService();
+            _renovationService = new RenovatonService();
+
 
             RoomId = roomId;
             GetDataAndDisplayItInScheduledActionsDataGrid();
+        }
+
+        private void ShowActionSuccessfullyCancelledDialog()
+        {
+            InfoDialog infoDialog = new InfoDialog("Uspešno ste otkazali zakazanu akciju!");
+            infoDialog.ShowDialog();
         }
 
         private void GetDataAndDisplayItInScheduledActionsDataGrid()
@@ -53,7 +69,24 @@ namespace GraphicalEditor
 
         private void CancelScheduledActionButton_Click(object sender, RoutedEventArgs e)
         {
+            RoomSchedulesDTO selectedScheduledAction = (RoomSchedulesDTO)RoomScheduledActionsDataGrid.SelectedItem;
+            
 
+            if(selectedScheduledAction.ScheduleType == ScheduleType.Appointment)
+            {
+                _appointmentService.DeleteAppointment(selectedScheduledAction.Id);
+            }
+            else if(selectedScheduledAction.ScheduleType == ScheduleType.EquipmentTransfer)
+            {
+                _equipmentService.DeleteEquipmentTransfer(selectedScheduledAction.Id);
+            }
+            else if(selectedScheduledAction.ScheduleType == ScheduleType.Renovation)
+            {
+                _renovationService.DeleteRenovation(selectedScheduledAction.Id);
+            }
+
+            GetDataAndDisplayItInScheduledActionsDataGrid();
+            ShowActionSuccessfullyCancelledDialog();
         }
     }
 }

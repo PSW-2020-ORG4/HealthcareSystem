@@ -12,15 +12,15 @@ namespace GraphicalEditor.DTO
         public DateTime ScheduleTime { get; set; }
         public ScheduleType ScheduleType { get; set; }
 
-        public int ScheduleId { get; set; }
+        public int Id { get; set; }
 
         public RoomSchedulesDTO() { }
 
-        public RoomSchedulesDTO(DateTime scheduleTime, ScheduleType scheduleType, int scheduleId)
+        public RoomSchedulesDTO(DateTime scheduleTime, ScheduleType scheduleType, int id)
         {
             ScheduleTime = scheduleTime;
             ScheduleType = scheduleType;
-            ScheduleId = scheduleId;
+            Id = id;
         }
     }
 }

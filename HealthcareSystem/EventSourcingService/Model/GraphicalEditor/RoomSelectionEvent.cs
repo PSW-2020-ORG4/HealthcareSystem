@@ -10,5 +10,6 @@ namespace EventSourcingService.Model.GraphicalEditor
         public String Username { get; set; }
         public int RoomNumber { get; set; }
         public RoomSelectionEvent() { }
+
     }
 }

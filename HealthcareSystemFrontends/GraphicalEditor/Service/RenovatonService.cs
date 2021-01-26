@@ -38,5 +38,13 @@ namespace GraphicalEditor.Service
             IRestResponse response = AddHTTPPostRequest("renovation/addDivideRenovation", divideRenovationDTO);
             return response.IsSuccessful;
         }
+
+        public bool DeleteRenovation(int idRenovation)
+        {
+            IRestResponse response = HTTPDeleteRequest("renovation/deleteByRoomId/ " + idRenovation);
+            return response.IsSuccessful;
+        }
+
+
     }
 }

@@ -23,7 +23,7 @@ namespace GraphicalEditorServerTests.DataFactory
         }
         public MergeRenovation CreateValidTestObjectForSchedulingMergeRenovation()
         {
-            return new MergeRenovation(new RenovationPeriod(new DateTime(2021, 1, 24, 8, 0, 0, DateTimeKind.Utc), new DateTime(2021, 1, 24, 8, 30, 0, DateTimeKind.Utc)), "spajanje prostorija", TypeOfRenovation.MERGE_RENOVATION, 30, 31, "", TypeOfUsage.CONSULTING_ROOM);
+            return new MergeRenovation(new RenovationPeriod(new DateTime(2021, 2, 24, 8, 0, 0, DateTimeKind.Utc), new DateTime(2021, 2, 24, 8, 30, 0, DateTimeKind.Utc)), "spajanje prostorija", TypeOfRenovation.MERGE_RENOVATION, 30, 31, "", TypeOfUsage.CONSULTING_ROOM);
         }
 
         public DivideRenovation CreateInvalidTestObjectForSchedulingDivideRenovation()
@@ -32,7 +32,7 @@ namespace GraphicalEditorServerTests.DataFactory
         }
         public DivideRenovation CreateValidTestObjectForSchedulingDivideRenovation()
         {
-            return new DivideRenovation(new RenovationPeriod(new DateTime(2021, 1, 24, 8, 0, 0, DateTimeKind.Utc), new DateTime(2021, 1, 24, 8, 30, 0, DateTimeKind.Utc)), "razdvajanje prostorija", TypeOfRenovation.DIVIDE_RENOVATION, 30, "", "", TypeOfUsage.CONSULTING_ROOM, TypeOfUsage.OPERATION_ROOM);
+            return new DivideRenovation(new RenovationPeriod(new DateTime(2021, 3, 24, 8, 0, 0, DateTimeKind.Utc), new DateTime(2021, 3, 24, 8, 30, 0, DateTimeKind.Utc)), "razdvajanje prostorija", TypeOfRenovation.DIVIDE_RENOVATION, 30, "", "", TypeOfUsage.CONSULTING_ROOM, TypeOfUsage.OPERATION_ROOM);
         }
     }
 }

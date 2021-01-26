@@ -30,7 +30,11 @@ namespace GraphicalEditor.Service
             List<ExaminationDTO> response = HTTPGetRequestWithObjectAsParam<ExaminationDTO>("appointment", appointmentSearchWithPrioritiesDTO);
             return response;
         }
-
+        public bool DeleteAppointment(int idRenovation)
+        {
+            IRestResponse response = HTTPDeleteRequest("appointment/deleteById/ " + idRenovation);
+            return response.IsSuccessful;
+        }
         public List<EmergencyExaminationDTO> GetEmergencyAppointments(AppointmentSearchWithPrioritiesDTO appointmentSearchWithPrioritiesDTO)
         {
             List<EmergencyExaminationDTO> response = HTTPGetRequestWithObjectAsParam<EmergencyExaminationDTO>("appointment/emergency", appointmentSearchWithPrioritiesDTO);

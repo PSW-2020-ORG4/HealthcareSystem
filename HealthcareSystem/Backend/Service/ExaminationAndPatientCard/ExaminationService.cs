@@ -33,7 +33,7 @@ namespace Service.ExaminationAndPatientCard
         {
             _scheduledExaminationRepository.AddExamination(examination);
         }
-
+       
         public List<Examination> GetAllExaminations()
         {
             return _scheduledExaminationRepository.GetAllExaminations();

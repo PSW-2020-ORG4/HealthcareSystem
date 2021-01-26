@@ -70,6 +70,8 @@ namespace Backend.Model
             SeedAdmins(context);
             if (Verbose) Console.WriteLine("Seeding actions.");
             SeedActionBenefits(context);
+            if (Verbose) Console.WriteLine("Seeding renovations.");
+            SeedRenovations(context);
 
             context.SaveChanges();
         }
@@ -80,6 +82,24 @@ namespace Backend.Model
             context.Add(new Country() { Name = "Crna Gora" });
             context.Add(new Country() { Name = "BiH" });
             context.Add(new Country() { Name = "Hrvatska" });
+            context.SaveChanges();
+        }
+
+      
+        private void SeedRenovations(MyDbContext context)
+        {
+            context.Add(new BaseRenovation(12,new RenovationPeriod(new DateTime(2021, 3, 12, 15, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 12, 15, 45, 0, DateTimeKind.Utc)),"krecenje",TypeOfRenovation.REGULAR_RENOVATION));
+            context.Add(new BaseRenovation(13,new RenovationPeriod(new DateTime(2021, 3, 12, 13, 40, 0, DateTimeKind.Utc), new DateTime(2021, 3, 12, 14, 45, 0, DateTimeKind.Utc)),"menjanje poda",TypeOfRenovation.REGULAR_RENOVATION));
+            context.Add(new BaseRenovation(55,new RenovationPeriod(new DateTime(2021, 3, 12, 12, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 12, 15, 45, 0, DateTimeKind.Utc)),"krecenje",TypeOfRenovation.REGULAR_RENOVATION));
+            context.Add(new BaseRenovation(56,new RenovationPeriod(new DateTime(2021, 3, 12, 11, 20, 0, DateTimeKind.Utc), new DateTime(2021, 3, 12, 12, 45, 0, DateTimeKind.Utc)),"krecenje",TypeOfRenovation.REGULAR_RENOVATION));
+            
+            context.Add(new MergeRenovation(new RenovationPeriod(new DateTime(2021, 4, 12, 11, 20, 0, DateTimeKind.Utc), new DateTime(2021, 4, 12, 12, 45, 0, DateTimeKind.Utc)),"gletovanje",TypeOfRenovation.MERGE_RENOVATION,49,50,"soba za konsultacija",TypeOfUsage.CONSULTING_ROOM));
+            context.Add(new MergeRenovation(new RenovationPeriod(new DateTime(2021, 4, 9, 11, 20, 0, DateTimeKind.Utc), new DateTime(2021, 4, 10, 12, 45, 0, DateTimeKind.Utc)),"menjanje instalacije",TypeOfRenovation.MERGE_RENOVATION,51,52,"soba za konsultacija",TypeOfUsage.CONSULTING_ROOM));
+            context.Add(new MergeRenovation(new RenovationPeriod(new DateTime(2021, 4, 10, 11, 20, 0, DateTimeKind.Utc), new DateTime(2021, 4, 11, 12, 45, 0, DateTimeKind.Utc)),"plafonjera",TypeOfRenovation.MERGE_RENOVATION,56,57,"soba za konsultacija",TypeOfUsage.CONSULTING_ROOM));
+
+            context.Add(new DivideRenovation(new RenovationPeriod(new DateTime(2021, 4, 12, 11, 20, 0, DateTimeKind.Utc), new DateTime(2021, 4, 12, 12, 45, 0, DateTimeKind.Utc)), "gletovanje", TypeOfRenovation.MERGE_RENOVATION, 18,"soba za konsultacija","soba za operaciju", TypeOfUsage.CONSULTING_ROOM,TypeOfUsage.OPERATION_ROOM));
+            context.Add(new DivideRenovation(new RenovationPeriod(new DateTime(2021, 4, 9, 11, 20, 0, DateTimeKind.Utc), new DateTime(2021, 4, 10, 12, 45, 0, DateTimeKind.Utc)), "menjanje instalacije", TypeOfRenovation.MERGE_RENOVATION, 19, "soba za konsultacija", "soba za operaciju", TypeOfUsage.CONSULTING_ROOM, TypeOfUsage.OPERATION_ROOM));
+
             context.SaveChanges();
         }
 

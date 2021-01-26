@@ -41,7 +41,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost("addMergeRenovation")]
         public ActionResult AddMergeRenovation(MergeRenovationDTO mergeRenovationDTO)
         {
-            MergeRenovation addedBaseRenovation = (MergeRenovation)_renovationService.AddBaseRenovation(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO));
+            MergeRenovation addedBaseRenovation = (MergeRenovation)_renovationService.AddMergeRenovation(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO));
             if (addedBaseRenovation == null)
             {
                 return NotFound("NotFound");
@@ -51,7 +51,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost("addDivideRenovation")]
         public ActionResult AddDivideRenovation(DivideRenovationDTO divideRenovationDTO)
         {
-            DivideRenovation addedBaseRenovation = (DivideRenovation)_renovationService.AddBaseRenovation(DivideRenovationMapper.DivideRenovationDTOToDivideRenovation(divideRenovationDTO));
+            DivideRenovation addedBaseRenovation = (DivideRenovation)_renovationService.AddDivideRenovation(DivideRenovationMapper.DivideRenovationDTOToDivideRenovation(divideRenovationDTO));
             if (addedBaseRenovation == null)
             {
                 return NotFound("NotFound");
@@ -59,7 +59,7 @@ namespace GraphicalEditorServer.Controllers
             return Ok();
         }
 
-        [HttpDelete("/{baseRenovationId}")]
+        [HttpDelete("deleteByRoomId/{baseRenovationId}")]
         public ActionResult DeleteBaseRenovation(int baseRenovationId)
         {
             _renovationService.DeleteRenovation(baseRenovationId);

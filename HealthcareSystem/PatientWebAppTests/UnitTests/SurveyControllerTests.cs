@@ -7,7 +7,6 @@ using Moq;
 using Backend;
 using PatientWebApp.Controllers;
 using Xunit;
-using Service.NotificationSurveyAndFeedback;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Model;
 using Service.ExaminationAndPatientCard;

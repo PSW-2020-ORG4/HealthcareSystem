@@ -12,6 +12,7 @@ using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Backend.Model.Exceptions;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -36,6 +37,23 @@ namespace GraphicalEditorServer.Controllers
             _examinationService = examinationService;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetExaminationById(int id)
+        {
+            try
+            {
+                Examination examination = _examinationService.GetExaminationById(id);
+                return Ok(ExaminationMapper.Examination_To_ExaminationDTO(examination));
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
 
 
         [HttpPost("schedule/")]

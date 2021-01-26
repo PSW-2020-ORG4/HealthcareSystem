@@ -64,7 +64,24 @@ namespace GraphicalEditor
 
         private void ShowDetailsForScheduledActionButton_Click(object sender, RoutedEventArgs e)
         {
+            RoomSchedulesDTO selectedScheduledAction = (RoomSchedulesDTO)RoomScheduledActionsDataGrid.SelectedItem;
 
+
+            if (selectedScheduledAction.ScheduleType == ScheduleType.Appointment)
+            {
+                AppointmentInRoomMoreDetailsDialog appointmentInRoomMoreDetailsDialog = new AppointmentInRoomMoreDetailsDialog(selectedScheduledAction.Id);
+                appointmentInRoomMoreDetailsDialog.ShowDialog();
+            }
+            else if (selectedScheduledAction.ScheduleType == ScheduleType.EquipmentTransfer)
+            {
+                
+            }
+            else if (selectedScheduledAction.ScheduleType == ScheduleType.Renovation)
+            {
+               
+            }
+
+            GetDataAndDisplayItInScheduledActionsDataGrid();
         }
 
         private void CancelScheduledActionButton_Click(object sender, RoutedEventArgs e)

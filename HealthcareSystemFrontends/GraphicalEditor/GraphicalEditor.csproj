@@ -69,6 +69,9 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="AppointmentInRoomMoreDetailsDialog.xaml.cs">
+      <DependentUpon>AppointmentInRoomMoreDetailsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Constants\ServerConstants.cs" />
     <Compile Include="Controllers\MapObjectController\MapObjectController.cs" />
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
@@ -149,6 +152,10 @@
     <Compile Include="Validations\NumbersValidationRule.cs" />
     <Compile Include="Validations\SimpleDateValidationRule.cs" />
     <Compile Include="Validations\WordsValidationRule.cs" />
+    <Page Include="AppointmentInRoomMoreDetailsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CreatePatientGuestAccountDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

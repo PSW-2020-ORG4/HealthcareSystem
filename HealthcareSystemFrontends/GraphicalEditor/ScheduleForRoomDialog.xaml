@@ -107,7 +107,7 @@
                                 BorderBrush="{x:Null}"
                                 Click="ShowDetailsForScheduledActionButton_Click"
                                 FontSize="16"
-                                ToolTip="Prikaži detalje o ovoj akciji">
+                                ToolTip="Prikaži detaljnije informacije o ovoj akciji">
                                 <StackPanel
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"

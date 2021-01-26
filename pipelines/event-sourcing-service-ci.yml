@@ -6,7 +6,7 @@ pr:
 variables:
   paths: "**/EventSourcingService/* **/EventSourcingServiceTests/*"
   project: 'HealthcareSystem/EventSourcingService/EventSourcingService.csproj'
-  tests: 'HealthcareSystem/FeedbackAndSurveyTests/EventSourcingServiceTests.csproj'
+  tests: 'HealthcareSystem/EventSourcingServiceTests/EventSourcingServiceTests.csproj'
   configuration: 'Release'
   sonarProjectKey: 'psw-2020-org4_EventSourcingService'
   sonarProjectName: 'EventSourcingService'

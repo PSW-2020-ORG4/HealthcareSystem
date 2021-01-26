@@ -5,7 +5,6 @@
  ***********************************************************************/
 
 using Backend.Repository.DrugTypeRepository;
-using Backend.Repository.IngridientRepository;
 using Backend.Service.DrugAndTherapy;
 using Model.Manager;
 using Repository;

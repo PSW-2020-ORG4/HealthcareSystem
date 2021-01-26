@@ -1,5 +1,4 @@
 ﻿using System;
-using Backend.Model.Users;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
@@ -7,6 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using IntegrationAdapters.Settings;
 using Microsoft.Extensions.Options;
+using IntegrationAdapters.Dtos;
 
 namespace IntegrationAdapters.MicroserviceComunicator
 {
@@ -19,14 +19,14 @@ namespace IntegrationAdapters.MicroserviceComunicator
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.BaseAddress = new System.Uri(serviceSetting.Value.PharmacySystemServiceUrl);
         }
-        public async Task<List<Patient>> GetAllPatients()
+        public async Task<List<PatientDto>> GetAllPatients()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "prescriptionservice/get/patients");
             var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
                 NotSuccessStatusCodeHandler(response.StatusCode);
             var jsonString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<Patient>>(jsonString);
+            return JsonConvert.DeserializeObject<List<PatientDto>>(jsonString);
         }
 
         private void NotSuccessStatusCodeHandler(HttpStatusCode statusCode)

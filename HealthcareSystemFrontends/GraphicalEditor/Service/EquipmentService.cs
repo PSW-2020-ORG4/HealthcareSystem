@@ -32,5 +32,10 @@ namespace GraphicalEditor.Service
             IRestResponse response = AddHTTPPostRequest("equipment/scheduleTransfer", transferEquipmentDTO);
             return response.Content;
         }
+        public bool DeleteEquipmentTransfer(int idRenovation)
+        {
+            IRestResponse response = HTTPDeleteRequest("equipment/deleteById/ " + idRenovation);
+            return response.IsSuccessful;
+        }
     }
 }

@@ -46,6 +46,14 @@ namespace GraphicalEditor.Service
             return response;
         }
 
+        public IRestResponse HTTPDeleteRequest(String requestURL)
+        {
+            var client = GetClient();
+            var request = new RestRequest("api/" + requestURL, Method.DELETE);
+            var response = client.Delete(request);
+            return response;
+        }
+
         public T HTTPGetSingleItemRequest<T>(string requestURL)
         {
             var client = GetClient();

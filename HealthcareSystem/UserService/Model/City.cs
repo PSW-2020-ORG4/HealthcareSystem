@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using UserService.CustomException;
 using UserService.Model.Memento;
-using UserService.CustomException;
 
 namespace UserService.Model
 {

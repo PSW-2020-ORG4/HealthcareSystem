@@ -2,14 +2,11 @@
 using Backend.Service.RenovationService;
 using GraphicalEditorServerTests.DataFactory;
 using Service.ExaminationAndPatientCard;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace GraphicalEditorServerTests.UnitTest
 {
-   public class ScheduleRenovationTests
+    public class ScheduleRenovationTests
     {
         private readonly StubRepository _stubRepository;
         private readonly CreateRenovation _createRenovaton;
@@ -27,7 +24,7 @@ namespace GraphicalEditorServerTests.UnitTest
                 new ExaminationService(_stubRepository.CreateExaminationStubRepository()),
                 _stubRepository.CreateEquipmentTransferStubRepository(),
                 _stubRepository.CreateRoomStubRepository());
-             return renovationService;
+            return renovationService;
         }
 
         [Fact]
@@ -37,7 +34,7 @@ namespace GraphicalEditorServerTests.UnitTest
             BaseRenovation result = renovationService.AddBaseRenovation(_createRenovaton.CreateInvalidTestObjectForSchedulingBaseRenovation());
             Assert.Null(result);
         }
-       
+
         [Fact]
         public void Schedule_merge_renovation_return_null()
         {

@@ -2,9 +2,6 @@
 using Backend.Model.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GraphicalEditor.DTO
 {
@@ -20,9 +17,9 @@ namespace GraphicalEditor.DTO
 
         public FrontAppointmentSearchDTO() { }
         public FrontAppointmentSearchDTO(int patientCardId, string doctorJmbg,
-                                                 ICollection<int> requiredEquipmentTypes, 
-                                                 DateTime earliestDateTime, 
-                                                 DateTime latestDateTime, 
+                                                 ICollection<int> requiredEquipmentTypes,
+                                                 DateTime earliestDateTime,
+                                                 DateTime latestDateTime,
                                                  SearchPriority priority,
                                                  int specialtyId)
         {

@@ -3,21 +3,19 @@ using EventSourcingService.Model.GraphicalEditor;
 using EventSourcingService.Repository;
 using EventSourcingService.Service.GraphicalEditor;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace EventSourcingServiceTests.GEIntegrationTests
 {
     public class MapEventsTests
     {
-        private IBuildingSelectionService buildingEventService; 
-        private IFloorChangeService floorChangeEventService; 
+        private IBuildingSelectionService buildingEventService;
+        private IFloorChangeService floorChangeEventService;
         private IRoomSelectionService roomEventService;
-        
+
         public MapEventsTests()
         {
             EventDataSeeder dataSeeder = new EventDataSeeder();
@@ -53,7 +51,7 @@ namespace EventSourcingServiceTests.GEIntegrationTests
             BuildingSelectionEvent last = buildingEventService.GetAll().Last();
 
             Assert.True(
-                last.TriggerTime.Equals(building.TriggerTime) 
+                last.TriggerTime.Equals(building.TriggerTime)
                 && last.Username == building.Username
                 && last.BuildingNumber == building.BuildingNumber
             );
@@ -62,7 +60,7 @@ namespace EventSourcingServiceTests.GEIntegrationTests
         [Fact]
         public void Add_New_Floor_Change_Event()
         {
-            FloorChangeEvent floorChange= new FloorChangeEvent()
+            FloorChangeEvent floorChange = new FloorChangeEvent()
             {
                 TriggerTime = DateTime.Now.Date.AddDays(1).AddHours(2).AddMinutes(30),
                 Username = "perapera",

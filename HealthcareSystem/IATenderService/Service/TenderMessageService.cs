@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Backend.Model.Pharmacies;
+using System.Collections.Generic;
 using System.Linq;
-using Backend.Model.Pharmacies;
-using Backend.Repository;
 using ITenderMessageRepository = IntegrationAdaptersTenderService.Repository.ITenderMessageRepository;
 
 namespace IntegrationAdaptersTenderService.Service

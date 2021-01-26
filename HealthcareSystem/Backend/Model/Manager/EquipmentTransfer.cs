@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Backend.Model.Manager
 {
-   public class EquipmentTransfer
+    public class EquipmentTransfer
     {
         public int RoomNumber { get; set; }
         public DateTime DateAndTimeOfTransfer { get; set; }

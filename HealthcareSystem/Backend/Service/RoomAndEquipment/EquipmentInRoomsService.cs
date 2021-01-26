@@ -8,10 +8,7 @@
 using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Service.RoomAndEquipment;
 using Model.Manager;
-using Repository;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Service.RoomAndEquipment
 {
@@ -37,12 +34,12 @@ namespace Service.RoomAndEquipment
 
         public void DeleteEquipmentInRooms(int idEquipment)
         {
-             _equipmentInRoomsRepository.DeleteEquipment(idEquipment);
+            _equipmentInRoomsRepository.DeleteEquipment(idEquipment);
         }
 
         public List<EquipmentInRooms> GetEquipmentInRoomsFromEquipment(Equipment equipment)
         {
             return _equipmentInRoomsRepository.GetEquipmenInRoomsByEquipmentId(equipment.Id);
-        }        
+        }
     }
 }

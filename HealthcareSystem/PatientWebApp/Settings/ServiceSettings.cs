@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PatientWebApp.Settings
+﻿namespace PatientWebApp.Settings
 {
     public class ServiceSettings
     {

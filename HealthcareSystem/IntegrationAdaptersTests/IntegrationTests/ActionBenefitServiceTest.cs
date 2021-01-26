@@ -17,7 +17,7 @@
 //             var actionBenefitRepo = new MySqlActionBenefitRepository(context);
 //             var actionBenefitService = new ActionBenefitService(actionBenefitRepo, pharmacyRepo);
 //             var message = new ActionBenefitMessage { Subject = "akcija1", Message = "blablabla" };
-            
+
 //             actionBenefitService.CreateActionBenefit("exchange", message);
 //             Assert.Contains(context.ActionsBenefits, ab => ab.Message == message.Message && ab.Subject == message.Subject);
 

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EventSourcingService.DTO;
+﻿using EventSourcingService.DTO;
 using EventSourcingService.DTO.PatientSchedulingEventDTO;
 using EventSourcingService.Model;
 using EventSourcingService.Model.Enum;
 using EventSourcingService.Repository;
 using EventSourcingService.Service;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace EventSourcingServiceTests.IntegrationTests
@@ -108,7 +107,7 @@ namespace EventSourcingServiceTests.IntegrationTests
             EventStorePatientStepSchedulingService eventStepService = SetupEventStepService();
             StepPreviousStatisticDTO stepStatistic = eventStepService.PreviousSchedulingStepStatistic();
 
-            Assert.Equal(EventStep.Doctor , stepStatistic.MostReturnedStep);
+            Assert.Equal(EventStep.Doctor, stepStatistic.MostReturnedStep);
         }
 
         [Fact]

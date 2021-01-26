@@ -7,13 +7,12 @@
 using Backend.Model.Exceptions;
 using Backend.Model.Users;
 using Backend.Repository;
-using Backend.Service;
 using System;
 
 namespace Backend.Service
 {
     public class PatientCardService : IPatientCardService
-   {
+    {
         private IActivePatientCardRepository _activePatientCardRepository;
 
         public PatientCardService(IActivePatientCardRepository activePatientCardRepository)
@@ -41,7 +40,7 @@ namespace Backend.Service
         public void EditPatientCard(PatientCard patientCard)
         {
             _activePatientCardRepository.UpdatePatientCard(patientCard);
-        }    
-   
-   }
+        }
+
+    }
 }

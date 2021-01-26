@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Communication.RabbitMqConnection;
+﻿using Backend.Communication.RabbitMqConnection;
 using Backend.Model.Pharmacies;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace IntegrationAdaptersTenderService.Service.RabbitMqTenderingService
 {
@@ -43,11 +43,11 @@ namespace IntegrationAdaptersTenderService.Service.RabbitMqTenderingService
             _channel.ExchangeDeclare(exchange: _exchangeName, type: ExchangeType.Direct);
             using (var scope = _service.CreateScope())
             {
-                ITenderService  tenderService = scope.ServiceProvider.GetRequiredService<ITenderService>();
+                ITenderService tenderService = scope.ServiceProvider.GetRequiredService<ITenderService>();
 
                 foreach (Tender t in tenderService.GetAllNotClosedTenders())
                 {
-                    if(t.EndDate.CompareTo(DateTime.Now) > 0)
+                    if (t.EndDate.CompareTo(DateTime.Now) > 0)
                     {
                         _channel.QueueDeclare(queue: t.QueueName,
                                                           durable: true,
@@ -102,9 +102,9 @@ namespace IntegrationAdaptersTenderService.Service.RabbitMqTenderingService
                 tenderMessage.TenderId = tender.Id;
                 tenderMessage.Offers = new List<TenderOffer>();
 
-                foreach(var o in message.Offers)
+                foreach (var o in message.Offers)
                 {
-                    TenderOffer to = new TenderOffer() {Code = o.Code, Name = o.Name, Quantity = o.Quantity, Price = o.Price };
+                    TenderOffer to = new TenderOffer() { Code = o.Code, Name = o.Name, Quantity = o.Quantity, Price = o.Price };
                     tenderMessage.Offers.Add(to);
                 }
                 scope.ServiceProvider.GetRequiredService<ITenderMessageService>().CreateTenderMessage(tenderMessage);

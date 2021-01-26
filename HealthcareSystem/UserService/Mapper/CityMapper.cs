@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using UserService.DTO;
+﻿using UserService.DTO;
 using UserService.Model;
 
 namespace UserService.Mapper

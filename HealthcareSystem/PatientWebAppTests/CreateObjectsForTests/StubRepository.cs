@@ -1,26 +1,8 @@
-﻿using Backend.Model;
-using Backend.Repository;
-using Model.Users;
-using Moq;
-using Repository;
-using System.Collections.Generic;
-using Backend.Repository.ExaminationRepository;
-using Model.PerformingExamination;
-using Backend.Repository.TherapyRepository;
-using Backend.Model.Enums;
-using Backend.Repository.RoomRepository;
-using Model.Manager;
-using Model.Enums;
-using Backend;
-using System;
-using Backend.Model.Exceptions;
-using Backend.Model.PerformingExamination;
-using Backend.Model.Users;
-
-namespace PatientWebAppTests.CreateObjectsForTests
+﻿namespace PatientWebAppTests.CreateObjectsForTests
 {
     public class StubRepository
     {
+        /*
         private readonly TestObjectFactory _objectFactory;
         public StubRepository()
         {
@@ -163,5 +145,6 @@ namespace PatientWebAppTests.CreateObjectsForTests
 
             return adminStubRepository.Object;
         }
+        */
     }
 }

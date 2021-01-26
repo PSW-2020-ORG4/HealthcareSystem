@@ -29,7 +29,7 @@ namespace UserService.Model
         {
             if (string.IsNullOrWhiteSpace(Value))
                 throw new ValidationException("Email cannot be empty.");
-            if (!IsValidFormat(Value)) 
+            if (!IsValidFormat(Value))
                 throw new ValidationException("Email format is not valid.");
         }
 

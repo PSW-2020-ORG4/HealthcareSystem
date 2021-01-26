@@ -4,13 +4,8 @@
  * Purpose: Definition of the Class Drug
  ***********************************************************************/
 
-using Castle.Components.DictionaryAdapter;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
-using System.Drawing.Printing;
 
 namespace Model.Manager
 {
@@ -28,8 +23,8 @@ namespace Model.Manager
         public string Code { get; set; }
 
         public Drug() { }
-	
-        public Drug( DrugType drugType, string name, int quantity, DateTime expirationDate, string producer)
+
+        public Drug(DrugType drugType, string name, int quantity, DateTime expirationDate, string producer)
         {
             this.DrugType = drugType;
             this.Name = name;

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Model.Users;
+﻿using Backend.Model.Exceptions;
 using Backend.Service;
 using Backend.Service.UsersAndWorkingTime;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Model.Users;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
+using Microsoft.AspNetCore.Mvc;
+using Model.Users;
+using System.Collections.Generic;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -44,7 +39,7 @@ namespace GraphicalEditorServer.Controllers
             }
         }
 
-       
+
         [HttpGet("{jmbg}")]
         public IActionResult GetDoctorByJmbg(string jmbg)
         {
@@ -63,7 +58,7 @@ namespace GraphicalEditorServer.Controllers
             }
         }
 
-        
+
         [HttpGet("specialties")]
         public IActionResult GetAllSpecialtes()
         {
@@ -86,11 +81,11 @@ namespace GraphicalEditorServer.Controllers
             List<DoctorDTO> doctorDTOs = new List<DoctorDTO>();
             try
             {
-                foreach(Doctor doctor in _doctorService.ViewDoctorsBySpecialty(id))
+                foreach (Doctor doctor in _doctorService.ViewDoctorsBySpecialty(id))
                 {
                     doctorDTOs.Add(DoctorMapper.DoctorToDoctorDTO(doctor));
                 }
-             
+
                 return Ok(doctorDTOs);
             }
             catch (DatabaseException e)

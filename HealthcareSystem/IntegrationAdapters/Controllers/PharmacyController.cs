@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Backend.Model.Pharmacies;
-using Backend.Service;
+﻿using Backend.Model.Pharmacies;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace IntegrationAdapters.Controllers
 {

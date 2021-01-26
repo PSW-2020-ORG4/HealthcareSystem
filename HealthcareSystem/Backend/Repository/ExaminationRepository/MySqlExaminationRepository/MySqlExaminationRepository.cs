@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Backend.Model;
+﻿using Backend.Model;
 using Backend.Model.Enums;
 using Backend.Model.Exceptions;
 using Backend.Model.PerformingExamination;
-using Model.Manager;
-using Model.Users;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
 {
@@ -151,12 +147,12 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         public void DeleteExaminationRepository(int id)
         {
             Examination examination = _context.Examinations.SingleOrDefault(d => d.Id == id && d.ExaminationStatus != ExaminationStatus.CANCELED);
-            if (examination != null) 
+            if (examination != null)
             {
                 _context.Remove(examination);
                 _context.SaveChanges();
             }
-               
+
         }
 
         public ICollection<Examination> GetFollowingExaminationsByRoom(int roomId)
@@ -188,7 +184,7 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
         {
             try
             {
-                Examination examinatoForRemove = _context.Examinations.Where(e => e.DateAndTime == examinationForReschedule.DateAndTime && e.DoctorJmbg == examinationForReschedule.DoctorJmbg && e.ExaminationStatus!=ExaminationStatus.CANCELED).ToList()[0];
+                Examination examinatoForRemove = _context.Examinations.Where(e => e.DateAndTime == examinationForReschedule.DateAndTime && e.DoctorJmbg == examinationForReschedule.DoctorJmbg && e.ExaminationStatus != ExaminationStatus.CANCELED).ToList()[0];
                 _context.Examinations.Remove(examinatoForRemove);
                 _context.Examinations.Add(examinationForSchedule);
                 _context.Examinations.Add(shiftedExamination);
@@ -200,6 +196,6 @@ namespace Backend.Repository.ExaminationRepository.MySqlExaminationRepository
             }
         }
 
-      
+
     }
 }

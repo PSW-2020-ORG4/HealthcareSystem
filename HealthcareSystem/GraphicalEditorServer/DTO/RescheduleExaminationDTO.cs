@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GraphicalEditorServer.DTO
+﻿namespace GraphicalEditorServer.DTO
 {
     public class RescheduleExaminationDTO
     {
         public ExaminationDTO ExaminationForScheduleDTO { get; set; }
-        public ExaminationDTO ExaminationForRescheduleDTO { get;set; }
+        public ExaminationDTO ExaminationForRescheduleDTO { get; set; }
         public ExaminationDTO ShiftedExaminationDTO { get; set; }
 
         public RescheduleExaminationDTO() { }

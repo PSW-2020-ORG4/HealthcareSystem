@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Backend.Model.DTO;
+﻿using Backend.Model.DTO;
 using Backend.Model.Pharmacies;
 using IntegrationAdaptersTenderService.Repository;
+using System;
+using System.Collections.Generic;
 
 namespace IntegrationAdaptersTenderService.Service
 {

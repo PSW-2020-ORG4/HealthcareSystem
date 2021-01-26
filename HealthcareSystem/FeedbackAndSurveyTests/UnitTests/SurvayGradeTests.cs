@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FeedbackAndSurveyService.CustomException;
+﻿using FeedbackAndSurveyService.CustomException;
 using FeedbackAndSurveyService.SurveyService.Model;
+using System.Collections.Generic;
 using Xunit;
 
 namespace FeedbackAndSurveyTests.UnitTests
@@ -28,9 +26,9 @@ namespace FeedbackAndSurveyTests.UnitTests
                                                 new object[] { -2, false },
                                                 new object[] { 1, true },
                                                 new object[] { 5, true }
-                                                
+
                                             };
 
-    
+
     }
 }

@@ -1,14 +1,4 @@
-﻿using Backend.Service;
-using Castle.Core.Configuration;
-using Microsoft.AspNetCore.Mvc;
-using PatientWebApp.Controllers;
-using PatientWebApp.DTOs;
-using PatientWebAppTests.CreateObjectsForTests;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
-using Xunit;
+﻿using PatientWebAppTests.CreateObjectsForTests;
 
 namespace PatientWebAppTests.UnitTests
 {

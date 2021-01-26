@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using PatientService.CustomException;
+﻿using PatientService.CustomException;
 using PatientService.Model;
 using PatientService.Model.Memento;
+using System.Collections.Generic;
 using Xunit;
 
 namespace PatientServiceTests.UnitTests

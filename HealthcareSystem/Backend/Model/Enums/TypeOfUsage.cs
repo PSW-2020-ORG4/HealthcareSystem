@@ -4,8 +4,6 @@
  * Purpose: Definition of the Class TypeOfUsage
  ***********************************************************************/
 
-using System;
-
 namespace Backend.Model.Enums
 {
     public enum TypeOfUsage

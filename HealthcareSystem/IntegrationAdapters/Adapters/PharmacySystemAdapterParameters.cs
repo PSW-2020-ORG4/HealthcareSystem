@@ -8,6 +8,6 @@ namespace IntegrationAdapters.Adapters
         public GrpcAdress GrpcAdress { get; set; }
         public string Url { get; set; }
         public string HospitalName { get; set; }
-        public SftpConfig SftpConfig {get; set;}
+        public SftpConfig SftpConfig { get; set; }
     }
 }

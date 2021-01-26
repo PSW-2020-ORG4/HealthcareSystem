@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Backend.Model.DTO;
 using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
-using Newtonsoft.Json;
-using Model.Manager;
-using Backend.Model.Manager;
 using GraphicalEditorServer.Mappers;
 using Backend.Model.DTO;
 using Backend.Model.Exceptions;
+using Microsoft.AspNetCore.Mvc;
+using Model.Manager;
+using System;
+using System.Collections.Generic;
+
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -25,7 +22,7 @@ namespace GraphicalEditorServer.Controllers
         private readonly IEquipmentTransferService _equipmentTransferService;
 
         public EquipmentController(
-            IEquipmentService equipmentService, 
+            IEquipmentService equipmentService,
             IEquipmentTypeService equipmentTypeService,
             IEquipmentInRoomsService equipmentInRoomsService,
             IEquipmentTransferService equipmentTransferService)
@@ -39,7 +36,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost]
         public ActionResult AddEquipment([FromBody] Equipment equipment)
         {
-            Equipment addedEquipment =_equipmentService.AddEquipment(equipment);
+            Equipment addedEquipment = _equipmentService.AddEquipment(equipment);
             return Ok(addedEquipment.Id);
         }
 
@@ -50,13 +47,15 @@ namespace GraphicalEditorServer.Controllers
             {
                 List<Equipment> equipmentsInRoom = _equipmentService.GetEquipmentByRoomNumber(roomNumber);
                 List<EquipmentDTO> equipmentsInRoomDTOs = new List<EquipmentDTO>();
-                if (equipmentsInRoom.Count==0) {
+                if (equipmentsInRoom.Count == 0)
+                {
                     return NotFound("NotFound");
                 }
                 equipmentsInRoom.ForEach(equipment => equipmentsInRoomDTOs.Add(EquipmentMapper.EquipmentToEquipmentDTO(equipment)));
                 return Ok(equipmentsInRoomDTOs);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 return NotFound(e.Message);
             }
         }
@@ -64,11 +63,11 @@ namespace GraphicalEditorServer.Controllers
         [HttpGet("search")]
         public ActionResult GetEquipmentWithRoomForSearchTerm(string term = "")
         {
-       
+
             List<Equipment> equipment = _equipmentService.GetEquipmentWithRoomForSearchTerm(term);
 
             List<EquipmentWithRoomDTO> allEquipmentWithRoomDTOs = new List<EquipmentWithRoomDTO>();
-            foreach(Equipment e in equipment)
+            foreach (Equipment e in equipment)
             {
                 List<EquipmentWithRoomDTO> equipmentInRoomDTO = EquipmentWithRoomMapper.EquipmentToEquipmentWithRoomDTO(e, _equipmentInRoomsService.GetEquipmentInRoomsFromEquipment(e));
 
@@ -100,7 +99,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpDelete("deleteById/{id}")]
         public ActionResult DeleteEquipmentTransfer(int id)
         {
-            _equipmentTransferService.DeleteEquipmentTransfer(id);            
+            _equipmentTransferService.DeleteEquipmentTransfer(id);
             return Ok();
         }
 

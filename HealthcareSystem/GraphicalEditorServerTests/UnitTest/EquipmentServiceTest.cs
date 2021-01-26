@@ -3,7 +3,6 @@ using Model.Manager;
 using Service.RoomAndEquipment;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace GraphicalEditorServerTests.UnitTest
@@ -24,7 +23,7 @@ namespace GraphicalEditorServerTests.UnitTest
 
         private EquipmentService SetupEquipmentService()
         {
-            EquipmentService _equipmentService = new EquipmentService(_stubRepository.CreateEquipmentStubRepository(), _stubRepository.CreateEquipmentInRoomStubRepository(),_stubRepository.CreateExaminationStubRepository(),_stubRepository.CreateEquipmentTransferStubRepository(),_stubRepository.CreateEquipmentInExaminationRepository());
+            EquipmentService _equipmentService = new EquipmentService(_stubRepository.CreateEquipmentStubRepository(), _stubRepository.CreateEquipmentInRoomStubRepository(), _stubRepository.CreateExaminationStubRepository(), _stubRepository.CreateEquipmentTransferStubRepository(), _stubRepository.CreateEquipmentInExaminationRepository());
             return _equipmentService;
         }
 
@@ -49,7 +48,7 @@ namespace GraphicalEditorServerTests.UnitTest
         {
             EquipmentService equipmentService = SetupEquipmentService();
             int result = equipmentService.InitializeEquipmentTransfer(_createTransferEqupmentDTO.CreateInvalidTestObjectForInitializingEquipmentTransfer1());
-            Assert.Equal(9,result);
+            Assert.Equal(9, result);
         }
 
         [Fact]
@@ -83,7 +82,7 @@ namespace GraphicalEditorServerTests.UnitTest
             List<DateTime> result = equipmentService.GetAlternativeAppointments(_createTransferEqupmentDTO.CreateInvalidTestObjectForInitializingEquipmentTransfer1());
             Assert.DoesNotContain(_createTransferEqupmentDTO.CreateInvalidTestObjectForInitializingEquipmentTransfer1().DateAndTimeOfTransfer, result);
         }
-     
+
     }
 }
 

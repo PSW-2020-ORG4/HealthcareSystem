@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using EventSourcingService.DTO;
+﻿using EventSourcingService.DTO;
 using EventSourcingService.DTO.PatientSchedulingEventDTO;
 using EventSourcingService.Model;
 using EventSourcingService.Model.Enum;
 using EventSourcingService.Repository;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EventSourcingService.Service
 {
@@ -112,7 +112,7 @@ namespace EventSourcingService.Service
             catch (Exception)
             {
                 return new StepPreviousStatisticDTO();
-            } 
+            }
 
             return previousSchedulingStepStatistic;
         }

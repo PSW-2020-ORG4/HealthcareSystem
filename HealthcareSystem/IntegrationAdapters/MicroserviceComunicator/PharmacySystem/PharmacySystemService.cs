@@ -1,6 +1,8 @@
-﻿using System;
-using Backend.Model.Pharmacies;
+﻿using Backend.Model.Pharmacies;
+using IntegrationAdapters.Settings;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -13,10 +15,10 @@ namespace IntegrationAdapters.MicroserviceComunicator
     {
         private HttpClient _httpClient;
 
-        public PharmacySystemService(IHttpClientFactory httpClientFactory)
+        public PharmacySystemService(IHttpClientFactory httpClientFactory, IOptions<ServiceSettings> serviceSettings)
         {
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new System.Uri("http://localhost:5001");
+            _httpClient.BaseAddress = new System.Uri(serviceSettings.Value.PharmacySystemServiceUrl);
         }
 
         public async Task<PharmacySystem> Get(int id)

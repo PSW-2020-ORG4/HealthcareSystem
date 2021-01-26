@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using EventSourcingService.DTO;
+﻿using EventSourcingService.DTO;
 using EventSourcingService.DTO.PatientSchedulingEventDTO;
 using EventSourcingService.Model;
+using System.Collections.Generic;
 
 namespace EventSourcingService.Service
 {

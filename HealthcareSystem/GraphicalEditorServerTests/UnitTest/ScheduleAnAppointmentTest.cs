@@ -1,13 +1,9 @@
 ﻿using Backend.Service.ExaminationAndPatientCard;
 using GraphicalEditorServerTests.DataFactory;
-using Model.PerformingExamination;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 namespace GraphicalEditorServerTests.UnitTest
 {
-   public class ScheduleAnAppointmentTest
+    public class ScheduleAnAppointmentTest
     {
         private readonly StubRepository _stubRepository;
         private readonly CreateExamination _createExamination;
@@ -21,7 +17,7 @@ namespace GraphicalEditorServerTests.UnitTest
 
         public ScheduleAppointmentService SetupScheduleAppointmentService()
         {
-          return new ScheduleAppointmentService(_stubRepository.CreateExaminationStubRepository());
+            return new ScheduleAppointmentService(_stubRepository.CreateExaminationStubRepository());
         }
 
         [Fact]

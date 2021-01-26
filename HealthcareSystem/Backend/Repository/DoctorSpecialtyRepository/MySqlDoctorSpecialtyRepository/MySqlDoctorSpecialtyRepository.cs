@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Backend.Model;
+﻿using Backend.Model;
 using Backend.Model.Exceptions;
 using Backend.Model.Users;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Backend.Repository.DoctorSpecialtyRepository.MySqlDoctorSpecialtyRepository
 {

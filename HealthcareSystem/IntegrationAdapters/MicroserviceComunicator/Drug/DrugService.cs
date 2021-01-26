@@ -1,9 +1,10 @@
 ﻿using Backend.Model.Pharmacies;
+using IntegrationAdapters.Settings;
+using Microsoft.Extensions.Options;
 using Model.Manager;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -15,17 +16,17 @@ namespace IntegrationAdapters.MicroserviceComunicator
     {
         private HttpClient _httpClient;
 
-        public DrugService(IHttpClientFactory httpClientFactory)
+        public DrugService(IHttpClientFactory httpClientFactory, IOptions<ServiceSettings> serviceSettings)
         {
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new System.Uri("http://localhost:5003");
+            _httpClient.BaseAddress = new System.Uri(serviceSettings.Value.DrugServiceUrl);
         }
 
         public async Task<bool> AddQuantity(string code, int quantity)
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, "drugservice/addquantity");
-            request.Content = new StringContent(JsonConvert.SerializeObject(new AddQuantityRequest(code, quantity)), 
-                                                                            Encoding.UTF8, 
+            request.Content = new StringContent(JsonConvert.SerializeObject(new AddQuantityRequest(code, quantity)),
+                                                                            Encoding.UTF8,
                                                                             "application/json");
             var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)

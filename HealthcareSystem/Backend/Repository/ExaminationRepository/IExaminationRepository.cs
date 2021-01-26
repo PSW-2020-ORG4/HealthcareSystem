@@ -1,11 +1,6 @@
-﻿using System;
+﻿using Backend.Model.PerformingExamination;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Backend.Model.PerformingExamination;
-using Model.Manager;
-using Model.Users;
 
 namespace Backend.Repository.ExaminationRepository
 {
@@ -16,7 +11,7 @@ namespace Backend.Repository.ExaminationRepository
         void UpdateExamination(Examination examination);
         int AddExamination(Examination examination);
         void DeleteExaminationRepository(int id);
- 
+
         List<Examination> GetExaminationsByDate(DateTime date);
         List<Examination> GetExaminationsByPatient(string patientJmbg);
         List<Examination> GetExaminationsByRoomAndDates(int numberOfRoom, DateTime beginDate, DateTime endDate);

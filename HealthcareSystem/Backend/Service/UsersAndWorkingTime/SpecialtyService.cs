@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Model.Exceptions;
-using Backend.Model.Users;
+﻿using Backend.Model.Users;
 using Backend.Repository.SpecialtyRepository;
+using System.Collections.Generic;
 
 namespace Backend.Service.UsersAndWorkingTime
 {
@@ -16,7 +13,7 @@ namespace Backend.Service.UsersAndWorkingTime
         }
         public List<Specialty> GetSpecialties()
         {
-            return _specialtyRepository.GetSpecialties();   
+            return _specialtyRepository.GetSpecialties();
         }
     }
 }

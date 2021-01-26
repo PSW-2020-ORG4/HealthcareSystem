@@ -38,22 +38,22 @@ namespace IntegrationAdapters.Adapters
                 {
                     PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.{_environment}.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
                     var config = Startup.Configuration.GetSection("SftpConfig");
-                    parameters.SftpConfig = new SftpConfig() 
-                    { 
+                    parameters.SftpConfig = new SftpConfig()
+                    {
                         Host = config["Host"],
-                        Port = int.Parse(config["Port"]), 
-                        Username = config["Username"], 
-                        Password = config["Password"] 
+                        Port = int.Parse(config["Port"]),
+                        Username = config["Username"],
+                        Password = config["Password"]
                     };
-                    
+
                     PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
                 }
-                else if(_environment == "Production" || _environment == "Test")
+                else if (_environment == "Production" || _environment == "Test")
                 {
                     PharmacySystemAdapter = (IPharmacySystemAdapter)Activator.CreateInstance(Type.GetType($"IntegrationAdapters.Adapters.{_environment}.PharmacySystemAdapter_Id{_pharmacySystem.Id}"));
                     PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
                 }
-                else if(_environment == "Production-Multi")
+                else if (_environment == "Production-Multi")
                 {
                     if (_pharmacySystem.Id == 1)
                     {
@@ -74,7 +74,7 @@ namespace IntegrationAdapters.Adapters
                     PharmacySystemAdapter.Initialize(parameters, _httpClientFactory.CreateClient());
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 PharmacySystemAdapter = null;

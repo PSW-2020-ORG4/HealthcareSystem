@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphicalEditorServer.DTO.EventSourcingDTO
 {
@@ -11,7 +8,7 @@ namespace GraphicalEditorServer.DTO.EventSourcingDTO
         public int BuildingNumber { get; set; }
         public int Floor { get; set; }
 
-        public FloorChangeEventDTO() {}
+        public FloorChangeEventDTO() { }
 
         public FloorChangeEventDTO(string username, int buildingNumber, int floor)
         {

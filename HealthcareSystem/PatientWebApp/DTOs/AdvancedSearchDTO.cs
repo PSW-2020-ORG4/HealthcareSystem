@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ScheduleService.DTO
+﻿namespace ScheduleService.DTO
 {
     public class AdvancedSearchDTO
     {

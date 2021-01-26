@@ -4,11 +4,10 @@ using Backend.Model.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentRepository
 {
-   public class MySqlEquipmentTransferRepostory : IEquipmentTransferRepository
+    public class MySqlEquipmentTransferRepostory : IEquipmentTransferRepository
     {
         private readonly MyDbContext _context;
 
@@ -21,9 +20,9 @@ namespace Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentR
         {
             _context.EqupmentTransfer.Add(equpmentTransfer);
             _context.SaveChanges();
-           
+
         }
-        
+
         public void DeleteEquipmentTransfer(int id)
         {
             EquipmentTransfer equipmentTransfer = _context.EqupmentTransfer.SingleOrDefault(d => d.Id == id);
@@ -32,7 +31,7 @@ namespace Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentR
                 _context.Remove(equipmentTransfer);
                 _context.SaveChanges();
             }
-           
+
         }
 
         public EquipmentTransfer GetEquipmentTransferById(int id)
@@ -54,8 +53,8 @@ namespace Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentR
 
         public EquipmentTransfer GetEquipmentTransferByRoomNumberAndDate(int roomNumber, DateTime dateOfTransfer)
         {
-            return  _context.EqupmentTransfer.SingleOrDefault(x => x.RoomNumber == roomNumber && x.DateAndTimeOfTransfer == dateOfTransfer);
-            
+            return _context.EqupmentTransfer.SingleOrDefault(x => x.RoomNumber == roomNumber && x.DateAndTimeOfTransfer == dateOfTransfer);
+
         }
 
         public ICollection<EquipmentTransfer> GetEquipmentTransfersByRoomNumberAndPeriod(DateTime start, DateTime end, int roomNumber)

@@ -21,7 +21,7 @@
 //             ViewResult result = (ViewResult)controller.Index();
 
 //             Assert.IsType<List<ActionBenefit>>(result.Model);
-            
+
 //         }
 
 //         [Fact]

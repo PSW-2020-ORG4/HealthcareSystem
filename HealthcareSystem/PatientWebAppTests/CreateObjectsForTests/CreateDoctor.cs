@@ -3,8 +3,6 @@ using Backend.Model.Enums;
 using Model.Manager;
 using Model.Users;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {

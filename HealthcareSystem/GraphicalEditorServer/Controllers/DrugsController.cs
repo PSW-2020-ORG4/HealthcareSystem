@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
-using Backend.Model.Manager;
+﻿using Backend.Model.Exceptions;
 using Backend.Service.DrugAndTherapy;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Manager;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -43,7 +37,8 @@ namespace GraphicalEditorServer.Controllers
             {
                 List<Drug> drugsInRoom = _drugService.GetDrugsByRoomNumber(roomNumber);
                 List<DrugDTO> drugsInRoomDTO = new List<DrugDTO>();
-                foreach (var drugInRoom in drugsInRoom) {
+                foreach (var drugInRoom in drugsInRoom)
+                {
                     drugsInRoomDTO.Add(DrugMapper.DrugToDrugDTO(drugInRoom));
                 }
                 return Ok(drugsInRoomDTO);
@@ -78,7 +73,8 @@ namespace GraphicalEditorServer.Controllers
             {
                 List<Drug> drugs = _drugService.ViewConfirmedDrugs();
                 List<DrugDTO> drugsDTO = new List<DrugDTO>();
-                foreach (var drug in drugs) {
+                foreach (var drug in drugs)
+                {
                     drugsDTO.Add(DrugMapper.DrugToDrugDTO(drug));
                 }
                 return Ok(drugsDTO);

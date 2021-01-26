@@ -1,10 +1,5 @@
-﻿using System;
-using Model.Users;
+﻿using Model.Manager;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model.Manager;
 
 namespace Backend.Repository.DrugRepository
 {

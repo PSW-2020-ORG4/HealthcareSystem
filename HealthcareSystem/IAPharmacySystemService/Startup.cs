@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Backend.Model;
 using Backend.Settings;
+using IAPharmacySystemService.Settings;
 using IntegrationAdaptersPharmacySystemService.Repository;
 using IntegrationAdaptersPharmacySystemService.Service;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
 using ActionBenefitService = IntegrationAdaptersPharmacySystemService.MicroserviceComunicator.ActionBenefitService;
 using IActionBenefitService = IntegrationAdaptersPharmacySystemService.MicroserviceComunicator.IActionBenefitService;
 
@@ -74,6 +75,7 @@ namespace IntegrationAdaptersPharmacySystemService
                 Console.WriteLine("Not dev or test.");
             }
 
+            services.Configure<ServiceSettings>(GetServiceSettings);
             services.AddScoped<IPharmacyRepo, MySqlPharmacyRepo>();
             services.AddScoped<IPharmacyService, PharmacyService>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();
@@ -82,6 +84,15 @@ namespace IntegrationAdaptersPharmacySystemService
 
             services.AddHttpClient();
         }
+
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.TenderServiceUrl = Configuration.GetValue<string>("TENDER_SERVICE_URL");
+            conf.ActionBenefitServiceUrl = Configuration.GetValue<string>("ACTION_BENEFIT_SERVICE_URL");
+            conf.DrugServiceUrl = Configuration.GetValue<string>("DRUG_SERVICE_URL");
+            conf.PharmacySystemServiceUrl = Configuration.GetValue<string>("PHARMACY_SYSTEM_SERVICE_URL");
+        }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

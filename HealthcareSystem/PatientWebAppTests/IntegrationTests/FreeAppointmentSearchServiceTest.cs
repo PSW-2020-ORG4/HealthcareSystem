@@ -1,6 +1,5 @@
 ﻿using Backend.Model;
 using Backend.Model.DTO;
-using Backend.Model.Enums;
 using Backend.Model.Exceptions;
 using Backend.Model.PerformingExamination;
 using Backend.Repository;
@@ -12,7 +11,6 @@ using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodReposit
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.RoomAndEquipment;
-using Repository;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -36,14 +34,14 @@ namespace PatientWebAppTests.IntegrationTests
             var equipmentInExaminationService = new EquipmentInExaminationService(new MySqlEquipmentInExaminationRepository(context));
             var equipmentTransferRepository = new MySqlEquipmentTransferRepostory(context);
             var roomService = new RoomService(roomRepo, renovationPeriodRepo, equipmentInRoomRepo, equipmentRepo);
-            return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo,equipmentInExaminationService, equipmentTransferRepository);
+            return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo, equipmentInExaminationService, equipmentTransferRepository);
         }
 
         [Fact]
         public void ExpectedAppointmentSearchBasic()
         {
-            FreeAppointmentSearchService freeAppointmentService =  SetupRepositoriesAndServices();
-            List<Examination> freeAppointments = (List<Examination>)freeAppointmentService.BasicSearch(new BasicAppointmentSearchDTO(patientCardId: 1, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(), 
+            FreeAppointmentSearchService freeAppointmentService = SetupRepositoriesAndServices();
+            List<Examination> freeAppointments = (List<Examination>)freeAppointmentService.BasicSearch(new BasicAppointmentSearchDTO(patientCardId: 1, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
                 earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 10, 0, 0)));
 
             Assert.Equal(4, freeAppointments.Count);
@@ -54,7 +52,7 @@ namespace PatientWebAppTests.IntegrationTests
         {
             FreeAppointmentSearchService freeAppointmentService = SetupRepositoriesAndServices();
 
-            Assert.Throws<BadRequestException>(() => freeAppointmentService.BasicSearch(new BasicAppointmentSearchDTO(patientCardId: 1, doctorJmbg: null, requiredEquipmentTypes: new List<int>(), 
+            Assert.Throws<BadRequestException>(() => freeAppointmentService.BasicSearch(new BasicAppointmentSearchDTO(patientCardId: 1, doctorJmbg: null, requiredEquipmentTypes: new List<int>(),
                 earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 17, 0, 0))));
         }
 
@@ -62,23 +60,23 @@ namespace PatientWebAppTests.IntegrationTests
         public void BasicUnavailableAppointmentSearch()
         {
             FreeAppointmentSearchService freeAppointmentService = SetupRepositoriesAndServices();
-            List<Examination> freeAppointments = (List<Examination>)freeAppointmentService.BasicSearch(new BasicAppointmentSearchDTO(patientCardId: 1, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(), 
+            List<Examination> freeAppointments = (List<Examination>)freeAppointmentService.BasicSearch(new BasicAppointmentSearchDTO(patientCardId: 1, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
                 earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 30, 0)));
 
             Assert.Empty(freeAppointments);
         }
 
-        
-       /* [Fact]
-        public void ExpectedAppointmentPrioritySearch()
-        {
-            FreeAppointmentSearchService freeAppointmentService = SetupRepositoriesAndServices();
-            List<Examination> freeAppointments = (List<Examination>)freeAppointmentService.SearchWithPriorities(new AppointmentSearchWithPrioritiesDTO { InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 1, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
-                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(2).Day, 17, 0, 0)), Priority = SearchPriority.Doctor, SpecialtyId = 1});
 
-            Assert.Equal(38, freeAppointments.Count);
-        }
-        */
+        /* [Fact]
+         public void ExpectedAppointmentPrioritySearch()
+         {
+             FreeAppointmentSearchService freeAppointmentService = SetupRepositoriesAndServices();
+             List<Examination> freeAppointments = (List<Examination>)freeAppointmentService.SearchWithPriorities(new AppointmentSearchWithPrioritiesDTO { InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 1, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
+                 earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 7, 0, 0), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(2).Day, 17, 0, 0)), Priority = SearchPriority.Doctor, SpecialtyId = 1});
+
+             Assert.Equal(38, freeAppointments.Count);
+         }
+         */
 
     }
 }

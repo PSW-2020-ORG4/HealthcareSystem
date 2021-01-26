@@ -4,17 +4,13 @@ using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphicalEditorServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EquipmentTypeController: ControllerBase
+    public class EquipmentTypeController : ControllerBase
     {
         private readonly IEquipmentTypeService _equipmentTypeService;
 
@@ -26,8 +22,8 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost]
         public ActionResult AddEquipmentType([FromBody] EquipmentType equipmentType)
         {
-                EquipmentType addedEquipmentType=_equipmentTypeService.AddEquipmentType(equipmentType);            
-                 return Ok(addedEquipmentType.Id);
+            EquipmentType addedEquipmentType = _equipmentTypeService.AddEquipmentType(equipmentType);
+            return Ok(addedEquipmentType.Id);
         }
 
         [HttpGet]
@@ -61,6 +57,5 @@ namespace GraphicalEditorServer.Controllers
                 return NotFound(e.Message);
             }
         }
-
     }
 }

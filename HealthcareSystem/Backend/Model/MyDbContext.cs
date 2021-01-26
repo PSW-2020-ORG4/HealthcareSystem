@@ -1,17 +1,12 @@
+using Backend.Model.Manager;
+using Backend.Model.PerformingExamination;
 using Backend.Model.Pharmacies;
+using Backend.Model.Users;
 using Microsoft.EntityFrameworkCore;
-using Model.NotificationSurveyAndFeedback;
 using Model.Manager;
+using Model.NotificationSurveyAndFeedback;
 using Model.PerformingExamination;
 using Model.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Backend.Model.Manager;
-using Backend.Model.Users;
-using Backend.Model.PerformingExamination;
 
 namespace Backend.Model
 {
@@ -43,14 +38,14 @@ namespace Backend.Model
         public DbSet<EquipmentType> EquipmentTypes { get; set; }
         public DbSet<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DbSet<DrugConsumption> DrugConsumptions { get; set; }
-	    public DbSet<DrugInRoom> DrugsInRooms { get; set; }
+        public DbSet<DrugInRoom> DrugsInRooms { get; set; }
         public DbSet<Tender> Tenders { get; set; }
         public DbSet<TenderDrug> TenderDrugs { get; set; }
         public DbSet<TenderOffer> TenderOffers { get; set; }
         public DbSet<TenderMessage> TenderMessages { get; set; }
 
         public DbSet<EquipmentTransfer> EqupmentTransfer { get; set; }
-	    public DbSet<EquipmentInExamination> EquipmentInExamination { get; set; }
+        public DbSet<EquipmentInExamination> EquipmentInExamination { get; set; }
         public DbSet<BaseRenovation> BaseRenovation { get; set; }
         public DbSet<MergeRenovation> MergeRenovation { get; set; }
         public DbSet<DivideRenovation> DivideRenovation { get; set; }

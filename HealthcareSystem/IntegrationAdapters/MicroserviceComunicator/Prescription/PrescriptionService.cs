@@ -1,10 +1,12 @@
-﻿using System;
+using IntegrationAdapters.Dtos;
+using IntegrationAdapters.Settings;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using IntegrationAdapters.Dtos;
 
 namespace IntegrationAdapters.MicroserviceComunicator
 {
@@ -12,10 +14,10 @@ namespace IntegrationAdapters.MicroserviceComunicator
     {
         private HttpClient _httpClient;
 
-        public PrescriptionService(IHttpClientFactory httpClientFactory)
+        public PrescriptionService(IHttpClientFactory httpClientFactory, IOptions<ServiceSettings> serviceSetting)
         {
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new System.Uri("http://localhost:5001");
+            _httpClient.BaseAddress = new System.Uri(serviceSetting.Value.PharmacySystemServiceUrl);
         }
         public async Task<List<PatientDto>> GetAllPatients()
         {

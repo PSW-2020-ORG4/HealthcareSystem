@@ -1,9 +1,5 @@
 ﻿using Backend.Model.Enums;
 using Backend.Model.Users;
-using Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {
@@ -19,6 +15,6 @@ namespace PatientWebAppTests.CreateObjectsForTests
             return new PatientCard(id: 1, bloodType: BloodType.AB, rhFactor: RhFactorType.NEGATIVE, alergies: null,
                                    medicalHistory: null, hasInsurance: false, lbo: null, patientJmbg: null);
         }
-        
+
     }
 }

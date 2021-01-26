@@ -4,15 +4,14 @@
  * Purpose: Definition of the Class Doctor.Examination
  ***********************************************************************/
 
+using Backend.Model.Enums;
+using Backend.Model.Users;
 using Model.Manager;
+using Model.PerformingExamination;
 using Model.Users;
 using System;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
-using Backend.Model.Enums;
-using Backend.Model;
-using Model.PerformingExamination;
-using Backend.Model.Users;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Model.PerformingExamination
 {
@@ -125,7 +124,7 @@ namespace Backend.Model.PerformingExamination
             ExaminationStatus = ExaminationStatus.CREATED;
             IsSurveyCompleted = false;
         }
-        public Examination(DateTime dateTime,int roomId)
+        public Examination(DateTime dateTime, int roomId)
         {
             DateAndTime = dateTime;
             IdRoom = roomId;

@@ -4,7 +4,7 @@ pr:
 - develop
 
 variables:
-  paths: "**/IAActionBenefitService/*"
+  paths: "**/IAActionBenefitService/* **/Backend/*"
   project: 'HealthcareSystem/IAActionBenefitService/IAActionBenefitService.csproj'
   configuration: 'Release'
   sonarProjectKey: 'psw-2020-org4_IAActionBenefitService'

@@ -8,6 +8,7 @@ using Service.DrugAndTherapy;
 using System;
 using Xunit;
 using Backend.Model.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IntegrationAdaptersTests.IntegrationTests
 {
@@ -44,7 +45,7 @@ namespace IntegrationAdaptersTests.IntegrationTests
                                                               new MySqlDrugInRoomRepository(context)),
                                           new DrugConsumptionService(new MySqlDrugConsumptionRepository(context)));
 
-            Assert.Throws<NotFoundException>(() => controller.AddQuantity(new AddDrugQuantityRequest { Quantity = 1, Code = "20000" }));
+            Assert.IsType<NotFoundResult>(controller.AddQuantity(new AddDrugQuantityRequest { Quantity = 1, Code = "20000" }));
         }
     }
 }

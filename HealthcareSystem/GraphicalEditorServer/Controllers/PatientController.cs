@@ -8,7 +8,6 @@ using Backend.Model.Exceptions;
 using Backend.Model.Users;
 using Backend.Service;
 using Backend.Service.Encryption;
-using Backend.Service.SendingMail;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

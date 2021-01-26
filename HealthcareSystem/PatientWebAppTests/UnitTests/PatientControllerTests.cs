@@ -10,7 +10,6 @@ using Backend;
 using System.Collections.Generic;
 using PatientWebApp.DTOs;
 using PatientWebAppTests.CreateObjectsForTests;
-using Backend.Service.SendingMail;
 using System.Threading.Tasks;
 using Backend.Model.Users;
 using Backend.Service.Encryption;

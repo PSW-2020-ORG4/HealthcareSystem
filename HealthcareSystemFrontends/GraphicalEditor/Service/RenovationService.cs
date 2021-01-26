@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GraphicalEditor.Service
 {
-   public class RenovatonService : GenericHTTPService
+   public class RenovationService : GenericHTTPService
     {
         public List<RenovationPeriodDTO> GetBaseRenovationAlternativeAppointments(BaseRenovationDTO baseRenovationDTO)
         {
@@ -45,6 +45,9 @@ namespace GraphicalEditor.Service
             return response.IsSuccessful;
         }
 
-
+        public BaseRenovationDTO GetBaseRenovationById(int renovationId)
+        {
+            return (BaseRenovationDTO)HTTPGetSingleItemRequest<BaseRenovationDTO>("renovation/byBaseRenovationId/" + renovationId);
+        }
     }
 }

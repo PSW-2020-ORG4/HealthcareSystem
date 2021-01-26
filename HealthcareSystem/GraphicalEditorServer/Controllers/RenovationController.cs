@@ -155,13 +155,15 @@ namespace GraphicalEditorServer.Controllers
                 return NotFound(e.Message);
             }
         }
+
+
         [HttpGet("byBaseRenovationId/{baseRenovationId}")]
         public IActionResult GetBaseRenovationsById(int baseRenovationId)
         {
             try
             {
                 BaseRenovation baseRenovation = _renovationService.GetRenovationById(baseRenovationId);
-                return Ok(baseRenovation);
+                return Ok(BaseRenovationMapper.BaseRenovationToBaseRenovationDTO(baseRenovation));
             }
             catch (Exception e)
             {

@@ -26,7 +26,7 @@ namespace GraphicalEditor
 
         AppointmentService _appointmentService;
         EquipmentService _equipmentService;
-        RenovatonService _renovationService;
+        RenovationService _renovationService;
 
         public int RoomId { get; set; }
 
@@ -38,7 +38,7 @@ namespace GraphicalEditor
             _roomService = new RoomService();
             _appointmentService = new AppointmentService();
             _equipmentService = new EquipmentService();
-            _renovationService = new RenovatonService();
+            _renovationService = new RenovationService();
 
 
             RoomId = roomId;
@@ -74,11 +74,13 @@ namespace GraphicalEditor
             }
             else if (selectedScheduledAction.ScheduleType == ScheduleType.EquipmentTransfer)
             {
-                
+                EquipmentRelocationInRoomMoreDetailsDialog equipmentRelocationInRoomMoreDetailsDialog = new EquipmentRelocationInRoomMoreDetailsDialog(selectedScheduledAction.Id);
+                equipmentRelocationInRoomMoreDetailsDialog.ShowDialog();
             }
             else if (selectedScheduledAction.ScheduleType == ScheduleType.Renovation)
             {
-               
+                RenovationInRoomMoreDetailsDialog renovationInRoomMoreDetailsDialog = new RenovationInRoomMoreDetailsDialog(selectedScheduledAction.Id);
+                renovationInRoomMoreDetailsDialog.ShowDialog();
             }
 
             GetDataAndDisplayItInScheduledActionsDataGrid();

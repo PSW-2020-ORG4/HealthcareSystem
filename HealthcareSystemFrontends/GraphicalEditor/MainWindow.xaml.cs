@@ -167,63 +167,6 @@ namespace GraphicalEditor
 
             LoadInitialMapOnCanvas();           
             SetDataToUIControls();
-
-            ExaminationForReschedulingDTO examinationForReschedulingDTO = new ExaminationForReschedulingDTO(new DateTime(), new DateTime(), 9);
-            List<ExaminationForReschedulingDTO> examinationsForReschedunling = new List<ExaminationForReschedulingDTO>();
-
-            RenovatonService ren = new RenovatonService();
-            AppointmentService aps = new AppointmentService();
-            EquipmentService es = new EquipmentService();
-            aps.DeleteAppointment(1);
-            es.DeleteEquipmentTransfer(1);
-            ren.DeleteRenovation(1);
-            BaseRenovationDTO dto = new BaseRenovationDTO(50, new DateTime(2021, 3, 12, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 12, 16, 45, 0, DateTimeKind.Utc), "menjanje poda", TypeOfRenovation.REGULAR_RENOVATION);
-            // DivideRenovationDTO mrg = new DivideRenovationDTO(dto, " soba za konsultacije"," soba za pregled", TypeOfMapObject.EXAMINATION_ROOM, TypeOfMapObject.HOSPITALIZATION_ROOM);
-            //MergeRenovationDTO mrg = new MergeRenovationDTO(dto, 16, "soba za hospitalizovanje pacijenata", TypeOfMapObject.HOSPITALIZATION_ROOM);
-            bool add = ren.ScheduleBaseRenovation(dto);
-            if (!add)
-            {
-                foreach (RenovationPeriodDTO period in ren.GetBaseRenovationAlternativeAppointments(dto))
-                {
-                    Console.WriteLine(period.StartTime + " ------ " + period.EndTime);
-                    Console.WriteLine("");
-                }
-            }
-            else
-            {
-                Console.WriteLine("else");
-            }
-
-            examinationsForReschedunling.Add(examinationForReschedulingDTO);
-            EmergencyAppointmentSearchResultsDataGrid.ItemsSource = examinationsForReschedunling;
-
-            /*
-            AppointmentSearchWithPrioritiesDTO appointmentSearch = new AppointmentSearchWithPrioritiesDTO
-            {
-                InitialParameters = new BasicAppointmentSearchDTO(patientCardId: 2, doctorJmbg: "0909965768767", requiredEquipmentTypes: new List<int>(),
-                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(1).Day, 9, 0, 0, DateTimeKind.Utc)),
-                Priority = SearchPriority.Date,
-                SpecialtyId = 1
-            };
-
-            AppointmentService app = new AppointmentService();
-
-            app.GetEmergencyAppointments(appointmentSearch);*/
-
-            /* RenovatonService service = new RenovatonService();
-             BaseRenovationDTO dto = new BaseRenovationDTO(9,new DateTime(2021, 3, 1, 13, 10, 0, DateTimeKind.Utc), new DateTime(2021, 3, 1, 16, 45, 0, DateTimeKind.Utc),"krecenje",TypeOfRenovation.REGULAR_RENOVATION);
-             bool add = service.ScheduleBaseRenovation(dto);
-             if (!add)
-             {
-                 foreach (RenovationPeriodDTO period in service.GetAlternativeAppointments(dto))
-                 {
-                     Console.WriteLine(period.StartTime + " ------ " + period.EndTime);
-                     Console.WriteLine("");
-                 }
-             } else
-             {
-                 Console.WriteLine("else");
-             }  */
         }
         
 
@@ -250,8 +193,6 @@ namespace GraphicalEditor
             RestrictUsersAccessBasedOnRole();
 
             SetDataToUIControls();
-
-            Console.WriteLine("Korisnicko ime " + _currentUsername);
         }
 
         public void SetDataToUIControls()

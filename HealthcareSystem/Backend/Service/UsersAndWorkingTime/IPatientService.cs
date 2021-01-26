@@ -21,5 +21,6 @@ namespace Backend.Service
         public Patient GetPatientByJmbg(string jmbg);
         void BlockPatient(string jmbg);
         public Patient GetPatientByUsernameAndPassword(string username, string password);
+        public Patient GetPatientByPatientCardId(int patientCardId);
     }
 }

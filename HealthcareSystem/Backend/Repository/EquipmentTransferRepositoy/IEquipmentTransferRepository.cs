@@ -9,6 +9,7 @@ namespace Backend.Repository.EquipmentTransferRepository
     {
         void AddEquipmentTransfer(EquipmentTransfer equpmentTransfer);
         EquipmentTransfer GetEquipmentTransferByRoomNumberAndDate(int roomNumber,DateTime dateOfTransfer);
+        EquipmentTransfer GetEquipmentTransferById(int id);
         void DeleteEquipmentTransfer(int id);       
         ICollection<EquipmentTransfer> GetFollowingEquipmentTransversByRoom(int roomId);
         ICollection<EquipmentTransfer> GetEquipmentTransfersByRoomNumberAndPeriod(DateTime start, DateTime end, int roomNumber);

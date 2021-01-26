@@ -23,7 +23,10 @@ namespace GraphicalEditor
     {
         public int ExaminationId { get; set; }
         public ExaminationDTO ExaminationForDisplay { get; set; }
+        public PatientBasicDTO ExaminationPatient { get; set; }
+
         AppointmentService _appointmentService;
+        PatientService _patientService;
 
         public AppointmentInRoomMoreDetailsDialog(int examinationId)
         {
@@ -31,8 +34,12 @@ namespace GraphicalEditor
             DataContext = this;
 
             ExaminationId = examinationId;
+
             _appointmentService = new AppointmentService();
-            ExaminationForDisplay = _appointmentService.GetExaminationById(examinationId);
+            _patientService = new PatientService();
+
+            ExaminationForDisplay = _appointmentService.GetExaminationById(ExaminationId);
+            ExaminationPatient = _patientService.GetPatientByPatientCardId(ExaminationForDisplay.PatientCardId);
         }
 
         private void ShowAppointmentSuccessfullyCancelledDialog()

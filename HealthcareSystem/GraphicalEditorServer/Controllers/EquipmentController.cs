@@ -11,6 +11,7 @@ using Model.Manager;
 using Backend.Model.Manager;
 using GraphicalEditorServer.Mappers;
 using Backend.Model.DTO;
+using Backend.Model.Exceptions;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -102,6 +103,25 @@ namespace GraphicalEditorServer.Controllers
             _equipmentTransferService.DeleteEquipmentTransfer(id);            
             return Ok();
         }
+
+        /*
+        [HttpGet("equipmentTransfer/{id}")]
+        public IActionResult GetEquipmentTransferById(int id)
+        {
+            try
+            {
+                EquipmentTransfer equipmentTransfer = _equipmentTransferService.GetEquipmentTransferById(id);
+                return Ok(EquipmentTransferMapper.EquipmentType_To_EquipmentTypeDTO(equipmentTransfer));
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }*/
 
     }
 

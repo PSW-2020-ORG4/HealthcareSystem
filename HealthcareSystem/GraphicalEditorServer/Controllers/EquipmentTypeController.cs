@@ -43,9 +43,24 @@ namespace GraphicalEditorServer.Controllers
             return Ok(equipmentTypesDTO);
         }
 
+
         [HttpGet("{id}")]
-        public EquipmentType GetEquipmentType(int id) {
-            return _equipmentTypeService.GetEquipmentTypeById(id);
+        public IActionResult GetEquipmentTypeById(int id)
+        {
+            try
+            {
+                EquipmentType equipmentType = _equipmentTypeService.GetEquipmentTypeById(id);
+                return Ok(EquipmentTypesMapper.EquipmentType_To_EquipmentTypeDTO(equipmentType));
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
         }
+
     }
 }

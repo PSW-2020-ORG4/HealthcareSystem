@@ -11,6 +11,7 @@ namespace Backend.Service.RoomAndEquipment
         void DeleteEquipmentType(int id);
         void DeleteEquipmentTransfer(int id);
         EquipmentTransfer GetEquipmentTransferByRoomNumberAndDate(int roomNumber, DateTime dateOfTransfer);
+        EquipmentTransfer GetEquipmentTransferById(int id);
         ICollection<EquipmentTransfer> GetEquipmentTransfersByRoomNumberAndPeriod(DateTime start, DateTime end, int roomNumber);
     }
 }

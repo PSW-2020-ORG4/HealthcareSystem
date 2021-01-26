@@ -34,6 +34,24 @@ namespace Backend.Repository.EquipmentTransferRepository.MySqlTransferEquipmentR
             }
            
         }
+
+        public EquipmentTransfer GetEquipmentTransferById(int id)
+        {
+            EquipmentTransfer equipmentTransfer;
+            try
+            {
+                equipmentTransfer = _context.EqupmentTransfer.Find(id);
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+            if (equipmentTransfer == null)
+                throw new NotFoundException("EquipmentTransfer doesn't exist.");
+
+            return equipmentTransfer;
+        }
+
         public EquipmentTransfer GetEquipmentTransferByRoomNumberAndDate(int roomNumber, DateTime dateOfTransfer)
         {
             return  _context.EqupmentTransfer.SingleOrDefault(x => x.RoomNumber == roomNumber && x.DateAndTimeOfTransfer == dateOfTransfer);

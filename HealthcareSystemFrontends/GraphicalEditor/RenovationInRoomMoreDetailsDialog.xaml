@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="GraphicalEditor.AppointmentInRoomMoreDetailsDialog"
+    x:Class="GraphicalEditor.RenovationInRoomMoreDetailsDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:GraphicalEditor.Converters"
@@ -8,7 +8,7 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:validations="clr-namespace:GraphicalEditor.Validations"
-    Title="Detaljne informacije o zakazanom pregledu"
+    Title="Detaljne informacije o zakazanom renoviranju"
     Width="450"
     Height="700"
     Background="{DynamicResource MaterialDesignPaper}"
@@ -22,9 +22,11 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
+
     <Window.Resources>
         <converters:InvertAndBooleansToBooleanConverter x:Key="InvertAndBooleansToBooleanConverter" />
         <converters:LengthToBooleanConverter x:Key="LengthToBooleanCoverter" />
+        <converters:CapitalizeStringConverter x:Key="CapitalizeStringConverter" />
     </Window.Resources>
 
     <Grid>
@@ -59,11 +61,11 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             FontSize="18"
-            Text="Informacije o pregledu"
+            Text="Informacije o renoviranju"
             TextWrapping="Wrap" />
 
-        <!--  EXAMINATION INFO  -->
-        <!--  Examination DateTime  -->
+        <!--  RENOVATION INFO  -->
+        <!--  Renovation Start DateTime  -->
         <TextBlock
             Grid.Row="1"
             Grid.Column="0"
@@ -73,22 +75,22 @@
             VerticalAlignment="Bottom"
             FontSize="16"
             Foreground="Black"
-            Text="Termin:" />
+            Text="Početak renoviranja:" />
 
         <TextBox
-            x:Name="ExaminationDateTimeTextBox"
+            x:Name="RenovationStartDateTimeTextBox"
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="20,0,10,0"
             VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Termin u kom je pregled zakazan."
+            materialDesign:HintAssist.Hint="Termin početka renoviranja."
             FontSize="16"
             IsEnabled="False"
-            Text="{Binding ExaminationForDisplay.DateTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
+            Text="{Binding RenovationForDisplay.StartTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
             TextWrapping="Wrap" />
 
-        <!--  Examination Room  -->
+        <!--  Renovation End DateTime  -->
         <TextBlock
             Grid.Row="3"
             Grid.Column="0"
@@ -98,23 +100,22 @@
             VerticalAlignment="Bottom"
             FontSize="16"
             Foreground="Black"
-            Text="Soba:" />
+            Text="Kraj renoviranja:" />
 
         <TextBox
-            x:Name="ExaminationRoomTextBox"
+            x:Name="RenovationEndDateTimeTextBox"
             Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="20,0,10,0"
             VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Soba u kojoj se pregled obavlja."
+            materialDesign:HintAssist.Hint="Termin kraja renoviranja."
             FontSize="16"
             IsEnabled="False"
-            Text="{Binding ExaminationForDisplay.RoomId}"
+            Text="{Binding RenovationForDisplay.EndTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
             TextWrapping="Wrap" />
 
-
-        <!--  Examination Doctor  -->
+        <!--  Renovation Initial Room  -->
         <TextBlock
             Grid.Row="5"
             Grid.Column="0"
@@ -124,29 +125,23 @@
             VerticalAlignment="Bottom"
             FontSize="16"
             Foreground="Black"
-            Text="Lekar:" />
+            Text="Soba koja se renovira:" />
 
         <TextBox
-            x:Name="ExaminationDoctorTextBox"
+            x:Name="RenovationInitialRoomTextBox"
             Grid.Row="6"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="20,0,10,0"
             VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Doktor koji obavlja pregled."
+            materialDesign:HintAssist.Hint="Soba koja se renovira."
             FontSize="16"
             IsEnabled="False"
-            TextWrapping="Wrap">
-            <TextBox.Text>
-                <MultiBinding StringFormat="{}Dr {0} {1}">
-                    <Binding Path="ExaminationForDisplay.Doctor.Name" />
-                    <Binding Path="ExaminationForDisplay.Doctor.Surname" />
-                </MultiBinding>
-            </TextBox.Text>
-        </TextBox>
+            Text="{Binding RenovationForDisplay.RoomId}"
+            TextWrapping="Wrap" />
 
 
-        <!--  Examination Patient  -->
+        <!--  Renovation Type  -->
         <TextBlock
             Grid.Row="7"
             Grid.Column="0"
@@ -156,29 +151,23 @@
             VerticalAlignment="Bottom"
             FontSize="16"
             Foreground="Black"
-            Text="Pacijent:" />
+            Text="Tip renoviranja:" />
 
         <TextBox
-            x:Name="ExaminationPatientTextBox"
+            x:Name="RenovationTypeTextBox"
             Grid.Row="8"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="20,0,10,0"
             VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Pacijent koji se pregleda."
+            materialDesign:HintAssist.Hint="Tip renoviranja."
             FontSize="16"
             IsEnabled="False"
-            TextWrapping="Wrap">
-            <TextBox.Text>
-                <MultiBinding StringFormat="{}{0} {1}">
-                    <Binding Path="ExaminationPatient.Name" />
-                    <Binding Path="ExaminationPatient.Surname" />
-                </MultiBinding>
-            </TextBox.Text>
-        </TextBox>
+            Text="{Binding RenovationForDisplay.TypeOfRenovation, Converter={StaticResource CapitalizeStringConverter}}"
+            TextWrapping="Wrap" />
 
 
-        <!--  Examination Patient Card  -->
+        <!--  Renovation Description  -->
         <TextBlock
             Grid.Row="9"
             Grid.Column="0"
@@ -188,28 +177,26 @@
             VerticalAlignment="Bottom"
             FontSize="16"
             Foreground="Black"
-            Text="Broj zdravstvenog kartona pacijenta:" />
+            Text="Opis renoviranja:" />
 
         <TextBox
-            x:Name="ExaminationPatientCardTextBox"
+            x:Name="RenovationDescriptionTextBox"
             Grid.Row="10"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="20,0,10,0"
             VerticalAlignment="Top"
-            materialDesign:HintAssist.Hint="Zdravstveni karton pacijenta koji se pregleda."
+            materialDesign:HintAssist.Hint="Opis renoviranja."
             FontSize="16"
             IsEnabled="False"
-            Text="{Binding ExaminationForDisplay.PatientCardId}"
+            Text="{Binding RenovationForDisplay.Description}"
             TextWrapping="Wrap" />
-
-
 
 
         <!--  BUTTONS  -->
         <!--  Cancel Button  -->
         <Button
-            x:Name="CancelExaminationButton"
+            x:Name="CancelRenovationButton"
             Grid.Row="12"
             Grid.Column="1"
             Height="Auto"
@@ -218,7 +205,7 @@
             VerticalAlignment="Top"
             Background="MediumPurple"
             BorderBrush="{x:Null}"
-            Click="CancelExaminationButton_Click"
+            Click="CancelRenovationButton_Click"
             FontSize="16">
             <StackPanel
                 HorizontalAlignment="Center"
@@ -276,3 +263,4 @@
 
     </Grid>
 </Window>
+

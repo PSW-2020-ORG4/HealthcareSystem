@@ -13,5 +13,10 @@ namespace GraphicalEditorServer.Mappers
         {
             return new PatientBasicDTO(patient.Name, patient.Surname, patient.Jmbg, patientCard.Id);
         }
+
+        public static PatientBasicDTO PatientToPatientBasicDTO(Patient patient)
+        {
+            return new PatientBasicDTO(patient.Name, patient.Surname, patient.Jmbg, patient.PatientCard.Id);
+        }
     }
 }

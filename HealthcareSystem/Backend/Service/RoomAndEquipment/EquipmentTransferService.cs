@@ -37,5 +37,10 @@ namespace Backend.Service.RoomAndEquipment
         {
             return _equipmentTransferRepository.GetEquipmentTransfersByRoomNumberAndPeriod(start, end, roomNumber);
         }
+
+        public EquipmentTransfer GetEquipmentTransferById(int id)
+        {
+            return _equipmentTransferRepository.GetEquipmentTransferById(id);
+        }
     }
 }

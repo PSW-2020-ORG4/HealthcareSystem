@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Backend.Service.SearchSpecification;
-using Backend.Service.SearchSpecification.TherapySearch;
 using PatientWebAppTests.CreateObjectsForTests;
 using Service.DrugAndTherapy;
 using Xunit;

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EventSourcingService.DTO;
+﻿using EventSourcingService.DTO;
 using EventSourcingService.Model;
 using EventSourcingService.Repository;
 using EventSourcingService.Service;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace EventSourcingServiceTests.IntegrationTests

@@ -4,16 +4,14 @@
  * Purpose: Definition of the Class Model.Secretary.BloodType
  ***********************************************************************/
 
-using System;
-
 namespace Backend.Model.Enums
 {
-   public enum BloodType
-   {
+    public enum BloodType
+    {
         UNKNOWN = -1,
         A = 0,
         B = 1,
         AB = 2,
         O = 3
-   }
+    }
 }

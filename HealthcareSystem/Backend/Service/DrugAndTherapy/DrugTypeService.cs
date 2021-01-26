@@ -7,8 +7,6 @@
 using Backend.Repository.DrugTypeRepository;
 using Backend.Service.DrugAndTherapy;
 using Model.Manager;
-using Repository;
-using System;
 using System.Collections.Generic;
 
 namespace Service.DrugAndTherapy
@@ -16,7 +14,7 @@ namespace Service.DrugAndTherapy
     public class DrugTypeService : IDrugTypeService
     {
         private IDrugTypeRepository _drugTypeRepository;
-       
+
 
         public DrugTypeService(IDrugTypeRepository drugTypeRepository)
         {
@@ -30,7 +28,7 @@ namespace Service.DrugAndTherapy
 
         public void DeleteDrugType(int id)
         {
-             _drugTypeRepository.DeleteDrugType(id);
+            _drugTypeRepository.DeleteDrugType(id);
         }
 
         public DrugType GetDrugTypeById(int id)

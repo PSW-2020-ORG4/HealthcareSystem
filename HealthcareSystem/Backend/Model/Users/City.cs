@@ -5,7 +5,6 @@
  ***********************************************************************/
 
 using Backend;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,7 +23,7 @@ namespace Model.Users
         public virtual ICollection<User> Users { get; set; }
 
         public City() { }
-        public City(int zipCode,string name,Country country)
+        public City(int zipCode, string name, Country country)
         {
             ZipCode = zipCode;
             Name = name;

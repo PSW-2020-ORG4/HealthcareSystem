@@ -17,7 +17,7 @@ namespace IntegrationAdaptersPharmacySystemService.MicroserviceComunicator
         public async Task<bool> Subscribe(string exchangeName)
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, "actionbenefitservice/subscribe");
-            request.Content = new StringContent("\""+exchangeName+"\"", Encoding.UTF8, "application/json");
+            request.Content = new StringContent("\"" + exchangeName + "\"", Encoding.UTF8, "application/json");
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)
                 return false;
@@ -30,7 +30,7 @@ namespace IntegrationAdaptersPharmacySystemService.MicroserviceComunicator
             var request = new HttpRequestMessage(HttpMethod.Patch, "actionbenefitservice/subscriptionedit");
             request.Content = new StringContent(
                     JsonConvert.SerializeObject(new SubEditRequest(exOld, subOld, exNew, subNew)),
-                    Encoding.UTF8, 
+                    Encoding.UTF8,
                     "application/json");
             var response = await _httpClient.SendAsync(request);
             if (!response.IsSuccessStatusCode)

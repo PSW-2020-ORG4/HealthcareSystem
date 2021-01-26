@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Backend.Model
+﻿namespace Backend.Model
 {
     public class SurveyResult
     {
@@ -18,7 +12,7 @@ namespace Backend.Model
 
         public SurveyResult() { }
 
-        public SurveyResult(string ratedItem, double averageRating, int numberOfGradesOne, int numberOfGradesTwo, 
+        public SurveyResult(string ratedItem, double averageRating, int numberOfGradesOne, int numberOfGradesTwo,
                             int numberOfGradesThree, int numberOfGradesFour, int numberOfGradesFive)
         {
             RatedItem = ratedItem;

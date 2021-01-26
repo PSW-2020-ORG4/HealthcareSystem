@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Backend.Model;
 using Backend.Settings;
 using IntegrationAdaptersPharmacySystemService.Repository;
@@ -10,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
 using ActionBenefitService = IntegrationAdaptersPharmacySystemService.MicroserviceComunicator.ActionBenefitService;
 using IActionBenefitService = IntegrationAdaptersPharmacySystemService.MicroserviceComunicator.IActionBenefitService;
 

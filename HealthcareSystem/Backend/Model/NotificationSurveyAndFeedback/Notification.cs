@@ -5,19 +5,18 @@
  ***********************************************************************/
 
 using Model.Users;
-using System;
 
 namespace Model.NotificationSurveyAndFeedback
 {
-   public class Notification
-   {
+    public class Notification
+    {
         public int Id { get; set; }
         public TypeOfNotification Type { get; set; }
         public string Message { get; set; }
         public string JmbgOfReceiver { get; set; }
 
         public Notification() { }
-        public Notification(int id,TypeOfNotification type,string message,string jmbg)
+        public Notification(int id, TypeOfNotification type, string message, string jmbg)
         {
             this.Id = id;
             this.Type = type;

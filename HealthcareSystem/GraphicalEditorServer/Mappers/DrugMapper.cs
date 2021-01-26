@@ -1,9 +1,5 @@
 ﻿using GraphicalEditorServer.DTO;
 using Model.Manager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphicalEditorServer.Mappers
 {
@@ -20,7 +16,8 @@ namespace GraphicalEditorServer.Mappers
             return drugDTO;
         }
 
-        public static Drug DrugDTOToDrug(DrugDTO drugDTO) {
+        public static Drug DrugDTOToDrug(DrugDTO drugDTO)
+        {
             return new Drug(DrugTypeMapper.DrugTypeDTOToDrugType(drugDTO.DrugTypeDTO), drugDTO.Name, drugDTO.Quantity, drugDTO.ExpirationDate, drugDTO.Producer);
         }
     }

@@ -21,7 +21,7 @@ namespace IntegrationAdaptersPharmacySystemService.Controllers
         public IActionResult GetPatients()
         {
             List<Patient> patients = _patientService.ViewPatients();
-            foreach(var patient in patients)
+            foreach (var patient in patients)
             {
                 patient.City.Users = null;
             }

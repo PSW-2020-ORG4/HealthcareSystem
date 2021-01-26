@@ -1,7 +1,7 @@
+using IntegrationAdapters.Dtos;
+using Newtonsoft.Json;
 using System;
 using WebPush;
-using Newtonsoft.Json;
-using IntegrationAdapters.Dtos;
 
 namespace IntegrationAdapters.Services
 {
@@ -19,7 +19,7 @@ namespace IntegrationAdapters.Services
 
         public void SendNotification(PushSubscription pushSubscription, PushPayload pushPayload)
         {
-            if(!PushSubscriptionValid(pushSubscription) || pushPayload == null)
+            if (!PushSubscriptionValid(pushSubscription) || pushPayload == null)
                 return;
 
             string payload = JsonConvert.SerializeObject(pushPayload);
@@ -27,7 +27,7 @@ namespace IntegrationAdapters.Services
             {
                 _webPushClient.SendNotification(pushSubscription, payload, _vapidDetails);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
@@ -35,11 +35,11 @@ namespace IntegrationAdapters.Services
 
         private bool PushSubscriptionValid(PushSubscription pushSubscription)
         {
-            if(pushSubscription.Auth == null || pushSubscription.Auth == "" || 
-               pushSubscription.Endpoint == null || pushSubscription.Endpoint == "" || 
+            if (pushSubscription.Auth == null || pushSubscription.Auth == "" ||
+               pushSubscription.Endpoint == null || pushSubscription.Endpoint == "" ||
                pushSubscription.P256DH == null || pushSubscription.P256DH == "")
                 return false;
-            
+
             return true;
         }
     }

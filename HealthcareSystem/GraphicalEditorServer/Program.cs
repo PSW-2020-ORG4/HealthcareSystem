@@ -1,14 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Repository;
-using Backend.Service.RoomAndEquipment;
-using GraphicalEditorServer.Controllers;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace GraphicalEditorServer
 {
@@ -16,7 +7,7 @@ namespace GraphicalEditorServer
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();            
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -25,6 +16,6 @@ namespace GraphicalEditorServer
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-                
+
     }
 }

@@ -10,7 +10,7 @@ using System;
 namespace Model.Users
 {
     public class Manager : User
-   {
+    {
         public TypeOfQualifications Qualifications { get; set; }
         public DateTime DateOfEmployment { get; set; }
 
@@ -69,6 +69,6 @@ namespace Model.Users
             Qualifications = manager.Qualifications;
             DateOfEmployment = manager.DateOfEmployment;
         }
-   
-   }
+
+    }
 }

@@ -1,5 +1,5 @@
-using WebPush;
 using IntegrationAdapters.Dtos;
+using WebPush;
 
 namespace IntegrationAdapters.Services
 {

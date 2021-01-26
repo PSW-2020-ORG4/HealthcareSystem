@@ -4,8 +4,6 @@
  * Purpose: Definition of the Class TypeOfExamination
  ***********************************************************************/
 
-using System;
-
 namespace Backend.Model.Enums
 {
     public enum TypeOfExamination

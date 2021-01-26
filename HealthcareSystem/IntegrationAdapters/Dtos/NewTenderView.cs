@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Backend.Model.DTO;
+using Model.Manager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Backend.Model.DTO;
-using Model.Manager;
 
 namespace IntegrationAdapters.Dtos
 {

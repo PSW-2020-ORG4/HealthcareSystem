@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GraphicalEditorServer.Mappers;
-
-namespace GraphicalEditorServer.DTO
+﻿namespace GraphicalEditorServer.DTO
 {
     public class EquipmentDTO
     {
         public int Id { get; set; }
         public int Quantity { get; set; }
         public int TypeId { get; set; }
-        public  EquipmentTypeDTO Type { get; set; }
+        public EquipmentTypeDTO Type { get; set; }
 
         public EquipmentDTO() { }
 

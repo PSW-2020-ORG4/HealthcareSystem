@@ -4,6 +4,8 @@ using Backend.Model;
 using Backend.Model.Pharmacies;
 using Backend.Settings;
 using IntegrationAdapters.Adapters;
+using IntegrationAdapters.MicroserviceComunicator;
+using IntegrationAdapters.Services;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,11 +15,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using IntegrationAdapters.Services;
 using System.Collections.Generic;
-using IntegrationAdapters.MicroserviceComunicator;
-using System.Net.Http;
 using System.IO;
+using System.Net.Http;
 
 namespace IntegrationAdapters
 {
@@ -88,7 +88,7 @@ namespace IntegrationAdapters
                         ).UseLazyLoadingProxies();
                 });
             }
-            else 
+            else
             {
                 Console.WriteLine("Not dev or test.");
             }
@@ -98,7 +98,7 @@ namespace IntegrationAdapters
 
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
             services.AddScoped<ISftpCommunicator, SftpCommunicator>();
-            services.AddScoped<IAdapterContext, AdapterContext>();         
+            services.AddScoped<IAdapterContext, AdapterContext>();
             services.AddScoped<IPushNotificationService, PushNotificationService>();
             services.AddScoped<IPharmacySystemService, PharmacySystemService>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();

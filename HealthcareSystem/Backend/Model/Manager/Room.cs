@@ -5,7 +5,6 @@
  ***********************************************************************/
 
 using Backend.Model.Enums;
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Manager

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EventSourcingService.Model.GraphicalEditor;
+﻿using EventSourcingService.Model.GraphicalEditor;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventSourcingService.Model

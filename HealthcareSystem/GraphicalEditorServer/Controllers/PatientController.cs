@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Backend.Model.Exceptions;
+﻿using Backend.Model.Exceptions;
 using Backend.Model.Users;
 using Backend.Service;
-using Backend.Service.Encryption;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using GraphicalEditorServer.Controllers.Adapter;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 using GraphicalEditorServer.Settings;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using GraphicalEditorServer.Controllers.Adapter;
+using System.Collections.Generic;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -43,7 +35,7 @@ namespace GraphicalEditorServer.Controllers
             List<PatientBasicDTO> patientDTOs = new List<PatientBasicDTO>();
             try
             {
-                foreach(Patient patient in _patientService.ViewPatients())
+                foreach (Patient patient in _patientService.ViewPatients())
                 {
                     PatientCard patientCard = _patientCardService.ViewPatientCard(patient.Jmbg);
                     PatientBasicDTO patientDTO = PatientMapper.PatientAndPatientCardToPatientBasicDTO(patient, patientCard);

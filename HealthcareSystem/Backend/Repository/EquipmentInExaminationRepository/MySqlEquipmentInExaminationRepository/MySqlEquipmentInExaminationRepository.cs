@@ -1,9 +1,7 @@
 ﻿using Backend.Model;
 using Backend.Model.PerformingExamination;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Backend.Repository.EquipmentInExaminationRepository.MySqlEquipmentInExaminationRepository
 {
@@ -20,7 +18,7 @@ namespace Backend.Repository.EquipmentInExaminationRepository.MySqlEquipmentInEx
             _context.SaveChanges();
             return equipmentInExamination;
         }
-        
+
         public List<EquipmentInExamination> GetEquipmentInExaminationByExaminationId(int examinationId)
         {
             var equipmentInExamination = _context.EquipmentInExamination.Where(x => x.ExaminationId == examinationId).ToList();

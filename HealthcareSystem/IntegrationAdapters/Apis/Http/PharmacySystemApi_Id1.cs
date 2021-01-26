@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using IntegrationAdapters.Dtos;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using IntegrationAdapters.Dtos;
-using System;
 
 namespace IntegrationAdapters.Apis.Http
 {
@@ -31,7 +31,7 @@ namespace IntegrationAdapters.Apis.Http
                 string jsonResponse = await response.Content.ReadAsStringAsync();
                 ret.AddRange(JsonConvert.DeserializeObject<List<DrugDto>>(jsonResponse));
             }
-            
+
             return ret;
         }
 
@@ -43,7 +43,7 @@ namespace IntegrationAdapters.Apis.Http
                 { new StreamContent(stream), "file", fileName },
                 { new StringContent(apiKey), "apiKey" }
             };
-            var request = new HttpRequestMessage(HttpMethod.Post, _baseUrl+"/file/uploadFile");
+            var request = new HttpRequestMessage(HttpMethod.Post, _baseUrl + "/file/uploadFile");
             request.Content = formData;
 
             HttpResponseMessage response = await _client.SendAsync(request);
@@ -74,7 +74,7 @@ namespace IntegrationAdapters.Apis.Http
             var request = new HttpRequestMessage(HttpMethod.Get, _baseUrl + $"/api/noAuth/drug/multipartdata/getById/{id}");
             HttpResponseMessage response = await _client.SendAsync(request);
             if (!response.IsSuccessStatusCode) return false;
-            
+
             string jsonResponse = await response.Content.ReadAsStringAsync();
             List<string> ret = JsonConvert.DeserializeObject<List<string>>(jsonResponse);
             using (System.IO.FileStream reader = System.IO.File.Create("Resources/" + ret[0]))
@@ -83,7 +83,7 @@ namespace IntegrationAdapters.Apis.Http
                 reader.Write(buffer, 0, buffer.Length);
             }
             return true;
-            
+
         }
 
         public async Task<string> GetDrugSpecificationsSftp(string apiKey, int id)

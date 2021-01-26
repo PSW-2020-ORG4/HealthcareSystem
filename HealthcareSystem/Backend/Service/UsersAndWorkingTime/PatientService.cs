@@ -7,10 +7,8 @@
 using Backend.Model.Exceptions;
 using Backend.Model.Users;
 using Backend.Repository;
-using Backend.Service;
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace Backend.Service
 {
@@ -53,7 +51,7 @@ namespace Backend.Service
         {
             _activePatientRepository.UpdatePatient(patient);
         }
-        
+
         public Patient SignIn(string username, string password)
         {
             return _activePatientRepository.CheckUsernameAndPassword(username, password);

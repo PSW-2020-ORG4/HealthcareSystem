@@ -24,7 +24,7 @@ namespace IntegrationAdapters.Controllers
             return View();
         }
 
-        public async  Task<IActionResult> Search(string name)
+        public async Task<IActionResult> Search(string name)
         {
             var pharmacySystems = await _pharmacySystemService.GetAll();
             List<SearchResultDto> result = new List<SearchResultDto>();
@@ -33,10 +33,10 @@ namespace IntegrationAdapters.Controllers
                 if (_adapterContext.SetPharmacySystemAdapter(pharmacySystem) == null)
                     continue;
 
-                List<DrugDto> search = new List<DrugDto> ();
+                List<DrugDto> search = new List<DrugDto>();
                 search.AddRange(_adapterContext.PharmacySystemAdapter.DrugAvailibility(name));
-                
-                if(search.Count > 0)
+
+                if (search.Count > 0)
                     result.Add(new SearchResultDto() { pharmacySystem = pharmacySystem, drugs = new List<DrugDto>(search) });
             }
             _adapterContext.RemoveAdapter();

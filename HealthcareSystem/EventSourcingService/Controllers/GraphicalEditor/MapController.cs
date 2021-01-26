@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EventSourcingService.Model.GraphicalEditor;
+﻿using EventSourcingService.Model.GraphicalEditor;
 using EventSourcingService.Service.GraphicalEditor;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventSourcingService.Controllers.GraphicalEditor
@@ -18,8 +13,8 @@ namespace EventSourcingService.Controllers.GraphicalEditor
         private readonly IFloorChangeService _floorChangeService;
 
         public MapController(
-            IRoomSelectionService roomSelectionService, 
-            IBuildingSelectionService buildingSelectionService, 
+            IRoomSelectionService roomSelectionService,
+            IBuildingSelectionService buildingSelectionService,
             IFloorChangeService floorChangeService)
         {
             _roomSelectionService = roomSelectionService;

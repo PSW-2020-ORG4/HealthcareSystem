@@ -1,9 +1,6 @@
 ﻿using EventSourcingService.Model.GraphicalEditor;
 using EventSourcingService.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventSourcingService.Service.GraphicalEditor
 {

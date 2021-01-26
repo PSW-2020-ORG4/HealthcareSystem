@@ -27,10 +27,10 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrWhiteSpace(Value)) 
+            if (string.IsNullOrWhiteSpace(Value))
                 throw new ValidationException("Jmbg cannot be empty.");
-            if (!IsValidFormat(Value))  
-                throw new ValidationException("Jmbg format is not valid.");       
+            if (!IsValidFormat(Value))
+                throw new ValidationException("Jmbg format is not valid.");
         }
 
         private bool IsValidFormat(string Value)

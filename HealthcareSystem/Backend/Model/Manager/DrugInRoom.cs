@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Backend.Model.Manager
+﻿namespace Backend.Model.Manager
 {
-   public class DrugInRoom
+    public class DrugInRoom
     {
         public int DrugId { get; set; }
         public int Quantity { get; set; }

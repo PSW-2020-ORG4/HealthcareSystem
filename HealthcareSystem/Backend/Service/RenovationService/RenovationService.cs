@@ -1,7 +1,6 @@
 ﻿using Backend.Model.Enums;
 using Backend.Model.Manager;
 using Backend.Model.PerformingExamination;
-using Backend.Repository.EquipmentInExaminationRepository;
 using Backend.Repository.EquipmentTransferRepository;
 using Backend.Repository.ExaminationRepository;
 using Backend.Repository.RenovationRepository;
@@ -11,7 +10,6 @@ using Model.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Backend.Service.RenovationService
 {
@@ -32,13 +30,14 @@ namespace Backend.Service.RenovationService
             _roomRepository = roomRepository;
         }
 
-        private bool CheckIfRoomIsAbsoulitelyAvailable(RenovationPeriod renovationPeriod, int roomId) {           
+        private bool CheckIfRoomIsAbsoulitelyAvailable(RenovationPeriod renovationPeriod, int roomId)
+        {
             DateTime renovationTime = renovationPeriod.BeginDate;
             while (renovationTime.CompareTo(renovationPeriod.EndDate) <= 0)
             {
-                if (!CheckRoomAvailibility(renovationTime, roomId))                
+                if (!CheckRoomAvailibility(renovationTime, roomId))
                     return false;
-                
+
                 renovationTime = renovationTime.AddMinutes(30);
             }
             return true;
@@ -50,10 +49,11 @@ namespace Backend.Service.RenovationService
 
             if (!CheckIfRoomIsAbsoulitelyAvailable(baseRenovation.RenovationPeriod, baseRenovation.RoomId))
                 return null;
-            if (baseRenovation.TypeOfRenovation == TypeOfRenovation.MERGE_RENOVATION) {
+            if (baseRenovation.TypeOfRenovation == TypeOfRenovation.MERGE_RENOVATION)
+            {
                 if (!CheckIfRoomIsAbsoulitelyAvailable(baseRenovation.RenovationPeriod, ((MergeRenovation)baseRenovation).SecondRoomId))
                     return null;
-            
+
             }
 
             baseRenovation.RenovationPeriod.BeginDate = SetNewDateTimesForRenovation(baseRenovation.RenovationPeriod.BeginDate);
@@ -83,7 +83,8 @@ namespace Backend.Service.RenovationService
                 i++;
                 renovationPeriod.BeginDate = date.AddMinutes(30);
                 renovationPeriod.EndDate = renovationPeriod.BeginDate.AddMinutes(timeSpanInMinutes);
-                if (!CheckRoomAvailibility(date, roomId)) {
+                if (!CheckRoomAvailibility(date, roomId))
+                {
                     potentialDates = GetPotentiallyAlternativeAppointments(renovationPeriod.BeginDate);
                     i = 0;
                     continue;
@@ -103,7 +104,7 @@ namespace Backend.Service.RenovationService
         {
             if (_examinationRepository.GetExaminationsByRoomAndDateTime(roomId, dateAndTimeOfTransfer).Count > 0
                 || _equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(roomId, dateAndTimeOfTransfer) != null
-                || _renovationRepository.GetAllRenovationsByRoomAndDate(roomId,dateAndTimeOfTransfer).Count > 0)
+                || _renovationRepository.GetAllRenovationsByRoomAndDate(roomId, dateAndTimeOfTransfer).Count > 0)
                 return false;
             return true;
         }
@@ -167,7 +168,8 @@ namespace Backend.Service.RenovationService
             return time.AddMinutes(addition);
         }
 
-        private DateTime FindLastAppointment(List<DateTime> endOfAppointments) {
+        private DateTime FindLastAppointment(List<DateTime> endOfAppointments)
+        {
             if (endOfAppointments.Count == 0)
                 return DateTime.Now;
             DateTime lastAppointment = endOfAppointments[0];
@@ -176,7 +178,8 @@ namespace Backend.Service.RenovationService
 
             return lastAppointment;
         }
-        private DateTime FindLastAppointmentForSignleRoom(int roomId) {
+        private DateTime FindLastAppointmentForSignleRoom(int roomId)
+        {
             List<DateTime> appointments = new List<DateTime>();
             ((List<Examination>)_examinationRepository.GetFollowingExaminationsByRoom(roomId)).ForEach(x => appointments.Add(x.DateAndTime));
             ((List<EquipmentTransfer>)_equipmentTransferRepository.GetFollowingEquipmentTransversByRoom(roomId)).ForEach(x => appointments.Add(x.DateAndTimeOfTransfer));
@@ -207,10 +210,10 @@ namespace Backend.Service.RenovationService
             DateTime lastAppointment = FindLastAppointmentFromBothRooms(renovation);
             if (lastAppointment.CompareTo(renovation.RenovationPeriod.BeginDate) >= 0)
                 return null;
-            _equipmentTransferRepository.AddEquipmentTransfer( new EquipmentTransfer(renovation.RoomId,renovation.RenovationPeriod.BeginDate));
-            _equipmentTransferRepository.AddEquipmentTransfer( new EquipmentTransfer(renovation.SecondRoomId,renovation.RenovationPeriod.BeginDate));
-           _renovationRepository.AddRenovation(renovation);
-            return renovation;          
+            _equipmentTransferRepository.AddEquipmentTransfer(new EquipmentTransfer(renovation.RoomId, renovation.RenovationPeriod.BeginDate));
+            _equipmentTransferRepository.AddEquipmentTransfer(new EquipmentTransfer(renovation.SecondRoomId, renovation.RenovationPeriod.BeginDate));
+            _renovationRepository.AddRenovation(renovation);
+            return renovation;
         }
 
         public DivideRenovation AddDivideRenovation(DivideRenovation renovation)
@@ -220,9 +223,9 @@ namespace Backend.Service.RenovationService
             DateTime lastAppointment = FindLastAppointmentForSignleRoom(renovation.RoomId);
             if (lastAppointment.CompareTo(renovation.RenovationPeriod.BeginDate) >= 0)
                 return null;
-            Room addedRoom = _roomRepository.AddRoom(new Room(renovation.SecondRoomType,0,0,true));
-            _equipmentTransferRepository.AddEquipmentTransfer(new EquipmentTransfer(renovation.RoomId,renovation.RenovationPeriod.BeginDate));
-            _equipmentTransferRepository.AddEquipmentTransfer(new EquipmentTransfer(addedRoom.Id,renovation.RenovationPeriod.BeginDate));
+            Room addedRoom = _roomRepository.AddRoom(new Room(renovation.SecondRoomType, 0, 0, true));
+            _equipmentTransferRepository.AddEquipmentTransfer(new EquipmentTransfer(renovation.RoomId, renovation.RenovationPeriod.BeginDate));
+            _equipmentTransferRepository.AddEquipmentTransfer(new EquipmentTransfer(addedRoom.Id, renovation.RenovationPeriod.BeginDate));
             _renovationRepository.AddRenovation(renovation);
             return renovation;
         }
@@ -254,7 +257,7 @@ namespace Backend.Service.RenovationService
                 if (CheckIfTimeValid(start) && CheckIfTimeValid(end))
                 {
                     alternativeAppointments.Add(new RenovationPeriod(start, end));
-                    i++;                    
+                    i++;
                 }
                 start = end;
                 end = end.AddMinutes(timeSpanInMinutes);

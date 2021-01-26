@@ -1,14 +1,14 @@
 ﻿using Backend.Model.Pharmacies;
 using IntegrationAdapters.Adapters;
+using IntegrationAdapters.Dtos;
+using IntegrationAdapters.MicroserviceComunicator;
+using IntegrationAdapters.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
-using WebPush;
-using IntegrationAdapters.Services;
-using IntegrationAdapters.Dtos;
-using IntegrationAdapters.MicroserviceComunicator;
-using System.Threading.Tasks;
 using System.IO;
+using System.Threading.Tasks;
+using WebPush;
 
 namespace IntegrationAdapters.Controllers
 {
@@ -19,8 +19,8 @@ namespace IntegrationAdapters.Controllers
         private readonly IPharmacySystemService _pharmacySystemService;
         private readonly IPushNotificationService _pushNotificationService;
 
-        public DrugReportController(IAdapterContext adapterContext, 
-                                    IDrugService drugService, 
+        public DrugReportController(IAdapterContext adapterContext,
+                                    IDrugService drugService,
                                     IPharmacySystemService pharmacySystemService,
                                     IPushNotificationService pushNotificationService)
         {
@@ -43,7 +43,7 @@ namespace IntegrationAdapters.Controllers
             PushPayload pushPayload = new PushPayload();
 
             var reports = await _drugService.GetDrugConsuption(dateRange);
-            if(reports == null)
+            if (reports == null)
             {
                 pushPayload.Title = "Unsuccess";
                 pushPayload.Message = "Comunication error!";
@@ -51,7 +51,7 @@ namespace IntegrationAdapters.Controllers
 
                 return RedirectToAction("Index");
             }
-            if(reports.Count == 0)
+            if (reports.Count == 0)
             {
                 pushPayload.Title = "Unsuccess";
                 pushPayload.Message = "Nothing found in given data range!";
@@ -66,7 +66,7 @@ namespace IntegrationAdapters.Controllers
             {
                 System.IO.File.WriteAllText(Path.Combine(reportFilePath, reportFileName), json);
             }
-            catch(Exception dnfe)
+            catch (Exception dnfe)
             {
                 Console.WriteLine(dnfe);
 

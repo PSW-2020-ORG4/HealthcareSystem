@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Service.SearchSpecification;
-using Microsoft.AspNetCore.Mvc;
-using Model.PerformingExamination;
-using PatientWebApp.Controllers;
-using PatientWebAppTests.CreateObjectsForTests;
-using Service.DrugAndTherapy;
-using Xunit;
+﻿using PatientWebAppTests.CreateObjectsForTests;
 
 namespace PatientWebAppTests.UnitTests
 {

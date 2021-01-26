@@ -1,13 +1,8 @@
 ﻿using Backend.Model;
 using Backend.Model.Enums;
-using Backend.Model.Manager;
-using Backend.Repository.EquipmentInRoomsRepository;
 using Model.Manager;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Repository.RoomRepository.MySqlRoomRepository
 {
@@ -29,7 +24,7 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
 
         public List<Room> GetAllRooms()
         {
-            return _context.Rooms.Where(d=> !d.Renovation).ToList();
+            return _context.Rooms.Where(d => !d.Renovation).ToList();
         }
 
         public int getLastId()
@@ -62,7 +57,7 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
         }
 
         public bool CheckIfRoomExists(int roomId)
-        {           
+        {
             if (_context.Rooms.Find(roomId) == null)
                 return false;
             if (_context.Rooms.Find(roomId).Renovation)

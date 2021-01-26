@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using UserService.CustomException;
 using UserService.Model;
 using UserServiceTests.UnitTests.Data;

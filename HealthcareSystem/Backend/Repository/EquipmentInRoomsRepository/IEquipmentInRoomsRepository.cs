@@ -1,13 +1,9 @@
 ﻿using Model.Manager;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Repository.EquipmentInRoomsRepository
 {
-   public interface IEquipmentInRoomsRepository
+    public interface IEquipmentInRoomsRepository
     {
         EquipmentInRooms UpdateEquipment(EquipmentInRooms equipment);
         void DeleteEquipment(int id);

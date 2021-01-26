@@ -4,10 +4,10 @@
  * Purpose: Definition of the Class Model.Secretary.PatientCard
  ***********************************************************************/
 
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using Backend.Model.Enums;
 using Backend.Model.PerformingExamination;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Backend.Model.Users
 {

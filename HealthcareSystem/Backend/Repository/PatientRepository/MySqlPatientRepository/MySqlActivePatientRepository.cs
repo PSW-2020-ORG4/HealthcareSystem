@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Repository
 {
@@ -113,7 +111,7 @@ namespace Backend.Repository
             if (patient.IsBlocked)
                 throw new BadRequestException("Patient is blocked.");
 
-            if(!patient.IsActive)
+            if (!patient.IsActive)
                 throw new BadRequestException("Patient didn't activate account.");
 
             return patient;

@@ -3,7 +3,6 @@ using Model.Manager;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -24,8 +23,8 @@ namespace IntegrationAdapters.MicroserviceComunicator
         public async Task<bool> AddQuantity(string code, int quantity)
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, "drugservice/addquantity");
-            request.Content = new StringContent(JsonConvert.SerializeObject(new AddQuantityRequest(code, quantity)), 
-                                                                            Encoding.UTF8, 
+            request.Content = new StringContent(JsonConvert.SerializeObject(new AddQuantityRequest(code, quantity)),
+                                                                            Encoding.UTF8,
                                                                             "application/json");
             var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)

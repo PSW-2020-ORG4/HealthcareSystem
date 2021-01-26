@@ -1,6 +1,6 @@
-﻿using System;
-using Backend.Model.Pharmacies;
+﻿using Backend.Model.Pharmacies;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;

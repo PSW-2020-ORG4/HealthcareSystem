@@ -1,8 +1,5 @@
 ﻿using Backend.Model.Enums;
 using Backend.Model.Users;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {

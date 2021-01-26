@@ -38,7 +38,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Repository;
 using Service.DrugAndTherapy;
 using Service.ExaminationAndPatientCard;
 using Service.RoomAndEquipment;
@@ -161,12 +160,12 @@ namespace GraphicalEditorServer
             services.AddScoped<IActivePatientRepository, MySqlActivePatientRepository>();
             services.AddScoped<IActivePatientCardRepository, MySqlActivePatientCardRepository>();
             services.AddScoped<IRenovationPeriodRepository, MySqlRenovationPeriodRepository>();
- 	        services.AddScoped<IEquipmentTransferRepository,MySqlEquipmentTransferRepostory>();
+            services.AddScoped<IEquipmentTransferRepository, MySqlEquipmentTransferRepostory>();
             services.AddScoped<IEquipmentTransferService, EquipmentTransferService>();
             services.AddScoped<IEquipmentInExaminationRepository, MySqlEquipmentInExaminationRepository>();
-	        services.AddScoped<IEquipmentInExaminationService, EquipmentInExaminationService>();
-	        services.AddScoped<IRenovationRepository, MySqlRenovationRepository>();
-	        services.AddScoped<IRenovationService, RenovationService>();
+            services.AddScoped<IEquipmentInExaminationService, EquipmentInExaminationService>();
+            services.AddScoped<IRenovationRepository, MySqlRenovationRepository>();
+            services.AddScoped<IRenovationService, RenovationService>();
         }
 
         private void GetServiceSettings(ServiceSettings conf)

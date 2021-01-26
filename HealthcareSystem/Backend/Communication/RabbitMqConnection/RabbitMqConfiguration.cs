@@ -1,5 +1,5 @@
 ﻿namespace Backend.Communication.RabbitMqConfuguration
-{ 
+{
     public class RabbitMqConfiguration
     {
         public string Host { get; set; }

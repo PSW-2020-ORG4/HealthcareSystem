@@ -1,8 +1,5 @@
-﻿using Backend.Model.Enums;
-using PatientWebApp.DTOs;
+﻿using PatientWebApp.DTOs;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PatientWebAppTests.CreateObjectsForTests
 {

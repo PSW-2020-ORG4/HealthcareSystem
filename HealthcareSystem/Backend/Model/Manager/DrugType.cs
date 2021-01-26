@@ -4,7 +4,6 @@
  * Purpose: Definition of the Class Manager.DrugType
  ***********************************************************************/
 
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Manager

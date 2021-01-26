@@ -6,7 +6,6 @@ using ScheduleService.Repository.BackendMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ScheduleService.Repository.Implementation
 {

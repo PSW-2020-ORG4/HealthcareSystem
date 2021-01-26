@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Backend.Communication.RabbitMqConfuguration;
 using Backend.Communication.RabbitMqConnection;
 using Backend.Model;
@@ -12,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
 
 namespace IntegrationAdaptersActionBenefitService
 {

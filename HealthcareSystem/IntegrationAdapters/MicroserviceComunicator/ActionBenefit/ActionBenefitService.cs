@@ -42,8 +42,8 @@ namespace IntegrationAdapters.MicroserviceComunicator
         public async Task<bool> SetPublic(int id, bool isPublic)
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, "actionbenefitservice/setpublic");
-            request.Content = new StringContent(JsonConvert.SerializeObject(new SetPublicRequest(id, isPublic)), 
-                                                Encoding.UTF8, 
+            request.Content = new StringContent(JsonConvert.SerializeObject(new SetPublicRequest(id, isPublic)),
+                                                Encoding.UTF8,
                                                 "application/json");
             var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
@@ -64,7 +64,7 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             try
             {
-               return await _httpClient.SendAsync(request);
+                return await _httpClient.SendAsync(request);
             }
             catch
             {

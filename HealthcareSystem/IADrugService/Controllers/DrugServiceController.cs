@@ -1,10 +1,10 @@
 ﻿using Backend.Model.Pharmacies;
+using Backend.Service.DrugAndTherapy;
+using IntegrationAdaptersDrugService.Service;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks;
-using Backend.Service.DrugAndTherapy;
-using IntegrationAdaptersDrugService.Service;
 
 namespace IntegrationAdaptersDrugService.Controllers
 {

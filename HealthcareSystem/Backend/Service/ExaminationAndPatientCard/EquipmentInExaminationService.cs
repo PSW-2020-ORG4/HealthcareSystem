@@ -1,9 +1,6 @@
 ﻿using Backend.Model.PerformingExamination;
 using Backend.Repository.EquipmentInExaminationRepository;
-using Backend.Repository.EquipmentInRoomsRepository;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Backend.Service.ExaminationAndPatientCard
 {

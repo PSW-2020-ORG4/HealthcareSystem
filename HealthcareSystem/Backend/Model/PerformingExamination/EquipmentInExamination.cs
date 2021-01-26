@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Backend.Model.PerformingExamination
+﻿namespace Backend.Model.PerformingExamination
 {
     public class EquipmentInExamination
     {

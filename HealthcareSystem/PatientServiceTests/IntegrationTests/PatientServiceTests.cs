@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Model;
+﻿using Backend.Model;
 using Microsoft.EntityFrameworkCore;
 using PatientService.Model;
 using PatientService.Repository;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace PatientServiceTests.IntegrationTests

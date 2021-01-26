@@ -41,7 +41,7 @@
 //             adapterContext.Verify(c => c.RemoveAdapter());
 //             Assert.Empty((IEnumerable<SearchResultDto>)result.Model);
 
-            
+
 //         }
 //     }
 // }

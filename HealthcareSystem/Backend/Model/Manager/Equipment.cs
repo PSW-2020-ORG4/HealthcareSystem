@@ -5,7 +5,6 @@
  ***********************************************************************/
 
 using Backend.Model.Manager;
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Manager
@@ -17,7 +16,7 @@ namespace Model.Manager
         public int Quantity { get; set; }
 
         [ForeignKey("EquipmentType")]
-        public int TypeId {get; set;}
+        public int TypeId { get; set; }
         public virtual EquipmentType Type { get; set; }
 
         public Equipment() { }

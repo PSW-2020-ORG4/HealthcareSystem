@@ -4,14 +4,12 @@
  * Purpose: Definition of the Class Model.Secretary.RhFactorType
  ***********************************************************************/
 
-using System;
-
 namespace Backend.Model.Enums
 {
-   public enum RhFactorType
-   {
+    public enum RhFactorType
+    {
         UNKNOWN = -1,
         POSITIVE = 0,
-        NEGATIVE = 1 
-   }
+        NEGATIVE = 1
+    }
 }

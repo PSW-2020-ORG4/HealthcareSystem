@@ -1,22 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using Backend.Model.Exceptions;
-using Backend.Model.Users;
-using Backend.Service;
-using Backend.Service.Encryption;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using GraphicalEditorServer.DTO;
-using GraphicalEditorServer.Mappers;
-using GraphicalEditorServer.Settings;
-using Microsoft.Extensions.Options;
-using GraphicalEditorServer.Controllers.Adapter;
+﻿using GraphicalEditorServer.Controllers.Adapter;
 using GraphicalEditorServer.DTO.EventSourcingDTO;
+using GraphicalEditorServer.Settings;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace GraphicalEditorServer.Controllers
 {

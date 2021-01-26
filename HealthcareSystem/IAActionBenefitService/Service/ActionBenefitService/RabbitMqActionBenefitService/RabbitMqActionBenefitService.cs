@@ -56,7 +56,7 @@ namespace IntegrationAdaptersActionBenefitService.Service
                     _channel.QueueBind(queue: _queueName, exchange: p.ActionsBenefitsExchangeName, routingKey: "");
                 }
             }
-            
+
         }
 
         private void HandleMessage(ActionBenefitMessage message, string exchangeName)

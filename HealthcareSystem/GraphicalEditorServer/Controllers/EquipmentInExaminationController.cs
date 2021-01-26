@@ -1,18 +1,10 @@
-﻿using Backend.Model;
+﻿using Backend.Model.Exceptions;
 using Backend.Model.PerformingExamination;
 using Backend.Service.ExaminationAndPatientCard;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Backend.Service.RoomAndEquipment;
-using Newtonsoft.Json;
-using Model.Manager;
-using Backend.Model.Exceptions;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -31,7 +23,8 @@ namespace GraphicalEditorServer.Controllers
         public ActionResult AddEquipmentInExamination([FromBody] List<EquipmentInExaminationDTO> equipmentInExaminationDTOs)
         {
             List<EquipmentInExaminationDTO> addedEquipmentInExaminationDTOs = new List<EquipmentInExaminationDTO>();
-            foreach (EquipmentInExaminationDTO equipmentInExaminationDTO in equipmentInExaminationDTOs) {
+            foreach (EquipmentInExaminationDTO equipmentInExaminationDTO in equipmentInExaminationDTOs)
+            {
                 EquipmentInExamination equipmentInExamination = EquipmentInExaminationMapper.EquipmentInExaminationDTOToEquipmentInExamination(equipmentInExaminationDTO);
                 EquipmentInExamination addedEquipment = _equipmentInExaminationService.AddEquipmentInExamination(equipmentInExamination);
                 addedEquipmentInExaminationDTOs.Add(EquipmentInExaminationMapper.EquipmentInExaminationToEquipmentInExaminationDTO(addedEquipment));
@@ -45,7 +38,8 @@ namespace GraphicalEditorServer.Controllers
             {
                 List<EquipmentInExamination> equipmentInExamination = _equipmentInExaminationService.GetEquipmentInExaminationFromExaminationID(examinationID);
                 List<EquipmentInExaminationDTO> equipmentInExaminationDTOs = new List<EquipmentInExaminationDTO>();
-                foreach (var singleEquipmentInExamination in equipmentInExamination) {
+                foreach (var singleEquipmentInExamination in equipmentInExamination)
+                {
                     equipmentInExaminationDTOs.Add(EquipmentInExaminationMapper.EquipmentInExaminationToEquipmentInExaminationDTO(singleEquipmentInExamination));
                 }
                 return Ok(equipmentInExaminationDTOs);

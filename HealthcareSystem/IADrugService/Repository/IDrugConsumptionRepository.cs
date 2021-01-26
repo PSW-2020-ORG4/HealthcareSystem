@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Backend.Model.Pharmacies;
+﻿using Backend.Model.Pharmacies;
+using System.Collections.Generic;
 
 namespace IntegrationAdaptersDrugService.Repository
 {

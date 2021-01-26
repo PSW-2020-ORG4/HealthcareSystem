@@ -471,9 +471,13 @@
                         materialDesign:HintAssist.Hint="Izaberite tip sobe."
                         FontSize="16"
                         IsTextSearchEnabled="True"
-                        SelectedIndex="0"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
 
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource CapitalizeStringConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
 
                         <ComboBox.Style>
                             <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
@@ -596,9 +600,13 @@
                         materialDesign:HintAssist.Hint="Izaberite tip sobe."
                         FontSize="16"
                         IsTextSearchEnabled="True"
-                        SelectedIndex="0"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
 
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource CapitalizeStringConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
 
                         <ComboBox.Style>
                             <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
@@ -717,8 +725,13 @@
                         materialDesign:HintAssist.Hint="Izaberite tip sobe."
                         FontSize="16"
                         IsTextSearchEnabled="True"
-                        SelectedIndex="0"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource CapitalizeStringConverter}}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
 
                         <ComboBox.Style>
                             <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
@@ -800,7 +813,8 @@
                         Grid.Row="15"
                         Grid.ColumnSpan="3"
                         Margin="20,20,10,0"
-                        Background="MediumPurple" />
+                        Background="MediumPurple"
+                        Visibility="{Binding IsAlternativeAppointmentsSectionVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                     <!--  ALTERNATIVE RENOVATION APPOINTMENTS SECTION  -->
                     <TextBlock
@@ -818,7 +832,7 @@
 
                     <!--  ALTERNATIVE RELOCATION APPOINTMENTS TABLE  -->
                     <DataGrid
-                        x:Name="AlternativeRelocationAppointmentsDataGrid"
+                        x:Name="AlternativeRenovationAppointmentsDataGrid"
                         Grid.Row="17"
                         Grid.ColumnSpan="3"
                         Height="200"
@@ -839,8 +853,21 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="*"
-                                Binding="{Binding StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
-                                Header="Termin">
+                                Binding="{Binding StartTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
+                                Header="Početak renoviranja">
+
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="TextWrapping" Value="Wrap" />
+                                        <Setter Property="TextAlignment" Value="Center" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding EndTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
+                                Header="Kraj renoviranja">
 
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">

@@ -1,12 +1,10 @@
 ﻿
 using Backend.Model.DTO;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {
-   public class CreateTransferEqupmentDTO
+    public class CreateTransferEqupmentDTO
     {
         public TransferEquipmentDTO CreateInvalidTestObjectForInitializingEquipmentTransfer1()
         {
@@ -25,6 +23,6 @@ namespace GraphicalEditorServerTests.DataFactory
         {
             return new TransferEquipmentDTO(2, 11, 13, new DateTime(2020, 12, 30, 8, 0, 0, DateTimeKind.Utc), 10);
         }
-       
+
     }
 }

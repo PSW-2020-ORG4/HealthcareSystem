@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Backend.Model.Pharmacies
 {
-    public  abstract class ValueObject
+    public abstract class ValueObject
     {
         protected static bool EqualOperator(ValueObject left, ValueObject right)
         {

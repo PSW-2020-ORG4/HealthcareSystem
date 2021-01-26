@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Backend.Model.Exceptions
+﻿namespace Backend.Model.Exceptions
 {
     public class BadRequestException : HealthClinicException
     {

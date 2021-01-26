@@ -23,7 +23,7 @@ namespace IntegrationAdaptersPharmacySystemService.Controllers
         {
             List<Patient> patients = _patientService.ViewPatients();
             List<PatientDto> patientsDto = new List<PatientDto>();
-            foreach(var patient in patients)
+            foreach (var patient in patients)
             {
                 patientsDto.Add(new PatientDto() { Name = patient.Name, Surname = patient.Surname, Jmbg = patient.Jmbg });
             }

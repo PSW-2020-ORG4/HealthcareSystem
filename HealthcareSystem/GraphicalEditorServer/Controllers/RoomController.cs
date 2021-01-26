@@ -1,17 +1,16 @@
-﻿using System;
-using Backend.Model.Enums;
-using System.Collections.Generic;
+﻿using Backend.Model.Enums;
 using Backend.Model.Exceptions;
+using Backend.Model.Manager;
+using Backend.Model.PerformingExamination;
+using Backend.Service.ExaminationAndPatientCard;
+using Backend.Service.RenovationService;
 using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Backend.Service.ExaminationAndPatientCard;
-using Backend.Service.RenovationService;
-using Model.Manager;
-using Backend.Model.PerformingExamination;
-using Backend.Model.Manager;
+using System;
+using System.Collections.Generic;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -25,10 +24,10 @@ namespace GraphicalEditorServer.Controllers
         private readonly IRenovationService _renovationService;
 
         public RoomController(
-            IRoomService roomService, 
+            IRoomService roomService,
             IExaminationService examinationService,
             IEquipmentTransferService equipmentTransferService,
-            IRenovationService renovationService) 
+            IRenovationService renovationService)
         {
             _roomService = roomService;
             _examinationService = examinationService;
@@ -77,9 +76,9 @@ namespace GraphicalEditorServer.Controllers
         {
             try
             {
-                List<Examination> allExamination = (List<Examination>) _examinationService.GetExaminationsForPeriodAndRoom(DateTime.Now, DateTime.Now.AddDays(30), roomId);
-                List<EquipmentTransfer> allEquipmentTransfers = (List<EquipmentTransfer>) _equipmentTransferService.GetEquipmentTransfersByRoomNumberAndPeriod(DateTime.Now, DateTime.Now.AddDays(30), roomId);
-                List<BaseRenovation> allRenovation = (List<BaseRenovation>) _renovationService.GetRenovationForPeriodByRoomNumber(DateTime.Now, DateTime.Now.AddDays(30), roomId);
+                List<Examination> allExamination = (List<Examination>)_examinationService.GetExaminationsForPeriodAndRoom(DateTime.Now, DateTime.Now.AddDays(30), roomId);
+                List<EquipmentTransfer> allEquipmentTransfers = (List<EquipmentTransfer>)_equipmentTransferService.GetEquipmentTransfersByRoomNumberAndPeriod(DateTime.Now, DateTime.Now.AddDays(30), roomId);
+                List<BaseRenovation> allRenovation = (List<BaseRenovation>)_renovationService.GetRenovationForPeriodByRoomNumber(DateTime.Now, DateTime.Now.AddDays(30), roomId);
 
                 List<RoomSchedulesDTO> roomSchedulesDTOs = new List<RoomSchedulesDTO>();
                 allExamination.ForEach(e => roomSchedulesDTOs.Add(RoomSchedulesMapper.Examination_To_RoomSchedulesDTO(e)));

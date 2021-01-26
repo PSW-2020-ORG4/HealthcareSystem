@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphicalEditorServer.DTO
 {
@@ -15,13 +12,13 @@ namespace GraphicalEditorServer.DTO
 
         public DrugDTO() { }
 
-        public DrugDTO( string name, int quantity, DateTime expirationDate, string producer, DrugTypeDTO drugTypeDTO)
+        public DrugDTO(string name, int quantity, DateTime expirationDate, string producer, DrugTypeDTO drugTypeDTO)
         {
             this.DrugTypeDTO = drugTypeDTO;
             this.Name = name;
             this.Quantity = quantity;
             this.ExpirationDate = expirationDate;
             this.Producer = producer;
-        }        
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Backend.Communication.SftpCommunicator;
 using Grpc.Core;
 using IntegrationAdapters.Apis.Grpc;
+using IntegrationAdapters.Apis.Http;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MapperProfiles;
 using System;
@@ -9,13 +10,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using IntegrationAdapters.Apis.Http;
 
 namespace IntegrationAdapters.Adapters.Development
 {
     public class PharmacySystemAdapter_Id1 : IPharmacySystemAdapter
     {
-        private  IMapper _mapper;
+        private IMapper _mapper;
         private PharmacySystemAdapterParameters _parameters;
         private Channel _grpcChannel;
         private DrugAvailability.DrugAvailabilityClient _grpcClient;
@@ -53,7 +53,7 @@ namespace IntegrationAdapters.Adapters.Development
             {
                 response = _grpcClient.FindDrug(request);
             }
-            catch(RpcException rex)
+            catch (RpcException rex)
             {
                 Console.WriteLine(rex);
             }
@@ -76,7 +76,7 @@ namespace IntegrationAdapters.Adapters.Development
             {
                 ret = task.Result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
@@ -123,7 +123,8 @@ namespace IntegrationAdapters.Adapters.Development
         }
 
         private void InitializeGrpc()
-        {   if(_parameters.GrpcAdress.GrpcHost == null || _parameters.GrpcAdress.GrpcHost == "" || _parameters.GrpcAdress.GrpcPort == -1)
+        {
+            if (_parameters.GrpcAdress.GrpcHost == null || _parameters.GrpcAdress.GrpcHost == "" || _parameters.GrpcAdress.GrpcPort == -1)
                 _grpc = false;
             else
                 _grpc = true;
@@ -162,7 +163,7 @@ namespace IntegrationAdapters.Adapters.Development
             {
                 Console.WriteLine(rex);
             }
-            if (response != null )
+            if (response != null)
             {
                 return response.Success;
             }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using IntegrationAdapters.Dtos;
 using Microsoft.AspNetCore.Mvc;
-using IntegrationAdapters.Dtos;
-using Backend.Service.Pharmacies;
-using Backend.Model.Pharmacies;
-using Backend.Repository;
+using System.Diagnostics;
 
 namespace IntegrationAdapters.Controllers
 {

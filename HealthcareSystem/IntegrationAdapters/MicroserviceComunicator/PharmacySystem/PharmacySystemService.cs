@@ -1,13 +1,13 @@
-﻿using System;
-using Backend.Model.Pharmacies;
+﻿using Backend.Model.Pharmacies;
+using IntegrationAdapters.Settings;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using IntegrationAdapters.Settings;
 
 namespace IntegrationAdapters.MicroserviceComunicator
 {

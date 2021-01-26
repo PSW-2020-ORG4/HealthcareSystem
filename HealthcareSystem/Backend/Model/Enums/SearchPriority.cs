@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Backend.Model.Enums
+﻿namespace Backend.Model.Enums
 {
     public enum SearchPriority
     {

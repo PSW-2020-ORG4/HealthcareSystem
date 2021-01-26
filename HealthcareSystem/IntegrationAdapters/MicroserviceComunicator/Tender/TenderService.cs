@@ -61,7 +61,7 @@ namespace IntegrationAdapters.MicroserviceComunicator
             return true;
         }
         public async Task<bool> CloseTender(int tenderId)
-        { 
+        {
             var request = new HttpRequestMessage(HttpMethod.Patch, "tenderservice/tender/close");
             request.Content = new StringContent(tenderId.ToString(), Encoding.UTF8, "application/json");
             var response = await SendRequest(request);

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Model.Users;
+﻿using Backend.Model.Users;
 using Backend.Repository.DoctorSpecialtyRepository;
+using System.Collections.Generic;
 
 namespace Backend.Service.UsersAndWorkingTime
 {

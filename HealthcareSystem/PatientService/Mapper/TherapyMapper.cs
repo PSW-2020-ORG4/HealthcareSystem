@@ -1,10 +1,6 @@
 ﻿using PatientService.DTO;
 using PatientService.Model;
 using PatientService.Model.Memento;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PatientService.Mapper
 {

@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using Backend.Model.Pharmacies;
+﻿using Backend.Model.Pharmacies;
 using IntegrationAdaptersTenderService.Service;
 using IntegrationAdaptersTenderService.Service.RabbitMqTenderingService;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace IntegrationAdaptersTenderService.Controllers
 {
@@ -14,7 +14,7 @@ namespace IntegrationAdaptersTenderService.Controllers
         private readonly ITenderMessageService _tenderMessageService;
         private readonly IRabbitMqTenderingService _rabbitMqTenderingService;
         public TenderServiceController(ITenderService tenderService,
-                                       ITenderMessageService tenderMessageService, 
+                                       ITenderMessageService tenderMessageService,
                                        IRabbitMqTenderingService rabbitMqTenderingService)
         {
             _tenderService = tenderService;

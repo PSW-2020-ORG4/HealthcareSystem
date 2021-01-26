@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FeedbackAndSurveyService.CustomException;
+﻿using FeedbackAndSurveyService.CustomException;
 using FeedbackAndSurveyService.FeedbackService.Model;
+using System.Collections.Generic;
 using Xunit;
 
 namespace FeedbackAndSurveyTests.UnitTests
@@ -11,10 +9,10 @@ namespace FeedbackAndSurveyTests.UnitTests
     {
         [Theory]
         [MemberData(nameof(Data))]
-        public void Validation(string jmbg,string name, string surname, bool valid)
+        public void Validation(string jmbg, string name, string surname, bool valid)
         {
             if (valid)
-                new Commentator(jmbg,name, surname);
+                new Commentator(jmbg, name, surname);
             else
                 Assert.Throws<ValidationException>(() => new Commentator(jmbg, name, surname));
         }

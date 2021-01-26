@@ -1,14 +1,11 @@
 ﻿using Backend.Model;
-using Backend.Repository;
 using Microsoft.EntityFrameworkCore;
 using PatientService.CustomException;
 using PatientService.Model;
 using PatientService.Model.Memento;
 using PatientService.Repository.BackendMapper;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PatientService.Repository
 {

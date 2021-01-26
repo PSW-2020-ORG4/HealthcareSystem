@@ -4,14 +4,11 @@
  * Purpose: Definition of the Class EquipmentInRooms
  ***********************************************************************/
 
-using System;
-
-
 namespace Model.Manager
 {
     public class EquipmentInRooms
     {
-        
+
         public int IdEquipment { get; set; }
         public int Quantity { get; set; }
         public int RoomNumber { get; set; }

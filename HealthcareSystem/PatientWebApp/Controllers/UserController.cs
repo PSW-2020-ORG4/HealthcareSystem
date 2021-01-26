@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using PatientWebApp.Controllers.Adapter;
 using PatientWebApp.DTOs;
 using PatientWebApp.Settings;
-using RestSharp;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

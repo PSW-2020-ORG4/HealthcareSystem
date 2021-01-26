@@ -61,7 +61,7 @@ namespace Backend.Communication.SftpCommunicator
                 using var stream = File.OpenRead(localFilePath);
                 client.UploadFile(stream, remoteFilePath, null);
                 return true;
-                
+
             }
             catch (Exception exception)
             {

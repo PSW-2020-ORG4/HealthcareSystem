@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using IntegrationAdapters.Apis.Grpc;
 using IntegrationAdapters.Apis.Http;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MapperProfiles;
@@ -36,23 +35,23 @@ namespace IntegrationAdapters.Adapters.Test
             {
                 ret = task.Result;
             }
-            catch(AggregateException agex)
+            catch (AggregateException agex)
             {
                 Console.WriteLine(agex);
             }
-            
+
             return ret;
         }
 
         public bool SendDrugConsumptionReport(string reportFilePath, string reportFileName)
-        { 
+        {
             Task<bool> task = Task.Run<bool>(async () => await _api.SendDrugConsumptionRepor(_parameters.ApiKey, reportFilePath, reportFileName));
             bool ret = false;
             try
             {
                 ret = task.Result;
             }
-            catch(AggregateException agex)
+            catch (AggregateException agex)
             {
                 Console.WriteLine(agex);
             }

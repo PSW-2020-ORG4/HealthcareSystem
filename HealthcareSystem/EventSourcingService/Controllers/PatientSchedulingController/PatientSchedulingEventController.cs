@@ -2,7 +2,6 @@
 using EventSourcingService.Mapper;
 using EventSourcingService.Service;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 
 namespace EventSourcingService.Controllers
 {
@@ -47,7 +46,7 @@ namespace EventSourcingService.Controllers
         public IActionResult GetAllStatistic()
         {
             PatientSchedulingStatisticDTO schedulingStatisticDTO = new PatientSchedulingStatisticDTO();
-            
+
             schedulingStatisticDTO.successfulSchedulingDuration = _patientEndSchedulingService.SuccessfulSchedulingDuration();
             schedulingStatisticDTO.successfulSchedulingGenderStatistic = _patientEndSchedulingService.SuccessfulSchedulingGenderStatistic();
             schedulingStatisticDTO.successfulSchedulingAgeStatistic = _patientEndSchedulingService.SuccessfulSchedulingAgeStatistic();

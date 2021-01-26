@@ -1,4 +1,3 @@
-using Backend.Model;
 using Backend.Model.Enums;
 using Backend.Model.Users;
 using Model.Manager;
@@ -9,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Model.Users
 {
     public class Doctor : User
-   {
+    {
         public string NumberOfLicence { get; set; }
         public virtual ICollection<DoctorSpecialty> DoctorSpecialties { get; set; }
         public DateTime DateOfEmployment { get; set; }
@@ -45,7 +44,7 @@ namespace Model.Users
             Username = username;
             Password = password;
             NumberOfLicence = numberOfLicence;
-            
+
             if (doctorsOffice != null)
             {
                 DoctorsOffice = new Room(doctorsOffice);
@@ -81,7 +80,7 @@ namespace Model.Users
             Username = doctor.Username;
             Password = doctor.Password;
             NumberOfLicence = doctor.NumberOfLicence;
-           
+
             if (doctor.DoctorsOffice != null)
             {
                 DoctorsOffice = new Room(doctor.DoctorsOffice);

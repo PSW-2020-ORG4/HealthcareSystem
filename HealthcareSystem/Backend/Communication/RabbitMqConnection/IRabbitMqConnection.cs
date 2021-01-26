@@ -6,6 +6,6 @@ namespace Backend.Communication.RabbitMqConnection
     public interface IRabbitMqConnection
     {
         RabbitMqConfiguration Configuration { get; }
-        IConnection Connection { get; } 
+        IConnection Connection { get; }
     }
 }

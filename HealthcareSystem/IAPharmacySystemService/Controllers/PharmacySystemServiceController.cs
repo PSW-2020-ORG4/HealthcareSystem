@@ -60,14 +60,14 @@ namespace IntegrationAdaptersPharmacySystemService.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] PharmacySystem pharmacySystem)
         {
-            if(pharmacySystem.isValid())
+            if (pharmacySystem.isValid())
             {
                 var pharmacyOld = _pharmacySystemService.GetPharmacyByIdNoTracking(pharmacySystem.Id);
                 if (pharmacyOld == null)
                     throw new ArgumentNullException("There is no pharmacy with id=" + pharmacySystem.Id);
                 if (pharmacySystem.ActionsBenefitsExchangeName == null)
                     pharmacySystem.ActionsBenefitsSubscribed = false;
-                if(await _actionBenefitService.SubscriptionEdit(pharmacyOld.ActionsBenefitsExchangeName,
+                if (await _actionBenefitService.SubscriptionEdit(pharmacyOld.ActionsBenefitsExchangeName,
                                                            pharmacyOld.ActionsBenefitsSubscribed,
                                                            pharmacySystem.ActionsBenefitsExchangeName,
                                                            pharmacySystem.ActionsBenefitsSubscribed))

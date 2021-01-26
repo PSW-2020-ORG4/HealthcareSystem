@@ -1,7 +1,6 @@
 ﻿using Backend.Model;
 using Backend.Model.DTO;
 using Backend.Model.Enums;
-using Backend.Model.Exceptions;
 using Backend.Model.PerformingExamination;
 using Backend.Repository;
 using Backend.Repository.EquipmentInExaminationRepository.MySqlEquipmentInExaminationRepository;
@@ -12,7 +11,6 @@ using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodReposit
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.RoomAndEquipment;
-using Repository;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -84,6 +82,6 @@ namespace GraphicalEditorServerTests.IntegrationTests
             });
 
             Assert.Equal(0, freeAppointments.Count);
-        }        
+        }
     }
 }

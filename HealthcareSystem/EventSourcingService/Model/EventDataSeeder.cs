@@ -1,8 +1,5 @@
 ﻿using EventSourcingService.Model.GraphicalEditor;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventSourcingService.Model
 {
@@ -145,8 +142,8 @@ namespace EventSourcingService.Model
 
         private void SeedEvents(EventSourcingDbContext context)
         {
-            context.Add(new PatientStartSchedulingEvent() 
-            { 
+            context.Add(new PatientStartSchedulingEvent()
+            {
                 TriggerTime = DateTime.Now.Date.AddDays(-1).AddHours(2).AddMinutes(30),
                 UserAge = 33,
                 UserGender = Enum.Gender.Female

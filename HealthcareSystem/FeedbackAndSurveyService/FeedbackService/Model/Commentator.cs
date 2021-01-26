@@ -1,9 +1,5 @@
 ﻿using FeedbackAndSurveyService.CustomException;
-using FeedbackAndSurveyService.FeedbackService.Model.Memento;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FeedbackAndSurveyService.FeedbackService.Model
 {

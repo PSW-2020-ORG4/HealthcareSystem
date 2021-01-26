@@ -1,12 +1,12 @@
-﻿using System;
+using IntegrationAdapters.Dtos;
+using IntegrationAdapters.Settings;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using IntegrationAdapters.Settings;
-using Microsoft.Extensions.Options;
-using IntegrationAdapters.Dtos;
 
 namespace IntegrationAdapters.MicroserviceComunicator
 {

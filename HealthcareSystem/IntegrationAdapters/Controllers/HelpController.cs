@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Backend.Model.Pharmacies;
+﻿using Backend.Model.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace IntegrationAdapters.Controllers
 {

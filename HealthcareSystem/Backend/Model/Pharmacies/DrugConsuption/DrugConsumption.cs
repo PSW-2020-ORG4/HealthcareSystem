@@ -12,7 +12,7 @@ namespace Backend.Model.Pharmacies
 
         [ForeignKey("Drug")]
         public int DrugId { get; set; }
-        public virtual Drug Drug {get; set;}
+        public virtual Drug Drug { get; set; }
 
         [Required]
         public DateTime Date { get; set; }

@@ -3,12 +3,10 @@ using Backend.Model.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository
 {
-   public class MySqlDrugInRoomRepository : IDrugInRoomRepository
+    public class MySqlDrugInRoomRepository : IDrugInRoomRepository
     {
         private readonly MyDbContext _context;
 
@@ -29,7 +27,7 @@ namespace Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository
         }
 
         public DrugInRoom AddDrug(DrugInRoom drugInRoom)
-        {          
+        {
             _context.DrugsInRooms.Add(drugInRoom);
             _context.SaveChanges();
             return drugInRoom;

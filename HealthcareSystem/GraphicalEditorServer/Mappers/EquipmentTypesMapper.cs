@@ -1,15 +1,12 @@
 ﻿using Backend.Model.Manager;
 using GraphicalEditorServer.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphicalEditorServer.Mappers
 {
     public class EquipmentTypesMapper
     {
-        public static EquipmentType EquipmentTypeDTO_To_EquipmentType(EquipmentTypeDTO equipmentTypeDTO) {
+        public static EquipmentType EquipmentTypeDTO_To_EquipmentType(EquipmentTypeDTO equipmentTypeDTO)
+        {
             return new EquipmentType(equipmentTypeDTO.Name, equipmentTypeDTO.IsConsumable);
         }
         public static EquipmentTypeDTO EquipmentType_To_EquipmentTypeDTO(EquipmentType equipmentType)

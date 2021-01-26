@@ -1,13 +1,8 @@
-﻿using Backend.Model.DTO;
-using Backend.Model.Enums;
-using Backend.Service.ExaminationAndPatientCard;
+﻿using Backend.Model.Enums;
 using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServerTests.DataFactory;
 using Model.Manager;
-using Model.PerformingExamination;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace GraphicalEditorServerTests.UnitTest
@@ -30,7 +25,7 @@ namespace GraphicalEditorServerTests.UnitTest
 
             return roomService;
         }
-         
+
 
         [Fact]
         public void Find_available_rooms_from_required_equipment_Return_None()

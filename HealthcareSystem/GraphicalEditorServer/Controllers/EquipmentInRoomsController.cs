@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Backend.Service.RoomAndEquipment;
 using Microsoft.AspNetCore.Mvc;
-using Backend.Service.RoomAndEquipment;
-using GraphicalEditorServer.DTO;
-using Newtonsoft.Json;
 using Model.Manager;
-using Backend.Model.Exceptions;
+using Newtonsoft.Json;
+using System;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -28,7 +22,7 @@ namespace GraphicalEditorServer.Controllers
         {
             String JSONContent = StringToJSONFormat(JSONString);
 
-            EquipmentInRooms equipmentInRooms = JsonConvert.DeserializeObject<EquipmentInRooms>(JSONContent);           
+            EquipmentInRooms equipmentInRooms = JsonConvert.DeserializeObject<EquipmentInRooms>(JSONContent);
             _equipmentInRoomService.AddEquipmentInRoom(equipmentInRooms);
             return Ok();
         }
@@ -41,6 +35,6 @@ namespace GraphicalEditorServer.Controllers
             JSONContent += "}";
 
             return JSONContent;
-        }        
+        }
     }
 }

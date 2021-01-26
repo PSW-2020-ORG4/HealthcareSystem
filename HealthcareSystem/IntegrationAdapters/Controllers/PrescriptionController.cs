@@ -1,5 +1,4 @@
-﻿using Backend.Service;
-using IntegrationAdapters.Adapters;
+﻿using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MicroserviceComunicator;
 using IntegrationAdapters.Services;
@@ -44,7 +43,7 @@ namespace IntegrationAdapters.Controllers
             PushSubscription pushSubscription = new PushSubscription() { Endpoint = Request.Form["PushEndpoint"], P256DH = Request.Form["PushP256DH"], Auth = Request.Form["PushAuth"] };
             PushPayload pushPayload = new PushPayload();
 
-            if(!FormValid(form))
+            if (!FormValid(form))
             {
                 pushPayload.Title = "Unsuccess";
                 pushPayload.Message = "Invalid prescription data!";
@@ -55,13 +54,13 @@ namespace IntegrationAdapters.Controllers
 
             var reportFilePath = "Resources";
             string reportFileName = Guid.NewGuid().ToString() + ".json";
-            var prescription = new { drugId = form.Drug, jmbg = form.Patient};
+            var prescription = new { drugId = form.Drug, jmbg = form.Patient };
             string json = JsonConvert.SerializeObject(prescription, Formatting.Indented);
             try
             {
                 System.IO.File.WriteAllText(reportFilePath + "/" + reportFileName, json);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
 
@@ -72,7 +71,7 @@ namespace IntegrationAdapters.Controllers
             var pharmacy = await _pharmacySystemService.Get(form.PharmacySystem);
             if (_adapterContext.SetPharmacySystemAdapter(pharmacy) != null)
             {
-                if(_adapterContext.PharmacySystemAdapter.SendDrugConsumptionReport(reportFilePath, reportFileName))
+                if (_adapterContext.PharmacySystemAdapter.SendDrugConsumptionReport(reportFilePath, reportFileName))
                 {
                     pushPayload.Title = "Success";
                     pushPayload.Message = "Prescription successfully created and uploaded!";
@@ -89,7 +88,7 @@ namespace IntegrationAdapters.Controllers
 
         private bool FormValid(PrescriptionForm form)
         {
-            if(form.Drug == 0 || form.Patient == null || form.Patient == "" || form.PharmacySystem == 0)
+            if (form.Drug == 0 || form.Patient == null || form.Patient == "" || form.PharmacySystem == 0)
                 return false;
 
             return true;

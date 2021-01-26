@@ -11,12 +11,12 @@ using System;
 namespace Model.PerformingExamination
 {
     public class PlacemetnInARoom
-   {
-      public PatientCard patientCard { get; set; }
-      public Model.Manager.Room room { get; set; }
-      public int Id { get; set; }
-      public DateTime DateOfPlacement { get; set; }
-      public DateTime DateOfDismison { get; set; }
+    {
+        public PatientCard patientCard { get; set; }
+        public Model.Manager.Room room { get; set; }
+        public int Id { get; set; }
+        public DateTime DateOfPlacement { get; set; }
+        public DateTime DateOfDismison { get; set; }
 
         public PlacemetnInARoom() { }
 
@@ -44,8 +44,10 @@ namespace Model.PerformingExamination
             this.DateOfDismison = dateOfDismison;
         }
 
-        public PlacemetnInARoom(PlacemetnInARoom placement) {
-            if (placement.patientCard == null) {
+        public PlacemetnInARoom(PlacemetnInARoom placement)
+        {
+            if (placement.patientCard == null)
+            {
                 this.patientCard = new PatientCard();
             }
             else

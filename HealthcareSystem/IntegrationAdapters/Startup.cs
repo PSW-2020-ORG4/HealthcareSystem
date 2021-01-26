@@ -4,6 +4,9 @@ using Backend.Model;
 using Backend.Model.Pharmacies;
 using Backend.Settings;
 using IntegrationAdapters.Adapters;
+using IntegrationAdapters.MicroserviceComunicator;
+using IntegrationAdapters.Services;
+using IntegrationAdapters.Settings;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,12 +16,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using IntegrationAdapters.Services;
 using System.Collections.Generic;
-using IntegrationAdapters.MicroserviceComunicator;
-using System.Net.Http;
 using System.IO;
-using IntegrationAdapters.Settings;
+using System.Net.Http;
 
 namespace IntegrationAdapters
 {

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PatientWebApp.Auth
+﻿namespace PatientWebApp.Auth
 {
     public class EncryptionService
     {
-        public EncryptionService() { 
+        public EncryptionService()
+        {
         }
         public string DecryptString(string encryptedJmbg)
         {

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using IntegrationAdapters.Adapters;
+﻿using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace IntegrationAdapters.Controllers
 {
@@ -31,10 +31,10 @@ namespace IntegrationAdapters.Controllers
                 throw new ArgumentNullException("There is no pharmacy with id=" + drugProcurementDto.PharmacySystemId);
 
             if (_adapterContext.PharmacySystemAdapter.OrderDrugs(drugProcurementDto.PharmacyId,
-                                                                 drugProcurementDto.DrugId, 
+                                                                 drugProcurementDto.DrugId,
                                                                  drugProcurementDto.Quantity))
             {
-                if(await _drugService.AddQuantity(drugProcurementDto.Code, drugProcurementDto.Quantity))
+                if (await _drugService.AddQuantity(drugProcurementDto.Code, drugProcurementDto.Quantity))
                 {
                     TempData["Success"] = "Order successful!";
                 }

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Backend.Model.DTO
 {
     public class TransferEquipmentDTO
     {
-        public int EquipmentTypeId{ get; set; }
+        public int EquipmentTypeId { get; set; }
         public int StartingRoomNumber { get; set; }
         public int Quantity { get; set; }
         public DateTime DateAndTimeOfTransfer { get; set; }

@@ -12,14 +12,14 @@ using System;
 namespace Model.Users
 {
     public class Secretary : User
-   {
+    {
         public TypeOfQualifications Qualifications { get; set; }
         public DateTime DateOfEmployment { get; set; }
 
         public Secretary() { }
 
-        public Secretary(string jmbg,string name,string surname,DateTime dateOfBirth,GenderType gender,City city,string homeAddress,string phone,
-                         string email,string username,string password,TypeOfQualifications qualifications,DateTime dateOfEmployment)
+        public Secretary(string jmbg, string name, string surname, DateTime dateOfBirth, GenderType gender, City city, string homeAddress, string phone,
+                         string email, string username, string password, TypeOfQualifications qualifications, DateTime dateOfEmployment)
         {
             Jmbg = jmbg;
             Name = name;

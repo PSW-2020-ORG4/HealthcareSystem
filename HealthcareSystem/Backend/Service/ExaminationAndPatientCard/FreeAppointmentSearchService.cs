@@ -25,7 +25,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         private readonly IEquipmentTransferRepository _equipmentTransferRepository;
         private readonly int PRIORITY_DATE_INTERVAL = 5;
 
-        public FreeAppointmentSearchService(IRoomService roomService, 
+        public FreeAppointmentSearchService(IRoomService roomService,
                                             IExaminationRepository examinationRepository,
                                             IDoctorRepository doctorRepository,
                                             IActivePatientCardRepository activePatientCardRepository,
@@ -36,7 +36,7 @@ namespace Backend.Service.ExaminationAndPatientCard
             _examinationRepository = examinationRepository;
             _doctorRepository = doctorRepository;
             _activePatientCardRepository = activePatientCardRepository;
-            _appointmentDuration = new TimeSpan(0,30,0);
+            _appointmentDuration = new TimeSpan(0, 30, 0);
             _equipmentInExaminationService = equipmentInExaminationService;
             _equipmentTransferRepository = equipmentTransferRepository;
         }
@@ -44,7 +44,7 @@ namespace Backend.Service.ExaminationAndPatientCard
                                            IExaminationRepository examinationRepository,
                                            IDoctorRepository doctorRepository,
                                            IActivePatientCardRepository activePatientCardRepository,
-                                           IEquipmentInExaminationService equipmentInExaminationService)                   
+                                           IEquipmentInExaminationService equipmentInExaminationService)
         {
             _roomService = roomService;
             _examinationRepository = examinationRepository;
@@ -79,7 +79,7 @@ namespace Backend.Service.ExaminationAndPatientCard
                 freeAppointments.ForEach(e => e.Doctor = doctor);
                 allUnchangedAppointments.AddRange(freeAppointments);
             }
-            allUnchangedAppointments.ForEach(e => e.ExaminationStatus = ExaminationStatus.AVAILABLE);  
+            allUnchangedAppointments.ForEach(e => e.ExaminationStatus = ExaminationStatus.AVAILABLE);
 
             return allUnchangedAppointments;
         }
@@ -118,14 +118,14 @@ namespace Backend.Service.ExaminationAndPatientCard
 
         private List<Examination> GetUnavailableAppointments(BasicAppointmentSearchDTO parameters)
         {
-            return (List<Examination>) _examinationRepository.GetExaminationsForPeriod(parameters.EarliestDateTime, parameters.LatestDateTime);
+            return (List<Examination>)_examinationRepository.GetExaminationsForPeriod(parameters.EarliestDateTime, parameters.LatestDateTime);
         }
 
         private List<Examination> GetShiftedAppointmentForEmergency(BasicAppointmentSearchDTO parameters, Examination examination)
         {
             DateTime startDateTime = parameters.LatestDateTime;
             DateTime endDateTime = new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, 17, 0, 0);
-            List<int> requiredEquipmentTypes = GetRequiredEquipmentForExamination(examination);            
+            List<int> requiredEquipmentTypes = GetRequiredEquipmentForExamination(examination);
 
             for (int i = 1; i <= 13; i++)
             {
@@ -166,7 +166,7 @@ namespace Backend.Service.ExaminationAndPatientCard
                 requiredEquipmentTypes.Add(e.EquipmentTypeID);
             return requiredEquipmentTypes;
         }
-        
+
 
         private ICollection<Examination> GetPotentiallyAvailableAppointments(BasicAppointmentSearchDTO parameters)
         {
@@ -175,7 +175,7 @@ namespace Backend.Service.ExaminationAndPatientCard
             foreach (Room room in GenerateRooms(TypeOfUsage.CONSULTING_ROOM, parameters.RequiredEquipmentTypes))
                 foreach (DateTime dateTime in GenerateStartTimes(parameters.EarliestDateTime, parameters.LatestDateTime))
                     potentiallyAvailableAppointments.Add(new Examination(dateTime, parameters.DoctorJmbg, room.Id, parameters.PatientCardId));
-     
+
             return potentiallyAvailableAppointments;
         }
 
@@ -183,7 +183,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         {
             ICollection<Examination> freeAppointments = BasicSearch(parameters.InitialParameters);
             if (freeAppointments.Count == 0)
-            {               
+            {
                 if (parameters.Priority == SearchPriority.Doctor)
                     return RelaxDates(parameters);
                 else return RelaxDoctor(parameters);
@@ -196,10 +196,10 @@ namespace Backend.Service.ExaminationAndPatientCard
         {
             ICollection<Doctor> allDoctors = _doctorRepository.GetDoctorsBySpecialty(parameters.SpecialtyId);
             List<Examination> freeAppointments = new List<Examination>();
-            foreach(Doctor doctor in allDoctors)
+            foreach (Doctor doctor in allDoctors)
             {
                 parameters.InitialParameters.DoctorJmbg = doctor.Jmbg;
-                freeAppointments.AddRange(BasicSearch(parameters.InitialParameters));                 
+                freeAppointments.AddRange(BasicSearch(parameters.InitialParameters));
             }
 
             return freeAppointments;
@@ -252,7 +252,7 @@ namespace Backend.Service.ExaminationAndPatientCard
         {
             ICollection<DateTime> startTimes = new List<DateTime>();
 
-            for(DateTime time = earliest; DateTime.Compare(time, latest) < 0; time = time.Add(_appointmentDuration))
+            for (DateTime time = earliest; DateTime.Compare(time, latest) < 0; time = time.Add(_appointmentDuration))
             {
                 if (CheckIfTimeValid(time))
                 {
@@ -262,7 +262,7 @@ namespace Backend.Service.ExaminationAndPatientCard
                 time = new DateTime(time.Year, time.Month, time.Day, 6, 30, 0);
                 time = time.AddDays(1);
             }
-                
+
             return startTimes;
         }
 
@@ -311,7 +311,7 @@ namespace Backend.Service.ExaminationAndPatientCard
 
         private bool IsPatientAvailable(int patientCardId, DateTime dateTime)
         {
-            if(!_activePatientCardRepository.CheckIfPatientCardExists(patientCardId))
+            if (!_activePatientCardRepository.CheckIfPatientCardExists(patientCardId))
                 throw new BadRequestException("Patient doesn't exist in database.");
 
             if (_examinationRepository.GetExaminationsByPatientAndDateTime(patientCardId, dateTime).Count > 0)

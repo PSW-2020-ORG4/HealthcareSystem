@@ -34,8 +34,8 @@ namespace PatientWebApp.Controllers
         {
             if (!feedbackDTO.IsAnonymous)
                 feedbackDTO.CommentatorJmbg = HttpContext.User.FindFirst("Jmbg").Value;
-            
-            return RequestAdapter.SendRequestWithBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback",feedbackDTO);
+
+            return RequestAdapter.SendRequestWithBody(_serviceSettings.FeedbackAndSurveyServiceUrl, "/api/feedback", feedbackDTO);
 
         }
         /// <summary>

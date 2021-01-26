@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Users;
+﻿using Backend.Model.Users;
 using GraphicalEditorServer.DTO;
 
 namespace GraphicalEditorServer.Mappers

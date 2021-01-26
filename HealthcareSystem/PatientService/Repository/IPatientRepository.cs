@@ -1,8 +1,4 @@
 ﻿using PatientService.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PatientService.Repository
 {
@@ -11,7 +7,7 @@ namespace PatientService.Repository
         Patient Get(string jmbg);
 
         Patient GetLazy(string jmbg);
-        void Update(Patient patient); 
+        void Update(Patient patient);
         void Add(Patient patient);
     }
 }

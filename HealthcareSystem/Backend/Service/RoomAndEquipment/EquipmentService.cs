@@ -5,18 +5,17 @@
  ***********************************************************************/
 
 using Backend.Model.DTO;
+using Backend.Model.Manager;
 using Backend.Repository;
+using Backend.Repository.EquipmentInExaminationRepository;
 using Backend.Repository.EquipmentInRoomsRepository;
-using Backend.Repository.ExaminationRepository;
 using Backend.Repository.EquipmentTransferRepository;
+using Backend.Repository.ExaminationRepository;
 using Backend.Service.RoomAndEquipment;
 using Model.Manager;
-using Model.PerformingExamination;
 using System;
 using System.Collections.Generic;
-using Backend.Model.Manager;
 using System.Linq;
-using Backend.Repository.EquipmentInExaminationRepository;
 
 namespace Service.RoomAndEquipment
 {
@@ -143,7 +142,7 @@ namespace Service.RoomAndEquipment
             _equipmentTransferRepository.AddEquipmentTransfer(new EquipmentTransfer(transferEquipmentDTO.DestinationRoomNumber, transferEquipmentDTO.DateAndTimeOfTransfer));
         }
 
-       
+
 
         public List<DateTime> GetAlternativeAppointments(TransferEquipmentDTO transferEquipmentDTO)
         {
@@ -155,16 +154,16 @@ namespace Service.RoomAndEquipment
                 alternativeAppointments = ChooseAppointments(transferEquipmentDTO, alternativeAppointments);
             while (alternativeAppointments.Count != 10);
 
-            return alternativeAppointments;    
+            return alternativeAppointments;
         }
         private List<DateTime> ChooseAppointments(TransferEquipmentDTO transferEquipmentDTO, List<DateTime> alternativeAppointments)
-        { 
+        {
             foreach (DateTime date in GetPotentiallyAlternativeAppointments(transferEquipmentDTO.DateAndTimeOfTransfer))
             {
                 transferEquipmentDTO.DateAndTimeOfTransfer = date;
 
-                if (CheckStartingAndDestinationRoomsAvailability(transferEquipmentDTO) == -1 
-                    && _equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(transferEquipmentDTO.StartingRoomNumber,transferEquipmentDTO.DateAndTimeOfTransfer) == null
+                if (CheckStartingAndDestinationRoomsAvailability(transferEquipmentDTO) == -1
+                    && _equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(transferEquipmentDTO.StartingRoomNumber, transferEquipmentDTO.DateAndTimeOfTransfer) == null
                     && _equipmentTransferRepository.GetEquipmentTransferByRoomNumberAndDate(transferEquipmentDTO.DestinationRoomNumber, transferEquipmentDTO.DateAndTimeOfTransfer) == null)
                     alternativeAppointments.Add(date);
 
@@ -178,7 +177,7 @@ namespace Service.RoomAndEquipment
         {
             List<DateTime> potentiallyAlternativeAppointments = new List<DateTime>();
             DateTime timeFrom = dateOfTransfer;
-          
+
             for (int i = 0; i < 10; i++)
             {
                 if (CheckIfTimeValid(timeFrom))

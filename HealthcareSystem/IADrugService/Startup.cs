@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Backend.Model;
 using Backend.Repository.DrugInRoomRepository;
 using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
@@ -18,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Service.DrugAndTherapy;
+using System;
+using System.Collections.Generic;
 
 namespace IntegrationAdaptersDrugService
 {

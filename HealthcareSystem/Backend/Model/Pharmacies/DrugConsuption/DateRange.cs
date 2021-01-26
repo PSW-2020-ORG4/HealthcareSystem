@@ -23,7 +23,7 @@ namespace Backend.Model.Pharmacies
 
         private void Validate()
         {
-            if(From == null || To == null)
+            if (From == null || To == null)
                 throw new Exceptions.ValidationException("Start date and/or End date is null!");
             if (From.CompareTo(To) > 0)
                 throw new Exceptions.ValidationException("Start date should be before End date!");

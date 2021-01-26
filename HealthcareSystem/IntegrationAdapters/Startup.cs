@@ -6,6 +6,7 @@ using Backend.Settings;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.MicroserviceComunicator;
 using IntegrationAdapters.Services;
+using IntegrationAdapters.Settings;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -97,6 +98,7 @@ namespace IntegrationAdapters
             services.AddControllersWithViews();
 
             services.Configure<SftpConfig>(Configuration.GetSection("SftpConfig"));
+            services.Configure<ServiceSettings>(GetServiceSettings);
             services.AddScoped<ISftpCommunicator, SftpCommunicator>();
             services.AddScoped<IAdapterContext, AdapterContext>();
             services.AddScoped<IPushNotificationService, PushNotificationService>();
@@ -110,15 +112,27 @@ namespace IntegrationAdapters
             services.AddHttpClient();
         }
 
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.TenderServiceUrl = Configuration.GetValue<string>("TENDER_SERVICE_URL");
+            conf.ActionBenefitServiceUrl = Configuration.GetValue<string>("ACTION_BENEFIT_SERVICE_URL");
+            conf.DrugServiceUrl = Configuration.GetValue<string>("DRUG_SERVICE_URL");
+            conf.PharmacySystemServiceUrl = Configuration.GetValue<string>("PHARMACY_SYSTEM_SERVICE_URL");
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IAntiforgery antiforgery, IHttpClientFactory httpClientFactory)
 
         {
             var client = httpClientFactory.CreateClient();
-            client.GetAsync("http://localhost:5001/ping");
-            client.GetAsync("http://localhost:5002/ping");
-            client.GetAsync("http://localhost:5003/ping");
-            client.GetAsync("http://localhost:5004/ping");
+
+            if (!env.EnvironmentName.ToLower().Equals("test"))
+            {
+                client.GetAsync("http://localhost:5001/ping");
+                client.GetAsync("http://localhost:5002/ping");
+                client.GetAsync("http://localhost:5003/ping");
+                client.GetAsync("http://localhost:5004/ping");
+            }
 
             app.Use(next => context =>
             {

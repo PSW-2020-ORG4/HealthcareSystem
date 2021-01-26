@@ -1,4 +1,5 @@
 ﻿using Backend.Model.Users;
+using IAPharmacySystemService.DTO;
 using IntegrationAdaptersPharmacySystemService.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -21,11 +22,12 @@ namespace IntegrationAdaptersPharmacySystemService.Controllers
         public IActionResult GetPatients()
         {
             List<Patient> patients = _patientService.ViewPatients();
+            List<PatientDto> patientsDto = new List<PatientDto>();
             foreach (var patient in patients)
             {
-                patient.City.Users = null;
+                patientsDto.Add(new PatientDto() { Name = patient.Name, Surname = patient.Surname, Jmbg = patient.Jmbg });
             }
-            return Ok(patients);
+            return Ok(patientsDto);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using IAPharmacySystemService.Settings;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +10,11 @@ namespace IntegrationAdaptersPharmacySystemService.MicroserviceComunicator
     public class ActionBenefitService : IActionBenefitService
     {
         private HttpClient _httpClient;
-        public ActionBenefitService(IHttpClientFactory httpClientFactory)
+
+        public ActionBenefitService(IHttpClientFactory httpClientFactory, IOptions<ServiceSettings> serviceSettings)
         {
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new System.Uri("http://localhost:5002");
+            _httpClient.BaseAddress = new System.Uri(serviceSettings.Value.ActionBenefitServiceUrl);
         }
 
         public async Task<bool> Subscribe(string exchangeName)

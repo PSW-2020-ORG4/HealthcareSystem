@@ -1,4 +1,6 @@
 ﻿using Backend.Model;
+using IntegrationAdapters.Settings;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,10 @@ namespace IntegrationAdapters.MicroserviceComunicator
     {
         private HttpClient _httpClient;
 
-        public ActionBenefitService(IHttpClientFactory httpClientFactory)
+        public ActionBenefitService(IHttpClientFactory httpClientFactory, IOptions<ServiceSettings> serviceSettings)
         {
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new System.Uri("http://localhost:5002");
+            _httpClient.BaseAddress = new System.Uri(serviceSettings.Value.ActionBenefitServiceUrl);
         }
         public async Task<ActionBenefit> Get(int id)
         {

@@ -1,5 +1,7 @@
 ﻿using Backend.Model.DTO;
 using Backend.Model.Pharmacies;
+using IntegrationAdapters.Settings;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,10 @@ namespace IntegrationAdapters.MicroserviceComunicator
     {
         private HttpClient _httpClient;
 
-        public TenderService(IHttpClientFactory httpClientFactory)
+        public TenderService(IHttpClientFactory httpClientFactory, IOptions<ServiceSettings> serviceSettings)
         {
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new System.Uri("http://localhost:5004");
+            _httpClient.BaseAddress = new System.Uri(serviceSettings.Value.TenderServiceUrl);
         }
         public async Task<Tender> GetTender(int tenderId)
         {

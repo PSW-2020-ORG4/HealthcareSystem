@@ -2,6 +2,7 @@ using Backend.Communication.RabbitMqConfuguration;
 using Backend.Communication.RabbitMqConnection;
 using Backend.Model;
 using Backend.Settings;
+using IAActionBenefitService.Settings;
 using IntegrationAdaptersActionBenefitService.Repository;
 using IntegrationAdaptersActionBenefitService.Service;
 using Microsoft.AspNetCore.Builder;
@@ -72,6 +73,7 @@ namespace IntegrationAdaptersActionBenefitService
                 Console.WriteLine("Not dev or test.");
             }
 
+            services.Configure<ServiceSettings>(GetServiceSettings);
             services.Configure<RabbitMqConfiguration>(GetRabbitConfig);
             services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
             services.AddSingleton<IRabbitMqActionBenefitService, RabbitMqActionBenefitService>();
@@ -80,6 +82,15 @@ namespace IntegrationAdaptersActionBenefitService
             services.AddScoped<IActionBenefitRepository, MySqlActionBenefitRepository>();
             services.AddScoped<IActionBenefitService, ActionBenefitService>();
         }
+
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.TenderServiceUrl = Configuration.GetValue<string>("TENDER_SERVICE_URL");
+            conf.ActionBenefitServiceUrl = Configuration.GetValue<string>("ACTION_BENEFIT_SERVICE_URL");
+            conf.DrugServiceUrl = Configuration.GetValue<string>("DRUG_SERVICE_URL");
+            conf.PharmacySystemServiceUrl = Configuration.GetValue<string>("PHARMACY_SYSTEM_SERVICE_URL");
+        }
+
 
         private void GetRabbitConfig(RabbitMqConfiguration conf)
         {

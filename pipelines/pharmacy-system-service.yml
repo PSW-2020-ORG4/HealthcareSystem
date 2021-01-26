@@ -4,7 +4,7 @@ pr:
 - develop
 
 variables:
-  paths: "**/IAPharmacySystemService/*"
+  paths: "**/IAPharmacySystemService/* **/Backend/*"
   project: 'HealthcareSystem/IAPharmacySystemService/IAPharmacySystemService.csproj'
   configuration: 'Release'
   sonarProjectKey: 'psw-2020-org4_IAPharmacySystemService'

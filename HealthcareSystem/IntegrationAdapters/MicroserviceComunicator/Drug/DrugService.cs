@@ -29,6 +29,8 @@ namespace IntegrationAdapters.MicroserviceComunicator
                                                                             Encoding.UTF8,
                                                                             "application/json");
             var response = await SendRequest(request);
+            if ((int)response.StatusCode == 404)
+                return false;
             if (!response.IsSuccessStatusCode)
                 NotSuccessStatusCodeHandler(response.StatusCode);
 

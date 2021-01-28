@@ -8,9 +8,13 @@ namespace IntegrationAdaptersTests.DataFactory
         {
             return new PharmacySystem()
             {
+                Id = 1,
                 Name = "Successful Pharmacy",
                 ApiKey = "successfulapikey",
-                Url = "http://successful"
+                Url = "http://successful",
+                ActionsBenefitsExchangeName = "exchange",
+                ActionsBenefitsSubscribed = false,
+                GrpcAdress = new GrpcAdress("localhost", 9090)
             };
         }
 

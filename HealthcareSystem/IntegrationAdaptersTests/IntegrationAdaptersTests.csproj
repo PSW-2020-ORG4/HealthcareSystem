@@ -18,6 +18,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Backend\Backend.csproj" />
+    <ProjectReference Include="..\IAActionBenefitService\IAActionBenefitService.csproj" />
+    <ProjectReference Include="..\IADrugService\IADrugService.csproj" />
+    <ProjectReference Include="..\IAPharmacySystemService\IAPharmacySystemService.csproj" />
+    <ProjectReference Include="..\IATenderService\IATenderService.csproj" />
     <ProjectReference Include="..\IntegrationAdapters\IntegrationAdapters.csproj" />
   </ItemGroup>
 

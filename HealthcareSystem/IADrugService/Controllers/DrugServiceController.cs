@@ -1,10 +1,13 @@
-﻿using Backend.Model.Pharmacies;
+using Backend.Model.Pharmacies;
 using Backend.Service.DrugAndTherapy;
 using IntegrationAdaptersDrugService.Service;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks;
+using Backend.Service.DrugAndTherapy;
+using IntegrationAdaptersDrugService.Service;
+using Backend.Model.Exceptions;
 
 namespace IntegrationAdaptersDrugService.Controllers
 {
@@ -32,7 +35,14 @@ namespace IntegrationAdaptersDrugService.Controllers
         [Route("addquantity")]
         public IActionResult AddQuantity([FromBody] AddDrugQuantityRequest request)
         {
-            _drugService.AddDrugQuantity(request.Code, request.Quantity);
+            try
+            {
+                _drugService.AddDrugQuantity(request.Code, request.Quantity);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound();
+            }
             return Ok();
         }
 

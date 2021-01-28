@@ -649,11 +649,20 @@ namespace GraphicalEditor
                     IsMenuOpened = false;
                     break;
                 case 4:
-                    IsMenuOpened = false;
+                    {
+                        IsMenuOpened = false;
+                        SelectedMenuOptionIndex = 0;
+                        ShowAboutAppDialog();
+                    }
                     break;
             }
         }
 
+        private void ShowAboutAppDialog()
+        {
+            AboutAppDialog aboutAppDialog = new AboutAppDialog();
+            aboutAppDialog.ShowDialog();
+        }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {

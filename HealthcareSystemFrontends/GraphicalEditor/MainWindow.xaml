@@ -904,8 +904,7 @@
                                             x:Name="ObjectSearchResultsDataGrid"
                                             Grid.Row="5"
                                             Margin="0,0,0,0"
-                                            Style="{StaticResource SidePanelDataGrid}"
-                                            Visibility="{Binding RelativeSource={RelativeSource Self}, Path=HasItems, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            Style="{StaticResource SidePanelDataGrid}">
                                             <DataGrid.Resources>
                                                 <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
                                                     <Setter Property="ToolTip">
@@ -1661,26 +1660,9 @@
                                                 Margin="0,0,10,0"
                                                 CanUserSortColumns="False"
                                                 SelectionChanged="EmergencyAppointmentSearchResultsDataGrid_SelectionChanged"
-                                                Style="{DynamicResource AlternativeEmergencyAppointmentsDataGrid}">
-
+                                                Style="{StaticResource SidePanelDataGrid}"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                 <DataGrid.Resources>
-                                                    <Style
-                                                        x:Key="AlternativeEmergencyAppointmentsDataGrid"
-                                                        BasedOn="{StaticResource SidePanelDataGrid}"
-                                                        TargetType="DataGrid">
-                                                        <Setter Property="Control.Visibility" Value="Collapsed" />
-                                                        <Style.Triggers>
-                                                            <MultiDataTrigger>
-                                                                <MultiDataTrigger.Conditions>
-                                                                    <Condition Binding="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked}" Value="true" />
-                                                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}" Value="true" />
-                                                                </MultiDataTrigger.Conditions>
-
-                                                                <Setter Property="Control.Visibility" Value="Visible" />
-                                                            </MultiDataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-
                                                     <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
                                                         <Setter Property="ToolTip">
                                                             <Setter.Value>

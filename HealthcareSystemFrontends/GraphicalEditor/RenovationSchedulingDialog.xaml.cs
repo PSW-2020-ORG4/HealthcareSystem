@@ -145,8 +145,7 @@ namespace GraphicalEditor
 
         private bool CheckIsDateTimeIntervalValid()
         {
-            if (RenovationStartDatePicker.SelectedDate == null || RenovationEndDatePicker.SelectedDate == null
-                || RenovationStartTimePicker.SelectedTime == null || RenovationEndTimePicker.SelectedTime == null)
+            if (RenovationStartDatePicker.SelectedDate == null || RenovationEndDatePicker.SelectedDate == null)
             {
                 return false;
             }

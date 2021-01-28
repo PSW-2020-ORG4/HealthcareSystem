@@ -775,8 +775,7 @@ namespace GraphicalEditor
 
         private bool CheckIsDateTimeIntervalValid()
         {
-            if (AppointmentSearchStartDatePicker.SelectedDate == null || AppointmentSearchEndDatePicker.SelectedDate == null
-                || AppointmentSearchStartTimePicker.SelectedTime == null || AppointmentSearchEndTimePicker.SelectedTime == null)
+            if (AppointmentSearchStartDatePicker.SelectedDate == null || AppointmentSearchEndDatePicker.SelectedDate == null)
             {
                 return false;
             }

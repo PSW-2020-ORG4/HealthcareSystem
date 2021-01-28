@@ -60,7 +60,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
         private void AddRestaurantToMap()
         {
             MapObject restaurant = new MapObject(
-                  new Restaurant("Restoran se nalazim izmedju Zgrade 1 i Zgrade 2."),
+                  new Restaurant("Restoran se nalazi izmedju Zgrade 1 i Zgrade 2."),
                   new MapObjectMetrics(485, 50, 200, 130),
                   new MapObjectDoor(MapObjectDoorOrientation.BOTTOM, 0, 0)
            );
@@ -533,7 +533,7 @@ namespace GraphicalEditor.Models.MapObjectRelated
                 double xOfObject = i == 0 ? startXOfDrawing : startXOfDrawing + widthOfObject * i - i * Constants.AllConstants.RECTANGLE_STROKE_THICKNESS;
 
                 MapObject parking = new MapObject(
-                    new Parking("Parking se nalazi ispred Zgrade 1, okruzen objektima kompleksa bolnice."),
+                    new Parking("Parking se nalazi ispred Zgrade 1, okružen objektima kompleksa bolnice."),
                     new MapObjectMetrics(xOfObject, 440, widthOfObject, 60),
                     new MapObjectDoor(MapObjectDoorOrientation.NONE)
                 );

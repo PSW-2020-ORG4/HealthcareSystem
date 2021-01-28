@@ -321,7 +321,8 @@
                         BorderBrush="MediumPurple"
                         DisplayDateStart="{x:Static sys:DateTime.Today}"
                         FontSize="16"
-                        Foreground="Black" />
+                        Foreground="Black"
+                        SelectedDateChanged="DatePicker_SelectedDateChanged" />
 
 
                     <!--  Renovation Start Time  -->
@@ -348,6 +349,7 @@
                         FontSize="16"
                         Foreground="Black"
                         Is24Hours="True"
+                        SelectedTimeChanged="TimePicker_SelectedTimeChanged"
                         SelectedTimeFormat="Long" />
 
                     <!--  Renovation End Date and Time  -->
@@ -375,7 +377,8 @@
                         BorderBrush="MediumPurple"
                         DisplayDateStart="{x:Static sys:DateTime.Today}"
                         FontSize="16"
-                        Foreground="Black" />
+                        Foreground="Black"
+                        SelectedDateChanged="DatePicker_SelectedDateChanged" />
 
 
                     <!--  Renovation End Time  -->
@@ -402,6 +405,7 @@
                         FontSize="16"
                         Foreground="Black"
                         Is24Hours="True"
+                        SelectedTimeChanged="TimePicker_SelectedTimeChanged"
                         SelectedTimeFormat="Long" />
 
                     <Separator

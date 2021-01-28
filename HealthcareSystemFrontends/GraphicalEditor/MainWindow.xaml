@@ -28,6 +28,7 @@
         <converters:CapitalizeStringConverter x:Key="CapitalizeStringConverter" />
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
         <converters:SelectedItemToVisibilityConverter x:Key="SelectedItemToVisibilityConverter" />
+        <converters:IsRoomTypeToVisibilityConverter x:Key="IsRoomTypeToVisibilityConverter" />
     </Window.Resources>
 
     <DockPanel>
@@ -609,7 +610,8 @@
                                                 Background="#7D80DA"
                                                 BorderBrush="{x:Null}"
                                                 Click="ShowRoomScheduleButton_Click"
-                                                FontSize="18">
+                                                FontSize="18"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 <StackPanel
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -639,7 +641,8 @@
                                                 Background="#7D80DA"
                                                 BorderBrush="{x:Null}"
                                                 Click="ShowRenovationSchedulingDialogButton_Click"
-                                                FontSize="18">
+                                                FontSize="18"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 <StackPanel
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -684,7 +687,8 @@
                                                 VerticalAlignment="Bottom"
                                                 FontSize="18"
                                                 FontWeight="Normal"
-                                                Foreground="Black">
+                                                Foreground="Black"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 Oprema u objektu:
                                             </TextBlock>
 
@@ -693,7 +697,8 @@
                                                 x:Name="ObjectEquipmentDataGrid"
                                                 Grid.Row="1"
                                                 Margin="0,0,0,0"
-                                                Style="{StaticResource SidePanelDataGrid}">
+                                                Style="{StaticResource SidePanelDataGrid}"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 <DataGrid.Resources>
                                                     <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
 
@@ -750,7 +755,8 @@
                                             <Separator
                                                 Grid.Row="2"
                                                 Margin="0,0,0,0"
-                                                Background="MediumPurple" />
+                                                Background="MediumPurple"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}" />
 
                                             <!--  OBJECT MEDICINE SECTION  -->
                                             <TextBlock
@@ -759,7 +765,8 @@
                                                 VerticalAlignment="Bottom"
                                                 FontSize="18"
                                                 FontWeight="Normal"
-                                                Foreground="Black">
+                                                Foreground="Black"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 Lekovi u objektu:
                                             </TextBlock>
 
@@ -768,7 +775,8 @@
                                                 x:Name="ObjectMedicineDataGrid"
                                                 Grid.Row="4"
                                                 Margin="0,0,0,0"
-                                                Style="{StaticResource SidePanelDataGrid}">
+                                                Style="{StaticResource SidePanelDataGrid}"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 <DataGrid.Resources>
                                                     <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
 
@@ -896,7 +904,8 @@
                                             x:Name="ObjectSearchResultsDataGrid"
                                             Grid.Row="5"
                                             Margin="0,0,0,0"
-                                            Style="{StaticResource SidePanelDataGrid}">
+                                            Style="{StaticResource SidePanelDataGrid}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Self}, Path=HasItems, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <DataGrid.Resources>
                                                 <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
                                                     <Setter Property="ToolTip">
@@ -1289,6 +1298,7 @@
                                                 DisplayDateStart="{x:Static sys:DateTime.Today}"
                                                 FontSize="16"
                                                 Foreground="Black"
+                                                SelectedDateChanged="DatePicker_SelectedDateChanged"
                                                 Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
 
 
@@ -1304,6 +1314,7 @@
                                                 FontSize="16"
                                                 Foreground="Black"
                                                 Is24Hours="True"
+                                                SelectedTimeChanged="TimePicker_SelectedTimeChanged"
                                                 SelectedTimeFormat="Long"
                                                 Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
 
@@ -1333,6 +1344,7 @@
                                                 DisplayDateStart="{x:Static sys:DateTime.Today}"
                                                 FontSize="16"
                                                 Foreground="Black"
+                                                SelectedDateChanged="DatePicker_SelectedDateChanged"
                                                 Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
 
 
@@ -1348,6 +1360,7 @@
                                                 FontSize="16"
                                                 Foreground="Black"
                                                 Is24Hours="True"
+                                                SelectedTimeChanged="TimePicker_SelectedTimeChanged"
                                                 SelectedTimeFormat="Long"
                                                 Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
 
@@ -1648,9 +1661,26 @@
                                                 Margin="0,0,10,0"
                                                 CanUserSortColumns="False"
                                                 SelectionChanged="EmergencyAppointmentSearchResultsDataGrid_SelectionChanged"
-                                                Style="{StaticResource SidePanelDataGrid}"
-                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                Style="{DynamicResource AlternativeEmergencyAppointmentsDataGrid}">
+
                                                 <DataGrid.Resources>
+                                                    <Style
+                                                        x:Key="AlternativeEmergencyAppointmentsDataGrid"
+                                                        BasedOn="{StaticResource SidePanelDataGrid}"
+                                                        TargetType="DataGrid">
+                                                        <Setter Property="Control.Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked}" Value="true" />
+                                                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=HasItems}" Value="true" />
+                                                                </MultiDataTrigger.Conditions>
+
+                                                                <Setter Property="Control.Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+
                                                     <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
                                                         <Setter Property="ToolTip">
                                                             <Setter.Value>

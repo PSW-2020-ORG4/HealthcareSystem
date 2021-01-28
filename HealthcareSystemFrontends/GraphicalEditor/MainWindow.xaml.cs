@@ -128,6 +128,7 @@ namespace GraphicalEditor
             set
             {
                 _selectedMapObject = value;
+                OnPropertyChanged("SelectedMapObject");
             }
         }
 
@@ -145,7 +146,7 @@ namespace GraphicalEditor
         }
 
         public ObservableCollection<EquipmentTypeForViewDTO> AllEquipmentTypes { get; set; }
-        
+
         public List<ExaminationDTO> ExaminationSearchResults { get; set; }
 
         public MainWindow()
@@ -165,9 +166,10 @@ namespace GraphicalEditor
             // uncomment only when you want to save the map for the first time
             saveMap();
 
-            LoadInitialMapOnCanvas();           
+            LoadInitialMapOnCanvas();
             SetDataToUIControls();
 
+            /*
             ExaminationForReschedulingDTO examinationForReschedulingDTO = new ExaminationForReschedulingDTO(new DateTime(), new DateTime(), 9);
             List<ExaminationForReschedulingDTO> examinationsForReschedunling = new List<ExaminationForReschedulingDTO>();
 
@@ -225,7 +227,7 @@ namespace GraphicalEditor
                  Console.WriteLine("else");
              }  */
         }
-        
+
 
         public MainWindow(string currentUserRole, string currentUsername)
         {
@@ -284,11 +286,11 @@ namespace GraphicalEditor
 
             EquipmentTypeService equipmentTypeService = new EquipmentTypeService();
             List<EquipmentTypeDTO> equipmentTypes = equipmentTypeService.GetEquipmentTypes();
-            if(equipmentTypes!= null)
-            foreach(EquipmentTypeDTO equipmentType in equipmentTypes)
-            {
-                AllEquipmentTypes.Add(new EquipmentTypeForViewDTO(equipmentType, false));
-            }
+            if (equipmentTypes != null)
+                foreach (EquipmentTypeDTO equipmentType in equipmentTypes)
+                {
+                    AllEquipmentTypes.Add(new EquipmentTypeForViewDTO(equipmentType, false));
+                }
         }
 
 
@@ -307,11 +309,11 @@ namespace GraphicalEditor
 
         private ICollection<int> GetFreeRoomsByAppointment(List<ExaminationDTO> freeAppointments, ExaminationDTO appointment)
         {
-           if(appointment == null)
-           {
+            if (appointment == null)
+            {
                 return new List<int>();
-           }
-    
+            }
+
             ICollection<int> freeRooms = new List<int>();
 
             foreach (var e in freeAppointments.Where(e => e.DateTime.Equals(appointment.DateTime)))
@@ -680,7 +682,7 @@ namespace GraphicalEditor
 
         public MapObject GetMapObjectById(long mapObjectId)
         {
-           return _mapObjectController.GetMapObjectById(mapObjectId);
+            return _mapObjectController.GetMapObjectById(mapObjectId);
         }
 
         public void ShowSelectedSearchResultObjectOnMap(MapObject selectedSearchResultObject)
@@ -743,18 +745,70 @@ namespace GraphicalEditor
             ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
-       
+
         private void AppointmentDoctorSpecializationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DoctorService doctorService = new DoctorService();
-           
+
             SpecialtyDTO selectedSpecialty = (SpecialtyDTO)AppointmentDoctorSpecializationComboBox.SelectedItem;
             List<DoctorDTO> doctorsWithSelectedSpecialty = doctorService.GetDoctorsBySpecialty(selectedSpecialty.Id);
             AppointmentDoctorComboBox.ItemsSource = doctorsWithSelectedSpecialty;
         }
 
+        private void ShowDateIntervalInvalidDialog()
+        {
+            string dateIntervalInvalidMessage = String.Format("Neispravan unos vremenskog intervala!{0}Gornja granica vremenskog intervala mora biti veća od donje!",
+                                                                Environment.NewLine);
+
+            InfoDialog infoDialog = new InfoDialog(dateIntervalInvalidMessage);
+            infoDialog.ShowDialog();
+        }
+
+        private bool CheckIsDateTimeIntervalValid()
+        {
+            if (AppointmentSearchStartDatePicker.SelectedDate == null || AppointmentSearchEndDatePicker.SelectedDate == null
+                || AppointmentSearchStartTimePicker.SelectedTime == null || AppointmentSearchEndTimePicker.SelectedTime == null)
+            {
+                return false;
+            }
+            else if (AppointmentSearchStartDatePicker.SelectedDate != null && AppointmentSearchEndDatePicker.SelectedDate != null)
+            {
+                if (AppointmentSearchEndDatePicker.SelectedDate < AppointmentSearchStartDatePicker.SelectedDate)
+                {
+                    ShowDateIntervalInvalidDialog();
+                    return false;
+                }
+                else if (AppointmentSearchEndDatePicker.SelectedDate == AppointmentSearchStartDatePicker.SelectedDate)
+                {
+                    if (AppointmentSearchEndTimePicker.SelectedTime <= AppointmentSearchStartTimePicker.SelectedTime)
+                    {
+                        ShowDateIntervalInvalidDialog();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CheckIsDateTimeIntervalValid();
+        }
+
+        private void TimePicker_SelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
+        {
+            CheckIsDateTimeIntervalValid();
+        }
+
+
+
         private void SearchAppointmentsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!CheckIsDateTimeIntervalValid())
+            {
+                return;
+            }
+
             DateTime startDate = AppointmentSearchStartDatePicker.SelectedDate.Value.Date;
             DateTime startTime = AppointmentSearchStartTimePicker.SelectedTime.Value;
            

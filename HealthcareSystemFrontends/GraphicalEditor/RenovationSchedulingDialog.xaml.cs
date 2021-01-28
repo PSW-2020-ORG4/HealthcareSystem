@@ -36,7 +36,7 @@ namespace GraphicalEditor
         private MapObjectServices _mapObjectService;
         private MapObjectController _mapObjectController;
 
-       
+
 
         public int InitialRoomId { get; set; }
 
@@ -95,7 +95,7 @@ namespace GraphicalEditor
         private void SetDataToSecondRoomForMergingComboBox()
         {
             MapObject initialRoomForRenovation = ((MainWindow)this.Owner).GetMapObjectById(InitialRoomId);
-            List<MapObject> potentialRoomsForMergingWithSelectedRoom= _mapObjectController.GetNeighboringRoomsForRoom(initialRoomForRenovation);
+            List<MapObject> potentialRoomsForMergingWithSelectedRoom = _mapObjectController.GetNeighboringRoomsForRoom(initialRoomForRenovation);
 
             SecondRoomForMergingComboBox.ItemsSource = potentialRoomsForMergingWithSelectedRoom;
         }
@@ -133,11 +133,59 @@ namespace GraphicalEditor
             infoDialog.ShowDialog();
         }
 
+        private void ShowDateIntervalInvalidDialog()
+        {
+            string dateIntervalInvalidMessage = String.Format("Neispravan unos vremenskog intervala!{0}Gornja granica vremenskog intervala mora biti veća od donje!",
+                                                                Environment.NewLine);
+
+            InfoDialog infoDialog = new InfoDialog(dateIntervalInvalidMessage);
+            infoDialog.ShowDialog();
+        }
+
+
+        private bool CheckIsDateTimeIntervalValid()
+        {
+            if (RenovationStartDatePicker.SelectedDate == null || RenovationEndDatePicker.SelectedDate == null
+                || RenovationStartTimePicker.SelectedTime == null || RenovationEndTimePicker.SelectedTime == null)
+            {
+                return false;
+            }
+            else if (RenovationStartDatePicker.SelectedDate != null && RenovationEndDatePicker.SelectedDate != null)
+            {
+                if (RenovationEndDatePicker.SelectedDate < RenovationStartDatePicker.SelectedDate)
+                {
+                    ShowDateIntervalInvalidDialog();
+                    return false;
+                }
+                else if (RenovationEndDatePicker.SelectedDate == RenovationStartDatePicker.SelectedDate)
+                {
+                    if(RenovationEndTimePicker.SelectedTime <= RenovationStartTimePicker.SelectedTime)
+                    {
+                        ShowDateIntervalInvalidDialog();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CheckIsDateTimeIntervalValid();
+        }
+
+        private void TimePicker_SelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
+        {
+            CheckIsDateTimeIntervalValid();
+        }
+
+
         private void DisplayAlternativeRenovationAppointmentsSection()
         {
             IsAlternativeAppointmentsSectionVisible = true;
             RenovationScrollViewer.ScrollToBottom();
         }
+
 
         private BaseRenovationDTO CreateBaseRenovationDTOFromUserInput()
         {
@@ -228,6 +276,11 @@ namespace GraphicalEditor
 
         private void ScheduleRenovationButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!CheckIsDateTimeIntervalValid())
+            {
+                return;
+            }
+
             BaseRenovationDTO baseRenovationDTO = CreateBaseRenovationDTOFromUserInput();
 
             if (AlternativeRenovationAppointmentsDataGrid.SelectedItem != null)

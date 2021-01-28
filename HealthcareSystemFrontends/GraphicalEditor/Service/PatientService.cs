@@ -21,5 +21,10 @@ namespace GraphicalEditor.Service
             IRestResponse responseCreatePatientGuestAccount = AddHTTPPostRequest("patient", guestPatientDTO);
             return responseCreatePatientGuestAccount.Content;
         }
+
+        public PatientBasicDTO GetPatientByPatientCardId(int patientCardId)
+        {
+            return (PatientBasicDTO)HTTPGetSingleItemRequest<PatientBasicDTO>("patient/patientByPatientCardId/" + patientCardId);
+        }
     }
 }

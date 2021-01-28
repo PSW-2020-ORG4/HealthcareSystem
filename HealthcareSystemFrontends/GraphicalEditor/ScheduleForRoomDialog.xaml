@@ -55,12 +55,12 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             FontSize="18"
-            Text="Raspored zakazanih akcija za sobu"
+            Text="{Binding RoomId, StringFormat='Raspored zakazanih akcija za sobu br. {0}'}"
             TextWrapping="Wrap" />
 
         <!--  SCHEDULED ACTIONS DATA GRID  -->
         <DataGrid
-            x:Name="EmergencyAppointmentSearchResultsDataGrid"
+            x:Name="RoomScheduledActionsDataGrid"
             Grid.Row="1"
             Grid.ColumnSpan="3"
             Margin="20,20,20,0"
@@ -79,7 +79,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Width="*"
-                    Binding="{Binding DateTimeFrom, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
+                    Binding="{Binding ScheduleTime, StringFormat='{}{0:dd/MM/yy}  {0:HH:mm}'}"
                     Header="Termin">
 
                     <DataGridTextColumn.ElementStyle>
@@ -93,7 +93,7 @@
 
                 <DataGridTextColumn
                     Width="*"
-                    Binding="{Binding RoomId}"
+                    Binding="{Binding ScheduleType}"
                     Header="Tip" />
 
                 <!--  Show Details Button  -->
@@ -108,7 +108,7 @@
                                 BorderBrush="{x:Null}"
                                 Click="ShowDetailsForScheduledActionButton_Click"
                                 FontSize="16"
-                                ToolTip="Prikaži detalje o ovoj akciji">
+                                ToolTip="Prikaži detaljnije informacije o ovoj akciji">
                                 <StackPanel
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"

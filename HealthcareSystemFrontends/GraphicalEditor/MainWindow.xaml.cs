@@ -169,6 +169,7 @@ namespace GraphicalEditor
             LoadInitialMapOnCanvas();
             SetDataToUIControls();
 
+
             /*
             ExaminationForReschedulingDTO examinationForReschedulingDTO = new ExaminationForReschedulingDTO(new DateTime(), new DateTime(), 9);
             List<ExaminationForReschedulingDTO> examinationsForReschedunling = new List<ExaminationForReschedulingDTO>();
@@ -252,8 +253,6 @@ namespace GraphicalEditor
             RestrictUsersAccessBasedOnRole();
 
             SetDataToUIControls();
-
-            Console.WriteLine("Korisnicko ime " + _currentUsername);
         }
 
         public void SetDataToUIControls()
@@ -1043,7 +1042,7 @@ namespace GraphicalEditor
 
         private void ShowRoomScheduleButton_Click(object sender, RoutedEventArgs e)
         {
-            ScheduleForRoomDialog scheduleForRoomDialog = new ScheduleForRoomDialog();
+            ScheduleForRoomDialog scheduleForRoomDialog = new ScheduleForRoomDialog((int)SelectedMapObject.MapObjectEntity.Id);
             scheduleForRoomDialog.ShowDialog();
         }
 

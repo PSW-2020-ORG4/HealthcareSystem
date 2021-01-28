@@ -9,17 +9,17 @@ namespace GraphicalEditorServer.Mappers
     {
         public static RoomSchedulesDTO Examination_To_RoomSchedulesDTO(Examination examination)
         {
-            return new RoomSchedulesDTO(examination.DateAndTime, ScheduleType.Appointment);
+            return new RoomSchedulesDTO(examination.DateAndTime, ScheduleType.Appointment, examination.Id);
         }
 
         public static RoomSchedulesDTO EquipmentTransfer_To_RoomSchedulesDTO(EquipmentTransfer equipmentTransfer)
         {
-            return new RoomSchedulesDTO(equipmentTransfer.DateAndTimeOfTransfer, ScheduleType.EquipmentTransfer);
+            return new RoomSchedulesDTO(equipmentTransfer.DateAndTimeOfTransfer, ScheduleType.EquipmentTransfer, equipmentTransfer.Id);
         }
 
         public static RoomSchedulesDTO Renovation_To_RoomSchedulesDTO(BaseRenovation renovation)
         {
-            return new RoomSchedulesDTO(renovation.RenovationPeriod.BeginDate, ScheduleType.Renovation);
+            return new RoomSchedulesDTO(renovation.RenovationPeriod.BeginDate, ScheduleType.Renovation, renovation.Id);
         }
     }
 }

@@ -5,6 +5,8 @@ using Backend.Service.ExaminationAndPatientCard;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Backend.Model.Exceptions;
+using System.Collections.Generic;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,6 +33,23 @@ namespace GraphicalEditorServer.Controllers
             _examinationService = examinationService;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetExaminationById(int id)
+        {
+            try
+            {
+                Examination examination = _examinationService.GetExaminationById(id);
+                return Ok(ExaminationMapper.Examination_To_ExaminationDTO(examination));
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }
 
 
         [HttpPost("schedule/")]

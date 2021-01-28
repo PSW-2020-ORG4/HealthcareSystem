@@ -7,6 +7,11 @@ namespace GraphicalEditor.Service
 {
     public class AppointmentService : GenericHTTPService
     {
+        public ExaminationDTO GetExaminationById(int examinationId)
+        {
+            return (ExaminationDTO)HTTPGetSingleItemRequest<ExaminationDTO>("appointment/" + examinationId);
+        }
+
         public string AddExamination(ExaminationDTO examinationDTO, List<int> equipmentInExaminationIds)
         {
             List<EquipmentInExaminationDTO> equipmentInExaminationDTOs = new List<EquipmentInExaminationDTO>();

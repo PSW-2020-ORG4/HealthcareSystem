@@ -28,6 +28,19 @@ namespace GraphicalEditorServer.Controllers
             _serviceSettings = serviceSettings.Value;
         }
 
+        [HttpGet("patientByPatientCardId/{patientCardId}")]
+        public ActionResult GetPatientByPatientCardId(int patientCardId)
+        {
+            try
+            {
+                Patient patient = _patientService.GetPatientByPatientCardId(patientCardId);
+                return Ok(PatientMapper.PatientToPatientBasicDTO(patient));
+            }
+            catch (NotFoundException exception)
+            {
+                return NotFound(exception.Message);
+            }
+        }
 
         [HttpGet]
         public ActionResult GetAllPatients()

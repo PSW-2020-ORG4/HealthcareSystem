@@ -1,4 +1,5 @@
-﻿using Backend.Model.Manager;
+﻿using Backend.Model.Exceptions;
+using Backend.Model.Manager;
 using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
@@ -38,10 +39,23 @@ namespace GraphicalEditorServer.Controllers
             return Ok(equipmentTypesDTO);
         }
 
+
         [HttpGet("{id}")]
-        public EquipmentType GetEquipmentType(int id)
+        public IActionResult GetEquipmentTypeById(int id)
         {
-            return _equipmentTypeService.GetEquipmentTypeById(id);
+            try
+            {
+                EquipmentType equipmentType = _equipmentTypeService.GetEquipmentTypeById(id);
+                return Ok(EquipmentTypesMapper.EquipmentType_To_EquipmentTypeDTO(equipmentType));
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
         }
     }
 }

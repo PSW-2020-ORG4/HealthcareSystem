@@ -2,10 +2,13 @@
 using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
+using Backend.Model.DTO;
+using Backend.Model.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Model.Manager;
 using System;
 using System.Collections.Generic;
+
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -99,6 +102,25 @@ namespace GraphicalEditorServer.Controllers
             _equipmentTransferService.DeleteEquipmentTransfer(id);
             return Ok();
         }
+
+        /*
+        [HttpGet("equipmentTransfer/{id}")]
+        public IActionResult GetEquipmentTransferById(int id)
+        {
+            try
+            {
+                EquipmentTransfer equipmentTransfer = _equipmentTransferService.GetEquipmentTransferById(id);
+                return Ok(EquipmentTransferMapper.EquipmentType_To_EquipmentTypeDTO(equipmentTransfer));
+            }
+            catch (DatabaseException e)
+            {
+                return StatusCode(500, e.Message);
+            }
+            catch (NotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+        }*/
 
     }
 

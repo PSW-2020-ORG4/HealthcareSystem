@@ -15,5 +15,10 @@ namespace GraphicalEditor.Service
         {
             return (List<RoomDTO>)HTTPGetRequest<RoomDTO>("room");
         }
+
+        public List<RoomSchedulesDTO> GetRoomSchedules(int roomId)
+        {
+            return (List<RoomSchedulesDTO>)HTTPGetRequest<RoomSchedulesDTO>("room/roomSchedule/" + roomId);
+        }
     }
 }

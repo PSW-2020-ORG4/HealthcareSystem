@@ -116,5 +116,29 @@ namespace Backend.Repository
 
             return patient;
         }
+
+        public Patient GetPatientByPatientCardId(int patientCardId)
+        {
+            Patient patient;
+            try
+            {
+                patient = _context.Patients.Where(p => p.PatientCard.Id == patientCardId).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                throw new DatabaseException("The database connection is down.");
+            }
+
+            if (patient == null)
+                throw new NotFoundException("Patient doesn't exist in database.");
+
+            if (patient.IsBlocked)
+                throw new BadRequestException("Patient is blocked.");
+
+            if (!patient.IsActive)
+                throw new BadRequestException("Patient didn't activate account.");
+
+            return patient;
+        }
     }
 }

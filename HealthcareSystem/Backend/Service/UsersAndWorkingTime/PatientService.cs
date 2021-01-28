@@ -103,5 +103,10 @@ namespace Backend.Service
         {
             return _activePatientRepository.GetPatientByUsernameAndPassword(username, password);
         }
+
+        public Patient GetPatientByPatientCardId(int patientCardId)
+        {
+            return _activePatientRepository.GetPatientByPatientCardId(patientCardId);
+        }
     }
 }

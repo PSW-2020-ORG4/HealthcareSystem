@@ -16,5 +16,10 @@ namespace GraphicalEditor.Service
         {
             return (List<EquipmentTypeDTO>)HTTPGetRequest<EquipmentTypeDTO>("equipmentType");
         }
+
+        public EquipmentTypeDTO GetExaminationById(int equipmentTypeId)
+        {
+            return (EquipmentTypeDTO)HTTPGetSingleItemRequest<EquipmentTypeDTO>("equipmentType/" + equipmentTypeId);
+        }
     }
 }

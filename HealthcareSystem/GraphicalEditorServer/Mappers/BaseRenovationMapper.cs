@@ -15,5 +15,17 @@ namespace GraphicalEditorServer.Mappers
             baseRenovation.TypeOfRenovation = baseRenovationDTO.TypeOfRenovation;
             return baseRenovation;
         }
+
+        public static BaseRenovationDTO BaseRenovationToBaseRenovationDTO(BaseRenovation baseRenovation)
+        {
+            BaseRenovationDTO baseRenovationDTO = new BaseRenovationDTO();
+            baseRenovationDTO.RoomId = baseRenovation.RoomId;
+            baseRenovationDTO.StartTime = baseRenovation.RenovationPeriod.BeginDate;
+            baseRenovationDTO.EndTime = baseRenovation.RenovationPeriod.EndDate;
+            baseRenovation.TypeOfRenovation = baseRenovation.TypeOfRenovation;
+            baseRenovation.Description = baseRenovation.Description;
+
+            return baseRenovationDTO;
+        }
     }
 }

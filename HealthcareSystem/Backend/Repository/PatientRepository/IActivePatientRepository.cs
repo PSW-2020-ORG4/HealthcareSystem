@@ -13,5 +13,6 @@ namespace Backend.Repository
         Patient CheckUsernameAndPassword(string username, string password);
         int GetNumberOfCanceledExaminations(string jmbg);
         public Patient GetPatientByUsernameAndPassword(string username, string password);
+        public Patient GetPatientByPatientCardId(int patientCardId);
     }
 }

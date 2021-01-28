@@ -29,7 +29,7 @@ namespace GraphicalEditor
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private RenovatonService _renovatonService;
+        private RenovationService _renovatonService;
         private bool _isAlternativeAppointmentsSectionVisible;
 
         private IRepository _fileRepository;
@@ -69,7 +69,7 @@ namespace GraphicalEditor
             InitializeComponent();
             DataContext = this;
 
-            _renovatonService = new RenovatonService();
+            _renovatonService = new RenovationService();
             _mapObjectController = new MapObjectController(new MapObjectServices(_fileRepository));
 
             InitialRoomId = roomId;

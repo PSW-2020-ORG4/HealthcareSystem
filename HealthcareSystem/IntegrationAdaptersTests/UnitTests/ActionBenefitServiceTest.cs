@@ -1,8 +1,8 @@
 using Backend.Model;
 using Backend.Model.Exceptions;
 using Backend.Model.Pharmacies;
-using Backend.Repository;
-using Backend.Service;
+using IntegrationAdaptersActionBenefitService.Repository;
+using IntegrationAdaptersActionBenefitService.Service;
 using Moq;
 using Xunit;
 

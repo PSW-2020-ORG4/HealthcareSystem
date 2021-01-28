@@ -12,7 +12,7 @@ namespace Backend.Model.DTO
         public DateTime EarliestDateTime { get; set; }
         public DateTime LatestDateTime { get; set; }
 
-        public BasicAppointmentSearchDTO() {}
+        public BasicAppointmentSearchDTO() { }
 
         public BasicAppointmentSearchDTO(int patientCardId, string doctorJmbg, ICollection<int> requiredEquipmentTypes, DateTime earliestDateTime, DateTime latestDateTime)
         {
@@ -20,7 +20,7 @@ namespace Backend.Model.DTO
             DoctorJmbg = doctorJmbg;
             RequiredEquipmentTypes = requiredEquipmentTypes;
             EarliestDateTime = earliestDateTime;
-            LatestDateTime = latestDateTime;            
+            LatestDateTime = latestDateTime;
         }
 
         public void IsAppointmentValid()

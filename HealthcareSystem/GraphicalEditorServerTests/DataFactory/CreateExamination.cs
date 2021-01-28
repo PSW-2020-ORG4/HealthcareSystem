@@ -2,12 +2,10 @@
 using Backend.Model.Enums;
 using Backend.Model.PerformingExamination;
 using Backend.Model.Users;
-using Model.Enums;
 using Model.Manager;
 using Model.Users;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {

@@ -215,6 +215,18 @@ namespace GraphicalEditor.Models.MapObjectRelated
             }
         }
 
+        public static List<TypeOfMapObject> AllRoomTypes()
+        {
+            List<TypeOfMapObject> roomObjectTypes = new List<TypeOfMapObject>();
+
+            roomObjectTypes.Add(TypeOfMapObject.EXAMINATION_ROOM);
+            roomObjectTypes.Add(TypeOfMapObject.OPERATION_ROOM);
+            roomObjectTypes.Add(TypeOfMapObject.HOSPITALIZATION_ROOM);
+
+            return roomObjectTypes;
+        }
+
+
         public void SetStrokeColorAndThickness(Rectangle rectangle)
         {
             if (TypeOfMapObject != TypeOfMapObject.ROAD)

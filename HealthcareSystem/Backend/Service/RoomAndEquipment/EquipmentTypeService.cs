@@ -1,8 +1,6 @@
 ﻿using Backend.Model.Manager;
 using Backend.Repository;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Backend.Service.RoomAndEquipment
 {
@@ -22,7 +20,7 @@ namespace Backend.Service.RoomAndEquipment
 
         public void DeleteEquipmentType(int id)
         {
-             _equipmentTypeRepository.DeleteEquipmentType(id);
+            _equipmentTypeRepository.DeleteEquipmentType(id);
         }
 
         public EquipmentType UpdateEquipmentType(EquipmentType equipmentType)

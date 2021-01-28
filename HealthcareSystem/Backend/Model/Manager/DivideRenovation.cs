@@ -1,9 +1,5 @@
 ﻿using Backend.Model.Enums;
 using Model.Manager;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Backend.Model.Manager
 {
@@ -18,9 +14,9 @@ namespace Backend.Model.Manager
         {
         }
 
-        public DivideRenovation(RenovationPeriod renovationPeriod, string description,TypeOfRenovation typeOfRenovation,
+        public DivideRenovation(RenovationPeriod renovationPeriod, string description, TypeOfRenovation typeOfRenovation,
             int divideRoomId, string firstRoomDescription, string secondRoomDescription, TypeOfUsage firstRoomType, TypeOfUsage secondRoomType)
-            :base(divideRoomId,renovationPeriod,description,typeOfRenovation)
+            : base(divideRoomId, renovationPeriod, description, typeOfRenovation)
         {
             FirstRoomDescription = firstRoomDescription;
             SecondRoomDescription = secondRoomDescription;

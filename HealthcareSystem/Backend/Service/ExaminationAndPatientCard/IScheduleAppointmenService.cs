@@ -6,6 +6,6 @@ namespace Backend.Service.ExaminationAndPatientCard
     {
         int ScheduleAnAppointmentByDoctor(Examination scheduleExamination);
         void ReScheduleAppointment(Examination examinationForSchedule, Examination examinationForReschedule, Examination shiftedExamination);
-        Examination GetExaminationById(int id); 
+        Examination GetExaminationById(int id);
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.Exceptions;
+﻿using Backend.Model.Exceptions;
 using Backend.Service.DrugAndTherapy;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Model.Manager;
+using System.Collections.Generic;
 
 namespace GraphicalEditorServer.Controllers
 {

@@ -15,6 +15,6 @@ namespace Backend.Model.Pharmacies
         public int TenderId { get; set; }
         public virtual Tender Tender { get; set; }
         public bool IsAccepted { get; set; } = false;
-        
+
     }
 }

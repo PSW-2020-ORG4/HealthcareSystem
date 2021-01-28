@@ -1,13 +1,8 @@
 ﻿using Backend.Model;
 using Backend.Model.Enums;
-using Backend.Model.Manager;
-using Backend.Repository.EquipmentInRoomsRepository;
 using Model.Manager;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Repository.RoomRepository.MySqlRoomRepository
 {
@@ -29,7 +24,7 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
 
         public List<Room> GetAllRooms()
         {
-            return _context.Rooms.ToList();
+            return _context.Rooms.Where(d => !d.Renovation).ToList();
         }
 
         public int getLastId()
@@ -45,13 +40,14 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
 
         public List<Room> GetRoomsByUsage(TypeOfUsage usage)
         {
-            return _context.Rooms.Where(d => d.Usage == usage).ToList();
+            return _context.Rooms.Where(d => d.Usage == usage && !d.Renovation).ToList();
         }
 
-        public void AddRoom(Room room)
+        public Room AddRoom(Room room)
         {
             _context.Rooms.Add(room);
             _context.SaveChanges();
+            return (Room)_context.Rooms.SingleOrDefault(r => r.Id == room.Id);
         }
 
         public void UpdateRoom(Room room)
@@ -64,7 +60,8 @@ namespace Backend.Repository.RoomRepository.MySqlRoomRepository
         {
             if (_context.Rooms.Find(roomId) == null)
                 return false;
-
+            if (_context.Rooms.Find(roomId).Renovation)
+                return false;
             return true;
         }
     }

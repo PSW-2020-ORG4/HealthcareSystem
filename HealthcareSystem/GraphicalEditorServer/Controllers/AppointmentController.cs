@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.DTO;
+﻿using Backend.Model.DTO;
 using Backend.Model.PerformingExamination;
-using Backend.Model.Enums;
 using Backend.Service;
 using Backend.Service.ExaminationAndPatientCard;
-using GraphicalEditor.DTO;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -25,8 +20,8 @@ namespace GraphicalEditorServer.Controllers
         private readonly IExaminationService _examinationService;
 
         public AppointmentController(
-            IFreeAppointmentSearchService freeAppointmentSearchService, 
-            IScheduleAppointmenService scheduleAppintmentService, 
+            IFreeAppointmentSearchService freeAppointmentSearchService,
+            IScheduleAppointmenService scheduleAppintmentService,
             IDoctorService doctorService,
             IExaminationService examinationService)
         {
@@ -46,6 +41,13 @@ namespace GraphicalEditorServer.Controllers
             return Ok(idExamination);
         }
 
+        [HttpDelete("deleteById/{id}")]
+        public ActionResult DeleteExamination(int id)
+        {
+            _examinationService.CancelExamination(id);
+            return Ok();
+        }
+
         [HttpPost("reschedule/")]
         public ActionResult ReScheduleAppointment([FromBody] RescheduleExaminationDTO rescheduleExaminationDTO)
         {
@@ -60,11 +62,11 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost]
         public ActionResult GetFreeAppointments(AppointmentSearchWithPrioritiesDTO appointmentDTO)
         {
-            List<Examination> examinations = (List<Examination>) _freeAppointmentSearchService.SearchWithPriorities(appointmentDTO);
+            List<Examination> examinations = (List<Examination>)_freeAppointmentSearchService.SearchWithPriorities(appointmentDTO);
             examinations.ForEach(e => e.Doctor = _doctorService.GetDoctorByJmbg(e.DoctorJmbg));
             List<ExaminationDTO> allExaminations = new List<ExaminationDTO>();
-            examinations.ForEach(e => allExaminations.Add(ExaminationMapper.Examination_To_ExaminationDTO(e))); 
-            
+            examinations.ForEach(e => allExaminations.Add(ExaminationMapper.Examination_To_ExaminationDTO(e)));
+
             return Ok(allExaminations);
         }
 
@@ -73,11 +75,11 @@ namespace GraphicalEditorServer.Controllers
         {
             _freeAppointmentSearchService.SetNewDateTimesForEmergency(parameters.InitialParameters);
             List<Examination> unchangedExaminations = (List<Examination>)_freeAppointmentSearchService.GetUnchangedAppointmentsForEmergency(parameters);
-            if(unchangedExaminations.Count != 0)
+            if (unchangedExaminations.Count != 0)
             {
-                List<EmergencyExaminationDTO> sortedAndAlignedExamination = 
+                List<EmergencyExaminationDTO> sortedAndAlignedExamination =
                     GetSortedAndAlignedExaminations(
-                        new List<Examination>() { unchangedExaminations[0] }, 
+                        new List<Examination>() { unchangedExaminations[0] },
                         new List<Examination>() { unchangedExaminations[0] }
                     );
 
@@ -104,6 +106,6 @@ namespace GraphicalEditorServer.Controllers
 
             return sortedExaminations;
         }
-        
+
     }
 }

@@ -11,7 +11,6 @@ using Backend.Repository;
 using Backend.Repository.EquipmentInRoomsRepository;
 using Backend.Repository.RenovationPeriodRepository;
 using Backend.Repository.RoomRepository;
-using Backend.Service;
 using Model.Manager;
 using System;
 using System.Collections.Generic;

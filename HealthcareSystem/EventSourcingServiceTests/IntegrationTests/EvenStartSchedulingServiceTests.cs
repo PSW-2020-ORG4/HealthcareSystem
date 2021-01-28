@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EventSourcingService.DTO;
+﻿using EventSourcingService.DTO;
 using EventSourcingService.Model;
 using EventSourcingService.Model.Enum;
 using EventSourcingService.Repository;
 using EventSourcingService.Service;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace EventSourcingServiceTests.IntegrationTests
@@ -33,7 +32,7 @@ namespace EventSourcingServiceTests.IntegrationTests
         public void SuccessAddNewStartEvent()
         {
             EventStorePatientStartSchedulingService eventStartService = SetupEventStartService();
-            PatientStartSchedulingEvent startEvent = eventStartService.Add(new PatientStartSchedulingEventDTO() { TriggerTime = DateTime.Now, UserAge = 35, UserGender = Gender.Female});
+            PatientStartSchedulingEvent startEvent = eventStartService.Add(new PatientStartSchedulingEventDTO() { TriggerTime = DateTime.Now, UserAge = 35, UserGender = Gender.Female });
 
             Assert.True(eventStartService.Contain(startEvent.Id));
         }

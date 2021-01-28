@@ -1,9 +1,5 @@
-﻿using System;
+﻿using UserService.CustomException;
 using UserService.Model.Memento;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using UserService.CustomException;
 
 namespace UserService.Model
 {
@@ -42,7 +38,7 @@ namespace UserService.Model
 
         private void Validate()
         {
-            if (string.IsNullOrWhiteSpace(Name)) 
+            if (string.IsNullOrWhiteSpace(Name))
                 throw new ValidationException("Specialty name cannot be empty.");
         }
     }

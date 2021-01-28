@@ -11,12 +11,8 @@ using Backend.Repository.RenovationPeriodRepository.MySqlRenovationPeriodReposit
 using Backend.Repository.RoomRepository.MySqlRoomRepository;
 using Backend.Service.ExaminationAndPatientCard;
 using Backend.Service.RoomAndEquipment;
-using Model.PerformingExamination;
-using Repository;
-using Service.RoomAndEquipment;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace GraphicalEditorServerTests.IntegrationTests
@@ -38,7 +34,7 @@ namespace GraphicalEditorServerTests.IntegrationTests
             var equipmentInExaminationService = new EquipmentInExaminationService(new MySqlEquipmentInExaminationRepository(context));
             var equipmentTransferRepository = new MySqlEquipmentTransferRepostory(context);
             var roomService = new RoomService(roomRepo, renovationPeriodRepo, equipmentInRoomRepo, equipmentRepo);
-            return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo, equipmentInExaminationService,equipmentTransferRepository);
+            return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo, equipmentInExaminationService, equipmentTransferRepository);
         }
 
         private FreeAppointmentSearchService SetupRepositoriesAndServicesForUnshifted()
@@ -59,20 +55,20 @@ namespace GraphicalEditorServerTests.IntegrationTests
             return new FreeAppointmentSearchService(roomService, examinationRepo, doctorRepo, patientCardRepo, equipmentInExaminationService, equipmentTransferRepository);
         }
 
-        [Fact] 
+        [Fact]
         public void Expected_free_appointment_for_emergency_without_shifting_appointments()
         {
             FreeAppointmentSearchService freeAppointmentService = SetupRepositoriesAndServices();
             List<Examination> freeAppointmentsForEmergency = (List<Examination>)freeAppointmentService.GetUnchangedAppointmentsForEmergency(
                 new AppointmentSearchWithPrioritiesDTO(
                     new BasicAppointmentSearchDTO(
-                        patientCardId: 1, 
-                        doctorJmbg: "0909965768767", 
+                        patientCardId: 1,
+                        doctorJmbg: "0909965768767",
                         requiredEquipmentTypes: new List<int>(),
                         earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.AddDays(2).Day, 7, 0, 0, DateTimeKind.Utc),
                         latestDateTime: new DateTime()),
                     SearchPriority.Date, 1));
-            
+
             Assert.Equal(16, freeAppointmentsForEmergency.Count);
         }
 

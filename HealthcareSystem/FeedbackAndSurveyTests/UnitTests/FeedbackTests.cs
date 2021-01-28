@@ -1,9 +1,7 @@
 ﻿using FeedbackAndSurveyService.CustomException;
 using FeedbackAndSurveyService.FeedbackService.Model;
 using FeedbackAndSurveyService.FeedbackService.Model.Memento;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace FeedbackAndSurveyTests.UnitTests
@@ -12,7 +10,7 @@ namespace FeedbackAndSurveyTests.UnitTests
     {
         [Theory]
         [MemberData(nameof(Data))]
-        public void Validation( string comment, bool isPublished, bool isAllowedToPublish, bool valid)
+        public void Validation(string comment, bool isPublished, bool isAllowedToPublish, bool valid)
         {
             if (valid)
                 new Feedback(new FeedbackMemento()

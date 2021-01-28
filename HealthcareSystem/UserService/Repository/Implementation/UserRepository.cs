@@ -1,11 +1,8 @@
 ﻿using Backend.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UserService.CustomException;
 using UserService.Model;
-using UserService.Model.Memento;
 
 namespace UserService.Repository.Implementation
 {

@@ -1,11 +1,5 @@
-﻿using Backend.Model.Manager;
-using Model.Manager;
-using Model.Users;
-using System;
+﻿using Model.Manager;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Service.DrugAndTherapy
 {
@@ -21,7 +15,7 @@ namespace Backend.Service.DrugAndTherapy
         void DeleteUnconfirmedDrug(int id);
         List<Drug> ViewUnconfirmedDrugs();
         void AddDrug(Drug drug);
- 	    public List<Drug> GetDrugsByRoomNumber(int roomNumber);
+        public List<Drug> GetDrugsByRoomNumber(int roomNumber);
         void AddConfirmedDrug(Drug drug);
         List<Drug> GetDrugWithRoomForSearchTerm(string searchTerm);
         void AddDrugQuantity(string code, int quantity);

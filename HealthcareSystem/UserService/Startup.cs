@@ -12,7 +12,6 @@ using UserService.ActionsBenefits;
 using UserService.Repository;
 using UserService.Repository.Implementation;
 using UserService.Service;
-using UserService.Service.Implementation;
 
 namespace UserService
 {

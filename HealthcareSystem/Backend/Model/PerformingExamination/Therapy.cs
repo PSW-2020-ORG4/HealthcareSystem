@@ -12,21 +12,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Model.PerformingExamination
 {
     public class Therapy
-   {
-      [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-      public int Id { get; set; }
-      public string Diagnosis { get; set; }
-      public DateTime StartDate { get; set; }
-      public DateTime EndDate { get; set; }
-      public int DailyDose { get; set; }
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string Diagnosis { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public int DailyDose { get; set; }
 
-      [ForeignKey("Drug")]
-      public int IdDrug { get; set; }
-      public virtual Drug Drug { get; set; }
+        [ForeignKey("Drug")]
+        public int IdDrug { get; set; }
+        public virtual Drug Drug { get; set; }
 
-      [ForeignKey("Examination")]
-      public int IdExamination { get; set; }
-      public virtual Examination Examination { get; set; }
+        [ForeignKey("Examination")]
+        public int IdExamination { get; set; }
+        public virtual Examination Examination { get; set; }
 
         public Therapy() { }
 

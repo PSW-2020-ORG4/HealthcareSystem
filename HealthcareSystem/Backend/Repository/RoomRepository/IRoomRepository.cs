@@ -1,10 +1,6 @@
 ﻿using Backend.Model.Enums;
 using Model.Manager;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Repository.RoomRepository
 {
@@ -16,7 +12,7 @@ namespace Backend.Repository.RoomRepository
         List<Room> GetAllRooms();
         void UpdateRoom(Room room);
         void DeleteRoom(int number);
-        void AddRoom(Room room);
+        Room AddRoom(Room room);
         bool CheckIfRoomExists(int roomId);
     }
 }

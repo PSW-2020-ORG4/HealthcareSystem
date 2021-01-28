@@ -4,18 +4,16 @@
  * Purpose: Definition of the Class Model.Users.TypeOfQualifications
  ***********************************************************************/
 
-using System;
-
 namespace Model.Users
 {
-   public enum TypeOfQualifications
-   {
-      PRIMARY_SCHOOL = 0,
-      SECONDARY_SCHOOL = 1,
-      HIGHER_SCHOOL = 2,
-      UNIVERSITY = 3,
-      MAGISTRACY = 4,
-      DOCTORATE = 5
-   
-   }
+    public enum TypeOfQualifications
+    {
+        PRIMARY_SCHOOL = 0,
+        SECONDARY_SCHOOL = 1,
+        HIGHER_SCHOOL = 2,
+        UNIVERSITY = 3,
+        MAGISTRACY = 4,
+        DOCTORATE = 5
+
+    }
 }

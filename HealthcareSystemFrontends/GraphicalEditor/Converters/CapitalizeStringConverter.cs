@@ -13,6 +13,8 @@ namespace GraphicalEditor.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             String text = value.ToString();
+            text = text.Replace("_", " ");
+
             Console.WriteLine(text.GetType() == typeof(String));
 
             if (String.IsNullOrEmpty(text))

@@ -1,16 +1,13 @@
-﻿using Backend.Model.DTO;
-using Backend.Model.PerformingExamination;
+﻿using Backend.Model.PerformingExamination;
 using Backend.Repository.ExaminationRepository;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Backend.Service.ExaminationAndPatientCard
 {
     public class ScheduleAppointmentService : IScheduleAppointmenService
     {
         private readonly IExaminationRepository _examinationRepository;
-        public ScheduleAppointmentService(IExaminationRepository examinationRepository) {
+        public ScheduleAppointmentService(IExaminationRepository examinationRepository)
+        {
             _examinationRepository = examinationRepository;
         }
 

@@ -10,8 +10,6 @@ using Backend.Repository.DrugInRoomRepository;
 using Backend.Repository.DrugRepository;
 using Backend.Service.DrugAndTherapy;
 using Model.Manager;
-using Repository;
-using System;
 using System.Collections.Generic;
 
 namespace Service.DrugAndTherapy
@@ -20,13 +18,13 @@ namespace Service.DrugAndTherapy
     {
         private IConfirmedDrugRepository _confirmedDrugRepository;
         private IUnconfirmedDrugRepository _unconfirmedDrugRepository;
-	    private IDrugInRoomRepository _drugInRoomRepository;
+        private IDrugInRoomRepository _drugInRoomRepository;
 
-        public DrugService(IConfirmedDrugRepository confirmedDrugRepository, IUnconfirmedDrugRepository unconfirmedDrugRepository,IDrugInRoomRepository drugInRoomRepository)
+        public DrugService(IConfirmedDrugRepository confirmedDrugRepository, IUnconfirmedDrugRepository unconfirmedDrugRepository, IDrugInRoomRepository drugInRoomRepository)
         {
             _confirmedDrugRepository = confirmedDrugRepository;
             _unconfirmedDrugRepository = unconfirmedDrugRepository;
-	        _drugInRoomRepository = drugInRoomRepository;
+            _drugInRoomRepository = drugInRoomRepository;
         }
 
         public int getLastIdConfirmed()
@@ -122,8 +120,8 @@ namespace Service.DrugAndTherapy
             // TODO: implement
             _unconfirmedDrugRepository.AddDrug(drug);
         }
-	
-	    public void AddConfirmedDrug(Drug drug)
+
+        public void AddConfirmedDrug(Drug drug)
         {
 
             _confirmedDrugRepository.AddDrug(drug);

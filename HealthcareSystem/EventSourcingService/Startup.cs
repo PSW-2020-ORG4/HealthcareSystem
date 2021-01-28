@@ -1,23 +1,18 @@
+using EventSourcingService.Model;
+using EventSourcingService.Model.GraphicalEditor;
+using EventSourcingService.Repository;
+using EventSourcingService.Service;
+using EventSourcingService.Service.GraphicalEditor;
+using EventSourcingService.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EventSourcingService.Model;
-using EventSourcingService.Repository;
-using EventSourcingService.Service;
-using EventSourcingService.Settings;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
-using EventSourcingService.Service.GraphicalEditor;
-using EventSourcingService.Model.GraphicalEditor;
 
 namespace EventSourcingService
 {
@@ -89,7 +84,7 @@ namespace EventSourcingService
 
             services.AddScoped<IDomainEventRepository<PatientEndSchedulingEvent>, DomainEventRepository<PatientEndSchedulingEvent>>();
             services.AddScoped<IEventStorePatientEndSchedulingService, EventStorePatientEndSchedulingService>();
-            
+
             services.AddScoped<IRoomSelectionService, RoomSelectionService>();
             services.AddScoped<IDomainEventRepository<RoomSelectionEvent>, DomainEventRepository<RoomSelectionEvent>>();
 

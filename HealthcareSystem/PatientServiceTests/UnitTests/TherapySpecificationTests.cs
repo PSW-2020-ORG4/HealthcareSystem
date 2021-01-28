@@ -4,7 +4,6 @@ using PatientService.Model.Specification;
 using PatientService.Model.TherapySpecification;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace PatientServiceTests.UnitTests

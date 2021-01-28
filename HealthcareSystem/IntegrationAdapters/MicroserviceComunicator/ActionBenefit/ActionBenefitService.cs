@@ -1,4 +1,6 @@
 ﻿using Backend.Model;
+using IntegrationAdapters.Settings;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,10 +15,10 @@ namespace IntegrationAdapters.MicroserviceComunicator
     {
         private HttpClient _httpClient;
 
-        public ActionBenefitService(IHttpClientFactory httpClientFactory)
+        public ActionBenefitService(IHttpClientFactory httpClientFactory, IOptions<ServiceSettings> serviceSettings)
         {
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new System.Uri("http://localhost:5002");
+            _httpClient.BaseAddress = new System.Uri(serviceSettings.Value.ActionBenefitServiceUrl);
         }
         public async Task<ActionBenefit> Get(int id)
         {
@@ -42,8 +44,8 @@ namespace IntegrationAdapters.MicroserviceComunicator
         public async Task<bool> SetPublic(int id, bool isPublic)
         {
             var request = new HttpRequestMessage(HttpMethod.Patch, "actionbenefitservice/setpublic");
-            request.Content = new StringContent(JsonConvert.SerializeObject(new SetPublicRequest(id, isPublic)), 
-                                                Encoding.UTF8, 
+            request.Content = new StringContent(JsonConvert.SerializeObject(new SetPublicRequest(id, isPublic)),
+                                                Encoding.UTF8,
                                                 "application/json");
             var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
@@ -64,7 +66,7 @@ namespace IntegrationAdapters.MicroserviceComunicator
         {
             try
             {
-               return await _httpClient.SendAsync(request);
+                return await _httpClient.SendAsync(request);
             }
             catch
             {

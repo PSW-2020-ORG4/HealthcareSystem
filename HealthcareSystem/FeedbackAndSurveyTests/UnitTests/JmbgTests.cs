@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FeedbackAndSurveyService.CustomException;
+﻿using FeedbackAndSurveyService.CustomException;
 using FeedbackAndSurveyService.FeedbackService.Model;
+using System.Collections.Generic;
 using Xunit;
 
 namespace FeedbackAndSurveyTests.UnitTests

@@ -194,7 +194,7 @@ namespace EventSourcingService.Service
             {
                 return new AverageDurationDTO();
             }
-            
+
             return averageDTO;
         }
 

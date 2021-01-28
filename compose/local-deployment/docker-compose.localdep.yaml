@@ -3,14 +3,6 @@ services:
   intergrationadapters:
     ports:
     - "8282:80"
-    environment:
-      RabbitMqSettings__Host: "rabbitmq"
-      RabbitMqSettings__Username: "org4"
-      RabbitMqSettings__Password: "org4"
-      RabbitMqSettings__RetryCount: 20
-      RabbitMqSettings__RetryWait: 30000
-    depends_on:      
-      - rabbitmq
     restart: on-failure
     networks:
       - demo

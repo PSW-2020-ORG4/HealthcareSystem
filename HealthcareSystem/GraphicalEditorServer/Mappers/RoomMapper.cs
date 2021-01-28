@@ -1,7 +1,6 @@
 ﻿using Backend.Model.Enums;
 using GraphicalEditorServer.DTO;
 using Model.Manager;
-using System;
 
 namespace GraphicalEditorServer.Mappers
 {
@@ -32,11 +31,11 @@ namespace GraphicalEditorServer.Mappers
         public static Room GraphicalEditorRoomToBackendRoom(RoomDTO room)
         {
             Room backendRoom = new Room();
-            backendRoom.Id = (int) room.Id;
+            backendRoom.Id = (int)room.Id;
             switch (room.Usage)
             {
-                case TypeOfMapObject.EXAMINATION_ROOM :
-                   backendRoom.Usage = TypeOfUsage.CONSULTING_ROOM;
+                case TypeOfMapObject.EXAMINATION_ROOM:
+                    backendRoom.Usage = TypeOfUsage.CONSULTING_ROOM;
                     break;
                 case TypeOfMapObject.HOSPITALIZATION_ROOM:
                     backendRoom.Usage = TypeOfUsage.SICKROOM;
@@ -50,6 +49,6 @@ namespace GraphicalEditorServer.Mappers
             return backendRoom;
         }
 
-       
+
     }
 }

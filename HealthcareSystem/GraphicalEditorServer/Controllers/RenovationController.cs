@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Backend.Model.DTO;
-using Backend.Model.PerformingExamination;
-using Backend.Model.Enums;
-using Backend.Service;
-using Backend.Service.ExaminationAndPatientCard;
-using GraphicalEditor.DTO;
+﻿using Backend.Model.Manager;
+using Backend.Service.RenovationService;
 using GraphicalEditorServer.DTO;
 using GraphicalEditorServer.Mappers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Backend.Service.RenovationService;
-using Backend.Model.Manager;
 using Model.Manager;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GraphicalEditorServer.Controllers
 {
@@ -33,7 +25,8 @@ namespace GraphicalEditorServer.Controllers
         public ActionResult AddBaseRenovation(BaseRenovationDTO baseRenovationDTO)
         {
             BaseRenovation addedBaseRenovation = _renovationService.AddBaseRenovation(BaseRenovationMapper.BaseRenovationDTOToBaseRenovation(baseRenovationDTO));
-             if (addedBaseRenovation == null) {
+            if (addedBaseRenovation == null)
+            {
                 return NotFound("NotFound");
             }
             return Ok();
@@ -41,7 +34,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost("addMergeRenovation")]
         public ActionResult AddMergeRenovation(MergeRenovationDTO mergeRenovationDTO)
         {
-            MergeRenovation addedBaseRenovation = (MergeRenovation)_renovationService.AddBaseRenovation(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO));
+            MergeRenovation addedBaseRenovation = (MergeRenovation)_renovationService.AddMergeRenovation(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO));
             if (addedBaseRenovation == null)
             {
                 return NotFound("NotFound");
@@ -51,7 +44,7 @@ namespace GraphicalEditorServer.Controllers
         [HttpPost("addDivideRenovation")]
         public ActionResult AddDivideRenovation(DivideRenovationDTO divideRenovationDTO)
         {
-            DivideRenovation addedBaseRenovation = (DivideRenovation)_renovationService.AddBaseRenovation(DivideRenovationMapper.DivideRenovationDTOToDivideRenovation(divideRenovationDTO));
+            DivideRenovation addedBaseRenovation = (DivideRenovation)_renovationService.AddDivideRenovation(DivideRenovationMapper.DivideRenovationDTOToDivideRenovation(divideRenovationDTO));
             if (addedBaseRenovation == null)
             {
                 return NotFound("NotFound");
@@ -59,7 +52,7 @@ namespace GraphicalEditorServer.Controllers
             return Ok();
         }
 
-        [HttpDelete("/{baseRenovationId}")]
+        [HttpDelete("deleteByRoomId/{baseRenovationId}")]
         public ActionResult DeleteBaseRenovation(int baseRenovationId)
         {
             _renovationService.DeleteRenovation(baseRenovationId);
@@ -89,7 +82,7 @@ namespace GraphicalEditorServer.Controllers
             List<RenovationPeriodDTO> alternativeAppointments = new List<RenovationPeriodDTO>();
             try
             {
-                _renovationService.GetAlternativeAppointemntsForBaseRenovation(new RenovationPeriod(baseRenovatonDTO.StartTime, baseRenovatonDTO.EndTime),baseRenovatonDTO.RoomId).ForEach(r => alternativeAppointments.Add(RenovationPeriodMapper.RenovationPeriodToRenovationPeriodDTO(r)));
+                _renovationService.GetAlternativeAppointemntsForBaseRenovation(new RenovationPeriod(baseRenovatonDTO.StartTime, baseRenovatonDTO.EndTime), baseRenovatonDTO.RoomId).ForEach(r => alternativeAppointments.Add(RenovationPeriodMapper.RenovationPeriodToRenovationPeriodDTO(r)));
                 if (alternativeAppointments.Count == 0)
                 {
                     return NotFound("NotFound");
@@ -107,7 +100,7 @@ namespace GraphicalEditorServer.Controllers
             List<RenovationPeriodDTO> alternativeAppointments = new List<RenovationPeriodDTO>();
             try
             {
-                 _renovationService.GetMergeRenovationAlternativeAppointmets(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO)).ToList().ForEach(x=> alternativeAppointments.Add(new RenovationPeriodDTO(x.BeginDate,x.EndDate)));
+                _renovationService.GetMergeRenovationAlternativeAppointmets(MergeRenovationMapper.MergeRenovationDTOToMergeRenovation(mergeRenovationDTO)).ToList().ForEach(x => alternativeAppointments.Add(new RenovationPeriodDTO(x.BeginDate, x.EndDate)));
                 if (alternativeAppointments.Count == 0)
                 {
                     return NotFound("NotFound");

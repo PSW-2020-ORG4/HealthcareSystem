@@ -1,6 +1,8 @@
-﻿using System;
-using Backend.Model.Users;
+using IntegrationAdapters.Dtos;
+using IntegrationAdapters.Settings;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -12,19 +14,19 @@ namespace IntegrationAdapters.MicroserviceComunicator
     {
         private HttpClient _httpClient;
 
-        public PrescriptionService(IHttpClientFactory httpClientFactory)
+        public PrescriptionService(IHttpClientFactory httpClientFactory, IOptions<ServiceSettings> serviceSetting)
         {
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new System.Uri("http://localhost:5001");
+            _httpClient.BaseAddress = new System.Uri(serviceSetting.Value.PharmacySystemServiceUrl);
         }
-        public async Task<List<Patient>> GetAllPatients()
+        public async Task<List<PatientDto>> GetAllPatients()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "prescriptionservice/get/patients");
             var response = await SendRequest(request);
             if (!response.IsSuccessStatusCode)
                 NotSuccessStatusCodeHandler(response.StatusCode);
             var jsonString = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<Patient>>(jsonString);
+            return JsonConvert.DeserializeObject<List<PatientDto>>(jsonString);
         }
 
         private void NotSuccessStatusCodeHandler(HttpStatusCode statusCode)

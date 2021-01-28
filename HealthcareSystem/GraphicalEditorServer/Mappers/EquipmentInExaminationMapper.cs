@@ -1,9 +1,5 @@
 ﻿using Backend.Model.PerformingExamination;
 using GraphicalEditorServer.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphicalEditorServer.Mappers
 {
@@ -13,7 +9,7 @@ namespace GraphicalEditorServer.Mappers
         {
             EquipmentInExaminationDTO equipmentInExaminationDTO = new EquipmentInExaminationDTO();
             equipmentInExaminationDTO.EquipmentID = equipmentInExamination.EquipmentTypeID;
-            equipmentInExaminationDTO.ExaminationId = equipmentInExamination.ExaminationId;            
+            equipmentInExaminationDTO.ExaminationId = equipmentInExamination.ExaminationId;
             return equipmentInExaminationDTO;
         }
 
@@ -21,7 +17,7 @@ namespace GraphicalEditorServer.Mappers
         {
             EquipmentInExamination equipmentInExamination = new EquipmentInExamination();
             equipmentInExamination.EquipmentTypeID = equipmentInExaminationDTO.EquipmentID;
-            equipmentInExamination.ExaminationId = equipmentInExaminationDTO.ExaminationId;            
+            equipmentInExamination.ExaminationId = equipmentInExaminationDTO.ExaminationId;
             return equipmentInExamination;
         }
     }

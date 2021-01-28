@@ -1,11 +1,8 @@
-﻿using System;
+﻿using Backend.Model;
+using Model.Manager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Backend.Model;
-using Backend.Repository;
-using Model.Manager;
 
 namespace Backend.Repository
 {

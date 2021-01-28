@@ -1,10 +1,5 @@
 ﻿using Backend.Model.PerformingExamination;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Model
 {
@@ -26,7 +21,7 @@ namespace Backend.Model
 
         public SurveyAboutMedicalStaff() { }
 
-        public SurveyAboutMedicalStaff(int behaviorOfMedicalStaff, int medicalStaffProfessionalism, int gettingAdviceByMedicalStaff, 
+        public SurveyAboutMedicalStaff(int behaviorOfMedicalStaff, int medicalStaffProfessionalism, int gettingAdviceByMedicalStaff,
                                         int easeInObtainingFollowUpInformation, int examinationId)
         {
             BehaviorOfMedicalStaff = behaviorOfMedicalStaff;
@@ -36,7 +31,7 @@ namespace Backend.Model
             ExaminationId = examinationId;
         }
 
-        public SurveyAboutMedicalStaff(int behaviorOfMedicalStaff, int medicalStaffProfessionalism, int gettingAdviceByMedicalStaff, 
+        public SurveyAboutMedicalStaff(int behaviorOfMedicalStaff, int medicalStaffProfessionalism, int gettingAdviceByMedicalStaff,
                                         int easeInObtainingFollowUpInformation, Examination examination)
         {
             BehaviorOfMedicalStaff = behaviorOfMedicalStaff;

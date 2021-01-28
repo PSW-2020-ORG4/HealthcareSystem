@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Backend.Model.Pharmacies;
+﻿using Backend.Model.Pharmacies;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MicroserviceComunicator;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace IntegrationAdapters.Controllers
 {
@@ -30,7 +30,7 @@ namespace IntegrationAdapters.Controllers
             {
                 Drugs = await _drugService.GetAll(),
                 EndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)
-                
+
             };
 
             return View(tender);
@@ -47,7 +47,7 @@ namespace IntegrationAdapters.Controllers
             if (tender == null)
                 return RedirectToAction("Index");
 
-            if(tender.IsClosed)
+            if (tender.IsClosed)
             {
                 TenderMessage tenderMessage = await _tenderService.GetAcceptedMessage(tenderId);
                 if (tenderMessage == null)
@@ -92,9 +92,9 @@ namespace IntegrationAdapters.Controllers
                 EndDate = tenderDto.EndDate,
                 Drugs = new List<TenderDrug>()
             };
-            foreach(var drug in tenderDto.AddedDrugs)
+            foreach (var drug in tenderDto.AddedDrugs)
             {
-                tender.Drugs.Add(new TenderDrug() {DrugId = drug.Id, Quantity = drug.Quantity});
+                tender.Drugs.Add(new TenderDrug() { DrugId = drug.Id, Quantity = drug.Quantity });
             }
             await _tenderService.CreateTender(tender);
 

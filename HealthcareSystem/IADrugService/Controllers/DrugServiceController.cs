@@ -1,4 +1,6 @@
-﻿using Backend.Model.Pharmacies;
+using Backend.Model.Pharmacies;
+using Backend.Service.DrugAndTherapy;
+using IntegrationAdaptersDrugService.Service;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.IO;

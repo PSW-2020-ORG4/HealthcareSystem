@@ -25,7 +25,6 @@ namespace IntegrationAdaptersTests.IntegrationTests
             var result = controller.GetAll() as OkObjectResult;
 
             Assert.IsType<List<ActionBenefit>>(result.Value);
-
         }
 
         [Fact]

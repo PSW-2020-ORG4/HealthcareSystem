@@ -1,15 +1,4 @@
-﻿using Backend.Model.Users;
-using Backend.Model;
-using Model.Users;
-using PatientWebApp.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Model.PerformingExamination;
-using Backend.Service.SearchSpecification.ExaminationSearch;
-using Backend.Service.SearchSpecification.TherapySearch;
-
-namespace PatientWebAppTests.CreateObjectsForTests
+﻿namespace PatientWebAppTests.CreateObjectsForTests
 {
     public class TestObjectFactory
     {

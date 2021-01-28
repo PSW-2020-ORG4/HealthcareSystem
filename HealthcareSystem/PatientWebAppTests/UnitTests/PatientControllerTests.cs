@@ -1,20 +1,4 @@
-using Backend.Service;
-using Model.Users;
-using Moq;
-using PatientWebApp.Controllers;
-using Repository;
-using System;
-using Xunit;
-using Model.Enums;
-using Microsoft.AspNetCore.Mvc;
-using Backend;
-using System.Collections.Generic;
-using PatientWebApp.DTOs;
 using PatientWebAppTests.CreateObjectsForTests;
-using Backend.Service.SendingMail;
-using System.Threading.Tasks;
-using Backend.Model.Users;
-using Backend.Service.Encryption;
 
 namespace PatientWebAppTests.UnitTests
 {
@@ -22,7 +6,7 @@ namespace PatientWebAppTests.UnitTests
     {
         private readonly TestObjectFactory _objectFactory;
         private readonly StubRepository _stubRepository;
-        private readonly EncryptionService _encryptionService;
+        //private readonly EncryptionService _encryptionService;
         /*
         public PatientControllerTests()
         {

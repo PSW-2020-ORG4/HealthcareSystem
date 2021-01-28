@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace GraphicalEditorServer.DTO
+﻿namespace GraphicalEditorServer.DTO
 {
     public class DrugTypeDTO
     {
@@ -12,13 +7,14 @@ namespace GraphicalEditorServer.DTO
         public string Purpose { get; set; }
 
         public DrugTypeDTO() { }
-       
-        public DrugTypeDTO(int id, string type, string purpose) {
+
+        public DrugTypeDTO(int id, string type, string purpose)
+        {
             this.Id = id;
             this.Type = type;
             this.Purpose = purpose;
         }
 
-       
+
     }
 }

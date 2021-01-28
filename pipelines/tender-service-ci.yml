@@ -4,7 +4,7 @@ pr:
 - develop
 
 variables:
-  paths: "**/IATenderService/*"
+  paths: "**/IATenderService/* **/Backend/*"
   project: 'HealthcareSystem/IATenderService/IATenderService.csproj'
   configuration: 'Release'
   sonarProjectKey: 'psw-2020-org4_IATenderService'

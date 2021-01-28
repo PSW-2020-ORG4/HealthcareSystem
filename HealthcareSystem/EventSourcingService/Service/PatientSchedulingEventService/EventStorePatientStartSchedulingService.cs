@@ -1,10 +1,8 @@
 ﻿using EventSourcingService.DTO;
 using EventSourcingService.Model;
 using EventSourcingService.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventSourcingService.Service
 {
@@ -18,7 +16,7 @@ namespace EventSourcingService.Service
         }
         public PatientStartSchedulingEvent Add(PatientStartSchedulingEventDTO patientStartSchedulingEventDTO)
         {
-            return _patientStartSchedulingEventRepository.Add(new PatientStartSchedulingEvent() 
+            return _patientStartSchedulingEventRepository.Add(new PatientStartSchedulingEvent()
             {
                 UserAge = patientStartSchedulingEventDTO.UserAge,
                 UserGender = patientStartSchedulingEventDTO.UserGender

@@ -1,7 +1,5 @@
 ﻿using Model.Manager;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {
@@ -19,7 +17,7 @@ namespace GraphicalEditorServerTests.DataFactory
 
         public EquipmentInRooms CreateValidTestObject(int id)
         {
-            return new EquipmentInRooms(id,171,56);
+            return new EquipmentInRooms(id, 171, 56);
         }
 
         public List<EquipmentInRooms> CreateEIRForFirstRoom()

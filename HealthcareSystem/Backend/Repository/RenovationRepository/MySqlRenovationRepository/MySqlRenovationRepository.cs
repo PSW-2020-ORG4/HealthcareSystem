@@ -2,11 +2,9 @@
 using Backend.Model.Enums;
 using Backend.Model.Exceptions;
 using Backend.Model.Manager;
-using Model.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
 {
@@ -19,8 +17,13 @@ namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
         }
         public void DeleteRenovation(int id)
         {
-            _context.BaseRenovation.Remove(_context.BaseRenovation.Find(id));
-            _context.SaveChanges();
+            BaseRenovation baseRenovation = _context.BaseRenovation.Find(id);
+            if (baseRenovation != null)
+            {
+
+                _context.BaseRenovation.Remove(baseRenovation);
+                _context.SaveChanges();
+            }
         }
 
         public List<BaseRenovation> GetAllRenovations()
@@ -34,7 +37,7 @@ namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
         }
 
         public BaseRenovation AddRenovation(BaseRenovation baseRenovation)
-        {           
+        {
             _context.BaseRenovation.Add(baseRenovation);
             _context.SaveChanges();
             return baseRenovation;
@@ -43,9 +46,9 @@ namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
         public List<BaseRenovation> GetAllRenovationsForTheRoom(int roomId)
         {
             var baseRenovationsForRoom = _context.BaseRenovation.Where(x => x.RoomId == roomId).ToList();
-            return (List<BaseRenovation>) baseRenovationsForRoom;
+            return (List<BaseRenovation>)baseRenovationsForRoom;
         }
-        public List<BaseRenovation> GetAllRenovationsByRoomAndDate(int roomId,DateTime date)
+        public List<BaseRenovation> GetAllRenovationsByRoomAndDate(int roomId, DateTime date)
         {
             var baseRenovationsForRoom = _context.BaseRenovation.Where(x => x.RoomId == roomId && x.RenovationPeriod.BeginDate.CompareTo(date) <= 0 && x.RenovationPeriod.EndDate.CompareTo(date) >= 0).ToList();
             return (List<BaseRenovation>)baseRenovationsForRoom;
@@ -67,7 +70,7 @@ namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
             {
                 List<MergeRenovation> mergeRenovations = new List<MergeRenovation>();
                 List<MergeRenovation> returnedRenovations = new List<MergeRenovation>();
-                ICollection<BaseRenovation> baseRenovations= _context.BaseRenovation.Where(e => e.TypeOfRenovation == TypeOfRenovation.MERGE_RENOVATION).ToList();
+                ICollection<BaseRenovation> baseRenovations = _context.BaseRenovation.Where(e => e.TypeOfRenovation == TypeOfRenovation.MERGE_RENOVATION).ToList();
                 baseRenovations.ToList().ForEach(m => mergeRenovations.Add((MergeRenovation)m));
                 returnedRenovations = mergeRenovations.Where(e => e.SecondRoomId == roomId).ToList();
                 return returnedRenovations;
@@ -82,7 +85,7 @@ namespace Backend.Repository.RenovationRepository.MySqlRenovationRepository
         {
             try
             {
-                return _context.BaseRenovation.Where(e => e.RoomId == roomNumber &&  e.RenovationPeriod.BeginDate >= start && e.RenovationPeriod.EndDate <= end ).ToList();
+                return _context.BaseRenovation.Where(e => e.RoomId == roomNumber && e.RenovationPeriod.BeginDate >= start && e.RenovationPeriod.EndDate <= end).ToList();
             }
             catch (Exception)
             {

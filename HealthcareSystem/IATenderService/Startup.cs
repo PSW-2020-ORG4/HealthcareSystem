@@ -1,9 +1,8 @@
-using System;
-using System.Collections.Generic;
 using Backend.Communication.RabbitMqConfuguration;
 using Backend.Communication.RabbitMqConnection;
 using Backend.Model;
 using Backend.Settings;
+using IATenderService.Settings;
 using IntegrationAdaptersTenderService.Repository;
 using IntegrationAdaptersTenderService.Repository.Implementation;
 using IntegrationAdaptersTenderService.Service;
@@ -14,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
 
 namespace IntegrationAdaptersTenderService
 {
@@ -78,6 +79,7 @@ namespace IntegrationAdaptersTenderService
             }
 
             services.Configure<RabbitMqConfiguration>(GetRabbitConfig);
+            services.Configure<ServiceSettings>(GetServiceSettings);
             services.AddSingleton<IRabbitMqConnection, RabbitMqConnection>();
             services.AddSingleton<IRabbitMqTenderingService, RabbitMqTenderingService>();
             services.AddScoped<ITenderRepository, MySqlTenderRepository>();
@@ -96,6 +98,15 @@ namespace IntegrationAdaptersTenderService
             conf.ActionBenefitQueueName = Configuration.GetValue<string>("ACTIONBENEFIT_QUEUE") ?? "bolnica-1";
             conf.TenderExchangeName = Configuration.GetValue<string>("TENDER_QUEUE") ?? "tender-bolnica-1";
         }
+
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.TenderServiceUrl = Configuration.GetValue<string>("TENDER_SERVICE_URL");
+            conf.ActionBenefitServiceUrl = Configuration.GetValue<string>("ACTION_BENEFIT_SERVICE_URL");
+            conf.DrugServiceUrl = Configuration.GetValue<string>("DRUG_SERVICE_URL");
+            conf.PharmacySystemServiceUrl = Configuration.GetValue<string>("PHARMACY_SYSTEM_SERVICE_URL");
+        }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

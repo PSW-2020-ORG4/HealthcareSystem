@@ -1,4 +1,4 @@
-﻿using Backend.Model;
+using Backend.Model;
 using Backend.Model.Exceptions;
 using IntegrationAdaptersActionBenefitService.Repository;
 using IntegrationAdaptersActionBenefitService.Service;

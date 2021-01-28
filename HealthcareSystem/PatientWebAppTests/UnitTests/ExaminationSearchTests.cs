@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Service.SearchSpecification;
-using Backend.Service.SearchSpecification.ExaminationSearch;
-using PatientWebAppTests.CreateObjectsForTests;
-using Service.ExaminationAndPatientCard;
-using Xunit;
+﻿using PatientWebAppTests.CreateObjectsForTests;
 
 namespace PatientWebAppTests.UnitTests
 {

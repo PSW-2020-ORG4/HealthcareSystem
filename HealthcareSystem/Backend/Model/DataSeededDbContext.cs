@@ -4,14 +4,12 @@ using Backend.Model.PerformingExamination;
 using Backend.Model.Pharmacies;
 using Backend.Model.Users;
 using Microsoft.EntityFrameworkCore;
-using Model.Enums;
 using Model.Manager;
 using Model.NotificationSurveyAndFeedback;
 using Model.PerformingExamination;
 using Model.Users;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Backend.Model
 {

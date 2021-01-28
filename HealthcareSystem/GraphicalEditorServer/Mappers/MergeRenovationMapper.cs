@@ -2,10 +2,6 @@
 using Backend.Model.Manager;
 using GraphicalEditorServer.DTO;
 using Model.Manager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphicalEditorServer.Mappers
 {
@@ -28,14 +24,14 @@ namespace GraphicalEditorServer.Mappers
                 default:
                     break;
             }
-            return new MergeRenovation(new RenovationPeriod(mergeRenovationDTO.baseRenovation.StartTime,mergeRenovationDTO.baseRenovation.EndTime),
+            return new MergeRenovation(new RenovationPeriod(mergeRenovationDTO.baseRenovation.StartTime, mergeRenovationDTO.baseRenovation.EndTime),
                                                                   mergeRenovationDTO.baseRenovation.Description,
                                                                   mergeRenovationDTO.baseRenovation.TypeOfRenovation,
                                                                   mergeRenovationDTO.baseRenovation.RoomId,
                                                                   mergeRenovationDTO.SecondRoomId,
                                                                   mergeRenovationDTO.NewRoomDescription,
                                                                   roomType);
-           
+
         }
     }
 }

@@ -1,12 +1,8 @@
-﻿using System;
+﻿using Backend.Model;
+using Backend.Model.Manager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Backend.Model;
-using Backend.Model.Manager;
-using Backend.Repository;
-using Model.Manager;
 
 namespace Backend.Repository
 {
@@ -16,8 +12,8 @@ namespace Backend.Repository
         public MySqlEquipmentTypeRepository(MyDbContext context)
         {
             _context = context;
-        }  
-        
+        }
+
         public EquipmentType GetEquipmentType(int id)
         {
             return _context.EquipmentTypes.SingleOrDefault(x => x.Id == id);
@@ -26,8 +22,8 @@ namespace Backend.Repository
         public List<EquipmentType> GetAllEquipmentTypes()
         {
             return _context.EquipmentTypes.ToList();
-        }   
-        
+        }
+
         public void DeleteEquipmentType(int id)
         {
             throw new NotImplementedException();

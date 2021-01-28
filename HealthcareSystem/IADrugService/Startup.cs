@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Backend.Model;
 using Backend.Repository.DrugInRoomRepository;
 using Backend.Repository.DrugInRoomRepository.MySqlDrugInRoomRepository;
@@ -7,6 +5,7 @@ using Backend.Repository.DrugRepository;
 using Backend.Repository.DrugRepository.MySQLDrugRepository;
 using Backend.Service.DrugAndTherapy;
 using Backend.Settings;
+using IADrugService.Settings;
 using IntegrationAdaptersDrugService.Repository;
 using IntegrationAdaptersDrugService.Repository.Implementation;
 using IntegrationAdaptersDrugService.Service;
@@ -17,6 +16,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Service.DrugAndTherapy;
+using System;
+using System.Collections.Generic;
 
 namespace IntegrationAdaptersDrugService
 {
@@ -77,6 +78,7 @@ namespace IntegrationAdaptersDrugService
                 Console.WriteLine("Not dev or test.");
             }
 
+            services.Configure<ServiceSettings>(GetServiceSettings);
             services.AddScoped<IConfirmedDrugRepository, MySqlConfirmedDrugRepository>();
             services.AddScoped<IUnconfirmedDrugRepository, MySqlUnconfirmedDrugRepository>();
             services.AddScoped<IDrugInRoomRepository, MySqlDrugInRoomRepository>();
@@ -84,6 +86,15 @@ namespace IntegrationAdaptersDrugService
             services.AddScoped<IDrugConsumptionRepository, MySqlDrugConsumptionRepository>();
             services.AddScoped<IDrugConsumptionService, DrugConsumptionService>();
         }
+
+        private void GetServiceSettings(ServiceSettings conf)
+        {
+            conf.TenderServiceUrl = Configuration.GetValue<string>("TENDER_SERVICE_URL");
+            conf.ActionBenefitServiceUrl = Configuration.GetValue<string>("ACTION_BENEFIT_SERVICE_URL");
+            conf.DrugServiceUrl = Configuration.GetValue<string>("DRUG_SERVICE_URL");
+            conf.PharmacySystemServiceUrl = Configuration.GetValue<string>("PHARMACY_SYSTEM_SERVICE_URL");
+        }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

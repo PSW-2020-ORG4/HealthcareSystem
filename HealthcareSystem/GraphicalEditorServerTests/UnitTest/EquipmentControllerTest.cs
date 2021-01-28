@@ -1,16 +1,10 @@
-﻿using GraphicalEditorServerTests.DataFactory;
-using Moq;
-using Backend.Repository;
-using Service.RoomAndEquipment;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Repository;
-using Xunit;
+﻿using Backend.Service.RoomAndEquipment;
 using GraphicalEditorServer.Controllers;
-using Model.Manager;
+using GraphicalEditorServerTests.DataFactory;
 using Microsoft.AspNetCore.Mvc;
-using Backend.Service.RoomAndEquipment;
+using Model.Manager;
+using Service.RoomAndEquipment;
+using Xunit;
 
 namespace GraphicalEditorServerTests.UnitTest
 {
@@ -18,7 +12,7 @@ namespace GraphicalEditorServerTests.UnitTest
     {
         private readonly CreateEquipmentInRoom _createEquipmentInRoom;
         private readonly StubRepository _stubRepository;
-        
+
         public EquipmentControllerTest()
         {
             _stubRepository = new StubRepository();
@@ -26,10 +20,11 @@ namespace GraphicalEditorServerTests.UnitTest
         }
         private EquipmentController SetupEquipmentController()
         {
-        EquipmentService _equipmentService = new EquipmentService(_stubRepository.CreateEquipmentStubRepository(), _stubRepository.CreateEquipmentInRoomStubRepository(), _stubRepository.CreateExaminationStubRepository());
-        EquipmentTypeService equipmentTypeService = new EquipmentTypeService(_stubRepository.CreateEquipmentTypeStubRepository());    
-        EquipmentInRoomsService equipmentInRoomsService = new EquipmentInRoomsService(_stubRepository.CreateEquipmentInRoomStubRepository(), _equipmentService);    
-        EquipmentController _equipmentController = new EquipmentController(_equipmentService, equipmentTypeService, equipmentInRoomsService);
+            EquipmentService _equipmentService = new EquipmentService(_stubRepository.CreateEquipmentStubRepository(), _stubRepository.CreateEquipmentInRoomStubRepository(), _stubRepository.CreateExaminationStubRepository());
+            EquipmentTypeService equipmentTypeService = new EquipmentTypeService(_stubRepository.CreateEquipmentTypeStubRepository());
+            EquipmentInRoomsService equipmentInRoomsService = new EquipmentInRoomsService(_stubRepository.CreateEquipmentInRoomStubRepository(), _equipmentService);
+            EquipmentTransferService equipmentTransferService = new EquipmentTransferService(_stubRepository.CreateEquipmentTransferStubRepository());
+            EquipmentController _equipmentController = new EquipmentController(_equipmentService, equipmentTypeService, equipmentInRoomsService, equipmentTransferService);
             return _equipmentController;
         }
 

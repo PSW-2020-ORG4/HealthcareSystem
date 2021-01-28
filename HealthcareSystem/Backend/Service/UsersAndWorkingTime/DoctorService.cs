@@ -2,11 +2,8 @@ using Backend.Model.Exceptions;
 using Backend.Repository;
 using Backend.Service;
 using Model.Users;
-using Repository;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.RegularExpressions;
 using ValidationException = Backend.Model.Exceptions.ValidationException;
 
@@ -34,7 +31,7 @@ namespace Service.UsersAndWorkingTime
 
         public Doctor EditDoctor(Doctor doctor)
         {
-            if (!IsUsernameValid(doctor.Username) || !IsPasswordValid(doctor.Password))  return null;
+            if (!IsUsernameValid(doctor.Username) || !IsPasswordValid(doctor.Password)) return null;
             _doctorRepository.SetDoctor(doctor);
             return doctor;
         }

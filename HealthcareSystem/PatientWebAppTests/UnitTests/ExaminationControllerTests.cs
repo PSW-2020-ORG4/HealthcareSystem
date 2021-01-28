@@ -1,11 +1,4 @@
-﻿using PatientWebApp.Controllers;
-using Xunit;
-using Microsoft.AspNetCore.Mvc;
-using PatientWebAppTests.CreateObjectsForTests;
-using Service.ExaminationAndPatientCard;
-using Model.PerformingExamination;
-using System.Collections.Generic;
-using Backend.Model.Exceptions;
+﻿using PatientWebAppTests.CreateObjectsForTests;
 
 namespace PatientWebAppTests.UnitTests
 {

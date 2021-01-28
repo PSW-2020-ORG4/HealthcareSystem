@@ -3,13 +3,10 @@ using Backend.Repository.DrugInRoomRepository;
 using Model.Manager;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Service.DrugAndTherapy
 {
-   public class DrugInRoomService : IDrugInRoomService
+    public class DrugInRoomService : IDrugInRoomService
     {
         private IDrugInRoomRepository _drugInRoomRepository;
         private IDrugService _drugService;
@@ -29,7 +26,7 @@ namespace Backend.Service.DrugAndTherapy
 
         public void DeleteDrugInRoom(int drugId)
         {
-             _drugInRoomRepository.DeleteDrug(drugId);
+            _drugInRoomRepository.DeleteDrug(drugId);
         }
 
         public DrugInRoom EditDrugInRoom(DrugInRoom drugInRoom)

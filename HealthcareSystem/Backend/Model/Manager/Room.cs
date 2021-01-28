@@ -5,7 +5,6 @@
  ***********************************************************************/
 
 using Backend.Model.Enums;
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.Manager
@@ -24,6 +23,13 @@ namespace Model.Manager
         public Room(int number, TypeOfUsage typeOfUsage, int capacity, int occupation, bool renovation)
         {
             Id = number;
+            Usage = typeOfUsage;
+            Capacity = capacity;
+            Occupation = occupation;
+            Renovation = renovation;
+        }
+        public Room(TypeOfUsage typeOfUsage, int capacity, int occupation, bool renovation)
+        {
             Usage = typeOfUsage;
             Capacity = capacity;
             Occupation = occupation;

@@ -4,8 +4,6 @@
  * Purpose: Definition of the Class Model.Manager.WorkShifts
  ***********************************************************************/
 
-using System;
-
 namespace Model.Manager
 {
     public enum WorkShifts

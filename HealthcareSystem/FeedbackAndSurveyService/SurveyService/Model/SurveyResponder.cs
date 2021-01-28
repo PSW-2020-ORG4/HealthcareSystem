@@ -1,10 +1,8 @@
 ﻿using FeedbackAndSurveyService.CustomException;
 using FeedbackAndSurveyService.SurveyService.DTO;
 using FeedbackAndSurveyService.SurveyService.Model.Memento;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FeedbackAndSurveyService.SurveyService.Model
 {

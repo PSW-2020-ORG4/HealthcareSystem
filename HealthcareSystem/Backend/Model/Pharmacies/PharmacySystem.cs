@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 
 namespace Backend.Model.Pharmacies
@@ -13,7 +12,7 @@ namespace Backend.Model.Pharmacies
         [Required(ErrorMessage = "Please enter a name.")]
         public string Name { get; set; }
 
-        [StringLength(255)] 
+        [StringLength(255)]
         [Required(ErrorMessage = "Please enter the API key.")]
         public string ApiKey { get; set; }
 
@@ -28,7 +27,7 @@ namespace Backend.Model.Pharmacies
         [StringLength(255)]
         public string ActionsBenefitsExchangeName { get; set; }
 
-        [Required] 
+        [Required]
         public bool ActionsBenefitsSubscribed { get; set; } = false;
 
         public virtual GrpcAdress GrpcAdress { get; set; }

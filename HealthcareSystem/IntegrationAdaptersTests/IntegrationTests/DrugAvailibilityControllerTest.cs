@@ -1,4 +1,4 @@
-﻿using Backend.Model;
+using Backend.Model;
 using Backend.Model.Pharmacies;
 using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Controllers;
@@ -46,8 +46,6 @@ namespace IntegrationAdaptersTests.IntegrationTests
             result = await controller.Search("nesto") as ViewResult;
             adapterContext.Verify(c => c.RemoveAdapter());
             Assert.Empty((IEnumerable<SearchResultDto>)result.Model);
-
-
         }
     }
 }

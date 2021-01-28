@@ -1,8 +1,5 @@
-﻿using FeedbackAndSurveyService.SurveyService.DTO;
-using FeedbackAndSurveyService.SurveyService.Model;
+﻿using FeedbackAndSurveyService.SurveyService.Model;
 using FeedbackAndSurveyService.SurveyService.Repository;
-using System;
-using System.Collections.Generic;
 
 namespace FeedbackAndSurveyService.SurveyService.Service
 {

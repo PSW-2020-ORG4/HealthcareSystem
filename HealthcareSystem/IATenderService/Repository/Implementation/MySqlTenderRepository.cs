@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Backend.Model;
+﻿using Backend.Model;
 using Backend.Model.DTO;
 using Backend.Model.Pharmacies;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IntegrationAdaptersTenderService.Repository.Implementation
 {
@@ -58,8 +58,8 @@ namespace IntegrationAdaptersTenderService.Repository.Implementation
                 .ToList()
                 .Select(message => new TenderMessageDTO()
                 {
-                    Id = message.Id, 
-                    Identification = message.Identification, 
+                    Id = message.Id,
+                    Identification = message.Identification,
                     ReplyRoutingKey = message.ReplyRoutingKey,
                     Offers = GetOffersForMessage(message.Id)
                 })
@@ -71,13 +71,13 @@ namespace IntegrationAdaptersTenderService.Repository.Implementation
             return _context.TenderOffers
                 .Where(x => x.TenderMessageId == id)
                 .ToList()
-                .Select(offer => new TenderOfferDTO() 
-                    { 
-                        Name = offer.Name, 
-                        Code = offer.Code, 
-                        Price = offer.Price, 
-                        Quantity = offer.Quantity
-                    })
+                .Select(offer => new TenderOfferDTO()
+                {
+                    Name = offer.Name,
+                    Code = offer.Code,
+                    Price = offer.Price,
+                    Quantity = offer.Quantity
+                })
                 .ToList();
         }
 
@@ -98,7 +98,7 @@ namespace IntegrationAdaptersTenderService.Repository.Implementation
             var tenders = _context.Tenders.Where(x => x.IsClosed == false).ToList();
             if (tenders == null)
                 return new List<Tender>();
-            foreach(var tender in tenders)
+            foreach (var tender in tenders)
             {
                 tender.Drugs = _context.TenderDrugs.Where(x => x.TenderId == tender.Id).ToList();
             }

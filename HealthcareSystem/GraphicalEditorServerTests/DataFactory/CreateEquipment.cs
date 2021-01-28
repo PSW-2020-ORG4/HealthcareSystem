@@ -1,16 +1,13 @@
 ﻿using Backend.Model.Manager;
 using Model.Manager;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GraphicalEditorServerTests.DataFactory
 {
     public class CreateEquipment
-    {       
+    {
         public Equipment CreateInvalidTestObject()
         {
-            return new Equipment(-1,null);
+            return new Equipment(-1, null);
         }
         public Equipment CreateValidTestObject(int equipmentQuantity)
         {
@@ -25,7 +22,7 @@ namespace GraphicalEditorServerTests.DataFactory
         {
             return new Equipment(30, new EquipmentType(0, "bed", false));
         }
-        
+
         public Equipment CreateMaskTestObject()
         {
             return new Equipment(30, new EquipmentType(1, "mask", true));

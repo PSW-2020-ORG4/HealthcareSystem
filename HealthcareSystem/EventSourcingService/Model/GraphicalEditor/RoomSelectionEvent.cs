@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventSourcingService.Model.GraphicalEditor
 {
@@ -10,5 +7,6 @@ namespace EventSourcingService.Model.GraphicalEditor
         public String Username { get; set; }
         public int RoomNumber { get; set; }
         public RoomSelectionEvent() { }
+
     }
 }

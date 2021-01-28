@@ -3,8 +3,6 @@ using Model.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRepository
 {
@@ -24,10 +22,10 @@ namespace Backend.Repository.EquipmentInRoomsRepository.MySqlEquipmentInRoomsRep
 
         public List<EquipmentInRooms> GetEquipmentInRoomsByRoomNumber(int roomNumber)
         {
-            var m =  _context.EquipmentsInRooms.Where(x => x.RoomNumber == roomNumber).ToList();
+            var m = _context.EquipmentsInRooms.Where(x => x.RoomNumber == roomNumber).ToList();
             return (List<EquipmentInRooms>)m;
         }
-        
+
         public EquipmentInRooms AddEquipment(EquipmentInRooms equipment)
         {
             _context.EquipmentsInRooms.Add(equipment);

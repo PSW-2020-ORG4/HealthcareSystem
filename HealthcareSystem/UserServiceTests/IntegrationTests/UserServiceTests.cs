@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Backend.Model;
-using Microsoft.AspNetCore.Mvc;
+﻿using Backend.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
 using UserService.CustomException;
 using UserService.Model;
-using UserService.Repository;
 using UserService.Repository.Implementation;
-using UserService.Service.Implementation;
 using Xunit;
 
 namespace UserServiceTests.IntegrationTests
@@ -53,14 +48,14 @@ namespace UserServiceTests.IntegrationTests
         public void NotSuccessLogin()
         {
             UserService.Service.Implementation.UserService userService = SetupRepositoryAndService();
-             try
-             {
-                 UserAccount userAccount = userService.GetByEmailAndPassword("bla bla", "bla");
-             }
-             catch (Exception ex)
-             {
-                 Assert.True(ex is NotFoundException);
-             }
+            try
+            {
+                UserAccount userAccount = userService.GetByEmailAndPassword("bla bla", "bla");
+            }
+            catch (Exception ex)
+            {
+                Assert.True(ex is NotFoundException);
+            }
         }
     }
 }

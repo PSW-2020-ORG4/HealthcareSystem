@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IntegrationAdapters.Adapters;
+﻿using IntegrationAdapters.Adapters;
 using IntegrationAdapters.Dtos;
 using IntegrationAdapters.MicroserviceComunicator;
 using IntegrationAdapters.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WebPush;
 
 namespace IntegrationAdapters.Controllers
@@ -70,7 +69,7 @@ namespace IntegrationAdapters.Controllers
             {
                 pushPayload.Title = "Unuccess";
                 pushPayload.Message = "Error occured while downloading specification!";
-                
+
             }
             _pushNotificationService.SendNotification(pushSubscription, pushPayload);
 

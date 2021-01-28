@@ -1,6 +1,6 @@
 ﻿using System;
-using UserService.Model.Memento;
 using UserService.CustomException;
+using UserService.Model.Memento;
 
 namespace UserService.Model
 {

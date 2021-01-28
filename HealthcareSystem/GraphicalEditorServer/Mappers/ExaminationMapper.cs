@@ -2,16 +2,13 @@
 using Backend.Model.PerformingExamination;
 using GraphicalEditor.DTO;
 using GraphicalEditorServer.DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GraphicalEditorServer.Mappers
 {
     public class ExaminationMapper
     {
-        public static Examination ExmainationDTO_To_Examination(ExaminationDTO examinationDTO) {
+        public static Examination ExmainationDTO_To_Examination(ExaminationDTO examinationDTO)
+        {
             return new Examination(examinationDTO.DateTime, examinationDTO.Doctor.Jmbg, examinationDTO.RoomId, examinationDTO.PatientCardId);
         }
 
@@ -19,9 +16,9 @@ namespace GraphicalEditorServer.Mappers
         {
             return new ExaminationDTO(examination.DateAndTime, DoctorMapper.DoctorToDoctorDTO(examination.Doctor), examination.IdRoom, examination.IdPatientCard);
         }
-        public static AppointmentSearchWithPrioritiesDTO FrontAppointmentSearchDTO_To_AppointmentSearchWithPrioritiesDTO(FrontAppointmentSearchDTO fas) 
+        public static AppointmentSearchWithPrioritiesDTO FrontAppointmentSearchDTO_To_AppointmentSearchWithPrioritiesDTO(FrontAppointmentSearchDTO fas)
         {
-         return new AppointmentSearchWithPrioritiesDTO(new BasicAppointmentSearchDTO(fas.PatientCardId, fas.DoctorJmbg,fas.RequiredEquipmentTypes, fas.EarliestDateTime, fas.LatestDateTime),fas.Priority,fas.SpecialtyId);
+            return new AppointmentSearchWithPrioritiesDTO(new BasicAppointmentSearchDTO(fas.PatientCardId, fas.DoctorJmbg, fas.RequiredEquipmentTypes, fas.EarliestDateTime, fas.LatestDateTime), fas.Priority, fas.SpecialtyId);
         }
 
     }

@@ -968,7 +968,7 @@ namespace GraphicalEditor
             AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO
             {
                 InitialParameters = new BasicAppointmentSearchDTO(patientCardId, doctorJmbg: "0909965768767", appointmentRequiredEquipmentTypes,
-                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 23, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime()),
+                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 29, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime()),
                 Priority = SearchPriority.Date,
                 SpecialtyId = doctorSpecialtyId
             };
@@ -985,8 +985,11 @@ namespace GraphicalEditor
                 {
 
                     appointmentService.AddExamination(emergencyExaminationSearchResults[0].UnchangedExamination, appointmentRequiredEquipmentTypes);
-                    InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
+
+                    
+                    InfoDialog infoDialog = new InfoDialog(String.Format("Uspešno ste zakazali pregled!{0}{0}Nakon zatvaranja ovog dijaloga, biće prikazano više informacija o zakazanom pregledu.", Environment.NewLine));
                     infoDialog.ShowDialog();
+                    ShowDialogWithMoreDetailsAboutScheduledExamination(emergencyExaminationSearchResults[0].UnchangedExamination);
 
                     ClearAppointmentSearchFields();
                 }
@@ -1010,15 +1013,24 @@ namespace GraphicalEditor
 
                 appointmentService.RescheduleExamination(rescheduleExaminationDTO);
 
-                InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
-                infoDialog.ShowDialog();
-
                 
+                InfoDialog infoDialog = new InfoDialog(String.Format("Uspešno ste zakazali pregled!{0}{0}Nakon zatvaranja ovog dijaloga, biće prikazano više informacija o zakazanom pregledu.", Environment.NewLine));
+                infoDialog.ShowDialog();
+                ShowDialogWithMoreDetailsAboutScheduledExamination(examinationForScheduleDTO);
+
                 ClearAppointmentSearchFields();
             }
             
             
         }
+
+        private void ShowDialogWithMoreDetailsAboutScheduledExamination(ExaminationDTO examinationDTO)
+        {
+            AppointmentInRoomMoreDetailsDialog appointmentInRoomMoreDetailsDialog = new AppointmentInRoomMoreDetailsDialog(examinationDTO);
+            appointmentInRoomMoreDetailsDialog.ShowDialog();
+        }
+
+
 
         private void OpenEquipmentRelocationDialogButton_Click(object sender, RoutedEventArgs e)
         {

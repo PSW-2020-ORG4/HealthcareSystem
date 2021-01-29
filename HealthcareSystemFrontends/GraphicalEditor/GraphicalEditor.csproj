@@ -69,7 +69,6 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-
     <Compile Include="AboutAppDialog.xaml.cs">
       <DependentUpon>AboutAppDialog.xaml</DependentUpon>
     </Compile>
@@ -158,14 +157,14 @@
     <Compile Include="Service\PatientService.cs" />
     <Compile Include="Service\RenovationService.cs" />
     <Compile Include="Service\RoomService.cs" />
+    <Compile Include="Validations\FutureDateValidationRule.cs" />
     <Compile Include="Validations\MinimumCharacterValidationRule.cs" />
     <Compile Include="Validations\NotEmptyValidationRule.cs" />
     <Compile Include="Validations\NumbersValidationRule.cs" />
     <Compile Include="Validations\SimpleDateValidationRule.cs" />
     <Compile Include="Validations\WordsValidationRule.cs" />
-
     <Page Include="AboutAppDialog.xaml">
-	  <SubType>Designer</SubType>
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AppointmentInRoomMoreDetailsDialog.xaml">

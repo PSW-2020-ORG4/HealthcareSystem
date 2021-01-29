@@ -42,6 +42,19 @@ namespace GraphicalEditor
             ExaminationPatient = _patientService.GetPatientByPatientCardId(ExaminationForDisplay.PatientCardId);
         }
 
+        public AppointmentInRoomMoreDetailsDialog(ExaminationDTO examinationDTO)
+        {
+            InitializeComponent();
+            DataContext = this;
+
+            _patientService = new PatientService();
+
+            ExaminationForDisplay = examinationDTO;
+            ExaminationPatient = _patientService.GetPatientByPatientCardId(ExaminationForDisplay.PatientCardId);
+
+            CancelExaminationButton.Visibility = Visibility.Collapsed;
+        }
+
         private void ShowAppointmentSuccessfullyCancelledDialog()
         {
             InfoDialog infoDialog = new InfoDialog("Uspešno ste otkazali pregled!");

@@ -1591,6 +1591,7 @@
 
 
                                             <!--  APPOINTMENT SEARCH RESULTS SECTION  -->
+                                            <!--  Regular appointment search results - Title  -->
                                             <TextBlock
                                                 Grid.Row="18"
                                                 Grid.ColumnSpan="2"
@@ -1598,8 +1599,22 @@
                                                 VerticalAlignment="Bottom"
                                                 FontSize="18"
                                                 FontWeight="Normal"
-                                                Foreground="Black">
+                                                Foreground="Black"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                                 Rezultati pretrage:
+                                            </TextBlock>
+
+                                            <!--  Emergency appointment rescheduling search results - Title  -->
+                                            <TextBlock
+                                                Grid.Row="18"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,30,0,10"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="18"
+                                                FontWeight="Normal"
+                                                Foreground="Black"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                Termini koje je moguće pomeriti:
                                             </TextBlock>
 
                                             <!--  APPOINTMENT SEARCH RESULTS TABLE  -->

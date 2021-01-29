@@ -46,54 +46,6 @@
             </Style.Triggers>
         </Style>
 
-        <!--  Removes any binding(no binding - no validation) if control is collapsed  -->
-        <Style
-            x:Key="NoValidationWhenCollapsedComboBox"
-            BasedOn="{StaticResource MaterialDesignComboBox}"
-            TargetType="ComboBox">
-            <Style.Triggers>
-                <Trigger Property="Visibility" Value="Collapsed">
-                    <Setter Property="Tag" Value="{x:Null}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <!--  Removes any binding(no binding - no validation) if control is collapsed  -->
-        <Style
-            x:Key="NoValidationWhenCollapsedTextBox"
-            BasedOn="{StaticResource MaterialDesignTextBox}"
-            TargetType="TextBox">
-            <Style.Triggers>
-                <Trigger Property="Visibility" Value="Collapsed">
-                    <Setter Property="Tag" Value="{x:Null}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <!--  Removes any binding(no binding - no validation) if control is collapsed  -->
-        <Style
-            x:Key="NoValidationWhenCollapsedDatePicker"
-            BasedOn="{StaticResource MaterialDesignDatePicker}"
-            TargetType="DatePicker">
-            <Style.Triggers>
-                <Trigger Property="Visibility" Value="Collapsed">
-                    <Setter Property="Tag" Value="{x:Null}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <!--  Removes any binding(no binding - no validation) if control is collapsed  -->
-        <Style
-            x:Key="NoValidationWhenCollapsedTimePicker"
-            BasedOn="{StaticResource MaterialDesignTimePicker}"
-            TargetType="materialDesign:TimePicker">
-            <Style.Triggers>
-                <Trigger Property="Visibility" Value="Collapsed">
-                    <Setter Property="Tag" Value="{x:Null}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
     </Window.Resources>
 
     <!--  MAIN CONTAINER GRID  -->
@@ -211,25 +163,11 @@
                         materialDesign:HintAssist.Hint="Izaberite tip."
                         FontSize="16"
                         IsTextSearchEnabled="True"
-                        Style="{StaticResource NoValidationWhenCollapsedComboBox}"
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
                         Visibility="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                         <ComboBoxItem Name="RoomDivisionComboBoxItem">Deljenje jedne sobe na dve</ComboBoxItem>
                         <ComboBoxItem Name="RoomMergingComboBoxItem">Spajanje dve sobe u jednu</ComboBoxItem>
-
-                        <ComboBox.Text>
-                            <Binding
-                                Mode="TwoWay"
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </ComboBox.Text>
                     </ComboBox>
 
 
@@ -246,6 +184,7 @@
                         Text="Soba koja se renovira: " />
 
                     <!--  First Room for Complex Renovation  -->
+
                     <ComboBox
                         x:Name="RenovationRoomComboBox"
                         Grid.Row="4"
@@ -285,24 +224,8 @@
                         materialDesign:HintAssist.Hint="Unesite opis renoviranja."
                         FontSize="16"
                         MaxLength="255"
-                        Style="{StaticResource NoValidationWhenCollapsedTextBox}"
                         TextWrapping="NoWrap"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}"
-                        Visibility="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-
-                        <TextBox.Text>
-                            <Binding
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                    <validations:MinimumCharacterValidationRule MinimumCharacters="5" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
+                        Visibility="{Binding ElementName=IsComplexRenovationCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
 
 
                     <!--  Second Room for Merging - Complex Renovation  -->
@@ -349,7 +272,7 @@
                         Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
 
                         <ComboBox.Style>
-                            <Style BasedOn="{StaticResource NoValidationWhenCollapsedComboBox}" TargetType="ComboBox">
+                            <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
                                 <Setter Property="Control.Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <MultiDataTrigger>
@@ -369,19 +292,6 @@
                                 <TextBlock Text="{Binding MapObjectEntity.Id}" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
-
-                        <ComboBox.Text>
-                            <Binding
-                                Mode="TwoWay"
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </ComboBox.Text>
 
                     </ComboBox>
 
@@ -413,21 +323,7 @@
                         DisplayDateStart="{x:Static sys:DateTime.Today}"
                         FontSize="16"
                         Foreground="Black"
-                        SelectedDateChanged="DatePicker_SelectedDateChanged"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
-
-                        <DatePicker.SelectedDate>
-                            <Binding
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:FutureDateValidationRule ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </DatePicker.SelectedDate>
-                    </DatePicker>
+                        SelectedDateChanged="DatePicker_SelectedDateChanged" />
 
 
                     <!--  Renovation Start Time  -->
@@ -455,21 +351,7 @@
                         Foreground="Black"
                         Is24Hours="True"
                         SelectedTimeChanged="TimePicker_SelectedTimeChanged"
-                        SelectedTimeFormat="Long"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
-
-                        <materialDesign:TimePicker.Text>
-                            <Binding
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:SimpleDateValidationRule ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </materialDesign:TimePicker.Text>
-                    </materialDesign:TimePicker>
+                        SelectedTimeFormat="Long" />
 
                     <!--  Renovation End Date and Time  -->
                     <!--  Renovation End Date  -->
@@ -497,22 +379,7 @@
                         DisplayDateStart="{x:Static sys:DateTime.Today}"
                         FontSize="16"
                         Foreground="Black"
-                        SelectedDateChanged="DatePicker_SelectedDateChanged"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
-
-                        <DatePicker.SelectedDate>
-                            <Binding
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:FutureDateValidationRule ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </DatePicker.SelectedDate>
-                    </DatePicker>
-
+                        SelectedDateChanged="DatePicker_SelectedDateChanged" />
 
 
                     <!--  Renovation End Time  -->
@@ -540,21 +407,7 @@
                         Foreground="Black"
                         Is24Hours="True"
                         SelectedTimeChanged="TimePicker_SelectedTimeChanged"
-                        SelectedTimeFormat="Long"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
-
-                        <materialDesign:TimePicker.Text>
-                            <Binding
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:SimpleDateValidationRule ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </materialDesign:TimePicker.Text>
-                    </materialDesign:TimePicker>
+                        SelectedTimeFormat="Long" />
 
                     <Separator
                         Grid.Row="9"
@@ -632,7 +485,7 @@
                         </ComboBox.ItemTemplate>
 
                         <ComboBox.Style>
-                            <Style BasedOn="{StaticResource NoValidationWhenCollapsedComboBox}" TargetType="ComboBox">
+                            <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
                                 <Setter Property="Control.Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <MultiDataTrigger>
@@ -646,19 +499,6 @@
                                 </Style.Triggers>
                             </Style>
                         </ComboBox.Style>
-
-                        <ComboBox.Text>
-                            <Binding
-                                Mode="TwoWay"
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </ComboBox.Text>
                     </ComboBox>
 
                     <!--  Merged Room Description  -->
@@ -701,12 +541,11 @@
                         materialDesign:HintAssist.Hint="Unesite opis sobe."
                         FontSize="16"
                         MaxLength="255"
-                        TextWrapping="NoWrap"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+                        TextWrapping="NoWrap">
 
 
                         <TextBox.Style>
-                            <Style BasedOn="{StaticResource NoValidationWhenCollapsedTextBox}" TargetType="TextBox">
+                            <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
                                 <Setter Property="Control.Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <MultiDataTrigger>
@@ -720,20 +559,10 @@
                                 </Style.Triggers>
                             </Style>
                         </TextBox.Style>
-
-                        <TextBox.Text>
-                            <Binding
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                    <validations:MinimumCharacterValidationRule MinimumCharacters="5" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
                     </TextBox>
+
+
+
 
 
                     <!--  FIRST ROOM  -->
@@ -785,7 +614,7 @@
                         </ComboBox.ItemTemplate>
 
                         <ComboBox.Style>
-                            <Style BasedOn="{StaticResource NoValidationWhenCollapsedComboBox}" TargetType="ComboBox">
+                            <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
                                 <Setter Property="Control.Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <MultiDataTrigger>
@@ -799,19 +628,6 @@
                                 </Style.Triggers>
                             </Style>
                         </ComboBox.Style>
-
-                        <ComboBox.Text>
-                            <Binding
-                                Mode="TwoWay"
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </ComboBox.Text>
                     </ComboBox>
 
                     <!--  First Room Description  -->
@@ -854,12 +670,11 @@
                         materialDesign:HintAssist.Hint="Unesite opis sobe."
                         FontSize="16"
                         MaxLength="255"
-                        TextWrapping="NoWrap"
-                        Validation.ErrorTemplate="{StaticResource ValidationErrorTemplate}">
+                        TextWrapping="NoWrap">
 
 
                         <TextBox.Style>
-                            <Style BasedOn="{StaticResource NoValidationWhenCollapsedTextBox}" TargetType="TextBox">
+                            <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
                                 <Setter Property="Control.Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <MultiDataTrigger>
@@ -873,19 +688,6 @@
                                 </Style.Triggers>
                             </Style>
                         </TextBox.Style>
-
-                        <TextBox.Text>
-                            <Binding
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                    <validations:MinimumCharacterValidationRule MinimumCharacters="5" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
                     </TextBox>
 
                     <!--  SECOND ROOM  -->
@@ -937,7 +739,7 @@
                         </ComboBox.ItemTemplate>
 
                         <ComboBox.Style>
-                            <Style BasedOn="{StaticResource NoValidationWhenCollapsedComboBox}" TargetType="ComboBox">
+                            <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
                                 <Setter Property="Control.Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <MultiDataTrigger>
@@ -951,19 +753,6 @@
                                 </Style.Triggers>
                             </Style>
                         </ComboBox.Style>
-
-                        <ComboBox.Text>
-                            <Binding
-                                Mode="TwoWay"
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </ComboBox.Text>
                     </ComboBox>
 
                     <!--  Second Room Description  -->
@@ -1009,7 +798,7 @@
                         TextWrapping="NoWrap">
 
                         <TextBox.Style>
-                            <Style BasedOn="{StaticResource NoValidationWhenCollapsedTextBox}" TargetType="TextBox">
+                            <Style BasedOn="{StaticResource MaterialDesignTextBox}" TargetType="TextBox">
                                 <Setter Property="Control.Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <MultiDataTrigger>
@@ -1023,19 +812,6 @@
                                 </Style.Triggers>
                             </Style>
                         </TextBox.Style>
-
-                        <TextBox.Text>
-                            <Binding
-                                Path="Tag"
-                                RelativeSource="{RelativeSource Self}"
-                                UpdateSourceTrigger="PropertyChanged"
-                                ValidatesOnDataErrors="True">
-                                <Binding.ValidationRules>
-                                    <validations:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
-                                    <validations:MinimumCharacterValidationRule MinimumCharacters="5" />
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
                     </TextBox>
 
                     <Separator
@@ -1179,26 +955,7 @@
                     Foreground="White"
                     Text="Zakaži" />
             </StackPanel>
-
-            <Button.IsEnabled>
-                <MultiBinding Converter="{StaticResource InvertAndBooleansToBooleanConverter}">
-                    <Binding ElementName="ComplexRenovationTypeComboBox" Path="(Validation.HasError)" />
-                    <Binding ElementName="BasicRenovationDescriptionTextBox" Path="(Validation.HasError)" />
-                    <Binding ElementName="SecondRoomForMergingComboBox" Path="(Validation.HasError)" />
-                    <Binding ElementName="RenovationStartDatePicker" Path="(Validation.HasError)" />
-                    <Binding ElementName="RenovationStartTimePicker" Path="(Validation.HasError)" />
-                    <Binding ElementName="RenovationEndDatePicker" Path="(Validation.HasError)" />
-                    <Binding ElementName="RenovationEndTimePicker" Path="(Validation.HasError)" />
-                    <Binding ElementName="MergedRoomTypeComboBox" Path="(Validation.HasError)" />
-                    <Binding ElementName="MergedRoomDescriptionTextBox" Path="(Validation.HasError)" />
-                    <Binding ElementName="RenovationFirstRoomTypeComboBox" Path="(Validation.HasError)" />
-                    <Binding ElementName="RenovationFirstRoomDescriptionTextBox" Path="(Validation.HasError)" />
-                    <Binding ElementName="RenovationSecondRoomTypeComboBox" Path="(Validation.HasError)" />
-                    <Binding ElementName="RenovationSecondRoomDescriptionTextBox" Path="(Validation.HasError)" />
-                </MultiBinding>
-            </Button.IsEnabled>
         </Button>
-
 
         <!--  Close Button  -->
         <Button
@@ -1234,4 +991,3 @@
         </Button>
     </Grid>
 </Window>
-

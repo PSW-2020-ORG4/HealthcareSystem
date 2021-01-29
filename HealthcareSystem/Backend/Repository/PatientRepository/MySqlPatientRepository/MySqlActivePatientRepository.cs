@@ -135,9 +135,6 @@ namespace Backend.Repository
             if (patient.IsBlocked)
                 throw new BadRequestException("Patient is blocked.");
 
-            if (!patient.IsActive)
-                throw new BadRequestException("Patient didn't activate account.");
-
             return patient;
         }
     }

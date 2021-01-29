@@ -652,7 +652,7 @@ function third_step_next() {
                         }
                     }
                     if (multipleTimes == false) {
-                        let appointment = $('<option value="' + i + '">' + appointments[j].startTime + '</option>');
+                        let appointment = $('<option value="' + i + '">' + appointments[j].startTime.split('T')[0] + " " + appointments[j].startTime.split('T')[1] + '</option>');
                         appointmentStartTimes.push(appointments[j].startTime);
                         newAppointments.push(appointments[j]);
                         $('#free_appointments').append(appointment);

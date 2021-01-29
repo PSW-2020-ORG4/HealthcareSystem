@@ -904,10 +904,11 @@ namespace GraphicalEditor
             selectedExamination.RoomId = selectedRoomForExaminationId;
 
             new AppointmentService().AddExamination(selectedExamination, appointmentRequiredEquipmentTypes);
-            InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
+            InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled!");
             infoDialog.ShowDialog();
 
             ClearAppointmentSearchFields();
+            AppointmentSearchScrollViewer.ScrollToTop();
         }
 
         private void ClearAppointmentSearchFields()
@@ -992,6 +993,7 @@ namespace GraphicalEditor
                     ShowDialogWithMoreDetailsAboutScheduledExamination(emergencyExaminationSearchResults[0].UnchangedExamination);
 
                     ClearAppointmentSearchFields();
+                    AppointmentSearchScrollViewer.ScrollToTop();
                 }
                 else
                 {
@@ -1019,6 +1021,7 @@ namespace GraphicalEditor
                 ShowDialogWithMoreDetailsAboutScheduledExamination(examinationForScheduleDTO);
 
                 ClearAppointmentSearchFields();
+                AppointmentSearchScrollViewer.ScrollToTop();
             }
             
             

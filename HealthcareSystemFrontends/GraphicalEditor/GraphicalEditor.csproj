@@ -77,17 +77,17 @@
     </Compile>
     <Compile Include="Constants\ServerConstants.cs" />
     <Compile Include="Controllers\MapObjectController\MapObjectController.cs" />
+    <Compile Include="Converters\CapitalizeStringConverter.cs" />
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\InvertAndBooleansToBooleanConverter.cs" />
     <Compile Include="Converters\IsRoomTypeToVisibilityConverter.cs" />
     <Compile Include="Converters\LengthToBooleanConverter.cs" />
+    <Compile Include="Converters\NegativeEquipmentQuantityConverter.cs" />
     <Compile Include="Converters\SelectedItemToVisibilityConverter.cs" />
     <Compile Include="CreatePatientGuestAccountDialog.xaml.cs">
       <DependentUpon>CreatePatientGuestAccountDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="DTOForView\EquipmentTypeForViewDTO.cs" />
-    <Compile Include="Converters\CapitalizeStringConverter.cs" />
-    <Compile Include="Converters\NegativeEquipmentQuantityConverter.cs" />
     <Compile Include="DTO\AppointmentSearchWithPrioritiesDTO.cs" />
     <Compile Include="DTO\BaseRenovationDTO.cs" />
     <Compile Include="DTO\BasicAppointmentSearchDTO.cs" />

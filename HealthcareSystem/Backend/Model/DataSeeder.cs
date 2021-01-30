@@ -628,6 +628,7 @@ namespace Backend.Model
                 Name = "Janković",
                 ApiKey = "ApiKey1",
                 Url = "http://localhost:8080",
+                Email = "mail@mail.com",
                 ActionsBenefitsExchangeName = "exchange",
                 ActionsBenefitsSubscribed = true,
                 GrpcAdress = new GrpcAdress("localhost", 30051)

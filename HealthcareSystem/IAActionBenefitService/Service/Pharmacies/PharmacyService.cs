@@ -19,5 +19,10 @@ namespace IntegrationAdaptersActionBenefitService.Service
         {
             return _pharmacyRepo.GetPharmaciesBySubscribed(subscribed).ToList();
         }
+
+        public PharmacySystem GetPharmacyByExchangeName(string exchangeName)
+        {
+            return _pharmacyRepo.GetPharmacyByExchangeName(exchangeName);
+        }
     }
 }

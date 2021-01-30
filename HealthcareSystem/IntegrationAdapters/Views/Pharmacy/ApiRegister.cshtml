@@ -46,6 +46,14 @@
     </div>
 
     <div class="form-group">
+        <label class="control-label col-md-2">Email</label>
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="control-label col-md-5">gRPC Host</label>
         <div class="col-md-10">
             @Html.TextBoxFor(model => model.GrpcHost, new { @class = "form-control" })

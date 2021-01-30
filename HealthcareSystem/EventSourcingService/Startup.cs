@@ -59,7 +59,7 @@ namespace EventSourcingService
                 services.AddDbContext<EventSourcingDbContext>(options =>
                 {
                     options.UseNpgsql(
-                        dbSettings.ConnectionString,
+                        dbSettings.ConnectionString + ";SSL Mode=Prefer;Trust Server Certificate=true",
                         x => x.EnableRetryOnFailure(
                             dbSettings.RetryCount, new TimeSpan(0, 0, 0, dbSettings.RetryWaitInSeconds), new List<string>())
                     ).UseLazyLoadingProxies();

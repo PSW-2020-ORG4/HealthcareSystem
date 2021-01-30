@@ -494,6 +494,7 @@ namespace Backend.Model
                         Name = "Janković",
                         ApiKey = "ApiKey1",
                         Url = "http://localhost:8080",
+                        Email = "mail@mail.com",
                         ActionsBenefitsExchangeName = "seeded",
                         ActionsBenefitsSubscribed = true
                     });

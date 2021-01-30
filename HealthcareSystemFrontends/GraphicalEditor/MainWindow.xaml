@@ -14,6 +14,7 @@
     Height="800"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{DynamicResource MaterialDesignFont}"
+    Icon="Resources/Images/clinic location.ico"
     TextElement.FontSize="13"
     TextElement.FontWeight="Regular"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -28,6 +29,7 @@
         <converters:CapitalizeStringConverter x:Key="CapitalizeStringConverter" />
         <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
         <converters:SelectedItemToVisibilityConverter x:Key="SelectedItemToVisibilityConverter" />
+        <converters:IsRoomTypeToVisibilityConverter x:Key="IsRoomTypeToVisibilityConverter" />
     </Window.Resources>
 
     <DockPanel>
@@ -609,7 +611,8 @@
                                                 Background="#7D80DA"
                                                 BorderBrush="{x:Null}"
                                                 Click="ShowRoomScheduleButton_Click"
-                                                FontSize="18">
+                                                FontSize="18"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 <StackPanel
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -639,7 +642,8 @@
                                                 Background="#7D80DA"
                                                 BorderBrush="{x:Null}"
                                                 Click="ShowRenovationSchedulingDialogButton_Click"
-                                                FontSize="18">
+                                                FontSize="18"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 <StackPanel
                                                     HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
@@ -684,7 +688,8 @@
                                                 VerticalAlignment="Bottom"
                                                 FontSize="18"
                                                 FontWeight="Normal"
-                                                Foreground="Black">
+                                                Foreground="Black"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 Oprema u objektu:
                                             </TextBlock>
 
@@ -693,7 +698,8 @@
                                                 x:Name="ObjectEquipmentDataGrid"
                                                 Grid.Row="1"
                                                 Margin="0,0,0,0"
-                                                Style="{StaticResource SidePanelDataGrid}">
+                                                Style="{StaticResource SidePanelDataGrid}"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 <DataGrid.Resources>
                                                     <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
 
@@ -750,7 +756,8 @@
                                             <Separator
                                                 Grid.Row="2"
                                                 Margin="0,0,0,0"
-                                                Background="MediumPurple" />
+                                                Background="MediumPurple"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}" />
 
                                             <!--  OBJECT MEDICINE SECTION  -->
                                             <TextBlock
@@ -759,7 +766,8 @@
                                                 VerticalAlignment="Bottom"
                                                 FontSize="18"
                                                 FontWeight="Normal"
-                                                Foreground="Black">
+                                                Foreground="Black"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 Lekovi u objektu:
                                             </TextBlock>
 
@@ -768,7 +776,8 @@
                                                 x:Name="ObjectMedicineDataGrid"
                                                 Grid.Row="4"
                                                 Margin="0,0,0,0"
-                                                Style="{StaticResource SidePanelDataGrid}">
+                                                Style="{StaticResource SidePanelDataGrid}"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
                                                 <DataGrid.Resources>
                                                     <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
 
@@ -1289,6 +1298,7 @@
                                                 DisplayDateStart="{x:Static sys:DateTime.Today}"
                                                 FontSize="16"
                                                 Foreground="Black"
+                                                SelectedDateChanged="DatePicker_SelectedDateChanged"
                                                 Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
 
 
@@ -1304,6 +1314,7 @@
                                                 FontSize="16"
                                                 Foreground="Black"
                                                 Is24Hours="True"
+                                                SelectedTimeChanged="TimePicker_SelectedTimeChanged"
                                                 SelectedTimeFormat="Long"
                                                 Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
 
@@ -1333,6 +1344,7 @@
                                                 DisplayDateStart="{x:Static sys:DateTime.Today}"
                                                 FontSize="16"
                                                 Foreground="Black"
+                                                SelectedDateChanged="DatePicker_SelectedDateChanged"
                                                 Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
 
 
@@ -1348,6 +1360,7 @@
                                                 FontSize="16"
                                                 Foreground="Black"
                                                 Is24Hours="True"
+                                                SelectedTimeChanged="TimePicker_SelectedTimeChanged"
                                                 SelectedTimeFormat="Long"
                                                 Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
 
@@ -1578,6 +1591,7 @@
 
 
                                             <!--  APPOINTMENT SEARCH RESULTS SECTION  -->
+                                            <!--  Regular appointment search results - Title  -->
                                             <TextBlock
                                                 Grid.Row="18"
                                                 Grid.ColumnSpan="2"
@@ -1585,8 +1599,22 @@
                                                 VerticalAlignment="Bottom"
                                                 FontSize="18"
                                                 FontWeight="Normal"
-                                                Foreground="Black">
+                                                Foreground="Black"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
                                                 Rezultati pretrage:
+                                            </TextBlock>
+
+                                            <!--  Emergency appointment rescheduling search results - Title  -->
+                                            <TextBlock
+                                                Grid.Row="18"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,30,0,10"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="18"
+                                                FontWeight="Normal"
+                                                Foreground="Black"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                Termini koje je moguće pomeriti:
                                             </TextBlock>
 
                                             <!--  APPOINTMENT SEARCH RESULTS TABLE  -->

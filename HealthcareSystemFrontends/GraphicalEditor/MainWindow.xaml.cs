@@ -128,6 +128,7 @@ namespace GraphicalEditor
             set
             {
                 _selectedMapObject = value;
+                OnPropertyChanged("SelectedMapObject");
             }
         }
 
@@ -145,7 +146,7 @@ namespace GraphicalEditor
         }
 
         public ObservableCollection<EquipmentTypeForViewDTO> AllEquipmentTypes { get; set; }
-        
+
         public List<ExaminationDTO> ExaminationSearchResults { get; set; }
 
         public MainWindow()
@@ -165,10 +166,11 @@ namespace GraphicalEditor
             // uncomment only when you want to save the map for the first time
             saveMap();
 
-            LoadInitialMapOnCanvas();           
+            LoadInitialMapOnCanvas();
+
             SetDataToUIControls();
         }
-        
+
 
         public MainWindow(string currentUserRole, string currentUsername)
         {
@@ -225,11 +227,11 @@ namespace GraphicalEditor
 
             EquipmentTypeService equipmentTypeService = new EquipmentTypeService();
             List<EquipmentTypeDTO> equipmentTypes = equipmentTypeService.GetEquipmentTypes();
-            if(equipmentTypes!= null)
-            foreach(EquipmentTypeDTO equipmentType in equipmentTypes)
-            {
-                AllEquipmentTypes.Add(new EquipmentTypeForViewDTO(equipmentType, false));
-            }
+            if (equipmentTypes != null)
+                foreach (EquipmentTypeDTO equipmentType in equipmentTypes)
+                {
+                    AllEquipmentTypes.Add(new EquipmentTypeForViewDTO(equipmentType, false));
+                }
         }
 
 
@@ -248,11 +250,11 @@ namespace GraphicalEditor
 
         private ICollection<int> GetFreeRoomsByAppointment(List<ExaminationDTO> freeAppointments, ExaminationDTO appointment)
         {
-           if(appointment == null)
-           {
+            if (appointment == null)
+            {
                 return new List<int>();
-           }
-    
+            }
+
             ICollection<int> freeRooms = new List<int>();
 
             foreach (var e in freeAppointments.Where(e => e.DateTime.Equals(appointment.DateTime)))
@@ -276,6 +278,9 @@ namespace GraphicalEditor
                 if (!_currentUserRole.Equals("Manager"))
                 {
                     EditObjectButton.Visibility = Visibility.Collapsed;
+                    //ShowRoomScheduleButton.Visibility = Visibility.Collapsed;
+                    //ShowRenovationSchedulingDialogButton.Visibility = Visibility.Collapsed;
+                    //OpenEquipmentRelocationDialogButton.Visibility = Visibility.Collapsed;
                 }
 
                 if (!_currentUserRole.Equals("Secretary"))
@@ -588,11 +593,20 @@ namespace GraphicalEditor
                     IsMenuOpened = false;
                     break;
                 case 4:
-                    IsMenuOpened = false;
+                    {
+                        IsMenuOpened = false;
+                        SelectedMenuOptionIndex = 0;
+                        ShowAboutAppDialog();
+                    }
                     break;
             }
         }
 
+        private void ShowAboutAppDialog()
+        {
+            AboutAppDialog aboutAppDialog = new AboutAppDialog();
+            aboutAppDialog.ShowDialog();
+        }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
@@ -621,7 +635,7 @@ namespace GraphicalEditor
 
         public MapObject GetMapObjectById(long mapObjectId)
         {
-           return _mapObjectController.GetMapObjectById(mapObjectId);
+            return _mapObjectController.GetMapObjectById(mapObjectId);
         }
 
         public void ShowSelectedSearchResultObjectOnMap(MapObject selectedSearchResultObject)
@@ -684,18 +698,69 @@ namespace GraphicalEditor
             ShowSelectedSearchResultObjectOnMap(selectedSearchResultMapObject);
         }
 
-       
+
         private void AppointmentDoctorSpecializationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DoctorService doctorService = new DoctorService();
-           
+
             SpecialtyDTO selectedSpecialty = (SpecialtyDTO)AppointmentDoctorSpecializationComboBox.SelectedItem;
             List<DoctorDTO> doctorsWithSelectedSpecialty = doctorService.GetDoctorsBySpecialty(selectedSpecialty.Id);
             AppointmentDoctorComboBox.ItemsSource = doctorsWithSelectedSpecialty;
         }
 
+        private void ShowDateIntervalInvalidDialog()
+        {
+            string dateIntervalInvalidMessage = String.Format("Neispravan unos vremenskog intervala!{0}Gornja granica vremenskog intervala mora biti veća od donje!",
+                                                                Environment.NewLine);
+
+            InfoDialog infoDialog = new InfoDialog(dateIntervalInvalidMessage);
+            infoDialog.ShowDialog();
+        }
+
+        private bool CheckIsDateTimeIntervalValid()
+        {
+            if (AppointmentSearchStartDatePicker.SelectedDate == null || AppointmentSearchEndDatePicker.SelectedDate == null)
+            {
+                return false;
+            }
+            else if (AppointmentSearchStartDatePicker.SelectedDate != null && AppointmentSearchEndDatePicker.SelectedDate != null)
+            {
+                if (AppointmentSearchEndDatePicker.SelectedDate < AppointmentSearchStartDatePicker.SelectedDate)
+                {
+                    ShowDateIntervalInvalidDialog();
+                    return false;
+                }
+                else if (AppointmentSearchEndDatePicker.SelectedDate == AppointmentSearchStartDatePicker.SelectedDate)
+                {
+                    if (AppointmentSearchEndTimePicker.SelectedTime <= AppointmentSearchStartTimePicker.SelectedTime)
+                    {
+                        ShowDateIntervalInvalidDialog();
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CheckIsDateTimeIntervalValid();
+        }
+
+        private void TimePicker_SelectedTimeChanged(object sender, RoutedPropertyChangedEventArgs<DateTime?> e)
+        {
+            CheckIsDateTimeIntervalValid();
+        }
+
+
+
         private void SearchAppointmentsButton_Click(object sender, RoutedEventArgs e)
         {
+            if (!CheckIsDateTimeIntervalValid())
+            {
+                return;
+            }
+
             DateTime startDate = AppointmentSearchStartDatePicker.SelectedDate.Value.Date;
             DateTime startTime = AppointmentSearchStartTimePicker.SelectedTime.Value;
            
@@ -784,10 +849,11 @@ namespace GraphicalEditor
             selectedExamination.RoomId = selectedRoomForExaminationId;
 
             new AppointmentService().AddExamination(selectedExamination, appointmentRequiredEquipmentTypes);
-            InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
+            InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled!");
             infoDialog.ShowDialog();
 
             ClearAppointmentSearchFields();
+            AppointmentSearchScrollViewer.ScrollToTop();
         }
 
         private void ClearAppointmentSearchFields()
@@ -848,7 +914,7 @@ namespace GraphicalEditor
             AppointmentSearchWithPrioritiesDTO appointmentSearchParametersDTO = new AppointmentSearchWithPrioritiesDTO
             {
                 InitialParameters = new BasicAppointmentSearchDTO(patientCardId, doctorJmbg: "0909965768767", appointmentRequiredEquipmentTypes,
-                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 23, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime()),
+                earliestDateTime: new DateTime(DateTime.Now.Year, DateTime.Now.Month, 29, 7, 0, 0, DateTimeKind.Utc), latestDateTime: new DateTime()),
                 Priority = SearchPriority.Date,
                 SpecialtyId = doctorSpecialtyId
             };
@@ -865,10 +931,14 @@ namespace GraphicalEditor
                 {
 
                     appointmentService.AddExamination(emergencyExaminationSearchResults[0].UnchangedExamination, appointmentRequiredEquipmentTypes);
-                    InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
+
+                    
+                    InfoDialog infoDialog = new InfoDialog(String.Format("Uspešno ste zakazali pregled!{0}{0}Nakon zatvaranja ovog dijaloga, biće prikazano više informacija o zakazanom pregledu.", Environment.NewLine));
                     infoDialog.ShowDialog();
+                    ShowDialogWithMoreDetailsAboutScheduledExamination(emergencyExaminationSearchResults[0].UnchangedExamination);
 
                     ClearAppointmentSearchFields();
+                    AppointmentSearchScrollViewer.ScrollToTop();
                 }
                 else
                 {
@@ -890,15 +960,25 @@ namespace GraphicalEditor
 
                 appointmentService.RescheduleExamination(rescheduleExaminationDTO);
 
-                InfoDialog infoDialog = new InfoDialog("Uspešno ste zakazali pregled.");
-                infoDialog.ShowDialog();
-
                 
+                InfoDialog infoDialog = new InfoDialog(String.Format("Uspešno ste zakazali pregled!{0}{0}Nakon zatvaranja ovog dijaloga, biće prikazano više informacija o zakazanom pregledu.", Environment.NewLine));
+                infoDialog.ShowDialog();
+                ShowDialogWithMoreDetailsAboutScheduledExamination(examinationForScheduleDTO);
+
                 ClearAppointmentSearchFields();
+                AppointmentSearchScrollViewer.ScrollToTop();
             }
             
             
         }
+
+        private void ShowDialogWithMoreDetailsAboutScheduledExamination(ExaminationDTO examinationDTO)
+        {
+            AppointmentInRoomMoreDetailsDialog appointmentInRoomMoreDetailsDialog = new AppointmentInRoomMoreDetailsDialog(examinationDTO);
+            appointmentInRoomMoreDetailsDialog.ShowDialog();
+        }
+
+
 
         private void OpenEquipmentRelocationDialogButton_Click(object sender, RoutedEventArgs e)
         {

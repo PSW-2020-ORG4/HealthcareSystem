@@ -1,0 +1,168 @@
+trigger:
+  batch: true
+  branches:
+    include:
+    - develop
+pr: none
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+stages:
+- stage: Wait
+  displayName: Wait for component redeployments
+  jobs:
+  - job: Wait
+    displayName: Wait for component redeployments
+    pool: Server
+    steps:
+    - task: Delay@1
+      inputs:
+        delayForMinutes: '5' 
+
+- stage: Prepare
+  displayName: Prepare for tests
+  variables:
+    HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
+  jobs:  
+  - job: ResetDb
+    displayName: Reset database
+    steps:
+      - task: UseDotNet@2
+        inputs:
+          packageType: 'sdk'
+          version: '3.1.x'
+      - task: PowerShell@2
+        displayName: "Generate SQL script"
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "----- Installing EF Core. -----"
+            dotnet tool install --global dotnet-ef --version 3.1.9
+            echo "----- Generating script. -----"
+            dotnet-ef dbcontext script -c "PostgreSeededDbContext" -p "./HealthcareSystem/Backend/Backend.csproj" -o init.sql
+          pwsh: true
+      - publish: $(System.DefaultWorkingDirectory)/init.sql
+        artifact: script
+      - task: PowerShell@2
+        displayName: "Initialize Heroku Postgres"
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "----- Reseting database. -----"
+            heroku pg:reset DATABASE_URL --app psw-patient-service --confirm psw-patient-service
+            echo "----- Initializing database. -----"
+            Get-Content init.sql | heroku pg:psql DATABASE_URL --app psw-patient-service
+          pwsh: true     
+
+- stage: Smoke
+  displayName: Run smoke tests
+  jobs:
+  - job: UserService
+    steps:
+      - task: PowerShell@2
+        displayName: "Ping test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://psw-user-service.herokuapp.com/api/ping -code 200'
+          pwsh: true
+      - task: PowerShell@2
+        displayName: "Database connection test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://psw-user-service.herokuapp.com/api/country -code 200'
+          pwsh: true
+
+  - job: FeedbackAndSurveyService
+    steps:
+      - task: PowerShell@2
+        displayName: "Ping test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://psw-feedback-and-survey.herokuapp.com/api/ping -code 200'
+          pwsh: true
+      - task: PowerShell@2
+        displayName: "Database connection test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://psw-feedback-and-survey.herokuapp.com/api/feedback/published -code 200'
+          pwsh: true
+
+  - job: NotificationService
+    steps:
+      - task: PowerShell@2
+        displayName: "Ping test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://psw-notification-service.herokuapp.com/api/ping -code 200'
+          pwsh: true
+
+  - job: PatientService
+    steps:
+      - task: PowerShell@2
+        displayName: "Ping test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://psw-patient-service.herokuapp.com/api/ping -code 200'
+          pwsh: true
+
+  - job: ScheduleService
+    steps:
+      - task: PowerShell@2
+        displayName: "Ping test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://psw-schedule-service.herokuapp.com/api/ping -code 200'
+          pwsh: true
+
+  - job: ApiGateway
+    steps:
+      - task: PowerShell@2
+        displayName: "Ping test"
+        inputs:
+          filePath: 'pipelines/cd/smoke.ps1'
+          arguments: '-uri https://psw-patientwebapp.herokuapp.com/api/ping -code 200'
+          pwsh: true
+
+
+- stage: E2E
+  displayName: Run E2E tests
+  pool:
+    vmImage: 'windows-latest'
+  variables:
+    e2etests: 'HealthcareSystem/SeleniumTests/PatientWebAppE2ETests.csproj'
+  jobs:
+  - job: Test
+    steps:
+    - task: PowerShell@2
+      displayName: 'Run tests'
+      inputs:
+        targetType: 'inline'
+        script: |
+          #
+          $Env:PWA_HOST = "https://psw-patientwebapp.herokuapp.com"
+          dotnet test $(e2etests)
+          
+
+- stage: UndoDbChanges
+  dependsOn: E2E
+  condition: succeededOrFailed()
+  displayName: Undo database changes from tests
+  variables:
+    HEROKU_API_KEY: a191be3d-3484-49dc-a542-8f47c02c1ad9
+  jobs:  
+  - job: ResetDb
+    displayName: Reset database
+    steps:
+      - download: current
+        artifact: script
+      - task: PowerShell@2
+        displayName: "Initialize Heroku Postgres"
+        inputs:
+          targetType: 'inline'
+          script: |
+            echo "----- Reseting database. -----"
+            heroku pg:reset DATABASE_URL --app psw-patient-service --confirm psw-patient-service
+            echo "----- Initializing database. -----"
+            Get-Content $(Pipeline.Workspace)/script/init.sql | heroku pg:psql DATABASE_URL --app psw-patient-service
+          pwsh: true     

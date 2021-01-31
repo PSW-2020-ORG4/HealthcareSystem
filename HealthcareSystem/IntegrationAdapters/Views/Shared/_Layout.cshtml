@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Director</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/dropdown-search/css/hierarchy-select.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Director</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPharmacies" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Pharmacies
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownPharmacies">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Pharmacy" asp-action="ApiRegister">Register API</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Pharmacy" asp-action="Index">Registered Pharmacies</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="ActionBenefit" asp-action="Index">Actions&Benefits</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownDrugs" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Drugs
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownDrugs">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DrugReport" asp-action="Index">Consumption Report</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DrugAvailability" asp-action="Index">Drug Availability</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="DrugSpecifications" asp-action="Index">Drug Specifications</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Tender" asp-action="Index">Tendering</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Prescription" asp-action="Index">Prescription</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/dropdown-search/js/hierarchy-select.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript" src="~/lib/jquery-cookie/jquery.cookie.js"></script>
+    <script type="text/javascript" src="~/js/CreateDevice.js"></script>
+    <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

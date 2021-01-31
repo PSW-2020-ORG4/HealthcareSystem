@@ -1,0 +1,49 @@
+version: "3.8"
+services: 
+  intergrationadapters:
+    ports:
+    - "8282:80"
+    restart: on-failure
+    networks:
+      - demo
+
+  patientwebapp:
+    ports:
+    - "8181:80"
+    restart: on-failure
+    networks:
+      - demo
+
+  graphicaleditorserver:
+    ports:
+    - "5001:80"
+    restart: on-failure
+    networks:
+      - demo
+
+  isabackend:
+    restart: always
+    depends_on:      
+      - rabbitmq
+    ports:
+      - 8383:8080
+    environment:
+      spring.rabbitmq.host: "rabbitmq"
+      spring.rabbitmq.port: 5672
+      spring.rabbitmq.username: "org4"
+      spring.rabbitmq.password: "org4"
+    networks:
+      - demo
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: "org4"
+      RABBITMQ_DEFAULT_PASS: "org4"
+    networks:
+      - demo
+
+networks:
+  demo:
+    name: demo
+    driver: bridge

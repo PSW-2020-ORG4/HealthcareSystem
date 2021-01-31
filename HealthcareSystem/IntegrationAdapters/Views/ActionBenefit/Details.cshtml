@@ -1,0 +1,32 @@
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model Backend.Model.ActionBenefit
+@{
+    ViewBag.ItemName = "ActionBenefit";
+}
+
+<div class="card text-center">
+    <div class="card-header">
+        <a href="@Model.Pharmacy.Url"><h2 class="text-center">@Model.Pharmacy.Name</h2></a>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.Message.Subject</h5>
+        <p class="card-text">@Model.Message.Message</p>
+    </div>
+    <div class="card-footer">
+        <h6>Make this Action&Benefit public</h6>
+        <div class="container">
+            <div class="row">
+                @if (Model.IsPublic)
+                {
+                    <div class="col-sm"><a><h6>Yes</h6></a></div>
+                    <div class="col-sm"><a asp-controller="@ViewBag.ItemName" asp-action="MakePublic" asp-route-id="@Model.Id" asp-route-isPublic="false">No</a></div>
+                }
+                else
+                {
+                    <div class="col-sm"><a asp-controller="@ViewBag.ItemName" asp-action="MakePublic" asp-route-id="@Model.Id" asp-route-isPublic="true">Yes</a></div>
+                    <div class="col-sm"><a><h6>No</h6></a></div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

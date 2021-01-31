@@ -1,0 +1,76 @@
+version: "3.8"
+services: 
+  database:
+    restart: always
+    networks:
+      - demo  
+
+  esdatabase:
+    restart: always
+    networks:
+      - demo  
+
+  graphicaleditorserver:
+    build:
+      context: ../../HealthcareSystem/GraphicalEditorServer
+      dockerfile: Dockerfile.local
+    ports:
+    - "5001:80"
+    environment:
+      PATIENT_SERVICE_URL: "http://patientservice"
+      USER_SERVICE_URL: "http://userservice"
+      SCHEDULE_SERVICE_URL: "http://scheduleservice"
+      EVENT_SOURCING_SERVICE_URL: "http://esservice"
+    depends_on:
+      - userservice
+      - patientservice
+      - scheduleservice
+      - esservice
+    restart: on-failure
+    networks:
+      - demo
+
+  esservice:
+    build:
+      context: ../../HealthcareSystem/EventSourcingService
+      dockerfile: Dockerfile.local
+    depends_on:
+      - esdatabase
+    restart: on-failure
+    networks:
+      - demo
+
+  userservice:
+    build:
+      context: ../../HealthcareSystem/UserService
+      dockerfile: Dockerfile.local
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - demo
+
+  scheduleservice:
+    build:
+      context: ../../HealthcareSystem/ScheduleService
+      dockerfile: Dockerfile.local
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - demo
+
+  patientservice:
+    build:
+      context: ../../HealthcareSystem/PatientService
+      dockerfile: Dockerfile.local
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - demo
+
+networks:
+  demo:
+    name: demo
+    driver: bridge

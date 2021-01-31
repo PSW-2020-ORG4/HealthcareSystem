@@ -1,0 +1,482 @@
+﻿<Window x:Class="ProjekatZdravoKorporacija.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjekatZdravoKorporacija"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Height="768" Width="1024"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="NoResize">
+
+    <Window.Resources>
+
+        <Style x:Key="font_style" TargetType="TextBlock">
+            <Setter Property="FontFamily"
+                    Value="Fonts/Roboto-Light.ttf #Roboto"/>
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+            <Setter Property="HorizontalAlignment"
+                    Value="Left"/>
+            <Setter Property="Foreground"
+                    Value="White"/>
+            <Setter Property="FontSize"
+                    Value="18"/>
+        </Style>
+
+        <Style x:Key="tb_style" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border  x:Name="border"
+                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                 Background="{TemplateBinding Background}"
+                                 SnapsToDevicePixels="True">
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid>
+
+        <!--// Background Color //-->
+        <Grid  x:Name="BG" PreviewMouseLeftButtonDown="BG_PreviewMouseLeftButtonDown">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65"/>
+                    <ColumnDefinition Width="722*"/>
+                    <ColumnDefinition Width="172.8"/>
+                    <ColumnDefinition Width="65*"/>
+                    <ColumnDefinition Width="65*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+
+                <Border Grid.Row="0" Grid.ColumnSpan="5" Background="#FF002F43" HorizontalAlignment="Right" Width="1024"></Border>
+
+                <Frame x:Name="Main"
+                       Grid.Row="1" 
+                       Grid.Column="1" 
+                       Grid.ColumnSpan="4"
+                       NavigationUIVisibility="Hidden"
+                       x:FieldModifier="public"></Frame>
+                
+
+                <Button  x:Name="SettingseBtn" Grid.Row="0" Grid.Column="3" BorderBrush="{x:Null}" Height="40" Margin="0" Width="40">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Resources/Icons/settings.png"/>
+                    </Button.Background>
+                </Button>
+                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" Grid.Row="0" Grid.Column="3"
+                          StaysOpen="False" Width="40" RenderTransformOrigin="-0.344,0.412" 
+                          Margin="10,10,0,10" Foreground="{x:Null}" BorderBrush="#FF002F43" 
+                          BorderThickness="2" Background="{DynamicResource MaterialDesignPaper}">
+                    <StackPanel Width="150" >
+                        <Button Name="editProfileBtn" Content="Izmijeni profil" Foreground="#FF002F43" Click="editProfileBtn_Click">
+                        </Button>
+                        <Separator/>
+                        <Button Name="signOutBtn" Content="Odjavi se" Foreground="#FF002F43" Click="signOutBtn_Click"/>
+                    </StackPanel>
+                </materialDesign:PopupBox>
+
+                <Button x:Name="CloseBtn" Grid.Row="0" Grid.Column="4" Click="CloseBtn_Click" 
+                        BorderBrush="{x:Null}" Height="40" Width="40">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Resources/Icons/shutdown.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+
+
+            <!--// Navigation Panel //-->
+
+            <Grid   x:Name="nav_pnl"
+                    HorizontalAlignment="Left"
+                    Width="65"
+                    Background="#FF002F43">
+
+                <StackPanel x:Name="st_pnl">
+
+                    <!--// Grid for the Menu Toggle Button //-->
+
+                    <Grid Height="90">
+
+                        <!--// Toggle Button //-->
+                        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="0,0,-214.2,0">
+                            <ToggleButton x:Name="Tg_Btn"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"
+                                      Margin="18,10,0,34.6"
+                                      Height="40"
+                                      Width="40"
+                                      BorderThickness="0"
+                                      Style="{StaticResource tb_style}">
+
+                                <!--// Toggle button default background image //-->
+
+                                <ToggleButton.Background>
+
+                                    <ImageBrush ImageSource="/Resources/Icons/tgBtn_default.png"
+                                            Stretch="None"/>
+
+                                </ToggleButton.Background>
+
+                                <!--// Toggle Button - Checked, Unchecked events //-->
+
+                                <ToggleButton.Triggers>
+
+                                    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+
+                                        <BeginStoryboard>
+
+                                            <Storyboard x:Name="HideStackPanel">
+
+                                                <DoubleAnimation    
+                                                
+                                                Storyboard.TargetName="nav_pnl"
+                                                Storyboard.TargetProperty="Width"
+                                                BeginTime="0:0:0"
+                                                From="230" To="65"
+                                                Duration="0:0:0.2"/>
+
+                                            </Storyboard>
+
+                                        </BeginStoryboard>
+
+                                    </EventTrigger>
+
+                                    <EventTrigger RoutedEvent="ToggleButton.Checked">
+
+                                        <BeginStoryboard>
+
+                                            <Storyboard x:Name="ShowStackPanel">
+
+                                                <DoubleAnimation
+                                                
+                                                Storyboard.TargetName="nav_pnl"
+                                                Storyboard.TargetProperty="Width"
+                                                BeginTime="0:0:0"
+                                                From="65" To="230"
+                                                Duration="0:0:0.2"/>
+
+                                            </Storyboard>
+
+                                        </BeginStoryboard>
+
+                                    </EventTrigger>
+
+                                </ToggleButton.Triggers>
+                            </ToggleButton>
+                            <Image Source="/Resources/Icons/logo_photo.png" Margin="8,-30,0,1" Width="189"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal"
+                                        Width="225" Margin="0,-30,0,0">
+
+                        <StackPanel Width="200"></StackPanel>
+                        <Image Source="/Resources/Icons/back.png"
+                               HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top"/>
+
+                    </StackPanel>
+
+                    <!--// ListView with menu list items //-->
+
+                    <ListView  x:Name="LV"
+                               Background="Transparent"
+                               BorderBrush="Transparent"
+                               ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                        <!--// Home //-->
+
+                        <ListViewItem   Name="Home"
+                                        HorizontalAlignment="Left"
+                                        Margin="0,0,0,15"
+                                        PreviewMouseLeftButtonUp="Home_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/home.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Početna"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+                        <!--// Patients //-->
+
+                        <ListViewItem Name="Patients"
+                                      HorizontalAlignment="Left"
+                                      Margin="0,0,0,15"
+                                      PreviewMouseLeftButtonUp="Patients_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/all_people.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Pacijenti"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+                        <!--// Examinations //-->
+
+                        <ListViewItem   Name="Examinations"
+                                        HorizontalAlignment="Left"
+                                        Margin="0,0,0,15"
+                                        PreviewMouseLeftButtonUp="Examinations_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/calendar.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Zakazani pregledi"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+                        <!--// Deleted examinations //-->
+
+                        <ListViewItem HorizontalAlignment="Left"
+                                      Margin="0,0,0,15" 
+                                      Name="CanceledExaminations"
+                                      PreviewMouseLeftButtonUp="CanceledExaminations_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/recycle_bin.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Otkazani pregledi"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+                     
+                        <!--// Doctors //-->
+
+                        <ListViewItem HorizontalAlignment="Left"
+                                      Margin="0,0,0,15"
+                                      Name="Doctors"
+                                      PreviewMouseLeftButtonUp="Doctors_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/doctor.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Doktori"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+
+                        <!--// Rooms //-->
+
+                        <ListViewItem HorizontalAlignment="Left"
+                                      Margin="0,0,0,15"
+                                      Name="Rooms"
+                                      PreviewMouseLeftButtonUp="Rooms_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/hospital_bed.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Sobe"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+
+                        <!--// Search examinations //-->
+
+                        <ListViewItem HorizontalAlignment="Left"
+                                      Margin="0,0,0,15"
+                                      Name="Search"
+                                      PreviewMouseLeftButtonUp="Search_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/search.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Pretraga pregleda"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+                        <!--// Report //-->
+
+                        <ListViewItem HorizontalAlignment="Left"
+                                      Margin="0,0,0,15"
+                                      Name="Report"
+                                      PreviewMouseLeftButtonUp="Report_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/report.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Izvještaj"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+                        <!--// Hospital Map - Graphic Editor //-->
+
+                        <ListViewItem HorizontalAlignment="Left"
+                                      Margin="0,0,0,15"
+                                      Name="HospitalMap"
+                                      PreviewMouseLeftButtonUp="HospitalMap_PreviewMouseLeftButtonUp">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Width="225">
+
+                                <Image Source="/Resources/Icons/map.png"
+                                       Stretch="None"
+                                       Margin="12,0,0,0"/>
+
+                                <TextBlock Text="Mapa bolnice"
+                                           Margin="15,0,0,0"
+                                           Style="{StaticResource font_style}"/>
+
+                            </StackPanel>
+
+                        </ListViewItem>
+
+
+
+
+
+                        <!--// Listview items style template //-->
+
+                        <ListView.ItemContainerStyle>
+
+                            <Style TargetType="ListViewItem">
+
+                                <Setter Property="Template">
+
+                                    <Setter.Value>
+
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+
+                                            <Border x:Name="Bd"
+                                                    Height="50"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Background="{TemplateBinding Background}"
+                                                    Padding="{TemplateBinding Padding}"
+                                                    SnapsToDevicePixels="True">
+
+                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                            </Border>
+
+                                            <ControlTemplate.Triggers>
+
+                                                <MultiTrigger>
+
+                                                    <MultiTrigger.Conditions>
+
+                                                        <Condition Property="IsMouseOver" Value="True"/>
+
+                                                    </MultiTrigger.Conditions>
+
+                                                    <Setter Property="Background"
+                                                            TargetName="Bd"
+                                                            Value="#404D5B"/>
+
+                                                    <Setter Property="BorderBrush"
+                                                            TargetName="Bd"
+                                                            Value="#404D5B"/>
+
+                                                </MultiTrigger>
+
+                                            </ControlTemplate.Triggers>
+
+                                        </ControlTemplate>
+
+                                    </Setter.Value>
+
+                                </Setter>
+
+                            </Style>
+
+                        </ListView.ItemContainerStyle>
+
+                    </ListView>
+
+                </StackPanel>
+
+
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+
+</Window>

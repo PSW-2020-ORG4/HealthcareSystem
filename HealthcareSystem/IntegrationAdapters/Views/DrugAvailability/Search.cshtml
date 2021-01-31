@@ -1,0 +1,67 @@
+﻿@model List<SearchResultDto>
+
+<div class="card text-center">
+    <div class="card-header">
+        <h2 class="text-center">Drug Availability</h2>
+    </div>
+    <div class="card-body">
+        <form class="form" method="get" action="/DrugAvailability/Search">
+            @Html.AntiForgeryToken()
+            <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input id="textinput" name="name" type="text" class="form-control input-md" required="" value="@ViewBag.SearchBox" />
+                        </td>
+                        <td>
+                            <input type="submit" value="Search" class="btn btn-primary">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+        @if (Model.Count == 0)
+        {
+            @Html.Partial("_NoData")
+        }
+        @foreach (var searchResult in Model)
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="6"><h5 class="card-title">Pharmacy system: @searchResult.pharmacySystem.Name</h5></th>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Code</th>
+                        <th>Pharmacy name</th>
+                        <th>Address</th>
+                        <th>Order</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var drug in searchResult.drugs)
+                    {
+                        <tr>
+                            <td>@drug.Name</td>
+                            <td>@drug.Quantity</td>
+                            <td>@drug.Code</td>
+                            <td>@drug.PharmacyDto.Name</td>
+                            <td>@drug.PharmacyDto.Address</td>
+                            <td>@Html.ActionLink("Order", "Index", "DrugProcurement", new 
+                                {
+                                    PharmacySystemId = searchResult.pharmacySystem.Id, 
+                                    PharmacyId = drug.PharmacyDto.Id, 
+                                    DrugId = drug.Id, 
+                                    DrugName = drug.Name,
+                                    Code = drug.Code,
+                                    Quantity = drug.Quantity
+                                }, new { @class = "btn btn-primary" })</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+        </div>

@@ -1,0 +1,175 @@
+variables:
+  HEROKU_API_KEY: 8418d6b4-7423-404b-81cf-23abcd968591
+  e2etests: 'HealthcareSystem/E2ETests/E2ETests.csproj'
+  project: 'HealthcareSystem/PatientWebApp/PatientWebApp.csproj'
+  configuration: 'Release'
+  
+pool:
+  vmImage: 'ubuntu-18.04'
+
+jobs:
+- job: Deploy
+  steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '3.1.x'
+  - task: PowerShell@2
+    displayName: "Generate SQL script"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Installing EF Core. -----"
+        dotnet tool install --global dotnet-ef --version 3.1.9
+        echo "----- Generating script. -----"
+        $Env:ASPNETCORE_ENVIRONMENT = "Test"
+        dotnet-ef dbcontext script -c "MyDbContext" -p "./HealthcareSystem/PatientWebApp/PatientWebApp.csproj" -o init.sql
+      pwsh: true
+  - task: PowerShell@2
+    displayName: "Initialize Heroku Postgres"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Reseting database. -----"
+        heroku pg:reset DATABASE_URL --app vlaksi-patientwebapp --confirm vlaksi-patientwebapp
+        echo "----- Initializing database. -----"
+        Get-Content init.sql | heroku pg:psql DATABASE_URL --app vlaksi-patientwebapp
+      pwsh: true
+  - task: PowerShell@2
+    displayName: "Deploy PatientWebApp"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Logging in to Heroku registry. -----"
+        heroku container:login
+        echo '----- Pulling image from DockerHub. -----'
+        docker pull pufke/patientwebapp
+        echo '----- Creating Heroku app. -----'
+        heroku create vlaksi-patientwebapp
+        echo '----- Pushing to Heroku registry. -----'
+        docker tag pufke/patientwebapp registry.heroku.com/vlaksi-patientwebapp/web
+        docker push registry.heroku.com/vlaksi-patientwebapp/web
+        echo '----- Releasing app. -----'
+        heroku container:release web --app vlaksi-patientwebapp
+      pwsh: true
+  - task: PowerShell@2
+    displayName: "Deploy GraphicalEditorServer"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Logging in to Heroku registry. -----"
+        heroku container:login
+        echo '----- Pulling image from DockerHub. -----'
+        docker pull pufke/graphicaleditor
+        echo '----- Creating Heroku app. -----'
+        heroku create vlaksi-graphicaleditor
+        echo '----- Pushing to Heroku registry. -----'
+        docker tag pufke/graphicaleditor registry.heroku.com/vlaksi-graphicaleditor/web
+        docker push registry.heroku.com/vlaksi-graphicaleditor/web
+        echo '----- Releasing app. -----'
+        heroku container:release web --app vlaksi-graphicaleditor
+      pwsh: true
+  - task: PowerShell@2
+    displayName: "Deploy IntegrationAdapters"
+    inputs:
+      targetType: 'inline'
+      script: |
+        echo "----- Logging in to Heroku registry. -----"
+        heroku container:login
+        echo '----- Pulling image from DockerHub. -----'
+        docker pull pufke/integrationadapters
+        echo '----- Creating Heroku app. -----'
+        heroku create vlaksi-integrationadapters
+        echo '----- Pushing to Heroku registry. -----'
+        docker tag pufke/integrationadapters registry.heroku.com/vlaksi-integrationadapters/web
+        docker push registry.heroku.com/vlaksi-integrationadapters/web
+        echo '----- Releasing app. -----'
+        heroku container:release web --app vlaksi-integrationadapters
+      pwsh: true
+
+- job: Tests
+  dependsOn: Deploy
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core SDK 3.1.x for build'
+      inputs:
+        packageType: 'sdk'
+        version: '3.1.x'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Restore project'
+      inputs:
+        command: 'restore'
+        projects: '$(project)'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Build project'
+      inputs:
+        command: 'build'
+        projects: '$(project)'
+        arguments: '-c $(configuration)'
+
+    - task: Bash@3
+      displayName: 'Run Smoke Test [patientwebapp]'
+      inputs:
+        targetType: 'inline'
+        script: |
+          i=0
+          while [[ $i -lt 10 ]]
+          do
+            if [ $( curl -s -o /dev/null -w "%{http_code}" https://vlaksi-patientwebapp.herokuapp.com/api/country ) -eq 200 ]
+            then
+              if [ -n "$(curl -sb -H "Accept: application/json" "https://vlaksi-patientwebapp.herokuapp.com/api/country")"  ]
+              then 
+                echo 'Smoke test [patientwebapp]: DevOps on fire'
+                break
+              else
+                echo 'Smoke test [patientwebapp]: There is still no fire [ without data in response ]'
+              fi
+            else
+              echo 'Smoke test [patientwebapp]: There is still no fire [ code response is not 200 ]'
+            fi
+            ((i++))
+            if [[ $i -eq 10 ]]; then
+              echo 'We try 10 time and there is no successful response'
+              exit 1
+            fi
+            sleep 15
+          done
+    - task: Bash@3
+      displayName: 'Run Smoke Test [graphicaleditor]'
+      inputs:
+        targetType: 'inline'
+        script: |
+          i=0
+          while [[ $i -lt 10 ]]
+          do
+            if [ $( curl -s -o /dev/null -w "%{http_code}" https://vlaksi-graphicaleditor.herokuapp.com/api/drugs ) -eq 200 ]
+            then
+              if [ -n "$(curl -sb -H "Accept: application/json" "https://vlaksi-graphicaleditor.herokuapp.com/api/drugs")"  ]
+              then 
+                echo 'Smoke test[graphicaleditor]: DevOps on fire'
+                break
+              else
+                echo 'Smoke test[graphicaleditor]: There is still no fire [ without data in response ]'
+              fi
+            else
+              echo 'Smoke test[graphicaleditor]: There is still no fire [ code response is not 200 ]'
+            fi
+            ((i++))
+            if [[ $i -eq 10 ]]; then
+              echo 'Smoke test[graphicaleditor]: We try 10 time and there is no successful response'
+              exit 1
+            fi
+            sleep 15
+          done
+    - task: PowerShell@2
+      displayName: 'Run E2E tests'
+      inputs:
+        targetType: 'inline'
+        script: |
+          #
+          dotnet test $(e2etests) --collect "Code Coverage" --results-directory "$(Agent.TempDirectory)"

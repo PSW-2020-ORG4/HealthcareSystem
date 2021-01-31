@@ -1,0 +1,18 @@
+﻿<Window x:Class="WpfApp1.MessageConfirmedDrug"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Potvrda sastava" ResizeMode="CanMinimize" Height="145" Width="275" Background="AliceBlue" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Button Content="Da" HorizontalAlignment="Left" Height="24" Margin="157,72,0,0" VerticalAlignment="Top" Width="38" Background="#FF92DCD2" Click="Button_Click">
+
+        </Button>
+        <Button Content="Ne" HorizontalAlignment="Left" Height="24" Margin="209,72,0,0" VerticalAlignment="Top" Width="38" Background="#FF92DCD2" Click="Button_Click_1">
+
+        </Button>
+        <TextBlock HorizontalAlignment="Left" Margin="16,28,0,0" TextWrapping="Wrap" Text="Da li ste sigurni da želite da potvrdite sastav lijeka?" VerticalAlignment="Top" Width="235" Height="39"/>
+    </Grid>
+</Window>

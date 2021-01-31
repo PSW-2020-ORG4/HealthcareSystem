@@ -1,0 +1,2088 @@
+﻿<Window
+    x:Class="GraphicalEditor.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:GraphicalEditor.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GraphicalEditor"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:validations="clr-namespace:GraphicalEditor.Validations"
+    Title="Grafički editor sa mapom bolnice"
+    Width="1500"
+    Height="800"
+    Background="{DynamicResource MaterialDesignPaper}"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    Icon="Resources/Images/clinic location.ico"
+    TextElement.FontSize="13"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <converters:NegativeEquipmentQuantityConverter x:Key="NegativeEquipmentQuantityConverter" />
+        <converters:CapitalizeStringConverter x:Key="CapitalizeStringConverter" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+        <converters:SelectedItemToVisibilityConverter x:Key="SelectedItemToVisibilityConverter" />
+        <converters:IsRoomTypeToVisibilityConverter x:Key="IsRoomTypeToVisibilityConverter" />
+    </Window.Resources>
+
+    <DockPanel>
+        <StackPanel Margin="20,20,0,0" DockPanel.Dock="Left">
+            <materialDesign:TransitioningContent x:Name="ShowMapCanvasEffect" OpeningEffect="{materialDesign:TransitionEffect Kind=ExpandIn, Duration=0:0:0.3}">
+                <Canvas
+                    x:Name="Canvas"
+                    Width="1086"
+                    Height="700"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="#D9FFBF"
+                    MouseDown="Canvas_MouseDown"
+                    MouseMove="Canvas_MouseMove" />
+            </materialDesign:TransitioningContent>
+
+            <Grid Margin="0,5,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <WrapPanel
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="White"
+                        Stroke="Gray"
+                        StrokeThickness="1" />
+                    <TextBlock
+                        Margin="5,-1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16">
+                        Zgrada
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="Lavender"
+                        Stroke="Gray"
+                        StrokeThickness="1" />
+                    <TextBlock
+                        Margin="5,-1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16">
+                        Sala za pregled
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="LightCyan"
+                        Stroke="Gray"
+                        StrokeThickness="1" />
+                    <TextBlock
+                        Margin="5,-1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16">
+                        Operaciona sala
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel
+                    Grid.Row="0"
+                    Grid.Column="3"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="Honeydew"
+                        Stroke="Gray"
+                        StrokeThickness="1" />
+                    <TextBlock
+                        Margin="5,-1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16">
+                        Čekaonica
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="CornflowerBlue"
+                        Stroke="Gray"
+                        StrokeThickness="1" />
+                    <TextBlock
+                        Margin="5,-1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16">
+                        Parking
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="BlanchedAlmond"
+                        Stroke="Gray"
+                        StrokeThickness="1" />
+                    <TextBlock
+                        Margin="5,-1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16">
+                        Restoran
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="Aquamarine"
+                        Stroke="Gray"
+                        StrokeThickness="1" />
+                    <TextBlock
+                        Margin="5,-1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16">
+                        Soba za oporavak
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="LightYellow"
+                        Stroke="Gray"
+                        StrokeThickness="1" />
+                    <TextBlock
+                        Margin="5,-1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16">
+                        WC
+                    </TextBlock>
+                </WrapPanel>
+
+                <WrapPanel
+                    Grid.Row="1"
+                    Grid.Column="3"
+                    VerticalAlignment="Center">
+                    <Ellipse
+                        Width="18"
+                        Height="18"
+                        Fill="LightGray"
+                        Stroke="Gray"
+                        StrokeThickness="1" />
+                    <TextBlock
+                        Margin="5,-1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="16">
+                        Put
+                    </TextBlock>
+                </WrapPanel>
+
+            </Grid>
+        </StackPanel>
+
+        <Border
+            Margin="0,20,0,50"
+            Padding="10,0,10,0"
+            DockPanel.Dock="Right">
+            <Grid x:Name="InformationDisplay">
+
+                <Grid.Resources>
+
+                    <Style x:Key="NormalMode" TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EditMode}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding EditMode}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="EditingMode" TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EditMode}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding EditMode}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style
+                        x:Key="EditingModeMenuButton"
+                        BasedOn="{StaticResource MaterialDesignRaisedButton}"
+                        TargetType="Button">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EditMode}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding EditMode}" Value="True">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="MenuOpened" TargetType="StackPanel">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMenuOpened}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsMenuOpened}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="MenuClosed" TargetType="Grid">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMenuOpened}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsMenuOpened}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="NoSelectionObjectInfoPanel" TargetType="Grid">
+                        <!--  Show panel regularly  -->
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <!--  Hide panel if none of the objects is selected (selected object is null)  -->
+                            <DataTrigger Binding="{Binding DisplayMapObject}" Value="{x:Null}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+
+                    <Style x:Key="ObjectInfoPanelSelectedFromMenu" TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedMenuOptionIndex}" Value="0">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="SearchObjectsPanelSelectedFromMenu" TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedMenuOptionIndex}" Value="1">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="SearchEquipmentAndMedicinePanelSelectedFromMenu" TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedMenuOptionIndex}" Value="2">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style x:Key="SearchAppointmentsPanelSelectedFromMenu" TargetType="Grid">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedMenuOptionIndex}" Value="3">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+
+                <!--  SIDE PANEL CONTAINER GRID  -->
+                <Grid>
+                    <!--  MENU  -->
+                    <materialDesign:TransitioningContent x:Name="ShowMenuSlide" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromTop, Duration=0:0:0.2}">
+                        <StackPanel
+                            x:Name="MenuPanel"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource MenuOpened}">
+                            <Button
+                                x:Name="CloseMenuButton"
+                                Width="Auto"
+                                Height="Auto"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="{x:Null}"
+                                BorderBrush="{x:Null}"
+                                Click="CloseMenuButton_Click">
+                                <materialDesign:PackIcon
+                                    Width="50"
+                                    Height="50"
+                                    Foreground="MediumPurple"
+                                    Kind="Close" />
+                            </Button>
+                            <StackPanel>
+                                <ListView
+                                    x:Name="ListViewExtendMenu"
+                                    FontFamily="Roboto"
+                                    FontSize="18"
+                                    Foreground="#FF313131"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                    SelectedIndex="{Binding SelectedMenuOptionIndex}"
+                                    SelectionChanged="ListViewExtendMenu_SelectionChanged">
+
+                                    <ListViewItem
+                                        x:Name="DisplayAndEditObjectsMenuItem"
+                                        Height="60"
+                                        Padding="0">
+                                        <StackPanel Margin="10,0" Orientation="Horizontal">
+                                            <materialDesign:PackIcon
+                                                Width="30"
+                                                Height="30"
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Foreground="MediumPurple"
+                                                Kind="FileDocumentEdit" />
+                                            <TextBlock
+                                                Margin="10"
+                                                VerticalAlignment="Center"
+                                                Foreground="MediumPurple"
+                                                Text="Prikaz i izmena informacija" />
+                                        </StackPanel>
+                                    </ListViewItem>
+
+                                    <ListViewItem
+                                        x:Name="SearchObjectsMenuItem"
+                                        Height="60"
+                                        Padding="0">
+                                        <StackPanel Margin="10,0" Orientation="Horizontal">
+                                            <materialDesign:PackIcon
+                                                Width="30"
+                                                Height="30"
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Foreground="MediumPurple"
+                                                Kind="MapSearchOutline" />
+                                            <TextBlock
+                                                Margin="10"
+                                                VerticalAlignment="Center"
+                                                Foreground="MediumPurple"
+                                                Text="Pretraga objekata" />
+                                        </StackPanel>
+                                    </ListViewItem>
+
+                                    <ListViewItem
+                                        x:Name="SearchEquipmentAndMedicineMenuItem"
+                                        Height="60"
+                                        Padding="0">
+                                        <StackPanel
+                                            Margin="10,0"
+                                            HorizontalAlignment="Left"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon
+                                                Width="30"
+                                                Height="30"
+                                                Margin="5,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Foreground="MediumPurple"
+                                                Kind="SearchPlus" />
+                                            <TextBlock
+                                                Margin="10"
+                                                VerticalAlignment="Center"
+                                                FontSize="18"
+                                                Foreground="MediumPurple"
+                                                Text=" Pretraga opreme i lekova" />
+                                        </StackPanel>
+                                    </ListViewItem>
+
+                                    <ListViewItem
+                                        x:Name="SearchAppointmentsMenuItem"
+                                        Height="60"
+                                        Padding="0">
+                                        <StackPanel Margin="10,0" Orientation="Horizontal">
+                                            <materialDesign:PackIcon
+                                                Width="30"
+                                                Height="30"
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Foreground="MediumPurple"
+                                                Kind="CalendarClock" />
+                                            <TextBlock
+                                                Margin="10"
+                                                VerticalAlignment="Center"
+                                                Foreground="MediumPurple"
+                                                Text="Pretraga termina" />
+                                        </StackPanel>
+                                    </ListViewItem>
+
+                                    <ListViewItem Height="60" Padding="0">
+                                        <StackPanel Margin="10,0" Orientation="Horizontal">
+                                            <materialDesign:PackIcon
+                                                Width="30"
+                                                Height="30"
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Foreground="MediumPurple"
+                                                Kind="InfoCircle" />
+                                            <TextBlock
+                                                Margin="10"
+                                                VerticalAlignment="Center"
+                                                Foreground="MediumPurple"
+                                                Text="O aplikaciji" />
+                                        </StackPanel>
+                                    </ListViewItem>
+
+                                </ListView>
+                            </StackPanel>
+                        </StackPanel>
+                    </materialDesign:TransitioningContent>
+
+
+                    <Grid x:Name="InfoAndEditingPanel" Style="{StaticResource MenuClosed}">
+                        <!--  CONTAINER PANEL WITH MENU BUTTON  -->
+                        <materialDesign:TransitioningContent x:Name="PanelFromMenuSlide" OpeningEffect="{materialDesign:TransitionEffect Kind=SlideInFromRight, Duration=0:0:0.2}">
+                            <Grid x:Name="NormalPanel" Style="{StaticResource NormalMode}">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*" />
+                                    <RowDefinition Height="10*" />
+                                </Grid.RowDefinitions>
+
+                                <!--  Back Button  -->
+                                <Button
+                                    x:Name="BackButton"
+                                    Grid.Row="0"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}"
+                                    Click="BackButton_Click"
+                                    IsEnabled="{Binding IsBackButtonEnabled}"
+                                    Style="{StaticResource EditingModeMenuButton}">
+                                    <materialDesign:PackIcon
+                                        Width="50"
+                                        Height="50"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="MediumPurple"
+                                        Kind="ArrowBack" />
+                                </Button>
+
+                                <!--  Menu Button  -->
+                                <Button
+                                    x:Name="OpenMenuButton"
+                                    Grid.Row="0"
+                                    Width="Auto"
+                                    Height="Auto"
+                                    Margin="0,0,0,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Background="{x:Null}"
+                                    BorderBrush="{x:Null}"
+                                    Click="OpenMenuButton_Click"
+                                    Style="{StaticResource EditingModeMenuButton}">
+                                    <materialDesign:PackIcon
+                                        Width="50"
+                                        Height="50"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="MediumPurple"
+                                        Kind="Menu" />
+                                </Button>
+
+                                <!--  OBJECT INFO, EQUIPMENT AND MEDICINE CONTAINER PANEL  -->
+                                <Grid Grid.Row="1" Style="{StaticResource ObjectInfoPanelSelectedFromMenu}">
+                                    <Grid x:Name="ObjecInfoEquipmenMedicinePanel" Style="{StaticResource NoSelectionObjectInfoPanel}">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="2*" />
+                                        </Grid.RowDefinitions>
+
+                                        <!--  OBJECT INFO DISPLAY PANEL  -->
+                                        <StackPanel x:Name="ObjectInfoPanel" Grid.Row="0">
+                                            <!--  OBJECT TYPE  -->
+                                            <TextBlock
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontSize="26"
+                                                Text="{Binding DisplayMapObject.MapObjectType.ObjectTypeFullName}"
+                                                TextWrapping="Wrap" />
+
+
+                                            <!--  OBJECT ID  -->
+                                            <TextBlock
+                                                Margin="0,5,0,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Top"
+                                                FontSize="20"
+                                                Text="{Binding DisplayMapObject.Id}" />
+
+
+                                            <!--  OBJECT DESCRIPTION  -->
+                                            <TextBlock
+                                                x:Name="Prop"
+                                                Margin="0,20,0,0"
+                                                FontSize="16"
+                                                Text="{Binding DisplayMapObject.Description}"
+                                                TextWrapping="Wrap" />
+
+                                            <!--  OBJECT EDITING BUTTON  -->
+                                            <Button
+                                                x:Name="EditObjectButton"
+                                                Height="Auto"
+                                                Margin="0,30,0,0"
+                                                Padding="5"
+                                                Background="#7D80DA"
+                                                BorderBrush="{x:Null}"
+                                                Click="Edit_Display_Information"
+                                                FontSize="18">
+                                                <StackPanel
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Width="25"
+                                                        Height="25"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Kind="Edit" />
+                                                    <TextBlock
+                                                        Margin="5"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Text="Izmeni" />
+                                                </StackPanel>
+                                            </Button>
+
+                                            <!--  SHOW ROOM SCHEDULE BUTTON  -->
+                                            <Button
+                                                x:Name="ShowRoomScheduleButton"
+                                                Height="Auto"
+                                                Margin="0,10,0,0"
+                                                Padding="5"
+                                                Background="#7D80DA"
+                                                BorderBrush="{x:Null}"
+                                                Click="ShowRoomScheduleButton_Click"
+                                                FontSize="18"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
+                                                <StackPanel
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Width="25"
+                                                        Height="25"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Kind="CalendarClock" />
+                                                    <TextBlock
+                                                        Margin="5"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Text="Prikaži raspored za sobu" />
+                                                </StackPanel>
+                                            </Button>
+
+                                            <!--  SHOW RENOVATION SCHEDULING DIALOG BUTTON  -->
+                                            <Button
+                                                x:Name="ShowRenovationSchedulingDialogButton"
+                                                Height="Auto"
+                                                Margin="0,10,0,0"
+                                                Padding="5"
+                                                Background="#7D80DA"
+                                                BorderBrush="{x:Null}"
+                                                Click="ShowRenovationSchedulingDialogButton_Click"
+                                                FontSize="18"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
+                                                <StackPanel
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Width="25"
+                                                        Height="25"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Kind="HammerScrewdriver" />
+                                                    <TextBlock
+                                                        Margin="5"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Text="Zakaži renoviranje u sobi" />
+                                                </StackPanel>
+                                            </Button>
+
+
+                                            <Separator Margin="0,20,0,20" Background="MediumPurple" />
+                                        </StackPanel>
+
+
+
+                                        <!--  OBJECT EQUIPMENT AND MEDICINE PANEL  -->
+                                        <Grid x:Name="ObjectEquipmentAndMedicinePanel" Grid.Row="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="3*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="3*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+
+                                            <!--  OBJECT EQUIPMENT SECTION  -->
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Margin="0,0,0,10"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="18"
+                                                FontWeight="Normal"
+                                                Foreground="Black"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
+                                                Oprema u objektu:
+                                            </TextBlock>
+
+                                            <!--  OBJECT EQUIPMENT TABLE  -->
+                                            <DataGrid
+                                                x:Name="ObjectEquipmentDataGrid"
+                                                Grid.Row="1"
+                                                Margin="0,0,0,0"
+                                                Style="{StaticResource SidePanelDataGrid}"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
+                                                <DataGrid.Resources>
+                                                    <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+
+                                                        <Setter Property="ToolTip">
+                                                            <Setter.Value>
+                                                                <TextBlock Text="{Binding Type.Name, Converter={StaticResource CapitalizeStringConverter}}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </DataGrid.Resources>
+
+                                                <!--  Table Column Headers Names and Binding  -->
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn
+                                                        Width="4*"
+                                                        Binding="{Binding Type.Name, Converter={StaticResource CapitalizeStringConverter}}"
+                                                        Header="Naziv opreme" />
+                                                    <DataGridTextColumn
+                                                        Width="2*"
+                                                        Binding="{Binding Quantity, Converter={StaticResource NegativeEquipmentQuantityConverter}}"
+                                                        Header="Količina" />
+
+                                                    <DataGridTemplateColumn Width="2*">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Button
+                                                                    x:Name="OpenEquipmentRelocationDialogButton"
+                                                                    Padding="3,0"
+                                                                    HorizontalContentAlignment="Stretch"
+                                                                    Background="MediumPurple"
+                                                                    BorderBrush="{x:Null}"
+                                                                    Click="OpenEquipmentRelocationDialogButton_Click"
+                                                                    FontSize="16"
+                                                                    ToolTip="Premesti opremu u drugu sobu">
+                                                                    <StackPanel
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center"
+                                                                        Orientation="Horizontal">
+                                                                        <TextBlock
+                                                                            Margin="5"
+                                                                            HorizontalAlignment="Right"
+                                                                            VerticalAlignment="Center"
+                                                                            Foreground="White"
+                                                                            Text="Premesti" />
+                                                                    </StackPanel>
+                                                                </Button>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+
+
+                                            <Separator
+                                                Grid.Row="2"
+                                                Margin="0,0,0,0"
+                                                Background="MediumPurple"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}" />
+
+                                            <!--  OBJECT MEDICINE SECTION  -->
+                                            <TextBlock
+                                                Grid.Row="3"
+                                                Margin="0,0,0,10"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="18"
+                                                FontWeight="Normal"
+                                                Foreground="Black"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
+                                                Lekovi u objektu:
+                                            </TextBlock>
+
+                                            <!--  OBJECT MEDICINE TABLE  -->
+                                            <DataGrid
+                                                x:Name="ObjectMedicineDataGrid"
+                                                Grid.Row="4"
+                                                Margin="0,0,0,0"
+                                                Style="{StaticResource SidePanelDataGrid}"
+                                                Visibility="{Binding SelectedMapObject.MapObjectEntity.MapObjectType.TypeOfMapObject, Converter={StaticResource IsRoomTypeToVisibilityConverter}}">
+                                                <DataGrid.Resources>
+                                                    <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+
+                                                        <Setter Property="ToolTip">
+                                                            <Setter.Value>
+                                                                <TextBlock Text="{Binding Name}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </DataGrid.Resources>
+
+                                                <!--  Table Column Headers Names and Binding  -->
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn
+                                                        Width="4*"
+                                                        Binding="{Binding Name}"
+                                                        Header="Naziv leka" />
+                                                    <DataGridTextColumn
+                                                        Width="2*"
+                                                        Binding="{Binding Quantity, Converter={StaticResource NegativeEquipmentQuantityConverter}}"
+                                                        Header="Količina" />
+
+                                                    <!--  Empty DataTemplate just to align Medicine Table with Equipment Table  -->
+                                                    <DataGridTemplateColumn Width="2*">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate />
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+
+                                <!--  SEARCH OBJECTS PANEL  -->
+                                <Grid
+                                    x:Name="SearchObjectsPanel"
+                                    Grid.Row="1"
+                                    Style="{StaticResource SearchObjectsPanelSelectedFromMenu}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*" />
+                                            <RowDefinition Height="2*" />
+                                            <RowDefinition Height="1*" />
+                                            <RowDefinition Height="1*" />
+                                            <RowDefinition Height="1*" />
+                                            <RowDefinition Height="9*" />
+                                            <RowDefinition Height="1*" />
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock
+                                            Grid.Row="0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            FontSize="26"
+                                            Text="Pretraga objekata: "
+                                            TextWrapping="Wrap" />
+
+                                        <ComboBox
+                                            Name="SearchObjectTypeComboBox"
+                                            Grid.Row="1"
+                                            Margin="0,20,0,0"
+                                            materialDesign:HintAssist.Hint="Izaberite tip objekta."
+                                            FontSize="16"
+                                            IsTextSearchEnabled="True"
+                                            ItemsSource="{Binding AllMapObjectTypes}"
+                                            TextSearch.TextPath="ObjectTypeFullName">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Path=ObjectTypeFullName}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+
+
+                                        <!--  SEARCH OBJECTS BUTTON  -->
+                                        <Button
+                                            x:Name="SearchMapObjectsButton"
+                                            Grid.Row="2"
+                                            Height="Auto"
+                                            Margin="0,0,0,0"
+                                            Padding="5"
+                                            Background="#7D80DA"
+                                            BorderBrush="{x:Null}"
+                                            Click="SearchMapObjectsButton_Click"
+                                            FontSize="18">
+                                            <StackPanel
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal">
+                                                <materialDesign:PackIcon
+                                                    Width="25"
+                                                    Height="25"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="White"
+                                                    Kind="MapSearchOutline" />
+                                                <TextBlock
+                                                    Margin="5"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="White"
+                                                    Text="Pretraži objekte" />
+                                            </StackPanel>
+                                        </Button>
+
+                                        <Separator
+                                            Grid.Row="3"
+                                            Margin="0,0,0,0"
+                                            Background="MediumPurple" />
+
+                                        <!--  OBJECT SEARCH RESULTS SECTION  -->
+                                        <TextBlock
+                                            Grid.Row="4"
+                                            Margin="0,0,0,10"
+                                            VerticalAlignment="Bottom"
+                                            FontSize="18"
+                                            FontWeight="Normal"
+                                            Foreground="Black">
+                                            Rezultati pretrage:
+                                        </TextBlock>
+
+                                        <!--  OBJECT SEARCH RESULTS TABLE  -->
+                                        <DataGrid
+                                            x:Name="ObjectSearchResultsDataGrid"
+                                            Grid.Row="5"
+                                            Margin="0,0,0,0"
+                                            Style="{StaticResource SidePanelDataGrid}">
+                                            <DataGrid.Resources>
+                                                <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+                                                    <Setter Property="ToolTip">
+                                                        <Setter.Value>
+                                                            <TextBlock Text="{Binding MapObjectEntity.Description}" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </DataGrid.Resources>
+
+                                            <!--  Table Column Headers Names and Binding  -->
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn
+                                                    Width="1*"
+                                                    Binding="{Binding MapObjectEntity.Id}"
+                                                    Header="Id" />
+
+                                                <DataGridTextColumn
+                                                    Width="7*"
+                                                    Binding="{Binding MapObjectEntity.Description}"
+                                                    Header="Opis objekta" />
+
+                                                <DataGridTemplateColumn Width="Auto">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button
+                                                                x:Name="ShowSearchResultObjectOnMapButton"
+                                                                Padding="3,0"
+                                                                HorizontalContentAlignment="Stretch"
+                                                                Background="MediumPurple"
+                                                                BorderBrush="{x:Null}"
+                                                                Click="ShowSearchResultObjectOnMapButton_Click"
+                                                                Style="{StaticResource DataGridButtonVisibleOnRowHover}">
+                                                                <StackPanel
+                                                                    HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Center"
+                                                                    Orientation="Horizontal">
+                                                                    <materialDesign:PackIcon
+                                                                        Width="25"
+                                                                        Height="25"
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center"
+                                                                        Foreground="White"
+                                                                        Kind="Location" />
+                                                                </StackPanel>
+                                                                <Button.ToolTip>
+                                                                    <ToolTip>
+                                                                        Prikaži objekat na mapi
+                                                                    </ToolTip>
+                                                                </Button.ToolTip>
+                                                            </Button>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Grid>
+
+                                </Grid>
+
+                                <!--  SEARCH EQUIPMENT AND MEDICINE PANEL  -->
+                                <Grid
+                                    x:Name="SearchEquipmentAndMedicinePanel"
+                                    Grid.Row="1"
+                                    Style="{StaticResource SearchEquipmentAndMedicinePanelSelectedFromMenu}">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="3*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="3*" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="26"
+                                        Text="Pretraga opreme i lekova: "
+                                        TextWrapping="Wrap" />
+
+                                    <TextBox
+                                        x:Name="EquipmentOrMedicineNameTextBox"
+                                        Grid.Row="1"
+                                        Margin="0,15,0,5"
+                                        materialDesign:HintAssist.Hint="Unesite naziv opreme ili leka."
+                                        FontSize="16"
+                                        TextWrapping="Wrap" />
+
+
+                                    <!--  SEARCH EQUIPMENT AND MEDICINE BUTTON  -->
+                                    <Button
+                                        x:Name="SearchEquimentAndMedicineButton"
+                                        Grid.Row="2"
+                                        Height="Auto"
+                                        Margin="0,0,0,0"
+                                        Padding="5"
+                                        VerticalAlignment="Bottom"
+                                        Background="#7D80DA"
+                                        BorderBrush="{x:Null}"
+                                        Click="SearchEquimentAndMedicineButton_Click"
+                                        FontSize="18">
+                                        <StackPanel
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Orientation="Horizontal">
+                                            <materialDesign:PackIcon
+                                                Width="25"
+                                                Height="25"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Foreground="White"
+                                                Kind="SearchPlus" />
+                                            <TextBlock
+                                                Margin="5"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Foreground="White"
+                                                Text="Pretraži opremu i lekove" />
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Separator
+                                        Grid.Row="3"
+                                        Margin="0,0,0,0"
+                                        Background="MediumPurple" />
+
+
+                                    <!--  EQUIPMENT AND MEDICINE SEARCH RESULTS SECTION  -->
+                                    <TextBlock
+                                        Grid.Row="4"
+                                        Margin="0,0,0,10"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="18"
+                                        FontWeight="Normal"
+                                        Foreground="Black">
+                                        Rezultati pretrage opreme:
+                                    </TextBlock>
+
+                                    <!--  EQUIPMENT SEARCH RESULTS TABLE  -->
+                                    <DataGrid
+                                        x:Name="EquipmentSearchResultsDataGrid"
+                                        Grid.Row="5"
+                                        Margin="0,0,0,0"
+                                        Style="{StaticResource SidePanelDataGrid}">
+                                        <DataGrid.Resources>
+                                            <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+                                                <Setter Property="ToolTip">
+                                                    <Setter.Value>
+                                                        <TextBlock Text="{Binding EquipmentName, Converter={StaticResource CapitalizeStringConverter}}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </DataGrid.Resources>
+
+                                        <!--  Table Column Headers Names and Binding  -->
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn
+                                                Width="3*"
+                                                Binding="{Binding EquipmentName, Converter={StaticResource CapitalizeStringConverter}}"
+                                                Header="Naziv" />
+
+                                            <DataGridTextColumn
+                                                Width="2*"
+                                                Binding="{Binding Quantity, Converter={StaticResource NegativeEquipmentQuantityConverter}}"
+                                                Header="Količina" />
+
+                                            <DataGridTextColumn
+                                                Width="2*"
+                                                Binding="{Binding RoomNumber}"
+                                                Header="Id objekta" />
+
+                                            <DataGridTemplateColumn Width="Auto">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button
+                                                            x:Name="ShowEquipmentSearchResultObjectOnMapButton"
+                                                            Padding="3,0"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            Background="MediumPurple"
+                                                            BorderBrush="{x:Null}"
+                                                            Click="ShowEquipmentSearchResultObjectOnMapButton_Click"
+                                                            Style="{StaticResource DataGridButtonVisibleOnRowHover}">
+                                                            <StackPanel
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Orientation="Horizontal">
+                                                                <materialDesign:PackIcon
+                                                                    Width="25"
+                                                                    Height="25"
+                                                                    HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Center"
+                                                                    Foreground="White"
+                                                                    Kind="Location" />
+                                                            </StackPanel>
+                                                            <Button.ToolTip>
+                                                                <ToolTip>
+                                                                    Prikaži objekat na mapi
+                                                                </ToolTip>
+                                                            </Button.ToolTip>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+
+                                    <!--  MEDICINE SEARCH RESULTS SECTION  -->
+                                    <TextBlock
+                                        Grid.Row="6"
+                                        Margin="0,0,0,10"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="18"
+                                        FontWeight="Normal"
+                                        Foreground="Black"
+                                        Text="Rezultati pretrage lekova:" />
+
+                                    <!--  MEDICINE SEARCH RESULTS TABLE  -->
+                                    <DataGrid
+                                        x:Name="MedicineSearchResultsDataGrid"
+                                        Grid.Row="7"
+                                        Margin="0,0,0,0"
+                                        Style="{StaticResource SidePanelDataGrid}">
+                                        <DataGrid.Resources>
+                                            <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+                                                <Setter Property="ToolTip">
+                                                    <Setter.Value>
+                                                        <TextBlock Text="{Binding DrugName}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </DataGrid.Resources>
+
+                                        <!--  Table Column Headers Names and Binding  -->
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn
+                                                Width="3*"
+                                                Binding="{Binding DrugName}"
+                                                Header="Naziv" />
+
+                                            <DataGridTextColumn
+                                                Width="2*"
+                                                Binding="{Binding Quantity, Converter={StaticResource NegativeEquipmentQuantityConverter}}"
+                                                Header="Količina" />
+
+                                            <DataGridTextColumn
+                                                Width="2*"
+                                                Binding="{Binding RoomNumber}"
+                                                Header="Id objekta" />
+
+                                            <DataGridTemplateColumn Width="Auto">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button
+                                                            x:Name="ShowMedicineSearchResultObjectOnMapButton"
+                                                            Padding="3,0"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            Background="MediumPurple"
+                                                            BorderBrush="{x:Null}"
+                                                            Click="ShowMedicineSearchResultObjectOnMapButton_Click"
+                                                            Style="{StaticResource DataGridButtonVisibleOnRowHover}">
+                                                            <StackPanel
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Orientation="Horizontal">
+                                                                <materialDesign:PackIcon
+                                                                    Width="25"
+                                                                    Height="25"
+                                                                    HorizontalAlignment="Center"
+                                                                    VerticalAlignment="Center"
+                                                                    Foreground="White"
+                                                                    Kind="Location" />
+                                                            </StackPanel>
+                                                            <Button.ToolTip>
+                                                                <ToolTip>
+                                                                    Prikaži objekat na mapi
+                                                                </ToolTip>
+                                                            </Button.ToolTip>
+                                                        </Button>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+
+
+                                <!--  SEARCH APPOINTMENTS PANEL  -->
+                                <Grid
+                                    x:Name="SearchAppointmentsPanel"
+                                    Grid.Row="1"
+                                    Style="{StaticResource SearchAppointmentsPanelSelectedFromMenu}">
+                                    <ScrollViewer
+                                        x:Name="AppointmentSearchScrollViewer"
+                                        Grid.Row="1"
+                                        MaxHeight="{Binding Path=ActualHeight, ElementName=SearchAppointmentsPanel, Mode=OneWay}"
+                                        VerticalScrollBarVisibility="Visible">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="3*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="9*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" />
+                                                <RowDefinition Height="1*" MinHeight="100" />
+                                            </Grid.RowDefinitions>
+
+
+                                            <TextBlock
+                                                Grid.Row="0"
+                                                Grid.ColumnSpan="2"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                FontSize="26"
+                                                Text="Pretraga termina: "
+                                                TextWrapping="Wrap" />
+
+
+                                            <!--  Appointment Emergency Status  -->
+                                            <CheckBox
+                                                x:Name="IsEmergencyAppointmentCheckBox"
+                                                Grid.Row="1"
+                                                Grid.Column="0"
+                                                Margin="0,40,0,0"
+                                                HorizontalAlignment="Left"
+                                                Content="Hitan pregled"
+                                                FlowDirection="RightToLeft"
+                                                FontSize="16"
+                                                Foreground="Black">
+                                                <CheckBox.Resources>
+                                                    <Style TargetType="{x:Type Path}">
+                                                        <Setter Property="FlowDirection" Value="LeftToRight" />
+                                                    </Style>
+                                                </CheckBox.Resources>
+                                            </CheckBox>
+
+
+                                            <!--  Appointment time interval start  -->
+                                            <TextBlock
+                                                Grid.Row="2"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,20,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                Text="Termin u intervalu od:"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+
+                                            <DatePicker
+                                                x:Name="AppointmentSearchStartDatePicker"
+                                                Grid.Row="3"
+                                                Grid.Column="0"
+                                                Margin="0,0,0,0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Top"
+                                                materialDesign:HintAssist.Hint="Dan/Mes/God"
+                                                BorderBrush="MediumPurple"
+                                                DisplayDateStart="{x:Static sys:DateTime.Today}"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                SelectedDateChanged="DatePicker_SelectedDateChanged"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+
+                                            <materialDesign:TimePicker
+                                                x:Name="AppointmentSearchStartTimePicker"
+                                                Grid.Row="3"
+                                                Grid.Column="1"
+                                                Margin="10,0,10,0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Top"
+                                                materialDesign:HintAssist.Hint="Sati:Minuti"
+                                                BorderBrush="MediumPurple"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                Is24Hours="True"
+                                                SelectedTimeChanged="TimePicker_SelectedTimeChanged"
+                                                SelectedTimeFormat="Long"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+
+                                            <!--  Appointment time interval end  -->
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,20,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                Text="do:"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+
+                                            <DatePicker
+                                                x:Name="AppointmentSearchEndDatePicker"
+                                                Grid.Row="5"
+                                                Grid.Column="0"
+                                                Margin="0,0,0,0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Top"
+                                                materialDesign:HintAssist.Hint="Dan/Mes/God"
+                                                BorderBrush="MediumPurple"
+                                                DisplayDateStart="{x:Static sys:DateTime.Today}"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                SelectedDateChanged="DatePicker_SelectedDateChanged"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+
+                                            <materialDesign:TimePicker
+                                                x:Name="AppointmentSearchEndTimePicker"
+                                                Grid.Row="5"
+                                                Grid.Column="1"
+                                                Margin="10,0,10,0"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Top"
+                                                materialDesign:HintAssist.Hint="Sati:Minuti"
+                                                BorderBrush="MediumPurple"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                Is24Hours="True"
+                                                SelectedTimeChanged="TimePicker_SelectedTimeChanged"
+                                                SelectedTimeFormat="Long"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+
+                                            <!--  Appointment Doctor Specialization  -->
+                                            <TextBlock
+                                                Grid.Row="6"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,20,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                Text="Specijalizacija lekara:" />
+
+                                            <ComboBox
+                                                Name="AppointmentDoctorSpecializationComboBox"
+                                                Grid.Row="7"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,0,10,0"
+                                                VerticalAlignment="Top"
+                                                materialDesign:HintAssist.Hint="Izaberite specijalizaciju lekara."
+                                                BorderBrush="MediumPurple"
+                                                FontSize="16"
+                                                IsTextSearchEnabled="True"
+                                                SelectionChanged="AppointmentDoctorSpecializationComboBox_SelectionChanged"
+                                                TextSearch.TextPath="Name">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Path=Name, Converter={StaticResource CapitalizeStringConverter}}" />
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+
+
+
+                                            <!--  Appointment Doctor  -->
+                                            <TextBlock
+                                                Grid.Row="8"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,20,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                Text="Lekar (prvo izaberite specijalizaciju):"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+                                            <ComboBox
+                                                Name="AppointmentDoctorComboBox"
+                                                Grid.Row="9"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,0,10,0"
+                                                VerticalAlignment="Top"
+                                                materialDesign:HintAssist.Hint="Izaberite lekara."
+                                                BorderBrush="MediumPurple"
+                                                FontSize="16"
+                                                IsTextSearchEnabled="True"
+                                                TextSearch.TextPath="Name"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}Dr {0} {1}">
+                                                                    <Binding Path="Name" />
+                                                                    <Binding Path="Surname" />
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+
+
+                                            <!--  Appointment Search Priority  -->
+                                            <TextBlock
+                                                Grid.Row="10"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,20,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                Text="Prioritet pretrage:"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+
+                                            <RadioButton
+                                                x:Name="AppointmentSearchTimePriorityRadioButton"
+                                                Grid.Row="11"
+                                                Grid.Column="0"
+                                                FontSize="16"
+                                                GroupName="AppointmentSearchPriorityRadioButton"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                                Vreme
+                                            </RadioButton>
+
+                                            <RadioButton
+                                                x:Name="AppointmentSearchDoctorPriorityRadioButton"
+                                                Grid.Row="11"
+                                                Grid.Column="1"
+                                                FontSize="16"
+                                                GroupName="AppointmentSearchPriorityRadioButton"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                                Lekar
+                                            </RadioButton>
+
+
+                                            <!--  Appointment Patient  -->
+                                            <TextBlock
+                                                Grid.Row="12"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,20,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                Text="Pacijent:" />
+
+                                            <ComboBox
+                                                Name="AppointmentSearchPatientComboBox"
+                                                Grid.Row="13"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,0,10,0"
+                                                VerticalAlignment="Top"
+                                                materialDesign:HintAssist.Hint="Izaberite pacijenta."
+                                                BorderBrush="MediumPurple"
+                                                FontSize="16"
+                                                IsTextSearchEnabled="True"
+                                                TextSearch.TextPath="Name">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock>
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                                    <Binding Path="Name" />
+                                                                    <Binding Path="Surname" />
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+
+                                            <!--  Create Patient Guest Account Button  -->
+                                            <Button
+                                                x:Name="CreatePatientAccountButton"
+                                                Grid.Row="14"
+                                                Grid.ColumnSpan="2"
+                                                Height="Auto"
+                                                Margin="0,5,10,0"
+                                                Padding="0"
+                                                HorizontalContentAlignment="Left"
+                                                BorderBrush="{x:Null}"
+                                                Click="CreatePatientAccountButton_Click"
+                                                Content="Pacijent nije registrovan? Kreirajte mu nalog."
+                                                FontSize="14"
+                                                Style="{StaticResource MaterialDesignFlatButton}"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+
+                                            <!--  Appointment Required Equipment  -->
+                                            <DataGrid
+                                                x:Name="AppointmentRequiredEquipmentDataGrid"
+                                                Grid.Row="15"
+                                                Grid.ColumnSpan="2"
+                                                Height="100"
+                                                Margin="0,20,10,0"
+                                                ItemsSource="{Binding AllEquipmentTypes}"
+                                                Style="{StaticResource EquipmentForAppointmentDataGrid}">
+
+                                                <!--  Table Column Headers Names and Binding  -->
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn
+                                                        Width="5*"
+                                                        Binding="{Binding EquipmentType.Name, Converter={StaticResource CapitalizeStringConverter}}"
+                                                        Header="Neophodna oprema za pregled:" />
+
+                                                    <DataGridTemplateColumn Width="*">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+
+
+                                            <!--  SEARCH APPOINTMENTS BUTTON  -->
+                                            <Button
+                                                x:Name="SearchAppointmentsButton"
+                                                Grid.Row="16"
+                                                Grid.ColumnSpan="2"
+                                                Height="Auto"
+                                                Margin="0,30,10,0"
+                                                Padding="5"
+                                                Background="#7D80DA"
+                                                BorderBrush="{x:Null}"
+                                                Click="SearchAppointmentsButton_Click"
+                                                FontSize="18"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                                <StackPanel
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Width="25"
+                                                        Height="25"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Kind="CalendarClock" />
+                                                    <TextBlock
+                                                        Margin="5"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Text="Pretraži termine" />
+                                                </StackPanel>
+                                            </Button>
+
+                                            <Separator
+                                                Grid.Row="17"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,20,10,0"
+                                                Background="MediumPurple" />
+
+
+                                            <!--  APPOINTMENT SEARCH RESULTS SECTION  -->
+                                            <!--  Regular appointment search results - Title  -->
+                                            <TextBlock
+                                                Grid.Row="18"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,30,0,10"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="18"
+                                                FontWeight="Normal"
+                                                Foreground="Black"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                                Rezultati pretrage:
+                                            </TextBlock>
+
+                                            <!--  Emergency appointment rescheduling search results - Title  -->
+                                            <TextBlock
+                                                Grid.Row="18"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,30,0,10"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="18"
+                                                FontWeight="Normal"
+                                                Foreground="Black"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                Termini koje je moguće pomeriti:
+                                            </TextBlock>
+
+                                            <!--  APPOINTMENT SEARCH RESULTS TABLE  -->
+                                            <DataGrid
+                                                x:Name="AppointmentSearchResultsDataGrid"
+                                                Grid.Row="19"
+                                                Grid.ColumnSpan="2"
+                                                Height="400"
+                                                Margin="0,0,10,0"
+                                                SelectionChanged="AppointmentSearchResultsDataGrid_SelectionChanged"
+                                                Style="{StaticResource SidePanelDataGrid}"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                                <DataGrid.Resources>
+                                                    <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+                                                        <Setter Property="ToolTip">
+                                                            <Setter.Value>
+                                                                <TextBlock Text="Kliknite na termin koji želite da zakažete." />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </DataGrid.Resources>
+
+                                                <!--  Table Column Headers Names and Binding  -->
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Width="*" Header="Termin">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding StringFormat="{}{0:dd/MM/yy}&#x0a;{1:00}:{2:00;00}">
+                                                                <Binding Path="DateTime.Date" />
+                                                                <Binding Path="DateTime.Hour" />
+                                                                <Binding Path="DateTime.Minute" />
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
+
+                                                        <DataGridTextColumn.ElementStyle>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="TextWrapping" Value="Wrap" />
+                                                                <Setter Property="TextAlignment" Value="Center" />
+                                                            </Style>
+                                                        </DataGridTextColumn.ElementStyle>
+                                                    </DataGridTextColumn>
+
+                                                    <DataGridTextColumn Width="2*" Header="Lekar">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding StringFormat="{}Dr {0} {1}">
+                                                                <Binding Path="Doctor.Name" />
+                                                                <Binding Path="Doctor.Surname" />
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
+                                                    </DataGridTextColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+
+                                            <!--  EMERGENCY APPOINTMENT - RESCHEDULING SEARCH RESULTS TABLE  -->
+                                            <DataGrid
+                                                x:Name="EmergencyAppointmentSearchResultsDataGrid"
+                                                Grid.Row="19"
+                                                Grid.ColumnSpan="2"
+                                                Height="400"
+                                                Margin="0,0,10,0"
+                                                CanUserSortColumns="False"
+                                                SelectionChanged="EmergencyAppointmentSearchResultsDataGrid_SelectionChanged"
+                                                Style="{StaticResource SidePanelDataGrid}"
+                                                Visibility="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <DataGrid.Resources>
+                                                    <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+                                                        <Setter Property="ToolTip">
+                                                            <Setter.Value>
+                                                                <TextBlock Text="Kliknite na termin koji želite da pomerite." />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </DataGrid.Resources>
+
+                                                <!--  Marking First Row of DataGrid with Different Background Color- Best option for Rescheduling  -->
+                                                <DataGrid.ItemContainerStyle>
+                                                    <Style BasedOn="{StaticResource SidePanelDataGridRow}" TargetType="DataGridRow">
+                                                        <Setter Property="Background" Value="Transparent" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=PreviousData}}" Value="{x:Null}">
+                                                                <Setter Property="Background" Value="Pink" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGrid.ItemContainerStyle>
+
+                                                <!--  Table Column Headers Names and Binding  -->
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Width="*" Header="Trenutni">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding StringFormat="{}{0:dd/MM/yy}&#x0a;{1:00}:{2:00;00}">
+                                                                <Binding Path="UnchangedExamination.DateTime.Date" />
+                                                                <Binding Path="UnchangedExamination.DateTime.Hour" />
+                                                                <Binding Path="UnchangedExamination.DateTime.Minute" />
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
+
+                                                        <DataGridTextColumn.ElementStyle>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="TextWrapping" Value="Wrap" />
+                                                                <Setter Property="TextAlignment" Value="Center" />
+                                                            </Style>
+                                                        </DataGridTextColumn.ElementStyle>
+                                                    </DataGridTextColumn>
+
+
+                                                    <DataGridTextColumn Width="*" Header="Pomereni">
+                                                        <DataGridTextColumn.Binding>
+                                                            <MultiBinding StringFormat="{}{0:dd/MM/yy}&#x0a;{1:00}:{2:00;00}">
+                                                                <Binding Path="ShiftedExamination.DateTime.Date" />
+                                                                <Binding Path="ShiftedExamination.DateTime.Hour" />
+                                                                <Binding Path="ShiftedExamination.DateTime.Minute" />
+                                                            </MultiBinding>
+                                                        </DataGridTextColumn.Binding>
+
+                                                        <DataGridTextColumn.ElementStyle>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="TextWrapping" Value="Wrap" />
+                                                                <Setter Property="TextAlignment" Value="Center" />
+                                                            </Style>
+                                                        </DataGridTextColumn.ElementStyle>
+                                                    </DataGridTextColumn>
+
+
+                                                    <DataGridTextColumn
+                                                        Width="*"
+                                                        Binding="{Binding UnchangedExamination.RoomId}"
+                                                        Header="Id objekta" />
+
+                                                    <DataGridTemplateColumn Width="Auto">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <Button
+                                                                    x:Name="ShowEmergencyAppointmentSearchResultObjectOnMapButton"
+                                                                    Padding="3,0"
+                                                                    HorizontalContentAlignment="Stretch"
+                                                                    Background="MediumPurple"
+                                                                    BorderBrush="{x:Null}"
+                                                                    Click="ShowEmergencyAppointmentSearchResultObjectOnMapButton_Click"
+                                                                    Style="{StaticResource DataGridButtonVisibleOnRowHover}"
+                                                                    ToolTip="Prikaži objekat na mapi">
+                                                                    <StackPanel
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center"
+                                                                        Orientation="Horizontal">
+                                                                        <materialDesign:PackIcon
+                                                                            Width="25"
+                                                                            Height="25"
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            Foreground="White"
+                                                                            Kind="Location" />
+                                                                    </StackPanel>
+                                                                </Button>
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+
+                                            <!--  SCHEDULE EMERGENCY APPOINTMENT BUTTON  -->
+                                            <Button
+                                                x:Name="ScheduleEmergencyAppointmentButton"
+                                                Grid.Row="22"
+                                                Grid.ColumnSpan="2"
+                                                Height="Auto"
+                                                Margin="0,30,10,0"
+                                                Padding="5"
+                                                Background="#7D80DA"
+                                                BorderBrush="{x:Null}"
+                                                Click="ScheduleEmergencyAppointmentButton_Click"
+                                                FontSize="18"
+                                                ToolTip="Pomeri izabrani pregled i zakaži hitan pregled u njegovom terminu">
+
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource MaterialDesignRaisedButton}" TargetType="Button">
+                                                        <Setter Property="Control.Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked}" Value="true" />
+
+                                                                </MultiDataTrigger.Conditions>
+
+                                                                <Setter Property="Control.Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+
+                                                <StackPanel
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Width="25"
+                                                        Height="25"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Kind="MarkerTick" />
+                                                    <TextBlock
+                                                        Margin="5"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Text="Zakaži hitan pregled"
+                                                        TextWrapping="Wrap" />
+                                                </StackPanel>
+                                            </Button>
+
+
+                                            <!--  Selected Appointment Room  -->
+                                            <TextBlock
+                                                Grid.Row="20"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,20,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Bottom"
+                                                FontSize="16"
+                                                Foreground="Black"
+                                                Text="Soba za izabrani termin:">
+
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Control.Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=AppointmentSearchResultsDataGrid, Path=SelectedItem, Converter={StaticResource SelectedItemToVisibilityConverter}}" Value="Visible" />
+                                                                </MultiDataTrigger.Conditions>
+
+                                                                <Setter Property="Control.Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+
+                                            <ComboBox
+                                                Name="SelectedAppointmentRoomComboBox"
+                                                Grid.Row="21"
+                                                Grid.ColumnSpan="2"
+                                                Margin="0,0,10,0"
+                                                VerticalAlignment="Top"
+                                                materialDesign:HintAssist.Hint="Izaberite sobu za obavljanje pregleda."
+                                                BorderBrush="MediumPurple"
+                                                FontSize="16"
+                                                IsTextSearchEnabled="True"
+                                                SelectionChanged="SelectedAppointmentRoomComboBox_SelectionChanged">
+
+                                                <ComboBox.Style>
+                                                    <Style BasedOn="{StaticResource MaterialDesignComboBox}" TargetType="ComboBox">
+                                                        <Setter Property="Control.Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=AppointmentSearchResultsDataGrid, Path=SelectedItem, Converter={StaticResource SelectedItemToVisibilityConverter}}" Value="Visible" />
+                                                                </MultiDataTrigger.Conditions>
+
+                                                                <Setter Property="Control.Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ComboBox.Style>
+                                            </ComboBox>
+
+
+                                            <!--  SCHEDULE APPOINTMENT BUTTON  -->
+                                            <Button
+                                                x:Name="ScheduleAppointmentButton"
+                                                Grid.Row="22"
+                                                Grid.ColumnSpan="2"
+                                                Height="Auto"
+                                                Margin="0,30,10,0"
+                                                Padding="5"
+                                                Background="#7D80DA"
+                                                BorderBrush="{x:Null}"
+                                                Click="ScheduleAppointmentButton_Click"
+                                                FontSize="18"
+                                                ToolTip="Zakaži pregled u izabranom terminu">
+
+                                                <Button.Style>
+                                                    <Style BasedOn="{StaticResource MaterialDesignRaisedButton}" TargetType="Button">
+                                                        <Setter Property="Control.Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding ElementName=IsEmergencyAppointmentCheckBox, Path=IsChecked}" Value="false" />
+                                                                    <Condition Binding="{Binding ElementName=SelectedAppointmentRoomComboBox, Path=SelectedItem, Converter={StaticResource SelectedItemToVisibilityConverter}}" Value="Visible" />
+                                                                </MultiDataTrigger.Conditions>
+
+                                                                <Setter Property="Control.Visibility" Value="Visible" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+
+                                                <StackPanel
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Width="25"
+                                                        Height="25"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Kind="MarkerTick" />
+                                                    <TextBlock
+                                                        Margin="5"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        Text="Zakaži pregled" />
+                                                </StackPanel>
+                                            </Button>
+
+
+                                            <!--  APPOINTMENT SECTION BACK TO TOP BUTTON  -->
+                                            <Button
+                                                x:Name="AppointmentSectionBackToTopButton"
+                                                Grid.Row="24"
+                                                Grid.ColumnSpan="2"
+                                                Height="Auto"
+                                                Margin="0,30,10,0"
+                                                Padding="5"
+                                                BorderBrush="{x:Null}"
+                                                Click="AppointmentSectionBackToTopButton_Click"
+                                                FontSize="18"
+                                                Style="{StaticResource MaterialDesignFlatButton}">
+                                                <StackPanel
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                                    <materialDesign:PackIcon
+                                                        Width="25"
+                                                        Height="25"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="MediumPurple"
+                                                        Kind="ArrowTop" />
+                                                    <TextBlock
+                                                        Margin="5"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="MediumPurple"
+                                                        Text="Povratak na parametre pretrage" />
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Grid>
+                        </materialDesign:TransitioningContent>
+
+
+
+
+                        <!--  OBJECT INFO EDITING INPUT PANEL  -->
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="10*" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel
+                                x:Name="EditPanel"
+                                Grid.Row="1"
+                                Style="{StaticResource EditingMode}">
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="26"
+                                    Text="Izmena objekta: "
+                                    TextWrapping="Wrap" />
+                                <ComboBox
+                                    Name="ObjectTypeChooserComboBox"
+                                    Margin="0,30,0,0"
+                                    materialDesign:HintAssist.Hint="Izaberite tip objekta."
+                                    FontSize="16"
+                                    ItemsSource="{Binding DisplayMapObject.MapObjectType.AllMapObjectTypesAvailableToChange}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=ObjectTypeFullName}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+                                <TextBox
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Center"
+                                    FontSize="20"
+                                    IsReadOnly="True"
+                                    Text="{Binding DisplayMapObject.Id}" />
+
+                                <TextBox
+                                    Margin="0,10,0,0"
+                                    materialDesign:HintAssist.Hint="Unesite deskripciju objekta."
+                                    FontSize="16"
+                                    Text="{Binding DisplayMapObject.Description}"
+                                    TextWrapping="Wrap" />
+
+                                <Button
+                                    x:Name="SaveButton"
+                                    Height="Auto"
+                                    Margin="0,15,0,0"
+                                    Padding="5"
+                                    Background="#7D80DA"
+                                    BorderBrush="{x:Null}"
+                                    Click="Change_Display_Information"
+                                    FontSize="18">
+                                    <StackPanel
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                        <materialDesign:PackIcon
+                                            Width="25"
+                                            Height="25"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            Kind="ContentSave" />
+                                        <TextBlock
+                                            Margin="5"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            Text="Sačuvaj" />
+                                    </StackPanel>
+                                </Button>
+
+                                <Button
+                                    Height="Auto"
+                                    Margin="0,10,0,0"
+                                    Padding="5"
+                                    Background="#F2404C"
+                                    BorderBrush="{x:Null}"
+                                    Click="Cancel_Editing_Mode"
+                                    FontSize="18">
+                                    <StackPanel
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                        <materialDesign:PackIcon
+                                            Width="25"
+                                            Height="25"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            Kind="CloseBox" />
+                                        <TextBlock
+                                            Margin="5"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Foreground="White"
+                                            Text="Otkaži   " />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        </Border>
+    </DockPanel>
+</Window>

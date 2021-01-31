@@ -1,0 +1,29 @@
+version: "3.8"
+services: 
+  databaseisa:
+    image: mysql:8.0.22
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_USER: "org4"
+      MYSQL_PASSWORD: "org4"
+      MYSQL_DATABASE: "springbootdb" 
+    restart: always
+    networks:
+      - isa
+
+  isabackend:
+    image: pufke/integrationadaptersisabackend:1.3
+    restart: always
+    depends_on:      
+      - databaseisa
+    environment:
+      spring.datasource.url: "jdbc:mysql://databaseisa:3306/springbootdb"
+      spring.datasource.username: "org4"
+      spring.datasource.password: "org4"
+    networks:
+      - isa
+
+networks:
+  isa:
+    name: isa
+    driver: bridge

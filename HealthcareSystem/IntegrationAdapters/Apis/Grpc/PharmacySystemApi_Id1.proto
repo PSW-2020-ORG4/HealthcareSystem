@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option csharp_namespace = "IntegrationAdapters.Apis.Grpc";
+option java_multiple_files = true;
+option java_package = "com.example.protos";
+
+service DrugAvailability {
+	rpc FindDrug(FindDrugRequest) returns(FindDrugResponse) {}
+	rpc OrderDrug(OrderDrugRequest) returns(OrderDrugResponse) {}
+}
+
+message FindDrugRequest {
+	string apiKey = 1;
+	string name = 2;
+}
+
+message FindDrugResponse {
+	repeated Drug drugs = 1;
+}
+
+message Drug {
+	int32 id = 1;
+	string name =2;
+	int32 quantity = 3;
+	string code = 4;
+	Pharmacy pharmacy = 5;
+}
+
+message Pharmacy {
+	int32 id = 1;
+	string name = 2;
+	string address = 3;
+}
+
+message OrderDrugRequest {
+	string apiKey = 1;
+	int32 idPharmacy = 2;
+	int32 idDrug = 3;
+	int32 quantity = 4;
+}
+
+message OrderDrugResponse {
+	bool success = 1;
+}

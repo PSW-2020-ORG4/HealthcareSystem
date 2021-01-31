@@ -1,0 +1,76 @@
+version: "3.8"
+services: 
+  database:
+    image: seeded-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_USER: "org4"
+      MYSQL_PASSWORD: "org4"
+      MYSQL_DATABASE: "organization4db" 
+
+  esdatabase:
+    image: ess-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "password"
+      MYSQL_USER: "org4"
+      MYSQL_PASSWORD: "org4"
+      MYSQL_DATABASE: "organization4db" 
+
+  patientwebapp:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+  esservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DbConnectionSettings:Host: "esdatabase"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 5
+      DbConnectionSettings:RetryWaitInSeconds: 30
+
+  userservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 5
+      DbConnectionSettings:RetryWaitInSeconds: 30
+
+  patientservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 5
+      DbConnectionSettings:RetryWaitInSeconds: 30
+
+  scheduleservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 5
+      DbConnectionSettings:RetryWaitInSeconds: 30
+
+  feedbacksurveyservice:
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DbConnectionSettings:Host: "database"
+      DbConnectionSettings:Port: "3306"
+      DbConnectionSettings:User: "org4"
+      DbConnectionSettings:Password: "org4"
+      DbConnectionSettings:Database: "organization4db"
+      DbConnectionSettings:RetryCount: 5
+      DbConnectionSettings:RetryWaitInSeconds: 30

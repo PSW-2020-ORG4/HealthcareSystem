@@ -1,0 +1,108 @@
+﻿<UserControl
+    x:Class="Clinic_Health.Views.LogInView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Clinic_Health.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="1200"
+    Height="600"
+    Background="White"
+    mc:Ignorable="d">
+    <Grid Width="350" Height="250">
+        <Border
+            Margin="0,0,0,2"
+            BorderBrush="Black"
+            BorderThickness="1,1,1,1">
+            <StackPanel Background="ForestGreen">
+                <Label
+                    HorizontalAlignment="Center"
+                    Content="Informacioni sistem Klinike &quot;Zdravo&quot; "
+                    FontSize="16"
+                    Foreground="white" />
+
+                <Grid Height="185" Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Separator
+                            Grid.Column="0"
+                            HorizontalContentAlignment="Center"
+                            Foreground="Black" />
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Width="61"
+                            Margin="29,8,24,2"
+                            HorizontalAlignment="Center"
+                            Content="Prijava"
+                            FontSize="17"
+                            Foreground="Black" />
+                        <Separator
+                            Grid.Column="2"
+                            HorizontalContentAlignment="Center"
+                            Foreground="Black" />
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Margin="20,5,45,15"
+                            Content="Korisnicko ime:"
+                            Foreground="Black" />
+                        <TextBox
+                            Grid.ColumnSpan="2"
+                            Margin="151,10,20,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Column="0"
+                            Margin="20,-5,88,25"
+                            Content="Lozinka:"
+                            Foreground="Black" />
+                        <TextBox
+                            Grid.ColumnSpan="2"
+                            Margin="151,0,20,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Top"
+                            VerticalContentAlignment="Center"
+                            Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <!--  UpdateSourceTrigger kada se azurira propery u ViewModelu  -->
+                    </Grid>
+                    <Button
+                        x:Name="buttonLogIn"
+                        Grid.Row="3"
+                        Width="90"
+                        Height="35"
+                        Margin="242,1,10,10"
+                        Background="White"
+                        Command="{Binding LoginCommand}"
+                        Content="Prijavi se" />
+                </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,513 @@
+﻿<Page x:Class="ProjekatZdravoKorporacija.Registration"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ProjekatZdravoKorporacija"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d"
+      Height="708" Width="959"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="13"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      Background="{DynamicResource MaterialDesignPaper}"
+      FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition/>
+                <RowDefinition  Height="80"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+
+            <Border Grid.Row="0" Grid.ColumnSpan="2">
+                <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center" 
+                       Height="42" Width="700">
+                    <Label DockPanel.Dock="Left" FontSize="28" FontWeight="Medium">Vrsta registracije:</Label>
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="80,0,0,0">
+                        <RadioButton FontSize="25" IsChecked="True" 
+                                     Margin="0,0,80,0" Background="Black" BorderBrush="Black" 
+                                     FontWeight="Medium" Name="quickRadioBtn" Click="quickRadioBtn_Click">
+                            <RadioButton.Content>Brza</RadioButton.Content>
+                        </RadioButton>
+                        <RadioButton FontSize="25" BorderBrush="Black" Background="Black" 
+                                     FontWeight="Medium" Name="completeRadioBtn" Click="completeRadioBtn_Click">
+                            <RadioButton.Content>Kompletna</RadioButton.Content>
+                        </RadioButton>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <Separator Grid.Row="0" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Height="2"/>
+
+            <materialDesign:Card Background="{DynamicResource MaterialDesignPaper}"
+                            Grid.Row="1" Grid.ColumnSpan="2">
+
+                <ScrollViewer>
+                    <StackPanel>
+                        <StackPanel>
+                            <Expander   x:Name="infoExpander"
+                                        HorizontalAlignment="Stretch"
+                                        Header="Lični podaci" FontSize="18"
+                                        IsExpanded="True" FontWeight="Medium" Width="937">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="0" 
+                                         VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                         Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Ime:</Label>
+                                        <Border Background="White" 
+                                                BorderBrush="Black"
+                                                BorderThickness="2"
+                                                VerticalAlignment="Center"
+                                                Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBox DockPanel.Dock="Right" 
+                                                     CaretBrush="{x:Null}"  
+                                                     BorderBrush="#89000000"
+                                                     Name="txtName"></TextBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" Margin="0">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center" Margin="0">Prezime:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right" Margin="0">
+                                            <TextBox DockPanel.Dock="Right" 
+                                                     CaretBrush="{x:Null}"  
+                                                     BorderBrush="#89000000" 
+                                                     Margin="0"
+                                                     Name="txtSurname"></TextBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="0" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">JMBG:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBox DockPanel.Dock="Right" 
+                                                     CaretBrush="{x:Null}"  
+                                                     BorderBrush="#89000000"
+                                                     Name="txtJmbg"></TextBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Datum rođenja:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <DatePicker Name="datePicker"
+                                                        SelectedDateFormat="Short"
+                                                        FontSize="18" Margin="0" 
+                                                        VerticalAlignment="Center" 
+                                                        FirstDayOfWeek="Monday"/>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="2" Grid.Column="0" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Pol:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <ComboBox materialDesign:HintAssist.Hint=" Izaberite" FontSize="16" Width="240"
+                                                      Name="cmbGender" Loaded="cmbGender_Loaded">
+                                            </ComboBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                </Grid>
+                            </Expander>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <Expander x:Name="adressExpander"
+                                      HorizontalAlignment="Stretch"
+                                      Header="Adresa i kontakt" FontWeight="Medium"
+                                      FontSize="18"
+                                      Visibility="Hidden" Width="937">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="0" 
+                                         VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Ulica:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  
+                                                     BorderBrush="#89000000"
+                                                     Name="txtStreet"></TextBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="1" 
+                                         VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Grad:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <ComboBox DockPanel.Dock="Right"
+                                                     BorderBrush="#89000000"
+                                                     Name="txtCity" ItemsSource="{Binding}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Margin="2" Text="{Binding Name}"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                                <ComboBox.ItemContainerStyle>
+                                                    <Style TargetType="{x:Type ComboBoxItem}">
+                                                        <Setter Property="SnapsToDevicePixels" Value="True"/>
+                                                        <Setter Property="OverridesDefaultStyle" Value="True"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                                                                    <Border Name="templateBorder" Padding="2" SnapsToDevicePixels="true">
+                                                                        <ContentPresenter>
+                                                                            <ContentPresenter.Content>
+                                                                                <Grid>
+                                                                                    <Grid.ColumnDefinitions>
+                                                                                        <ColumnDefinition/>
+                                                                                        <ColumnDefinition/>
+                                                                                        <ColumnDefinition/>
+                                                                                    </Grid.ColumnDefinitions>
+                                                                                    <TextBlock Margin="5" Grid.Column="0" Text="{Binding Name}"/>
+                                                                                    <TextBlock Margin="5" Grid.Column="1" Text="{Binding ZipCode}"/>
+                                                                                </Grid>
+                                                                            </ContentPresenter.Content>
+                                                                        </ContentPresenter>
+                                                                    </Border>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsHighlighted" Value="True">
+                                                                            <Setter Property="Foreground" Value="{x:Static SystemColors.HighlightTextBrush}"/>
+                                                                            <Setter TargetName="templateBorder" Property="Background" Value="{x:Static SystemColors.HighlightBrush}"/>
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </ComboBox.ItemContainerStyle>
+                                            </ComboBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="0" 
+                                        VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Telefon:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  BorderBrush="#89000000"
+                                                     Name="txtPhone"></TextBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">email:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  BorderBrush="#89000000"
+                                                     Name="txtEmail"></TextBox>
+                                        </Border>
+                                    </DockPanel>
+                                </Grid>
+                            </Expander>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <Expander x:Name="medicalExpander"
+                                      HorizontalAlignment="Stretch"
+                                      Header="Medicinski karton" FontWeight="Medium" 
+                                      FontSize="18"
+                                      IsExpanded="True" Width="937">
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="150"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <DockPanel Grid.Row="0" Grid.Column="0" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Krvna grupa:</Label>
+                                        <Border  Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="120" Height="40"
+                                                 HorizontalAlignment="Right" Margin="45,0,0,0">
+                                            <ComboBox materialDesign:HintAssist.Hint=" Grupa" Margin="5,0,0,0" FontSize="16"
+                                                      Name="cmbBlood" Loaded="cmbBlood_Loaded">
+                                            </ComboBox>
+                                        </Border>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="100" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <ComboBox materialDesign:HintAssist.Hint=" Rh faktor" Margin="5,0,0,0" 
+                                                      FontSize="16" Name="cmbRh" Loaded="cmbRh_Loaded">
+                                            </ComboBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="0" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Alergije:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  
+                                                     BorderBrush="#89000000" Margin="0"
+                                                     Name="txtAllergy"></TextBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="0" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Osiguranje:</Label>
+                                        <DockPanel DockPanel.Dock="Right" Width="250" Margin="60,0,0,0">
+                                            <CheckBox DockPanel.Dock="Left" 
+                                                      IsChecked="False" 
+                                                      Background="Black" 
+                                                      BorderBrush="{x:Null}" 
+                                                      Foreground="Black" 
+                                                      FontSize="20"
+                                                      Name="yesCheckBtn"
+                                                      Checked="yesCheckBtn_Checked"
+                                                      Unchecked="yesCheckBtn_Unchecked">Da</CheckBox>
+                                            <StackPanel Width="60"></StackPanel>
+                                            <CheckBox DockPanel.Dock="Right"
+                                                      Background="Black" 
+                                                      BorderBrush="{x:Null}" 
+                                                      Foreground="Black" 
+                                                      FontSize="20"
+                                                      Name="noCheckBtn"
+                                                      Checked="noCheckBtn_Checked"
+                                                      Unchecked="noCheckBtn_Unchecked">Ne</CheckBox>
+                                        </DockPanel>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="1" Grid.Column="1" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                               Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">LBO:</Label>
+                                        <Border  Background="LightGray" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBox DockPanel.Dock="Right" 
+                                                     CaretBrush="{x:Null}"  
+                                                     BorderBrush="#89000000" 
+                                                     Margin="0"
+                                                     Name="lboTextInput"
+                                                     IsEnabled="False"></TextBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                         VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                               Width="910" Height="140" Margin="15,0,0,0" >
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Istorija bolesti:</Label>
+                                        <Border Background="White" 
+                                                 BorderBrush="Black"
+                                                 BorderThickness="2"
+                                                 VerticalAlignment="Center"
+                                                 Width="720" Height="120"
+                                                 HorizontalAlignment="Right">
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock FontSize="22" Width="240" Background="LightGray">Datum</TextBlock>
+                                                    <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}" 
+                                                         Name="txtDate" Width="240" Height="90" 
+                                                         BorderBrush="Black" BorderThickness="1"></TextBox>
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock FontSize="22" Width="240" Background="LightGray">Opis bolesti</TextBlock>
+                                                    <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  BorderBrush="Black" BorderThickness="1"
+                                                         Name="txtDesc" Width="240" Height="90"></TextBox>
+                                                </StackPanel>
+
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock FontSize="22" Width="240" Background="LightGray">Terapija</TextBlock>
+                                                    <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  BorderBrush="Black" BorderThickness="1"
+                                                         Name="txtTherapy" Width="240" Height="90"></TextBox>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Border>
+                                    </DockPanel>
+
+                                </Grid>
+                            </Expander>
+                        </StackPanel>
+
+                        <StackPanel>
+                            <Expander   x:Name="userExpander"
+                                        HorizontalAlignment="Stretch"
+                                        Header="Korisnički podaci" FontWeight="Medium"
+                                        Visibility="Hidden" Width="937"
+                                         Height="130"
+                                        FontSize="18">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <DockPanel Grid.Column="0"
+                                        VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                         Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Korisničko ime:</Label>
+                                        <Border Background="White" 
+                                                BorderBrush="Black"
+                                                BorderThickness="2"
+                                                VerticalAlignment="Center"
+                                                Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <TextBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  BorderBrush="#89000000"
+                                                     Name="txtUsername"></TextBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                    <DockPanel Grid.Column="1"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                         Width="440" Height="49">
+                                        <Label DockPanel.Dock="Left" FontSize="24" VerticalAlignment="Center">Lozinka:</Label>
+                                        <Border Background="White" 
+                                                BorderBrush="Black"
+                                                BorderThickness="2"
+                                                VerticalAlignment="Center"
+                                                Width="250" Height="40"
+                                                 HorizontalAlignment="Right">
+                                            <PasswordBox DockPanel.Dock="Right" CaretBrush="{x:Null}"  BorderBrush="#89000000"
+                                                     Name="txtPassword"></PasswordBox>
+                                        </Border>
+                                    </DockPanel>
+
+                                </Grid>
+                            </Expander>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </materialDesign:Card>
+
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" 
+                        VerticalAlignment="Center" Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+                <Button BorderBrush="Black" 
+                        Width="150"
+                        Name="quitBtn"
+                        Click="quitBtn_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/noBtn.png" Width="30"></Image>
+                        <TextBlock VerticalAlignment="Center">Odustani</TextBlock>
+                    </StackPanel>
+                </Button>
+
+                <StackPanel Width="200"></StackPanel>
+
+                <Button BorderBrush="#FF020202" 
+                        Width="150"
+                        Focusable="True"
+                        Name="btnYes"
+                        Click="btnYes_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Resources/Icons/yesBtn.png" Width="30"></Image>
+                        <TextBlock VerticalAlignment="Center">Potvrdi</TextBlock>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Page>
